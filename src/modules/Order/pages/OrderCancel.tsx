@@ -110,7 +110,7 @@ const OrderList = () => {
 
             <Box flexDirection="row" justifyContent="center">
               <Box width="43%">
-                <ItemContact number="(21) 3900-7052" type="phone" />
+                <ItemContact number="(21) 3609-2555" type="phone" />
               </Box>
             </Box>
           </Box>

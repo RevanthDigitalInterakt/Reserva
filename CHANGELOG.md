@@ -2,7 +2,12 @@
 
 ### 2.0.3
 
+- [SRN-257 - CPF obrigatório no cadastro](https://reserva.atlassian.net/browse/SRN-257)
+- [APP2022-1218 - BUG - Não exibe botão de voltar na bag vazia](https://reserva.atlassian.net/browse/APP2022-1218)
 - [APP2022-1195 - Implementação Clarity](https://reserva.atlassian.net/browse/APP2022-1195)
+- [SRN-203 - DITO - Segmentação Busca](https://reserva.atlassian.net/browse/SRN-203)
+- [APP2022-1226 - Troca de telefone WhatsApp](https://reserva.atlassian.net/browse/APP2022-1226)
+- [SRN-141 - DITO - Segmentação Acessou departamento](https://reserva.atlassian.net/browse/SRN-141)
 
 ---
 
@@ -16,6 +21,7 @@
 - [APP2022-1176 - Ajuste DeepLink em links patrocinados do Google](https://reserva.atlassian.net/browse/APP2022-1176)
 - [SRN-295 - Correção fluxo de recuperação de senha](https://reserva.atlassian.net/browse/SRN-295)
 - [SRN-280 - BUG - Dados Desinstalação AppsFlyer](https://reserva.atlassian.net/browse/SRN-280)
+- [SRN-141 - DITO - Segmentação Acessou departamento](https://reserva.atlassian.net/browse/SRN-141)
 
 ---
 

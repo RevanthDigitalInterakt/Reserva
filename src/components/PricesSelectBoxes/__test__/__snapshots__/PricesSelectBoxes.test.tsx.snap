@@ -1,0 +1,4070 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PricesSelectBoxes should match to snapshot 1`] = `
+<View
+  accessibilityLabel="com.usereserva:id/prices_select_boxes"
+  testID="com.usereserva:id/prices_select_boxes"
+>
+  <Modal
+    accessibilityLabel="com.usereserva:id/modal_sign_in"
+    animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
+    hardwareAccelerated={false}
+    hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
+    onModalHide={[Function]}
+    onModalWillHide={[Function]}
+    onModalWillShow={[Function]}
+    onRequestClose={[Function]}
+    panResponderThreshold={4}
+    scrollHorizontal={false}
+    scrollOffset={0}
+    scrollOffsetMax={0}
+    scrollTo={null}
+    supportedOrientations={
+      Array [
+        "portrait",
+        "landscape",
+      ]
+    }
+    swipeThreshold={100}
+    testID="com.usereserva:id/modal_sign_in"
+    transparent={true}
+    visible={false}
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      forwardedRef={[Function]}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "black",
+          "bottom": 0,
+          "height": 1334,
+          "left": 0,
+          "opacity": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+          "width": 750,
+        }
+      }
+    />
+    <View
+      accessibilityLabel="com.usereserva:id/modal_sign_in"
+      deviceHeight={null}
+      deviceWidth={null}
+      forwardedRef={[Function]}
+      hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
+      onModalHide={[Function]}
+      onModalWillHide={[Function]}
+      onModalWillShow={[Function]}
+      panResponderThreshold={4}
+      pointerEvents="box-none"
+      scrollHorizontal={false}
+      scrollOffset={0}
+      scrollOffsetMax={0}
+      scrollTo={null}
+      style={
+        Object {
+          "alignItems": "center",
+          "flex": 1,
+          "justifyContent": "center",
+          "margin": 37.5,
+          "transform": Array [
+            Object {
+              "translateY": 0,
+            },
+          ],
+        }
+      }
+      supportedOrientations={
+        Array [
+          "portrait",
+          "landscape",
+        ]
+      }
+      swipeThreshold={100}
+    >
+      <View
+        accessibilityLabel="com.usereserva:id/modal_sign_in_container"
+        backgroundColor="white"
+        height={1208}
+        p="xxxs"
+        style={
+          Array [
+            Object {
+              "backgroundColor": "#FFF",
+              "height": 1208,
+              "paddingBottom": 16,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 16,
+              "width": 726,
+            },
+          ]
+        }
+        testID="com.usereserva:id/modal_sign_in_container"
+        width={726}
+      >
+        <View
+          flexDirection="row-reverse"
+          style={
+            Array [
+              Object {
+                "flexDirection": "row-reverse",
+              },
+            ]
+          }
+        >
+          <View
+            accessibilityLabel="com.usereserva:id/modal_sign_in_close"
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "opacity": 1,
+              }
+            }
+            testID="com.usereserva:id/modal_sign_in_close"
+          >
+            <RNSVGSvgView
+              bbHeight={14}
+              bbWidth={14}
+              color="preto"
+              focusable={false}
+              size={14}
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  Array [
+                    Object {
+                      "color": "#333333",
+                      "height": 14,
+                      "width": 14,
+                    },
+                  ],
+                  Object {
+                    "flex": 0,
+                    "height": 14,
+                    "width": 14,
+                  },
+                ]
+              }
+            >
+              <RNSVGGroup>
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight="100%"
+                  bbWidth="100%"
+                  focusable={false}
+                  height="100%"
+                  meetOrSlice={0}
+                  minX={0}
+                  minY={0}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      Array [
+                        Object {
+                          "height": "100%",
+                          "width": "100%",
+                        },
+                      ],
+                      Object {
+                        "flex": 0,
+                        "height": "100%",
+                        "width": "100%",
+                      },
+                    ]
+                  }
+                  vbHeight={8.24}
+                  vbWidth={8.242}
+                  width="100%"
+                >
+                  <RNSVGGroup>
+                    <RNSVGPath
+                      d="M5.098 4.12l2.944-2.944A.69.69 0 007.066.2L4.122 3.144 1.178.2a.69.69 0 10-.976.976L3.146 4.12.202 7.064a.69.69 0 00.976.976l2.944-2.944L7.066 8.04a.69.69 0 00.976-.976z"
+                      fill={4281545523}
+                      propList={
+                        Array [
+                          "fill",
+                        ]
+                      }
+                    />
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </View>
+        </View>
+        <Text
+          fontFamily="reservaSerifBlack"
+          style={
+            Array [
+              Object {
+                "fontFamily": "ReservaSerif-Bold",
+                "fontSize": 27,
+              },
+            ]
+          }
+          variant="descontoTag1"
+        >
+          Prime
+        </Text>
+        <RCTScrollView
+          showsVerticalScrollIndicator={false}
+        >
+          <View>
+            <View
+              my="micro"
+              style={
+                Array [
+                  Object {
+                    "marginBottom": 12,
+                    "marginTop": 12,
+                  },
+                ]
+              }
+            >
+              <Text
+                color="neutroFrio2"
+                fontSize={14}
+                style={
+                  Array [
+                    Object {
+                      "color": "#8A8C8E",
+                      "fontSize": 14,
+                    },
+                  ]
+                }
+              >
+                Olá! Já é cliente Prime? Então basta inserir seu e-mail abaixo para poder comprar:
+              </Text>
+            </View>
+            <View
+              mt="xxs"
+              style={
+                Array [
+                  Object {
+                    "marginTop": 24,
+                  },
+                ]
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "width": 710,
+                    },
+                  ]
+                }
+                width={710}
+              >
+                <View
+                  borderBottomColor="neutroFrio2"
+                  borderBottomWidth="hairline"
+                  flexDirection="row"
+                  justifyContent="space-between"
+                  style={
+                    Array [
+                      Object {
+                        "borderBottomColor": "#8A8C8E",
+                        "borderBottomWidth": 1,
+                        "flexDirection": "row",
+                        "justifyContent": "space-between",
+                      },
+                      Object {
+                        "overflow": "hidden",
+                      },
+                    ]
+                  }
+                >
+                  <View
+                    flexGrow={4}
+                    style={
+                      Array [
+                        Object {
+                          "flexGrow": 4,
+                        },
+                      ]
+                    }
+                  >
+                    <TextInput
+                      accessibilityLabel="com.usereserva:id/modal_sign_in_input_email"
+                      allowFontScaling={true}
+                      autoCapitalize="none"
+                      autoCompleteType="off"
+                      autoCorrect={false}
+                      collapsable={false}
+                      keyboardType="email-address"
+                      onChangeText={[Function]}
+                      onFocus={[Function]}
+                      onGestureHandlerEvent={[Function]}
+                      onGestureHandlerStateChange={[Function]}
+                      placeholder="Digite seu e-mail"
+                      rejectResponderTermination={true}
+                      secureTextEntry={false}
+                      style={
+                        Object {
+                          "margin": 0,
+                          "maxWidth": 710,
+                          "padding": 0,
+                        }
+                      }
+                      testID="com.usereserva:id/modal_sign_in_input_email"
+                      underlineColorAndroid="transparent"
+                      value=""
+                    />
+                  </View>
+                </View>
+              </View>
+              <View
+                mt="md"
+                style={
+                  Array [
+                    Object {
+                      "marginTop": 48,
+                      "width": "100%",
+                    },
+                  ]
+                }
+                width="100%"
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "width": 710,
+                      },
+                    ]
+                  }
+                  width={710}
+                >
+                  <View
+                    borderBottomColor="neutroFrio2"
+                    borderBottomWidth="hairline"
+                    flexDirection="row"
+                    justifyContent="space-between"
+                    style={
+                      Array [
+                        Object {
+                          "borderBottomColor": "#8A8C8E",
+                          "borderBottomWidth": 1,
+                          "flexDirection": "row",
+                          "justifyContent": "space-between",
+                        },
+                        Object {
+                          "overflow": "hidden",
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      flexGrow={4}
+                      style={
+                        Array [
+                          Object {
+                            "flexGrow": 4,
+                          },
+                        ]
+                      }
+                    >
+                      <TextInput
+                        accessibilityLabel="com.usereserva:id/modal_sign_in_input_password"
+                        allowFontScaling={true}
+                        autoCapitalize="none"
+                        autoCompleteType="off"
+                        autoCorrect={false}
+                        collapsable={false}
+                        onChangeText={[Function]}
+                        onFocus={[Function]}
+                        onGestureHandlerEvent={[Function]}
+                        onGestureHandlerStateChange={[Function]}
+                        placeholder="Digite sua senha"
+                        rejectResponderTermination={true}
+                        secureTextEntry={true}
+                        style={
+                          Object {
+                            "margin": 0,
+                            "maxWidth": 684,
+                            "padding": 0,
+                          }
+                        }
+                        testID="com.usereserva:id/modal_sign_in_input_password"
+                        underlineColorAndroid="transparent"
+                        value=""
+                      />
+                    </View>
+                    <View
+                      justifyContent="center"
+                      mr="xxxs"
+                      style={
+                        Array [
+                          Object {
+                            "justifyContent": "center",
+                            "marginRight": 16,
+                          },
+                          Object {
+                            "width": 40,
+                          },
+                        ]
+                      }
+                    >
+                      <View
+                        alignItems="center"
+                        style={
+                          Array [
+                            Object {
+                              "alignItems": "center",
+                            },
+                          ]
+                        }
+                      >
+                        <View
+                          accessible={true}
+                          focusable={true}
+                          onClick={[Function]}
+                          onResponderGrant={[Function]}
+                          onResponderMove={[Function]}
+                          onResponderRelease={[Function]}
+                          onResponderTerminate={[Function]}
+                          onResponderTerminationRequest={[Function]}
+                          onStartShouldSetResponder={[Function]}
+                          style={
+                            Object {
+                              "alignItems": "center",
+                              "justifyContent": "center",
+                              "opacity": 1,
+                            }
+                          }
+                          testID="com.usereserva:id/modal_sign_in_input_password_button_hide_password"
+                        >
+                          <RNSVGSvgView
+                            bbHeight={22}
+                            bbWidth={22}
+                            color="preto"
+                            focusable={false}
+                            size={22}
+                            style={
+                              Array [
+                                Object {
+                                  "backgroundColor": "transparent",
+                                  "borderWidth": 0,
+                                },
+                                Array [
+                                  Object {
+                                    "color": "#333333",
+                                    "height": 22,
+                                    "width": 22,
+                                  },
+                                ],
+                                Object {
+                                  "flex": 0,
+                                  "height": 22,
+                                  "width": 22,
+                                },
+                              ]
+                            }
+                          >
+                            <RNSVGGroup>
+                              <RNSVGSvgView
+                                align="xMidYMid"
+                                bbHeight="100%"
+                                bbWidth="100%"
+                                fill="none"
+                                focusable={false}
+                                height="100%"
+                                meetOrSlice={0}
+                                minX={0}
+                                minY={0}
+                                stroke="#333333"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                style={
+                                  Array [
+                                    Object {
+                                      "backgroundColor": "transparent",
+                                      "borderWidth": 0,
+                                    },
+                                    Array [
+                                      Object {
+                                        "height": "100%",
+                                        "width": "100%",
+                                      },
+                                    ],
+                                    Object {
+                                      "flex": 0,
+                                      "height": "100%",
+                                      "width": "100%",
+                                    },
+                                  ]
+                                }
+                                vbHeight={24}
+                                vbWidth={24}
+                                width="100%"
+                              >
+                                <RNSVGGroup
+                                  fill={null}
+                                  propList={
+                                    Array [
+                                      "fill",
+                                      "stroke",
+                                      "strokeWidth",
+                                      "strokeLinecap",
+                                      "strokeLinejoin",
+                                    ]
+                                  }
+                                  stroke={4281545523}
+                                  strokeLinecap={1}
+                                  strokeLinejoin={1}
+                                  strokeWidth={2}
+                                >
+                                  <RNSVGPath
+                                    d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"
+                                  />
+                                  <RNSVGPath
+                                    d="M1 1L23 23"
+                                  />
+                                </RNSVGGroup>
+                              </RNSVGSvgView>
+                            </RNSVGGroup>
+                          </RNSVGSvgView>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+                <View
+                  mb="quarck"
+                  mt="micro"
+                  style={
+                    Array [
+                      Object {
+                        "marginBottom": 4,
+                        "marginTop": 12,
+                      },
+                    ]
+                  }
+                >
+                  <View
+                    accessibilityLabel="com.usereserva:id/modal_sign_in_cta_forgot_password"
+                    accessible={true}
+                    focusable={true}
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "opacity": 1,
+                      }
+                    }
+                    testID="com.usereserva:id/modal_sign_in_cta_forgot_password"
+                  >
+                    <Text
+                      fontSize={14}
+                      style={
+                        Array [
+                          Object {
+                            "fontSize": 14,
+                          },
+                          Object {
+                            "textDecorationLine": "underline",
+                          },
+                        ]
+                      }
+                    >
+                      Esqueci minha senha
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View
+              alignItems="stretch"
+              style={
+                Array [
+                  Object {
+                    "alignItems": "stretch",
+                  },
+                ]
+              }
+            >
+              <View
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#333333",
+                    "color": "#FFF",
+                    "fontFamily": "Nunito-Bold",
+                    "fontSize": 13,
+                    "justifyContent": "center",
+                    "marginTop": 32,
+                    "minWidth": 130,
+                    "opacity": 1,
+                    "paddingBottom": 16,
+                    "paddingLeft": 8,
+                    "paddingRight": 8,
+                    "paddingTop": 16,
+                  }
+                }
+                testID="com.usereserva:id/modal_sign_in-cta_enter"
+              >
+                <View
+                  alignItems="center"
+                  flexDirection="row"
+                  justifyContent="center"
+                  style={
+                    Array [
+                      Object {
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                        "justifyContent": "center",
+                      },
+                    ]
+                  }
+                >
+                  <View
+                    justifyContent="center"
+                    style={
+                      Array [
+                        Object {
+                          "justifyContent": "center",
+                        },
+                      ]
+                    }
+                  >
+                    <Text
+                      color="white"
+                      fontFamily="nunitoBold"
+                      fontSize={13}
+                      letterSpacing={1.6}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#FFF",
+                            "fontFamily": "Nunito-Bold",
+                            "fontSize": 13,
+                            "letterSpacing": 1.6,
+                          },
+                        ]
+                      }
+                    >
+                      CONTINUAR COMPRANDO
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View
+              alignItems="center"
+              flexDirection="row"
+              justifyContent="center"
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                    "marginBottom": 24,
+                    "marginTop": 24,
+                  },
+                ]
+              }
+            >
+              <View
+                borderColor="divider"
+                borderWidth="hairline"
+                flex={1}
+                marginRight="md"
+                style={
+                  Array [
+                    Object {
+                      "borderColor": "#D8D9DA",
+                      "borderWidth": 1,
+                      "flexBasis": 0,
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "marginRight": 48,
+                    },
+                  ]
+                }
+              />
+              <Text
+                fontSize={14}
+                style={
+                  Array [
+                    Object {
+                      "fontSize": 14,
+                      "textAlign": "center",
+                    },
+                  ]
+                }
+                textAlign="center"
+              >
+                Ainda não é
+                 
+                <Text
+                  fontFamily="reservaSerifBlack"
+                  fontSize={14}
+                  style={
+                    Array [
+                      Object {
+                        "fontFamily": "ReservaSerif-Black",
+                        "fontSize": 14,
+                      },
+                    ]
+                  }
+                >
+                  Prime
+                </Text>
+                ?
+              </Text>
+              <View
+                borderColor="divider"
+                borderWidth="hairline"
+                flex={1}
+                marginLeft="md"
+                style={
+                  Array [
+                    Object {
+                      "borderColor": "#D8D9DA",
+                      "borderWidth": 1,
+                      "flexBasis": 0,
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "marginLeft": 48,
+                    },
+                  ]
+                }
+              />
+            </View>
+            <Text
+              color="neutroFrio2"
+              fontFamily="reservaSansRegular"
+              fontSize={14}
+              style={
+                Array [
+                  Object {
+                    "color": "#8A8C8E",
+                    "fontFamily": "ReservaSans-Regular",
+                    "fontSize": 14,
+                  },
+                  Object {
+                    "marginBottom": 24,
+                  },
+                ]
+              }
+            >
+              Por apenas
+               
+              <Text
+                color="fullBlack"
+                fontFamily="reservaSansBold"
+                fontSize={14}
+                style={
+                  Array [
+                    Object {
+                      "color": "#000",
+                      "fontFamily": "ReservaSans-Bold",
+                      "fontSize": 14,
+                    },
+                  ]
+                }
+              >
+                12x R$ 25
+              </Text>
+              , assinantes
+               
+              <Text
+                color="fullBlack"
+                fontFamily="reservaSerifBlack"
+                fontSize={14}
+                style={
+                  Array [
+                    Object {
+                      "color": "#000",
+                      "fontFamily": "ReservaSerif-Black",
+                      "fontSize": 14,
+                    },
+                  ]
+                }
+              >
+                Prime
+              </Text>
+               
+              têm acesso a vantagens como descontos exclusivos e frete grátis em compras acima de
+               
+              <Text
+                color="fullBlack"
+                fontFamily="reservaSansBold"
+                fontSize={14}
+                style={
+                  Array [
+                    Object {
+                      "color": "#000",
+                      "fontFamily": "ReservaSans-Bold",
+                      "fontSize": 14,
+                    },
+                  ]
+                }
+              >
+                R$ 499
+              </Text>
+              , toque no botão abaixo e comece agora mesmo a comprar!
+            </Text>
+            <View
+              alignItems="stretch"
+              style={
+                Array [
+                  Object {
+                    "alignItems": "stretch",
+                  },
+                ]
+              }
+            >
+              <View
+                accessibilityLabel="com.usereserva:id/modal_sign_in_cta_add_prime"
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                    "opacity": 1,
+                    "width": "100%",
+                  }
+                }
+                testID="com.usereserva:id/modal_sign_in_cta_add_prime"
+              >
+                <View
+                  alignItems="center"
+                  bg="verdeSucesso"
+                  height={48}
+                  justifyContent="center"
+                  style={
+                    Array [
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "#38A238",
+                        "height": 48,
+                        "justifyContent": "center",
+                        "width": "100%",
+                      },
+                    ]
+                  }
+                  width="100%"
+                >
+                  <Text
+                    color="white"
+                    fontFamily="reservaSansMedium"
+                    fontSize={14}
+                    style={
+                      Array [
+                        Object {
+                          "color": "#FFF",
+                          "fontFamily": "ReservaSans-Medium",
+                          "fontSize": 14,
+                        },
+                      ]
+                    }
+                  >
+                    ADICIONAR PRIME AO CARRINHO
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <Text
+              color="neutroFrio2"
+              fontSize={12}
+              style={
+                Array [
+                  Object {
+                    "color": "#8A8C8E",
+                    "fontSize": 12,
+                    "marginTop": 12,
+                  },
+                ]
+              }
+            >
+              Para mais informações sobre o prime,
+               
+              <Text
+                accessibilityLabel="com.usereserva:id/modal_sign_click_here"
+                color="fullBlack"
+                fontFamily="reservaSansBold"
+                fontSize={12}
+                onPress={[Function]}
+                style={
+                  Array [
+                    Object {
+                      "color": "#000",
+                      "fontFamily": "ReservaSans-Bold",
+                      "fontSize": 12,
+                      "textDecorationColor": "black",
+                      "textDecorationLine": "underline",
+                      "textDecorationStyle": "solid",
+                    },
+                  ]
+                }
+                testID="com.usereserva:id/modal_sign_click_here"
+              >
+                clique aqui
+              </Text>
+               
+              antes de concluir seu pedido.
+            </Text>
+          </View>
+        </RCTScrollView>
+      </View>
+    </View>
+  </Modal>
+  <View
+    style={
+      Array [
+        Object {},
+      ]
+    }
+  >
+    <Modal
+      animationType="none"
+      deviceHeight={null}
+      deviceWidth={null}
+      hardwareAccelerated={false}
+      hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
+      onModalHide={[Function]}
+      onModalWillHide={[Function]}
+      onModalWillShow={[Function]}
+      onRequestClose={[Function]}
+      panResponderThreshold={4}
+      scrollHorizontal={false}
+      scrollOffset={0}
+      scrollOffsetMax={0}
+      scrollTo={null}
+      supportedOrientations={
+        Array [
+          "portrait",
+          "landscape",
+        ]
+      }
+      swipeThreshold={100}
+      testID="com.usereserva:id/modal_bag"
+      transparent={true}
+      visible={false}
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        forwardedRef={[Function]}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "backgroundColor": "transparent",
+            "bottom": 0,
+            "height": 1334,
+            "left": 0,
+            "opacity": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+            "width": 750,
+          }
+        }
+      />
+      <View
+        deviceHeight={null}
+        deviceWidth={null}
+        forwardedRef={[Function]}
+        hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
+        onModalHide={[Function]}
+        onModalWillHide={[Function]}
+        onModalWillShow={[Function]}
+        panResponderThreshold={4}
+        pointerEvents="box-none"
+        scrollHorizontal={false}
+        scrollOffset={0}
+        scrollOffsetMax={0}
+        scrollTo={null}
+        style={
+          Object {
+            "flex": 1,
+            "justifyContent": "center",
+            "margin": 37.5,
+            "transform": Array [
+              Object {
+                "translateY": 0,
+              },
+            ],
+          }
+        }
+        supportedOrientations={
+          Array [
+            "portrait",
+            "landscape",
+          ]
+        }
+        swipeThreshold={100}
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "aspectRatio": 0.5397301349325337,
+              },
+              Object {
+                "bottom": 0,
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+              },
+              Object {
+                "flex": 1,
+              },
+            ]
+          }
+        >
+          <View
+            autoPlay={false}
+            cacheComposition={true}
+            enableMergePathsAndroidForKitKatAndAbove={false}
+            forwardedRef={[Function]}
+            loop={false}
+            onAnimationFinish={[Function]}
+            onLayout={[Function]}
+            progress={0}
+            resizeMode="contain"
+            sourceJson="{\\"v\\":\\"5.7.8\\",\\"fr\\":29.9700012207031,\\"ip\\":0,\\"op\\":54.0000021994651,\\"w\\":360,\\"h\\":667,\\"nm\\":\\"Add item sacola\\",\\"ddd\\":0,\\"assets\\":[],\\"layers\\":[{\\"ddd\\":0,\\"ind\\":1,\\"ty\\":4,\\"nm\\":\\"circle\\",\\"sr\\":1,\\"ks\\":{\\"o\\":{\\"a\\":1,\\"k\\":[{\\"i\\":{\\"x\\":[0.667],\\"y\\":[1]},\\"o\\":{\\"x\\":[0.333],\\"y\\":[0]},\\"t\\":30,\\"s\\":[100]},{\\"t\\":40.0000016292334,\\"s\\":[0]}],\\"ix\\":11},\\"r\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":10},\\"p\\":{\\"a\\":0,\\"k\\":[182.737,327.195,0],\\"ix\\":2,\\"l\\":2},\\"a\\":{\\"a\\":0,\\"k\\":[-4.25,-8.25,0],\\"ix\\":1,\\"l\\":2},\\"s\\":{\\"a\\":0,\\"k\\":[88.542,88.542,100],\\"ix\\":6,\\"l\\":2}},\\"ao\\":0,\\"shapes\\":[{\\"ty\\":\\"gr\\",\\"it\\":[{\\"d\\":1,\\"ty\\":\\"el\\",\\"s\\":{\\"a\\":0,\\"k\\":[104.5,104.5],\\"ix\\":2},\\"p\\":{\\"a\\":0,\\"k\\":[0,0],\\"ix\\":3},\\"nm\\":\\"Caminho da elipse 1\\",\\"mn\\":\\"ADBE Vector Shape - Ellipse\\",\\"hd\\":false},{\\"ty\\":\\"st\\",\\"c\\":{\\"a\\":0,\\"k\\":[0.858823529412,0,0.160784313725,1],\\"ix\\":3},\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":4},\\"w\\":{\\"a\\":0,\\"k\\":5,\\"ix\\":5},\\"lc\\":2,\\"lj\\":2,\\"bm\\":0,\\"nm\\":\\"Traçado 1\\",\\"mn\\":\\"ADBE Vector Graphic - Stroke\\",\\"hd\\":false},{\\"ty\\":\\"tr\\",\\"p\\":{\\"a\\":0,\\"k\\":[-4.25,-8.25],\\"ix\\":2},\\"a\\":{\\"a\\":0,\\"k\\":[0,0],\\"ix\\":1},\\"s\\":{\\"a\\":0,\\"k\\":[100,100],\\"ix\\":3},\\"r\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":6},\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":7},\\"sk\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":4},\\"sa\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":5},\\"nm\\":\\"Transformar\\"}],\\"nm\\":\\"Elipse 1\\",\\"np\\":3,\\"cix\\":2,\\"bm\\":0,\\"ix\\":1,\\"mn\\":\\"ADBE Vector Group\\",\\"hd\\":false},{\\"ty\\":\\"tm\\",\\"s\\":{\\"a\\":1,\\"k\\":[{\\"i\\":{\\"x\\":[0.667],\\"y\\":[1]},\\"o\\":{\\"x\\":[0.333],\\"y\\":[0]},\\"t\\":0,\\"s\\":[0]},{\\"t\\":15.0000006109625,\\"s\\":[0]}],\\"ix\\":1},\\"e\\":{\\"a\\":1,\\"k\\":[{\\"i\\":{\\"x\\":[0.667],\\"y\\":[1]},\\"o\\":{\\"x\\":[0.333],\\"y\\":[0]},\\"t\\":0,\\"s\\":[0]},{\\"t\\":15.0000006109625,\\"s\\":[100]}],\\"ix\\":2},\\"o\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":3},\\"m\\":1,\\"ix\\":2,\\"nm\\":\\"Aparar caminhos 1\\",\\"mn\\":\\"ADBE Vector Filter - Trim\\",\\"hd\\":false}],\\"ip\\":0,\\"op\\":90.0000036657751,\\"st\\":0,\\"bm\\":0},{\\"ddd\\":0,\\"ind\\":2,\\"ty\\":3,\\"nm\\":\\"mov sacola\\",\\"sr\\":1,\\"ks\\":{\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":11},\\"r\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":10},\\"p\\":{\\"a\\":1,\\"k\\":[{\\"i\\":{\\"x\\":0.667,\\"y\\":1},\\"o\\":{\\"x\\":0.333,\\"y\\":0},\\"t\\":35,\\"s\\":[180,333,0],\\"to\\":[25.167,-50.667,0],\\"ti\\":[-25.167,50.667,0]},{\\"t\\":50.0000020365418,\\"s\\":[331,29,0]}],\\"ix\\":2,\\"l\\":2},\\"a\\":{\\"a\\":0,\\"k\\":[50,50,0],\\"ix\\":1,\\"l\\":2},\\"s\\":{\\"a\\":1,\\"k\\":[{\\"i\\":{\\"x\\":[0.667,0.667,0.667],\\"y\\":[1,1,1]},\\"o\\":{\\"x\\":[0.333,0.333,0.333],\\"y\\":[0,0,0]},\\"t\\":0,\\"s\\":[13,13,100]},{\\"i\\":{\\"x\\":[0.833,0.833,0.833],\\"y\\":[1,1,1]},\\"o\\":{\\"x\\":[0.333,0.333,0.333],\\"y\\":[0,0,0]},\\"t\\":15,\\"s\\":[100,100,100]},{\\"i\\":{\\"x\\":[0.833,0.833,0.833],\\"y\\":[1,1,1]},\\"o\\":{\\"x\\":[0.167,0.167,0.167],\\"y\\":[0,0,0]},\\"t\\":35,\\"s\\":[100,100,100]},{\\"t\\":50.0000020365418,\\"s\\":[16,16,100]}],\\"ix\\":6,\\"l\\":2}},\\"ao\\":0,\\"ip\\":0,\\"op\\":90.0000036657751,\\"st\\":0,\\"bm\\":0},{\\"ddd\\":0,\\"ind\\":3,\\"ty\\":4,\\"nm\\":\\"handle\\",\\"parent\\":2,\\"sr\\":1,\\"ks\\":{\\"o\\":{\\"a\\":1,\\"k\\":[{\\"i\\":{\\"x\\":[0.833],\\"y\\":[0.833]},\\"o\\":{\\"x\\":[0.167],\\"y\\":[0.167]},\\"t\\":0,\\"s\\":[0]},{\\"i\\":{\\"x\\":[0.833],\\"y\\":[0.833]},\\"o\\":{\\"x\\":[0.167],\\"y\\":[0.167]},\\"t\\":15,\\"s\\":[100]},{\\"i\\":{\\"x\\":[0.833],\\"y\\":[0.833]},\\"o\\":{\\"x\\":[0.167],\\"y\\":[0.167]},\\"t\\":50,\\"s\\":[100]},{\\"t\\":54.0000021994651,\\"s\\":[0]}],\\"ix\\":11},\\"r\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":10},\\"p\\":{\\"a\\":0,\\"k\\":[52.5,20.5,0],\\"ix\\":2,\\"l\\":2},\\"a\\":{\\"a\\":0,\\"k\\":[0,0,0],\\"ix\\":1,\\"l\\":2},\\"s\\":{\\"a\\":0,\\"k\\":[100,100,100],\\"ix\\":6,\\"l\\":2}},\\"ao\\":0,\\"shapes\\":[{\\"ty\\":\\"gr\\",\\"it\\":[{\\"ind\\":0,\\"ty\\":\\"sh\\",\\"ix\\":1,\\"ks\\":{\\"a\\":0,\\"k\\":{\\"i\\":[[0,0],[5.023,-0.158],[0.151,-4.801]],\\"o\\":[[-0.158,-5.023],[-4.801,0.151],[0,0]],\\"v\\":[[9.096,4.484],[-0.286,-4.326],[-9.095,4.484]],\\"c\\":false},\\"ix\\":2},\\"nm\\":\\"Caminho 1\\",\\"mn\\":\\"ADBE Vector Shape - Group\\",\\"hd\\":false},{\\"ty\\":\\"st\\",\\"c\\":{\\"a\\":0,\\"k\\":[0.858823529412,0,0.160784313725,1],\\"ix\\":3},\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":4},\\"w\\":{\\"a\\":0,\\"k\\":5,\\"ix\\":5},\\"lc\\":2,\\"lj\\":2,\\"bm\\":0,\\"nm\\":\\"Traçado 1\\",\\"mn\\":\\"ADBE Vector Graphic - Stroke\\",\\"hd\\":false},{\\"ty\\":\\"tr\\",\\"p\\":{\\"a\\":0,\\"k\\":[0,0],\\"ix\\":2},\\"a\\":{\\"a\\":0,\\"k\\":[0,0],\\"ix\\":1},\\"s\\":{\\"a\\":0,\\"k\\":[100,100],\\"ix\\":3},\\"r\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":6},\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":7},\\"sk\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":4},\\"sa\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":5},\\"nm\\":\\"Transformar\\"}],\\"nm\\":\\"Forma 1\\",\\"np\\":3,\\"cix\\":2,\\"bm\\":0,\\"ix\\":1,\\"mn\\":\\"ADBE Vector Group\\",\\"hd\\":false}],\\"ip\\":0,\\"op\\":90.0000036657751,\\"st\\":0,\\"bm\\":0},{\\"ddd\\":0,\\"ind\\":4,\\"ty\\":4,\\"nm\\":\\"check\\",\\"parent\\":2,\\"sr\\":1,\\"ks\\":{\\"o\\":{\\"a\\":1,\\"k\\":[{\\"i\\":{\\"x\\":[0.833],\\"y\\":[0.833]},\\"o\\":{\\"x\\":[0.167],\\"y\\":[0.167]},\\"t\\":0,\\"s\\":[0]},{\\"i\\":{\\"x\\":[0.833],\\"y\\":[0.833]},\\"o\\":{\\"x\\":[0.167],\\"y\\":[0.167]},\\"t\\":15,\\"s\\":[100]},{\\"i\\":{\\"x\\":[0.833],\\"y\\":[0.833]},\\"o\\":{\\"x\\":[0.167],\\"y\\":[0.167]},\\"t\\":50,\\"s\\":[100]},{\\"t\\":54.0000021994651,\\"s\\":[0]}],\\"ix\\":11},\\"r\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":10},\\"p\\":{\\"a\\":0,\\"k\\":[52,48,0],\\"ix\\":2,\\"l\\":2},\\"a\\":{\\"a\\":0,\\"k\\":[0,0,0],\\"ix\\":1,\\"l\\":2},\\"s\\":{\\"a\\":0,\\"k\\":[100,100,100],\\"ix\\":6,\\"l\\":2}},\\"ao\\":0,\\"shapes\\":[{\\"ty\\":\\"gr\\",\\"it\\":[{\\"ind\\":0,\\"ty\\":\\"sh\\",\\"ix\\":1,\\"ks\\":{\\"a\\":0,\\"k\\":{\\"i\\":[[0,0],[0,0],[0,0]],\\"o\\":[[0,0],[0,0],[0,0]],\\"v\\":[[-9.268,-1.323],[-1.833,6.705],[9.268,-6.705]],\\"c\\":false},\\"ix\\":2},\\"nm\\":\\"Caminho 1\\",\\"mn\\":\\"ADBE Vector Shape - Group\\",\\"hd\\":false},{\\"ty\\":\\"st\\",\\"c\\":{\\"a\\":0,\\"k\\":[0.858823529412,0,0.160784313725,1],\\"ix\\":3},\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":4},\\"w\\":{\\"a\\":0,\\"k\\":5,\\"ix\\":5},\\"lc\\":2,\\"lj\\":2,\\"bm\\":0,\\"nm\\":\\"Traçado 1\\",\\"mn\\":\\"ADBE Vector Graphic - Stroke\\",\\"hd\\":false},{\\"ty\\":\\"tr\\",\\"p\\":{\\"a\\":0,\\"k\\":[0,0],\\"ix\\":2},\\"a\\":{\\"a\\":0,\\"k\\":[0,0],\\"ix\\":1},\\"s\\":{\\"a\\":0,\\"k\\":[100,100],\\"ix\\":3},\\"r\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":6},\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":7},\\"sk\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":4},\\"sa\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":5},\\"nm\\":\\"Transformar\\"}],\\"nm\\":\\"Forma 1\\",\\"np\\":3,\\"cix\\":2,\\"bm\\":0,\\"ix\\":1,\\"mn\\":\\"ADBE Vector Group\\",\\"hd\\":false}],\\"ip\\":0,\\"op\\":90.0000036657751,\\"st\\":0,\\"bm\\":0},{\\"ddd\\":0,\\"ind\\":5,\\"ty\\":4,\\"nm\\":\\"bag\\",\\"parent\\":2,\\"sr\\":1,\\"ks\\":{\\"o\\":{\\"a\\":1,\\"k\\":[{\\"i\\":{\\"x\\":[0.833],\\"y\\":[0.833]},\\"o\\":{\\"x\\":[0.167],\\"y\\":[0.167]},\\"t\\":0,\\"s\\":[0]},{\\"i\\":{\\"x\\":[0.833],\\"y\\":[0.833]},\\"o\\":{\\"x\\":[0.167],\\"y\\":[0.167]},\\"t\\":15,\\"s\\":[100]},{\\"i\\":{\\"x\\":[0.833],\\"y\\":[0.833]},\\"o\\":{\\"x\\":[0.167],\\"y\\":[0.167]},\\"t\\":50,\\"s\\":[100]},{\\"t\\":54.0000021994651,\\"s\\":[0]}],\\"ix\\":11},\\"r\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":10},\\"p\\":{\\"a\\":0,\\"k\\":[52.5,48.5,0],\\"ix\\":2,\\"l\\":2},\\"a\\":{\\"a\\":0,\\"k\\":[0,0,0],\\"ix\\":1,\\"l\\":2},\\"s\\":{\\"a\\":0,\\"k\\":[100,100,100],\\"ix\\":6,\\"l\\":2}},\\"ao\\":0,\\"shapes\\":[{\\"ty\\":\\"gr\\",\\"it\\":[{\\"ind\\":0,\\"ty\\":\\"sh\\",\\"ix\\":1,\\"ks\\":{\\"a\\":0,\\"k\\":{\\"i\\":[[0,0],[0,0],[-2.732,0],[0,0],[0,2.732],[0,0]],\\"o\\":[[0,0],[0,2.732],[0,0],[2.732,0],[0,0],[0,0]],\\"v\\":[[-19.719,-19.785],[-22.258,14.839],[-17.312,19.784],[17.311,19.784],[22.258,14.839],[18.951,-19.785]],\\"c\\":true},\\"ix\\":2},\\"nm\\":\\"Caminho 1\\",\\"mn\\":\\"ADBE Vector Shape - Group\\",\\"hd\\":false},{\\"ty\\":\\"st\\",\\"c\\":{\\"a\\":0,\\"k\\":[0.858823529412,0,0.160784313725,1],\\"ix\\":3},\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":4},\\"w\\":{\\"a\\":0,\\"k\\":5,\\"ix\\":5},\\"lc\\":2,\\"lj\\":2,\\"bm\\":0,\\"nm\\":\\"Traçado 1\\",\\"mn\\":\\"ADBE Vector Graphic - Stroke\\",\\"hd\\":false},{\\"ty\\":\\"tr\\",\\"p\\":{\\"a\\":0,\\"k\\":[0,0],\\"ix\\":2},\\"a\\":{\\"a\\":0,\\"k\\":[0,0],\\"ix\\":1},\\"s\\":{\\"a\\":0,\\"k\\":[100,100],\\"ix\\":3},\\"r\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":6},\\"o\\":{\\"a\\":0,\\"k\\":100,\\"ix\\":7},\\"sk\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":4},\\"sa\\":{\\"a\\":0,\\"k\\":0,\\"ix\\":5},\\"nm\\":\\"Transformar\\"}],\\"nm\\":\\"Forma 1\\",\\"np\\":3,\\"cix\\":2,\\"bm\\":0,\\"ix\\":1,\\"mn\\":\\"ADBE Vector Group\\",\\"hd\\":false}],\\"ip\\":0,\\"op\\":90.0000036657751,\\"st\\":0,\\"bm\\":0}],\\"markers\\":[]}"
+            speed={1}
+            style={
+              Object {
+                "aspectRatio": 0.5397301349325337,
+                "bottom": 0,
+                "flex": 1,
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+              }
+            }
+          />
+        </View>
+      </View>
+    </Modal>
+  </View>
+  <View
+    accessibilityLabel="com.usereserva:id/select_box_price_normal"
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "marginHorizontal": 16,
+        "marginVertical": 12,
+        "opacity": 1,
+      }
+    }
+    testID="com.usereserva:id/select_box_price_normal"
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "borderColor": "#8D8D8D",
+          "borderWidth": 1,
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "paddingHorizontal": 16,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderColor": "#000000",
+            "borderRadius": 11,
+            "borderWidth": 1,
+            "height": 22,
+            "justifyContent": "center",
+            "padding": 3,
+            "width": 22,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "justifyContent": "flex-end",
+            "paddingVertical": 10,
+          }
+        }
+      >
+        <Text
+          fontFamily="reservaSansRegular"
+          style={
+            Array [
+              Object {
+                "fontFamily": "ReservaSans-Regular",
+              },
+              Object {
+                "color": "#8D8D8D",
+                "fontSize": 18,
+                "fontWeight": "400",
+              },
+            ]
+          }
+        >
+          Preço Normal
+        </Text>
+        <View
+          style={
+            Object {
+              "alignItems": "baseline",
+              "flexDirection": "row",
+              "justifyContent": "flex-start",
+              "marginTop": 4,
+            }
+          }
+        >
+          <Text
+            fontFamily="reservaSansRegular"
+            style={
+              Array [
+                Object {
+                  "fontFamily": "ReservaSans-Regular",
+                },
+                Object {
+                  "color": "#8D8D8D",
+                  "fontSize": 18,
+                  "fontWeight": "400",
+                },
+              ]
+            }
+          >
+            5
+            x
+             
+          </Text>
+          <Text
+            fontFamily="reservaSansRegular"
+            style={
+              Array [
+                Object {
+                  "fontFamily": "ReservaSans-Regular",
+                },
+                Object {
+                  "color": "#8D8D8D",
+                  "fontSize": 24,
+                  "fontWeight": "700",
+                },
+              ]
+            }
+          >
+            R$
+             
+            69,
+          </Text>
+          <Text
+            fontFamily="reservaSansRegular"
+            style={
+              Array [
+                Object {
+                  "fontFamily": "ReservaSans-Regular",
+                },
+                Object {
+                  "color": "#8D8D8D",
+                  "fontWeight": "700",
+                },
+              ]
+            }
+          >
+            80
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignSelf": "center",
+            "backgroundColor": "#8D8D8D",
+            "height": 30,
+            "marginTop": 30,
+            "width": 1,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "justifyContent": "flex-end",
+            "paddingVertical": 10,
+          }
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "alignItems": "baseline",
+                "flexDirection": "row",
+                "justifyContent": "flex-start",
+                "marginTop": 4,
+              },
+              Object {
+                "marginRight": 50,
+                "marginTop": 24,
+              },
+            ]
+          }
+        >
+          <Text
+            fontFamily="reservaSansRegular"
+            style={
+              Array [
+                Object {
+                  "fontFamily": "ReservaSans-Regular",
+                },
+                Object {
+                  "color": "#8D8D8D",
+                  "fontSize": 24,
+                  "fontWeight": "700",
+                },
+                Object {
+                  "color": "#000000",
+                },
+              ]
+            }
+          >
+            R$
+             
+            349,
+          </Text>
+          <Text
+            fontFamily="reservaSansRegular"
+            fontWeight="bold"
+            style={
+              Array [
+                Object {
+                  "fontFamily": "ReservaSans-Regular",
+                  "fontWeight": "700",
+                },
+                Object {
+                  "color": "#000000",
+                },
+              ]
+            }
+          >
+            00
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    accessibilityLabel="com.usereserva:id/select_box_price_prime"
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "marginHorizontal": 16,
+        "opacity": 1,
+      }
+    }
+    testID="com.usereserva:id/select_box_price_prime"
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#FFF8FA",
+          "borderColor": "#A01E21",
+          "borderWidth": 1,
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "paddingHorizontal": 16,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderColor": "#A01E21",
+            "borderRadius": 11,
+            "borderWidth": 1,
+            "height": 22,
+            "justifyContent": "center",
+            "padding": 3,
+            "width": 22,
+          }
+        }
+      >
+        <View
+          accessibilityLabel="com.usereserva:id/select_box_price_prime_checked"
+          style={
+            Object {
+              "backgroundColor": "#A01E21",
+              "borderRadius": 8,
+              "height": 16,
+              "width": 16,
+            }
+          }
+          testID="com.usereserva:id/select_box_price_prime_checked"
+        />
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "justifyContent": "flex-end",
+            "paddingVertical": 10,
+          }
+        }
+      >
+        <Text
+          fontFamily="reservaSansRegular"
+          style={
+            Array [
+              Object {
+                "fontFamily": "ReservaSans-Regular",
+              },
+              Object {
+                "color": "#A01E21",
+                "fontSize": 18,
+                "fontWeight": "400",
+              },
+            ]
+          }
+        >
+          Clientes
+          <Text
+            fontSize={20}
+            style={
+              Array [
+                Object {
+                  "fontFamily": "ReservaSerif-Bold",
+                  "fontSize": 20,
+                },
+              ]
+            }
+            variant="descontoTag2"
+          >
+             
+            Prime
+          </Text>
+        </Text>
+        <View
+          style={
+            Object {
+              "alignItems": "baseline",
+              "flexDirection": "row",
+              "justifyContent": "flex-start",
+              "marginTop": 4,
+            }
+          }
+        >
+          <Text
+            fontFamily="reservaSansRegular"
+            style={
+              Array [
+                Object {
+                  "fontFamily": "ReservaSans-Regular",
+                },
+                Object {
+                  "color": "#A01E21",
+                  "fontSize": 18,
+                  "fontWeight": "400",
+                },
+              ]
+            }
+          >
+            4
+            x
+             
+          </Text>
+          <Text
+            fontFamily="reservaSansRegular"
+            style={
+              Array [
+                Object {
+                  "fontFamily": "ReservaSans-Regular",
+                },
+                Object {
+                  "color": "#A01E21",
+                  "fontSize": 24,
+                  "fontWeight": "700",
+                },
+              ]
+            }
+          >
+            R$
+             
+            69,
+          </Text>
+          <Text
+            color="vermelhoRSV"
+            fontFamily="reservaSansRegular"
+            fontWeight="bold"
+            style={
+              Array [
+                Object {
+                  "color": "#A00000",
+                  "fontFamily": "ReservaSans-Regular",
+                  "fontWeight": "700",
+                },
+              ]
+            }
+          >
+            80
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignSelf": "center",
+            "backgroundColor": "#8D8D8D",
+            "height": 30,
+            "marginTop": 30,
+            "width": 1,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "justifyContent": "flex-end",
+            "paddingVertical": 10,
+          }
+        }
+      >
+        <View
+          accessibilityIgnoresInvertColors={true}
+          style={
+            Object {
+              "height": 28,
+              "justifyContent": "center",
+              "paddingLeft": 10,
+              "width": 160,
+            }
+          }
+        >
+          <Image
+            resizeMode="cover"
+            source={
+              Object {
+                "animations": Object {
+                  "bag": Object {
+                    "assets": Array [],
+                    "ddd": 0,
+                    "fr": 29.9700012207031,
+                    "h": 667,
+                    "ip": 0,
+                    "layers": Array [
+                      Object {
+                        "ao": 0,
+                        "bm": 0,
+                        "ddd": 0,
+                        "ind": 1,
+                        "ip": 0,
+                        "ks": Object {
+                          "a": Object {
+                            "a": 0,
+                            "ix": 1,
+                            "k": Array [
+                              -4.25,
+                              -8.25,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "o": Object {
+                            "a": 1,
+                            "ix": 11,
+                            "k": Array [
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.667,
+                                  ],
+                                  "y": Array [
+                                    1,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.333,
+                                  ],
+                                  "y": Array [
+                                    0,
+                                  ],
+                                },
+                                "s": Array [
+                                  100,
+                                ],
+                                "t": 30,
+                              },
+                              Object {
+                                "s": Array [
+                                  0,
+                                ],
+                                "t": 40.0000016292334,
+                              },
+                            ],
+                          },
+                          "p": Object {
+                            "a": 0,
+                            "ix": 2,
+                            "k": Array [
+                              182.737,
+                              327.195,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "r": Object {
+                            "a": 0,
+                            "ix": 10,
+                            "k": 0,
+                          },
+                          "s": Object {
+                            "a": 0,
+                            "ix": 6,
+                            "k": Array [
+                              88.542,
+                              88.542,
+                              100,
+                            ],
+                            "l": 2,
+                          },
+                        },
+                        "nm": "circle",
+                        "op": 90.0000036657751,
+                        "shapes": Array [
+                          Object {
+                            "bm": 0,
+                            "cix": 2,
+                            "hd": false,
+                            "it": Array [
+                              Object {
+                                "d": 1,
+                                "hd": false,
+                                "mn": "ADBE Vector Shape - Ellipse",
+                                "nm": "Caminho da elipse 1",
+                                "p": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "s": Object {
+                                  "a": 0,
+                                  "ix": 2,
+                                  "k": Array [
+                                    104.5,
+                                    104.5,
+                                  ],
+                                },
+                                "ty": "el",
+                              },
+                              Object {
+                                "bm": 0,
+                                "c": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    0.858823529412,
+                                    0,
+                                    0.160784313725,
+                                    1,
+                                  ],
+                                },
+                                "hd": false,
+                                "lc": 2,
+                                "lj": 2,
+                                "mn": "ADBE Vector Graphic - Stroke",
+                                "nm": "Traçado 1",
+                                "o": Object {
+                                  "a": 0,
+                                  "ix": 4,
+                                  "k": 100,
+                                },
+                                "ty": "st",
+                                "w": Object {
+                                  "a": 0,
+                                  "ix": 5,
+                                  "k": 5,
+                                },
+                              },
+                              Object {
+                                "a": Object {
+                                  "a": 0,
+                                  "ix": 1,
+                                  "k": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "nm": "Transformar",
+                                "o": Object {
+                                  "a": 0,
+                                  "ix": 7,
+                                  "k": 100,
+                                },
+                                "p": Object {
+                                  "a": 0,
+                                  "ix": 2,
+                                  "k": Array [
+                                    -4.25,
+                                    -8.25,
+                                  ],
+                                },
+                                "r": Object {
+                                  "a": 0,
+                                  "ix": 6,
+                                  "k": 0,
+                                },
+                                "s": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    100,
+                                    100,
+                                  ],
+                                },
+                                "sa": Object {
+                                  "a": 0,
+                                  "ix": 5,
+                                  "k": 0,
+                                },
+                                "sk": Object {
+                                  "a": 0,
+                                  "ix": 4,
+                                  "k": 0,
+                                },
+                                "ty": "tr",
+                              },
+                            ],
+                            "ix": 1,
+                            "mn": "ADBE Vector Group",
+                            "nm": "Elipse 1",
+                            "np": 3,
+                            "ty": "gr",
+                          },
+                          Object {
+                            "e": Object {
+                              "a": 1,
+                              "ix": 2,
+                              "k": Array [
+                                Object {
+                                  "i": Object {
+                                    "x": Array [
+                                      0.667,
+                                    ],
+                                    "y": Array [
+                                      1,
+                                    ],
+                                  },
+                                  "o": Object {
+                                    "x": Array [
+                                      0.333,
+                                    ],
+                                    "y": Array [
+                                      0,
+                                    ],
+                                  },
+                                  "s": Array [
+                                    0,
+                                  ],
+                                  "t": 0,
+                                },
+                                Object {
+                                  "s": Array [
+                                    100,
+                                  ],
+                                  "t": 15.0000006109625,
+                                },
+                              ],
+                            },
+                            "hd": false,
+                            "ix": 2,
+                            "m": 1,
+                            "mn": "ADBE Vector Filter - Trim",
+                            "nm": "Aparar caminhos 1",
+                            "o": Object {
+                              "a": 0,
+                              "ix": 3,
+                              "k": 0,
+                            },
+                            "s": Object {
+                              "a": 1,
+                              "ix": 1,
+                              "k": Array [
+                                Object {
+                                  "i": Object {
+                                    "x": Array [
+                                      0.667,
+                                    ],
+                                    "y": Array [
+                                      1,
+                                    ],
+                                  },
+                                  "o": Object {
+                                    "x": Array [
+                                      0.333,
+                                    ],
+                                    "y": Array [
+                                      0,
+                                    ],
+                                  },
+                                  "s": Array [
+                                    0,
+                                  ],
+                                  "t": 0,
+                                },
+                                Object {
+                                  "s": Array [
+                                    0,
+                                  ],
+                                  "t": 15.0000006109625,
+                                },
+                              ],
+                            },
+                            "ty": "tm",
+                          },
+                        ],
+                        "sr": 1,
+                        "st": 0,
+                        "ty": 4,
+                      },
+                      Object {
+                        "ao": 0,
+                        "bm": 0,
+                        "ddd": 0,
+                        "ind": 2,
+                        "ip": 0,
+                        "ks": Object {
+                          "a": Object {
+                            "a": 0,
+                            "ix": 1,
+                            "k": Array [
+                              50,
+                              50,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "o": Object {
+                            "a": 0,
+                            "ix": 11,
+                            "k": 100,
+                          },
+                          "p": Object {
+                            "a": 1,
+                            "ix": 2,
+                            "k": Array [
+                              Object {
+                                "i": Object {
+                                  "x": 0.667,
+                                  "y": 1,
+                                },
+                                "o": Object {
+                                  "x": 0.333,
+                                  "y": 0,
+                                },
+                                "s": Array [
+                                  180,
+                                  333,
+                                  0,
+                                ],
+                                "t": 35,
+                                "ti": Array [
+                                  -25.167,
+                                  50.667,
+                                  0,
+                                ],
+                                "to": Array [
+                                  25.167,
+                                  -50.667,
+                                  0,
+                                ],
+                              },
+                              Object {
+                                "s": Array [
+                                  331,
+                                  29,
+                                  0,
+                                ],
+                                "t": 50.0000020365418,
+                              },
+                            ],
+                            "l": 2,
+                          },
+                          "r": Object {
+                            "a": 0,
+                            "ix": 10,
+                            "k": 0,
+                          },
+                          "s": Object {
+                            "a": 1,
+                            "ix": 6,
+                            "k": Array [
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.667,
+                                    0.667,
+                                    0.667,
+                                  ],
+                                  "y": Array [
+                                    1,
+                                    1,
+                                    1,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.333,
+                                    0.333,
+                                    0.333,
+                                  ],
+                                  "y": Array [
+                                    0,
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "s": Array [
+                                  13,
+                                  13,
+                                  100,
+                                ],
+                                "t": 0,
+                              },
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.833,
+                                    0.833,
+                                    0.833,
+                                  ],
+                                  "y": Array [
+                                    1,
+                                    1,
+                                    1,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.333,
+                                    0.333,
+                                    0.333,
+                                  ],
+                                  "y": Array [
+                                    0,
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "s": Array [
+                                  100,
+                                  100,
+                                  100,
+                                ],
+                                "t": 15,
+                              },
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.833,
+                                    0.833,
+                                    0.833,
+                                  ],
+                                  "y": Array [
+                                    1,
+                                    1,
+                                    1,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.167,
+                                    0.167,
+                                    0.167,
+                                  ],
+                                  "y": Array [
+                                    0,
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "s": Array [
+                                  100,
+                                  100,
+                                  100,
+                                ],
+                                "t": 35,
+                              },
+                              Object {
+                                "s": Array [
+                                  16,
+                                  16,
+                                  100,
+                                ],
+                                "t": 50.0000020365418,
+                              },
+                            ],
+                            "l": 2,
+                          },
+                        },
+                        "nm": "mov sacola",
+                        "op": 90.0000036657751,
+                        "sr": 1,
+                        "st": 0,
+                        "ty": 3,
+                      },
+                      Object {
+                        "ao": 0,
+                        "bm": 0,
+                        "ddd": 0,
+                        "ind": 3,
+                        "ip": 0,
+                        "ks": Object {
+                          "a": Object {
+                            "a": 0,
+                            "ix": 1,
+                            "k": Array [
+                              0,
+                              0,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "o": Object {
+                            "a": 1,
+                            "ix": 11,
+                            "k": Array [
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.833,
+                                  ],
+                                  "y": Array [
+                                    0.833,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.167,
+                                  ],
+                                  "y": Array [
+                                    0.167,
+                                  ],
+                                },
+                                "s": Array [
+                                  0,
+                                ],
+                                "t": 0,
+                              },
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.833,
+                                  ],
+                                  "y": Array [
+                                    0.833,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.167,
+                                  ],
+                                  "y": Array [
+                                    0.167,
+                                  ],
+                                },
+                                "s": Array [
+                                  100,
+                                ],
+                                "t": 15,
+                              },
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.833,
+                                  ],
+                                  "y": Array [
+                                    0.833,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.167,
+                                  ],
+                                  "y": Array [
+                                    0.167,
+                                  ],
+                                },
+                                "s": Array [
+                                  100,
+                                ],
+                                "t": 50,
+                              },
+                              Object {
+                                "s": Array [
+                                  0,
+                                ],
+                                "t": 54.0000021994651,
+                              },
+                            ],
+                          },
+                          "p": Object {
+                            "a": 0,
+                            "ix": 2,
+                            "k": Array [
+                              52.5,
+                              20.5,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "r": Object {
+                            "a": 0,
+                            "ix": 10,
+                            "k": 0,
+                          },
+                          "s": Object {
+                            "a": 0,
+                            "ix": 6,
+                            "k": Array [
+                              100,
+                              100,
+                              100,
+                            ],
+                            "l": 2,
+                          },
+                        },
+                        "nm": "handle",
+                        "op": 90.0000036657751,
+                        "parent": 2,
+                        "shapes": Array [
+                          Object {
+                            "bm": 0,
+                            "cix": 2,
+                            "hd": false,
+                            "it": Array [
+                              Object {
+                                "hd": false,
+                                "ind": 0,
+                                "ix": 1,
+                                "ks": Object {
+                                  "a": 0,
+                                  "ix": 2,
+                                  "k": Object {
+                                    "c": false,
+                                    "i": Array [
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        5.023,
+                                        -0.158,
+                                      ],
+                                      Array [
+                                        0.151,
+                                        -4.801,
+                                      ],
+                                    ],
+                                    "o": Array [
+                                      Array [
+                                        -0.158,
+                                        -5.023,
+                                      ],
+                                      Array [
+                                        -4.801,
+                                        0.151,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                    ],
+                                    "v": Array [
+                                      Array [
+                                        9.096,
+                                        4.484,
+                                      ],
+                                      Array [
+                                        -0.286,
+                                        -4.326,
+                                      ],
+                                      Array [
+                                        -9.095,
+                                        4.484,
+                                      ],
+                                    ],
+                                  },
+                                },
+                                "mn": "ADBE Vector Shape - Group",
+                                "nm": "Caminho 1",
+                                "ty": "sh",
+                              },
+                              Object {
+                                "bm": 0,
+                                "c": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    0.858823529412,
+                                    0,
+                                    0.160784313725,
+                                    1,
+                                  ],
+                                },
+                                "hd": false,
+                                "lc": 2,
+                                "lj": 2,
+                                "mn": "ADBE Vector Graphic - Stroke",
+                                "nm": "Traçado 1",
+                                "o": Object {
+                                  "a": 0,
+                                  "ix": 4,
+                                  "k": 100,
+                                },
+                                "ty": "st",
+                                "w": Object {
+                                  "a": 0,
+                                  "ix": 5,
+                                  "k": 5,
+                                },
+                              },
+                              Object {
+                                "a": Object {
+                                  "a": 0,
+                                  "ix": 1,
+                                  "k": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "nm": "Transformar",
+                                "o": Object {
+                                  "a": 0,
+                                  "ix": 7,
+                                  "k": 100,
+                                },
+                                "p": Object {
+                                  "a": 0,
+                                  "ix": 2,
+                                  "k": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "r": Object {
+                                  "a": 0,
+                                  "ix": 6,
+                                  "k": 0,
+                                },
+                                "s": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    100,
+                                    100,
+                                  ],
+                                },
+                                "sa": Object {
+                                  "a": 0,
+                                  "ix": 5,
+                                  "k": 0,
+                                },
+                                "sk": Object {
+                                  "a": 0,
+                                  "ix": 4,
+                                  "k": 0,
+                                },
+                                "ty": "tr",
+                              },
+                            ],
+                            "ix": 1,
+                            "mn": "ADBE Vector Group",
+                            "nm": "Forma 1",
+                            "np": 3,
+                            "ty": "gr",
+                          },
+                        ],
+                        "sr": 1,
+                        "st": 0,
+                        "ty": 4,
+                      },
+                      Object {
+                        "ao": 0,
+                        "bm": 0,
+                        "ddd": 0,
+                        "ind": 4,
+                        "ip": 0,
+                        "ks": Object {
+                          "a": Object {
+                            "a": 0,
+                            "ix": 1,
+                            "k": Array [
+                              0,
+                              0,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "o": Object {
+                            "a": 1,
+                            "ix": 11,
+                            "k": Array [
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.833,
+                                  ],
+                                  "y": Array [
+                                    0.833,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.167,
+                                  ],
+                                  "y": Array [
+                                    0.167,
+                                  ],
+                                },
+                                "s": Array [
+                                  0,
+                                ],
+                                "t": 0,
+                              },
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.833,
+                                  ],
+                                  "y": Array [
+                                    0.833,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.167,
+                                  ],
+                                  "y": Array [
+                                    0.167,
+                                  ],
+                                },
+                                "s": Array [
+                                  100,
+                                ],
+                                "t": 15,
+                              },
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.833,
+                                  ],
+                                  "y": Array [
+                                    0.833,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.167,
+                                  ],
+                                  "y": Array [
+                                    0.167,
+                                  ],
+                                },
+                                "s": Array [
+                                  100,
+                                ],
+                                "t": 50,
+                              },
+                              Object {
+                                "s": Array [
+                                  0,
+                                ],
+                                "t": 54.0000021994651,
+                              },
+                            ],
+                          },
+                          "p": Object {
+                            "a": 0,
+                            "ix": 2,
+                            "k": Array [
+                              52,
+                              48,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "r": Object {
+                            "a": 0,
+                            "ix": 10,
+                            "k": 0,
+                          },
+                          "s": Object {
+                            "a": 0,
+                            "ix": 6,
+                            "k": Array [
+                              100,
+                              100,
+                              100,
+                            ],
+                            "l": 2,
+                          },
+                        },
+                        "nm": "check",
+                        "op": 90.0000036657751,
+                        "parent": 2,
+                        "shapes": Array [
+                          Object {
+                            "bm": 0,
+                            "cix": 2,
+                            "hd": false,
+                            "it": Array [
+                              Object {
+                                "hd": false,
+                                "ind": 0,
+                                "ix": 1,
+                                "ks": Object {
+                                  "a": 0,
+                                  "ix": 2,
+                                  "k": Object {
+                                    "c": false,
+                                    "i": Array [
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                    ],
+                                    "o": Array [
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                    ],
+                                    "v": Array [
+                                      Array [
+                                        -9.268,
+                                        -1.323,
+                                      ],
+                                      Array [
+                                        -1.833,
+                                        6.705,
+                                      ],
+                                      Array [
+                                        9.268,
+                                        -6.705,
+                                      ],
+                                    ],
+                                  },
+                                },
+                                "mn": "ADBE Vector Shape - Group",
+                                "nm": "Caminho 1",
+                                "ty": "sh",
+                              },
+                              Object {
+                                "bm": 0,
+                                "c": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    0.858823529412,
+                                    0,
+                                    0.160784313725,
+                                    1,
+                                  ],
+                                },
+                                "hd": false,
+                                "lc": 2,
+                                "lj": 2,
+                                "mn": "ADBE Vector Graphic - Stroke",
+                                "nm": "Traçado 1",
+                                "o": Object {
+                                  "a": 0,
+                                  "ix": 4,
+                                  "k": 100,
+                                },
+                                "ty": "st",
+                                "w": Object {
+                                  "a": 0,
+                                  "ix": 5,
+                                  "k": 5,
+                                },
+                              },
+                              Object {
+                                "a": Object {
+                                  "a": 0,
+                                  "ix": 1,
+                                  "k": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "nm": "Transformar",
+                                "o": Object {
+                                  "a": 0,
+                                  "ix": 7,
+                                  "k": 100,
+                                },
+                                "p": Object {
+                                  "a": 0,
+                                  "ix": 2,
+                                  "k": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "r": Object {
+                                  "a": 0,
+                                  "ix": 6,
+                                  "k": 0,
+                                },
+                                "s": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    100,
+                                    100,
+                                  ],
+                                },
+                                "sa": Object {
+                                  "a": 0,
+                                  "ix": 5,
+                                  "k": 0,
+                                },
+                                "sk": Object {
+                                  "a": 0,
+                                  "ix": 4,
+                                  "k": 0,
+                                },
+                                "ty": "tr",
+                              },
+                            ],
+                            "ix": 1,
+                            "mn": "ADBE Vector Group",
+                            "nm": "Forma 1",
+                            "np": 3,
+                            "ty": "gr",
+                          },
+                        ],
+                        "sr": 1,
+                        "st": 0,
+                        "ty": 4,
+                      },
+                      Object {
+                        "ao": 0,
+                        "bm": 0,
+                        "ddd": 0,
+                        "ind": 5,
+                        "ip": 0,
+                        "ks": Object {
+                          "a": Object {
+                            "a": 0,
+                            "ix": 1,
+                            "k": Array [
+                              0,
+                              0,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "o": Object {
+                            "a": 1,
+                            "ix": 11,
+                            "k": Array [
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.833,
+                                  ],
+                                  "y": Array [
+                                    0.833,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.167,
+                                  ],
+                                  "y": Array [
+                                    0.167,
+                                  ],
+                                },
+                                "s": Array [
+                                  0,
+                                ],
+                                "t": 0,
+                              },
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.833,
+                                  ],
+                                  "y": Array [
+                                    0.833,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.167,
+                                  ],
+                                  "y": Array [
+                                    0.167,
+                                  ],
+                                },
+                                "s": Array [
+                                  100,
+                                ],
+                                "t": 15,
+                              },
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.833,
+                                  ],
+                                  "y": Array [
+                                    0.833,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.167,
+                                  ],
+                                  "y": Array [
+                                    0.167,
+                                  ],
+                                },
+                                "s": Array [
+                                  100,
+                                ],
+                                "t": 50,
+                              },
+                              Object {
+                                "s": Array [
+                                  0,
+                                ],
+                                "t": 54.0000021994651,
+                              },
+                            ],
+                          },
+                          "p": Object {
+                            "a": 0,
+                            "ix": 2,
+                            "k": Array [
+                              52.5,
+                              48.5,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "r": Object {
+                            "a": 0,
+                            "ix": 10,
+                            "k": 0,
+                          },
+                          "s": Object {
+                            "a": 0,
+                            "ix": 6,
+                            "k": Array [
+                              100,
+                              100,
+                              100,
+                            ],
+                            "l": 2,
+                          },
+                        },
+                        "nm": "bag",
+                        "op": 90.0000036657751,
+                        "parent": 2,
+                        "shapes": Array [
+                          Object {
+                            "bm": 0,
+                            "cix": 2,
+                            "hd": false,
+                            "it": Array [
+                              Object {
+                                "hd": false,
+                                "ind": 0,
+                                "ix": 1,
+                                "ks": Object {
+                                  "a": 0,
+                                  "ix": 2,
+                                  "k": Object {
+                                    "c": true,
+                                    "i": Array [
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        -2.732,
+                                        0,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        0,
+                                        2.732,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                    ],
+                                    "o": Array [
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        0,
+                                        2.732,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        2.732,
+                                        0,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                    ],
+                                    "v": Array [
+                                      Array [
+                                        -19.719,
+                                        -19.785,
+                                      ],
+                                      Array [
+                                        -22.258,
+                                        14.839,
+                                      ],
+                                      Array [
+                                        -17.312,
+                                        19.784,
+                                      ],
+                                      Array [
+                                        17.311,
+                                        19.784,
+                                      ],
+                                      Array [
+                                        22.258,
+                                        14.839,
+                                      ],
+                                      Array [
+                                        18.951,
+                                        -19.785,
+                                      ],
+                                    ],
+                                  },
+                                },
+                                "mn": "ADBE Vector Shape - Group",
+                                "nm": "Caminho 1",
+                                "ty": "sh",
+                              },
+                              Object {
+                                "bm": 0,
+                                "c": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    0.858823529412,
+                                    0,
+                                    0.160784313725,
+                                    1,
+                                  ],
+                                },
+                                "hd": false,
+                                "lc": 2,
+                                "lj": 2,
+                                "mn": "ADBE Vector Graphic - Stroke",
+                                "nm": "Traçado 1",
+                                "o": Object {
+                                  "a": 0,
+                                  "ix": 4,
+                                  "k": 100,
+                                },
+                                "ty": "st",
+                                "w": Object {
+                                  "a": 0,
+                                  "ix": 5,
+                                  "k": 5,
+                                },
+                              },
+                              Object {
+                                "a": Object {
+                                  "a": 0,
+                                  "ix": 1,
+                                  "k": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "nm": "Transformar",
+                                "o": Object {
+                                  "a": 0,
+                                  "ix": 7,
+                                  "k": 100,
+                                },
+                                "p": Object {
+                                  "a": 0,
+                                  "ix": 2,
+                                  "k": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "r": Object {
+                                  "a": 0,
+                                  "ix": 6,
+                                  "k": 0,
+                                },
+                                "s": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    100,
+                                    100,
+                                  ],
+                                },
+                                "sa": Object {
+                                  "a": 0,
+                                  "ix": 5,
+                                  "k": 0,
+                                },
+                                "sk": Object {
+                                  "a": 0,
+                                  "ix": 4,
+                                  "k": 0,
+                                },
+                                "ty": "tr",
+                              },
+                            ],
+                            "ix": 1,
+                            "mn": "ADBE Vector Group",
+                            "nm": "Forma 1",
+                            "np": 3,
+                            "ty": "gr",
+                          },
+                        ],
+                        "sr": 1,
+                        "st": 0,
+                        "ty": 4,
+                      },
+                    ],
+                    "markers": Array [],
+                    "nm": "Add item sacola",
+                    "op": 54.0000021994651,
+                    "v": "5.7.8",
+                    "w": 360,
+                  },
+                  "confirmation": Object {
+                    "assets": Array [],
+                    "ddd": 0,
+                    "fr": 29.9700012207031,
+                    "h": 667,
+                    "ip": 0,
+                    "layers": Array [
+                      Object {
+                        "ao": 0,
+                        "bm": 0,
+                        "ddd": 0,
+                        "ind": 1,
+                        "ip": 30.0000012219251,
+                        "ks": Object {
+                          "a": Object {
+                            "a": 0,
+                            "ix": 1,
+                            "k": Array [
+                              50,
+                              50,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "o": Object {
+                            "a": 0,
+                            "ix": 11,
+                            "k": 0,
+                          },
+                          "p": Object {
+                            "a": 0,
+                            "ix": 2,
+                            "k": Array [
+                              180,
+                              333,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "r": Object {
+                            "a": 0,
+                            "ix": 10,
+                            "k": 0,
+                          },
+                          "s": Object {
+                            "a": 1,
+                            "ix": 6,
+                            "k": Array [
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.667,
+                                    0.667,
+                                    0.667,
+                                  ],
+                                  "y": Array [
+                                    1,
+                                    1,
+                                    1,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.333,
+                                    0.333,
+                                    0.333,
+                                  ],
+                                  "y": Array [
+                                    0,
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "s": Array [
+                                  100,
+                                  100,
+                                  100,
+                                ],
+                                "t": 30,
+                              },
+                              Object {
+                                "s": Array [
+                                  117,
+                                  117,
+                                  100,
+                                ],
+                                "t": 40.0000016292334,
+                              },
+                            ],
+                            "l": 2,
+                          },
+                        },
+                        "nm": "Nulo 1",
+                        "op": 95.0000038694293,
+                        "sr": 1,
+                        "st": 5.00000020365417,
+                        "ty": 3,
+                      },
+                      Object {
+                        "ao": 0,
+                        "bm": 0,
+                        "ddd": 0,
+                        "ind": 2,
+                        "ip": 0,
+                        "ks": Object {
+                          "a": Object {
+                            "a": 0,
+                            "ix": 1,
+                            "k": Array [
+                              2,
+                              66,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "o": Object {
+                            "a": 1,
+                            "ix": 11,
+                            "k": Array [
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.667,
+                                  ],
+                                  "y": Array [
+                                    1,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.333,
+                                  ],
+                                  "y": Array [
+                                    0,
+                                  ],
+                                },
+                                "s": Array [
+                                  0,
+                                ],
+                                "t": 0,
+                              },
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.833,
+                                  ],
+                                  "y": Array [
+                                    1,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.167,
+                                  ],
+                                  "y": Array [
+                                    0,
+                                  ],
+                                },
+                                "s": Array [
+                                  100,
+                                ],
+                                "t": 15,
+                              },
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.833,
+                                  ],
+                                  "y": Array [
+                                    1,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.167,
+                                  ],
+                                  "y": Array [
+                                    0,
+                                  ],
+                                },
+                                "s": Array [
+                                  100,
+                                ],
+                                "t": 30,
+                              },
+                              Object {
+                                "s": Array [
+                                  0,
+                                ],
+                                "t": 40.0000016292334,
+                              },
+                            ],
+                          },
+                          "p": Object {
+                            "a": 0,
+                            "ix": 2,
+                            "k": Array [
+                              47,
+                              51.5,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "r": Object {
+                            "a": 0,
+                            "ix": 10,
+                            "k": 0,
+                          },
+                          "s": Object {
+                            "a": 1,
+                            "ix": 6,
+                            "k": Array [
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.667,
+                                    0.667,
+                                    0.667,
+                                  ],
+                                  "y": Array [
+                                    1,
+                                    1,
+                                    1,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.333,
+                                    0.333,
+                                    0.333,
+                                  ],
+                                  "y": Array [
+                                    0,
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "s": Array [
+                                  0,
+                                  0,
+                                  100,
+                                ],
+                                "t": 0,
+                              },
+                              Object {
+                                "s": Array [
+                                  100,
+                                  100,
+                                  100,
+                                ],
+                                "t": 15.0000006109625,
+                              },
+                            ],
+                            "l": 2,
+                          },
+                        },
+                        "nm": "check",
+                        "op": 90.0000036657751,
+                        "parent": 1,
+                        "shapes": Array [
+                          Object {
+                            "bm": 0,
+                            "cix": 2,
+                            "hd": false,
+                            "it": Array [
+                              Object {
+                                "hd": false,
+                                "ind": 0,
+                                "ix": 1,
+                                "ks": Object {
+                                  "a": 0,
+                                  "ix": 2,
+                                  "k": Object {
+                                    "c": true,
+                                    "i": Array [
+                                      Array [
+                                        0.906,
+                                        0.906,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        -0.906,
+                                        0.906,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        -0.906,
+                                        -0.906,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        -0.906,
+                                        -0.906,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        0.906,
+                                        -0.906,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                    ],
+                                    "o": Array [
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        -0.906,
+                                        -0.906,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        0.906,
+                                        -0.906,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        0.906,
+                                        -0.906,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        0.906,
+                                        0.906,
+                                      ],
+                                      Array [
+                                        0,
+                                        0,
+                                      ],
+                                      Array [
+                                        -0.906,
+                                        0.906,
+                                      ],
+                                    ],
+                                    "v": Array [
+                                      Array [
+                                        -7.442,
+                                        16.626,
+                                      ],
+                                      Array [
+                                        -22.526,
+                                        1.542,
+                                      ],
+                                      Array [
+                                        -22.526,
+                                        -1.74,
+                                      ],
+                                      Array [
+                                        -19.245,
+                                        -5.022,
+                                      ],
+                                      Array [
+                                        -15.963,
+                                        -5.022,
+                                      ],
+                                      Array [
+                                        -5.806,
+                                        5.139,
+                                      ],
+                                      Array [
+                                        15.963,
+                                        -16.625,
+                                      ],
+                                      Array [
+                                        19.245,
+                                        -16.625,
+                                      ],
+                                      Array [
+                                        22.527,
+                                        -13.343,
+                                      ],
+                                      Array [
+                                        22.527,
+                                        -10.061,
+                                      ],
+                                      Array [
+                                        -4.16,
+                                        16.626,
+                                      ],
+                                    ],
+                                  },
+                                },
+                                "mn": "ADBE Vector Shape - Group",
+                                "nm": "Caminho 1",
+                                "ty": "sh",
+                              },
+                              Object {
+                                "bm": 0,
+                                "c": Object {
+                                  "a": 0,
+                                  "ix": 4,
+                                  "k": Array [
+                                    1,
+                                    1,
+                                    1,
+                                    1,
+                                  ],
+                                },
+                                "hd": false,
+                                "mn": "ADBE Vector Graphic - Fill",
+                                "nm": "Preenchimento 1",
+                                "o": Object {
+                                  "a": 0,
+                                  "ix": 5,
+                                  "k": 100,
+                                },
+                                "r": 1,
+                                "ty": "fl",
+                              },
+                              Object {
+                                "a": Object {
+                                  "a": 0,
+                                  "ix": 1,
+                                  "k": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "nm": "Transformar",
+                                "o": Object {
+                                  "a": 0,
+                                  "ix": 7,
+                                  "k": 100,
+                                },
+                                "p": Object {
+                                  "a": 0,
+                                  "ix": 2,
+                                  "k": Array [
+                                    2,
+                                    66,
+                                  ],
+                                },
+                                "r": Object {
+                                  "a": 0,
+                                  "ix": 6,
+                                  "k": 0,
+                                },
+                                "s": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    100,
+                                    100,
+                                  ],
+                                },
+                                "sa": Object {
+                                  "a": 0,
+                                  "ix": 5,
+                                  "k": 0,
+                                },
+                                "sk": Object {
+                                  "a": 0,
+                                  "ix": 4,
+                                  "k": 0,
+                                },
+                                "ty": "tr",
+                              },
+                            ],
+                            "ix": 1,
+                            "mn": "ADBE Vector Group",
+                            "nm": "Forma 1",
+                            "np": 3,
+                            "ty": "gr",
+                          },
+                        ],
+                        "sr": 1,
+                        "st": 0,
+                        "ty": 4,
+                      },
+                      Object {
+                        "ao": 0,
+                        "bm": 0,
+                        "ddd": 0,
+                        "ind": 3,
+                        "ip": 0,
+                        "ks": Object {
+                          "a": Object {
+                            "a": 0,
+                            "ix": 1,
+                            "k": Array [
+                              -2.5,
+                              64,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "o": Object {
+                            "a": 1,
+                            "ix": 11,
+                            "k": Array [
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.667,
+                                  ],
+                                  "y": Array [
+                                    1,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.333,
+                                  ],
+                                  "y": Array [
+                                    0,
+                                  ],
+                                },
+                                "s": Array [
+                                  100,
+                                ],
+                                "t": 30,
+                              },
+                              Object {
+                                "s": Array [
+                                  0,
+                                ],
+                                "t": 40.0000016292334,
+                              },
+                            ],
+                          },
+                          "p": Object {
+                            "a": 0,
+                            "ix": 2,
+                            "k": Array [
+                              47.5,
+                              50.5,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "r": Object {
+                            "a": 0,
+                            "ix": 10,
+                            "k": 0,
+                          },
+                          "s": Object {
+                            "a": 0,
+                            "ix": 6,
+                            "k": Array [
+                              100,
+                              100,
+                              100,
+                            ],
+                            "l": 2,
+                          },
+                        },
+                        "nm": "circlew",
+                        "op": 90.0000036657751,
+                        "parent": 1,
+                        "shapes": Array [
+                          Object {
+                            "bm": 0,
+                            "cix": 2,
+                            "hd": false,
+                            "it": Array [
+                              Object {
+                                "d": 1,
+                                "hd": false,
+                                "mn": "ADBE Vector Shape - Ellipse",
+                                "nm": "Caminho da elipse 1",
+                                "p": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "s": Object {
+                                  "a": 0,
+                                  "ix": 2,
+                                  "k": Array [
+                                    95,
+                                    95,
+                                  ],
+                                },
+                                "ty": "el",
+                              },
+                              Object {
+                                "bm": 0,
+                                "c": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    1,
+                                    1,
+                                    1,
+                                    1,
+                                  ],
+                                },
+                                "hd": false,
+                                "lc": 2,
+                                "lj": 2,
+                                "mn": "ADBE Vector Graphic - Stroke",
+                                "nm": "Traçado 1",
+                                "o": Object {
+                                  "a": 0,
+                                  "ix": 4,
+                                  "k": 100,
+                                },
+                                "ty": "st",
+                                "w": Object {
+                                  "a": 0,
+                                  "ix": 5,
+                                  "k": 5,
+                                },
+                              },
+                              Object {
+                                "a": Object {
+                                  "a": 0,
+                                  "ix": 1,
+                                  "k": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "nm": "Transformar",
+                                "o": Object {
+                                  "a": 0,
+                                  "ix": 7,
+                                  "k": 100,
+                                },
+                                "p": Object {
+                                  "a": 0,
+                                  "ix": 2,
+                                  "k": Array [
+                                    -2.5,
+                                    64,
+                                  ],
+                                },
+                                "r": Object {
+                                  "a": 0,
+                                  "ix": 6,
+                                  "k": 0,
+                                },
+                                "s": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    90.557,
+                                    90.557,
+                                  ],
+                                },
+                                "sa": Object {
+                                  "a": 0,
+                                  "ix": 5,
+                                  "k": 0,
+                                },
+                                "sk": Object {
+                                  "a": 0,
+                                  "ix": 4,
+                                  "k": 0,
+                                },
+                                "ty": "tr",
+                              },
+                            ],
+                            "ix": 1,
+                            "mn": "ADBE Vector Group",
+                            "nm": "Elipse 1",
+                            "np": 3,
+                            "ty": "gr",
+                          },
+                          Object {
+                            "e": Object {
+                              "a": 1,
+                              "ix": 2,
+                              "k": Array [
+                                Object {
+                                  "i": Object {
+                                    "x": Array [
+                                      0.667,
+                                    ],
+                                    "y": Array [
+                                      1,
+                                    ],
+                                  },
+                                  "o": Object {
+                                    "x": Array [
+                                      0.333,
+                                    ],
+                                    "y": Array [
+                                      0,
+                                    ],
+                                  },
+                                  "s": Array [
+                                    0,
+                                  ],
+                                  "t": 0,
+                                },
+                                Object {
+                                  "s": Array [
+                                    100,
+                                  ],
+                                  "t": 15.0000006109625,
+                                },
+                              ],
+                            },
+                            "hd": false,
+                            "ix": 2,
+                            "m": 1,
+                            "mn": "ADBE Vector Filter - Trim",
+                            "nm": "Aparar caminhos 1",
+                            "o": Object {
+                              "a": 0,
+                              "ix": 3,
+                              "k": 0,
+                            },
+                            "s": Object {
+                              "a": 1,
+                              "ix": 1,
+                              "k": Array [
+                                Object {
+                                  "i": Object {
+                                    "x": Array [
+                                      0.667,
+                                    ],
+                                    "y": Array [
+                                      1,
+                                    ],
+                                  },
+                                  "o": Object {
+                                    "x": Array [
+                                      0.333,
+                                    ],
+                                    "y": Array [
+                                      0,
+                                    ],
+                                  },
+                                  "s": Array [
+                                    0,
+                                  ],
+                                  "t": 0,
+                                },
+                                Object {
+                                  "s": Array [
+                                    0,
+                                  ],
+                                  "t": 15.0000006109625,
+                                },
+                              ],
+                            },
+                            "ty": "tm",
+                          },
+                        ],
+                        "sr": 1,
+                        "st": 0,
+                        "ty": 4,
+                      },
+                      Object {
+                        "ao": 0,
+                        "bm": 0,
+                        "ddd": 0,
+                        "ind": 4,
+                        "ip": 0,
+                        "ks": Object {
+                          "a": Object {
+                            "a": 0,
+                            "ix": 1,
+                            "k": Array [
+                              7.515,
+                              -8.809,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "o": Object {
+                            "a": 1,
+                            "ix": 11,
+                            "k": Array [
+                              Object {
+                                "i": Object {
+                                  "x": Array [
+                                    0.667,
+                                  ],
+                                  "y": Array [
+                                    1,
+                                  ],
+                                },
+                                "o": Object {
+                                  "x": Array [
+                                    0.333,
+                                  ],
+                                  "y": Array [
+                                    0,
+                                  ],
+                                },
+                                "s": Array [
+                                  100,
+                                ],
+                                "t": 30,
+                              },
+                              Object {
+                                "s": Array [
+                                  0,
+                                ],
+                                "t": 40.0000016292334,
+                              },
+                            ],
+                          },
+                          "p": Object {
+                            "a": 0,
+                            "ix": 2,
+                            "k": Array [
+                              47.326,
+                              50.256,
+                              0,
+                            ],
+                            "l": 2,
+                          },
+                          "r": Object {
+                            "a": 0,
+                            "ix": 10,
+                            "k": 0,
+                          },
+                          "s": Object {
+                            "a": 0,
+                            "ix": 6,
+                            "k": Array [
+                              70.874,
+                              70.874,
+                              100,
+                            ],
+                            "l": 2,
+                          },
+                        },
+                        "nm": "circleg",
+                        "op": 90.0000036657751,
+                        "parent": 1,
+                        "shapes": Array [
+                          Object {
+                            "bm": 0,
+                            "cix": 2,
+                            "hd": false,
+                            "it": Array [
+                              Object {
+                                "d": 1,
+                                "hd": false,
+                                "mn": "ADBE Vector Shape - Ellipse",
+                                "nm": "Caminho da elipse 1",
+                                "p": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "s": Object {
+                                  "a": 0,
+                                  "ix": 2,
+                                  "k": Array [
+                                    161.087,
+                                    161.087,
+                                  ],
+                                },
+                                "ty": "el",
+                              },
+                              Object {
+                                "bm": 0,
+                                "c": Object {
+                                  "a": 0,
+                                  "ix": 4,
+                                  "k": Array [
+                                    0.219607843137,
+                                    0.635294117647,
+                                    0.219607843137,
+                                    1,
+                                  ],
+                                },
+                                "hd": false,
+                                "mn": "ADBE Vector Graphic - Fill",
+                                "nm": "Preenchimento 1",
+                                "o": Object {
+                                  "a": 0,
+                                  "ix": 5,
+                                  "k": 100,
+                                },
+                                "r": 1,
+                                "ty": "fl",
+                              },
+                              Object {
+                                "a": Object {
+                                  "a": 0,
+                                  "ix": 1,
+                                  "k": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "nm": "Transformar",
+                                "o": Object {
+                                  "a": 0,
+                                  "ix": 7,
+                                  "k": 100,
+                                },
+                                "p": Object {
+                                  "a": 0,
+                                  "ix": 2,
+                                  "k": Array [
+                                    7.515,
+                                    -8.809,
+                                  ],
+                                },
+                                "r": Object {
+                                  "a": 0,
+                                  "ix": 6,
+                                  "k": 0,
+                                },
+                                "s": Object {
+                                  "a": 0,
+                                  "ix": 3,
+                                  "k": Array [
+                                    100,
+                                    100,
+                                  ],
+                                },
+                                "sa": Object {
+                                  "a": 0,
+                                  "ix": 5,
+                                  "k": 0,
+                                },
+                                "sk": Object {
+                                  "a": 0,
+                                  "ix": 4,
+                                  "k": 0,
+                                },
+                                "ty": "tr",
+                              },
+                            ],
+                            "ix": 1,
+                            "mn": "ADBE Vector Group",
+                            "nm": "Elipse 1",
+                            "np": 3,
+                            "ty": "gr",
+                          },
+                        ],
+                        "sr": 1,
+                        "st": 0,
+                        "ty": 4,
+                      },
+                    ],
+                    "markers": Array [],
+                    "nm": "Fechamento pedido",
+                    "op": 41.0000016699642,
+                    "v": "5.7.8",
+                    "w": 360,
+                  },
+                },
+                "images": Object {
+                  "GuideBermuda": [Circular],
+                  "GuideCalca": [Circular],
+                  "GuideCamiseta": [Circular],
+                  "GuideHoodie": [Circular],
+                  "GuideJaqueta": [Circular],
+                  "GuideMangaCurta": [Circular],
+                  "GuideMangaLonga": [Circular],
+                  "GuidePolo": [Circular],
+                  "GuideShort": [Circular],
+                  "GuideSueter": [Circular],
+                  "GuideSungaCueca": [Circular],
+                  "QrcodeBackground": [Circular],
+                  "americanExpress": [Circular],
+                  "arrowInstruction": [Circular],
+                  "bagEmpty": [Circular],
+                  "bannerCatalog": [Circular],
+                  "bannerLogin": [Circular],
+                  "bannerOffer": [Circular],
+                  "cardFront": [Circular],
+                  "cardVerso": [Circular],
+                  "clothingCare1": [Circular],
+                  "clothingCareBleach": [Circular],
+                  "clothingCareDrying": [Circular],
+                  "clothingCarePass": [Circular],
+                  "clothingCareProfessionalWashing": [Circular],
+                  "clothingCareWash": [Circular],
+                  "cupomModalBackground": [Circular],
+                  "dividerReserva": [Circular],
+                  "elo": [Circular],
+                  "emptyProductCatalog": [Circular],
+                  "facebook": [Circular],
+                  "foraDoAr": [Circular],
+                  "headerLogin": [Circular],
+                  "helpSizeGuide1": [Circular],
+                  "helpSizeGuide2": [Circular],
+                  "helpSizeGuide3": [Circular],
+                  "helpSizeGuide4": [Circular],
+                  "helpSizeGuide5": [Circular],
+                  "helpSizeGuide6": [Circular],
+                  "helpSizeGuide7": [Circular],
+                  "helpSizeGuide8": [Circular],
+                  "homeMock1": [Circular],
+                  "homeMock2": [Circular],
+                  "homeMock3": [Circular],
+                  "homeMock4": [Circular],
+                  "imageCashback": [Circular],
+                  "imageNotFound": [Circular],
+                  "instagram": [Circular],
+                  "localReserva": [Circular],
+                  "logoQRCode": [Circular],
+                  "mastercard": [Circular],
+                  "modalLivro": [Circular],
+                  "noStoresFound": [Circular],
+                  "noWishList": [Circular],
+                  "pinYou": [Circular],
+                  "purchaseConfirmation": [Circular],
+                  "raceImageBackground": [Circular],
+                  "saleOff": [Circular],
+                  "searchNotFound": [Circular],
+                  "selectRectangle": [Circular],
+                  "shirt1": [Circular],
+                  "shirt2": [Circular],
+                  "shirt3": [Circular],
+                  "shirt4": [Circular],
+                  "topBannerMock1": [Circular],
+                  "twitter": [Circular],
+                  "update": [Circular],
+                  "visa": [Circular],
+                  "whatsapp": [Circular],
+                  "withoutInternet": [Circular],
+                  "zoomHand": [Circular],
+                },
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                },
+                Object {
+                  "height": 28,
+                  "width": 160,
+                },
+                undefined,
+              ]
+            }
+          />
+          <Text
+            fontFamily="reservaSansItalic"
+            style={
+              Array [
+                Object {
+                  "fontFamily": "ReservaSans-Italic",
+                },
+                Object {
+                  "color": "white",
+                },
+              ]
+            }
+          >
+            Economize
+            <Text
+              fontFamily="reservaSansRegular"
+              style={
+                Array [
+                  Object {
+                    "fontFamily": "ReservaSans-Regular",
+                  },
+                  Object {
+                    "fontWeight": "bold",
+                  },
+                ]
+              }
+            >
+               
+              R$
+              15
+            </Text>
+          </Text>
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "alignItems": "baseline",
+                "flexDirection": "row",
+                "justifyContent": "flex-start",
+                "marginTop": 4,
+              },
+              Object {
+                "marginLeft": -50,
+              },
+            ]
+          }
+        >
+          <Text
+            fontFamily="reservaSansRegular"
+            style={
+              Array [
+                Object {
+                  "fontFamily": "ReservaSans-Regular",
+                },
+                Object {
+                  "color": "#A01E21",
+                  "fontSize": 24,
+                  "fontWeight": "700",
+                },
+              ]
+            }
+          >
+            R$
+             
+            279,
+          </Text>
+          <Text
+            color="vermelhoRSV"
+            fontFamily="reservaSansRegular"
+            fontWeight="bold"
+            style={
+              Array [
+                Object {
+                  "color": "#A00000",
+                  "fontFamily": "ReservaSans-Regular",
+                  "fontWeight": "700",
+                },
+              ]
+            }
+          >
+            20
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#A01E21",
+          "justifyContent": "center",
+          "padding": 2,
+          "width": 150,
+        }
+      }
+    >
+      <Text
+        fontFamily="reservaSansRegular"
+        style={
+          Array [
+            Object {
+              "fontFamily": "ReservaSans-Regular",
+            },
+            Object {
+              "color": "#ffffff",
+            },
+          ]
+        }
+      >
+        Seja
+        <Text
+          fontSize={18}
+          style={
+            Array [
+              Object {
+                "fontFamily": "ReservaSerif-Bold",
+                "fontSize": 18,
+              },
+            ]
+          }
+          variant="descontoTag2"
+        >
+           
+          Prime
+        </Text>
+      </Text>
+    </View>
+  </View>
+</View>
+`;

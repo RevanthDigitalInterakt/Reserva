@@ -136,6 +136,7 @@ exports[`userOrdered render and snapshot 1`] = `
           }
         >
           <View
+            accessibilityLabel="com.usereserva:id/top_bar_button_go_back"
             accessible={true}
             focusable={true}
             hitSlop={

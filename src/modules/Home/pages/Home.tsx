@@ -38,6 +38,8 @@ import { defaultBrand } from '../../../utils/defaultWBrand';
 import HeaderAccessibility from '../component/HeaderAccessibility';
 import DeepLinkPathModule from '../../../NativeModules/DeepLinkPathModule';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import useAuthModalStore from '../../../zustand/useAuthModalStore';
+import ModalSignUpComplete from '../component/ModalSignUpComplete';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { RefreshTokenError } from '../../../zustand/useAuth/types/refreshTokenError';
 import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
@@ -56,6 +58,7 @@ const brandsComponentObject: Carousel = {
 export const HomeScreen: FC<{
   title: string;
 }> = () => {
+  const { showModalSignUpComplete } = useAuthModalStore(['showModalSignUpComplete']);
   const navigation = useNavigation();
   const { getItem } = useAsyncStorageProvider();
   const { setOffersPage } = useConfigContext();
@@ -461,6 +464,8 @@ export const HomeScreen: FC<{
           </ScrollView>
         </SafeAreaView>
       )}
+
+      {showModalSignUpComplete && <ModalSignUpComplete />}
     </Box>
   );
 };

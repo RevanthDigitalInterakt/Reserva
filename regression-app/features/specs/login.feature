@@ -17,17 +17,17 @@ Feature: Login
     When enter email and click send e-mail
     Then the email must be sent
   
-  # Scenario: Reset password
-  #   Given that the user has received the change code in the email
-  #   When input the received code and new password correctly
-  #   Then the new password must be registered successfuly
+  Scenario: Reset password
+    Given that the user has received the change code in the email
+    When input the received code and new password correctly
+    Then the new password must be registered successfuly
 
-  # Scenario: Reset password with failed code
-  #   Given that the user has received the change code in the email
-  #   When entering invalid received code
-  #   Then the message "Please enter a valid code" should be displayed
+  Scenario: Reset password with failed code
+    Given that the user has received the change code in the email
+    When entering invalid received code
+    Then the message "Please enter a valid code" should be displayed
 
-  # Scenario: Reset password failed
-  #   Given that the user has received the change code in the email
-  #   When entering the code and an invalid password
-  #   Then can't save the new password
+  Scenario: Reset password failed
+    Given that the user has received the change code in the email
+    When entering the code and an invalid password
+    Then can't save the new password

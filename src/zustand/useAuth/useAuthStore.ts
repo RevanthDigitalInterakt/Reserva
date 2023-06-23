@@ -5,7 +5,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
 import type {
   ProfileQuery,
-  ProfileQueryVariables, RefreshTokenMutation, RefreshTokenMutationVariables,
+  ProfileQueryVariables,
+  RefreshTokenMutation,
+  RefreshTokenMutationVariables,
   SignInMutation,
   SignInMutationVariables,
 } from '../../base/graphql/generated';
@@ -146,7 +148,8 @@ const authStore = create<IAuthStore>((set, getState) => ({
         throw new Error('Invalid Profile [onSignIn]');
       }
 
-      getState().onUpdateAuthData(data.signIn.token, profile.authCookie);
+      await getState().onUpdateAuthData(data.signIn.token, profile.authCookie);
+
       await identifyCustomer(profile.email);
 
       set({

@@ -105,7 +105,7 @@ const CallCenter = ({
           <Box width="100%">
             <Button
               onPress={() => {
-                Linking.openURL(`whatsapp://send?phone=${552121084990}`);
+                Linking.openURL(`whatsapp://send?phone=${552136092555}`);
               }}
               title="WHATSAPP RESERVA"
               variant="primarioEstreito"
@@ -123,7 +123,6 @@ const CallCenter = ({
             <Button
               onPress={() => {
                 navigation.navigate('WebviewZendesk');
-                // Linking.openURL(`sms:(21) 3900-7052`);
               }}
               title="ENVIE UMA MENSAGEM"
               variant="primarioEstreitoOutline"
@@ -137,29 +136,6 @@ const CallCenter = ({
               </Typography>
             </Box>
           </Box>
-
-          {/* <ItemContact
-            divider={true}
-            icon="Mail"
-            label="sac@usereserva.com"
-            onPress={onClickMail}
-          /> */}
-          {/*
-          <ItemContact
-            divider={true}
-            icon={'Phone'}
-            label={'(21) 3900-7052'}
-            onPress={() => {
-              Linking.openURL(`tel: (21) 3900-7052`);
-            }}
-          />
-          <ItemContact
-            icon={'Whatsapp'}
-            label={'Whatsapp Reserva'}
-            onPress={() => {
-              Linking.openURL(`whatsapp://send?phone=${552121084990}`);
-            }}
-          /> */}
         </Box>
       </ScrollView>
     </SafeAreaView>

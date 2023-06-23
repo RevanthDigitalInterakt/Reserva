@@ -103,7 +103,11 @@ export default function NewBag({ route }: BagProps): JSX.Element {
   if (!currentBagItems.length && !bagInitialLoad) {
     return (
       <Box flex={1} testID="com.usereserva:id/EmptyBag">
-        <EmptyBag onPress={handleNavigateToOffers} />
+        <EmptyBag
+          backButtonPress={handleBackTopBarButtonPress}
+          loading={topBarLoading}
+          onPress={handleNavigateToOffers}
+        />
       </Box>
     );
   }

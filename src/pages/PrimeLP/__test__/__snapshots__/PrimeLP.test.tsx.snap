@@ -92,6 +92,7 @@ exports[`PrimeLP should match to snapshot 1`] = `
             }
           >
             <View
+              accessibilityLabel="com.usereserva:id/top_bar_default_button_home"
               accessible={true}
               focusable={true}
               hitSlop={
@@ -428,6 +429,7 @@ exports[`PrimeLP should match to snapshot 1`] = `
             }
           >
             <View
+              accessibilityLabel="com.usereserva:id/top_bar_button_searchmenu"
               accessible={true}
               focusable={true}
               hitSlop={
@@ -635,6 +637,7 @@ exports[`PrimeLP should match to snapshot 1`] = `
             }
           >
             <View
+              accessibilityLabel="com.usereserva:id/top_bar_button_handbag"
               accessible={true}
               focusable={true}
               hitSlop={

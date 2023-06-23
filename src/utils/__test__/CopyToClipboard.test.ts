@@ -1,8 +1,9 @@
 import Clipboard from '@react-native-community/clipboard';
-import handleCopyTextToClipboard from '../CopyToClipboard';
+import { handleCopyTextToClipboard, getCopiedValue } from '../CopyToClipboard';
 
 jest.mock('@react-native-community/clipboard', () => ({
   setString: jest.fn(),
+  getString: jest.fn(),
 }));
 
 describe('handleCopyTextToClipboard', () => {
@@ -12,5 +13,11 @@ describe('handleCopyTextToClipboard', () => {
     handleCopyTextToClipboard(text);
 
     expect(Clipboard.setString).toHaveBeenCalledWith(text);
+  });
+
+  it('should get string clipboard', async () => {
+    await getCopiedValue();
+
+    expect(Clipboard.getString).toHaveBeenCalled();
   });
 });

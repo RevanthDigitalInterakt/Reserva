@@ -54,6 +54,17 @@ function ProductSummary() {
     EventProvider.logEvent('product_share', { product_id: productDetail.productId });
   }, [productDetail]);
 
+  const handleSetModalZoom = useCallback(() => {
+    if (productDetail) {
+      EventProvider.logEvent('product_zoom', {
+        product_id: productDetail.productId,
+        index: imageIndex,
+      });
+
+      setShowModal(true);
+    }
+  }, [imageIndex, productDetail]);
+
   useEffect(() => {
     EventProvider.logEvent('product_slide_images', {
       index: imageIndex,
@@ -87,14 +98,7 @@ function ProductSummary() {
         discountTag={selectedSize?.discountPercent || 0}
         saleOff={saleOff}
         avaibleUnits={selectedSize?.availableQuantity || undefined}
-        setModalZoom={() => {
-          EventProvider.logEvent('product_zoom', {
-            product_id: productDetail.productId,
-            index: imageIndex,
-          });
-
-          setShowModal(true);
-        }}
+        setModalZoom={handleSetModalZoom}
         imagesWidth={configDeviceSizes.DEVICE_WIDTH}
         images={selectedColor.images || []}
         imageIndexActual={(newIndex) => {
@@ -106,6 +110,8 @@ function ProductSummary() {
         }}
         mktplaceNameComponent={mktplaceNameComponent}
       />
+      {/* TODO: Add this component to show select boxes to price prime */}
+      {/* <PricesSelectBoxes selectedSize={selectedSize} /> */}
     </>
   );
 }

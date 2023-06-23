@@ -16,6 +16,7 @@ type EventValues = {
   item_categories: string;
   currency: string;
   seller: string;
+  click_name: string;
   custumer_email: string;
   content_ids: string | string[];
   content_type: string | string[];
@@ -56,6 +57,7 @@ export namespace EventsOptions {
   export type PageView = Pick<EventValues, 'wbrand'>;
   export type Login = Pick<EventValues, 'custumer_email'>;
   export type Search = Pick<EventValues, 'search_term'>;
+  export type ClickHere = Pick<EventValues, 'click_name'>;
   export type ViewSearchResults = Pick<EventValues, 'search_term'>;
   export type RemoveFromCart = Pick<EventValues, 'item_id' | 'item_categories' | 'wbrand'>;
   export type ProductListView = Pick<EventValues, 'content_type' | 'wbrand'>;
@@ -152,6 +154,10 @@ export type EventOptionsFn =
   | {
     type: 'login';
     payload: EventsOptions.Login;
+  }
+  | {
+    type: 'click_here';
+    payload: EventsOptions.ClickHere;
   }
   | {
     type: 'search';

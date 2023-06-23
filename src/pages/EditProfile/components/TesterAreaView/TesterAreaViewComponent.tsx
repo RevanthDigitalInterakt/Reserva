@@ -4,7 +4,7 @@ import {
 import { TouchableOpacity } from 'react-native';
 import React, { useCallback, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import handleCopyTextToClipboard from '../../../../utils/CopyToClipboard';
+import { handleCopyTextToClipboard } from '../../../../utils/CopyToClipboard';
 import { useCart } from '../../../../context/CartContext';
 import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
 import EventProvider from '../../../../utils/EventProvider';

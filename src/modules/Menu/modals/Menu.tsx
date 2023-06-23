@@ -11,7 +11,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import {
   BackHandler,
   Linking,
@@ -22,7 +22,6 @@ import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootStackParamList } from '../../../routes/StackNavigator';
-
 import { categoriesQuery } from '../../../graphql/categories/categoriesQuery';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
 import { TopBarMenu } from '../components/TopBarMenu';
@@ -30,6 +29,7 @@ import { slugify } from '../../../utils/slugify';
 import testProps from '../../../utils/testProps';
 import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 interface IBreadCrumbs {
@@ -177,7 +177,7 @@ const MenuItem: React.FC<IMenuItem> = ({
             {...testProps('com.usereserva:id/animation_container')}
             animation="fadeIn"
           >
-            {subItemList.items.map((item, index) => (
+            {subItemList?.items?.map((item, index) => (
               <MenuSubItem
                 {...testProps(`com.usereserva:id/menu_sub_item_${index}`)}
                 key={index}
@@ -263,9 +263,9 @@ export interface Category {
   mkt?: boolean;
 }
 
-type Props = StackScreenProps<RootStackParamList, 'Menu'>;
+export type MenuProps = StackScreenProps<RootStackParamList, 'Menu'>;
 
-export const Menu = ({ route }: Props) => {
+export const Menu = ({ route }: MenuProps) => {
   const indexOpened = route?.params?.indexMenuOpened;
   const navigation = useNavigation();
   const [isTesting, setIsTesting] = useState<boolean>(false);
@@ -273,6 +273,7 @@ export const Menu = ({ route }: Props) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [screenRegionalizationActive, setScreenRegionalizationActive] = useState(false);
   const [resetGoBackButton, setResetGoBackButton] = useState<boolean>(false);
+  const { getItem } = useAsyncStorageProvider();
 
   const { profile } = useAuthStore(['profile']);
 
@@ -341,14 +342,37 @@ export const Menu = ({ route }: Props) => {
     }
   }, [resetGoBackButton]);
 
-  const openMenuItem = (index: number) => {
-    setCategories(
-      categories.map((item, i) => ({
-        ...item,
-        opened: index === i && !item.opened,
-      })),
+  const trackEventAccessedDepartmentDito = useCallback(async (openedCategories:string) => {
+    const id = profile?.email
+      ? await getItem('@Dito:userRef')
+      : await AsyncStorage.getItem('@Dito:anonymousID');
+
+    if (!openedCategories) return;
+
+    EventProvider.sendTrackEvent(
+      'acessou-departamento', {
+        id,
+        action: 'acessou-departamento',
+        data: {
+          nome_departamento: openedCategories,
+          origem: 'app',
+        },
+      },
     );
-  };
+  }, [getItem, profile?.email]);
+
+  const openMenuItem = useCallback((index: number) => {
+    const updatedCategories = categories.map((item, i) => ({
+      ...item,
+      opened: index === i && !item?.opened,
+    }));
+    setCategories(updatedCategories);
+    const openedCategories = updatedCategories
+      .filter((item) => item?.opened && item?.name)
+      .map((item) => item.name)
+      .join(',');
+    trackEventAccessedDepartmentDito(openedCategories);
+  }, [categories, trackEventAccessedDepartmentDito]);
 
   const getTestEnvironment = async () => {
     const res = await AsyncStorage.getItem('isTesting');

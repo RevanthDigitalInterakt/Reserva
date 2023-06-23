@@ -45,6 +45,7 @@ import allSettled from '../../../../utils/allSettled';
 import EventProvider from '../../../../utils/EventProvider';
 import { getBrandByUrl } from '../../../../utils/getBrandByURL';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
+import testProps from '../../../../utils/testProps';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
@@ -765,6 +766,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                     flexDirection="row"
                     inline
                     height={40}
+                    {...testProps('com.usereserva:id/clear_filter_button_product_catalog')}
                   >
                     <Typography
                       color="preto"

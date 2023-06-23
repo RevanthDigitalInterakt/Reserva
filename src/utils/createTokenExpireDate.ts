@@ -1,6 +1,6 @@
 export function createTokenExpireDate() {
   const date = new Date();
-  date.setDate(date.getDate() + 1);
+  date.setHours(date.getHours() + 12);
 
   return date.getTime();
 }

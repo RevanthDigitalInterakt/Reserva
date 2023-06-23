@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { TopBar } from '@usereservaapp/reserva-ui';
 import { useCart } from '../../../context/CartContext';
 import testProps from '../../../utils/testProps';
+import { TopBar } from '../../../components/TopBar';
 
 export const TopBarMenu: React.FC<{ loading: Boolean }> = ({
   loading = false,

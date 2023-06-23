@@ -4,18 +4,23 @@ import {
   Typography, Box, Button, Image,
 } from '@usereservaapp/reserva-ui';
 import { images } from '../../assets';
+import ModalCheckUserConnection from '../../modules/Register/component/ModalCheckUserConnection';
+import useAuthModalStore from '../../zustand/useAuthModalStore';
 
 interface IuseCheckConnection {
   refetch?: () => void
 }
 
 export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
+  const { setModalCheckConnection } = useAuthModalStore(['setModalCheckConnection']);
+
   const [showScreen, setShowScreen] = React.useState<boolean>(false);
   const netInfo = useNetInfo();
 
   const checkConnectivity = () => {
     if (!netInfo.isConnected && netInfo.isConnected != null) {
       setShowScreen(true);
+      setModalCheckConnection(true);
     } else {
       setShowScreen(false);
       if (refetch) refetch();
@@ -26,6 +31,7 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
     NetInfo.fetch().then((state) => {
       if (!state.isConnected && state.isConnected != null) {
         setShowScreen(true);
+        setModalCheckConnection(true);
       } else {
         setShowScreen(false);
         if (refetch) refetch();
@@ -36,6 +42,16 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
   useEffect(() => {
     checkConnectivity();
   }, [netInfo]);
+
+  const ModalWithoutInternet = () => {
+    if (!showScreen) {
+      return (
+        <></>
+      );
+    }
+
+    return <ModalCheckUserConnection />;
+  };
 
   const WithoutInternet = () => {
     if (!showScreen) {
@@ -86,5 +102,6 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
   return {
     showScreen,
     WithoutInternet,
+    ModalWithoutInternet,
   };
 };

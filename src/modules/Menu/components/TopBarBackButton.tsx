@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import { Platform } from 'react-native';
-import { TopBar } from '@usereservaapp/reserva-ui';
 import { platformType } from '../../../utils/platformType';
+import { TopBar } from '../../../components/TopBar';
 
 export const TopBarBackButton: React.FC<{
   showShadow?: Boolean;

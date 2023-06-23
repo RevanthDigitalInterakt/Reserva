@@ -1,33 +1,71 @@
 import {
-  Box, Button, Icon, Typography,
+  Box, Icon, Typography,
 } from '@usereservaapp/reserva-ui';
-import Clipboard from '@react-native-community/clipboard';
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  Platform, SafeAreaView, ScrollView, TouchableOpacity,
+  ActivityIndicator,
+  Dimensions,
+  Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { images } from '../../../assets';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import CodeInput from '../../Login/components/CodeInput';
-import UnderlineInput from '../../Login/components/UnderlineInput';
+import UnderlineInput from '../../../components/UnderlineInput';
 import { platformType } from '../../../utils/platformType';
-import { useSignUpMutation } from '../../../base/graphql/generated';
+import {
+  SignUpDocumentTypeEnum,
+  useSignUpMutation, useSignUpVerificationCodeMutation,
+} from '../../../base/graphql/generated';
+import isValidCPF from '../../../utils/CPFValidator';
+import useAuthModalStore from '../../../zustand/useAuthModalStore';
+import { removeNonNumbers } from '../../../utils/removeNonNumbers';
+import { cpfMask } from '../../../utils/cpfMask';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import useInitialDito from '../../../hooks/useInitialDito';
+import EventProvider from '../../../utils/EventProvider';
+import ModalCheckUserConnection from '../component/ModalCheckUserConnection';
+import { getCopiedValue } from '../../../utils/CopyToClipboard';
+import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
 
 export interface ConfirmAccessCodeProps
   extends StackScreenProps<RootStackParamList, 'ConfirmAccessCode'> { }
 
-export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({ navigation, route }) => {
+const screenWidth = Dimensions.get('window').width;
+
+export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
+  navigation,
+  route,
+}) => {
+  const {
+    setModalSignUpComplete,
+    showModalCheckConnection,
+  } = useAuthModalStore(['setModalSignUpComplete', 'showModalCheckConnection']);
+  const [isLoading, setIsLoading] = useState(false);
   const { email, cookies } = route.params;
   const [showError, setShowError] = useState(false);
   const [code, setCode] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [passwords, setPasswords] = useState({ first: '', confirm: '' });
+  const [cpf, setCpf] = useState('');
+  const [requestCookie, setRequestCookie] = useState(cookies);
+  const [passwordError, setPasswordError] = useState('');
+  const [passwords, setPasswords] = useState({
+    first: '',
+    confirm: '',
+  });
   const { onSignIn, onUpdateAuthData } = useAuthStore(['onSignIn', 'onUpdateAuthData']);
+  const [CPFMessageError, setCPFMessageError] = useState('');
+  const [buttonDisabled, setDisabledButton] = useState(true);
+  const [signUpVerificationCode] = useSignUpVerificationCodeMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
+  const { ModalWithoutInternet } = useCheckConnection({});
+
+  const pasteCode = useCallback(async () => {
+    const payload = await getCopiedValue();
+    setCode(payload);
+  }, []);
 
   const passwordCheckHandler = () => ({
     equal: passwords.first === passwords.confirm,
@@ -40,79 +78,133 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({ navigation
   const [passwordsChecker, setPasswordChecker] = useState(
     passwordCheckHandler(),
   );
-  const { handleDitoRegister } = useInitialDito();
-
-  const pasteCode = useCallback(async () => {
-    const content = await Clipboard.getString();
-    setCode(content);
-  }, []);
 
   const enabledButton = () => passwordsChecker.equal
-    && passwordsChecker.digitsCount
-    && passwordsChecker.uppercase
-    && passwordsChecker.lowercase
-    && passwordsChecker.number;
+  && passwordsChecker.digitsCount
+  && passwordsChecker.uppercase
+  && passwordsChecker.lowercase
+  && passwordsChecker.number
+  && isValidCPF(cpf)
+  && code.length === 6;
 
   const [signUp, { data, error }] = useSignUpMutation({
-    context: { clientName: 'gateway' },
-    fetchPolicy: 'no-cache',
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
 
-  const handleCreatePassword = useCallback(async () => {
+  const { handleDitoRegister } = useInitialDito();
+
+  const handleSignUp = useCallback(async () => {
+    const variables = {
+      input: {
+        email,
+        code,
+        password: passwords.confirm,
+        document: removeNonNumbers(cpf),
+        documentType: SignUpDocumentTypeEnum.Cpf,
+        cookies: requestCookie,
+      },
+    };
+
+    if (isLoading) return;
+
+    setIsLoading(true);
     try {
-      if (loading) return;
+      const response = await signUp({ variables });
 
-      const variables = {
-        input: {
-          email,
-          code,
-          password: passwords.confirm,
-          cookies,
-        },
-      };
-
-      setShowError(error != null || code.length < 6);
-      setLoading(true);
-
-      const { data: dataSignUp } = await signUp({ variables });
-
-      if (dataSignUp?.signUp?.token && dataSignUp?.signUp?.authCookie) {
+      if (response?.data?.signUp?.token && response?.data?.signUp?.authCookie) {
         try {
           await onSignIn(email, passwords.confirm, true);
         } catch (err) {
-          //
+          EventProvider.captureException(err);
         }
 
-        await onUpdateAuthData(dataSignUp?.signUp?.token, dataSignUp?.signUp?.authCookie);
-
-        handleDitoRegister();
+        await onUpdateAuthData(response?.data?.signUp?.token, response?.data?.signUp?.authCookie);
+        // TODO rebase PR Feature/SRN-202 dito send accessed category
+        // handleDitoRegister();
+        setModalSignUpComplete(true);
         navigation.navigate('Home');
       }
-    } catch (err) {
-      if (err.message === 'Request failed with status code 400') {
-        setShowError(true);
-      }
+    } catch (e) {
+      setPasswords({
+        confirm: '',
+        first: '',
+      });
+      setCode('');
+      EventProvider.captureException(e);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }, [
-    loading, email, code, passwords.confirm, cookies, error, signUp, onSignIn, navigation,
+    code,
+    cpf,
+    email, isLoading,
+    navigation,
+    onSignIn,
+    onUpdateAuthData,
+    passwords.confirm,
+    requestCookie,
+    setModalSignUpComplete,
+    signUp,
   ]);
-
-  useEffect(() => {
-    if (error) {
-      setShowError(true);
-    }
-  }, [data]);
 
   useEffect(() => {
     setPasswordChecker(passwordCheckHandler());
   }, [passwords]);
 
+  const resendCode = useCallback(async () => {
+    try {
+      setIsLoading(true);
+
+      const response = await signUpVerificationCode({
+        variables: {
+          input: {
+            email,
+          },
+        },
+      });
+
+      if (response?.data?.signUpVerificationCode?.cookies) {
+        setRequestCookie(response?.data?.signUpVerificationCode?.cookies);
+      }
+    } catch (err) {
+      setIsLoading(false);
+      EventProvider.captureException(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [email, signUpVerificationCode]);
+
+  useEffect(() => {
+    if (error) {
+      setShowError(true);
+    }
+  }, [data, error]);
+
+  const verifyCPF = useCallback((value: string) => {
+    const newValue = removeNonNumbers(value);
+
+    if (!isValidCPF(newValue)) {
+      setCPFMessageError('CPF inválido. Tente novamente.');
+      return;
+    }
+
+    setCPFMessageError('');
+  }, []);
+
+  const applyCpfMask = useCallback((value: string) => {
+    if (value.length <= 14) {
+      const payload = cpfMask(value);
+      setCpf(payload);
+    }
+  }, []);
+
   const scrollViewRef = React.useRef<ScrollView>(null);
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
+
+      <ModalWithoutInternet />
+
       <ScrollView ref={scrollViewRef}>
         <>
           <KeyboardAwareScrollView
@@ -158,18 +250,66 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({ navigation
               <Box mx={20} mt={32}>
                 <Box mb={20}>
                   <Typography fontFamily="reservaSerifRegular" fontSize={22}>
+                    Dados pessoais
+                  </Typography>
+                </Box>
+
+                <Box
+                  flexDirection="row"
+                  borderBottomWidth="hairline"
+                  borderBottomColor={CPFMessageError !== '' ? 'vermelhoAlerta' : 'neutroFrio2'}
+                  justifyContent="space-between"
+                  style={{ overflow: 'hidden' }}
+                >
+                  <TextInput
+                    placeholder="Digite seu CPF"
+                    onChangeText={(value) => applyCpfMask(value)}
+                    autoCompleteType="off"
+                    autoCapitalize="none"
+                    onEndEditing={(e) => verifyCPF(e.nativeEvent.text)}
+                    keyboardType="number-pad"
+                    value={cpf}
+                    style={{
+                      padding: 0,
+                      margin: 0,
+                      flex: 1,
+                    }}
+                  />
+
+                </Box>
+
+                <Box mt={10}>
+                  <Text
+                    style={{ color: '#EF1E1E' }}
+                  >
+                    {CPFMessageError}
+
+                  </Text>
+                </Box>
+
+                <Box mb={20} mt={20}>
+                  <Typography fontFamily="reservaSerifRegular" fontSize={22}>
                     Agora, crie sua senha
                   </Typography>
                 </Box>
 
-                <UnderlineInput
-                  isSecureText
-                  accessibilityLabel="confirmaccess_input_password"
-                  onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
-                  onChangeText={(text) => setPasswords({ ...passwords, first: text })}
-                  placeholder="Digite sua nova senha"
-                />
-                <Box mt="sm">
+                <Box
+                  borderBottomWidth="hairline"
+                  borderBottomColor={passwordError !== '' ? 'vermelhoAlerta' : 'neutroFrio2'}
+                >
+                  <UnderlineInput
+                    isSecureText
+                    accessibilityLabel="confirmaccess_input_password"
+                    onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
+                    onChangeText={(text) => setPasswords({ ...passwords, first: text })}
+                    placeholder="Digite sua nova senha"
+                  />
+                </Box>
+                <Box
+                  mt="sm"
+                  borderBottomWidth="hairline"
+                  borderBottomColor={passwordError !== '' ? 'vermelhoAlerta' : 'neutroFrio2'}
+                >
                   <UnderlineInput
                     accessibilityLabel="confirmaccess_input_confirm_password"
                     isSecureText
@@ -178,6 +318,16 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({ navigation
                     placeholder="Confirme sua nova senha"
                   />
                 </Box>
+
+                <Box mt={10}>
+                  <Text
+                    style={{ color: '#EF1E1E' }}
+                  >
+                    {passwordError}
+
+                  </Text>
+                </Box>
+
                 <Box mt={22}>
                   <Typography>Sua senha deve ter pelo menos:</Typography>
                 </Box>
@@ -200,30 +350,65 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({ navigation
                   />
                 </Box>
                 <Box mb={20}>
-                  <Button
-                    mt={28}
-                    variant="primarioEstreito"
-                    title="CRIAR SENHA"
-                    onPress={handleCreatePassword}
-                    disabled={!enabledButton() || loading}
-                    inline
-                  />
+                  <TouchableOpacity
+                    onPress={handleSignUp}
+                    disabled={!enabledButton()}
+                    style={{
+                      opacity: !enabledButton() ? 0.35 : 1,
+                      backgroundColor: '#333333',
+                      padding: 20,
+                      marginVertical: 20,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {isLoading ? (
+                      <ActivityIndicator size="small" color="#ffffff" />
+                    ) : (
+                      <Typography fontFamily="nunitoBold" fontSize={16} color="white">
+                        CRIAR SENHA
+                      </Typography>
+                    )}
+                  </TouchableOpacity>
                 </Box>
               </Box>
             ) : (
-              <Box alignItems="center" mt="nano" mb="quarck">
-                <TouchableOpacity onPress={pasteCode}>
-                  <Typography
-                    fontFamily="nunitoRegular"
-                    fontSize={13}
-                    style={{ textDecorationLine: 'underline' }}
-                  >
-                    Colar código
-                  </Typography>
+              <>
+                <Box alignItems="center" mt="nano" mb="quarck">
+                  <TouchableOpacity onPress={pasteCode}>
+                    <Typography
+                      fontFamily="nunitoRegular"
+                      fontSize={13}
+                      style={{ textDecorationLine: 'underline' }}
+                    >
+                      Colar código
+                    </Typography>
+                  </TouchableOpacity>
+                </Box>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#333',
+                    padding: 15,
+                    marginHorizontal: 20,
+                    marginTop: 20,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  onPress={resendCode}
+                >
+                  {isLoading ? (
+                    <ActivityIndicator size="small" color="#ffffff" />
+                  ) : (
+                    <Typography fontFamily="nunitoBold" fontSize={14} color="white">
+                      REENVIAR CÓDIGO
+                    </Typography>
+                  )}
                 </TouchableOpacity>
-              </Box>
+              </>
             )}
           </KeyboardAwareScrollView>
+
+          {showModalCheckConnection && <ModalCheckUserConnection />}
         </>
       </ScrollView>
     </SafeAreaView>
