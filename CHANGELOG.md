@@ -8,6 +8,7 @@
 - [SRN-203 - DITO - Segmentação Busca](https://reserva.atlassian.net/browse/SRN-203)
 - [APP2022-1226 - Troca de telefone WhatsApp](https://reserva.atlassian.net/browse/APP2022-1226)
 - [SRN-141 - DITO - Segmentação Acessou departamento](https://reserva.atlassian.net/browse/SRN-141)
+- [SRN-281 - DITO - Segmentação Cadastro](https://reserva.atlassian.net/browse/SRN-281)
 
 ---
 

@@ -62,6 +62,20 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   });
   const { ModalWithoutInternet } = useCheckConnection({});
 
+  const trackEventSignUpDito = useCallback(async (emailDito: string, cpfDito: string) => {
+    EventProvider.sendTrackEvent(
+      'fez-cadastro', {
+        id: cpfDito,
+        action: 'fez-cadastro',
+        data: {
+          email: emailDito,
+          cpf: cpfDito,
+          origem: 'app',
+        },
+      },
+    );
+  }, []);
+
   const pasteCode = useCallback(async () => {
     const payload = await getCopiedValue();
     setCode(payload);
@@ -111,6 +125,8 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     try {
       const response = await signUp({ variables });
 
+      trackEventSignUpDito(email, removeNonNumbers(cpf));
+
       if (response?.data?.signUp?.token && response?.data?.signUp?.authCookie) {
         try {
           await onSignIn(email, passwords.confirm, true);
@@ -145,6 +161,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     requestCookie,
     setModalSignUpComplete,
     signUp,
+    trackEventSignUpDito,
   ]);
 
   useEffect(() => {
