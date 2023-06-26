@@ -914,7 +914,7 @@ export type ProductSizeOutput = {
   itemId: Scalars['ID'];
   /** Price without discount (original price) - may be null if the original price is equal to current price */
   listPrice: Scalars['Float'];
-  prime: PrimeInfoOutput;
+  prime?: Maybe<PrimeInfoOutput>;
   seller: Scalars['String'];
   size: Scalars['String'];
 };
@@ -1224,7 +1224,7 @@ export type ProductColorFragmentFragment = { __typename?: 'ProductColorOutput', 
 
 export type ProductSizeFragmentFragment = { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } };
 
-export type ProfileFragmentFragment = { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> };
+export type ProfileFragmentFragment = { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, isPrime: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> };
 
 export type OrderFormAddDiscountCouponMutationVariables = Exact<{
   orderFormId: Scalars['String'];
@@ -1321,7 +1321,7 @@ export type ProfileUpdateMutationVariables = Exact<{
 }>;
 
 
-export type ProfileUpdateMutation = { __typename?: 'Mutation', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> } };
+export type ProfileUpdateMutation = { __typename?: 'Mutation', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, isPrime: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> } };
 
 export type ProfileAddressMutationVariables = Exact<{
   input: UpsertProfileAddressInput;
@@ -1487,7 +1487,7 @@ export type ProductRecommendationsQuery = { __typename?: 'Query', productRecomme
 export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> } };
+export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, isPrime: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> } };
 
 export type RonRedirectQueryVariables = Exact<{
   code: Scalars['String'];
@@ -1655,6 +1655,7 @@ export const ProfileFragmentFragmentDoc = gql`
   homePhone
   gender
   isComplete
+  isPrime
   addresses {
     id
     receiverName

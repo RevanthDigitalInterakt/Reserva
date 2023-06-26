@@ -248,12 +248,15 @@ const DeliveryType = async (orderFormId: any) => {
   return response;
 };
 
-const GetPurchaseData = async (orderGroup: any, cookie: string | null) => {
-  const response = await vtexConfig7.get(
-    `/checkout/pub/orders/order-group/${orderGroup}`,
-
-  );
-  return response;
+const GetPurchaseData = async (orderGroup: any) => {
+  try {
+    const response = await vtexConfig7.get(
+      `/checkout/pub/orders/order-group/${orderGroup}`,
+    );
+    return response;
+  } catch (err) {
+    EventProvider.captureException(err);
+  }
   // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)
   // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo
   // place order para varias compras.

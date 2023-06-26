@@ -145,7 +145,7 @@ class EventProvider {
 
     if (onlyGaEvents.includes(eventName)) return;
 
-    const afEventName = eventsName[args[0]];
+    const afEventName = eventsName[eventName];
     const afEventsValues = this.parseValues(eventValues);
 
     this.appsFlyer.logEvent(afEventName, afEventsValues, (_) => { }, (error) => {
