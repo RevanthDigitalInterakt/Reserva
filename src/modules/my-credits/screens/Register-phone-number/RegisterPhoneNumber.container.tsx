@@ -21,7 +21,6 @@ interface RegisterPhoneNumberContainerProps {
   isChangeNumber?: boolean;
   confirmPhone?: boolean;
   navigateBack: () => void;
-  navigateToError: () => void;
   navigateToNumberRegisteredSuccessfully: () => void;
 }
 
@@ -30,11 +29,9 @@ export const RegisterPhoneNumberContainer = ({
   isChangeNumber,
   confirmPhone,
   navigateBack,
-  navigateToError,
   navigateToNumberRegisteredSuccessfully,
 }: RegisterPhoneNumberContainerProps) => {
   const [phone, setPhone] = useState('');
-  const [token, setToken] = useState('');
   const [code, setCode] = useState('');
   const [openConfirmCodeSection, setOpenConfirmCodeSection] = useState(false);
   const [loadingToken, setLoadingToken] = useState(false);
@@ -43,7 +40,7 @@ export const RegisterPhoneNumberContainer = ({
   const [startChronometer, setStartChronometer] = useState(false);
   const [phoneInvalid, setPhoneInvalid] = useState<boolean>(false);
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
-  const [{ data: dataProfile, loadingProfile }, setDataProfile] = useState({
+  const [{ data: dataProfile }, setDataProfile] = useState({
     data: null,
     loadingProfile: true,
   });

@@ -5,8 +5,7 @@ import { SafeAreaView } from 'react-native';
 import {
   Typography, Box, Button,
 } from '@usereservaapp/reserva-ui';
-import { images } from '../../../assets';
-
+import images from '../../../base/styles/icons';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import UnderlineInput from '../../../components/UnderlineInput';
 import HeaderBanner from '../componet/HeaderBanner';

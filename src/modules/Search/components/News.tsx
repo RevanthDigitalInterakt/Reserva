@@ -1,10 +1,11 @@
 import React from 'react';
 import { FlatList, Platform } from 'react-native';
 import {
-  Box, Button, Typography, Image,
+  Box, Button, Typography,
 } from '@usereservaapp/reserva-ui';
-import { ConfigCollection } from 'graphql/homePage/HomeQuery';
 import { platformType } from '../../../utils/platformType';
+import ImageComponent from '../../../components/ImageComponent/ImageComponent';
+import type { ConfigCollection } from '../../../graphql/homePage/HomeQuery';
 
 interface INews {
   data: ConfigCollection[];
@@ -39,12 +40,11 @@ export const News = ({ data, onPress }: INews) => (
             style={{ elevation: Platform.OS === platformType.ANDROID ? 4 : 0 }}
             boxShadow={Platform.OS === platformType.ANDROID ? null : 'topBarShadow'}
           >
-            <Image
+            <ImageComponent
               borderRadius={8}
-              autoHeight
               height={154}
               width={286}
-              source={{ uri: item.image.url }}
+              source={{ uri: item?.image?.url }}
             />
           </Button>
         ) : null)}

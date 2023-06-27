@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
+import type { AxiosInstance, AxiosResponse } from 'axios';
 import { cashbackInstance } from '../../config/cashbackConfig';
 
 type GetTokenResponse = {

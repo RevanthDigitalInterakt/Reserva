@@ -37,6 +37,7 @@ export interface TextProps {
 export interface Carousel {
   type: CarrouselTypes;
   title: string;
+  url: string;
   showtime?: number;
   itemsCollection: {
     items: CarrouselCard[];
@@ -70,8 +71,6 @@ export interface CarrouselCard {
   description: string;
   reference: string;
   orderBy: string;
-  linkMktIn?: string;
-  mkt: boolean;
   filters?: IQueryFilters
 }
 
@@ -86,7 +85,6 @@ export interface ICountDownClock {
   descriptionModal: string;
   reference: string;
   formattedValue?: string | undefined;
-  linkMktIn: string;
 }
 
 export const homeQuery = gql`
@@ -100,8 +98,6 @@ export const homeQuery = gql`
             showtime
             itemsCollection(limit: 3) {
               items {
-                mkt
-                linkMktIn
                 image {
                   fileName
                   size
@@ -132,13 +128,9 @@ export const homeQuery = gql`
         }
         mediasCollection {
           items {
-            mkt
             orderBy
             reference
             reservaMini
-            isLandingPage
-            landingPageId
-            linkMktIn
             image {
               fileName
               title
@@ -171,9 +163,7 @@ export const bannerQuery = gql`
       items {
         name
         item {
-          mkt
           texto
-          linkMktIn
           image {
             url
             height
@@ -189,8 +179,6 @@ export const bannerDefaultQuery = gql`
       items {
         name
         item {
-          mkt
-          linkMktIn
           image {
             url
           }

@@ -1,18 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image } from '@usereservaapp/reserva-ui';
-import { FlatList, useWindowDimensions, View } from 'react-native';
+import { FlatList, View, useWindowDimensions } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import Config from 'react-native-config';
+
+import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
 import {
-  brandsCarouselQuery,
   IBrandCarouselItem,
   IBrandsCarouselQuery,
+  brandsCarouselQuery,
 } from '../../../../graphql/brands/brandsCarouselQuery';
-import { BrandContainer, brandShadowContainer, styles } from './styles/styles';
 import EventProvider from '../../../../utils/EventProvider';
 import testProps from '../../../../utils/testProps';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
+import { BrandContainer, brandShadowContainer, styles } from './styles/styles';
 
 const BrandsComponent = (): JSX.Element => {
   const [brands, setBrands] = useState<IBrandCarouselItem[]>([]);
@@ -38,7 +39,7 @@ const BrandsComponent = (): JSX.Element => {
     } catch (error) {
       EventProvider.captureException(error);
     }
-  }, []);
+  }, [navigation]);
 
   useEffect(() => {
     (async () => {
@@ -54,7 +55,7 @@ const BrandsComponent = (): JSX.Element => {
         EventProvider.captureException(error);
       }
     })();
-  }, []);
+  }, [getBrands]);
 
   return (
     <FlatList
@@ -75,7 +76,7 @@ const BrandsComponent = (): JSX.Element => {
           reference,
         },
         index,
-      }): JSX.Element => (
+      }) => (
         <BrandContainer
           {...testProps(`com.usereserva:id/brands_brand_container-${index}`)}
           deviceWidth={width}
@@ -85,14 +86,18 @@ const BrandsComponent = (): JSX.Element => {
           style={brandShadowContainer}
         >
           {url ? (
-            <Image
+            <ImageComponent
               source={{ uri: url }}
-              autoHeight
-              resizeMode="contain"
-              style={styles.brandImageCarousel}
+              style={{
+                maxHeight: 20,
+                width: 60,
+                height: 20,
+                maxWidth: 60,
+              }}
             />
           ) : <View />}
         </BrandContainer>
+
       )}
     />
 

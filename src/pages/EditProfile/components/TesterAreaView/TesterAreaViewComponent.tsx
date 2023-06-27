@@ -18,7 +18,6 @@ function TesterAreaViewComponent({
 }: ITesterAreaViewComponentProps): JSX.Element {
   const [oneSignalToken, setOneSignalToken] = useState<string>('');
   const [isTesting, setIsTesting] = useState<boolean>(false);
-  const [onboardingView, setOnboardingView] = useState<boolean>(false);
   const { getItem, setItem } = useAsyncStorageProvider();
   const { orderForm } = useCart();
 
@@ -26,11 +25,6 @@ function TesterAreaViewComponent({
     handleToggleModalTesting();
     await setItem('isTesting', currentValue);
     setIsTesting(currentValue);
-  }, []);
-
-  const handleViewOnboarding = useCallback(async (currentValue: boolean) => {
-    await setItem('isAppFirstLaunched', currentValue);
-    setOnboardingView(currentValue);
   }, []);
 
   const getTokenOneSignal = useCallback(async () => {
@@ -41,9 +35,6 @@ function TesterAreaViewComponent({
   const handleInitStateToggles = useCallback(async () => {
     const isTesterUser = await getItem('isTesting') || false;
     setIsTesting(isTesterUser);
-
-    const onboarding = await getItem('isAppFirstLaunched') || false;
-    setOnboardingView(onboarding);
   }, []);
 
   useFocusEffect(
@@ -80,22 +71,6 @@ function TesterAreaViewComponent({
             thumbColor="vermelhoAlerta"
             color="preto"
             value={isTesting}
-          />
-        </Box>
-      </Box>
-      <Box flexDirection="row" marginY="micro" alignItems="center">
-        <Box flex={1}>
-          <Typography variant="subtituloSessoes">
-            Ativar Onboarding
-          </Typography>
-        </Box>
-        <Box marginLeft="xxxs">
-          <Toggle
-            testID="com.usereserva:id/testerAreaView_button_toogle_onboarding_view"
-            onValueChange={handleViewOnboarding}
-            thumbColor="vermelhoAlerta"
-            color="preto"
-            value={onboardingView}
           />
         </Box>
       </Box>

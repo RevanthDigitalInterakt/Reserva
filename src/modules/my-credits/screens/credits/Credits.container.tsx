@@ -1,45 +1,26 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { LoadingScreen } from '../../../../common/components/LoadingScreen';
-import { ProfileVars } from '../../../../graphql/profile/profileQuery';
+import React, { useEffect, useState } from 'react';
+import type { ProfileVars } from '../../../../graphql/profile/profileQuery';
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import {
   CashbackHttpUrl, GetCustomerResponse, MyCreditsAPI,
 } from '../../api/MyCreditsAPI';
-import { RemoteConfigService } from '../../../../shared/services/RemoteConfigService';
 import { StorageService, StorageServiceKeys } from '../../../../shared/services/StorageService';
 import { CreditsView } from './Credits.view';
 import EventProvider from '../../../../utils/EventProvider';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
+import LoadingScreen from '../../../../components/LoadingScreen/LoadingScreen';
 
 interface CreditsContainerProps {
   navigateBack: () => void;
-  navigateToError: () => void;
-  navigateToCashbackInStore: (isLoyal: boolean, costumerDocument: string) => void;
 }
 
-export const CreditsContainer = (
-  {
-    navigateBack,
-    navigateToError,
-    navigateToCashbackInStore,
-  }: CreditsContainerProps,
-) => {
+export const CreditsContainer = ({ navigateBack }: CreditsContainerProps) => {
   const [creditsBalance, setCreditsBalance] = useState<number>(0);
-  const [isLoyal, setIsLoyal] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [isLoyal, setIsLoyal] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<ProfileVars>();
-  const [
-    screenCashbackInStoreActive,
-    setScreenCashbackInStoreActive,
-  ] = useState<boolean>(false);
 
-  // covert cents to real
   const convertCentsToReal = (cents: number) => cents / 100;
-
-  const getIsScreenCashbackInStoreActive = async () => {
-    const cashback_in_store = await RemoteConfigService.getValue<boolean>('FEATURE_CASHBACK_IN_STORE');
-    setScreenCashbackInStoreActive(cashback_in_store);
-  };
 
   const getCreditBalance = async (cpf: string) => {
     const customer = await MyCreditsAPI.get<GetCustomerResponse>(
@@ -67,14 +48,7 @@ export const CreditsContainer = (
     }).then((value) => {
       setProfile(value);
     });
-    getIsScreenCashbackInStoreActive();
   }, []);
-
-  const handleNavigateToCashbackInStore = () => {
-    if (profile) {
-      navigateToCashbackInStore(isLoyal, profile.document);
-    }
-  };
 
   useEffect(() => {
     if (profile && profile.document) {
@@ -92,11 +66,7 @@ export const CreditsContainer = (
         backButtonPress={navigateBack}
       />
       { !loading ? (
-        <CreditsView
-          creditsBalance={creditsBalance}
-          handleNavigateToCashbackInStore={handleNavigateToCashbackInStore}
-          screenCashbackInStoreActive={screenCashbackInStoreActive}
-        />
+        <CreditsView creditsBalance={creditsBalance} />
       ) : (
         <LoadingScreen />
       )}

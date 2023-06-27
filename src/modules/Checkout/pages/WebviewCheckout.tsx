@@ -14,7 +14,6 @@ import Config from 'react-native-config';
 import { URL } from 'react-native-url-polyfill';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
-import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
 import EventProvider from '../../../utils/EventProvider';
 import { adaptOrderFormItemsTrack } from '../../../utils/adaptOrderFormItemsTrack';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
@@ -37,12 +36,10 @@ const Checkout: React.FC<{}> = () => {
   const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState('https://lojausereservaqa.myvtex.com/_v/segment/admin-login/v1/login?returnUrl=%2F%3F');
   const [attemps, setAttemps] = useState(0);
-  const [orderId, setOrderId] = useState('');
   const [totalOrdersValue, setTotalOrdersValue] = useState<number>(0);
 
   const { getItem } = useAsyncStorageProvider();
 
-  const [showPromotionModal, setShowPromotionModal] = useState(false);
   const { profile } = useAuthStore(['profile']);
 
   useEffect(() => {
@@ -115,17 +112,6 @@ const Checkout: React.FC<{}> = () => {
     }
     if (isOrderPlaced) execute();
   }, [isOrderPlaced]);
-
-  const onHandlePromotionModal = useCallback((orderPrice: number) => {
-    if (orderPrice < 250 || showPromotionModal) return;
-
-    const orderIdString = getOrderId();
-
-    if (orderIdString) {
-      setOrderId(orderIdString);
-      setTimeout(() => setShowPromotionModal(true), 4000);
-    }
-  }, [getOrderId, showPromotionModal]);
 
   const goToHome = () => {
     if (isOrderPlaced) {
@@ -226,7 +212,6 @@ const Checkout: React.FC<{}> = () => {
             afRevenue = (revenueTotal / 100).toFixed(2);
           }
 
-          onHandlePromotionModal(orderValue);
           EventProvider.OneSignal.sendOutcomeWithValue('Purchase', (orderValue).toFixed(2));
 
           EventProvider.appsFlyer.logEvent('af_purchase', {
@@ -371,12 +356,6 @@ const Checkout: React.FC<{}> = () => {
           testID="com.usereserva:id/checkout_button_back_to_home"
         />
       )}
-
-      <ModalChristmasCoupon
-        isVisible={showPromotionModal}
-        orderId={orderId}
-        onClose={() => setShowPromotionModal(false)}
-      />
     </View>
   );
 };

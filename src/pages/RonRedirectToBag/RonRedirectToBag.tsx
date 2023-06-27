@@ -15,8 +15,9 @@ import { defaultBrand } from '../../utils/defaultWBrand';
 import { RonRedirectTypeEnum, useRonRedirectLazyQuery } from '../../base/graphql/generated';
 import { urlHandler } from '../../config/linking';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
-import { LoadingScreen } from '../../common/components/LoadingScreen';
 import Sentry from '../../config/sentryConfig';
+import { COLORS } from '../../base/styles/colors';
+import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
 
 interface IWiduResponse {
   destinyLink: string;
@@ -147,7 +148,7 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
   }, [ronCode, handleRedirect, finished]);
 
   return (
-    <SafeAreaView style={{ justifyContent: 'space-between', flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ justifyContent: 'space-between', flex: 1, backgroundColor: COLORS.WHITE }}>
       <TopBarBackButton showShadow loading={topBarLoading} />
 
       <LoadingScreen />

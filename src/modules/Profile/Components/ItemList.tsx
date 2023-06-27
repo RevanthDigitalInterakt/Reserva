@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
 import {
@@ -18,42 +17,38 @@ interface ItemListProps {
 
 const ItemList = ({
   onPress, icon, title, descr, arrowDown, dropdownActive,
-}: ItemListProps) => {
-  const navigation = useNavigation();
-
-  return (
-    <>
-      <TouchableOpacity
-        onPress={onPress}
-        {...testProps(`com.usereserva:id/generic_button_${slugify(title)}`)}
-      >
-        <Box mb="micro" mt="micro" flexDirection="row" alignItems="center" justifyContent="space-between">
-          <Box flexDirection="row" alignItems="center">
-            <Box pr="micro" justifyContent="flex-start">
-              {icon != undefined && <Icon name={icon} size={20} />}
-            </Box>
-
-            <Box>
-              <Typography fontSize={14} fontFamily="nunitoBold">
-                {title}
-              </Typography>
-              <Typography fontSize={14} fontFamily="nunitoRegular">
-                {descr}
-              </Typography>
-            </Box>
+}: ItemListProps) => (
+  <>
+    <TouchableOpacity
+      onPress={onPress}
+      {...testProps(`com.usereserva:id/generic_button_${slugify(title)}`)}
+    >
+      <Box mb="micro" mt="micro" flexDirection="row" alignItems="center" justifyContent="space-between">
+        <Box flexDirection="row" alignItems="center">
+          <Box pr="micro" justifyContent="flex-start">
+            {icon !== undefined && <Icon name={icon} size={20} />}
           </Box>
-          <Box alignItems="center" justifyContent="center">
-            {arrowDown && (
-              <Box alignItems="center" justifyContent="center">
-                <Icon name={dropdownActive ? 'ArrowUp' : 'ArrowDown'} color="vermelhoAlerta" size={18} />
-              </Box>
-            )}
+
+          <Box>
+            <Typography fontSize={14} fontFamily="nunitoBold">
+              {title}
+            </Typography>
+            <Typography fontSize={14} fontFamily="nunitoRegular">
+              {descr}
+            </Typography>
           </Box>
         </Box>
-      </TouchableOpacity>
-      <Divider variant="fullWidth" />
-    </>
-  );
-};
+        <Box alignItems="center" justifyContent="center">
+          {arrowDown && (
+          <Box alignItems="center" justifyContent="center">
+            <Icon name={dropdownActive ? 'ArrowUp' : 'ArrowDown'} color="vermelhoAlerta" size={18} />
+          </Box>
+          )}
+        </Box>
+      </Box>
+    </TouchableOpacity>
+    <Divider variant="fullWidth" />
+  </>
+);
 
 export default ItemList;

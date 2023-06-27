@@ -1,12 +1,12 @@
-import type { GetExpireBalanceResponse, GetUserOperationsResponse } from 'modules/my-cashback/api/MyCashbackAPI';
+import {
+  Box, Button, Icon, Typography,
+} from '@usereservaapp/reserva-ui';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import { PriceCustom } from '../../../Checkout/components/PriceCustom';
+import type { GetExpireBalanceResponse, GetUserOperationsResponse } from '../../api/MyCashbackAPI';
 import { BalanceType, FilterOptions } from './MyWallet.container';
 
 export interface MyWalletViewProps {

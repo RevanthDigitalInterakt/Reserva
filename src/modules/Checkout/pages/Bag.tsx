@@ -7,8 +7,6 @@ import {
   Button,
   Divider,
   Icon,
-  Image,
-  ProductHorizontalListCard,
   RadioButtons,
   TextField,
   Typography,
@@ -37,7 +35,7 @@ import { IOrderFormItem, OrderForm, useCart } from '../../../context/CartContext
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { Attachment, RemoveItemFromCart } from '../../../services/vtexService';
-import { ProductUtils } from '../../../shared/utils/productUtils';
+import { ProductUtils } from '../../../utils/productUtils';
 import EventProvider from '../../../utils/EventProvider';
 import { slugify } from '../../../utils/slugify';
 import { CouponBadge } from '../components/CouponBadge';
@@ -48,7 +46,6 @@ import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
 import { platformType } from '../../../utils/platformType';
 import { getPercent } from '../../../utils/getPercent';
-import { MktplaceName } from '../../MarketplaceIn/components/MktPlaceName';
 import {
   getAFContent,
   getAFContentId, getAFContentType, getQuantity, sumQuantity,
@@ -58,7 +55,9 @@ import { getBrands } from '../../../utils/getBrands';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import ImageComponent from '../../../components/ImageComponent/ImageComponent';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { ProductHorizontalListCard } from '../../../components/ProductHorizontalListCard/ProductHorizontalListCard';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -887,12 +886,14 @@ export const BagScreen = ({ route }: Props) => {
                   && orderForm.selectableGifts.length > 0
                   && giftImage && (
                     <Box flexDirection="row" minHeight={152} mt={20}>
-                      <Image
-                        source={giftImage}
+                      <ImageComponent
+                        source={{ uri: giftImage }}
+                        style={{
+                          width: screenWidth * 0.25,
+                          height: 152,
+                        }}
                         width={screenWidth * 0.25}
-                        height={152}
                       />
-
                       <Box ml={12} flex={1} minHeight={152}>
                         <Box minHeight={93}>
                           <Box>
@@ -1093,16 +1094,12 @@ export const BagScreen = ({ route }: Props) => {
                           </Box>
                           )}
                           <ProductHorizontalListCard
-                            isBag
-                            mktplaceNameComponent={
-                              <MktplaceName sellerId={item.seller} showIconModalInfo />
-                            }
                             discountApi={
                               item.priceTags.find(
                                 (x) => x.identifier
                                   === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
                               )
-                                ? parseInt(`${item.priceTags[0].rawValue}`)
+                                ? parseInt(`${item?.priceTags[0]?.rawValue}`, 10)
                                 : undefined
                             }
                             disableCounter={

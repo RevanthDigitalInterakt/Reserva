@@ -7,10 +7,10 @@ import {
   Typography, Box,
 } from '@usereservaapp/reserva-ui';
 
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 
 interface DataExplanationProps {
   origin: string;

@@ -1,17 +1,21 @@
-import { ProfileVars } from 'graphql/profile/profileQuery';
-import React, { Fragment, useEffect, useState } from 'react';
-import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
+import React, { useEffect, useState } from 'react';
+import type { ProfileVars } from '../../../../graphql/profile/profileQuery';
 import { StorageService, StorageServiceKeys } from '../../../../shared/services/StorageService';
-import {
-  CashbackHttpUrl, GetDigitalWalletResponse, GetExpireBalanceResponse, GetUserOperationsResponse, MyCashbackAPI, UserOperations,
-} from '../../api/MyCashbackAPI';
-import { MyWalletView } from './MyWallet.view';
 import EventProvider from '../../../../utils/EventProvider';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
+import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
+import {
+  CashbackHttpUrl,
+  GetDigitalWalletResponse,
+  GetExpireBalanceResponse,
+  GetUserOperationsResponse,
+  MyCashbackAPI,
+  UserOperations,
+} from '../../api/MyCashbackAPI';
+import { MyWalletView } from './MyWallet.view';
 
 interface MyWalletContainerProps {
   navigateBack: () => void;
-  navigateToError: () => void;
 }
 
 export enum FilterOptions {
@@ -27,11 +31,7 @@ export enum BalanceType {
   FUTURE = 'future',
 }
 
-export const MyWalletContainer = (
-  {
-    navigateBack,
-  }: MyWalletContainerProps,
-) => {
+export const MyWalletContainer = ({ navigateBack }: MyWalletContainerProps) => {
   const [balance, setBalance] = useState<number>(0);
   const [operationFilter, setOperationFilter] = useState<FilterOptions>(FilterOptions.ALL);
   const [userOperations, setUserOperations] = useState<GetUserOperationsResponse | null>(null);
@@ -158,8 +158,6 @@ export const MyWalletContainer = (
     const day = dateFormated.getDate();
     const month = (dateFormated.getMonth() + 1).toString().padStart(2, '0');
     const year = dateFormated.getFullYear();
-    const hours = dateFormated.getHours();
-    const minutes = dateFormated.getMinutes();
 
     return `${day}/${month}/${year}`;
   };

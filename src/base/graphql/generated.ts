@@ -17,6 +17,52 @@ export type Scalars = {
   Float: number;
 };
 
+export type CashbackExpirationInfoOutput = {
+  __typename?: 'CashbackExpirationInfoOutput';
+  cashbackToExpire: Array<CashbackExpirationItemOutput>;
+  totalExpireBalanceInCents: Scalars['String'];
+};
+
+export type CashbackExpirationItemOutput = {
+  __typename?: 'CashbackExpirationItemOutput';
+  expireAt: Scalars['String'];
+  expireCashbackAmount: Scalars['String'];
+  expireCashbackProgramRefId: Scalars['String'];
+  expireDays: Scalars['Float'];
+  expireOperationId: Scalars['String'];
+  expireOrderId: Scalars['String'];
+  expireStatus: Scalars['String'];
+};
+
+export type CashbackOperationOutput = {
+  __typename?: 'CashbackOperationOutput';
+  appliedBalanceInCents: Scalars['Float'];
+  cashbackAmountInCents: Scalars['Float'];
+  createdAt: Scalars['String'];
+  currentBalanceInCents: Scalars['Float'];
+  externalOrderAmountInCents: Scalars['Float'];
+  externalOrderId: Scalars['String'];
+  requestedCashback: Scalars['Boolean'];
+  settlementDate: Scalars['String'];
+  status: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type CashbackOutput = {
+  __typename?: 'CashbackOutput';
+  expiration: CashbackExpirationInfoOutput;
+  operations: Array<CashbackOperationOutput>;
+  wallet: CashbackWalletOutput;
+};
+
+export type CashbackWalletOutput = {
+  __typename?: 'CashbackWalletOutput';
+  balanceExpiresOn?: Maybe<Scalars['String']>;
+  balanceInCents: Scalars['Float'];
+  pendingBalanceInCents: Scalars['Float'];
+  userStatus: Scalars['String'];
+};
+
 export type CepInput = {
   cep: Scalars['String'];
 };
@@ -592,6 +638,7 @@ export type OrderformItemOutput = {
   isAssinaturaSimples: Scalars['Boolean'];
   isGift: Scalars['Boolean'];
   isGiftable: Scalars['Boolean'];
+  isPrimeSubscription: Scalars['Boolean'];
   itemColor: Scalars['String'];
   itemSize: Scalars['String'];
   key: Scalars['String'];
@@ -762,6 +809,7 @@ export type PrimeDetailOutput = {
   monthlyCashback: Scalars['Float'];
   productId: Scalars['Int'];
   productSeller: Scalars['String'];
+  skuId: Scalars['Int'];
 };
 
 export type PrimeInfoOutput = {
@@ -984,6 +1032,7 @@ export type ProfileUpdateInput = {
 
 export type Query = {
   __typename?: 'Query';
+  cashback: CashbackOutput;
   cep?: Maybe<CepOutput>;
   checkIfUserExists: Scalars['Boolean'];
   checkSearchRedirect?: Maybe<Scalars['String']>;
@@ -1495,18 +1544,6 @@ export type RonRedirectQueryVariables = Exact<{
 
 
 export type RonRedirectQuery = { __typename?: 'Query', ronRedirect?: { __typename?: 'RonRedirectOutput', type: RonRedirectTypeEnum, url?: string | null, orderFormId?: string | null } | null };
-
-export type SellerInfoQueryVariables = Exact<{
-  sellerId: Scalars['String'];
-}>;
-
-
-export type SellerInfoQuery = { __typename?: 'Query', sellerInfo?: { __typename?: 'SellerInfoOutput', sellerId: string, texto?: string | null, logo?: string | null, bannerMobile?: string | null, sellerName?: string | null, linkApp?: string | null } | null };
-
-export type SellersMktinQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SellersMktinQuery = { __typename?: 'Query', sellersMktin: Array<string> };
 
 export type WishlistCheckProductQueryVariables = Exact<{
   input: WishlistCheckProductInput;
@@ -3553,84 +3590,6 @@ export type RonRedirectLazyQueryHookResult = ReturnType<typeof useRonRedirectLaz
 export type RonRedirectQueryResult = Apollo.QueryResult<RonRedirectQuery, RonRedirectQueryVariables>;
 export function refetchRonRedirectQuery(variables: RonRedirectQueryVariables) {
       return { query: RonRedirectDocument, variables: variables }
-    }
-export const SellerInfoDocument = gql`
-    query sellerInfo($sellerId: String!) {
-  sellerInfo(input: {sellerId: $sellerId}) {
-    sellerId
-    texto
-    logo
-    bannerMobile
-    sellerName
-    linkApp
-  }
-}
-    `;
-
-/**
- * __useSellerInfoQuery__
- *
- * To run a query within a React component, call `useSellerInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useSellerInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSellerInfoQuery({
- *   variables: {
- *      sellerId: // value for 'sellerId'
- *   },
- * });
- */
-export function useSellerInfoQuery(baseOptions: Apollo.QueryHookOptions<SellerInfoQuery, SellerInfoQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SellerInfoQuery, SellerInfoQueryVariables>(SellerInfoDocument, options);
-      }
-export function useSellerInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SellerInfoQuery, SellerInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SellerInfoQuery, SellerInfoQueryVariables>(SellerInfoDocument, options);
-        }
-export type SellerInfoQueryHookResult = ReturnType<typeof useSellerInfoQuery>;
-export type SellerInfoLazyQueryHookResult = ReturnType<typeof useSellerInfoLazyQuery>;
-export type SellerInfoQueryResult = Apollo.QueryResult<SellerInfoQuery, SellerInfoQueryVariables>;
-export function refetchSellerInfoQuery(variables: SellerInfoQueryVariables) {
-      return { query: SellerInfoDocument, variables: variables }
-    }
-export const SellersMktinDocument = gql`
-    query sellersMktin {
-  sellersMktin
-}
-    `;
-
-/**
- * __useSellersMktinQuery__
- *
- * To run a query within a React component, call `useSellersMktinQuery` and pass it any options that fit your needs.
- * When your component renders, `useSellersMktinQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSellersMktinQuery({
- *   variables: {
- *   },
- * });
- */
-export function useSellersMktinQuery(baseOptions?: Apollo.QueryHookOptions<SellersMktinQuery, SellersMktinQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SellersMktinQuery, SellersMktinQueryVariables>(SellersMktinDocument, options);
-      }
-export function useSellersMktinLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SellersMktinQuery, SellersMktinQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SellersMktinQuery, SellersMktinQueryVariables>(SellersMktinDocument, options);
-        }
-export type SellersMktinQueryHookResult = ReturnType<typeof useSellersMktinQuery>;
-export type SellersMktinLazyQueryHookResult = ReturnType<typeof useSellersMktinLazyQuery>;
-export type SellersMktinQueryResult = Apollo.QueryResult<SellersMktinQuery, SellersMktinQueryVariables>;
-export function refetchSellersMktinQuery(variables?: SellersMktinQueryVariables) {
-      return { query: SellersMktinDocument, variables: variables }
     }
 export const WishlistCheckProductDocument = gql`
     query wishlistCheckProduct($input: WishlistCheckProductInput!) {

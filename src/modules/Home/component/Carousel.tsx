@@ -1,8 +1,8 @@
 import React, {
   useCallback, useMemo, useRef, useState,
 } from 'react';
-import { TouchableHighlight, View } from 'react-native';
-import { Box, Image } from '@usereservaapp/reserva-ui';
+import { Pressable, View } from 'react-native';
+import { Box } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import Carousel from 'react-native-reanimated-carousel';
 import type { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescript/types';
@@ -10,6 +10,7 @@ import type { Carousel as CarouselType, CarrouselCard } from '../../../graphql/h
 import CarrouselScrollIndicator from './CarouselScrollIndicator';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
 import testProps from '../../../utils/testProps';
+import ImageComponent from '../../../components/ImageComponent/ImageComponent';
 
 interface DefaultCarrouselProps {
   carrousel: CarouselType;
@@ -27,7 +28,7 @@ const DefaultCarrousel = ({ carrousel }: DefaultCarrouselProps) => {
     const cc: CarrouselCard[] = [];
 
     (carrousel?.itemsCollection?.items || []).map((c: CarrouselCard) => {
-      if (!c.mkt) cc.push(c);
+      cc.push(c);
       return c;
     });
 
@@ -42,12 +43,8 @@ const DefaultCarrousel = ({ carrousel }: DefaultCarrouselProps) => {
 
   const onPressImage = useCallback((item: CarrouselCard) => {
     const {
-      linkMktIn, reference, reservaMini, orderBy, filters,
+      reference, reservaMini, orderBy, filters,
     } = item;
-
-    if (linkMktIn) {
-      return navigation.navigate(linkMktIn);
-    }
 
     const facetInput = [];
     const [categoryType, categoryData] = reference?.split(':') || [undefined, undefined];
@@ -71,7 +68,7 @@ const DefaultCarrousel = ({ carrousel }: DefaultCarrouselProps) => {
         priceFilter: filters?.priceFilter,
       },
     });
-  }, []);
+  }, [navigation]);
 
   if (carrouselCards.length > 0) {
     return (
@@ -91,26 +88,20 @@ const DefaultCarrousel = ({ carrousel }: DefaultCarrouselProps) => {
           renderItem={({ item }) => (
             <Box alignItems="flex-start">
               <Box mb="quarck" width={1 / 1}>
-                <TouchableHighlight
+                <Pressable
                   {...testProps('com.usereserva:id/carrousel_button')}
                   onPress={() => onPressImage(item)}
                   delayLongPress={100}
-                  delayPressOut={100}
                 >
                   {item?.image?.url
-                    ? (
-                      <Image
+                    && (
+                      <ImageComponent
+                        style={{ height: carouselHeight }}
                         resizeMode="cover"
-                        height={item?.image?.height}
-                        autoHeight
-                        width={configDeviceSizes.DEVICE_WIDTH}
                         source={{ uri: item?.image?.url }}
-                        isSkeletonLoading
                       />
-                    )
-                    : <View />}
-
-                </TouchableHighlight>
+                    )}
+                </Pressable>
               </Box>
             </Box>
           )}

@@ -2,17 +2,15 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { useState } from 'react';
-import { Dimensions, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import {
   Typography, Box, TextField, Button,
 } from '@usereservaapp/reserva-ui';
 
-import { StackScreenProps } from '@react-navigation/stack';
-import { images } from '../../../assets';
+import type { StackScreenProps } from '@react-navigation/stack';
+import images from '../../../base/styles/icons';
 import HeaderBanner from '../componet/HeaderBanner';
-import { RootStackParamList } from '../../../routes/StackNavigator';
-
-const { width } = Dimensions.get('window');
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 
 export interface ForgotPasswordProps
   extends StackScreenProps<RootStackParamList, 'ForgotPassword'> {}

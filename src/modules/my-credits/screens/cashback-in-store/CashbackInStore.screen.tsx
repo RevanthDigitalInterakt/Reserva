@@ -1,35 +1,17 @@
-import React, { useEffect } from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
 import { StackActions, useNavigation } from '@react-navigation/native';
-
+import React, { useEffect } from 'react';
 import { BackHandler } from 'react-native';
-import { BaseScreen } from '../../../../common/components/BaseScreen';
-import {
-  MyCreditsParamList,
-  MyCreditsScreensRoutes,
-} from '../../navigation/MyCreditsNavigator';
 
+import { BaseScreen } from '../../../../components/BaseScreen';
 import { CashbackInStoreContainer } from './CashbackInStore.container';
 
-type CashbackInStoreScreenProps = StackScreenProps<
-MyCreditsParamList,
-MyCreditsScreensRoutes.CASHBACK_IN_STORE
->;
-
-export const CashbackInStoreScreen = ({
-  route,
-  navigation: navigate,
-}: CashbackInStoreScreenProps) => {
+export const CashbackInStoreScreen = () => {
   const navigation = useNavigation();
 
   const navigateBack = () => {
     navigation.dispatch(StackActions.popToTop());
 
     navigation.navigate('Profile');
-  };
-
-  const navigateToError = () => {
-    navigation.navigate(MyCreditsScreensRoutes.ERROR);
   };
 
   useEffect(() => {
@@ -42,16 +24,13 @@ export const CashbackInStoreScreen = ({
 
     navigation.addListener('beforeRemove', (e) => {
       e.preventDefault();
-      // clear setInterval here and go back
     });
   }, []);
 
   return (
     <BaseScreen testID="com.usereserva:id/CashbackInStoreScreen">
       <CashbackInStoreContainer
-        costumerDocument={route.params.costumerDocument}
         navigateBack={navigateBack}
-        navigateToError={navigateToError}
       />
     </BaseScreen>
   );

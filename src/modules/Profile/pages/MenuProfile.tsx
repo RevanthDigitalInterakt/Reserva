@@ -6,12 +6,12 @@ import {
 import { BackHandler, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
-  Avatar, Box, Button, Typography,
+  Box, Button, Typography,
 } from '@usereservaapp/reserva-ui';
 import firestore from '@react-native-firebase/firestore';
 import { differenceInMonths } from 'date-fns';
 import { MyCashbackScreensRoutes } from '../../my-cashback/navigation/MyCashbackNavigator';
-import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
+import { useCheckConnection } from '../../../hooks/useCheckConnection';
 import { FirebaseService } from '../../../shared/services/FirebaseService';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
@@ -23,6 +23,7 @@ import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { getApolloClient } from '../../../utils/getApolloClient';
+import { Avatar } from '../../../components/Avatar/AvatarComponent';
 
 export function MenuProfile() {
   const navigation = useNavigation();
@@ -52,7 +53,7 @@ export function MenuProfile() {
 
       setImageProfile(response);
     } catch (error) {
-      //
+      EventProvider.captureException(error);
     }
   }, [firebaseRef]);
 
@@ -169,8 +170,7 @@ export function MenuProfile() {
             <Box flexDirection="row" alignItems="center" paddingX="xxxs">
               <Box testID="com.usereserva:id/menu_profile_avatar">
                 <Avatar
-                  sizeImage={60}
-                  sizeButton={25}
+                  imageStyle={{ width: 60, height: 60, borderRadius: 60 }}
                   onPress={() => navigation.navigate('EditProfile')}
                   {...imageProfile ? { imageSource: { uri: imageProfile } } : { buttonEdit: true }}
                 />
@@ -292,7 +292,7 @@ export function MenuProfile() {
                       getApolloClient().clearStore();
                       useDitoStore.persist.clearStorage();
                     } catch (err) {
-                      //
+                      EventProvider.captureException(err);
                     } finally {
                       authStore.onSignOut();
                     }

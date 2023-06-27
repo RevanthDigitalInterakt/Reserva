@@ -1,10 +1,10 @@
 import React from 'react';
 import { Dimensions, Linking, Modal } from 'react-native';
 import {
-  Box, Button, Image, Typography,
+  Box, Button, Typography,
 } from '@usereservaapp/reserva-ui';
-import { images } from '../../../assets/index';
 import testProps from '../../../utils/testProps';
+import IconComponent from '../../../components/IconComponent/IconComponent';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -34,10 +34,7 @@ export const Maintenance: React.FC<MaintenanceProps> = ({ isVisible }) => (isVis
       backgroundColor="white"
     >
       <Box width="100%" justifyContent="center" alignItems="center">
-        <Image
-          source={images.foraDoAr}
-          autoHeight
-        />
+        <IconComponent height={120} width={120} icon="foraDoAr" />
         <Typography
           style={{
             marginTop: 42,

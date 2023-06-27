@@ -27,6 +27,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
 }) => {
   width = width == undefined ? (width = screenWidth - 20 * 2) : width;
   iconSize = iconSize == undefined ? (iconSize = 22) : iconSize;
+
   const [hidePassword, setHidePassword] = useState(true);
 
   return (

@@ -16,7 +16,6 @@ import {
 } from './misc';
 import type { EventOptionsFn, EventsOptions } from './Event';
 import type { EventOptionsOneSignalFn } from './EventOnesignal';
-import { StoreUpdatePush } from '../../modules/Update/pages/StoreUpdatePush';
 import type { EventsDitoValues, EventOptionsDitoFn } from './EventDito';
 import sendDitoTrackEvent from '../Dito/src/utils/sendDitoTrackEvent';
 import { platformType } from '../platformType';
@@ -42,12 +41,6 @@ class EventProvider {
 
     OneSignal.setNotificationWillShowInForegroundHandler((notificationReceivedEvent) => {
       notificationReceivedEvent.getNotification();
-    });
-
-    OneSignal.setNotificationOpenedHandler((notification) => {
-      if (notification.notification.launchURL === 'usereserva://storeUpdate') {
-        StoreUpdatePush();
-      }
     });
   }
 

@@ -5,13 +5,12 @@ import {
   Button,
   Icon,
   Divider,
-  Image,
 } from '@usereservaapp/reserva-ui';
 import Modal from 'react-native-modal';
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { images } from '../../../assets';
 import { platformType } from '../../../utils/platformType';
+import IconComponent from '../../../components/IconComponent/IconComponent';
 
 interface IStore {
   storeDetail: any[];
@@ -85,10 +84,10 @@ const Store = ({ storeDetail, data, mapPermission }: IStore) => {
               <Box borderColor="backgroundMenuOpened" mt="nano">
                 <Box flexDirection="row">
                   <Box alignItems="center">
-                    <Image
+                    <IconComponent
+                      icon="localReserva"
                       height={40}
-                      source={images.localReserva}
-                      resizeMode="contain"
+                      width={40}
                     />
                     <Box mt="quarck">
                       <Typography fontFamily="reservaSansMedium" fontSize={12}>
@@ -246,7 +245,7 @@ ${data.pickupStoreInfo.address.neighborhood} - ${data.pickupStoreInfo.address.ci
         </Box>
       ) : (
         <Box bg="white" alignItems="center" px="micro" mt="xxl">
-          <Image source={images.noStoresFound} resizeMode="contain" />
+          <IconComponent height={120} width={120} icon="noStoresFound" />
           <Box mb="xxs" mt="md">
             <Typography fontFamily="reservaSerifRegular" fontSize={24}>
               Nenhuma loja encontrada

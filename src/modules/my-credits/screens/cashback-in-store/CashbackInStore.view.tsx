@@ -2,20 +2,21 @@ import {
   Box,
   Button,
   Checkbox,
-  Image,
   Typography,
 } from '@usereservaapp/reserva-ui';
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ImageBackground } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { useLazyQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
-import { images } from '../../../../assets';
+import images from '../../../../base/styles/icons';
+
 import { ModalTermsAndConditionsCashback } from './components/ModalTermsAndConditionsCashback';
 
 import {
   profileQuery,
 } from '../../../../graphql/profile/profileQuery';
+import IconComponent from '../../../../components/IconComponent/IconComponent';
 
 export interface CashbackInStoreViewProps {
   token?: string;
@@ -71,7 +72,7 @@ export const CashbackInStoreView = ({
                   size={200}
                 />
               ) : (
-                <Image source={images.imageCashback} width={200} height={200} />
+                <IconComponent icon="imageCashback" width={200} height={200} />
               )}
             </Box>
           </ImageBackground>

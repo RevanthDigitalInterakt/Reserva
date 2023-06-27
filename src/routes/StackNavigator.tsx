@@ -1,67 +1,42 @@
-// In App.js in a new project
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import CallCenter from '../modules/CallCenter';
 import { WebviewZendesk } from '../modules/CallCenter/WebviewZendesk';
-import { CancelOrder } from '../modules/CancelOrder/pages/CancelOrder';
-import { Cashback } from '../modules/Cashback/pages/Cashback';
 import { ChangeRegionalization } from '../modules/ChangeRegionalization/pages/ChangeRegionalization';
-import { BarCodePayment } from '../modules/Checkout/pages/BarCodePayment';
-import { CreateCartProfile } from '../modules/Checkout/pages/CreateCartProfile';
 import { DeliveryScreen } from '../modules/Checkout/pages/Delivery';
-import { EnterYourEmail } from '../modules/Checkout/pages/EnterYourEmail';
-import { GiftVoucherScreen } from '../modules/Checkout/pages/GiftVoucher';
 import { MapScreen } from '../modules/Checkout/pages/Map';
-import { NearbyStores } from '../modules/Checkout/pages/NearbyStores';
-import { PaymentMethodScreen } from '../modules/Checkout/pages/PaymentMethod';
-import { PixScreen } from '../modules/Checkout/pages/Pix';
-import { PurchaseConfirmationScreen } from '../modules/Checkout/pages/PurchaseConfirmation';
-import { SummaryScreen } from '../modules/Checkout/pages/Summary';
-import { VirtualDebitCardCaixaScreen } from '../modules/Checkout/pages/VirtualDebitCardCaixa';
 import Checkout from '../modules/Checkout/pages/WebviewCheckout';
 import { WithdrawInStore } from '../modules/Checkout/pages/WithdrawInStore';
-import { CorreReservaStackScreen } from '../modules/CorreReserva';
 import { Credits } from '../modules/Credits/pages/Credits';
-import { SizeGuide } from '../modules/HelpCenter/PagesHelp/SizeGuide';
-import { WhatsappsHelp } from '../modules/HelpCenter/PagesHelp/WhatsappsHelp';
 import { MyCashbackRoutes } from '../modules/my-cashback/navigation/MyCashbackNavigator';
 import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavigator';
 import { EditPassword } from '../modules/Profile/pages/EditPassword';
-// profile
 import {
   CEPList,
   CepsInfo,
   SearchBy,
 } from '../modules/ChangeRegionalization/pages/CEPList';
 import { AccountDeletedSuccessfully } from '../modules/Profile/pages/AccountDeletedSuccessfully';
-import { ListCards } from '../modules/Profile/pages/ListCards';
-import { NewCard } from '../modules/Profile/pages/NewCard';
-import { NotificationProfile } from '../modules/Profile/pages/NotificationProfile';
 import { SearchScreen } from '../modules/Search/pages/Search';
-import { StoreUpdate } from '../modules/Update/pages/StoreUpdate';
-import Update from '../modules/Update/pages/Update';
-import { ShowListByCategory } from '../modules/WishList/pages/ShowListByCategory';
-import { WishListCategory } from '../modules/WishList/pages/WishListCategory';
+
+// TODO refactor Dependency cycle
+import { Cashback } from '../modules/Cashback/pages/Cashback';
 import {
   AddressFlow,
   ForgotFlow,
   HelpCenterFLow,
   LoginFlow,
-  OnboardingFlow,
   OrderFlow,
   ProductFlow,
   RegisterFlow,
-  TimeRaceFlow,
 } from './flows';
+
 import { HomeTabs } from './HomeTabs';
 import type { Flow } from './types/flow.type';
-
-import { LandingPage } from '../modules/LandingPage/LandingPage';
 import RonRedirectToBag from '../pages/RonRedirectToBag';
 import EditProfile from '../pages/EditProfile/EditProfile';
 import type { IFilters } from '../utils/generateFacets';
 import { AsyncDeepLinkScreenLoading } from '../pages/WebRedirectToCatalog/AsyncDeepLinkScreenLoading';
-import { MktFlow } from './flows/mtk.flow';
 import { BagABTest } from '../modules/Checkout/pages/BagABTest';
 import PrimeLP from '../pages/PrimeLP';
 
@@ -118,16 +93,13 @@ export type RootStackParamList = {
   };
   ForgotAccessCode: { email: string; cookies: string[]; };
   ConfirmAccessCode: { email: string };
-  ShowListByCategory: { categoryName: string; products: any[] };
   AccessCode: {
     email: string;
   };
   ForgotPassword: {} | undefined;
   ForgotNewPassword: { email: string; code: string };
   ForgotEmailSuccess: {} | undefined;
-  LandingPage: {
-    landingPageId: string;
-  };
+
   NewAddress: {
     executeCallback: (payload: any) => Promise<void>;
     id?: number;
@@ -155,56 +127,13 @@ export type RootStackParamList = {
   EditProfile: { isRegister: boolean };
   Home: undefined;
   HomeTabs: undefined;
-  CancelOrder: {};
   Cashback: { isAcceptedConditions: boolean };
   Credits: {};
   AddressList: {};
-  ListCards: {
-    isCheckout: boolean;
-    cashback: boolean;
-  };
   EditPassword: {
     email: string;
   };
-  StoreUpdate: {} | undefined;
-  StoreUpdatePush: {} | undefined;
-  Update: {} | undefined;
-  CreateCartProfile: {};
-  NewCard: { isCheckout: boolean };
-  NearbyStores: { UF: string };
   MapScreen: { geolocation: string; locationPermission: boolean };
-  SummaryScreen: {
-    paymentType:
-    | 'PIX'
-    | 'Credit'
-    | 'Debit'
-    | 'Boleto'
-    | 'GiftCard'
-    | 'Cashback';
-    cashback: boolean;
-  };
-  PurchaseConfirmationScreen: {
-    paymentType:
-    | 'PIX'
-    | 'Credit'
-    | 'Debit'
-    | 'Boleto'
-    | 'GiftCard'
-    | 'Cashback';
-  };
-  PixScreen: {
-    cashback: boolean;
-  };
-  BarCodePayment: {
-    cashback: boolean;
-  };
-  GiftVoucherScreen: {
-    cashback: boolean;
-  };
-  VirtualDebitCardCaixaScreen: {
-    cashback: boolean;
-  };
-  Onboarding: {};
   BagScreen: {
     isProfileComplete: boolean;
     orderFormId: string | undefined;
@@ -227,12 +156,9 @@ const flows: Flow[] = [
   ...OrderFlow,
   ...LoginFlow,
   ...ProductFlow,
-  ...TimeRaceFlow,
   ...MyCreditsRoutes,
   ...RegisterFlow,
   ...MyCashbackRoutes,
-  ...OnboardingFlow,
-  ...MktFlow,
 ];
 
 export const MainStack = createStackNavigator();
@@ -244,31 +170,20 @@ export const MainStackScreen = () => (
   >
     <MainStack.Screen name="HomeTabs" component={HomeTabs} />
 
-    <MainStack.Screen name="CorreReserva" component={CorreReservaStackScreen} />
-
-    {flows.map((flow: Flow, index: number) => (
+    {flows.map((flow: Flow) => (
       <MainStack.Screen
-        key={`${flow.name}-${index}`}
+        key={`${flow.name}`}
         name={flow.name}
         component={flow.component}
         initialParams={flow.initialParams}
       />
     ))}
-    <MainStack.Screen name="LandingPage" component={LandingPage} />
     <MainStack.Screen name="SearchMenu" component={SearchScreen} />
-    {/* <MainStack.Screen name="WishList" component={WishList} /> */}
-    <MainStack.Screen name="CreateCartProfile" component={CreateCartProfile} />
-    <MainStack.Screen name="WishListCategory" component={WishListCategory} />
     <MainStack.Screen
       name="ChangeRegionalization"
       component={ChangeRegionalization}
     />
     <MainStack.Screen name="CEPList" component={CEPList} />
-    <MainStack.Screen
-      name="ShowListByCategory"
-      component={ShowListByCategory}
-    />
-
     <MainStack.Screen name="RonRedirectToBag" component={RonRedirectToBag} />
     <MainStack.Screen name="AsyncDeepLink" component={AsyncDeepLinkScreenLoading} />
 
@@ -278,64 +193,20 @@ export const MainStackScreen = () => (
       initialParams={{ isProfileComplete: false }}
     />
 
-    <MainStack.Screen name="StoreUpdate" component={StoreUpdate} />
-    <MainStack.Screen name="Update" component={Update} />
-    <MainStack.Screen
-      name="SummaryScreen"
-      component={SummaryScreen}
-      initialParams={{
-        paymentType: 'CreditCard',
-      }}
-    />
     <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
-    <MainStack.Screen name="EnterYourEmail" component={EnterYourEmail} />
     <MainStack.Screen name="Checkout" component={Checkout} />
     <MainStack.Screen name="WithdrawInStore" component={WithdrawInStore} />
-    <MainStack.Screen name="NearbyStores" component={NearbyStores} />
     <MainStack.Screen name="MapScreen" component={MapScreen} />
-    <MainStack.Screen
-      name="PaymentMethodScreen"
-      component={PaymentMethodScreen}
-    />
-    <MainStack.Screen
-      name="PurchaseConfirmationScreen"
-      component={PurchaseConfirmationScreen}
-    />
     <MainStack.Screen name="Cashback" component={Cashback} />
     <MainStack.Screen name="Credits" component={Credits} />
-    <MainStack.Screen
-      name="VirtualDebitCardCaixaScreen"
-      component={VirtualDebitCardCaixaScreen}
-    />
-    <MainStack.Screen name="PixScreen" component={PixScreen} />
-    <MainStack.Screen name="GiftVoucherScreen" component={GiftVoucherScreen} />
-    <MainStack.Screen name="BarCodePayment" component={BarCodePayment} />
-
-    <MainStack.Screen name="SizeGuide" component={SizeGuide} />
-    <MainStack.Screen name="WhatsappsHelp" component={WhatsappsHelp} />
-
     <MainStack.Screen name="EditProfile" component={EditProfile} />
     <MainStack.Screen name="EditPassword" component={EditPassword} />
+
     <MainStack.Screen
       name="AccountDeletedSuccessfully"
       component={AccountDeletedSuccessfully}
     />
-    <MainStack.Screen
-      name="NotificationProfile"
-      component={NotificationProfile}
-    />
 
-    <MainStack.Screen
-      name="ListCards"
-      component={ListCards}
-      initialParams={{ isCheckout: false }}
-    />
-    <MainStack.Screen
-      name="NewCard"
-      component={NewCard}
-      initialParams={{ isCheckout: false }}
-    />
-    <MainStack.Screen name="CancelOrder" component={CancelOrder} />
     <MainStack.Screen name="CallCenter" component={CallCenter} />
     <MainStack.Screen name="WebviewZendesk" component={WebviewZendesk} />
 

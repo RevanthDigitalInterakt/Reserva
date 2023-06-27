@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Icon,
-  Image,
   Picker,
   SearchBar,
   theme,
@@ -14,9 +13,10 @@ import { intervalToDuration } from 'date-fns';
 import React, {
   useCallback, useEffect, useState,
 } from 'react';
-import { Linking, Text } from 'react-native';
+import { Linking } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
 import { useConfigContext } from '../../../../context/ConfigContext';
 import { countdownClockQuery, ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
 import { facetsQuery } from '../../../../graphql/facets/facetsQuery';
@@ -29,9 +29,15 @@ import {
   productSearch,
 } from '../../../../graphql/products/productSearch';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
-import { useCheckConnection } from '../../../../shared/hooks/useCheckConnection';
-import { referenceIdResolver } from '../../../../shared/utils/referenceIdResolver';
+import { useCheckConnection } from '../../../../hooks/useCheckConnection';
+import { referenceIdResolver } from '../../../../utils/referenceIdResolver';
+import allSettled from '../../../../utils/allSettled';
+import { defaultBrand } from '../../../../utils/defaultWBrand';
+import EventProvider from '../../../../utils/EventProvider';
 import { generateFacets, IFacet } from '../../../../utils/generateFacets';
+import { getBrandByUrl } from '../../../../utils/getBrandByURL';
+import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
+import type { IFacetInput } from '../../../../zustand/useAsyncDeepLinkStore/types/asyncDeepLinkStore';
 import { Skeleton } from '../../../Checkout/components/Skeleton';
 import { CountDownBanner } from '../../../Home/component/CountDown';
 import { CountDownLocal } from '../../../Home/component/countDownLocal/CountDownLocal';
@@ -40,13 +46,7 @@ import { TopBarDefaultBackButton } from '../../../Menu/components/TopBarDefaultB
 import { EmptyProductCatalog } from '../../components/EmptyProductCatalog/EmptyProductCatalog';
 import { ListVerticalProducts } from '../../components/ListVerticalProducts/ListVerticalProducts';
 import { FilterModal, TFilterType } from '../../modals/FilterModal/FilterModal';
-import type { IFacetInput } from '../../../../zustand/useAsyncDeepLinkStore/types/asyncDeepLinkStore';
-import allSettled from '../../../../utils/allSettled';
-import EventProvider from '../../../../utils/EventProvider';
-import { getBrandByUrl } from '../../../../utils/getBrandByURL';
-import { defaultBrand } from '../../../../utils/defaultWBrand';
 import testProps from '../../../../utils/testProps';
-import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { getCollectionFacetsValue } from '../../../../utils/getCollectionFacetsValue';
@@ -100,8 +100,6 @@ const defaultCategory = 'collection:2407';
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const { offersPage: collectionIdByContentful } = useConfigContext();
 
-  const [mktBoldText, setMktBoldText] = useState([]);
-
   const {
     safeArea, search, referenceId, filters, comeFrom, indexMenuOpened,
   } = route.params;
@@ -125,7 +123,6 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const [countDownClockGlobal, setCountDownClockGlobal] = useState<ICountDownClock>();
   const [showClockOffers, setShowClockOffers] = useState<boolean>(false);
   const [showMkt, setShowMkt] = useState(false);
-  const [mktHeightImg, setMktHeightImg] = useState();
   const [productData, setProductData] = useState([]);
   const [totalProducts, setTotalProducts] = useState(0);
   const [currentPage, setCurrentPage] = useState(DEFAULT_NEXT_PAGINATION);
@@ -286,14 +283,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       if (bannerUrl) {
         setBannerImage(bannerUrl);
       }
-      setMktBoldText(bannerData?.bannerCategoryCollection?.items?.[0]?.item?.texto?.split('__'));
     }
-
-    const showMktData = bannerData?.bannerCategoryCollection?.items[0]?.item?.mkt;
-    setShowMkt(showMktData);
-
-    const mktHeightImgData = bannerData?.bannerCategoryCollection?.items[0]?.item?.image?.height;
-    setMktHeightImg(mktHeightImgData);
   }, [getBanner]);
 
   const navigateGoBack = useCallback(() => {
@@ -526,12 +516,6 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     await Linking.openURL('https://whts.co/reserva');
   }, []);
 
-  const mktText = React.useMemo(() => mktBoldText?.map((i: any) => {
-    if (mktBoldText?.indexOf(i) > 0 && mktBoldText.indexOf(i) % 2 !== 0) {
-      return (<Text style={{ fontFamily: 'reservaSansBold', fontWeight: 'bold' }}>{i}</Text>);
-    } return (i);
-  }), [mktBoldText]);
-
   const DynamicComponent = safeArea ? SafeAreaView : Box;
 
   return (
@@ -541,7 +525,6 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
           loading={
             loading || loadingHandlerState
           }
-          navigateGoBack={showMkt}
           backButtonPress={() => navigateGoBack()}
         />
       ) : (
@@ -704,11 +687,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 ? <CountDownLocal countDownLocal={countDownClockLocal} />
                 : <CountDownBanner countDown={countDownClockGlobal} />}
 
-              {bannerImage && (
-                <Box>
-                  <Image height={showMkt ? mktHeightImg : 200} source={bannerImage} width={1 / 1} />
-                </Box>
-              )}
+              {bannerImage && <ImageComponent source={{ uri: bannerImage }} />}
 
               <Box bg="dropDownBorderColor">
                 <Button
@@ -734,19 +713,6 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   </Box>
                 </Button>
               </Box>
-              {showMkt && (
-                <Box paddingX="xl" paddingY="xxs">
-                  <Typography
-                    color="preto"
-                    textAlign="center"
-                    fontFamily="reservaSansRegular"
-                    fontSize={14}
-                    lineHeight={18}
-                  >
-                    {mktText}
-                  </Typography>
-                </Box>
-              )}
               <Box paddingY="micro" flexDirection="row" justifyContent="center">
                 <Box width={1 / 2}>
                   <Button

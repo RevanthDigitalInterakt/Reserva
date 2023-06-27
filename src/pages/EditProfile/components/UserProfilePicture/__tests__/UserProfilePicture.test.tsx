@@ -34,5 +34,5 @@ describe('Submiting Content', () => {
     expect(screen.getByTestId('com.usereserva:id/userprofilepicture_button_edit_password')).toBeVisible();
   });
 
-  // @TODO adicianar teste para verificar se o avatar esta visivel ou nao
+  // TODO adicianar teste para verificar se o avatar esta visivel ou nao
 });

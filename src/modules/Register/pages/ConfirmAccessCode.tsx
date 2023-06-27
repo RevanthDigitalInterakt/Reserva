@@ -5,14 +5,12 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
-  Dimensions,
   Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { images } from '../../../assets';
+import images from '../../../base/styles/icons';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
-import CodeInput from '../../Login/components/CodeInput';
 import UnderlineInput from '../../../components/UnderlineInput';
 import { platformType } from '../../../utils/platformType';
 import {
@@ -27,13 +25,32 @@ import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import useInitialDito from '../../../hooks/useInitialDito';
 import EventProvider from '../../../utils/EventProvider';
 import ModalCheckUserConnection from '../component/ModalCheckUserConnection';
+import CodeInput from '../../../components/CodeInput/CodeInput';
 import { getCopiedValue } from '../../../utils/CopyToClipboard';
-import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
+import { useCheckConnection } from '../../../hooks/useCheckConnection';
+
+export interface PasswordCheckProps {
+  text: string;
+  checked: boolean;
+}
+
+export const PasswordCheck: React.FC<PasswordCheckProps> = ({
+  text,
+  checked,
+}) => {
+  const color = checked ? 'verdeSucesso' : 'neutroFrio2';
+  return (
+    <Box flexDirection="row" alignItems="center" width="50%" mt={15}>
+      <Box mt="nano" mr={2}>
+        <Icon name="Check" size={16} color={color} />
+      </Box>
+      <Typography color={color}>{text}</Typography>
+    </Box>
+  );
+};
 
 export interface ConfirmAccessCodeProps
   extends StackScreenProps<RootStackParamList, 'ConfirmAccessCode'> { }
-
-const screenWidth = Dimensions.get('window').width;
 
 export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   navigation,
@@ -56,7 +73,6 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   });
   const { onSignIn, onUpdateAuthData } = useAuthStore(['onSignIn', 'onUpdateAuthData']);
   const [CPFMessageError, setCPFMessageError] = useState('');
-  const [buttonDisabled, setDisabledButton] = useState(true);
   const [signUpVerificationCode] = useSignUpVerificationCodeMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
@@ -94,12 +110,12 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   );
 
   const enabledButton = () => passwordsChecker.equal
-  && passwordsChecker.digitsCount
-  && passwordsChecker.uppercase
-  && passwordsChecker.lowercase
-  && passwordsChecker.number
-  && isValidCPF(cpf)
-  && code.length === 6;
+    && passwordsChecker.digitsCount
+    && passwordsChecker.uppercase
+    && passwordsChecker.lowercase
+    && passwordsChecker.number
+    && isValidCPF(cpf)
+    && code.length === 6;
 
   const [signUp, { data, error }] = useSignUpMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
@@ -263,7 +279,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
               </Box>
             </Box>
 
-            {code.length > 0 ? (
+            {code?.length > 0 ? (
               <Box mx={20} mt={32}>
                 <Box mb={20}>
                   <Typography fontFamily="reservaSerifRegular" fontSize={22}>
@@ -316,7 +332,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
                 >
                   <UnderlineInput
                     isSecureText
-                    accessibilityLabel="confirmaccess_input_password"
+                    testID="confirmaccess_input_password"
                     onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
                     onChangeText={(text) => setPasswords({ ...passwords, first: text })}
                     placeholder="Digite sua nova senha"
@@ -328,7 +344,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
                   borderBottomColor={passwordError !== '' ? 'vermelhoAlerta' : 'neutroFrio2'}
                 >
                   <UnderlineInput
-                    accessibilityLabel="confirmaccess_input_confirm_password"
+                    testID="confirmaccess_input_confirm_password"
                     isSecureText
                     onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
                     onChangeText={(text) => setPasswords({ ...passwords, confirm: text })}
@@ -429,25 +445,5 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         </>
       </ScrollView>
     </SafeAreaView>
-  );
-};
-
-export interface PasswordCheckProps {
-  text: string;
-  checked: boolean;
-}
-
-export const PasswordCheck: React.FC<PasswordCheckProps> = ({
-  text,
-  checked,
-}) => {
-  const color = checked ? 'verdeSucesso' : 'neutroFrio2';
-  return (
-    <Box flexDirection="row" alignItems="center" width="50%" mt={15}>
-      <Box mt="nano" mr={2}>
-        <Icon name="Check" size={16} color={color} />
-      </Box>
-      <Typography color={color}>{text}</Typography>
-    </Box>
   );
 };

@@ -1,26 +1,50 @@
 import { useMutation } from '@apollo/client';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
+import {
+  Box, Button, Icon,
+  Typography,
+} from '@usereservaapp/reserva-ui';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-
 import { Platform, SafeAreaView, ScrollView } from 'react-native';
-import {
-  Typography, Box, Button, Icon,
-} from '@usereservaapp/reserva-ui';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { images } from '../../../assets';
+import images from '../../../base/styles/icons';
+import UnderlineInput from '../../../components/UnderlineInput';
 import { recoveryPasswordMutation } from '../../../graphql/login/loginMutations';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
-import UnderlineInput from '../../../components/UnderlineInput';
-import HeaderBanner from '../componet/HeaderBanner';
 import { platformType } from '../../../utils/platformType';
+import HeaderBanner from '../componet/HeaderBanner';
+
+export interface PasswordCheckProps {
+  text: string,
+  checked: boolean
+}
+
+export const PasswordCheck: React.FC<PasswordCheckProps> = ({ text, checked }) => {
+  const color = checked ? 'verdeSucesso' : 'neutroFrio2';
+  return (
+    <Box flexDirection="row" alignItems="center" width="50%" mt={15}>
+      <Box mt="nano" mr={2}>
+        <Icon name="Check" size={16} color={color} />
+      </Box>
+      <Typography color={color}>
+        {text}
+      </Typography>
+    </Box>
+  );
+};
 
 export interface ForgotPasswordProps extends StackScreenProps<RootStackParamList, 'ForgotNewPassword'> { }
 
 export const ForgotNewPassword: React.FC<ForgotPasswordProps> = ({ navigation, route }) => {
   const { code, email } = route.params;
 
-  const [recoveryPassword, { data, loading }] = useMutation(recoveryPasswordMutation);
+  const [recoveryPassword] = useMutation(recoveryPasswordMutation);
+
+  const [passwords, setPasswords] = useState({
+    first: '',
+    confirm: '',
+  });
 
   const passwordCheckHandler = () => ({
     equal: passwords.first === passwords.confirm,
@@ -30,7 +54,13 @@ export const ForgotNewPassword: React.FC<ForgotPasswordProps> = ({ navigation, r
     number: passwords.first.match(/[0-9]/g) != null,
   });
 
-  const enabledButton = () => (passwordsChecker.equal && passwordsChecker.digitsCount && passwordsChecker.uppercase && passwordsChecker.lowercase && passwordsChecker.number);
+  const [passwordsChecker, setPasswordChecker] = useState(passwordCheckHandler());
+
+  const enabledButton = () => passwordsChecker.equal
+  && passwordsChecker.digitsCount
+  && passwordsChecker.uppercase
+  && passwordsChecker.lowercase
+  && passwordsChecker.number;
 
   const handleUpdaePassword = () => {
     const variables = {
@@ -41,20 +71,12 @@ export const ForgotNewPassword: React.FC<ForgotPasswordProps> = ({ navigation, r
     recoveryPassword({
       variables,
     }).then((x) => {
-      x.data.recoveryPassword != null
-        ? navigation.navigate('ForgotEmailSuccess')
-        : navigation.navigate('ForgotEmail', {});
+      if (x?.data?.recoveryPassword !== null) {
+        return navigation.navigate('ForgotEmailSuccess');
+      }
+      return navigation.navigate('ForgotEmail', {});
     });
   };
-
-  // const [recovery, { data }] = useMutation<{ email: string }>(recoveryPassword)
-
-  const [passwords, setPasswords] = useState({
-    first: '',
-    confirm: '',
-  });
-
-  const [passwordsChecker, setPasswordChecker] = useState(passwordCheckHandler());
 
   useEffect(() => {
     setPasswordChecker(passwordCheckHandler());
@@ -71,7 +93,10 @@ export const ForgotNewPassword: React.FC<ForgotPasswordProps> = ({ navigation, r
           extraScrollHeight={155}
         >
 
-          <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => { navigation.goBack(); }} />
+          <HeaderBanner
+            imageHeader={images.headerLogin}
+            onClickGoBack={() => { navigation.goBack(); }}
+          />
           <Box mx={20} mt={13}>
             <Typography fontFamily="reservaSerifRegular" fontSize={22}>Atualize sua senha</Typography>
             <Box mt={27}>
@@ -97,24 +122,5 @@ export const ForgotNewPassword: React.FC<ForgotPasswordProps> = ({ navigation, r
         </KeyboardAwareScrollView>
       </ScrollView>
     </SafeAreaView>
-  );
-};
-
-export interface PasswordCheckProps {
-  text: string,
-  checked: boolean
-}
-
-export const PasswordCheck: React.FC<PasswordCheckProps> = ({ text, checked }) => {
-  const color = checked ? 'verdeSucesso' : 'neutroFrio2';
-  return (
-    <Box flexDirection="row" alignItems="center" width="50%" mt={15}>
-      <Box mt="nano" mr={2}>
-        <Icon name="Check" size={16} color={color} />
-      </Box>
-      <Typography color={color}>
-        {text}
-      </Typography>
-    </Box>
   );
 };

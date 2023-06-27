@@ -9,7 +9,7 @@ import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import { useCart } from '../../../../context/CartContext';
 import EventProvider from '../../../../utils/EventProvider';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
-import { ModalBag } from '../../../../common/components/ModalBag/ModalBag';
+import { ModalBag } from '../../../../components/ModalBag/ModalBag';
 import testProps from '../../../../utils/testProps';
 
 function ProductAddToCart() {

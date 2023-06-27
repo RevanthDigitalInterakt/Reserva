@@ -1,15 +1,15 @@
 import React, { useCallback } from 'react';
-import { Box, ProductHorizontalListCard, Typography } from '@usereservaapp/reserva-ui';
+import { Box, Typography } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import useBagStore from '../../../../zustand/useBagStore/useBagStore';
 import type { IItemsBag } from '../../../../zustand/useBagStore/types/bagStore';
 import EventProvider from '../../../../utils/EventProvider';
-import { MktplaceName } from '../../../../modules/MarketplaceIn/components/MktPlaceName';
 import { slugify } from '../../../../utils/slugify';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../../utils/createNavigateToProductParams';
 import { getBrands } from '../../../../utils/getBrands';
 import { useCart } from '../../../../context/CartContext';
+import { ProductHorizontalListCard } from '../../../../components/ProductHorizontalListCard/ProductHorizontalListCard';
 
 const ShowFirstPurchaseDiscount = ({ discountText }: { discountText: string }) => (
   <Box paddingBottom="nano" testID="com.usereserva:id/ShowFirstPurchaseDiscount">
@@ -147,10 +147,11 @@ export default function BagProductList() {
         return;
       }
 
-      EventProvider.logEvent('remove_from_cart', {
-        item_id: item.id,
-        item_categories: 'product',
-      });
+      EventProvider.logEvent('remove_from_cart',
+        {
+          item_id: item.id,
+          item_categories: 'product',
+        });
 
       await dispatch({
         actionType: 'HANDLE_UPDATE_PRODUCT_COUNT',
@@ -192,12 +193,6 @@ export default function BagProductList() {
               )}
 
               <ProductHorizontalListCard
-                isBag
-                mktplaceNameComponent={
-                  <MktplaceName sellerId={item.seller} showIconModalInfo />
-                }
-                installmentsNumber={0}
-                installmentsPrice={0}
                 discountApi={item.discountApi || 0}
                 disableCounter={item.disableCounter}
                 currency="R$"
