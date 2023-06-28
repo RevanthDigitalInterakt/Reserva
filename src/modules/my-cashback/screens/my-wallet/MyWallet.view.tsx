@@ -6,24 +6,59 @@ import { StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import { PriceCustom } from '../../../Checkout/components/PriceCustom';
-import type { GetExpireBalanceResponse, GetUserOperationsResponse } from '../../api/MyCashbackAPI';
 import { BalanceType, FilterOptions } from './MyWallet.container';
+import type { CashbackQuery } from '../../../../base/graphql/generated';
 
 export interface MyWalletViewProps {
   balanceVisible: boolean;
-  userOperations: GetUserOperationsResponse | null;
   balance: number;
   userOperationsFiltered: any;
   totalPending: number | undefined;
   operationFilter: FilterOptions;
   selectedBalance: BalanceType;
-  userExpireBalance: GetExpireBalanceResponse | null;
+  userExpireBalance: CashbackQuery['cashback']['expiration'] | null;
   changeSelectedBalance: (balanceType: BalanceType) => void;
   convertCentsToReal: (cents: number) => number;
   formatDate: (date: string) => string;
   handleToggleBalanceVisibility: () => void;
   changeOperationFilter: (filter: FilterOptions) => void;
 }
+
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 4,
+    flex: 1,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 5,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  tab: {
+    backgroundColor: '#EFEFEF',
+    padding: 8,
+    textAlign: 'left',
+    marginRight: 5,
+    paddingBottom: 20,
+    zIndex: -1,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 5,
+  },
+});
 
 export const MyWalletView = (
   {
@@ -64,7 +99,6 @@ export const MyWalletView = (
             Boas-vindas à sua carteira
           </Typography>
         </Box>
-        <Icon name="Question" size={32} color="white" />
       </Box>
       <Box mt="xxs">
         <Typography fontFamily="reservaSansLight" fontSize={2} color="white">
@@ -112,7 +146,7 @@ export const MyWalletView = (
           fontSize={12}
           color={selectedBalance === BalanceType.FUTURE ? 'white' : '#323232'}
         >
-          LANÇAMENTOS FUTUROS
+          {'LANÇAMENTOS \nFUTUROS'}
         </Typography>
       </LinearGradient>
 
@@ -135,15 +169,17 @@ export const MyWalletView = (
     </Box>
     {selectedBalance === BalanceType.EXPIRE && (
     <Box ml="xxxs" mr="xxxs">
-      <Typography fontFamily="reservaSansLight" fontSize={3} color="black">
+      <Typography fontFamily="reservaSansLight" fontSize={3} color="preto">
         VALOR A EXPIRAR
       </Typography>
       <PriceCustom
         fontFamily="reservaSansBold"
         sizeInterger={42}
         sizeDecimal={24}
-        num={convertCentsToReal(Number(userExpireBalance?.data.totalExpireBalanceInCents)) || 0}
-        color="black"
+        num={
+          (Number(userExpireBalance?.totalExpireBalanceInCents)) || 0
+        }
+        color="preto"
       />
       <Box>
         <Box
@@ -154,17 +190,17 @@ export const MyWalletView = (
           style={{ borderBottomWidth: 1, borderBottomColor: '#E8E8E8', paddingBottom: 6 }}
         >
           <Box style={{ flex: 1 }}>
-            <Typography fontFamily="nunitoBold" fontSize={14} color="black">
+            <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
               Valor
             </Typography>
           </Box>
           <Box style={{ flex: 1 }}>
-            <Typography fontFamily="nunitoBold" fontSize={14} color="black">
+            <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
               Válido até
             </Typography>
           </Box>
         </Box>
-        { userExpireBalance && userExpireBalance.data.cashbackToExpireData.map((operation: any) => (
+        {(userExpireBalance?.cashbackToExpire || []).map((operation) => (
           <Box
             display="flex"
             flexDirection="row"
@@ -174,15 +210,15 @@ export const MyWalletView = (
             }}
           >
             <Box style={{ flex: 1 }}>
-              <Typography fontFamily="nunitoRegular" fontSize={14} color="black">
+              <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
                 R$
                 {' '}
-                {convertCentsToReal(Number(operation.expire_cashback_amount))}
+                {(Number(operation.expireCashbackAmount))}
               </Typography>
             </Box>
             <Box style={{ flex: 1 }}>
-              <Typography fontFamily="nunitoRegular" fontSize={14} color="black">
-                {formatDate(operation.expire_at)}
+              <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
+                {formatDate(operation.expireAt)}
               </Typography>
             </Box>
           </Box>
@@ -192,7 +228,7 @@ export const MyWalletView = (
     )}
     {selectedBalance === BalanceType.FUTURE && (
     <Box ml="xxxs" mr="xxxs">
-      <Typography fontFamily="reservaSansLight" fontSize={3} color="black">
+      <Typography fontFamily="reservaSansLight" fontSize={3} color="preto">
         LANÇAMENTOS FUTUROS
       </Typography>
       <PriceCustom
@@ -200,7 +236,7 @@ export const MyWalletView = (
         sizeInterger={42}
         sizeDecimal={24}
         num={convertCentsToReal(totalPending) || 0}
-        color="black"
+        color="preto"
       />
       <Box>
         <Box
@@ -211,17 +247,17 @@ export const MyWalletView = (
           style={{ borderBottomWidth: 1, borderBottomColor: '#E8E8E8', paddingBottom: 6 }}
         >
           <Box style={{ flex: 1 }}>
-            <Typography fontFamily="nunitoBold" fontSize={14} color="black">
+            <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
               Valor
             </Typography>
           </Box>
           <Box style={{ flex: 1 }}>
-            <Typography fontFamily="nunitoBold" fontSize={14} color="black">
+            <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
               Creditado em
             </Typography>
           </Box>
           <Box style={{ flex: 1 }}>
-            <Typography fontFamily="nunitoBold" fontSize={14} color="black">
+            <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
               Disponível em
             </Typography>
           </Box>
@@ -236,20 +272,20 @@ export const MyWalletView = (
             }}
           >
             <Box style={{ flex: 1 }}>
-              <Typography fontFamily="nunitoRegular" fontSize={14} color="black">
+              <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
                 R$
                 {' '}
-                {convertCentsToReal(operation.cashback_amount_in_cents)}
+                {convertCentsToReal(operation?.cashbackAmountInCents)}
               </Typography>
             </Box>
             <Box style={{ flex: 1 }}>
-              <Typography fontFamily="nunitoRegular" fontSize={14} color="black">
-                {formatDate(operation.created_at)}
+              <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
+                {formatDate(operation?.createdAt)}
               </Typography>
             </Box>
             <Box style={{ flex: 1 }}>
-              <Typography fontFamily="nunitoRegular" fontSize={14} color="black">
-                {formatDate(operation.settlement_date)}
+              <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
+                {formatDate(operation?.settlementDate)}
               </Typography>
             </Box>
           </Box>
@@ -259,7 +295,7 @@ export const MyWalletView = (
     )}
     {selectedBalance === BalanceType.ACTIVE && (
     <Box ml="xxxs" mr="xxxs">
-      <Typography fontFamily="reservaSerifMedium" fontSize={19} color="black">
+      <Typography fontFamily="reservaSerifMedium" fontSize={19} color="preto">
         Extrato de cashback
       </Typography>
       <Box style={{ marginTop: 12, display: 'flex', flexDirection: 'row' }}>
@@ -268,7 +304,7 @@ export const MyWalletView = (
         }]}
         >
           <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.ALL)}>
-            <Typography fontFamily="reservaSansRegular" fontSize={16} color="black">
+            <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
               Tudo
             </Typography>
           </TouchableOpacity>
@@ -278,7 +314,7 @@ export const MyWalletView = (
         }]}
         >
           <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.CREDIT)}>
-            <Typography fontFamily="reservaSansRegular" fontSize={16} color="black">
+            <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
               Entrada
             </Typography>
           </TouchableOpacity>
@@ -288,7 +324,7 @@ export const MyWalletView = (
         }]}
         >
           <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.DEBIT)}>
-            <Typography fontFamily="reservaSansRegular" fontSize={16} color="black">
+            <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
               Saída
             </Typography>
           </TouchableOpacity>
@@ -318,17 +354,17 @@ export const MyWalletView = (
           style={{ borderBottomWidth: 1, borderBottomColor: '#E8E8E8', paddingBottom: 6 }}
         >
           <Box style={{ flex: 1 }}>
-            <Typography fontFamily="nunitoBold" fontSize={14} color="black">
+            <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
               Tipo
             </Typography>
           </Box>
           <Box style={{ flex: 1 }}>
-            <Typography fontFamily="nunitoBold" fontSize={14} color="black">
+            <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
               Cashback
             </Typography>
           </Box>
           <Box style={{ flex: 1 }}>
-            <Typography fontFamily="nunitoBold" fontSize={14} color="black">
+            <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
               Data
             </Typography>
           </Box>
@@ -343,7 +379,7 @@ export const MyWalletView = (
             }}
           >
             <Box style={{ flex: 1 }}>
-              {operation.cashback_amount_in_cents > 0 ? (
+              {operation.cashbackAmountInCents > 0 && operationFilter !== FilterOptions.DEBIT ? (
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="#38A238">
                   Crédito
                 </Typography>
@@ -354,14 +390,30 @@ export const MyWalletView = (
               )}
             </Box>
             <Box style={{ flex: 1 }}>
-              <Typography fontFamily="nunitoRegular" fontSize={14} color="black">
-                {operation.cashback_amount_in_cents > 0 && `+ ${convertCentsToReal(operation.cashback_amount_in_cents)}`}
-                {operation.applied_balance_in_cents > 0 && `- ${convertCentsToReal(operation.applied_balance_in_cents)}`}
-              </Typography>
+              { operationFilter === FilterOptions.ALL && (
+                <Box display="flex" flexDirection="row">
+                  <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
+                    {operation?.cashbackAmountInCents > 0 && `+ ${operation.cashbackAmountInCents}`}
+                  </Typography>
+                  <Typography fontFamily="nunitoRegular" fontSize={14} color="#D71921">
+                    {operation?.appliedBalanceInCents > 0 && ` - ${operation.appliedBalanceInCents}`}
+                  </Typography>
+                </Box>
+              )}
+              { operationFilter === FilterOptions.CREDIT && (
+                <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
+                  {operation?.cashbackAmountInCents > 0 && `+ R$ ${operation.cashbackAmountInCents}`}
+                </Typography>
+              )}
+              { operationFilter === FilterOptions.DEBIT && (
+                <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
+                  {operation?.appliedBalanceInCents > 0 && ` - R$ ${operation.appliedBalanceInCents}`}
+                </Typography>
+              )}
             </Box>
             <Box style={{ flex: 1 }}>
-              <Typography fontFamily="nunitoRegular" fontSize={14} color="black">
-                {formatDate(operation.created_at)}
+              <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
+                {formatDate(operation.createdAt)}
               </Typography>
             </Box>
           </Box>
@@ -388,39 +440,3 @@ export const MyWalletView = (
     ) : (<></>)}
   </>
 );
-
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 4,
-    flex: 1,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  tab: {
-    backgroundColor: '#EFEFEF',
-    padding: 8,
-    textAlign: 'left',
-    marginRight: 5,
-    paddingBottom: 20,
-    zIndex: -1,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
-  },
-});

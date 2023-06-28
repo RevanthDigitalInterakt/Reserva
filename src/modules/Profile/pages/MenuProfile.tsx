@@ -218,7 +218,7 @@ export function MenuProfile() {
               <Box paddingX="xxxs">
                 <ItemList
                   title="Meu Cashback"
-                  descr="Escaneie o QR Code e veja sua carteira"
+                  descr="Veja sua carteira"
                   icon="Cashback"
                   arrowDown
                   dropdownActive={cashbackDropOpen}
@@ -233,13 +233,6 @@ export function MenuProfile() {
                   paddingY="xxxs"
                   testID="com.usereserva:id/menu_profile_cash_back"
                 >
-                  <Box paddingX="xxs" pb="xxs">
-                    <TouchableOpacity onPress={handleCashback}>
-                      <Typography fontFamily="nunitoRegular" fontSize={14}>
-                        QR Code para cashback
-                      </Typography>
-                    </TouchableOpacity>
-                  </Box>
                   <Box paddingX="xxs">
                     <TouchableOpacity
                       {...testProps('com.usereserva:id/my_cashback_button')}
