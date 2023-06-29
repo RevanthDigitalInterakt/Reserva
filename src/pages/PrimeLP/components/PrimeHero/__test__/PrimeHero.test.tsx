@@ -5,6 +5,38 @@ import { fireEvent, render, screen } from '@testing-library/react-native';
 import PrimeHero from '../PrimeHero';
 import { mockPrimeData, addToCartMock } from '../../../../../../__mocks__/PrimeLP.mock';
 
+const mockProfile = {
+  __typename: 'ProfileOutput',
+  email: 'fulano@gmail.com',
+  isPrime: true,
+  addresses: [
+    {
+      __typename: 'ProfileAddressOutput',
+      addressName: 'nuuzjm6dd2k',
+      addressType: 'residential',
+      city: 'Pindamonhangaba',
+      complement: 'casa',
+      country: 'BRA',
+      id: 'nuuzjm6dd2k',
+      neighborhood: 'Residencial Mantiqueira',
+      number: '500',
+      postalCode: '12446300',
+      receiverName: 'Teste Receber',
+      reference: '',
+      state: 'SP',
+      street: 'Rua Reinaldo de Oliveira Santos',
+    },
+  ],
+  id: '316438e9-d825-44d2-8f0a-94ceea768ea3',
+};
+
+jest.mock('../../../../../zustand/useAuth/useAuthStore', () => ({
+  useAuthStore: () => ({ profile: mockProfile }),
+}));
+jest.mock('../../../../../zustand/usePrimeStore/usePrimeStore', () => ({
+  usePrimeStore: () => ({ hasPrimeSubscriptionInCart: true }),
+}));
+
 const TestingComponent = (
   <ThemeProvider theme={theme}>
     <PrimeHero data={mockPrimeData} onAddToCart={addToCartMock} />

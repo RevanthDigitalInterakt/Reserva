@@ -16,6 +16,42 @@ import { mockPrimeData } from '../../../../__mocks__/PrimeLP.mock';
 
 // MOCKS
 const mockAddItemFn = jest.fn();
+const mockHandleAddToCartPrime = jest.fn();
+const mockProfile = {
+  __typename: 'ProfileOutput',
+  email: 'fulano@gmail.com',
+  isPrime: true,
+  addresses: [
+    {
+      __typename: 'ProfileAddressOutput',
+      addressName: 'nuuzjm6dd2k',
+      addressType: 'residential',
+      city: 'Pindamonhangaba',
+      complement: 'casa',
+      country: 'BRA',
+      id: 'nuuzjm6dd2k',
+      neighborhood: 'Residencial Mantiqueira',
+      number: '500',
+      postalCode: '12446300',
+      receiverName: 'Teste Receber',
+      reference: '',
+      state: 'SP',
+      street: 'Rua Reinaldo de Oliveira Santos',
+    },
+  ],
+  id: '316438e9-d825-44d2-8f0a-94ceea768ea3',
+};
+
+jest.mock('../../../zustand/useAuth/useAuthStore', () => ({
+  useAuthStore: () => ({ profile: mockProfile }),
+}));
+
+jest.mock('../../../zustand/usePrimeStore/usePrimeStore', () => ({
+  usePrimeStore: () => ({
+    hasPrimeSubscriptionInCart: true,
+    handleAddToCartPrime: mockHandleAddToCartPrime,
+  }),
+}));
 
 jest.mock('../../../zustand/useApolloFetchPolicyStore', () => ({
   useApolloFetchPolicyStore: () => ({
@@ -70,11 +106,19 @@ describe('PrimeLP', () => {
     fireEvent.press(callToAction);
 
     await waitFor(() => {
-      expect(mockAddItemFn).toBeCalled();
-      expect(mockAddItemFn).toHaveBeenCalledWith({
-        quantity: 1,
-        itemId: `${mockPrimeData.productId}`,
-        seller: mockPrimeData.productSeller,
+      expect(mockHandleAddToCartPrime).toBeCalled();
+      expect(mockHandleAddToCartPrime).toHaveBeenCalledWith({
+        primeInformation: {
+          __typename: 'PrimeDetailOutput',
+          discountFrom: 499,
+          discountPercentage: 20,
+          installmentPrice: 25,
+          installmentQty: 12,
+          monthlyCashback: 25,
+          productId: 35126,
+          productSeller: '1',
+        },
+        addItem: mockAddItemFn,
       });
     });
   });
