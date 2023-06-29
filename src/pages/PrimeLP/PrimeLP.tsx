@@ -1,6 +1,7 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import { Box } from '@usereservaapp/reserva-ui';
 import { TopBarDefaultBackButton } from '../../modules/Menu/components/TopBarDefaultBackButton';
 import PrimeHero from './components/PrimeHero';
@@ -13,13 +14,29 @@ import { ModalBag } from '../../components/ModalBag/ModalBag';
 import EventProvider from '../../utils/EventProvider';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 import testProps from '../../utils/testProps';
+import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
+import { ModalWelcomePrime } from '../../components/ModalWelcomePrime';
 
 function PrimeLP() {
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
-  const [loadingAddCart, setLoadingAddCart] = useState(false);
-  const [animationBag, setAnimationBag] = useState(false);
 
   const { addItem } = useCart();
+  const { goBack } = useNavigation();
+  const {
+    animationBag,
+    loadingAddCartPrime,
+    handleClickContinue,
+    handleAddToCartPrime,
+    isVisibleModalWelcome,
+    changeStateAnimationBag,
+  } = usePrimeStore([
+    'animationBag',
+    'loadingAddCartPrime',
+    'handleClickContinue',
+    'handleAddToCartPrime',
+    'isVisibleModalWelcome',
+    'changeStateAnimationBag',
+  ]);
 
   const { data: rawData, loading } = useLandingPagePrimeQuery({
     context: { clientName: 'gateway' },
@@ -30,38 +47,33 @@ function PrimeLP() {
 
   const onAddPrimeToCart = useCallback(async () => {
     try {
-      if (!data || loadingAddCart) return;
+      if (!data || loadingAddCartPrime) return;
 
-      setLoadingAddCart(true);
-
-      await addItem({
-        quantity: 1,
-        itemId: `${data.productId}`,
-        seller: data.productSeller,
+      await handleAddToCartPrime({
+        primeInformation: data,
+        addItem,
       });
-
-      EventProvider.logEvent('add_to_cart_prime', {
-        item_quantity: 1,
-        item_id: `${data.productId}`,
-        seller: data.productSeller,
-      });
-
-      setLoadingAddCart(false);
-      setAnimationBag(true);
     } catch (e) {
       EventProvider.captureException(e);
     }
-  }, [addItem, data, loadingAddCart]);
+  }, [addItem, data, handleAddToCartPrime, loadingAddCartPrime]);
+
+  const onCloseModalWelcomePrime = () => {
+    handleClickContinue();
+    goBack();
+  };
 
   return (
     <SafeAreaView style={{ backgroundColor: '#fff' }}>
       <Box bg="white">
-        <TopBarDefaultBackButton loading={loading || loadingAddCart} navigateGoBack />
+        <TopBarDefaultBackButton loading={loading || loadingAddCartPrime} navigateGoBack />
 
         <ModalBag
           isVisible={animationBag}
-          onBackdropPress={() => setAnimationBag(false)}
+          onBackdropPress={() => changeStateAnimationBag(false)}
         />
+
+        <ModalWelcomePrime isVisible={isVisibleModalWelcome} onClose={onCloseModalWelcomePrime} />
 
         {!!(data && !loading) && (
           <ScrollView

@@ -102,7 +102,7 @@ export function SelectBoxPrime({
               >
                 {' '}
                 R$
-                {savedValue}
+                {savedValue.toFixed(2)}
               </Typography>
             </Typography>
           </ImageBackground>

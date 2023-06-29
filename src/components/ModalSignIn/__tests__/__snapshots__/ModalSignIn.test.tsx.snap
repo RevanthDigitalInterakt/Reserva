@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ModalSignIn should match with the snapshot 1`] = `
+exports[`ModalSignIn should match to snapshot 1`] = `
 <Modal
   accessibilityLabel="com.usereserva:id/modal_sign_in"
   animationType="none"

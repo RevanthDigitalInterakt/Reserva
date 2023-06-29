@@ -11,6 +11,7 @@ import images from '../../../../base/styles/icons';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import EventProvider from '../../../../utils/EventProvider';
 import { ProductDetailCard } from '../../../../components/ProductDetailCard/ProductDetailCard';
+import PricesSelectBoxes from '../../../../components/PricesSelectBoxes/PricesSelectBoxes';
 
 function ProductSummary() {
   const { getBoolean } = useRemoteConfig();
@@ -102,8 +103,7 @@ function ProductSummary() {
           return newIndex;
         }}
       />
-      {/* TODO: Add this component to show select boxes to price prime */}
-      {/* <PricesSelectBoxes selectedSize={selectedSize} /> */}
+      <PricesSelectBoxes selectedSize={selectedSize} />
     </>
   );
 }
