@@ -9,8 +9,8 @@ import {
   Typography,
   TextField,
 } from '@usereservaapp/reserva-ui';
-import { ProfileVars } from '../../../../graphql/profile/profileQuery';
-import CodeInput from '../../../../shared/components/CodeInput';
+import type { ProfileVars } from '../../../../graphql/profile/profileQuery';
+import CodeInput from '../../../../components/CodeInput/CodeInput';
 
 export interface RegisterPhoneNumberViewProps {
   profile: ProfileVars;
@@ -76,7 +76,6 @@ export const RegisterPhoneNumberView = ({
               <Box>
                 <Box mb="nano">
                   <Typography
-                      // style={{ lineHeight: 28 }}
                     fontFamily="reservaSerifMedium"
                     fontSize={28}
                   >
@@ -144,7 +143,6 @@ export const RegisterPhoneNumberView = ({
               {!isChangeNumber && (
               <Box mb="nano">
                 <Typography
-                        // style={{ lineHeight: 25 }}
                   fontFamily="reservaSerifMedium"
                   fontSize={28}
                 >
@@ -227,7 +225,6 @@ export const RegisterPhoneNumberView = ({
           <>
             <Box mb="nano">
               <Typography
-                  // style={{ lineHeight: 25 }}
                 fontFamily="reservaSerifMedium"
                 fontSize={28}
               >

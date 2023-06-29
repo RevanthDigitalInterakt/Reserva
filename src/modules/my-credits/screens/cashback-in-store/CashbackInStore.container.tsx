@@ -10,16 +10,10 @@ import { CashbackInStoreView } from './CashbackInStore.view';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 
 interface CashbackInStoreContainerProps {
-  costumerDocument: string;
   navigateBack: () => void;
-  navigateToError: () => void;
 }
 
-export const CashbackInStoreContainer = ({
-  costumerDocument,
-  navigateBack,
-  navigateToError,
-}: CashbackInStoreContainerProps) => {
+export const CashbackInStoreContainer = ({ navigateBack }: CashbackInStoreContainerProps) => {
   const { profile } = useAuthStore(['profile']);
   const [token, setToken] = useState<string>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);

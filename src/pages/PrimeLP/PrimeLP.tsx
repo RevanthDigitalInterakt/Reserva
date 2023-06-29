@@ -9,7 +9,7 @@ import PrimeBenefits from './components/PrimeBenefits';
 import PrimeSubscribe from './components/PrimeSubscribe';
 import { useLandingPagePrimeQuery } from '../../base/graphql/generated';
 import { useCart } from '../../context/CartContext';
-import { ModalBag } from '../../common/components/ModalBag/ModalBag';
+import { ModalBag } from '../../components/ModalBag/ModalBag';
 import EventProvider from '../../utils/EventProvider';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 import testProps from '../../utils/testProps';

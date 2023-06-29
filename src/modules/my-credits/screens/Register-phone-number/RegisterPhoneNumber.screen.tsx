@@ -1,31 +1,14 @@
-import React from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import React from 'react';
 
-import { BaseScreen } from '../../../../common/components/BaseScreen';
-import { MyCreditsParamList, MyCreditsScreensRoutes } from '../../navigation/MyCreditsNavigator';
-
+import { BaseScreen } from '../../../../components/BaseScreen';
 import { RegisterPhoneNumberContainer } from './RegisterPhoneNumber.container';
 
-type RegisterPhoneNumberScreenProps = StackScreenProps<
-MyCreditsParamList,
-MyCreditsScreensRoutes.REGISTER_PHONE_NUMBER
->;
-
-export const RegisterPhoneNumberScreen = (
-  {
-    route,
-    navigation: navigate,
-  }: RegisterPhoneNumberScreenProps,
-) => {
+export const RegisterPhoneNumberScreen = ({ route }) => {
   const navigation = useNavigation();
 
   const navigateBack = () => {
     navigation.goBack();
-  };
-
-  const navigateToError = () => {
-    navigation.navigate(MyCreditsScreensRoutes.ERROR);
   };
 
   const navigateToNumberRegisteredSuccessfully = () => {
@@ -37,11 +20,10 @@ export const RegisterPhoneNumberScreen = (
   return (
     <BaseScreen testID="com.usereserva:id/">
       <RegisterPhoneNumberContainer
-        profile={route?.params.profile}
-        isChangeNumber={route?.params.isChangeNumber}
-        confirmPhone={route?.params.confirmPhone}
+        profile={route?.params?.profile}
+        isChangeNumber={route?.params?.isChangeNumber}
+        confirmPhone={route?.params?.confirmPhone}
         navigateBack={navigateBack}
-        navigateToError={navigateToError}
         navigateToNumberRegisteredSuccessfully={navigateToNumberRegisteredSuccessfully}
       />
     </BaseScreen>

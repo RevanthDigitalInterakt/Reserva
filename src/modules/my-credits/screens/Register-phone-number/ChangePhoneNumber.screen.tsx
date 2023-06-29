@@ -1,9 +1,9 @@
 import React from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
-import { BaseScreen } from '../../../../common/components/BaseScreen';
-import { MyCreditsParamList, MyCreditsScreensRoutes } from '../../navigation/MyCreditsNavigator';
+import { BaseScreen } from '../../../../components/BaseScreen';
+import type { MyCreditsParamList, MyCreditsScreensRoutes } from '../../navigation/MyCreditsNavigator';
 
 import { ChangePhoneNumberContainer } from './ChangePhoneNumber.container';
 
@@ -12,20 +12,11 @@ MyCreditsParamList,
 MyCreditsScreensRoutes.CHANGE_PHONE_NUMBER
 >;
 
-export const ChangePhoneNumberScreen = (
-  {
-    route,
-    navigation: navigate,
-  }: ChangePhoneNumberScreenProps,
-) => {
+export const ChangePhoneNumberScreen = ({ route }: ChangePhoneNumberScreenProps) => {
   const navigation = useNavigation();
 
   const navigateBack = () => {
     navigation.goBack();
-  };
-
-  const navigateToError = () => {
-    navigation.navigate(MyCreditsScreensRoutes.ERROR);
   };
 
   const navigateToRegisterPhoneNumber = () => {
@@ -45,9 +36,8 @@ export const ChangePhoneNumberScreen = (
   return (
     <BaseScreen testID="com.usereserva:id/ChangePhoneNumberScreen">
       <ChangePhoneNumberContainer
-        profile={route?.params.profile}
+        profile={route?.params?.profile}
         navigateBack={navigateBack}
-        navigateToError={navigateToError}
         navigateToRegisterPhoneNumber={navigateToRegisterPhoneNumber}
         navigateToConfirmPhone={navigateToConfirmPhone}
       />

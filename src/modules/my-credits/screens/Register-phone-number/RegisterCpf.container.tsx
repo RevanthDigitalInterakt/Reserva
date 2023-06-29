@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ProfileVars, profileMutation } from '../../../../graphql/profile/profileQuery';
 import { RegisterCpfView } from './RegisterCpf.view';
@@ -7,14 +7,12 @@ import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 interface RegisterCpfContainerProps {
   profile: ProfileVars;
   navigateBack: () => void;
-  navigateToError: () => void;
   navigateToVerifyNumber: () => void;
 }
 
 export const RegisterCpfContainer = ({
   profile,
   navigateBack,
-  navigateToError,
   navigateToVerifyNumber,
 }: RegisterCpfContainerProps) => {
   const [cpf, setCpf] = useState<string>('');
@@ -22,6 +20,7 @@ export const RegisterCpfContainer = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   const [updateUserData] = useMutation(profileMutation);
+
   const cpfValidate = async (cpf: string) => {
     cpf = cpf.replace(/[^\d]+/g, '');
     if (cpf === '') return setCpfInvalid(true);
@@ -58,16 +57,6 @@ export const RegisterCpfContainer = ({
     return setCpfInvalid(false);
   };
 
-  const handleNavigateToVerifyNumber = () => {
-    setLoading(true);
-    if (!cpfInvalid && cpf.length > 0) {
-      handleSaveCpf().then(() => navigateToVerifyNumber());
-    } else {
-      setLoading(false);
-      setCpfInvalid(true);
-    }
-  };
-
   const handleSaveCpf = async () => {
     const user = {
       firstName: profile?.firstName,
@@ -86,6 +75,16 @@ export const RegisterCpfContainer = ({
     setLoading(false);
   };
 
+  const handleNavigateToVerifyNumber = () => {
+    setLoading(true);
+    if (!cpfInvalid && cpf.length > 0) {
+      handleSaveCpf().then(() => navigateToVerifyNumber());
+    } else {
+      setLoading(false);
+      setCpfInvalid(true);
+    }
+  };
+
   return (
     <>
       <TopBarBackButton
@@ -95,10 +94,10 @@ export const RegisterCpfContainer = ({
       />
       <RegisterCpfView
         valueCpf={cpf}
-        onChangeText={(cpf) => {
-          setCpf(cpf), cpfValidate(cpf);
+        onChangeText={(value) => {
+          setCpf(value);
+          cpfValidate(cpf);
         }}
-        profile={profile}
         navigateToVerifyNumber={handleNavigateToVerifyNumber}
         cpfInvalid={cpfInvalid}
         disableButton={loading}

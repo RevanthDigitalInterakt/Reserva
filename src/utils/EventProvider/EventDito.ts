@@ -27,10 +27,15 @@ type Searched = {
   dispositivo: string;
 };
 
+type SignedUp = {
+  email: string;
+  cpf: string;
+};
+
 export type EventsDitoValues = {
   id: string | null;
   action: string;
-  data: DataValues | Ordered | Department | Category | Searched;
+  data: DataValues | Ordered | Department | Category | Searched | SignedUp;
 };
 
 export namespace EventsOptions {
@@ -39,6 +44,7 @@ export namespace EventsOptions {
   export type SendAccessedDepartment = Pick<EventsDitoValues, | 'id' | 'action' | 'data' > & {};
   export type SendAccessedCategory = Pick<EventsDitoValues, | 'id' | 'action' | 'data' > & {};
   export type SearchedEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type SignedUpEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
 }
 // Os nomes dos eventos DEVEM ser enviados para a Dito em letras minúsculas
 export type EventOptionsDitoFn =
@@ -61,4 +67,8 @@ export type EventOptionsDitoFn =
     | {
       type: 'buscou-produto';
       payload: EventsOptions.SearchedEvent;
+    }
+    | {
+      type: 'fez-cadastro';
+      payload: EventsOptions.SignedUpEvent;
     };

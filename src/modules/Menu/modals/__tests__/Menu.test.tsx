@@ -45,7 +45,6 @@ const apolloMocks: Array<any> = [
               items: [{
                 __typename: 'Category',
                 childCategoryCollection: [{ __typename: 'CategoryChildCategoryCollection', items: [{ __typename: 'Category', name: 'Lançamento Flamengo 2023', referenceId: 'collection:2410' }, { __typename: 'Category', name: '40% Cashback', referenceId: 'collection:2374' }, { __typename: 'Category', name: 'Tudo com 60%OFF', referenceId: 'collection:2360' }, { __typename: 'Category', name: 'Coleção Inverno 23', referenceId: 'collection:2219' }] }],
-                mkt: false,
                 name: 'Novidades',
                 referenceId: 'collection:152',
               }],

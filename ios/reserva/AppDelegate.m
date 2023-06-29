@@ -1,5 +1,4 @@
 #import "AppDelegate.h"
-@import CardScan;
 #import <Firebase.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -72,8 +71,6 @@ static void InitializeFlipper(UIApplication *application) {
   self.window.rootViewController = rootViewController;
 
   [self.window makeKeyAndVisible];
-
-  [ScanViewController configureWithApiKey:@"l86jNJBFrP9A-_pTvvho-g54rybCp2d1"];
 
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
 

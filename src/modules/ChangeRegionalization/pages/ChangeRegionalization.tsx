@@ -9,27 +9,21 @@ import {
   Box, Button, Icon, Picker, TextField, Typography,
 } from '@usereservaapp/reserva-ui';
 import * as Yup from 'yup';
-import type { RootStackParamList } from 'routes/StackNavigator';
 import type { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Sentry from '../../../config/sentryConfig';
 import { TopBarBackButtonWithoutLogo } from '../../Menu/components/TopBarBackButtonWithoutLogo';
-import { FormikTextInput } from '../../../shared/components/FormikTextInput';
+import { FormikTextInput } from '../../../components/FormikTextInput/FormikTextInput';
 import { platformType } from '../../../utils/platformType';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 
-export interface ChangeRegionalizationProps {
-
-}
-
-type Props = StackScreenProps<RootStackParamList, 'ChangeRegionalization'> &
-ChangeRegionalizationProps;
+type Props = StackScreenProps<RootStackParamList, 'ChangeRegionalization'>;
 
 export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
   const [cepInputText, setCepInputText] = useState('');
   const [isCepAddress, setIsCepAddress] = useState<boolean | undefined>(false);
   const [isCepProductDetail, setIsCepProductDetail] = useState<boolean | undefined>(false);
-  const [streetInputText, setStreetInputText] = useState('');
   const [address, setAddress] = useState<{
     uf?: string,
     city?: string,
@@ -114,7 +108,11 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
     fetch('https://brasilapi.com.br/api/ibge/uf/v1')
       .then(async (response) => {
         const parsedStates: any[] = await response.json();
-        setStates(parsedStates.sort((a, b) => a.nome.localeCompare(b.nome)).map((state) => ({ text: state.sigla, subText: state.nome })));
+        setStates(
+          parsedStates.sort(
+            (a, b) => a.nome.localeCompare(b.nome),
+          ).map((state) => ({ text: state.sigla, subText: state.nome })),
+        );
       });
   }, []);
 
@@ -123,11 +121,14 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
       .then(async (response) => {
         const parsedCities: any[] = await response.json();
 
-        setCities(parsedCities.sort((a, b) => a.nome.localeCompare(b.nome)).map((city) => ({ text: city.nome })));
+        setCities(
+          parsedCities.sort(
+            (a, b) => a.nome.localeCompare(b.nome),
+          ).map((city) => ({ text: city.nome })),
+        );
       });
   }, [address?.uf]);
 
-  // return <CEPList />
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
       <TopBarBackButtonWithoutLogo

@@ -1,19 +1,19 @@
-import React from 'react';
 import {
   Box,
   Button,
   Icon,
-  Image,
   Typography,
 } from '@usereservaapp/reserva-ui';
 import {
   loadingSpinner,
 } from '@usereservaapp/reserva-ui/src/assets/animations';
 import LottieView from 'lottie-react-native';
+import React from 'react';
 
 import { Text, View } from 'react-native';
 import configDeviceSizes from '../../utils/configDeviceSizes';
 import { decimalPart, integerPart } from '../../utils/numberUtils';
+import ImageComponent from '../ImageComponent/ImageComponent';
 import ProductPricePrimeRow from '../ProductPricePrimeLabelRow/ProductPricePrimeRow';
 import ProductPriceRow from '../ProductPriceRow/ProductPriceRow';
 import ProductThumbColorsRow from '../ProductThumbColorsRow/ProductThumbColorsRow';
@@ -37,7 +37,6 @@ export interface ProductVerticalListCardProps {
   isFavorited?: boolean
   onClickFavorite?: (favoriteState: boolean) => void
   onClickImage?: () => void
-  mktplaceImageComponent?: React.ReactNode;
   isPrime: boolean
   testID?: string;
 }
@@ -127,14 +126,11 @@ export const ProductVerticalListCard = ({
   colors,
   colorsLimit,
   showThumbColors,
-  mktplaceImageComponent = null,
   isPrime,
   testID,
 }: ProductVerticalListCardProps) => (
   <View>
     <Box height="100%">
-      {mktplaceImageComponent}
-
       <Box position="absolute" zIndex={5} right={10} top={8}>
         {loadingFavorite
           ? (
@@ -158,7 +154,9 @@ export const ProductVerticalListCard = ({
               variant="icone"
               testID={`${testID}_favorite`}
               onPress={() => {
-                onClickFavorite && onClickFavorite(!isFavorited);
+                if (onClickFavorite) {
+                  onClickFavorite(!isFavorited);
+                }
               }}
               icon={(
                 <Icon
@@ -179,10 +177,12 @@ export const ProductVerticalListCard = ({
 
       {saleOff && (
         <Box position="absolute" top={discountTag ? 50 : 0} left={0} zIndex={1}>
-          <Image
-            source={saleOff}
-            width={50}
-            height={50}
+          <ImageComponent
+            source={{ uri: saleOff }}
+            style={{
+              width: 50,
+              height: 50,
+            }}
             resizeMode="cover"
           />
         </Box>
@@ -190,18 +190,17 @@ export const ProductVerticalListCard = ({
 
       <Button
         onPress={() => {
-          onClickImage && onClickImage();
+          if (onClickImage) {
+            onClickImage();
+          }
         }}
         testID={testID}
       >
-        <Box>
-          <Image
-            source={imageSource}
-            height={small ? 160 : 248}
-            width={imageWidth || configDeviceSizes.DEVICE_WIDTH * 0.45}
-            resizeMode="cover"
-          />
-        </Box>
+        <ImageComponent
+          source={{ uri: imageSource }}
+          height={small ? 160 : 248}
+          width={imageWidth || configDeviceSizes.DEVICE_WIDTH * 0.45}
+        />
       </Button>
 
       {!showThumbColors && (

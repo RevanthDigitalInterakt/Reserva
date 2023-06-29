@@ -55,7 +55,6 @@ export const AccountDeletedSuccessfully = () => {
           height={50}
           onPress={() => {
             navigation.navigate('Home');
-            // logout();
           }}
         >
           <Typography

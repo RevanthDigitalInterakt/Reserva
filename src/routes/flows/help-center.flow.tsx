@@ -6,7 +6,7 @@ import { FrequentDoubts } from '../../modules/HelpCenter/PagesHelp/FrequentDoubt
 import { HelpPaymentMethods } from '../../modules/HelpCenter/PagesHelp/HelpPaymentMethods';
 import { OrdersAndDeliveries } from '../../modules/HelpCenter/PagesHelp/OrdersAndDeliveries';
 import { PrivacyPolicy } from '../../modules/HelpCenter/PagesHelp/PrivacyPolicy';
-import { Flow } from '../types/flow.type';
+import type { Flow } from '../types/flow.type';
 
 export const HelpCenterFLow: Flow[] = [
   {
@@ -37,7 +37,6 @@ export const HelpCenterFLow: Flow[] = [
     component: PrivacyPolicy,
     name: 'PrivacyPolicy',
   },
-  // { component: TermsOfUse, name: 'TermsOfUse' },
   {
     component: ContactUs,
     name: 'ContactUs',

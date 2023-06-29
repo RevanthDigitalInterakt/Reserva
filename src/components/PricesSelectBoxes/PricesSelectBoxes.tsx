@@ -7,7 +7,7 @@ import type { ProductSizeOutput } from '../../base/graphql/generated';
 import { styles } from './PricesSelectBoxes.styles';
 import testProps from '../../utils/testProps';
 import { ModalSignIn } from '../ModalSignIn';
-import { ModalBag } from '../../common/components/ModalBag/ModalBag';
+import { ModalBag } from '../ModalBag/ModalBag';
 
 interface IPropsPriceSelectBoxes {
   selectedSize: ProductSizeOutput | null;

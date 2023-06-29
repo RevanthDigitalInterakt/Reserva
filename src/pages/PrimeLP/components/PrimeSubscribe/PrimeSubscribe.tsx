@@ -8,7 +8,7 @@ import testProps from '../../../../utils/testProps';
 import type { PrimeDetailOutput } from '../../../../base/graphql/generated';
 import EventProvider from '../../../../utils/EventProvider';
 
-const ImageProductSource = require('../../assets/product.png');
+const ImageProductSource = require('../../../../../assets/common/product.png');
 
 interface IPrimeSubscribe {
   data: PrimeDetailOutput;

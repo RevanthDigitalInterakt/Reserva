@@ -1,10 +1,8 @@
 import React from 'react';
-
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { horizontalAnimationBackwards } from '../animations/animations';
 import { Menu } from '../modules/Menu/modals/Menu';
-
+import horizontalAnimationBackwards from './animations/horizontalAnimationBackwards';
 import { MainStackScreen } from './StackNavigator';
 
 const RootStack = createStackNavigator();

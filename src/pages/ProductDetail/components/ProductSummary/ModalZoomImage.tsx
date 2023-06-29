@@ -4,13 +4,16 @@ import {
 } from '@usereservaapp/reserva-ui';
 import React, { useEffect, useState } from 'react';
 import {
-  Image, Modal, StyleSheet, TouchableOpacity,
+  Modal,
+  StyleSheet,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
-import { images } from '../../../../assets';
+import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import testProps from '../../../../utils/testProps';
+import IconComponent from '../../../../components/IconComponent/IconComponent';
 
 export interface ModalBagProps {
   isVisible: boolean;
@@ -71,7 +74,15 @@ const ImageSelection = ({
     width={84}
     px="quarck"
   >
-    <Image source={images.selectRectangle} height={24} width={84} style={{ position: 'absolute', left: 0 }} />
+    <IconComponent
+      icon="selectRectangle"
+      height={24}
+      width={84}
+      style={{
+        position: 'absolute',
+        left: 0,
+      }}
+    />
 
     {imagesArray.map((_, index) => (
       <Box
@@ -108,11 +119,12 @@ const ModalTutorial = ({
         alignItems: 'center',
       }}
     >
-      <Image
-        source={images.arrowInstruction}
-        height={200}
-        width={200}
+      <IconComponent
+        icon="arrowInstruction"
+        resizeMode="contain"
         style={{
+          height: 75,
+          width: 75,
           transform: [
             { scaleY: -1 },
             { rotate: '-20deg' },
@@ -140,10 +152,12 @@ const ModalTutorial = ({
         alignItems: 'center',
       }}
     >
-      <Image
-        source={images.zoomHand}
-        height={200}
-        width={200}
+      <IconComponent
+        icon="zoomHand"
+        style={{
+          height: 75,
+          width: 75,
+        }}
       />
       <Box
         alignItems="center"
@@ -167,11 +181,11 @@ const ModalTutorial = ({
         flexDirection: 'row',
       }}
     >
-      <Image
-        source={images.arrowInstruction}
-        height={200}
-        width={200}
+      <IconComponent
+        icon="arrowInstruction"
         style={{
+          width: 75,
+          height: 75,
           transform: [
             { scaleY: 1 },
           ],
@@ -251,7 +265,7 @@ export const ModalZoomImage = ({
               }
 
               return (
-                <Image
+                <ImageComponent
                   {...props}
                   style={styles.image}
                 />

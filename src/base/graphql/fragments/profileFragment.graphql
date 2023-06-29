@@ -9,6 +9,7 @@ fragment ProfileFragment on ProfileOutput {
   homePhone
   gender
   isComplete
+  isPrime
   addresses {
     id
     receiverName

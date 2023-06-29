@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import {
@@ -15,7 +15,6 @@ import EventProvider from '../../../../utils/EventProvider';
 interface ChangePhoneNumberContainerProps {
   profile: ProfileVars;
   navigateBack: () => void;
-  navigateToError: () => void;
   navigateToRegisterPhoneNumber: () => void;
   navigateToConfirmPhone: () => void;
 }
@@ -23,14 +22,12 @@ interface ChangePhoneNumberContainerProps {
 export const ChangePhoneNumberContainer = ({
   profile,
   navigateBack,
-  navigateToError,
   navigateToRegisterPhoneNumber,
   navigateToConfirmPhone,
 }: ChangePhoneNumberContainerProps) => {
-  const [phone, setPhone] = useState('');
   const [loadingToken, setLoadingToken] = React.useState(false);
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
-  const [{ data: dataProfile, loadingProfile }, setDataProfile] = useState({
+  const [{ data: dataProfile }, setDataProfile] = useState({
     data: null,
     loadingProfile: true,
   });

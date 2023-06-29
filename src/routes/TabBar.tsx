@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { BottomBar, BottomBarButton, Box } from '@usereservaapp/reserva-ui';
 import { slugify } from '../utils/slugify';
 import testProps from '../utils/testProps';

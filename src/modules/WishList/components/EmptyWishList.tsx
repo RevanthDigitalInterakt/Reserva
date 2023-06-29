@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { ScrollView, Image } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
-import { images } from '../../../assets';
+import IconComponent from '../../../components/IconComponent/IconComponent';
 
 export const EmptyWishList = () => {
   const navigation = useNavigation();
@@ -10,7 +10,7 @@ export const EmptyWishList = () => {
   return (
     <ScrollView>
       <Box flex={1} alignItems="center" paddingTop={110}>
-        <Image source={images.noWishList} />
+        <IconComponent icon="noWishList" />
         <Box mx={37} mt="md">
           <Typography fontFamily="reservaSerifRegular" fontSize={24}>
             Você ainda não tem favoritos :(

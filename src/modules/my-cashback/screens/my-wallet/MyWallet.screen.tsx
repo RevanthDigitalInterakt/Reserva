@@ -1,21 +1,9 @@
 import { useNavigation, CommonActions } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import { BaseScreen } from '../../../../common/components/BaseScreen';
-import { MyCashbackParamList, MyCashbackScreensRoutes } from '../../navigation/MyCashbackNavigator';
+import { BaseScreen } from '../../../../components/BaseScreen';
 import { MyWalletContainer } from './MyWallet.container';
 
-type MyWalletScreenProps = StackScreenProps<
-MyCashbackParamList,
-MyCashbackScreensRoutes.MY_WALLET
->;
-
-export const MyWalletScreen = (
-  {
-    route,
-    navigation: navigate,
-  }: MyWalletScreenProps,
-) => {
+export const MyWalletScreen = () => {
   const navigation = useNavigation();
 
   const navigateBack = () => {
@@ -28,15 +16,10 @@ export const MyWalletScreen = (
     navigation.dispatch(CommonActions.navigate({ name: 'HomeTabs' }));
   };
 
-  const navigateToError = () => {
-    navigation.navigate(MyCashbackScreensRoutes.ERROR);
-  };
-
   return (
     <BaseScreen testID="com.usereserva:id/MyWalletScreen">
       <MyWalletContainer
         navigateBack={navigateBack}
-        navigateToError={navigateToError}
       />
     </BaseScreen>
   );

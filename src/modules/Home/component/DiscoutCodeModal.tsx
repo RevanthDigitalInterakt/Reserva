@@ -8,7 +8,7 @@ import {
   Box, Button, Icon, theme, Typography,
 } from '@usereservaapp/reserva-ui';
 
-import { images } from '../../../assets';
+import images from '../../../base/styles/icons';
 import testProps from '../../../utils/testProps';
 
 interface IData {

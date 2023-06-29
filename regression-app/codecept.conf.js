@@ -28,7 +28,7 @@ exports.config = {
   hooks: [],
   gherkin: {
     features: './features/specs/*.feature',
-    steps: ['./features/step_definitions/login_steps.js', './features/step_definitions/bag_steps.js'],
+    steps: ['./features/step_definitions/login_steps.js', './features/step_definitions/bag_steps.js', './features/step_definitions/register_address_steps.js'],
   },
 
   plugins: {

@@ -8,8 +8,6 @@ const urlBase = Config.URL_BASE;
 
 const urlBase2 = Config.URL_BASE2;
 
-const urlBase3 = Config.URL_BASE3;
-
 const urlUser = Config.URL_USER;
 
 const urlDeleteUser = Config.URL_DELETE_USER;

@@ -35,7 +35,6 @@ export type EventValuesName =
   | 'product_name'
   | 'product_category'
   | 'product_price'
-  | 'product_currency'
   | 'search_string'
   | 'search_ids'
   | 'price'
@@ -104,4 +103,5 @@ export const onlyGaEvents = [
   'add_payment_info',
   'add_shipping_info',
   'view_search_results',
+  'add_payment_info_test',
 ];

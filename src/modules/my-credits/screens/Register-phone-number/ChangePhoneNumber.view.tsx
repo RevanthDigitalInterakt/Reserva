@@ -1,9 +1,7 @@
 import React from 'react';
 import { ScrollView, SafeAreaView } from 'react-native';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
-import {
-  ProfileVars,
-} from '../../../../graphql/profile/profileQuery';
+import type { ProfileVars } from '../../../../graphql/profile/profileQuery';
 
 export interface ChangePhoneNumberViewProps {
   profile: ProfileVars;
@@ -24,7 +22,6 @@ export const ChangePhoneNumberView = ({
         <Box>
           <Box mb="nano">
             <Typography
-                                // style={{ lineHeight: 28 }}
               fontFamily="reservaSerifMedium"
               fontSize={28}
             >

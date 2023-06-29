@@ -8,7 +8,6 @@ import ProductDetailWrapper from './components/ProductDetailWrapper';
 import FormNewsletter from './components/FormNewsletter';
 import ProductSLA from './components/ProductSLA';
 import ProductAbout from './components/ProductAbout';
-import { ProductRecommendation } from '../../common/components/ProductRecommendation/ProductRecommendation';
 import ProductSummary from './components/ProductSummary';
 import ProductAssinaturaSimples from './components/ProductAssinaturaSimples';
 import ProductSelectors from './components/ProductSelectors';
@@ -18,6 +17,7 @@ import { useProductDetailStore } from '../../zustand/useProductDetail/useProduct
 import EventProvider from '../../utils/EventProvider';
 import type { IProductDetailRouteParams } from '../../utils/createNavigateToProductParams';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
+import { ProductRecommendation } from '../../components/ProductRecommendation/ProductRecommendation';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 

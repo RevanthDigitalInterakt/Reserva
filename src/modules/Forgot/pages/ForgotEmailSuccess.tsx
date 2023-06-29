@@ -1,12 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import {
   Typography, Box, Button,
 } from '@usereservaapp/reserva-ui';
-import { images } from '../../../assets';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import images from '../../../base/styles/icons';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../componet/HeaderBanner';
 
 export interface ForgotAccessCodeProps extends StackScreenProps<RootStackParamList, 'ForgotEmailSuccess'> { }
@@ -17,7 +17,10 @@ export const ForgotEmailSuccess: React.FC = () => {
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
       <ScrollView>
-        <HeaderBanner imageHeader={images.headerLogin} onClickGoBack={() => { navigation.goBack(); }} />
+        <HeaderBanner
+          imageHeader={images.headerLogin}
+          onClickGoBack={() => { navigation.goBack(); }}
+        />
         <Box mx={20} mt={65}>
           <Typography fontFamily="reservaSerifRegular" fontSize={35}>Senha alterada com sucesso!</Typography>
           <Button

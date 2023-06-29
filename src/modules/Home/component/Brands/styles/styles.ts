@@ -8,13 +8,6 @@ interface IBrandContainerProps {
 }
 
 const objectStyle = StyleSheet.create({
-  brandImageCarousel: {
-    maxHeight: 20,
-    width: 60,
-    height: 20,
-    maxWidth: 60,
-    resizeMode: 'contain',
-  },
   contentContainerCarousel: {
     paddingHorizontal: 10,
     paddingVertical: 2,

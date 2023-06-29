@@ -6,9 +6,8 @@ import {
   Box, Button, Typography, Icon,
 } from '@usereservaapp/reserva-ui';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { images } from '../../../assets';
+import images from '../../../base/styles/icons';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
-import CodeInput from '../../Login/components/CodeInput';
 import HeaderBanner from '../componet/HeaderBanner';
 import UnderlineInput from '../../../components/UnderlineInput';
 import { platformType } from '../../../utils/platformType';
@@ -16,6 +15,7 @@ import testProps from '../../../utils/testProps';
 
 import { useRecoverPasswordResetMutation } from '../../../base/graphql/generated';
 import EventProvider from '../../../utils/EventProvider';
+import CodeInput from '../../../components/CodeInput/CodeInput';
 
 export interface ForgotAccessCodeProps
   extends StackScreenProps<RootStackParamList, 'ForgotAccessCode'> { }

@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Box } from '@usereservaapp/reserva-ui';
 import {
   Animated, StyleSheet,
+  View,
 } from 'react-native';
 import type { Carousel } from '../../../graphql/homePage/HomeQuery';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
@@ -30,7 +31,7 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
   const scrollX = useRef(new Animated.Value(0)).current;
 
   return (
-    <Box testID="com.usereserva:id/cards_carrousel_container">
+    <Box {...testProps('com.usereserva:id/cards_carrousel_container')}>
       <Box>
         <Animated.FlatList
           {...testProps('com.usereserva:id/cards_carrousel_animated_flat_list')}
@@ -44,6 +45,7 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
           snapToOffsets={[...Array(myCards.length)].map(
             (_x, i) => i * (configDeviceSizes.DEVICE_WIDTH * 0.85 - 48) + (i - 1) * 48,
           )}
+          keyExtractor={(item) => item?.image?.url}
           snapToAlignment="start"
           scrollEventThrottle={16}
           decelerationRate="fast"
@@ -53,19 +55,16 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
           }}
           bounces={false}
           renderItem={({ item, index }) => (
-            <Box>
-              <Card
-                image={item?.image}
-                name={item?.name}
-                description={item?.description}
-                reference={item?.reference}
-                key={index}
-                reservaMini={item?.reservaMini}
-                orderBy={item?.orderBy}
-                linkMktIn={item?.linkMktIn}
-                filters={item?.filters}
-              />
-            </Box>
+            <Card
+              image={item?.image}
+              name={item?.name}
+              description={item?.description}
+              reference={item?.reference}
+              key={index}
+              reservaMini={item?.reservaMini}
+              orderBy={item?.orderBy}
+              filters={item?.filters}
+            />
           )}
         />
 
@@ -90,22 +89,24 @@ export const CardsCarrousel: React.FC<CardsCarrouselProps> = ({
               },
             ]}
           />
-          {myCards.map((_item, index) => (
-            <Box
-              testID="com.usereserva:id/cards_carrousel_my_cards"
-              key={index}
-              justifyContent="center"
-              alignItems="center"
-              width={19}
+          {myCards.map((item) => (
+            <View
+              key={item?.image?.url}
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: 19,
+              }}
             >
-              <Box
-                borderWidth={1}
-                width={7}
-                height={7}
-                borderRadius={7}
-                borderColor="#6F6F6F"
+              <View style={{
+                borderWidth: 1,
+                width: 7,
+                height: 7,
+                borderRadius: 7,
+                borderColor: '#6F6F6F',
+              }}
               />
-            </Box>
+            </View>
           ))}
         </Box>
       </Box>
