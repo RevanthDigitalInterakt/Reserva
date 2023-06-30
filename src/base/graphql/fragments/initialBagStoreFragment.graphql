@@ -1,6 +1,5 @@
 fragment InitialOrderFormFragment on OrderformOutput {
     orderFormId
-    hasPrimeSubscriptionInCart
     appTotalizers {
         items
         discount

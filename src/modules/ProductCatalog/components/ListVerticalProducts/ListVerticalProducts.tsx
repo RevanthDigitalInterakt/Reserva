@@ -25,6 +25,7 @@ import { getPercent } from '../../../../utils/getPercent';
 import { slugify } from '../../../../utils/slugify';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
+import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
 
 interface ListProductsProps {
   cleanFilter: () => void;
@@ -64,6 +65,7 @@ export const ListVerticalProducts = ({
   handleScrollToTheTop,
 }: ListProductsProps) => {
   const { getBoolean } = useRemoteConfig();
+  const { isPrime } = usePrimeStore(['isPrime']);
   const navigation = useNavigation();
   const [loadingFavorite, setLoadingFavorite] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
@@ -285,7 +287,7 @@ export const ListVerticalProducts = ({
                   item={item}
                   index={index}
                   horizontal={horizontal}
-                  isPrime={profile?.isPrime}
+                  isPrime={isPrime}
                   loadingFavorite={
                     !!loadingFavorite.find((x) => x === item?.items[0]?.itemId)
                   }

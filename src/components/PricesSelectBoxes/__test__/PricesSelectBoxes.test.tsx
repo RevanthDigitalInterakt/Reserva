@@ -1,9 +1,7 @@
 import React from 'react';
 import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
-import {
-  fireEvent, render, screen,
-} from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
 import { MockedProvider } from '@apollo/client/testing';
 import PricesSelectBoxes from '../PricesSelectBoxes';
 import { ApolloMockLPPrime } from '../../../pages/PrimeLP/__mocks__/primeLPMocks';
@@ -113,7 +111,7 @@ describe('PricesSelectBoxes', () => {
   });
 
   it('should show text that prime is not cumulative if has discount', () => {
-    const { rerender } = render(TestingComponent(selectedSizeWithDiscountMock));
+    render(TestingComponent(selectedSizeWithDiscountMock));
 
     const text = screen.getByText(
       'O desconto do Prime não é cumulativo com produtos em liquidação.',
@@ -123,18 +121,15 @@ describe('PricesSelectBoxes', () => {
   });
 
   it('should change selection when a price option is pressed', () => {
-    const { rerender } = render(TestingComponent(selectedSizeMock));
+    render(TestingComponent(selectedSizeMock));
 
     const selectBoxNormal = screen.getByTestId('com.usereserva:id/select_box_price_normal');
     const selectBoxPrime = screen.getByTestId('com.usereserva:id/select_box_price_prime');
 
-    expect(selectBoxNormal).toBeOnTheScreen();
-    expect(selectBoxPrime).toBeOnTheScreen();
-
     fireEvent.press(selectBoxNormal);
 
     // rerender component
-    rerender(TestingComponent(selectedSizeMock));
+    screen.rerender(TestingComponent(selectedSizeMock));
 
     const checkedNormal = screen.getByTestId('com.usereserva:id/select_box_price_normal_checked');
 
@@ -143,10 +138,8 @@ describe('PricesSelectBoxes', () => {
 
     fireEvent.press(selectBoxPrime);
 
-    rerender(TestingComponent(selectedSizeMock));
+    const checkedPrime = screen.getByTestId('com.usereserva:id/select_box_price_prime_checked');
 
-    const ModalSignIn = screen.getByTestId('com.usereserva:id/modal_sign_in');
-
-    expect(ModalSignIn).toBeOnTheScreen();
+    expect(checkedPrime).toBeOnTheScreen();
   });
 });

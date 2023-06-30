@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import type {
   ColorProps,
   LayoutProps,
@@ -11,9 +11,6 @@ import {
 } from '@usereservaapp/reserva-ui';
 
 import testProps from '../../utils/testProps';
-import { useCart } from '../../context/CartContext';
-import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
-import { useInitialBagStoreLazyQuery } from '../../base/graphql/generated';
 
 export type IconTopBar = {
   name: string;
@@ -45,45 +42,21 @@ export const TopBar = ({
   rightButton2,
   loading = false,
   ...props
-}: TopBarProps) => {
-  const { orderForm } = useCart();
-  const { getHasSubscriptionPrimeInCart } = usePrimeStore(['getHasSubscriptionPrimeInCart']);
-
-  const [getOrderForm] = useInitialBagStoreLazyQuery({
-    context: { clientName: 'gateway' },
-    fetchPolicy: 'no-cache',
-  });
-
-  const requestOrderForm = useCallback(async () => {
-    if (!orderForm) return;
-
-    const { data: dataOrderForm } = await getOrderForm({
-      variables: { orderFormId: orderForm?.orderFormId },
-    });
-
-    if (!dataOrderForm?.orderForm) return;
-    getHasSubscriptionPrimeInCart(dataOrderForm?.orderForm.hasPrimeSubscriptionInCart);
-  }, [orderForm]);
-
-  useEffect(() => {
-    requestOrderForm();
-  }, [requestOrderForm]);
-
-  return (
-    <Box justifyContent="flex-end" {...props}>
+}: TopBarProps) => (
+  <Box justifyContent="flex-end" {...props}>
+    <Box
+      flex={1}
+      flexDirection="row"
+      justifyContent="flex-end"
+      paddingX="micro"
+    >
       <Box
-        flex={1}
+        width="25%"
         flexDirection="row"
-        justifyContent="flex-end"
-        paddingX="micro"
+        alignItems="flex-start"
+        alignSelf="center"
       >
-        <Box
-          width="25%"
-          flexDirection="row"
-          alignItems="flex-start"
-          alignSelf="center"
-        >
-          {leftButton !== undefined && (
+        {leftButton !== undefined && (
           <Button
             justifyContent="flex-end"
             hitSlop={{
@@ -102,35 +75,35 @@ export const TopBar = ({
             {...testProps(leftButton.testID)}
             onPress={leftButton.onPress}
           />
-          )}
-        </Box>
-
-        {showLogo ? (
-          <Box
-            width="50%"
-            justifyContent="flex-start"
-            alignItems="center"
-            alignSelf="center"
-          >
-            <Icon name="Logo" color="vermelhoAlerta" size={24} />
-          </Box>
-        ) : (
-          <Box
-            width="50%"
-            justifyContent="flex-start"
-            alignItems="center"
-            alignSelf="flex-start"
-          />
         )}
+      </Box>
 
+      {showLogo ? (
         <Box
-          width="25%"
-          flexDirection="row"
-          justifyContent="flex-end"
-          alignItems="flex-end"
+          width="50%"
+          justifyContent="flex-start"
+          alignItems="center"
           alignSelf="center"
         >
-          {rightButton1 !== undefined && (
+          <Icon name="Logo" color="vermelhoAlerta" size={24} />
+        </Box>
+      ) : (
+        <Box
+          width="50%"
+          justifyContent="flex-start"
+          alignItems="center"
+          alignSelf="flex-start"
+        />
+      )}
+
+      <Box
+        width="25%"
+        flexDirection="row"
+        justifyContent="flex-end"
+        alignItems="flex-end"
+        alignSelf="center"
+      >
+        {rightButton1 !== undefined && (
           <Button
             hitSlop={{
               top: 20,
@@ -149,9 +122,9 @@ export const TopBar = ({
             onPress={rightButton1.onPress}
             mr={rightButton2 ? 20 : 0}
           />
-          )}
+        )}
 
-          {rightButton2 !== undefined && (
+        {rightButton2 !== undefined && (
           <Button
             variant="icone"
             hitSlop={{
@@ -169,10 +142,10 @@ export const TopBar = ({
             onPress={rightButton2.onPress}
             badgeCount={rightButton2.badgeCount}
           />
-          )}
-        </Box>
+        )}
       </Box>
-      {loading && (
+    </Box>
+    {loading && (
       <Box top={0} height={1} justifyContent="flex-end">
         <ProgressBar
           animated
@@ -184,7 +157,6 @@ export const TopBar = ({
           borderRadius={0}
         />
       </Box>
-      )}
-    </Box>
-  );
-};
+    )}
+  </Box>
+);
