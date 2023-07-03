@@ -41,6 +41,8 @@ import {
 import { splitSellerName } from '../utils/splitSellerName';
 import { getBrands } from '../utils/getBrands';
 import { defaultBrand } from '../utils/defaultWBrand';
+import { setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
+import { useBagStore } from '../zustand/useBagStore/useBagStore';
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -556,6 +558,15 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [topBarLoading, setTopBarLoading] = useState<boolean>(false);
   const [hasErrorApplyCoupon, setHasErrorApplyCoupon] = useState<boolean>(false);
 
+  const { actions } = useBagStore(['actions']);
+
+  useEffect(() => {
+    if (orderForm?.orderFormId) {
+      setAsyncStorageItem('orderFormId', orderForm?.orderFormId)
+        .then(actions.REFETCH_ORDER_FORM);
+    }
+  }, [orderForm?.orderFormId, actions.REFETCH_ORDER_FORM]);
+
   const [orderFormAddSellerCoupon] = useOrderFormAddSellerCouponMutation({
     context: { clientName: 'gateway' },
   });
@@ -570,11 +581,17 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const _requestOrderForm = async () => {
     const { data } = await CreateCart();
+
     setOrderForm(data);
   };
 
   const _requestRestoreCart = async (orderFormId: string): Promise<OrderForm> => {
     const { data } = await RestoreCart(orderFormId);
+
+    if (orderFormId) {
+      setAsyncStorageItem('orderFormId', orderFormId);
+    }
+
     setOrderForm(data);
 
     return data;
@@ -665,6 +682,10 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     const {
       quantity, itemId, seller, index = -1, isUpdate = false, hasBundleItems = false,
     } = dto;
+
+    if (orderForm?.orderFormId) {
+      setAsyncStorageItem('orderFormId', orderForm.orderFormId);
+    }
 
     try {
       const isUpdateItem = hasBundleItems && isUpdate && index >= 0;

@@ -23,6 +23,7 @@ import {
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { ModalClientIsPrime } from '../components/ModalClientIsPrime/ModalClientIsPrime';
 import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
+import { usePrimeInfo } from '../../../hooks/usePrimeInfo';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 
@@ -54,6 +55,8 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false);
   const [isUserPrimeWithPrimeOnBag, setIsUserPrimeWithPrimeOnBag] = useState(false);
 
+  const { primeActive } = usePrimeInfo();
+
   const [profileAddress] = useProfileAddressMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
@@ -69,7 +72,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   );
 
   const onCheckPrime = useCallback(async () => {
-    if (profile?.isPrime && hasPrimeSubscriptionInCart) {
+    if (profile?.isPrime && hasPrimeSubscriptionInCart && primeActive) {
       const primeItemIndex = items.findIndex((item) => item.isPrimeSubscription);
 
       if (primeItemIndex !== -1) {
@@ -84,7 +87,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
 
   useEffect(() => {
     onCheckPrime();
-  }, [onCheckPrime]);
+  }, [onCheckPrime, primeActive]);
 
   const requestMap = async () => {
     try {

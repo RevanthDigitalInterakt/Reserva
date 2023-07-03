@@ -160,24 +160,22 @@ export default function CouponComponent() {
       <Divider variant="fullWidth" marginY="xs" />
 
       <>
-        {appTotalizers.discount !== 0 || appTotalizers.total
-          ? (
-            <Box
-              marginBottom="micro"
-              flexDirection="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography variant="precoAntigo3">Subtotal</Typography>
-              <PriceCustom
-                fontFamily="nunitoSemiBold"
-                sizeInterger={15}
-                sizeDecimal={11}
-                num={appTotalizers.total}
-              />
-            </Box>
-          )
-          : null}
+        {appTotalizers.discount !== 0 || appTotalizers.total ? (
+          <Box
+            marginBottom="micro"
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography variant="precoAntigo3">Subtotal</Typography>
+            <PriceCustom
+              fontFamily="nunitoSemiBold"
+              sizeInterger={15}
+              sizeDecimal={11}
+              num={appTotalizers.total}
+            />
+          </Box>
+        ) : null}
 
         {appTotalizers.discount !== 0 && (
           <Box

@@ -12,6 +12,7 @@ fragment OrderformItemFragment on OrderformItemOutput {
     discountApi
     showFirstPurchaseDiscountMessage
     showTotalDiscountFirstPurchaseValue
+    productCategories
     price
     productId
     id

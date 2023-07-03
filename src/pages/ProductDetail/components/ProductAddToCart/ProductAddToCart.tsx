@@ -11,10 +11,12 @@ import EventProvider from '../../../../utils/EventProvider';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { ModalBag } from '../../../../components/ModalBag/ModalBag';
 import testProps from '../../../../utils/testProps';
+import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 
 function ProductAddToCart() {
   const { getString } = useRemoteConfig();
   const { addItem, orderForm } = useCart();
+  const { actions } = useBagStore(['actions']);
   const {
     productDetail,
     selectedColor,
@@ -50,17 +52,19 @@ function ProductAddToCart() {
 
       const orderFormItem = orderForm?.items.find((items) => items.id === selectedSize.itemId);
 
+      // TODO: Update to use API Gateway
       const addItemResponse = await addItem({
         quantity: orderFormItem ? orderFormItem.quantity + 1 : 1,
         itemId: selectedSize.itemId,
         seller: selectedSize.seller || '',
       });
 
-      // TODO: Update to use API Gateway
       if (!addItemResponse?.ok) {
         Alert.alert('Produto sem estoque', addItemResponse?.message);
         return;
       }
+
+      actions.REFETCH_ORDER_FORM();
 
       setShowAnimationBag(true);
       addTagsUponCartUpdate();
