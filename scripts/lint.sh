@@ -1,10 +1,6 @@
 #!/bin/bash
 
-<<<<<<< HEAD
 declare -i LIMIT_ERROR=415
-=======
-declare -i LIMIT_ERROR=395
->>>>>>> feature/prime
 declare -i TOTAL_ERROR=$(yarn run --silent lint | grep 'problems' | grep -o '[0-9]\+' | head -1)
 
 if (( LIMIT_ERROR >= TOTAL_ERROR )); then

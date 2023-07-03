@@ -12,10 +12,7 @@ import { Button } from '../Button';
 import * as Styles from './styles';
 import type { IParamsComponent } from './types';
 
-export const ModalWelcomePrime: React.FC<IParamsComponent> = ({
-  onClose,
-  isVisible,
-}) => {
+export function ModalWelcomePrime({ onClose, isVisible }: IParamsComponent) {
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
 
   const { data: dataPrime } = useLandingPagePrimeQuery({
@@ -85,4 +82,4 @@ export const ModalWelcomePrime: React.FC<IParamsComponent> = ({
       </Styles.ContainerModal>
     </Modal>
   );
-};
+}

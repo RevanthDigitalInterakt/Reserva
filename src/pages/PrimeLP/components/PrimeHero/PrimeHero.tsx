@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import { ImageBackground, TouchableOpacity, View } from 'react-native';
 import { Typography } from '@usereservaapp/reserva-ui';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
@@ -18,18 +17,13 @@ interface IPrimeHero {
 }
 
 function PrimeHero({ data, onAddToCart }: IPrimeHero) {
-  const { navigate } = useNavigation();
   const { profile } = useAuthStore(['profile']);
   const { hasPrimeSubscriptionInCart } = usePrimeStore(['hasPrimeSubscriptionInCart']);
 
   const onPressAddCart = useCallback(() => {
-    if (hasPrimeSubscriptionInCart || profile?.isPrime) {
-      EventProvider.logEvent('prime_press_add_to_cart_lp', { position: 'top' });
-      onAddToCart();
-    } else {
-      navigate('Offers');
-    }
-  }, [hasPrimeSubscriptionInCart, navigate, onAddToCart, profile?.isPrime]);
+    EventProvider.logEvent('prime_press_add_to_cart_lp', { position: 'top' });
+    onAddToCart();
+  }, [onAddToCart]);
 
   const hasPrime = profile?.isPrime || hasPrimeSubscriptionInCart;
 

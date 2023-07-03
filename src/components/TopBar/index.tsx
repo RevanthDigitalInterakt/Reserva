@@ -13,7 +13,7 @@ import {
 import testProps from '../../utils/testProps';
 import { useCart } from '../../context/CartContext';
 import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
-import { useInitialBagStoreLazyQuery } from '../../base/graphql/generated';
+import { useOrderFormLazyQuery } from '../../base/graphql/generated';
 
 export type IconTopBar = {
   name: string;
@@ -49,7 +49,7 @@ export const TopBar = ({
   const { orderForm } = useCart();
   const { getHasSubscriptionPrimeInCart } = usePrimeStore(['getHasSubscriptionPrimeInCart']);
 
-  const [getOrderForm] = useInitialBagStoreLazyQuery({
+  const [getOrderForm] = useOrderFormLazyQuery({
     context: { clientName: 'gateway' },
     fetchPolicy: 'no-cache',
   });

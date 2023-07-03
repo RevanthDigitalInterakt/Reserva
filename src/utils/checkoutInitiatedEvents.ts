@@ -1,17 +1,23 @@
 import { CategoriesParserString } from './categoriesParserString';
-import type { OrderformItemOutput } from '../base/graphql/generated';
+import type { OrderFormQuery } from '../base/graphql/generated';
 
-interface Items extends OrderformItemOutput {}
+type TOrderFormItem = OrderFormQuery['orderForm']['items'][0];
 
-export const getAFContentId = (items: Items[]) => items.map((i: Items) => i.productId);
+interface IOrderFormItem extends TOrderFormItem {}
 
-export const getAFContentType = (items: Items[]) => items.map((i: Items) => CategoriesParserString(i.productCategories));
+export const getAFContentId = (items: IOrderFormItem[]) => (
+  items.map((i: IOrderFormItem) => i.productId)
+);
 
-export const getQuantity = (items: Items[]) => {
-  const arr = items.reduce((acc: Items[], cur: Items) => {
+export const getAFContentType = (items: IOrderFormItem[]) => (
+  items.map((i: IOrderFormItem) => CategoriesParserString(i.productCategories))
+);
+
+export const getQuantity = (items: IOrderFormItem[]) => {
+  const arr = items.reduce((acc: IOrderFormItem[], cur: IOrderFormItem) => {
     const { productId: curId, quantity: curQuantity } = cur;
 
-    const indexOfExistingItem = acc.findIndex((item: Items) => item.productId === curId);
+    const indexOfExistingItem = acc.findIndex((item: IOrderFormItem) => item.productId === curId);
 
     if (indexOfExistingItem > -1) {
       const { productId, quantity } = acc[indexOfExistingItem];
@@ -26,15 +32,19 @@ export const getQuantity = (items: Items[]) => {
   return arr;
 };
 
-export const getAFContent = (items: Items[]) => items.map((i: Items) => ({
+export const getAFContent = (items: IOrderFormItem[]) => items.map((i: IOrderFormItem) => ({
   id: i.productId,
   price: i.price / 100 || 0,
   quantity: i.quantity,
 }));
 
-export const getAFQuantity = (items: Items[]) => JSON.stringify(items.map((i: Items) => ({
-  id: i.productId,
-  quantity: i.quantity,
-})));
+export const getAFQuantity = (items: IOrderFormItem[]) => (
+  JSON.stringify(items.map((i: IOrderFormItem) => ({
+    id: i.productId,
+    quantity: i.quantity,
+  })))
+);
 
-export const sumQuantity = (items: Items[]) => items.reduce((acc, value) => acc + value.quantity, 0);
+export const sumQuantity = (items: IOrderFormItem[]) => (
+  items.reduce((acc, value) => acc + value.quantity, 0)
+);
