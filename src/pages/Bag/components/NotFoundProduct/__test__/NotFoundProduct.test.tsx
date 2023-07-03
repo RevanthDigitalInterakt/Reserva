@@ -1,34 +1,45 @@
 import React from 'react';
 import { theme } from '@usereservaapp/reserva-ui';
-import { act } from '@testing-library/react-hooks';
 import { ThemeProvider } from 'styled-components/native';
-import { fireEvent, render } from '@testing-library/react-native';
-
+import { fireEvent, render, screen } from '@testing-library/react-native';
 import NotFoundProduct from '..';
-import useBagStore from '../../../../../zustand/useBagStore/useBagStore';
+import * as useBagStore from '../../../../../zustand/useBagStore/useBagStore';
+
+const mockClearProductNotFound = jest.fn();
+
+jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
+  actions: {
+    CLEAR_PRODUCT_NOT_FOUND: mockClearProductNotFound,
+  },
+  productNotFound: 'Product not found',
+} as any);
+
+const TestingComponent = (
+  <ThemeProvider theme={theme}>
+    <NotFoundProduct />
+  </ThemeProvider>
+);
 
 describe('NotFoundProduct component', () => {
-  it('should rende with calls handleSetNotFoundProduct when close button is pressed', async () => {
-    const mockDispatch = jest.fn();
+  beforeEach(() => {
+    render(TestingComponent);
+  });
 
-    await act(async () => {
-      useBagStore.setState({ productNotFound: 'Product not found', dispatch: mockDispatch });
-    });
+  afterAll(() => {
+    jest.clearAllMocks();
+  });
 
-    const { getByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <NotFoundProduct />
-      </ThemeProvider>,
-    );
-    const closeButton = getByTestId('com.usereserva:id/NotFoundProduct_setProduct');
+  it('should match with the snapshot', () => {
+    const notFoundProductComponent = screen.toJSON();
 
-    await act(async () => {
-      await fireEvent.press(closeButton);
-    });
+    expect(notFoundProductComponent).toMatchSnapshot();
+  });
 
-    expect(mockDispatch).toHaveBeenCalledWith({
-      payload: { value: { productNotFound: '' } },
-      actionType: 'SET_PRODUCT_NOT_FOUND',
-    });
+  it('should render with calls handleSetNotFoundProduct when close button is pressed', async () => {
+    const closeButton = screen.getByTestId('com.usereserva:id/NotFoundProduct_setProduct');
+
+    fireEvent.press(closeButton);
+
+    expect(mockClearProductNotFound).toHaveBeenCalled();
   });
 });

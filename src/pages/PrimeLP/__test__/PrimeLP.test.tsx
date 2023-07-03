@@ -66,6 +66,7 @@ jest
       landingPagePrime: {
         ...mockPrimeData,
       },
+      __typename: 'Query',
     },
     loading: false,
   } as any);
@@ -106,6 +107,13 @@ describe('PrimeLP', () => {
     fireEvent.press(callToAction);
 
     await waitFor(() => {
+<<<<<<< HEAD
+      expect(mockAddItemFn).toBeCalled();
+      expect(mockAddItemFn).toHaveBeenCalledWith({
+        quantity: 1,
+        itemId: `${mockPrimeData.skuId}`,
+        seller: mockPrimeData.productSeller,
+=======
       expect(mockHandleAddToCartPrime).toBeCalled();
       expect(mockHandleAddToCartPrime).toHaveBeenCalledWith({
         primeInformation: {
@@ -119,6 +127,7 @@ describe('PrimeLP', () => {
           productSeller: '1',
         },
         addItem: mockAddItemFn,
+>>>>>>> feature/prime
       });
     });
   });

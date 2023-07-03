@@ -1,23 +1,5 @@
 mutation orderFormUpdateItem($orderFormId: String!, $seller: String!, $id: String!, $quantity: Int!, $index: Int!) {
     orderFormUpdateItem(input: { orderFormId: $orderFormId, seller: $seller, id: $id, quantity: $quantity, index: $index}) {
-        items {
-            ...OrderformItemFragment
-        }
-        appTotalizers {
-            items
-            discount
-            delivery
-            total
-        }
-        selectableGift {
-            ...OrderformSelectableGiftFragment
-        }
-        allItemsQuantity
-        messages
-        installmentInfo {
-            installmentsNumber
-            installmentPrice
-            totalPrice
-        }
+        ...orderFormFragment
     }
 }

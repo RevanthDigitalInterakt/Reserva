@@ -49,6 +49,18 @@ function PrimeLP() {
     try {
       if (!data || loadingAddCartPrime) return;
 
+      await addItem({
+        quantity: 1,
+        itemId: `${data.skuId}`,
+        seller: data.productSeller,
+      });
+
+      EventProvider.logEvent('add_to_cart_prime', {
+        item_quantity: 1,
+        item_id: `${data.skuId}`,
+        seller: data.productSeller,
+      });
+
       await handleAddToCartPrime({
         primeInformation: data,
         addItem,

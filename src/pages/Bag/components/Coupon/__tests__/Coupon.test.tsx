@@ -6,8 +6,13 @@ import { fireEvent, render } from '@testing-library/react-native';
 import { act } from 'react-test-renderer';
 import CouponComponent from '..';
 import CartContextProvider from '../../../../../context/CartContext';
-import useBagStore from '../../../../../zustand/useBagStore/useBagStore';
+import * as useBagStore from '../../../../../zustand/useBagStore/useBagStore';
 import subscribeNewsLetter from '../../../../../graphql/profile/newsLetter';
+
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useCallBack: jest.fn(),
+}));
 
 const apolloMocks = [
   {
@@ -23,26 +28,28 @@ const apolloMocks = [
   },
 ];
 
-const bagInfos = {
-  totalBagItemsPrice: 15,
-  totalBagItems: 18,
-  totalBagDiscountPrice: 0,
-  totalBagDeliveryPrice: 14,
-};
+const ADD_SELLER_COUPON_FN = jest.fn(() => Promise.resolve({}));
+const ADD_DISCOUNT_COUPON_FN = jest.fn(() => Promise.resolve({}));
 
-const renderCouponComponent = () => render(
+const RenderCouponComponent = (
   <ThemeProvider theme={theme}>
     <MockedProvider mocks={apolloMocks}>
       <CartContextProvider>
         <CouponComponent />
       </CartContextProvider>
     </MockedProvider>
-  </ThemeProvider>,
+  </ThemeProvider>
 );
 
 describe('Coupon Component', () => {
+  beforeEach(() => {
+    jest.useFakeTimers({ legacyFakeTimers: true });
+  });
+
   it('should render the component with the initial state', async () => {
-    const { getByPlaceholderText, getByDisplayValue } = renderCouponComponent();
+    const { getByPlaceholderText, getByDisplayValue } = render(
+      RenderCouponComponent,
+    );
 
     const sellerCouponInput = getByPlaceholderText('Código do vendedor');
     expect(sellerCouponInput).toBeTruthy();
@@ -58,71 +65,80 @@ describe('Coupon Component', () => {
     expect(discountCouponInput).toBeTruthy();
   });
 
-  it('should add seller and discount coupons', async () => {
-    const { getByTestId, queryByTestId, getByPlaceholderText } = renderCouponComponent();
+  it('should apply seller coupon', async () => {
+    jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
+      actions: {
+        ADD_SELLER_COUPON: ADD_SELLER_COUPON_FN,
+      },
+      appTotalizers: {
+        delivery: 30.1,
+        discount: 29.9,
+        items: 1,
+        total: 60,
+        __typename: 'OrderformAppTotalizersOutput',
+      },
+      marketingData: {
+        __typename: 'OrderformMarketingDataOutput',
+        coupon: 'Promo',
+        sellerCoupon: 'Promo',
+        sellerCouponName: 'Promo Teste',
+      },
+    } as any);
 
-    const sellerInput = getByPlaceholderText('Código do vendedor');
-    sellerInput.props.onChangeText('novo valor');
+    const { getByTestId } = render(RenderCouponComponent);
 
-    const sellerCouponButton = getByTestId('com.usereserva:id/button_add_seller_Coupom');
-    expect(sellerCouponButton).toBeTruthy();
+    const ButtonSellerCode = getByTestId(
+      'com.usereserva:id/button_add_seller_Coupon',
+    );
+    const TextInputSellerCode = getByTestId(
+      'com.usereserva:id/text_field_add_seller_Coupon',
+    );
 
     await act(async () => {
-      await fireEvent.press(sellerCouponButton);
+      await fireEvent.changeText(TextInputSellerCode, 'Cupom de Desconto');
     });
 
-    const discountInput = getByPlaceholderText('Cupom de desconto');
-    discountInput.props.onChangeText('desconto');
+    fireEvent.press(ButtonSellerCode);
 
-    const discountCouponButton = getByTestId('com.usereserva:id/button_add_discount_Coupom');
-    expect(discountCouponButton).toBeTruthy();
-
-    await act(async () => {
-      await fireEvent.press(discountCouponButton);
-    });
-
-    const sellerCouponBadge = queryByTestId('com.usereserva:id/CouponBadge_sellerCode');
-    expect(sellerCouponBadge).toBeFalsy();
+    expect(ADD_SELLER_COUPON_FN).toHaveBeenCalled();
   });
 
-  it('should apply seller and discount coupons', async () => {
-    const dispatch = jest.fn();
-    const couponInfos = {
-      seller: {
-        sellerName: 'testName',
-        sellerCode: '123',
-        sellerCouponError: false,
+  it('should apply discount coupon', async () => {
+    jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
+      actions: {
+        ADD_DISCOUNT_COUPON: ADD_DISCOUNT_COUPON_FN,
       },
-      discount: {
-        discountCode: '12345',
-        discountCouponError: false,
+      appTotalizers: {
+        delivery: 30.1,
+        discount: 29.9,
+        items: 1,
+        total: 60,
+        __typename: 'OrderformAppTotalizersOutput',
       },
-    };
+      marketingData: {
+        __typename: 'OrderformMarketingDataOutput',
+        coupon: 'Promo',
+        sellerCoupon: 'Promo',
+        sellerCouponName: 'Promo Teste',
+      },
+    } as any);
 
-    useBagStore.setState({
-      couponInfo: couponInfos,
-      bagInfos,
-      topBarLoading: false,
-      dispatch,
-      getPriceWithDiscount: jest.fn(),
+    const { getByTestId } = render(RenderCouponComponent);
 
-    });
+    const ButtonApplyDiscountCoupon = getByTestId(
+      'com.usereserva:id/button_add_discount_Coupon',
+    );
 
-    const { getByTestId } = renderCouponComponent();
-
-    const ButtonSellerCode = getByTestId('com.usereserva:id/CouponBadge_discountCode');
-    expect(ButtonSellerCode).toBeTruthy();
-    await act(async () => {
-      await fireEvent.press(ButtonSellerCode);
-    });
-
-    const discountCode = getByTestId('com.usereserva:id/CouponBadge_sellerCode');
-    expect(discountCode).toBeTruthy();
+    const TextInputDiscountCode = getByTestId(
+      'com.usereserva:id/text_field_add_discount_Coupon',
+    );
 
     await act(async () => {
-      await fireEvent.press(discountCode);
+      await fireEvent.changeText(TextInputDiscountCode, 'Cupom de Desconto');
     });
 
-    expect(dispatch).toHaveBeenNthCalledWith(1, { actionType: 'SET_TOP_BAR_LOADING', payload: { value: { topBarLoading: true } } });
+    fireEvent.press(ButtonApplyDiscountCoupon);
+
+    expect(ADD_DISCOUNT_COUPON_FN).toHaveBeenCalled();
   });
 });

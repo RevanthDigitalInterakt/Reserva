@@ -35,7 +35,7 @@ export const LoginScreen: FC<Props> = ({
     setLoginCredentials,
   } = useAuthentication({ navigation });
 
-  const { onSignOut } = useAuthStore(['onSignIn', 'onSignOut']);
+  const { onSignOut } = useAuthStore(['onSignOut']);
 
   useEffect(() => {
     if (comeFrom === 'Profile') {

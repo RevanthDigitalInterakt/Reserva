@@ -84,7 +84,7 @@ export function useAuthentication({ navigation, closeModal }: IParamsHook) {
     } else {
       validateCredentials();
     }
-  }, [emailIsValid, passwordIsValid, loginCredentials, doSignIn]);
+  }, [emailIsValid, passwordIsValid, loginCredentials, doSignIn, validateCredentials]);
 
   const verifyUserEmail = useCallback(async () => {
     if (loginCredentials.username.trim().toLowerCase()) {

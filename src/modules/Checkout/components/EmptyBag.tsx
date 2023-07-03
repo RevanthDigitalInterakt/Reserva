@@ -17,6 +17,7 @@ interface IEmptyBag {
 export const EmptyBag = ({ backButtonPress, onPress, loading }: IEmptyBag) => (
   <>
     <TopBarBackButton showShadow backButtonPress={backButtonPress} loading={loading} />
+
     <Box
       flex={1}
       alignItems="center"

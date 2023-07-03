@@ -18,6 +18,7 @@ fragment OrderformItemFragment on OrderformItemOutput {
     listPrice
     giftOfferingId
     seller
+    hasPrimeDiscount
     skuName
     uniqueId
     isAddedAsGift
@@ -25,4 +26,5 @@ fragment OrderformItemFragment on OrderformItemOutput {
     quantity
     disableCounter
     sellingPrice
+    isPrimeSubscription
 }

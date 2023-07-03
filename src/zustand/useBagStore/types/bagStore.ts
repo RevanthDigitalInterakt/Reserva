@@ -1,159 +1,69 @@
-import type { OrderForm } from '../../../context/CartContext';
 import type {
-  OrderformOutput,
-  OrderformSelectableGiftOutput,
-  OrderFormUpdateItemMutation,
+  OrderFormQuery,
+  OrderformSelectableGiftAvailableGiftOutput,
 } from '../../../base/graphql/generated';
 
-type TActionBagType = 'SET_TOP_BAR_LOADING'
-| 'SET_PRODUCT_NOT_FOUND'
-| 'TOOGLE_MODALS'
-| 'SET_CURRENT_ORDER_FORM'
-| 'INITIAL_SET_ORDER_FORM'
-| 'INITIAL_REFRESH_ORDER_FORM'
-| 'SET_SHIPPING_BAR_INFOS'
-| 'HANDLE_ADD_SELLER_COUPON'
-| 'HANDLE_REMOVE_SELLER_COUPON'
-| 'HANDLE_ADD_DISCOUNT_COUPON'
-| 'HANDLE_REMOVE_DISCOUNT_COUPON'
-| 'HANDLE_ADD_GIFT'
-| 'HANDLE_REMOVE_GIFT'
-| 'HANDLE_UPDATE_PRODUCT_COUNT'
-| 'HANDLE_ACTIVE_MODAL_DELETE_PRODUCT'
-| 'HANDLE_CLOSE_MODAL_DELETE_PRODUCT'
-| 'SET_INITIAL_LOAD'
-| 'HANDLE_REMOVE_UNAVAILABLE_ITEMS'
-| 'HANDLE_SELECT_GIFT_COLOR'
-| 'HANDLE_SELECT_GIFT_SIZE'
-| 'HANDLE_SELECT_GIFT_SIZE_AND_COLOR'
-| 'HANDLE_ADD_AVAILABLE_GIFT';
+export type TItemBag = OrderFormQuery['orderForm']['items'][0];
 
-interface IPayload {
-  value: any
-}
-
-interface IBagInfos {
-  totalBagItems: number
-  totalBagItemsPrice: number
-  totalBagDiscountPrice: number
-  totalBagDeliveryPrice: number
-
-}
-
-interface IItemsBag {
-  productTitle: string
-  itemColor: string
-  itemSize: string
-  isGift: boolean
-  isGiftable: boolean
-  imageSource: string
-  isAssinaturaSimples: boolean
-  priceWithDiscount: number
-  discountPercent: number
-  discountApi?: number | null
-  showFirstPurchaseDiscountMessage?: string | null
-  showTotalDiscountFirstPurchaseValue?: number | null
-  price: number
-  productId: string
-  id: string
-  skuName: string
-  name: string
-  quantity: number
-  seller: string
-  disableCounter: boolean,
-  sellingPrice: number
-  giftOfferingId?: string | null
-  listPrice: number
-  isAddedAsGift: boolean
-  uniqueId: string
-  key: string
-}
-interface IPayloadBagDispatch {
-  actionType: TActionBagType
-  payload: IPayload
-}
-
-interface IDeleteProductModal {
-  show: boolean
-  deleteInfo?: {
-    product: IItemsBag
-    index: number
-  }
-}
-
-interface IBagStore {
-  [key: string]: any
-  topBarLoading: boolean
-  bagInitialLoad: boolean
-  deleteProductModal: IDeleteProductModal
-  bagInfos: IBagInfos
-  productNotFound: string
-  showLoadingModal: boolean
-
-  currentBagItems: Array<IItemsBag>
-
-  installmentInfo: {
-    installmentsNumber: number,
-    installmentPrice: number,
-    totalPrice: number
-  }
-
-  selectableGiftInfo: {
-    currentSelectedColorGift: string
-    currentSelectedGiftSize: string
-    selectableGift: OrderformSelectableGiftOutput | null
-  }
-
-  currentOrderForm: OrderForm | undefined
-
-  couponInfo: {
-    seller: {
-      sellerName: string,
-      sellerCode: string,
-      sellerCouponError: boolean
-    },
-    discount: {
-      discountCode: string
-      discountCouponError: boolean
+export interface IBagStore {
+  // unavailableItems: {
+  //   error: boolean,
+  //   message: string
+  // }
+  initialized: boolean;
+  topBarLoading: boolean;
+  loadingModal: boolean;
+  initialLoad: boolean;
+  productNotFound: string;
+  error: string;
+  deleteProductModal: {
+    show: boolean;
+    deleteInfo?: {
+      product: TItemBag;
+      index: number;
     }
-  }
-
-  unavailableItems: {
-    error: boolean,
-    message: string
-  }
-
-  getPriceWithDiscount: ({ calculateInstallments }: { calculateInstallments?: boolean }) => number ;
-  getInitialBagState: ({
-    orderForm,
-    oldState,
-    orderFormContext,
-  }: {
-    orderForm: OrderformOutput,
-    oldState: IBagStore,
-    orderFormContext: OrderForm
-  }) => Promise<IBagStore>
-  getMessageErrorWhenUpdateItem: (
-    { updateItemResponse, currentItem, currentUpdateValueItem }:
-    {
-      updateItemResponse: OrderFormUpdateItemMutation,
-      currentItem: IItemsBag,
-      currentUpdateValueItem: number
-    }
-  ) => string;
-  shippingBar: {
-    loading: boolean,
-    sumPriceShipping: number
-    totalDelivery: number
-  }
-  dispatch: (payload: IPayloadBagDispatch) => Promise<IBagStore>
+  };
+  currentSelectedGiftSize: string;
+  currentSelectedColorGift: string;
+  //
+  orderFormId: string;
+  messages: string[];
+  clientProfileData?: OrderFormQuery['orderForm']['clientProfileData'];
+  items: OrderFormQuery['orderForm']['items']
+  selectableGift: OrderFormQuery['orderForm']['selectableGift']
+  marketingData: OrderFormQuery['orderForm']['marketingData']
+  shippingData: OrderFormQuery['orderForm']['shippingData']
+  appTotalizers: OrderFormQuery['orderForm']['appTotalizers']
+  installmentInfo: OrderFormQuery['orderForm']['installmentInfo']
+  allItemsQuantity: OrderFormQuery['orderForm']['allItemsQuantity']
+  hasPrimeSubscriptionInCart: OrderFormQuery['orderForm']['hasPrimeSubscriptionInCart']
+  //
+  actions: {
+    INITIAL_LOAD: () => Promise<void>;
+    REFETCH_ORDER_FORM: () => Promise<void>;
+    REFRESH_ORDER_FORM: () => Promise<void>;
+    ADD_SELLER_COUPON: (coupon: string) => Promise<void>;
+    ADD_DISCOUNT_COUPON: (coupon: string) => Promise<void>;
+    // ADD_AVAILABLE_GIFT: () => Promise<void>;
+    REMOVE_SELLER_COUPON: () => Promise<void>;
+    REMOVE_DISCOUNT_COUPON: () => Promise<void>;
+    ADD_AVAILABLE_GIFT: (
+      gift: OrderformSelectableGiftAvailableGiftOutput,
+      giftId: string,
+    ) => Promise<void>;
+    ADD_GIFT: (index: number, id: string) => Promise<void>;
+    REMOVE_GIFT: (index: number, id: string) => Promise<void>;
+    REMOVE_UNAVAILABLE_ITEMS: () => Promise<void>;
+    UPDATE_PRODUCT_COUNT: (
+      index: number,
+      item: TItemBag,
+      countUpdated: number,
+    ) => Promise<void>;
+    CLOSE_MODAL_DELETE_PRODUCT: () => Promise<void>;
+    ACTIVE_MODAL_DELETE_PRODUCT: (product: TItemBag, index: number) => Promise<void>;
+    SELECT_GIFT_COLOR: (color: string) => void;
+    SELECT_GIFT_SIZE: (size: string) => void;
+    SELECT_GIFT: (color: string, size: string) => void;
+    CLEAR_PRODUCT_NOT_FOUND: () => void;
+  };
 }
-
-export type {
-  IBagStore,
-  IPayloadBagDispatch,
-  TActionBagType,
-  IPayload,
-  IItemsBag,
-  IDeleteProductModal,
-};

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   Box,
   Button,
@@ -8,119 +8,51 @@ import {
   Typography,
 } from '@usereservaapp/reserva-ui';
 import { CouponBadge } from '../../../../modules/Checkout/components/CouponBadge';
-import useBagStore from '../../../../zustand/useBagStore/useBagStore';
+import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom';
-import { useCart } from '../../../../context/CartContext';
 
 export default function CouponComponent() {
-  const { orderForm } = useCart();
-
   const {
-    couponInfo: { seller, discount },
-    bagInfos,
-    dispatch,
-    getPriceWithDiscount,
-  } = useBagStore();
+    actions,
+    appTotalizers,
+    marketingData,
+  } = useBagStore(['actions', 'appTotalizers', 'marketingData']);
 
-  const [couponsValue, setCouponsValue] = useState({
-    seller: '',
-    discount: '',
-  });
+  const [sellerCouponError, setSellerCouponError] = useState(false);
+  const [discountCouponError, setDiscountCouponError] = useState(false);
+  const [couponsValue, setCouponsValue] = useState({ seller: '', discount: '' });
 
-  const handleSetCouponValue = useCallback(
-    (key: 'seller' | 'discount', currentValue: string) => {
-      setCouponsValue((oldValue) => ({
-        ...oldValue,
-        [key]: currentValue,
-      }));
-    },
-    [],
-  );
+  const handleSetCouponValue = useCallback((key: 'seller' | 'discount', currValue: string) => {
+    setCouponsValue((oldValue) => ({
+      ...oldValue,
+      [key]: currValue,
+    }));
+  }, []);
 
-  const handleActiveTopBarLoading = useCallback(async () => {
-    await dispatch({
-      actionType: 'SET_TOP_BAR_LOADING',
-      payload: {
-        value: {
-          topBarLoading: true,
-        },
-      },
-    });
-  }, [dispatch]);
+  const handleAddSellerCoupon = useCallback(async () => {
+    setSellerCouponError(false);
 
-  const handleRefreshBag = useCallback(async () => {
-    await dispatch({
-      actionType: 'INITIAL_SET_ORDER_FORM',
-      payload: {
-        value: {
-          orderForm,
-        },
-      },
-    });
-  }, [dispatch, orderForm]);
-
-  const handleAddSellerCoupom = useCallback(async () => {
-    await handleActiveTopBarLoading();
-
-    await dispatch({
-      actionType: 'HANDLE_ADD_SELLER_COUPON',
-      payload: {
-        value: couponsValue.seller,
-      },
-    });
+    await actions.ADD_SELLER_COUPON(couponsValue.seller)
+      .catch(() => setSellerCouponError(true));
 
     handleSetCouponValue('seller', '');
-
-    await handleRefreshBag();
-  }, [
-    handleActiveTopBarLoading,
-    dispatch,
-    couponsValue.seller,
-    handleSetCouponValue,
-    handleRefreshBag]);
-
-  const handleRemoveSellerCoupom = useCallback(async () => {
-    await handleActiveTopBarLoading();
-
-    await dispatch({
-      actionType: 'HANDLE_REMOVE_SELLER_COUPON',
-      payload: { value: {} },
-    });
-
-    await handleRefreshBag();
-  }, [dispatch, handleActiveTopBarLoading, handleRefreshBag]);
+  }, [actions, couponsValue.seller, handleSetCouponValue]);
 
   const handleAddDiscountCoupon = useCallback(async () => {
-    await handleActiveTopBarLoading();
+    setDiscountCouponError(false);
 
-    dispatch({
-      actionType: 'HANDLE_ADD_DISCOUNT_COUPON',
-      payload: {
-        value: {
-          coupon: couponsValue.discount,
-        },
-      },
-    });
+    await actions.ADD_DISCOUNT_COUPON(couponsValue.discount)
+      .catch(() => setDiscountCouponError(true));
 
     handleSetCouponValue('discount', '');
-  }, [
-    handleActiveTopBarLoading,
-    dispatch,
-    couponsValue.discount,
-    handleSetCouponValue,
-  ]);
+  }, [actions, couponsValue.discount, handleSetCouponValue]);
 
-  const handleRemoveDiscountCoupon = useCallback(() => {
-    handleActiveTopBarLoading();
-
-    dispatch({
-      actionType: 'HANDLE_REMOVE_DISCOUNT_COUPON',
-      payload: { value: {} },
-    });
-  }, [handleActiveTopBarLoading, dispatch]);
+  const fullPrice = useMemo(() => (
+    appTotalizers.total + appTotalizers.discount
+  ), [appTotalizers]);
 
   return (
-    <Box paddingX="micro">
+    <Box paddingX="micro" testID="com.usereserva:id/Coupon_Component">
       <Divider variant="fullWidth" />
       <Box
         flexDirection="row"
@@ -138,27 +70,29 @@ export default function CouponComponent() {
           </Typography>
         </Box>
       </Box>
+
       <Box>
         <Typography variant="tituloSessao">
           Informe aqui o código do vendedor(a) e/ou cupom de desconto
         </Typography>
       </Box>
+
       <Box flexDirection="row">
         {/* cupom vendedor */}
-        {!!seller.sellerCode && (
+        {!!marketingData?.sellerCoupon && (
           <CouponBadge
             testID="com.usereserva:id/CouponBadge_sellerCode"
-            value={`${seller.sellerName} | ${seller.sellerCode.toUpperCase()}`}
-            onPress={handleRemoveSellerCoupom}
+            value={`${marketingData?.sellerCouponName} | ${marketingData?.sellerCoupon.toUpperCase()}`}
+            onPress={actions.REMOVE_SELLER_COUPON}
           />
         )}
 
         {/* cupom desconto */}
-        {!!discount.discountCode && (
+        {!!marketingData?.coupon && (
           <CouponBadge
             testID="com.usereserva:id/CouponBadge_discountCode"
-            value={discount.discountCode}
-            onPress={handleRemoveDiscountCoupon}
+            value={marketingData?.coupon}
+            onPress={actions.REMOVE_DISCOUNT_COUPON}
           />
         )}
       </Box>
@@ -166,6 +100,7 @@ export default function CouponComponent() {
       <Box marginTop="nano" flexDirection="row">
         <Box flex={1} marginRight="micro">
           <TextField
+            testID="com.usereserva:id/text_field_add_seller_Coupon"
             height={50}
             value={couponsValue.seller}
             onChangeText={(text) => handleSetCouponValue('seller', text)}
@@ -174,25 +109,28 @@ export default function CouponComponent() {
         </Box>
         <Box>
           <Button
-            testID="com.usereserva:id/button_add_seller_Coupom"
+            testID="com.usereserva:id/button_add_seller_Coupon"
             width="100%"
             title="APLICAR"
-            onPress={handleAddSellerCoupom}
+            onPress={handleAddSellerCoupon}
             variant="primarioEstreito"
             disabled={couponsValue.seller.length === 0}
           />
         </Box>
       </Box>
-      {seller.sellerCouponError && (
+
+      {sellerCouponError && (
         <Box marginRight="micro">
           <Typography color="vermelhoAlerta" variant="precoAntigo3">
             Digite um código válido
           </Typography>
         </Box>
       )}
+
       <Box marginTop="xxxs" flexDirection="row">
         <Box flex={1} marginRight="micro">
           <TextField
+            testID="com.usereserva:id/text_field_add_discount_Coupon"
             height={50}
             value={couponsValue.discount}
             onChangeText={(text) => handleSetCouponValue('discount', text)}
@@ -201,7 +139,7 @@ export default function CouponComponent() {
         </Box>
         <Box>
           <Button
-            testID="com.usereserva:id/button_add_discount_Coupom"
+            testID="com.usereserva:id/button_add_discount_Coupon"
             width="100%"
             title="APLICAR"
             onPress={handleAddDiscountCoupon}
@@ -210,7 +148,8 @@ export default function CouponComponent() {
           />
         </Box>
       </Box>
-      {discount.discountCouponError && (
+
+      {discountCouponError && (
         <Box marginRight="micro">
           <Typography color="vermelhoAlerta" variant="precoAntigo3">
             Digite um cupom válido
@@ -219,25 +158,28 @@ export default function CouponComponent() {
       )}
 
       <Divider variant="fullWidth" marginY="xs" />
+
       <>
-        {bagInfos.totalBagDiscountPrice !== 0
-        || bagInfos.totalBagDeliveryPrice ? (
-          <Box
-            marginBottom="micro"
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="precoAntigo3">Subtotal</Typography>
-            <PriceCustom
-              fontFamily="nunitoSemiBold"
-              sizeInterger={15}
-              sizeDecimal={11}
-              num={bagInfos.totalBagItemsPrice}
-            />
-          </Box>
-          ) : null}
-        {bagInfos.totalBagDiscountPrice !== 0 && (
+        {appTotalizers.discount !== 0 || appTotalizers.total
+          ? (
+            <Box
+              marginBottom="micro"
+              flexDirection="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography variant="precoAntigo3">Subtotal</Typography>
+              <PriceCustom
+                fontFamily="nunitoSemiBold"
+                sizeInterger={15}
+                sizeDecimal={11}
+                num={appTotalizers.total}
+              />
+            </Box>
+          )
+          : null}
+
+        {appTotalizers.discount !== 0 && (
           <Box
             marginBottom="micro"
             flexDirection="row"
@@ -251,7 +193,7 @@ export default function CouponComponent() {
               negative
               sizeInterger={15}
               sizeDecimal={11}
-              num={Math.abs(bagInfos.totalBagDiscountPrice)}
+              num={Math.abs(appTotalizers.discount)}
             />
           </Box>
         )}
@@ -268,7 +210,7 @@ export default function CouponComponent() {
           fontFamily="nunitoBold"
           sizeInterger={20}
           sizeDecimal={11}
-          num={getPriceWithDiscount({})}
+          num={fullPrice}
         />
       </Box>
     </Box>
