@@ -130,10 +130,7 @@ export default function NewBag(_: TNewBagProps): JSX.Element {
                   </Typography>
                 </Box>
 
-                <ShippingBar
-                  loading={false}
-                  totalOrder={appTotalizers.total}
-                />
+                <ShippingBar loading={false} totalOrder={appTotalizers.total} />
 
                 {selectableGift?.availableGifts?.length && (
                   <SelectableGifts />

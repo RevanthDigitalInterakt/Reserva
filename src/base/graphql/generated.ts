@@ -1710,6 +1710,84 @@ export const OrderFormFragmentFragmentDoc = gql`
 }
     ${OrderformItemFragmentFragmentDoc}
 ${OrderformSelectableGiftFragmentFragmentDoc}`;
+export const OrderFormFragmentFragmentDoc = gql`
+    fragment orderFormFragment on OrderformOutput {
+  orderFormId
+  salesChannel
+  messages
+  clientProfileData {
+    email
+    firstName
+    lastName
+    document
+    documentType
+    phone
+    corporateName
+    tradeName
+    corporateDocument
+    stateInscription
+    corporatePhone
+    profileCompleteOnLoading
+  }
+  items {
+    ...OrderformItemFragment
+  }
+  selectableGift {
+    ...OrderformSelectableGiftFragment
+  }
+  marketingData {
+    coupon
+    sellerCoupon
+    sellerCouponName
+  }
+  shippingData {
+    address {
+      addressType
+      receiverName
+      addressId
+      isDisposable
+      postalCode
+      city
+      state
+      country
+      street
+      number
+      neighborhood
+      complement
+      reference
+    }
+    availableAddresses {
+      addressType
+      receiverName
+      addressId
+      isDisposable
+      postalCode
+      city
+      state
+      country
+      street
+      number
+      neighborhood
+      complement
+      reference
+    }
+  }
+  appTotalizers {
+    items
+    discount
+    delivery
+    total
+  }
+  installmentInfo {
+    installmentsNumber
+    installmentPrice
+    totalPrice
+  }
+  allItemsQuantity
+  hasPrimeSubscriptionInCart
+}
+    ${OrderformItemFragmentFragmentDoc}
+${OrderformSelectableGiftFragmentFragmentDoc}`;
 export const ProductSizeFragmentFragmentDoc = gql`
     fragment productSizeFragment on ProductSizeOutput {
   itemId
