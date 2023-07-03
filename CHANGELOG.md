@@ -19,6 +19,7 @@
 - [SRN-283 - BUG - Evento add_payment_info](https://reserva.atlassian.net/browse/SRN-283)
 - [SRN-281 - DITO - Segmentação Cadastro](https://reserva.atlassian.net/browse/SRN-281)
 - [SRN-320 - Alterar os Payloads associados ao Cashback meu perfil](https://reserva.atlassian.net/browse/SRN-320)
+- [APP2022-1096 - Sacola Prime](https://reserva.atlassian.net/browse/APP2022-1096)
 
 ---
 

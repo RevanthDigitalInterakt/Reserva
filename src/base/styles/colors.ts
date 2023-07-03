@@ -4,7 +4,6 @@ export const COLORS = {
   DARK_GRAY: '#767676',
   LIGHT_GRAY: '#8D8D8D',
   WHITE: '#ffffff',
-  BLACK: '#000000',
   INPUT_BACKGROUND: '#ffffff',
   INPUT_BORDER: '#BCBCBC',
   INPUT_TEXT: '#3A3A3A',

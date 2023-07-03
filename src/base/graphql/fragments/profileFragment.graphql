@@ -31,8 +31,4 @@ fragment ProfileFragment on ProfileOutput {
     key
     value
   }
-  payments {
-    id
-    cardNumber
-  }
 }

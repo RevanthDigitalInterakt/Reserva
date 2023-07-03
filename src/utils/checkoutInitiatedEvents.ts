@@ -1,9 +1,7 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable max-len */
 import { CategoriesParserString } from './categoriesParserString';
-import type { IOrderFormItem } from '../context/CartContext';
+import type { OrderformItemOutput } from '../base/graphql/generated';
 
-interface Items extends IOrderFormItem {}
+interface Items extends OrderformItemOutput {}
 
 export const getAFContentId = (items: Items[]) => items.map((i: Items) => i.productId);
 

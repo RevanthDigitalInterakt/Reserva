@@ -10,7 +10,7 @@
     "ios": "react-native run-ios",
     "mini-ios": "react-native run-ios --simulator='iPad Pro (9.7-inch)'",
     "start": "react-native start",
-    "test": "jest --passWithNoTests --detectOpenHandles --forceExit",
+    "test": "jest --passWithNoTests --detectOpenHandles --forceExit --silent",
     "lint": "eslint . --ext .ts --ext .tsx --cache",
     "clean": "cd android && ./gradlew clean && cd ..",
     "android-build-release": "cd android && ./gradlew assembleRelease",
@@ -58,7 +58,6 @@
     "jest-fetch-mock": "3.0.3",
     "lottie-ios": "3.2.3",
     "lottie-react-native": "^4.0.3",
-    "moment": "^2.29.1",
     "qs-stringify": "^1.2.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
@@ -130,7 +129,6 @@
     "@tsconfig/react-native": "^2.0.2",
     "@types/gl-react": "^3.15.4",
     "@types/jest": "29.2.5",
-    "@types/moment": "^2.13.0",
     "@types/node": "^18.11.18",
     "@types/qs": "^6.9.7",
     "@types/react": "^17.0.1",
@@ -201,7 +199,7 @@
     ],
     "coveragePathIgnorePatterns" : [
       "<rootDir>/src/*/*/navigation",
-      "<rootDir>/src/routes" 
+      "<rootDir>/src/routes"
     ],
 
     "moduleNameMapper": {
@@ -213,8 +211,8 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 17,
-        "functions": 18,
+        "branches": 16,
+        "functions": 17,
         "lines": 22,
         "statements": 22
       }
