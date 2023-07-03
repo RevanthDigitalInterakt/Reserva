@@ -454,7 +454,7 @@ export interface IOrderId {
   cancellationData: null;
 }
 
-interface IAddItemDTO {
+export interface IAddItemDTO {
   quantity: number,
   itemId: string,
   seller: string,
@@ -463,7 +463,7 @@ interface IAddItemDTO {
   hasBundleItems?: boolean,
 }
 
-type TAddItemResponse = {
+export type TAddItemResponse = {
   message: string;
   ok?: undefined;
 } | {
