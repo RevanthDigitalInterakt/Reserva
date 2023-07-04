@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import { ImageBackground, TouchableOpacity, View } from 'react-native';
 import { Typography } from '@usereservaapp/reserva-ui';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
@@ -7,8 +6,6 @@ import { styles } from './PrimeHero.styles';
 import IconPrimeLogo from '../Icons/IconPrimeLogo';
 import type { PrimeDetailOutput } from '../../../../base/graphql/generated';
 import EventProvider from '../../../../utils/EventProvider';
-import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
-import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
 
 const ImageSource = require('../../../../../assets/common/header.png');
 
@@ -18,20 +15,10 @@ interface IPrimeHero {
 }
 
 function PrimeHero({ data, onAddToCart }: IPrimeHero) {
-  const { navigate } = useNavigation();
-  const { profile } = useAuthStore(['profile']);
-  const { hasPrimeSubscriptionInCart } = usePrimeStore(['hasPrimeSubscriptionInCart']);
-
   const onPressAddCart = useCallback(() => {
-    if (hasPrimeSubscriptionInCart || profile?.isPrime) {
-      EventProvider.logEvent('prime_press_add_to_cart_lp', { position: 'top' });
-      onAddToCart();
-    } else {
-      navigate('Offers');
-    }
-  }, [hasPrimeSubscriptionInCart, navigate, onAddToCart, profile?.isPrime]);
-
-  const hasPrime = profile?.isPrime || hasPrimeSubscriptionInCart;
+    EventProvider.logEvent('prime_press_add_to_cart_lp', { position: 'top' });
+    onAddToCart();
+  }, [onAddToCart]);
 
   return (
     <ImageBackground
@@ -65,9 +52,7 @@ function PrimeHero({ data, onAddToCart }: IPrimeHero) {
             style={styles.button}
             onPress={onPressAddCart}
           >
-            <Typography variant="tituloSessao" style={styles.buttonText}>
-              {hasPrime ? 'CONTINUAR COMPRANDO' : 'ASSINE AGORA'}
-            </Typography>
+            <Typography variant="tituloSessao" style={styles.buttonText}>ASSINE AGORA</Typography>
           </TouchableOpacity>
         </View>
       </View>

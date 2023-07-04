@@ -1,7 +1,6 @@
 query landingPagePrime {
     landingPagePrime {
         productId
-        skuId
         productSeller
         installmentQty
         installmentPrice

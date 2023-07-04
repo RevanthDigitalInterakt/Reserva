@@ -9,6 +9,7 @@ import {
 
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import { DiscountLabel } from '../ProductVerticalListCard';
+import { integerPart, decimalPart } from '../../utils/numberUtils';
 import { Button } from '../Button';
 import ImageComponent from '../ImageComponent/ImageComponent';
 import IconComponent from '../IconComponent/IconComponent';
@@ -158,12 +159,17 @@ export const ImageSlider = ({
 };
 
 export const ProductDetailCard = ({
+  currency,
   images,
   discountTag,
   saleOff,
   title,
+  installmentsNumber,
+  installmentsPrice,
   imagesHeight,
   imagesWidth,
+  price,
+  priceWithDiscount,
   onClickShare,
   onGoBackImage,
   onGoNextImage,
@@ -332,6 +338,107 @@ export const ProductDetailCard = ({
             {title}
           </Typography>
         </Box>
+      </Box>
+      {!!discountTag && (
+      <Box flexDirection="row">
+        <Typography
+          fontSize={15}
+          fontFamily="reservaSansRegular"
+          color="preto"
+        >
+          {`De ${currency || 'R$'} `}
+        </Typography>
+        <Typography
+          fontFamily="reservaSansRegular"
+          color="preto"
+          fontSize={15}
+          style={{
+            textDecorationLine: 'line-through',
+          }}
+        >
+          {`${integerPart(price)},`}
+        </Typography>
+        <Typography
+          fontFamily="reservaSansRegular"
+          color="preto"
+          fontSize="10px"
+          style={{
+            textDecorationLine: 'line-through',
+          }}
+        >
+          {`${decimalPart(price)}`}
+        </Typography>
+      </Box>
+      )}
+
+      <Box marginTop="quarck" flexDirection="row" alignItems="center">
+
+        <Box>
+          <Box flexDirection="row">
+            {!!priceWithDiscount && (
+            <Box flexDirection="row">
+              <Typography
+                fontFamily="reservaSansRegular"
+                fontSize={24}
+                color="neutroFrio2"
+              >
+                {`${currency || 'R$'} ${integerPart(
+                  priceWithDiscount,
+                )},`}
+              </Typography>
+              <Typography
+                fontFamily="reservaSansRegular"
+                fontSize="10px"
+                color="neutroFrio2"
+              >
+                {`${decimalPart(priceWithDiscount)}`}
+              </Typography>
+            </Box>
+            )}
+          </Box>
+        </Box>
+        <Box
+          bg="neutroFrio2"
+          width="1px"
+          height={discountTag ? '30px' : '20px'}
+          marginX="micro"
+        />
+        {
+            installmentsNumber > 0 && (
+              <>
+                <Box flexDirection="row">
+
+                  <Box flexDirection="row" alignItems="baseline">
+                    <Typography
+                      fontFamily="reservaSansRegular"
+                      fontSize={18}
+                      color={discountTag ? 'vermelhoRSV' : 'preto'}
+                    >
+                      {installmentsNumber}
+                      x
+                    </Typography>
+                    <Typography
+                      fontFamily="reservaSansBold"
+                      fontSize={24}
+                      color={discountTag ? 'vermelhoRSV' : 'preto'}
+                    >
+                      {` ${currency || 'R$'} ${integerPart(
+                        installmentsPrice,
+                      )},`}
+                    </Typography>
+                  </Box>
+                  <Typography
+                    fontFamily="reservaSansBold"
+                    fontSize="11px"
+                    color={discountTag ? 'vermelhoRSV' : 'preto'}
+                  >
+                    {`${decimalPart(installmentsPrice)}`}
+                  </Typography>
+                </Box>
+
+              </>
+            )
+          }
       </Box>
     </Box>
   </Box>

@@ -365,7 +365,7 @@ exports[`SelectBoxPrime should match with the snapshot 1`] = `
           >
              
             R$
-            29.00
+            29
           </Text>
         </Text>
       </View>

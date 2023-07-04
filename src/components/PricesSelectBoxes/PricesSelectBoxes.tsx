@@ -1,22 +1,13 @@
-import React, {
-  useLayoutEffect, useState, useCallback,
-} from 'react';
-import { View } from 'react-native';
+import React, { useLayoutEffect, useState, useCallback } from 'react';
 import { Typography } from '@usereservaapp/reserva-ui';
-
-import testProps from '../../utils/testProps';
-import { useCart } from '../../context/CartContext';
-import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
-import type { ProductSizeOutput } from '../../base/graphql/generated';
-import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
-
-import { ModalSignIn } from '../ModalSignIn';
-import { ModalBag } from '../ModalBag/ModalBag';
-import { ModalWelcomePrime } from '../ModalWelcomePrime';
+import { View } from 'react-native';
 import { SelectBoxPrime } from '../SelectBoxPrime/SelectBoxPrime';
 import { SelectBoxNormal } from '../SelectBoxNormal/SelectBoxNormal';
-
+import type { ProductSizeOutput } from '../../base/graphql/generated';
 import { styles } from './PricesSelectBoxes.styles';
+import testProps from '../../utils/testProps';
+import { ModalSignIn } from '../ModalSignIn';
+import { ModalBag } from '../ModalBag/ModalBag';
 
 interface IPropsPriceSelectBoxes {
   selectedSize: ProductSizeOutput | null;
@@ -26,90 +17,48 @@ function PricesSelectBoxes({ selectedSize }: IPropsPriceSelectBoxes) {
   const [isNormalPriceSelected, setIsNormalPriceSelected] = useState(false);
   const [isPrimePriceSelected, setIsPrimePriceSelected] = useState(false);
   const [isModalSignInVisible, setIsModalSignInVisible] = useState(false);
-
-  const {
-    animationBag,
-    handleClickContinue,
-    isVisibleModalWelcome,
-    changeStateAnimationBag,
-    hasPrimeSubscriptionInCart,
-  } = usePrimeStore([
-    'animationBag',
-    'handleClickContinue',
-    'isVisibleModalWelcome',
-    'changeStateAnimationBag',
-    'hasPrimeSubscriptionInCart',
-  ]);
-
-  const { orderForm } = useCart();
-  const { profile } = useAuthStore(['profile']);
+  const [loadingAddCart, setLoadingAddCart] = useState(false);
+  const [animationBag, setAnimationBag] = useState(false);
 
   const hasDiscount = selectedSize?.hasDiscount;
 
-  const selectNormalPrice = useCallback(() => {
-    setIsNormalPriceSelected(true);
-    setIsPrimePriceSelected(false);
-  }, []);
-
-  const selectPrimePrice = useCallback(() => {
-    setIsNormalPriceSelected(false);
-    setIsPrimePriceSelected(true);
-  }, []);
-
-  const selectPriceBasedOnUser = useCallback(() => {
-    if (!hasDiscount && (profile?.isPrime || hasPrimeSubscriptionInCart)) {
-      selectPrimePrice();
-    } else {
-      selectNormalPrice();
-    }
-  }, [hasDiscount, hasPrimeSubscriptionInCart, profile?.isPrime]);
-
   useLayoutEffect(() => {
-    selectPriceBasedOnUser();
-  }, [hasDiscount,
-    orderForm,
-    hasPrimeSubscriptionInCart,
-    isModalSignInVisible,
-    selectPriceBasedOnUser]);
+    /* TODO: make verification if user is prime
+    or has prime on the cart and if has prime on the bag */
+    if (hasDiscount) {
+      setIsNormalPriceSelected(!isNormalPriceSelected);
+    } else {
+      setIsPrimePriceSelected(!isPrimePriceSelected);
+    }
+  }, [hasDiscount]);
 
   const handleSelectBoxesPress = useCallback(
     (option: string) => {
       if (option === 'priceNormal' && !isNormalPriceSelected) {
-        selectNormalPrice();
+        setIsNormalPriceSelected(true);
+        setIsPrimePriceSelected(false);
       } else if (option === 'pricePrime' && !isPrimePriceSelected) {
-        selectPrimePrice();
-
-        if (!profile?.isPrime && !hasPrimeSubscriptionInCart) {
-          setIsModalSignInVisible(true);
-        }
+        setIsNormalPriceSelected(false);
+        setIsPrimePriceSelected(true);
+        setIsModalSignInVisible(true);
       }
     },
-    [hasPrimeSubscriptionInCart, isNormalPriceSelected, isPrimePriceSelected, profile?.isPrime],
+    [isNormalPriceSelected, isPrimePriceSelected],
   );
-
-  const savedValueProduct = (): number => {
-    const currentPriceProduct = selectedSize?.currentPrice || 0;
-    const pricePrime = selectedSize?.prime?.price || 0;
-
-    if (!currentPriceProduct && !pricePrime) return 0;
-
-    const calcPriceWithPrime = currentPriceProduct - pricePrime;
-
-    return calcPriceWithPrime;
-  };
 
   return (
     <View {...testProps('com.usereserva:id/prices_select_boxes')}>
       <ModalSignIn
         isVisible={isModalSignInVisible}
         onClose={() => setIsModalSignInVisible(false)}
+        loadingAddCart={loadingAddCart}
+        setAnimationBag={setAnimationBag}
+        setLoadingAddCart={setLoadingAddCart}
       />
-
-      <ModalWelcomePrime isVisible={isVisibleModalWelcome} onClose={handleClickContinue} />
 
       <ModalBag
         isVisible={animationBag}
-        onBackdropPress={() => changeStateAnimationBag(false)}
+        onBackdropPress={() => setAnimationBag(false)}
       />
 
       <SelectBoxNormal
@@ -121,7 +70,6 @@ function PricesSelectBoxes({ selectedSize }: IPropsPriceSelectBoxes) {
           hasDiscount ? selectedSize.currentPrice : selectedSize?.listPrice
         }
       />
-
       {selectedSize?.hasDiscount ? (
         <Typography
           fontFamily="reservaSansRegular"
@@ -147,7 +95,7 @@ function PricesSelectBoxes({ selectedSize }: IPropsPriceSelectBoxes) {
           installmentsPrice={selectedSize?.prime?.installment?.value ?? 0}
           isChecked={isPrimePriceSelected}
           onPress={handleSelectBoxesPress}
-          savedValue={savedValueProduct()}
+          savedValue={15} // TODO: should be the difference between price prime and normal price
           price={selectedSize?.prime?.price}
         />
       )}
