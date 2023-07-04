@@ -25,7 +25,7 @@ interface IHandleRegisterToken {
 
 export default function useInitialDito() {
   const { setItem } = useAsyncStorageProvider();
-  const { profile, loggedOut } = useAuthStore(['profile', 'loggedOut']);
+  const { profile } = useAuthStore(['profile']);
 
   const trackEventHomeDito = async ({ id }: Pick<IHandleRegisterToken, 'id'>) => {
     EventProvider.sendTrackEvent(

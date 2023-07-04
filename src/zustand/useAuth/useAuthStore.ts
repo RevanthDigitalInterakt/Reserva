@@ -24,7 +24,7 @@ type TProfileData = ProfileQuery['profile'];
 
 export interface IAuthStore {
   initialized: boolean;
-  loggedOut: boolean;
+  isAnonymousUser: boolean;
   onInit: () => Promise<boolean>;
   onRefreshToken: () => Promise<boolean>;
   //
@@ -40,7 +40,7 @@ export interface IAuthStore {
 const authStore = create<IAuthStore>((set, getState) => ({
   initialized: false,
   profile: undefined,
-  loggedOut: false,
+  isAnonymousUser: false,
   onInit: async () => {
     try {
       const state = getState();
@@ -153,7 +153,7 @@ const authStore = create<IAuthStore>((set, getState) => ({
       await identifyCustomer(profile.email);
 
       set({
-        ...getState(), initialized: true, profile,
+        ...getState(), initialized: true, profile
       });
     } catch (err) {
       Sentry.withScope((scope) => {
@@ -188,7 +188,7 @@ const authStore = create<IAuthStore>((set, getState) => ({
 
     Sentry.setUser(null);
 
-    set({ ...getState(), profile: undefined, loggedOut: true });
+    set({ ...getState(), profile: undefined, isAnonymousUser: true });
   },
 }));
 

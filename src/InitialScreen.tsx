@@ -17,8 +17,8 @@ interface IProps {
 
 function InitialScreen({ children }: { children: JSX.Element }) {
   const {
-    onInit, initialized, loggedOut, profile,
-  } = useAuthStore(['onInit', 'initialized', 'loggedOut', 'profile']);
+    onInit, initialized, isAnonymousUser, profile,
+  } = useAuthStore(['onInit', 'initialized', 'isAnonymousUser', 'profile']);
   const { barStyle } = useStatusBar();
 
   useCheckAppNewVersion();
@@ -32,7 +32,7 @@ function InitialScreen({ children }: { children: JSX.Element }) {
   }, [onInit]);
 
   const onAppInit = useCallback(async () => {
-    if (!loggedOut) {
+    if (!isAnonymousUser) {
       const deviceToken = await messaging().getToken();
       handleDitoRegisterAnony({ deviceToken });
     }
@@ -40,13 +40,13 @@ function InitialScreen({ children }: { children: JSX.Element }) {
     if (profile) {
       handleDitoRegister();
     }
-  }, [handleDitoRegisterAnony, loggedOut, profile, handleDitoRegister]);
+  }, [handleDitoRegisterAnony, isAnonymousUser, profile, handleDitoRegister]);
 
   useEffect(() => {
     if (initialized) {
       onAppInit();
     }
-  }, [initialized, loggedOut, onAppInit]);
+  }, [initialized, isAnonymousUser, onAppInit]);
 
   useEffect(() => {
     StorageService.setInstallationToken();
