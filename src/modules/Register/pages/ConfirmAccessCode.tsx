@@ -29,7 +29,6 @@ import ModalCheckUserConnection from '../component/ModalCheckUserConnection';
 import CodeInput from '../../../components/CodeInput/CodeInput';
 import { getCopiedValue } from '../../../utils/CopyToClipboard';
 import { useCheckConnection } from '../../../hooks/useCheckConnection';
-import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 
 export interface PasswordCheckProps {
   text: string;
@@ -79,13 +78,9 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
   const { ModalWithoutInternet } = useCheckConnection({});
-  const { profile } = useAuthStore(['profile']);
-  const { getItem } = useAsyncStorageProvider();
 
   const trackEventSignUpDito = useCallback(async (emailDito: string, cpfDito: string) => {
-    const id = profile?.email
-      ? await getItem('@Dito:userRef')
-      : await AsyncStorage.getItem('@Dito:anonymousID');
+    const id = await AsyncStorage.getItem('@Dito:anonymousID');
 
     EventProvider.sendTrackEvent(
       'fez-cadastro', {
