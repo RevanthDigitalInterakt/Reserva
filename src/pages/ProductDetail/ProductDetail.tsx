@@ -11,17 +11,21 @@ import ProductAbout from './components/ProductAbout';
 import ProductSummary from './components/ProductSummary';
 import ProductAssinaturaSimples from './components/ProductAssinaturaSimples';
 import ProductSelectors from './components/ProductSelectors';
-import { useProductLazyQuery } from '../../base/graphql/generated';
+import { ProductQuery, useProductLazyQuery } from '../../base/graphql/generated';
 import { getProductLoadType } from './utils/getProductLoadType';
 import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
 import EventProvider from '../../utils/EventProvider';
 import type { IProductDetailRouteParams } from '../../utils/createNavigateToProductParams';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 import { ProductRecommendation } from '../../components/ProductRecommendation/ProductRecommendation';
+import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
+import { useProductCatalogStore } from '../../zustand/useProductCatalog/useProductCatalog';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
 function ProductDetail({ route, navigation }: IProductDetailNew) {
+  const { profile } = useAuthStore(['profile']);
+  const { facets } = useProductCatalogStore(['facets']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { setProduct, resetProduct, productDetail } = useProductDetailStore([
     'setProduct',
@@ -35,6 +39,22 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
     context: { clientName: 'gateway' },
   });
 
+  const trackEventDitoAccessProduct = useCallback(({ product }: ProductQuery) => {
+    EventProvider.sendTrackEvent('acessou-produto', {
+      id: profile?.document || '',
+      action: 'acessou-produto',
+      data: {
+        id_produto: product.productId,
+        cor: '',
+        tamanho: product.initialSize?.size,
+        nome_categoria: facets,
+        nome_produto: product.productName,
+        marca: '',
+        origem: 'app',
+      },
+    });
+  }, [facets, profile?.document]);
+
   const onInitialLoad = useCallback(async (params: IProductDetailRouteParams) => {
     try {
       const input = getProductLoadType(params);
@@ -45,6 +65,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       }
 
       const { product } = data;
+
+      trackEventDitoAccessProduct(data);
 
       EventProvider.logEvent('product_view', {
         product_id: product.productId,
@@ -66,7 +88,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         [{ text: 'OK', onPress: () => navigation.goBack() }],
       );
     }
-  }, [getProduct, navigation, setProduct]);
+  }, [getProduct, navigation, setProduct, trackEventDitoAccessProduct]);
 
   useEffect(() => {
     resetProduct();

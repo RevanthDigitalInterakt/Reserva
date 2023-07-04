@@ -50,6 +50,7 @@ import testProps from '../../../../utils/testProps';
 import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { getCollectionFacetsValue } from '../../../../utils/getCollectionFacetsValue';
+import { useProductCatalogStore } from '../../../../zustand/useProductCatalog/useProductCatalog';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -130,6 +131,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { getItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
+  const { setFacets } = useProductCatalogStore(['setFacets']);
 
   const { WithoutInternet } = useCheckConnection({});
 
@@ -358,13 +360,15 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
     const collectionFacetsValues = getCollectionFacetsValue(facets);
 
+    setFacets(collectionFacetsValues);
+
     trackEventAccessedCategoryDito(collectionFacetsValues);
 
     setPriceRangeFilters(priceFacetValues);
     setCategoryFilters(categoryFacetValues);
     setSizeFilters(sizeFacetValues);
     setColorsFilters(colorFacetValues);
-  }, [getFacets, getFetchPolicyPerKey, trackEventAccessedCategoryDito]);
+  }, [getFacets, getFetchPolicyPerKey, setFacets, trackEventAccessedCategoryDito]);
 
   const loadApplyFilter = useCallback(async (item: any) => {
     const reference = collectionIdByCategories || collectionIdByContentful || '';
