@@ -161,8 +161,6 @@ const Checkout: React.FC<{}> = () => {
       const orderGroup = getOrderId()?.split('-')?.[0];
       const response = await GetPurchaseData(orderGroup);
 
-      const payload = await getItem('@Dito:userRef');
-
       const itemQuantity = sumQuantity(orderData?.items);
       const itemSubtotal = (orderData.totalizers.find((x) => x.id === 'Items')?.value || 0) / 100;
       const itemShippingTotal = (orderData.totalizers.find((x) => x.name === 'Shipping')?.value || 0) / 100;
@@ -170,7 +168,7 @@ const Checkout: React.FC<{}> = () => {
 
       EventProvider.sendTrackEvent(
         'fez-pedido', {
-          id: payload,
+          id: profile?.document || '',
           action: 'fez-pedido',
           data: {
             quantidade_produtos: Number(itemQuantity),
@@ -181,7 +179,7 @@ const Checkout: React.FC<{}> = () => {
             total_frete: itemShippingTotal,
             origem: 'app',
             dispositivo: Platform.OS,
-            id: payload || '',
+            id: profile?.document || '',
           },
         },
       );
