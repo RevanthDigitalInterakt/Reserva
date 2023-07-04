@@ -32,7 +32,7 @@ function InitialScreen({ children }: { children: JSX.Element }) {
   }, [onInit]);
 
   const onAppInit = useCallback(async () => {
-    if (!isAnonymousUser) {
+    if (isAnonymousUser) {
       const deviceToken = await messaging().getToken();
       handleDitoRegisterAnony({ deviceToken });
     }
