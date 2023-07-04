@@ -52,7 +52,6 @@ export const TopBarDefault: React.FC<{
         testID: 'com.usereserva:id/button_bag',
         size: 24,
         onPress: () => {
-          // Alert.alert('button right 2');
           navigation.navigate('BagScreen');
         },
         badgeCount: bagQuantity,

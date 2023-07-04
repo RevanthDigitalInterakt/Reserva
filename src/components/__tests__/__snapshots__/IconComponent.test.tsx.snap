@@ -113,6 +113,7 @@ exports[`IconComponent should match with the snapshot 1`] = `
         "imageNotFound": [Circular],
         "instagram": [Circular],
         "localReserva": [Circular],
+        "logoPrime": [Function],
         "logoQRCode": [Circular],
         "mastercard": [Circular],
         "noStoresFound": [Circular],
@@ -134,6 +135,9 @@ exports[`IconComponent should match with the snapshot 1`] = `
         "whatsapp": [Circular],
         "withoutInternet": [Circular],
         "zoomHand": [Circular],
+      },
+      "svgs": Object {
+        "logoPrime": [Function],
       },
     }
   }

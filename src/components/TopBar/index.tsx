@@ -14,6 +14,8 @@ import testProps from '../../utils/testProps';
 import { useCart } from '../../context/CartContext';
 import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 import { useOrderFormLazyQuery } from '../../base/graphql/generated';
+import { usePrimeInfo } from '../../hooks/usePrimeInfo';
+import IconComponent from '../IconComponent/IconComponent';
 
 export type IconTopBar = {
   name: string;
@@ -48,6 +50,8 @@ export const TopBar = ({
 }: TopBarProps) => {
   const { orderForm } = useCart();
   const { getHasSubscriptionPrimeInCart } = usePrimeStore(['getHasSubscriptionPrimeInCart']);
+
+  const { isPrime, primeActive } = usePrimeInfo();
 
   const [getOrderForm] = useOrderFormLazyQuery({
     context: { clientName: 'gateway' },
@@ -112,7 +116,9 @@ export const TopBar = ({
             alignItems="center"
             alignSelf="center"
           >
-            <Icon name="Logo" color="vermelhoAlerta" size={24} />
+            {isPrime && primeActive
+              ? <IconComponent icon="logoPrime" />
+              : <Icon name="Logo" color="vermelhoAlerta" size={24} />}
           </Box>
         ) : (
           <Box
