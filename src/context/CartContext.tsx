@@ -561,11 +561,11 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const { actions } = useBagStore(['actions']);
 
   useEffect(() => {
-    if (orderForm?.orderFormId) {
+    if (orderForm?.orderFormId && orderForm?.items) {
       setAsyncStorageItem('orderFormId', orderForm?.orderFormId)
         .then(actions.REFETCH_ORDER_FORM);
     }
-  }, [orderForm?.orderFormId, actions.REFETCH_ORDER_FORM]);
+  }, [orderForm?.orderFormId, orderForm?.items, actions.REFETCH_ORDER_FORM]);
 
   const [orderFormAddSellerCoupon] = useOrderFormAddSellerCouponMutation({
     context: { clientName: 'gateway' },
