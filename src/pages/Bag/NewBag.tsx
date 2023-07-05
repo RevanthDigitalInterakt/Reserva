@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { Box, Typography } from '@usereservaapp/reserva-ui';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -23,6 +23,8 @@ import LoadingModal from './components/LoadingModal';
 import DeleteProductModal from './components/DeleteProduct';
 import BagProductList from './components/ProductList';
 import SelectableGifts from './components/SelectableGifts';
+import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
+import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -54,6 +56,15 @@ export default function NewBag(_: TNewBagProps): JSX.Element {
   const handleNavigateToOffers = useCallback(() => {
     navigation.navigate('Offers');
   }, [navigation]);
+
+  const { isPrime } = usePrimeInfo();
+
+  const { hasPrimeSubscriptionInCart } = usePrimeStore(['hasPrimeSubscriptionInCart']);
+
+  const isPrimeOrHasPrimeItem = useMemo(
+    () => isPrime || hasPrimeSubscriptionInCart,
+    [isPrime, hasPrimeSubscriptionInCart],
+  );
 
   const handleBackTopBarButtonPress = useCallback(() => {
     navigation.goBack();
@@ -130,7 +141,11 @@ export default function NewBag(_: TNewBagProps): JSX.Element {
                   </Typography>
                 </Box>
 
-                <ShippingBar loading={false} totalOrder={appTotalizers.total} />
+                <ShippingBar
+                  loading={false}
+                  totalOrder={appTotalizers.total}
+                  isPrime={isPrimeOrHasPrimeItem}
+                />
 
                 {selectableGift?.availableGifts?.length && (
                   <SelectableGifts />

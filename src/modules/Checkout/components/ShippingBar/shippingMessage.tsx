@@ -6,9 +6,27 @@ import { PriceCustom } from '../PriceCustom';
 import type { IPropsShippingMessage } from './types';
 
 export const IfRenderShippingMessage = ({
-  sumPriceShipping, sumPrice,
+  sumPriceShipping,
+  sumPrice,
   freeShippingValue,
+  isPrime,
 }: IPropsShippingMessage) => {
+  if (isPrime) {
+    return (
+      <Box flexDirection="row" alignItems="center">
+        <Box>
+          <Typography>Cliente </Typography>
+        </Box>
+        <Typography style={{ marginTop: 3 }} fontFamily="reservaDisplayRegular" color="fullBlack">
+          PRIME
+        </Typography>
+        <Typography> já tem </Typography>
+        <Typography color="verdeSucesso" fontWeight="bold">
+          frete grátis
+        </Typography>
+      </Box>
+    );
+  }
   if (sumPriceShipping < freeShippingValue) {
     return (
       <Box flexDirection="row">

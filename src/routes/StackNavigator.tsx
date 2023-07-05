@@ -167,6 +167,7 @@ export const MainStackScreen = () => (
   <MainStack.Navigator
     detachInactiveScreens
     screenOptions={{ headerShown: false }}
+    initialRouteName="PrimeLP"
   >
     <MainStack.Screen name="HomeTabs" component={HomeTabs} />
 
