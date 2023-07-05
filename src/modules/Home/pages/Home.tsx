@@ -37,6 +37,7 @@ import ManagerCarousel from '../component/ManagerCarousel';
 import { CountDownLocal } from '../component/countDownLocal/CountDownLocal';
 import useAuthModalStore from '../../../zustand/useAuthModalStore';
 import ModalSignUpComplete from '../component/ModalSignUpComplete';
+import { durationToTimeString } from '../../../utils/durationToTimeString';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -174,7 +175,7 @@ export const HomeScreen = () => {
             setShowClockHome(false);
           }
 
-          let limitDate;
+          let limitDate: Duration | undefined;
 
           if (clockHome?.countdown) {
             limitDate = intervalToDuration({
@@ -182,16 +183,14 @@ export const HomeScreen = () => {
               end: new Date(clockHome?.countdown),
             });
           }
-          if (limitDate && limitDate?.days && limitDate?.hours) {
+          if (limitDate) {
             setCountDownClockLocal({
               ...clockHome,
               countdownStart: clockHome?.countdownStart,
-              formattedValue: `${limitDate.days * 24 + limitDate.hours}:${limitDate.minutes
-              }:${limitDate.seconds}`,
+              formattedValue: durationToTimeString(limitDate),
             });
           }
         }
-
         if (clockALL && !showClockHome) {
           let limitDate;
           if (clockALL?.countdown) {
@@ -200,12 +199,11 @@ export const HomeScreen = () => {
               end: new Date(clockALL?.countdown),
             });
           }
-          if (limitDate && limitDate?.days && limitDate?.hours) {
+          if (limitDate) {
             setCountDownClockGlobal({
               ...clockALL,
               countdownStart: clockALL?.countdownStart,
-              formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-              }:${limitDate.seconds}`,
+              formattedValue: durationToTimeString(limitDate),
             });
           }
         }
