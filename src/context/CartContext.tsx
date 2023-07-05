@@ -6,8 +6,10 @@ import React, {
   ReactNode,
   useContext,
   useEffect,
+  useCallback,
 } from 'react';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   AddAddressToCart,
   AddCustomerToOrder,
@@ -41,6 +43,8 @@ import {
 import { splitSellerName } from '../utils/splitSellerName';
 import { getBrands } from '../utils/getBrands';
 import { defaultBrand } from '../utils/defaultWBrand';
+import useAsyncStorageProvider from '../hooks/useAsyncStorageProvider';
+import { useAuthStore } from '../zustand/useAuth/useAuthStore';
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -555,6 +559,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [sellerName, setSellerName] = useState<string>('');
   const [topBarLoading, setTopBarLoading] = useState<boolean>(false);
   const [hasErrorApplyCoupon, setHasErrorApplyCoupon] = useState<boolean>(false);
+  const { getItem } = useAsyncStorageProvider();
+  const { profile } = useAuthStore(['profile']);
 
   const [orderFormAddSellerCoupon] = useOrderFormAddSellerCouponMutation({
     context: { clientName: 'gateway' },
@@ -661,6 +667,39 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const convertPrice = (value: number) => value / 100;
 
+  const trackEventAddItemToCart = useCallback(async (
+    brand:string,
+    productId: string,
+    productName: string,
+    category: string,
+    size: string,
+    color: string,
+    price: number,
+  ) => {
+    const id = profile?.email
+      ? await getItem('@Dito:userRef')
+      : await AsyncStorage.getItem('@Dito:anonymousID');
+
+    if (!productId) return;
+
+    EventProvider.sendTrackEvent(
+      'adicionou-produto-ao-carrinho', {
+        id,
+        action: 'adicionou-produto-ao-carrinho',
+        data: {
+          marca: brand,
+          id_produto: productId,
+          nome_produto: productName,
+          nome_categoria: category,
+          tamanho: size,
+          cor: color,
+          preco_produto: price,
+          origem: 'app',
+        },
+      },
+    );
+  }, [getItem, profile?.email]);
+
   const addItem = async (dto: IAddItemDTO): Promise<TAddItemResponse> => {
     const {
       quantity, itemId, seller, index = -1, isUpdate = false, hasBundleItems = false,
@@ -713,6 +752,18 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         seller,
         wbrand: getBrands(data?.items || []),
       });
+
+      trackEventAddItemToCart(
+        product.additionalInfo.brandName,
+        itemId,
+        product.name,
+        Object.entries(product.productCategories)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join(', '),
+        product.skuName.split(' - ')[1],
+        product.skuName.split(' - ')[0],
+        convertPrice(product.sellingPrice || 0),
+      );
 
       return { ok: !(product.quantity < quantity) };
     } catch (error) {

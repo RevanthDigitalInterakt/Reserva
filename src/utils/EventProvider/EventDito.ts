@@ -39,7 +39,7 @@ type AddToCart = {
   nome_categoria: string;
   tamanho: string;
   cor: string;
-  preco_produto: string;
+  preco_produto: number;
 };
 
 export type EventsDitoValues = {
