@@ -48,7 +48,7 @@ export default function BagFooter() {
     return val / installmentInfo.installmentsNumber;
   }, [appTotalizers, installmentInfo]);
 
-  const onTracking = useCallback(() => {
+  const onTrackCheckoutEvents = useCallback(() => {
     try {
       const { total, discount, delivery } = appTotalizers;
 
@@ -116,7 +116,7 @@ export default function BagFooter() {
     }
 
     try {
-      onTracking();
+      onTrackCheckoutEvents();
 
       await actions.REMOVE_UNAVAILABLE_ITEMS();
 
@@ -138,7 +138,7 @@ export default function BagFooter() {
     actions,
     items,
     navigation,
-    onTracking,
+    onTrackCheckoutEvents,
     orderFormId,
     profile?.email,
     profile?.isComplete,
