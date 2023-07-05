@@ -17,6 +17,7 @@ type SendUserDataToDito = {
   id: string;
   user: UserData;
 };
+
 async function sendUserDataToDito({
   id,
   user,
