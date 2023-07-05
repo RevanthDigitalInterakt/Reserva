@@ -6,10 +6,6 @@ import type {
 export type TItemBag = OrderFormQuery['orderForm']['items'][0];
 
 export interface IBagStore {
-  // unavailableItems: {
-  //   error: boolean,
-  //   message: string
-  // }
   initialized: boolean;
   topBarLoading: boolean;
   loadingModal: boolean;
@@ -44,7 +40,6 @@ export interface IBagStore {
     REFRESH_ORDER_FORM: () => Promise<void>;
     ADD_SELLER_COUPON: (coupon: string) => Promise<void>;
     ADD_DISCOUNT_COUPON: (coupon: string) => Promise<void>;
-    // ADD_AVAILABLE_GIFT: () => Promise<void>;
     REMOVE_SELLER_COUPON: () => Promise<void>;
     REMOVE_DISCOUNT_COUPON: () => Promise<void>;
     ADD_AVAILABLE_GIFT: (
