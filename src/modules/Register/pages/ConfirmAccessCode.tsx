@@ -8,6 +8,7 @@ import {
   Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import AsyncStorage from '@react-native-community/async-storage';
 import images from '../../../base/styles/icons';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
@@ -79,9 +80,11 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   const { ModalWithoutInternet } = useCheckConnection({});
 
   const trackEventSignUpDito = useCallback(async (emailDito: string, cpfDito: string) => {
+    const id = await AsyncStorage.getItem('@Dito:anonymousID');
+
     EventProvider.sendTrackEvent(
       'fez-cadastro', {
-        id: cpfDito,
+        id,
         action: 'fez-cadastro',
         data: {
           email: emailDito,
