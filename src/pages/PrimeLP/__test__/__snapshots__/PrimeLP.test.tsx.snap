@@ -897,6 +897,7 @@ exports[`PrimeLP should match to snapshot 1`] = `
         swipeThreshold={100}
         testID="com.usereserva:id/modal_bag"
         transparent={true}
+        useNativeDriverForBackdrop={true}
         visible={false}
       >
         <View
@@ -958,6 +959,7 @@ exports[`PrimeLP should match to snapshot 1`] = `
             ]
           }
           swipeThreshold={100}
+          useNativeDriverForBackdrop={true}
         >
           <View
             style={
@@ -1651,7 +1653,7 @@ exports[`PrimeLP should match to snapshot 1`] = `
                   }
                   variant="tituloSessao"
                 >
-                  CONTINUAR COMPRANDO
+                  ASSINE AGORA
                 </Text>
               </View>
             </View>

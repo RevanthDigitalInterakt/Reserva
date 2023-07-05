@@ -99,7 +99,7 @@ export default function BagFooter() {
     if (!items?.length) return;
 
     if (!profile?.email) {
-      navigation.navigate('Login');
+      navigation.navigate('Login', { comeFrom: 'Checkout' });
       return;
     }
 

@@ -22,7 +22,7 @@ export const LoginScreen: FC<Props> = ({
   route,
   navigation,
 }) => {
-  const { comeFrom, previousPage } = route.params;
+  const { comeFrom, previousPage } = route.params || {};
 
   const {
     handleLogin,

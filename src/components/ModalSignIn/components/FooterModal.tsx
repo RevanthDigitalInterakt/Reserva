@@ -1,19 +1,18 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import AnimatedLottieView from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 
 import testProps from '../../../utils/testProps';
-import { useCart } from '../../../context/CartContext';
 import EventProvider from '../../../utils/EventProvider';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
-import { usePrimeStore } from '../../../zustand/usePrimeStore/usePrimeStore';
 import { useLandingPagePrimeQuery } from '../../../base/graphql/generated';
 import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
 
 import * as Styles from '../styles';
+import { usePrimeInfo } from '../../../hooks/usePrimeInfo';
 
 interface PropsComponent {
   onClose: () => void;
@@ -22,37 +21,35 @@ interface PropsComponent {
 export function FooterModalPrime({
   onClose,
 }: PropsComponent) {
-  const { addItem } = useCart();
+  const { onAddPrimeToCart } = usePrimeInfo();
   const { navigate } = useNavigation();
   const { profile } = useAuthStore(['profile']);
-  const { handleAddToCartPrime, loadingAddCartPrime } = usePrimeStore(['handleAddToCartPrime', 'loadingAddCartPrime']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { getString } = useRemoteConfig();
+  const [loadingAddCartPrime, setLoadingAddCartPrime] = useState(false);
 
   const { data } = useLandingPagePrimeQuery({
     context: { clientName: 'gateway' },
     fetchPolicy: getFetchPolicyPerKey('landingPagePrime'),
   });
 
-  const primeInformation = useMemo(
-    () => data?.landingPagePrime,
-    [data?.landingPagePrime],
-  );
+  const primeInformation = useMemo(() => data?.landingPagePrime, [data?.landingPagePrime]);
 
-  const onAddPrimeToCart = useCallback(async () => {
+  const onAddToCart = useCallback(async () => {
     try {
       if (!primeInformation || loadingAddCartPrime) return;
 
-      await handleAddToCartPrime({
-        primeInformation,
-        addItem,
-      });
+      setLoadingAddCartPrime(true);
+
+      await onAddPrimeToCart();
 
       onClose();
     } catch (e) {
       EventProvider.captureException(e);
+    } finally {
+      setLoadingAddCartPrime(false);
     }
-  }, [primeInformation, loadingAddCartPrime, handleAddToCartPrime, addItem, onClose]);
+  }, [primeInformation, loadingAddCartPrime, onAddPrimeToCart, onClose]);
 
   const onRedirectToPrime = useCallback(() => {
     EventProvider.logEvent('click_here', {
@@ -189,7 +186,7 @@ export function FooterModalPrime({
 
       <Button
         width="100%"
-        onPress={onAddPrimeToCart}
+        onPress={onAddToCart}
         buttonBackgroundColor={getString('pdp_button_add_bag')}
         disabled={loadingAddCartPrime}
         inline

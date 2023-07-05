@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { ImageBackground, TouchableOpacity, View } from 'react-native';
 import { Typography } from '@usereservaapp/reserva-ui';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
@@ -6,8 +7,7 @@ import { styles } from './PrimeHero.styles';
 import IconPrimeLogo from '../Icons/IconPrimeLogo';
 import type { PrimeDetailOutput } from '../../../../base/graphql/generated';
 import EventProvider from '../../../../utils/EventProvider';
-import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
-import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
+import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 
 const ImageSource = require('../../../../../assets/common/header.png');
 
@@ -17,15 +17,17 @@ interface IPrimeHero {
 }
 
 function PrimeHero({ data, onAddToCart }: IPrimeHero) {
-  const { profile } = useAuthStore(['profile']);
-  const { hasPrimeSubscriptionInCart } = usePrimeStore(['hasPrimeSubscriptionInCart']);
+  const { isPrime } = usePrimeInfo();
+  const { goBack } = useNavigation();
 
   const onPressAddCart = useCallback(() => {
-    EventProvider.logEvent('prime_press_add_to_cart_lp', { position: 'top' });
-    onAddToCart();
-  }, [onAddToCart]);
-
-  const hasPrime = profile?.isPrime || hasPrimeSubscriptionInCart;
+    if (isPrime) {
+      goBack();
+    } else {
+      EventProvider.logEvent('prime_press_add_to_cart_lp', { position: 'top' });
+      onAddToCart();
+    }
+  }, [isPrime, goBack, onAddToCart]);
 
   return (
     <ImageBackground
@@ -60,7 +62,7 @@ function PrimeHero({ data, onAddToCart }: IPrimeHero) {
             onPress={onPressAddCart}
           >
             <Typography variant="tituloSessao" style={styles.buttonText}>
-              {hasPrime ? 'CONTINUAR COMPRANDO' : 'ASSINE AGORA'}
+              {isPrime ? 'CONTINUAR COMPRANDO' : 'ASSINE AGORA'}
             </Typography>
           </TouchableOpacity>
         </View>

@@ -20,6 +20,7 @@ import { isValidEmail, isValidPassword } from './utils';
 export const ModalSignIn: React.FC<IParamsComponent> = ({
   onClose,
   isVisible,
+  onModalHide,
 }) => {
   const { navigate } = useNavigation();
   const { profile } = useAuthStore(['profile']);
@@ -39,6 +40,7 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
       animationOut="zoomOut"
       isVisible={isVisible}
       animationInTiming={300}
+      onModalHide={onModalHide}
       style={Styles.objectStyles.modal}
       {...testProps('com.usereserva:id/modal_sign_in')}
       testID="com.usereserva:id/modal_sign_in"
@@ -67,7 +69,7 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
         </Typography>
 
         <ScrollView showsVerticalScrollIndicator={false}>
-          {!profile && (
+          {!profile?.email && (
             <>
               <Box style={Styles.objectStyles.headerDescription}>
                 <Typography fontSize={14} color="neutroFrio2">

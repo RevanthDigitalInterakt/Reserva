@@ -1,14 +1,25 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useRemoteConfig } from './useRemoteConfig';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
 import { useIsTester } from './useIsTester';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
+import EventProvider from '../utils/EventProvider';
+import { useLandingPagePrimeLazyQuery } from '../base/graphql/generated';
+import { useApolloFetchPolicyStore } from '../zustand/useApolloFetchPolicyStore';
+import { useCart } from '../context/CartContext';
 
 export function usePrimeInfo() {
   const isTester = useIsTester();
   const { getBoolean, getString } = useRemoteConfig();
   const { profile } = useAuthStore(['profile']);
-  const { hasPrimeSubscriptionInCart } = useBagStore(['hasPrimeSubscriptionInCart']);
+  const { addItem } = useCart();
+  const { hasPrimeSubscriptionInCart, actions } = useBagStore(['hasPrimeSubscriptionInCart', 'actions']);
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
+
+  const [loadLpData] = useLandingPagePrimeLazyQuery({
+    context: { clientName: 'gateway' },
+    fetchPolicy: getFetchPolicyPerKey('landingPagePrime'),
+  });
 
   const primeActive = useMemo(() => (
     getBoolean(isTester ? 'show_prime_tester' : 'show_prime')
@@ -24,9 +35,40 @@ export function usePrimeInfo() {
     profile?.isPrime || hasPrimeSubscriptionInCart || false
   ), [profile?.isPrime, hasPrimeSubscriptionInCart]);
 
+  const onAddPrimeToCart = useCallback(async () => {
+    try {
+      if (hasPrimeSubscriptionInCart) {
+        throw new Error('Usuário já possui Prime no carrinho');
+      }
+
+      const { data } = await loadLpData();
+
+      if (!data?.landingPagePrime) {
+        throw new Error('Ocorreu um erro.');
+      }
+
+      await addItem({
+        quantity: 1,
+        itemId: `${data?.landingPagePrime.skuId}`,
+        seller: data?.landingPagePrime.productSeller,
+      });
+
+      await actions.REFETCH_ORDER_FORM();
+
+      EventProvider.logEvent('add_to_cart_prime', {
+        item_quantity: 1,
+        item_id: `${data?.landingPagePrime.skuId}`,
+        seller: data?.landingPagePrime.productSeller,
+      });
+    } catch (err) {
+      console.log('Error', err);
+    }
+  }, [actions, addItem, hasPrimeSubscriptionInCart, loadLpData]);
+
   return {
     isPrime,
     primeActive,
     primeLPSearchTerms,
+    onAddPrimeToCart,
   };
 }

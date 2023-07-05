@@ -8,7 +8,7 @@ import { mockPrimeData, addToCartMock } from '../../../../../../__mocks__/PrimeL
 const mockProfile = {
   __typename: 'ProfileOutput',
   email: 'fulano@gmail.com',
-  isPrime: true,
+  isPrime: false,
   addresses: [
     {
       __typename: 'ProfileAddressOutput',
@@ -29,12 +29,18 @@ const mockProfile = {
   ],
   id: '316438e9-d825-44d2-8f0a-94ceea768ea3',
 };
+const mockGoBackFn = jest.fn();
+
+jest.mock('@react-navigation/native', () => ({
+  useNavigation: () => ({ goBack: mockGoBackFn }),
+}));
 
 jest.mock('../../../../../zustand/useAuth/useAuthStore', () => ({
   useAuthStore: () => ({ profile: mockProfile }),
 }));
+
 jest.mock('../../../../../zustand/usePrimeStore/usePrimeStore', () => ({
-  usePrimeStore: () => ({ hasPrimeSubscriptionInCart: true }),
+  usePrimeStore: () => ({ }),
 }));
 
 const TestingComponent = (

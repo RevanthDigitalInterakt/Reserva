@@ -1302,6 +1302,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
       swipeThreshold={100}
       testID="com.usereserva:id/modal_bag"
       transparent={true}
+      useNativeDriverForBackdrop={true}
       visible={false}
     >
       <View
@@ -1363,6 +1364,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
           ]
         }
         swipeThreshold={100}
+        useNativeDriverForBackdrop={true}
       >
         <View
           style={
@@ -1452,6 +1454,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
             "borderWidth": 1,
             "height": 22,
             "justifyContent": "center",
+            "marginRight": 0,
             "padding": 3,
             "width": 22,
           }
@@ -1568,6 +1571,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
             "alignSelf": "center",
             "backgroundColor": "#8D8D8D",
             "height": 30,
+            "marginHorizontal": 0,
             "marginTop": 30,
             "width": 1,
           }
@@ -1682,6 +1686,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
             "borderWidth": 1,
             "height": 22,
             "justifyContent": "center",
+            "marginRight": 0,
             "padding": 3,
             "width": 22,
           }
@@ -1800,6 +1805,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
             "alignSelf": "center",
             "backgroundColor": "#8D8D8D",
             "height": 30,
+            "marginHorizontal": 0,
             "marginTop": 30,
             "width": 1,
           }
@@ -1988,7 +1994,8 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "fontFamily": "ReservaSans-Italic",
                 },
                 Object {
-                  "color": "white",
+                  "color": "#ffffff",
+                  "fontSize": 15,
                 },
               ]
             }
@@ -2023,7 +2030,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                 "marginTop": 4,
               },
               Object {
-                "marginLeft": -50,
+                "marginLeft": -40,
               },
             ]
           }

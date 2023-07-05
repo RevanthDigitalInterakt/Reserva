@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { COLORS } from '../../base/styles/colors';
+
+const smallDevices = Dimensions.get('screen').width <= 375;
 
 export const styles = StyleSheet.create({
   checkBoxContainer: {
@@ -44,6 +46,7 @@ export const styles = StyleSheet.create({
     borderRadius: 11,
     borderWidth: 1,
     borderColor: COLORS.BLACK,
+    marginRight: smallDevices ? 15 : 0,
   },
   normalCheckBoxFill: {
     height: 16,
@@ -73,5 +76,6 @@ export const styles = StyleSheet.create({
     height: 30,
     backgroundColor: COLORS.LIGHT_GRAY,
     marginTop: 30,
+    marginHorizontal: smallDevices ? 15 : 0,
   },
 });

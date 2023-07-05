@@ -16,11 +16,12 @@ import { mockPrimeData } from '../../../../__mocks__/PrimeLP.mock';
 
 // MOCKS
 const mockAddItemFn = jest.fn();
+const mockGoBackFn = jest.fn();
 const mockHandleAddToCartPrime = jest.fn();
 const mockProfile = {
   __typename: 'ProfileOutput',
   email: 'fulano@gmail.com',
-  isPrime: true,
+  isPrime: false,
   addresses: [
     {
       __typename: 'ProfileAddressOutput',
@@ -46,10 +47,20 @@ jest.mock('../../../zustand/useAuth/useAuthStore', () => ({
   useAuthStore: () => ({ profile: mockProfile }),
 }));
 
+jest.mock('@react-navigation/native', () => ({
+  useNavigation: () => ({ goBack: mockGoBackFn }),
+}));
+
 jest.mock('../../../zustand/usePrimeStore/usePrimeStore', () => ({
   usePrimeStore: () => ({
-    hasPrimeSubscriptionInCart: true,
+    hasPrimeSubscriptionInCart: false,
     handleAddToCartPrime: mockHandleAddToCartPrime,
+  }),
+}));
+
+jest.mock('../../../hooks/usePrimeInfo', () => ({
+  usePrimeInfo: () => ({
+    onAddPrimeToCart: mockHandleAddToCartPrime,
   }),
 }));
 
@@ -66,7 +77,6 @@ jest
       landingPagePrime: {
         ...mockPrimeData,
       },
-      __typename: 'Query',
     },
     loading: false,
   } as any);
@@ -87,7 +97,7 @@ const TestingComponent = (
 describe('PrimeLP', () => {
   beforeEach(async () => {
     jest.useFakeTimers({ legacyFakeTimers: true });
-    await waitFor(() => render(TestingComponent));
+    render(TestingComponent);
   });
 
   it('should render properly', () => {
@@ -107,12 +117,8 @@ describe('PrimeLP', () => {
     fireEvent.press(callToAction);
 
     await waitFor(() => {
-      expect(mockAddItemFn).toBeCalled();
-      expect(mockAddItemFn).toHaveBeenCalledWith({
-        quantity: 1,
-        itemId: `${mockPrimeData.skuId}`,
-        seller: mockPrimeData.productSeller,
-      });
+      expect(mockHandleAddToCartPrime).toBeCalled();
+      expect(mockHandleAddToCartPrime).toHaveBeenCalledWith();
     });
   });
 });

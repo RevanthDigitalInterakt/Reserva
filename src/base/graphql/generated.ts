@@ -652,7 +652,7 @@ export type OrderformItemOutput = {
   priceWithDiscount: Scalars['Float'];
   productCategories: Array<Scalars['String']>;
   productId: Scalars['String'];
-  productRefId: Scalars['String'];
+  productRefId?: Maybe<Scalars['String']>;
   productTitle: Scalars['String'];
   quantity: Scalars['Int'];
   refId?: Maybe<Scalars['String']>;

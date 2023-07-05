@@ -423,6 +423,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             deleteInfo: undefined,
           },
           productNotFound: errorsMessages,
+          hasPrimeSubscriptionInCart: orderForm?.hasPrimeSubscriptionInCart,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));

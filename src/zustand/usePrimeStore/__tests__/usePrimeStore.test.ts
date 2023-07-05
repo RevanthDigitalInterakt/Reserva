@@ -6,15 +6,11 @@ describe('usePrimeStore', () => {
   it('should render initial state', () => {
     const { result } = renderHook(() => usePrimeStore([
       'animationBag',
-      'loadingAddCartPrime',
       'isVisibleModalWelcome',
-      'hasPrimeSubscriptionInCart',
     ]));
 
     expect(result.current.animationBag).toEqual(false);
     expect(result.current.animationBag).toEqual(false);
-    expect(result.current.loadingAddCartPrime).toEqual(false);
-    expect(result.current.hasPrimeSubscriptionInCart).toEqual(false);
   });
 
   it('should update state of isVisibleModalWelcome when call handleClickContinue', () => {
@@ -51,18 +47,5 @@ describe('usePrimeStore', () => {
     });
 
     expect(result.current.animationBag).toEqual(false);
-  });
-
-  it('should update state of hasPrimeSubscriptionInCart when call getHasSubscriptionPrimeInCart', () => {
-    const { result } = renderHook(() => usePrimeStore([
-      'hasPrimeSubscriptionInCart',
-      'getHasSubscriptionPrimeInCart',
-    ]));
-
-    act(() => {
-      result.current.getHasSubscriptionPrimeInCart(true);
-    });
-
-    expect(result.current.hasPrimeSubscriptionInCart).toEqual(true);
   });
 });

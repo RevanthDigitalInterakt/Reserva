@@ -2,11 +2,14 @@ import React, { useCallback } from 'react';
 import {
   View, TouchableOpacity, ImageBackground,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Typography } from '@usereservaapp/reserva-ui';
 import { styles } from './PrimeSubscribe.styles';
 import testProps from '../../../../utils/testProps';
 import type { PrimeDetailOutput } from '../../../../base/graphql/generated';
 import EventProvider from '../../../../utils/EventProvider';
+import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
+import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
 
 const ImageProductSource = require('../../../../../assets/common/product.png');
 
@@ -16,10 +19,20 @@ interface IPrimeSubscribe {
 }
 
 function PrimeSubscribe({ data, onAddToCart }: IPrimeSubscribe) {
-  const onPressAddCart = useCallback(() => {
-    EventProvider.logEvent('prime_press_add_to_cart_lp', { position: 'bottom' });
-    onAddToCart();
-  }, [onAddToCart]);
+  const { goBack } = useNavigation();
+  const { profile } = useAuthStore(['profile']);
+  const { hasPrimeSubscriptionInCart } = usePrimeStore(['hasPrimeSubscriptionInCart']);
+
+  const hasPrime = profile?.isPrime ?? hasPrimeSubscriptionInCart;
+
+  const onPressAddCart = useCallback(async () => {
+    if (hasPrime) {
+      goBack();
+    } else {
+      EventProvider.logEvent('prime_press_add_to_cart_lp', { position: 'top' });
+      onAddToCart();
+    }
+  }, [goBack, hasPrime, onAddToCart]);
 
   return (
     <View {...testProps('prime_subscribe_component')}>
@@ -46,7 +59,9 @@ function PrimeSubscribe({ data, onAddToCart }: IPrimeSubscribe) {
         onPress={onPressAddCart}
         {...testProps('prime_lp_bottom_button_add')}
       >
-        <Typography style={styles.buttonText}>Quero ser Prime</Typography>
+        <Typography style={styles.buttonText}>
+          {hasPrime ? 'CONTINUAR COMPRANDO' : 'Quero ser Prime'}
+        </Typography>
       </TouchableOpacity>
     </View>
   );
