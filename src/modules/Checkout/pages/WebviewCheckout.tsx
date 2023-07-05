@@ -14,7 +14,6 @@ import Config from 'react-native-config';
 import { URL } from 'react-native-url-polyfill';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
-import ModalChristmasCoupon from '../../LandingPage/ModalChristmasCoupon';
 import EventProvider from '../../../utils/EventProvider';
 import { adaptOrderFormItemsTrack } from '../../../utils/adaptOrderFormItemsTrack';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
@@ -37,12 +36,10 @@ const Checkout: React.FC<{}> = () => {
   const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState('https://lojausereservaqa.myvtex.com/_v/segment/admin-login/v1/login?returnUrl=%2F%3F');
   const [attemps, setAttemps] = useState(0);
-  const [orderId, setOrderId] = useState('');
   const [totalOrdersValue, setTotalOrdersValue] = useState<number>(0);
 
   const { getItem } = useAsyncStorageProvider();
 
-  const [showPromotionModal, setShowPromotionModal] = useState(false);
   const { profile } = useAuthStore(['profile']);
 
 
@@ -88,13 +85,13 @@ const Checkout: React.FC<{}> = () => {
 
   useEffect(() => {
     async function execute() {
-      if (profile?.authCookie && orderForm) {
+      if (orderForm) {
         try {
           const orderGroup = getOrderId()?.split('-')?.[0];
-          const { data } = await GetPurchaseData(orderGroup, profile?.authCookie);
+          const response = await GetPurchaseData(orderGroup);
 
           const { items } = orderForm;
-          if (data && items?.length) {
+          if (response?.data && items?.length) {
             const newItems = items.map((item) => ({
               price: item?.price / 100 ?? 0,
               item_id: item?.productId,
@@ -107,7 +104,8 @@ const Checkout: React.FC<{}> = () => {
               coupon: '',
               currency: 'BRL',
               value: orderForm?.value / 100,
-              payment_type: data[0]?.paymentData?.transactions[0]?.payments[0]?.paymentSystemName,
+              payment_type: response?.data[0]?.paymentData
+                ?.transactions[0]?.payments[0]?.paymentSystemName,
               items: newItems,
               wbrand: getBrands(items),
             });
@@ -117,21 +115,8 @@ const Checkout: React.FC<{}> = () => {
         }
       }
     }
-    if (isOrderPlaced) {
-      execute();
-    }
+    if (isOrderPlaced) execute();
   }, [isOrderPlaced]);
-
-  const onHandlePromotionModal = useCallback((orderPrice: number) => {
-    if (orderPrice < 250 || showPromotionModal) return;
-
-    const orderId = getOrderId();
-
-    if (orderId) {
-      setOrderId(orderId);
-      setTimeout(() => setShowPromotionModal(true), 4000);
-    }
-  }, [isOrderPlaced, getOrderId, showPromotionModal]);
 
   const goToHome = () => {
     if (isOrderPlaced) {
@@ -179,9 +164,7 @@ const Checkout: React.FC<{}> = () => {
   const trackEventOrderedDito = useCallback(async (orderData: OrderForm) => {
     try {
       const orderGroup = getOrderId()?.split('-')?.[0];
-      const { data } = await GetPurchaseData(orderGroup, profile?.authCookie);
-
-      const payload = await getItem('@Dito:userRef');
+      const response = await GetPurchaseData(orderGroup);
 
       const itemQuantity = sumQuantity(orderData?.items);
       const itemSubtotal = (orderData.totalizers.find((x) => x.id === 'Items')?.value || 0) / 100;
@@ -190,18 +173,18 @@ const Checkout: React.FC<{}> = () => {
 
       EventProvider.sendTrackEvent(
         'fez-pedido', {
-          id: payload,
+          id: profile?.document || '',
           action: 'fez-pedido',
           data: {
             quantidade_produtos: Number(itemQuantity),
-            id_transacao: data[0]?.orderId || '',
-            metodo_pagamento: data[0]?.paymentData?.transactions[0]?.payments[0]?.paymentSystemName || '',
+            id_transacao: response?.data[0]?.orderId || '',
+            metodo_pagamento: response?.data[0]?.paymentData?.transactions[0]?.payments[0]?.paymentSystemName || '',
             subtotal: Number(itemSubtotal),
             total: itemTotal,
             total_frete: itemShippingTotal,
             origem: 'app',
             dispositivo: Platform.OS,
-            id: payload || '',
+            id: profile?.document || '',
           },
         },
       );
@@ -226,17 +209,16 @@ const Checkout: React.FC<{}> = () => {
           });
 
           const revenueTotal = orderForm.totalizers.find((item) => item.id === 'Items')?.value;
-          let af_revenue = '0';
+          let afRevenue = '0';
 
           if (revenueTotal) {
-            af_revenue = (revenueTotal / 100).toFixed(2);
+            afRevenue = (revenueTotal / 100).toFixed(2);
           }
 
-          onHandlePromotionModal(orderValue);
           EventProvider.OneSignal.sendOutcomeWithValue('Purchase', (orderValue).toFixed(2));
 
           EventProvider.appsFlyer.logEvent('af_purchase', {
-            af_revenue: `${af_revenue}`,
+            af_revenue: `${afRevenue}`,
             af_price: `${orderValue.toFixed(2)}`,
             af_content_id: orderForm?.items.map((item) => item.id),
             af_content_type: 'product',
@@ -268,6 +250,8 @@ const Checkout: React.FC<{}> = () => {
             transaction_id: '',
             value: orderValue,
           });
+
+          EventProvider.logEvent('add_payment_info_test', {});
         } catch (error) {
           EventProvider.captureException(error);
         }
@@ -368,7 +352,7 @@ const Checkout: React.FC<{}> = () => {
         )}
       </Box>
 
-      {isOrderPlaced && (
+      {(isOrderPlaced && checkoutCompleted) && (
         <Button
           onPress={goToHome}
           title="VOLTAR PARA HOME"
@@ -377,12 +361,6 @@ const Checkout: React.FC<{}> = () => {
           testID="com.usereserva:id/checkout_button_back_to_home"
         />
       )}
-
-      <ModalChristmasCoupon
-        isVisible={showPromotionModal}
-        orderId={orderId}
-        onClose={() => setShowPromotionModal(false)}
-      />
     </View>
   );
 };

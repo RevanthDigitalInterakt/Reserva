@@ -23,7 +23,7 @@ module.exports = {
 
   async loginSuccces() {
     await I.fillField(this.fields.email, 'carlosbonfatti@frwk.com.br');
-    await I.fillField(this.fields.password, '123@Teste');
+    await I.fillField(this.fields.password, '123Teste');
     await I.click(this.buttons.entrar);
   },
 

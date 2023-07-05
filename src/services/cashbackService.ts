@@ -22,11 +22,13 @@ export const cashbackService = {
     cpf,
     installationToken,
   }),
+
   acceptLoyalty: async (
     cpf: string,
   ): Promise<AxiosResponse<{ result: boolean }>> => cashbackInstance.post('/loyalty/accept-loyalty', {
     cpf,
   }),
+
   getCustomer: async (
     cpf: string,
   ): Promise<AxiosResponse<GetCostumerResponse>> => cashbackInstance.get('/loyalty/customer', {

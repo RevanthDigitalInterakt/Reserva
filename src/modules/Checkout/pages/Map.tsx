@@ -5,30 +5,59 @@ import {
   Alert,
 } from 'react-native';
 import {
-  Typography, Box, Button, Image, Divider, Icon,
+  Typography, Box, Button, Divider, Icon,
 } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 import Geolocation from '@react-native-community/geolocation';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { images } from '../../../assets';
-import { RootStackParamList } from '../../../routes/StackNavigator';
-import { useCart, PickupPoints } from '../../../context/CartContext';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
+import { useCart } from '../../../context/CartContext';
+import IconComponent from '../../../components/IconComponent/IconComponent';
+import EventProvider from '../../../utils/EventProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'MapScreen'>;
+
 export const MapScreen = ({ route }: Props) => {
   const { geolocation, locationPermission } = route?.params;
   const mapRef = useRef<MapView>(null);
-  const [pickupPoints, setPickupPoints] = useState<PickupPoints[] | undefined>([]);
   const {
-    orderForm, addShippingOrPickupInfo, convertZipCode, pickupPoint,
+    orderForm, addShippingOrPickupInfo, convertZipCode,
   } = useCart();
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const [loadingMap, setLoadingMap] = useState(false);
-  const [position, setPosition] = useState<{ latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number }>();
+  const [position, setPosition] = useState<
+  { latitude: number,
+    longitude: number,
+    latitudeDelta: number,
+    longitudeDelta: number }
+  >();
+
+  const getGeolocation = async (value: string) => {
+    setLoadingMap(true);
+
+    try {
+      const data = await convertZipCode(value);
+
+      if (data) {
+        const [longitude, latitude] = data?.geoCoordinates;
+
+        setPosition({
+          latitude,
+          longitude,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        });
+      }
+    } catch (e) {
+      EventProvider.captureException(e);
+    } finally {
+      setLoadingMap(false);
+    }
+  };
 
   const fetchCurrentPosition = () => {
     if (locationPermission) {
@@ -42,7 +71,6 @@ export const MapScreen = ({ route }: Props) => {
           longitudeDelta: 0.05,
         });
 
-        // verifica em qual posição o usuário estar
         if (mapRef.current) {
           mapRef.current?.animateCamera({
             center: {
@@ -59,25 +87,9 @@ export const MapScreen = ({ route }: Props) => {
     }
   };
 
-  // Pega a posição do usuário
   useEffect(() => {
     fetchCurrentPosition();
   }, []);
-
-  const getGeolocation = async (geolocation: string) => {
-    setLoadingMap(true);
-    const data = await convertZipCode(geolocation);
-    if (data) {
-      const [longitude, latitude] = data?.geoCoordinates;
-      setPosition({
-        latitude,
-        longitude,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
-      });
-      setLoadingMap(false);
-    }
-  };
 
   const onSelectPickupPoint = async (item: any) => {
     setLoading(true);
@@ -89,7 +101,6 @@ export const MapScreen = ({ route }: Props) => {
       if (slas) {
         const { deliveryChannel, id } = slas;
 
-        // save selected logistc info
         const logisticInfo = orderForm.shippingData.logisticsInfo.map(
           ({ itemIndex }) => ({
             itemIndex,
@@ -113,7 +124,6 @@ export const MapScreen = ({ route }: Props) => {
         );
 
         setLoading(false);
-        // case when update orderform has succeeded, must open payment webview
         if (data) {
           navigation.navigate('Checkout');
         } else {
@@ -126,7 +136,7 @@ export const MapScreen = ({ route }: Props) => {
   return (
     <SafeAreaView flex={1} backgroundColor="white">
       <TopBarBackButton loading={loading || loadingMap} showShadow />
-      {orderForm && orderForm?.shippingData.pickupPoints.length > 0
+      {orderForm && orderForm?.shippingData?.pickupPoints?.length > 0
         ? (
           <>
             <Box flex={2}>
@@ -141,26 +151,27 @@ export const MapScreen = ({ route }: Props) => {
                 <Marker
                   coordinate={{ latitude: position?.latitude, longitude: position?.longitude }}
                 >
-                  {/* Posição do usuário */}
-                  <Box>
-                    <Image
-                      height={40}
-                      source={images.pinYou}
-                      resizeMode="contain"
-                    />
-                  </Box>
+                  <IconComponent
+                    icon="pinYou"
+                    width={90}
+                  />
                 </Marker>
-                {orderForm?.shippingData.pickupPoints.map((coordinate, index) => {
+                {orderForm?.shippingData.pickupPoints.map((coordinate) => {
                   const [longitude, latitude] = coordinate.address.geoCoordinates;
-                  return (
-                    <Marker key={index} coordinate={{ latitude, longitude }}>
-                      <Image
-                        height={40}
-                        source={images.localReserva}
-                        resizeMode="contain"
-                      />
-                    </Marker>
-                  );
+                  if (longitude && latitude) {
+                    return (
+                      <Marker
+                        key={`${longitude}-${latitude}`}
+                        coordinate={{ latitude, longitude }}
+                      >
+                        <IconComponent
+                          icon="localReserva"
+                          height={40}
+                          width={40}
+                        />
+                      </Marker>
+                    );
+                  }
                 })}
               </MapView>
               )}
@@ -195,10 +206,10 @@ export const MapScreen = ({ route }: Props) => {
                         <Box borderColor="backgroundMenuOpened" paddingRight="nano">
                           <Box flexDirection="row">
                             <Box>
-                              <Image
+                              <IconComponent
+                                icon="localReserva"
                                 height={40}
-                                source={images.localReserva}
-                                resizeMode="contain"
+                                width={40}
                               />
                             </Box>
                             <Box flex={1}>
@@ -235,9 +246,10 @@ ${item.address.complement} - ${item.address.neighborhood} - ${item.address.state
             px="micro"
             mt="xxl"
           >
-            <Image
-              source={images.noStoresFound}
-              resizeMode="contain"
+            <IconComponent
+              icon="noStoresFound"
+              height={100}
+              width={100}
             />
             <Box mb="xxs" mt="md">
               <Typography

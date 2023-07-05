@@ -1,8 +1,13 @@
 export const COLORS = {
+  BLACK: '#000000',
   GRAY: '#848484',
   DARK_GRAY: '#767676',
+  LIGHT_GRAY: '#8D8D8D',
   WHITE: '#ffffff',
+  BLACK: '#000000',
   INPUT_BACKGROUND: '#ffffff',
   INPUT_BORDER: '#BCBCBC',
   INPUT_TEXT: '#3A3A3A',
+  RED: '#A01E21',
+  SELECT_BOX_BACKGROUND: '#FFF8FA',
 };

@@ -1,10 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Sentry from '@sentry/react-native';
+import type { Cookies } from '@react-native-cookies/cookies';
 import EventProvider from '../utils/EventProvider';
-import type { Cookies } from '../pages/WebViewQA/helpers/GetCookies';
 
 export interface IAsyncStorageKeys {
-  '@RNOrder:ChristmasCouponModalOrderId': string;
   '@RNOrder:RonItems': string[];
   '@RNSession:Ron': boolean;
   '@DitoNotification:Ref': string;

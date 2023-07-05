@@ -11,7 +11,7 @@ import {
   Alert, BackHandler, Keyboard, SafeAreaView, ScrollView,
 } from 'react-native';
 import * as Yup from 'yup';
-import { FormikTextInput } from '../../../shared/components/FormikTextInput';
+import { FormikTextInput } from '../../../components/FormikTextInput/FormikTextInput';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useRedefinePasswordMutation } from '../../../base/graphql/generated';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';

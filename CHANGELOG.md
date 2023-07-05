@@ -1,12 +1,24 @@
 ## CHANGELOG
 
+### 2.0.5
+
+- [SRN-333 - Erro evento Cadastrou DITO](https://reserva.atlassian.net/browse/SRN-333)
+- [SRN-192 - Bloquear a migração de eventos para perfis diferentes](https://reserva.atlassian.net/browse/SRN-192)
+
+---
+
 ### 2.0.3
 
+- [SRN-257 - CPF obrigatório no cadastro](https://reserva.atlassian.net/browse/SRN-257)
 - [APP2022-1218 - BUG - Não exibe botão de voltar na bag vazia](https://reserva.atlassian.net/browse/APP2022-1218)
 - [APP2022-1195 - Implementação Clarity](https://reserva.atlassian.net/browse/APP2022-1195)
 - [SRN-203 - DITO - Segmentação Busca](https://reserva.atlassian.net/browse/SRN-203)
 - [APP2022-1226 - Troca de telefone WhatsApp](https://reserva.atlassian.net/browse/APP2022-1226)
 - [SRN-141 - DITO - Segmentação Acessou departamento](https://reserva.atlassian.net/browse/SRN-141)
+- [APP2022-1187 - Refatoração do componente de imagem](https://reserva.atlassian.net/browse/APP2022-1187)
+- [SRN-283 - BUG - Evento add_payment_info](https://reserva.atlassian.net/browse/SRN-283)
+- [SRN-281 - DITO - Segmentação Cadastro](https://reserva.atlassian.net/browse/SRN-281)
+- [SRN-320 - Alterar os Payloads associados ao Cashback meu perfil](https://reserva.atlassian.net/browse/SRN-320)
 
 ---
 

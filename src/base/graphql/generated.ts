@@ -17,6 +17,52 @@ export type Scalars = {
   Float: number;
 };
 
+export type CashbackExpirationInfoOutput = {
+  __typename?: 'CashbackExpirationInfoOutput';
+  cashbackToExpire: Array<CashbackExpirationItemOutput>;
+  totalExpireBalanceInCents: Scalars['String'];
+};
+
+export type CashbackExpirationItemOutput = {
+  __typename?: 'CashbackExpirationItemOutput';
+  expireAt: Scalars['String'];
+  expireCashbackAmount: Scalars['String'];
+  expireCashbackProgramRefId: Scalars['String'];
+  expireDays: Scalars['Float'];
+  expireOperationId: Scalars['Int'];
+  expireOrderId: Scalars['String'];
+  expireStatus: Scalars['String'];
+};
+
+export type CashbackOperationOutput = {
+  __typename?: 'CashbackOperationOutput';
+  appliedBalanceInCents: Scalars['Float'];
+  cashbackAmountInCents: Scalars['Float'];
+  createdAt: Scalars['String'];
+  currentBalanceInCents: Scalars['Float'];
+  externalOrderAmountInCents: Scalars['Float'];
+  externalOrderId: Scalars['String'];
+  requestedCashback: Scalars['Boolean'];
+  settlementDate: Scalars['String'];
+  status: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type CashbackOutput = {
+  __typename?: 'CashbackOutput';
+  expiration: CashbackExpirationInfoOutput;
+  operations: Array<CashbackOperationOutput>;
+  wallet: CashbackWalletOutput;
+};
+
+export type CashbackWalletOutput = {
+  __typename?: 'CashbackWalletOutput';
+  balanceExpiresOn?: Maybe<Scalars['String']>;
+  balanceInCents: Scalars['Float'];
+  pendingBalanceInCents: Scalars['Float'];
+  userStatus: Scalars['String'];
+};
+
 export type CepInput = {
   cep: Scalars['String'];
 };
@@ -583,7 +629,7 @@ export type OrderformItemOutput = {
   disableCounter: Scalars['Boolean'];
   discountApi?: Maybe<Scalars['Float']>;
   discountPercent: Scalars['Float'];
-  ean: Scalars['String'];
+  ean?: Maybe<Scalars['String']>;
   giftOfferingId?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   imageSource: Scalars['String'];
@@ -592,6 +638,7 @@ export type OrderformItemOutput = {
   isAssinaturaSimples: Scalars['Boolean'];
   isGift: Scalars['Boolean'];
   isGiftable: Scalars['Boolean'];
+  isPrimeSubscription: Scalars['Boolean'];
   itemColor: Scalars['String'];
   itemSize: Scalars['String'];
   key: Scalars['String'];
@@ -762,6 +809,7 @@ export type PrimeDetailOutput = {
   monthlyCashback: Scalars['Float'];
   productId: Scalars['Int'];
   productSeller: Scalars['String'];
+  skuId: Scalars['Int'];
 };
 
 export type PrimeInfoOutput = {
@@ -914,7 +962,7 @@ export type ProductSizeOutput = {
   itemId: Scalars['ID'];
   /** Price without discount (original price) - may be null if the original price is equal to current price */
   listPrice: Scalars['Float'];
-  prime: PrimeInfoOutput;
+  prime?: Maybe<PrimeInfoOutput>;
   seller: Scalars['String'];
   size: Scalars['String'];
 };
@@ -984,6 +1032,7 @@ export type ProfileUpdateInput = {
 
 export type Query = {
   __typename?: 'Query';
+  cashback: CashbackOutput;
   cep?: Maybe<CepOutput>;
   checkIfUserExists: Scalars['Boolean'];
   checkSearchRedirect?: Maybe<Scalars['String']>;
@@ -1224,7 +1273,7 @@ export type ProductColorFragmentFragment = { __typename?: 'ProductColorOutput', 
 
 export type ProductSizeFragmentFragment = { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } };
 
-export type ProfileFragmentFragment = { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> };
+export type ProfileFragmentFragment = { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, isPrime: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> };
 
 export type OrderFormAddDiscountCouponMutationVariables = Exact<{
   orderFormId: Scalars['String'];
@@ -1256,14 +1305,14 @@ export type OrderFormAttachClientByCookieMutationVariables = Exact<{
 }>;
 
 
-export type OrderFormAttachClientByCookieMutation = { __typename?: 'Mutation', orderFormAttachClientByCookie: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, messagesDetailed: Array<{ __typename?: 'OrderformMessageOutput', code?: string | null, text?: string | null, status?: string | null }>, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', uniqueId: string, id: string, key: string, productId: string, productTitle: string, productRefId: string, refId: string, ean: string, name: string, skuName: string, seller: string, itemColor: string, itemSize: string, priceValidUntil: string, tax: number, price: number, listPrice: number, sellingPrice: number, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, rewardValue: number, isGift: boolean, isAddedAsGift: boolean, giftOfferingId?: string | null, isGiftable: boolean, disableCounter: boolean, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, quantity: number, isAssinaturaSimples: boolean, imageUrl?: string | null, detailUrl?: string | null, availability: string, measurementUnit: string, unitMultiplier: number, imageSource: string, bundleItems: Array<{ __typename?: 'OrderformItemBundleItemOutput', uniqueId: string, id: string, name: string }>, offerings: Array<{ __typename?: 'OrderformItemOfferingOutput', type: string, id: string, name: string, allowGiftMessage: boolean, attachmentOfferings: Array<{ __typename?: 'OrderformItemOfferingAttachmentOutput', name: string, required: boolean }> }> }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, seller: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null }, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, seller: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', utmSource?: string | null, utmMedium?: string | null, utmCampaign?: string | null, utmipage?: string | null, utmiPart?: string | null, utmiCampaign?: string | null, coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, marketingTags: Array<string> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null }>, selectedAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
+export type OrderFormAttachClientByCookieMutation = { __typename?: 'Mutation', orderFormAttachClientByCookie: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, messagesDetailed: Array<{ __typename?: 'OrderformMessageOutput', code?: string | null, text?: string | null, status?: string | null }>, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', uniqueId: string, id: string, key: string, productId: string, productTitle: string, productRefId: string, refId: string, ean?: string | null, name: string, skuName: string, seller: string, itemColor: string, itemSize: string, priceValidUntil: string, tax: number, price: number, listPrice: number, sellingPrice: number, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, rewardValue: number, isGift: boolean, isAddedAsGift: boolean, giftOfferingId?: string | null, isGiftable: boolean, disableCounter: boolean, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, quantity: number, isAssinaturaSimples: boolean, imageUrl?: string | null, detailUrl?: string | null, availability: string, measurementUnit: string, unitMultiplier: number, imageSource: string, bundleItems: Array<{ __typename?: 'OrderformItemBundleItemOutput', uniqueId: string, id: string, name: string }>, offerings: Array<{ __typename?: 'OrderformItemOfferingOutput', type: string, id: string, name: string, allowGiftMessage: boolean, attachmentOfferings: Array<{ __typename?: 'OrderformItemOfferingAttachmentOutput', name: string, required: boolean }> }> }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, seller: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null }, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, seller: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', utmSource?: string | null, utmMedium?: string | null, utmCampaign?: string | null, utmipage?: string | null, utmiPart?: string | null, utmiCampaign?: string | null, coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, marketingTags: Array<string> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null }>, selectedAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormRefreshDataMutationVariables = Exact<{
   input: OrderformRefreshDataInput;
 }>;
 
 
-export type OrderFormRefreshDataMutation = { __typename?: 'Mutation', orderFormRefreshData: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, messagesDetailed: Array<{ __typename?: 'OrderformMessageOutput', code?: string | null, text?: string | null, status?: string | null }>, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', uniqueId: string, id: string, key: string, productId: string, productTitle: string, productRefId: string, refId: string, ean: string, name: string, skuName: string, seller: string, itemColor: string, itemSize: string, priceValidUntil: string, tax: number, price: number, listPrice: number, sellingPrice: number, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, rewardValue: number, isGift: boolean, isAddedAsGift: boolean, giftOfferingId?: string | null, isGiftable: boolean, disableCounter: boolean, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, quantity: number, isAssinaturaSimples: boolean, imageUrl?: string | null, detailUrl?: string | null, availability: string, measurementUnit: string, unitMultiplier: number, imageSource: string, bundleItems: Array<{ __typename?: 'OrderformItemBundleItemOutput', uniqueId: string, id: string, name: string }>, offerings: Array<{ __typename?: 'OrderformItemOfferingOutput', type: string, id: string, name: string, allowGiftMessage: boolean, attachmentOfferings: Array<{ __typename?: 'OrderformItemOfferingAttachmentOutput', name: string, required: boolean }> }> }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, seller: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null }, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, seller: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', utmSource?: string | null, utmMedium?: string | null, utmCampaign?: string | null, utmipage?: string | null, utmiPart?: string | null, utmiCampaign?: string | null, coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, marketingTags: Array<string> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null }>, selectedAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
+export type OrderFormRefreshDataMutation = { __typename?: 'Mutation', orderFormRefreshData: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, messagesDetailed: Array<{ __typename?: 'OrderformMessageOutput', code?: string | null, text?: string | null, status?: string | null }>, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', uniqueId: string, id: string, key: string, productId: string, productTitle: string, productRefId: string, refId: string, ean?: string | null, name: string, skuName: string, seller: string, itemColor: string, itemSize: string, priceValidUntil: string, tax: number, price: number, listPrice: number, sellingPrice: number, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, rewardValue: number, isGift: boolean, isAddedAsGift: boolean, giftOfferingId?: string | null, isGiftable: boolean, disableCounter: boolean, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, quantity: number, isAssinaturaSimples: boolean, imageUrl?: string | null, detailUrl?: string | null, availability: string, measurementUnit: string, unitMultiplier: number, imageSource: string, bundleItems: Array<{ __typename?: 'OrderformItemBundleItemOutput', uniqueId: string, id: string, name: string }>, offerings: Array<{ __typename?: 'OrderformItemOfferingOutput', type: string, id: string, name: string, allowGiftMessage: boolean, attachmentOfferings: Array<{ __typename?: 'OrderformItemOfferingAttachmentOutput', name: string, required: boolean }> }> }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, seller: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null }, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, seller: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', utmSource?: string | null, utmMedium?: string | null, utmCampaign?: string | null, utmipage?: string | null, utmiPart?: string | null, utmiCampaign?: string | null, coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, marketingTags: Array<string> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null }>, selectedAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormRemoveDiscountCouponMutationVariables = Exact<{
   orderFormId: Scalars['String'];
@@ -1321,7 +1370,7 @@ export type ProfileUpdateMutationVariables = Exact<{
 }>;
 
 
-export type ProfileUpdateMutation = { __typename?: 'Mutation', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> } };
+export type ProfileUpdateMutation = { __typename?: 'Mutation', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, isPrime: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> } };
 
 export type ProfileAddressMutationVariables = Exact<{
   input: UpsertProfileAddressInput;
@@ -1422,6 +1471,11 @@ export type WishlistRemoveProductMutationVariables = Exact<{
 
 export type WishlistRemoveProductMutation = { __typename?: 'Mutation', wishlistRemoveProduct: boolean };
 
+export type CashbackQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CashbackQuery = { __typename?: 'Query', cashback: { __typename?: 'CashbackOutput', wallet: { __typename?: 'CashbackWalletOutput', balanceInCents: number }, expiration: { __typename?: 'CashbackExpirationInfoOutput', totalExpireBalanceInCents: string, cashbackToExpire: Array<{ __typename?: 'CashbackExpirationItemOutput', expireAt: string, expireCashbackAmount: string }> }, operations: Array<{ __typename?: 'CashbackOperationOutput', status: string, cashbackAmountInCents: number, appliedBalanceInCents: number, settlementDate: string, createdAt: string }> } };
+
 export type CheckIfUserExistsQueryVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -1487,7 +1541,7 @@ export type ProductRecommendationsQuery = { __typename?: 'Query', productRecomme
 export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> } };
+export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, gender?: string | null, isComplete: boolean, isPrime: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null>, payments: Array<{ __typename?: 'ProfilePaymentOutput', id: string, cardNumber?: string | null } | null> } };
 
 export type RonRedirectQueryVariables = Exact<{
   code: Scalars['String'];
@@ -1495,18 +1549,6 @@ export type RonRedirectQueryVariables = Exact<{
 
 
 export type RonRedirectQuery = { __typename?: 'Query', ronRedirect?: { __typename?: 'RonRedirectOutput', type: RonRedirectTypeEnum, url?: string | null, orderFormId?: string | null } | null };
-
-export type SellerInfoQueryVariables = Exact<{
-  sellerId: Scalars['String'];
-}>;
-
-
-export type SellerInfoQuery = { __typename?: 'Query', sellerInfo?: { __typename?: 'SellerInfoOutput', sellerId: string, texto?: string | null, logo?: string | null, bannerMobile?: string | null, sellerName?: string | null, linkApp?: string | null } | null };
-
-export type SellersMktinQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SellersMktinQuery = { __typename?: 'Query', sellersMktin: Array<string> };
 
 export type WishlistCheckProductQueryVariables = Exact<{
   input: WishlistCheckProductInput;
@@ -1655,6 +1697,7 @@ export const ProfileFragmentFragmentDoc = gql`
   homePhone
   gender
   isComplete
+  isPrime
   addresses {
     id
     receiverName
@@ -3017,6 +3060,59 @@ export function useWishlistRemoveProductMutation(baseOptions?: Apollo.MutationHo
 export type WishlistRemoveProductMutationHookResult = ReturnType<typeof useWishlistRemoveProductMutation>;
 export type WishlistRemoveProductMutationResult = Apollo.MutationResult<WishlistRemoveProductMutation>;
 export type WishlistRemoveProductMutationOptions = Apollo.BaseMutationOptions<WishlistRemoveProductMutation, WishlistRemoveProductMutationVariables>;
+export const CashbackDocument = gql`
+    query cashback {
+  cashback {
+    wallet {
+      balanceInCents
+    }
+    expiration {
+      totalExpireBalanceInCents
+      cashbackToExpire {
+        expireAt
+        expireCashbackAmount
+      }
+    }
+    operations {
+      status
+      cashbackAmountInCents
+      appliedBalanceInCents
+      settlementDate
+      createdAt
+    }
+  }
+}
+    `;
+
+/**
+ * __useCashbackQuery__
+ *
+ * To run a query within a React component, call `useCashbackQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCashbackQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCashbackQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCashbackQuery(baseOptions?: Apollo.QueryHookOptions<CashbackQuery, CashbackQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CashbackQuery, CashbackQueryVariables>(CashbackDocument, options);
+      }
+export function useCashbackLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CashbackQuery, CashbackQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CashbackQuery, CashbackQueryVariables>(CashbackDocument, options);
+        }
+export type CashbackQueryHookResult = ReturnType<typeof useCashbackQuery>;
+export type CashbackLazyQueryHookResult = ReturnType<typeof useCashbackLazyQuery>;
+export type CashbackQueryResult = Apollo.QueryResult<CashbackQuery, CashbackQueryVariables>;
+export function refetchCashbackQuery(variables?: CashbackQueryVariables) {
+      return { query: CashbackDocument, variables: variables }
+    }
 export const CheckIfUserExistsDocument = gql`
     query checkIfUserExists($email: String!) {
   checkIfUserExists(input: {email: $email})
@@ -3552,84 +3648,6 @@ export type RonRedirectLazyQueryHookResult = ReturnType<typeof useRonRedirectLaz
 export type RonRedirectQueryResult = Apollo.QueryResult<RonRedirectQuery, RonRedirectQueryVariables>;
 export function refetchRonRedirectQuery(variables: RonRedirectQueryVariables) {
       return { query: RonRedirectDocument, variables: variables }
-    }
-export const SellerInfoDocument = gql`
-    query sellerInfo($sellerId: String!) {
-  sellerInfo(input: {sellerId: $sellerId}) {
-    sellerId
-    texto
-    logo
-    bannerMobile
-    sellerName
-    linkApp
-  }
-}
-    `;
-
-/**
- * __useSellerInfoQuery__
- *
- * To run a query within a React component, call `useSellerInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useSellerInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSellerInfoQuery({
- *   variables: {
- *      sellerId: // value for 'sellerId'
- *   },
- * });
- */
-export function useSellerInfoQuery(baseOptions: Apollo.QueryHookOptions<SellerInfoQuery, SellerInfoQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SellerInfoQuery, SellerInfoQueryVariables>(SellerInfoDocument, options);
-      }
-export function useSellerInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SellerInfoQuery, SellerInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SellerInfoQuery, SellerInfoQueryVariables>(SellerInfoDocument, options);
-        }
-export type SellerInfoQueryHookResult = ReturnType<typeof useSellerInfoQuery>;
-export type SellerInfoLazyQueryHookResult = ReturnType<typeof useSellerInfoLazyQuery>;
-export type SellerInfoQueryResult = Apollo.QueryResult<SellerInfoQuery, SellerInfoQueryVariables>;
-export function refetchSellerInfoQuery(variables: SellerInfoQueryVariables) {
-      return { query: SellerInfoDocument, variables: variables }
-    }
-export const SellersMktinDocument = gql`
-    query sellersMktin {
-  sellersMktin
-}
-    `;
-
-/**
- * __useSellersMktinQuery__
- *
- * To run a query within a React component, call `useSellersMktinQuery` and pass it any options that fit your needs.
- * When your component renders, `useSellersMktinQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSellersMktinQuery({
- *   variables: {
- *   },
- * });
- */
-export function useSellersMktinQuery(baseOptions?: Apollo.QueryHookOptions<SellersMktinQuery, SellersMktinQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SellersMktinQuery, SellersMktinQueryVariables>(SellersMktinDocument, options);
-      }
-export function useSellersMktinLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SellersMktinQuery, SellersMktinQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SellersMktinQuery, SellersMktinQueryVariables>(SellersMktinDocument, options);
-        }
-export type SellersMktinQueryHookResult = ReturnType<typeof useSellersMktinQuery>;
-export type SellersMktinLazyQueryHookResult = ReturnType<typeof useSellersMktinLazyQuery>;
-export type SellersMktinQueryResult = Apollo.QueryResult<SellersMktinQuery, SellersMktinQueryVariables>;
-export function refetchSellersMktinQuery(variables?: SellersMktinQueryVariables) {
-      return { query: SellersMktinDocument, variables: variables }
     }
 export const WishlistCheckProductDocument = gql`
     query wishlistCheckProduct($input: WishlistCheckProductInput!) {

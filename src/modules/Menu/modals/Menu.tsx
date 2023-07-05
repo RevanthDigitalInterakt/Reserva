@@ -9,7 +9,7 @@ import {
 } from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackActions, useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useEffect, useState, useCallback } from 'react';
 import {
@@ -21,7 +21,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { categoriesQuery } from '../../../graphql/categories/categoriesQuery';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
 import { TopBarMenu } from '../components/TopBarMenu';
@@ -29,8 +29,8 @@ import { slugify } from '../../../utils/slugify';
 import testProps from '../../../utils/testProps';
 import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
-import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 interface IBreadCrumbs {
   title: string;
@@ -260,7 +260,6 @@ export interface Category {
   opened: boolean;
   highlight: boolean;
   referenceId: string;
-  mkt?: boolean;
 }
 
 export type MenuProps = StackScreenProps<RootStackParamList, 'Menu'>;
@@ -404,7 +403,7 @@ export const Menu = ({ route }: MenuProps) => {
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
           {categories && (
             <Animatable.View animation="fadeIn">
-              {categories.map((item, index) => (!item.mkt ? (
+              {categories.map((item, index) => (
                 <MenuItem
                   key={index}
                   highlight={item.highlight}
@@ -414,7 +413,7 @@ export const Menu = ({ route }: MenuProps) => {
                   index={index}
                   title={item.name}
                 />
-              ) : null))}
+              ))}
               <Divider
                 variant="fullWidth"
                 marginBottom="nano"

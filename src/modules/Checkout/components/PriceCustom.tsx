@@ -16,7 +16,8 @@ export interface IpriceCustom {
 export const PriceCustom: React.FC<IpriceCustom> = ({
   num, fontFamily, sizeInterger, sizeDecimal, negative, color = 'preto',
 }) => {
-  const integerPart = (numInteger: number) => Math.floor(numInteger);
+  const integerPart = (numInteger: number) => (numInteger <= 0 ? Math.ceil(numInteger)
+    : Math.floor(numInteger));
   const decimalPart = (numDecimal: number) => (`${numDecimal?.toFixed(2)}`)?.split('.')[1];
   return (
     <Box flexDirection="row">

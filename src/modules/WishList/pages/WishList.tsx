@@ -6,7 +6,6 @@ import { FlatList, Alert } from 'react-native';
 import {
   Box,
   Picker,
-  ProductHorizontalListCard,
   Typography,
 } from '@usereservaapp/reserva-ui';
 import { useCart } from '../../../context/CartContext';
@@ -21,7 +20,8 @@ import { getBrandByUrl } from '../../../utils/getBrandByURL';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
-import { ModalBag } from '../../../common/components/ModalBag/ModalBag';
+import { ProductHorizontalListCard } from '../../../components/ProductHorizontalListCard/ProductHorizontalListCard';
+import { ModalBag } from '../../../components/ModalBag/ModalBag';
 
 interface IData {
   loading: boolean;
@@ -286,8 +286,6 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
                       ItemSize={item?.productSku?.name?.split('-')[1] || ''}
                       productTitle={`${item.product?.productName.slice(0, 30)}${item.product?.productName.length > 30 ? '...' : ''
                       }`}
-                      installmentsNumber={item.installmentsNumber}
-                      installmentsPrice={item.installmentPrice}
                       price={item.productSku?.sellers[0].commertialOffer.Price}
                       onClickFavorite={() => handleFavorite(item.id)}
                       onClickBagButton={async () => {

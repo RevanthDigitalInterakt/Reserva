@@ -8,7 +8,6 @@ import React, {
   useEffect,
 } from 'react';
 
-import type { CepResponse } from '../config/brasilApi';
 import {
   AddAddressToCart,
   AddCustomerToOrder,
@@ -28,7 +27,6 @@ import {
   SearchNewOrders,
   SearchNewOrderDetail,
   OrderDetail,
-  CepVerifyPostalCode,
   RestoreCart,
   SetGiftSize,
   UpdateItemToCart,
@@ -482,7 +480,6 @@ interface CartContextProps {
   identifyCustomer: () => Promise<void>;
   addCustomer: (customer: any) => Promise<boolean | undefined>;
   addShippingData: (address: Partial<Address>) => Promise<boolean | undefined>;
-  getCepData: (postalCode: string) => Promise<CepResponse | undefined>;
   addShippingOrPickupInfo: (
     logisticInfo: any[],
     selectedAddresses: any[]
@@ -824,16 +821,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
-  const getCepData = async (postalCode: string) => {
-    try {
-      const data = await CepVerifyPostalCode(postalCode);
-
-      return data;
-    } catch (err) {
-      EventProvider.captureException(err);
-    }
-  };
-
   const addShippingData = async (address: Partial<Address>) => {
     try {
       const data = await AddAddressToCart(orderForm?.orderFormId, {
@@ -1071,7 +1058,13 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   };
 
-  const toggleGiftWrapping = async (flag: boolean, orderFormId: string, item: IOrderFormItem, index: number, cookie?: string) => {
+  const toggleGiftWrapping = async (
+    flag: boolean,
+    orderFormId: string,
+    item: IOrderFormItem,
+    index: number,
+    cookie?: string,
+  ) => {
     try {
       setTopBarLoading(true);
 
@@ -1123,7 +1116,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         identifyCustomer,
         addCustomer,
         addShippingData,
-        getCepData,
         addShippingOrPickupInfo,
         orderform,
         removeItem,
@@ -1173,7 +1165,6 @@ export const useCart = () => {
     identifyCustomer,
     addCustomer,
     addShippingData,
-    getCepData,
     addShippingOrPickupInfo,
     orderform,
     removeItem,
@@ -1209,7 +1200,6 @@ export const useCart = () => {
     identifyCustomer,
     addCustomer,
     addShippingData,
-    getCepData,
     addShippingOrPickupInfo,
     orderform,
     removeItem,

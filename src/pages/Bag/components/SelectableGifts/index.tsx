@@ -1,7 +1,7 @@
 /* eslint-disable-file */
 
 import {
-  Box, Button, Icon, Image, RadioButtons, Typography,
+  Box, Button, Icon, RadioButtons, Typography,
 } from '@usereservaapp/reserva-ui';
 import { Dimensions, Platform, ScrollView } from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -9,6 +9,7 @@ import { createAnimatableComponent } from 'react-native-animatable';
 import { platformType } from '../../../../utils/platformType';
 import useBagStore from '../../../../zustand/useBagStore/useBagStore';
 import type { Maybe, OrderformSelectableGiftOptionOutput } from '../../../../base/graphql/generated';
+import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
 
 const screenWidth = Dimensions.get('window').width;
 const BoxAnimation = createAnimatableComponent(Box);
@@ -122,12 +123,13 @@ export default function SelectableGifts() {
 
   return (
     <Box flexDirection="row" minHeight={152} mt="xxs">
-      <Image
-        style={{}}
+      {giftImage && (
+      <ImageComponent
         source={{ uri: giftImage }}
         width={screenWidth * 0.25}
         height={152}
       />
+      )}
 
       <Box ml="micro" flex={1} minHeight={152}>
         <Box minHeight={93}>

@@ -1,23 +1,17 @@
 import React, { useCallback, useMemo } from 'react';
 import Modal from 'react-native-modal';
-import {
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import {
-  Box,
-  Icon,
-  Typography,
-} from '@usereservaapp/reserva-ui';
+import { ScrollView, TouchableOpacity } from 'react-native';
+import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 
+import LottieView from 'lottie-react-native';
+import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import testProps from '../../utils/testProps';
 import { useCart } from '../../context/CartContext';
 import EventProvider from '../../utils/EventProvider';
 import { useAuthentication } from '../../hooks/useAuthentication';
 import { useLandingPagePrimeQuery } from '../../base/graphql/generated';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
-
 import { Button } from '../Button';
 import UnderlineInput from '../UnderlineInput';
 
@@ -37,7 +31,11 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
   const { addItem } = useCart();
 
   const {
-    handleLogin, loginCredentials, setLoginCredentials, setEmailIsValid, setPasswordIsValid,
+    handleLogin,
+    loginCredentials,
+    setLoginCredentials,
+    setEmailIsValid,
+    setPasswordIsValid,
   } = useAuthentication({ closeModal: onClose });
   const { navigate } = useNavigation();
 
@@ -46,7 +44,10 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
     fetchPolicy: getFetchPolicyPerKey('landingPagePrime'),
   });
 
-  const data = useMemo(() => rawData?.landingPagePrime, [rawData?.landingPagePrime]);
+  const data = useMemo(
+    () => rawData?.landingPagePrime,
+    [rawData?.landingPagePrime],
+  );
 
   const onAddPrimeToCart = useCallback(async () => {
     try {
@@ -79,11 +80,13 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
       click_name: 'redirect_to_lp_prime',
     });
     navigate('PrimeLP');
-  }
+    onClose();
+  };
 
   return (
     <Modal
       animationIn="fadeIn"
+      animationOut="zoomOut"
       isVisible={isVisible}
       animationInTiming={300}
       style={Styles.objectStyles.modal}
@@ -96,7 +99,10 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
         {...testProps('com.usereserva:id/modal_sign_in_container')}
       >
         <Box flexDirection="row-reverse">
-          <TouchableOpacity onPress={onClose} {...testProps('com.usereserva:id/modal_sign_in_close')}>
+          <TouchableOpacity
+            onPress={onClose}
+            {...testProps('com.usereserva:id/modal_sign_in_close')}
+          >
             <Icon name="Close" size={14} />
           </TouchableOpacity>
         </Box>
@@ -108,8 +114,8 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
         <ScrollView showsVerticalScrollIndicator={false}>
           <Box my="micro">
             <Typography fontSize={14} color="neutroFrio2">
-              Olá! Já é cliente Prime? Então basta inserir
-              seu e-mail abaixo para poder comprar:
+              Olá! Já é cliente Prime? Então basta inserir seu e-mail abaixo
+              para poder comprar:
             </Typography>
           </Box>
 
@@ -124,7 +130,10 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
               showError={loginCredentials.showUsernameError}
               onChangeText={(text) => {
                 try {
-                  setLoginCredentials({ ...loginCredentials, username: text });
+                  setLoginCredentials({
+                    ...loginCredentials,
+                    username: text,
+                  });
                   setEmailIsValid(isValidEmail(text));
                 } catch (error) {
                   EventProvider.sentry.captureException(error, {
@@ -153,25 +162,30 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
               />
               <Box mt="micro" mb="quarck">
                 <TouchableOpacity
-                  {...testProps('com.usereserva:id/modal_sign_in_cta_forgot_password')}
+                  {...testProps(
+                    'com.usereserva:id/modal_sign_in_cta_forgot_password',
+                  )}
                   onPress={() => {
                     navigate('ForgotEmail', {});
                   }}
                 >
-                  <Typography fontSize={14} style={{ textDecorationLine: 'underline' }}>
+                  <Typography
+                    fontSize={14}
+                    style={{ textDecorationLine: 'underline' }}
+                  >
                     Esqueci minha senha
                   </Typography>
                 </TouchableOpacity>
               </Box>
 
               {loginCredentials.hasError && (
-                <Typography
-                  fontSize={13}
-                  color="vermelhoAlerta"
-                  fontFamily="nunitoRegular"
-                >
-                  {loginCredentials.showMessageError}
-                </Typography>
+              <Typography
+                fontSize={13}
+                color="vermelhoAlerta"
+                fontFamily="nunitoRegular"
+              >
+                {loginCredentials.showMessageError}
+              </Typography>
               )}
             </Box>
           </Box>
@@ -208,27 +222,49 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
             />
           </Styles.WrapperAboutPrime>
 
-          <Typography fontFamily="reservaSansRegular" color="neutroFrio2" fontSize={14} style={{ marginBottom: 24 }}>
+          <Typography
+            fontFamily="reservaSansRegular"
+            color="neutroFrio2"
+            fontSize={14}
+            style={{ marginBottom: 24 }}
+          >
             Por apenas
             {' '}
-            <Typography fontSize={14} color="fullBlack" fontFamily="reservaSansBold">12x R$ 25</Typography>
+            <Typography
+              fontSize={14}
+              color="fullBlack"
+              fontFamily="reservaSansBold"
+            >
+              12x R$ 25
+            </Typography>
             , assinantes
             {' '}
-            <Typography fontSize={14} fontFamily="reservaSerifBlack" color="fullBlack">
+            <Typography
+              fontSize={14}
+              fontFamily="reservaSerifBlack"
+              color="fullBlack"
+            >
               Prime
             </Typography>
             {' '}
-            têm acesso a vantagens
-            como descontos exclusivos e frete grátis em compras acima de
+            têm acesso a vantagens como descontos exclusivos e frete grátis em
+            compras acima de
             {' '}
-            <Typography fontSize={14} color="fullBlack" fontFamily="reservaSansBold">R$ 499</Typography>
-            ,
-            toque no botão abaixo e comece agora mesmo a comprar!
+            <Typography
+              fontSize={14}
+              color="fullBlack"
+              fontFamily="reservaSansBold"
+            >
+              R$ 499
+            </Typography>
+            , toque no botão abaixo e comece agora mesmo a comprar!
           </Typography>
 
           <Button
             width="100%"
             onPress={onAddPrimeToCart}
+            disabled={loadingAddCart}
+            inline
             {...testProps('com.usereserva:id/modal_sign_in_cta_add_prime')}
           >
             <Box
@@ -238,13 +274,22 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
               alignItems="center"
               justifyContent="center"
             >
-              <Typography
-                color="white"
-                fontSize={14}
-                fontFamily="reservaSansMedium"
-              >
-                ADICIONAR PRIME AO CARRINHO
-              </Typography>
+              {loadingAddCart ? (
+                <LottieView
+                  source={loadingSpinner}
+                  autoPlay
+                  loop
+                  style={{ width: 16, height: 16 }}
+                />
+              ) : (
+                <Typography
+                  color="white"
+                  fontSize={14}
+                  fontFamily="reservaSansMedium"
+                >
+                  ADICIONAR PRIME AO CARRINHO
+                </Typography>
+              )}
             </Box>
           </Button>
 

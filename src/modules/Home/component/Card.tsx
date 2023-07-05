@@ -2,28 +2,24 @@ import React from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { Box, Button, Image } from '@usereservaapp/reserva-ui';
+import { Box, Button } from '@usereservaapp/reserva-ui';
 import type { CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 import EventProvider from '../../../utils/EventProvider';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import ImageComponent from '../../../components/ImageComponent/ImageComponent';
 
-const Card: React.FC<Omit<CarrouselCard, 'mkt'>> = ({
+const Card = ({
   image,
   reference,
   reservaMini,
   orderBy,
-  linkMktIn,
-}) => {
+}: CarrouselCard) => {
   const navigation = useNavigation();
 
   const handleNavigation = () => {
     const facetInput = [];
     const [categoryType, categoryData] = reference.split(':');
-
-    if (linkMktIn) {
-      return navigation.navigate(linkMktIn);
-    }
 
     if (categoryType === 'product') {
       EventProvider.logEvent('page_view', {
@@ -70,10 +66,10 @@ const Card: React.FC<Omit<CarrouselCard, 'mkt'>> = ({
   return (
     <Box testID="com.usereserva:id/card_container">
       <Button onPress={handleNavigation} testID="com.usereserva:id/card_button">
-        <Image
-          autoHeight
+        <ImageComponent
+          height={280}
           width={configDeviceSizes.DEVICE_WIDTH * 0.85 - 16}
-          source={{ uri: image.url }}
+          source={{ uri: image?.url }}
         />
       </Button>
     </Box>

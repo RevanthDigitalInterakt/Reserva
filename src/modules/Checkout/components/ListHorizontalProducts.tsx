@@ -7,17 +7,47 @@ import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
 import { Animated, Dimensions } from 'react-native';
-import { images } from '../../../assets';
+import images from '../../../base/styles/icons';
 import { ProductVerticalListCard } from '../../../components/ProductVerticalListCard';
 import type { ProductQL } from '../../../graphql/products/productSearch';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
-import { ProductUtils } from '../../../shared/utils/productUtils';
 import EventProvider from '../../../utils/EventProvider';
 import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
 import { getBrandByUrl } from '../../../utils/getBrandByURL';
 import { getItemPrice } from '../../../utils/getItemPrice';
 import { getPercent } from '../../../utils/getPercent';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+
+interface ProductItemInterface extends ProductVerticalListCardProps {
+  item: any,
+  index: number,
+  horizontal?: boolean,
+  isPrime: boolean,
+}
+
+const ProductItem = ({
+  item,
+  index,
+  horizontal,
+  ...props
+}: ProductItemInterface) => (
+  <Box
+    flex={1}
+    alignItems="center"
+    justifyContent="center"
+    height={353}
+    mr={horizontal && 'xxxs'}
+  >
+    {
+        item?.items[0]?.images[0]?.imageUrl && (
+          <ProductVerticalListCard
+            {...props}
+            imageSource={item?.items[0]?.images[0]?.imageUrl}
+          />
+        )
+      }
+  </Box>
+);
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -38,33 +68,16 @@ export const ListHorizontalProducts = ({
 }: ListProductsProps) => {
   const { getBoolean } = useRemoteConfig();
   const navigation = useNavigation();
-  const [skip, setSkip] = useState(false);
   const [saleOffTag, setSaleOffTag] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [loadingFavorite, setLoadingFavorite] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
   const { profile } = useAuthStore(['profile']);
   const scrollX = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
-    setLoading(loading);
-  }, [loading]);
-
-  const populateListWithFavorite = async () => {
-    setLoading(true);
-    /*  if (email) {
-      if (products && products.length <= 0) {
-        await populateWishlist();
-      }
-    } */
-    // Promise.all(products).then((res) => setProductList(res));
-    setLoading(false);
-  };
-
   const handleOnFavorite = async (favorite: boolean, item: any) => {
     const skuId = item.items[0].itemId;
     setLoadingFavorite([...loadingFavorite, skuId]);
-    const { productId, listId } = item;
+    const { productId } = item;
 
     if (profile?.email) {
       if (favorite) {
@@ -79,8 +92,6 @@ export const ListHorizontalProducts = ({
         AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
         setFavorites([...favorites.filter((x) => x.sku !== skuId)]);
       }
-      setLoading(false);
-      await populateListWithFavorite();
     } else {
       navigation.navigate('Login', { comeFrom: 'Menu' });
     }
@@ -95,8 +106,6 @@ export const ListHorizontalProducts = ({
   )[0].values[0];
 
   const populateWishlist = async () => {
-    setSkip(true);
-
     const wishData: any = await AsyncStorage.getItem('@WishData');
 
     if (wishData) {
@@ -110,14 +119,8 @@ export const ListHorizontalProducts = ({
     }
   };
 
-  useEffect(() => {
-    populateListWithFavorite();
-    populateWishlist();
-  }, [products]);
-
   useFocusEffect(
     useCallback(() => {
-      populateListWithFavorite();
       populateWishlist();
     }, []),
   );
@@ -126,15 +129,15 @@ export const ListHorizontalProducts = ({
     setSaleOffTag(getBoolean('sale_off_tag'));
   }, [getBoolean]);
 
-  const getSaleOff = (salOff) => {
-    const idImage = salOff.clusterHighlights?.find((x) => x.id === '371');
+  const getSaleOff = (salOff: object) => {
+    const idImage = salOff?.clusterHighlights?.find((x) => x?.id === '371');
     if (!saleOffTag) return null;
     if (idImage) return images.saleOff;
   };
 
   return (
     <>
-      {products && products.length === 0 && (
+      {products && products?.length === 0 && (
         <Box
           testID="com.usereserva:id/list_products_horizontal"
           position="absolute"
@@ -179,7 +182,6 @@ export const ListHorizontalProducts = ({
 
       <>
         <Animated.FlatList
-          // viewabilityConfigCallbackPairs={[{ viewabilityConfig: { viewAreaCoveragePercentThreshold: 40 }, onViewableItemsChanged: onViewRef }]}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { x: scrollX } } }],
             { useNativeDriver: true },
@@ -191,7 +193,7 @@ export const ListHorizontalProducts = ({
           scrollEventThrottle={16}
           horizontal={horizontal}
           data={products}
-          keyExtractor={(item, index) => `${item.productId} ${index}`}
+          keyExtractor={(item) => item.productId}
           numColumns={horizontal ? 1 : 2}
           ListEmptyComponent={() => (
             <Box height="100%">
@@ -209,32 +211,26 @@ export const ListHorizontalProducts = ({
             const {
               listPrice,
               sellingPrice,
-              installments,
               installmentsNumber,
-              discountTag,
               cashPaymentPrice,
               installmentPrice,
             } = getItemPrice(item.items[0]);
 
-            const colors = new ProductUtils().getColorsArray(item);
             return (
               <ProductItem
                 item={item}
                 index={index}
                 horizontal={horizontal}
                 loadingFavorite={
-                  !!loadingFavorite.find((x) => x == item.items[0].itemId)
+                  !!loadingFavorite.find((x) => x === item?.items[0]?.itemId)
                 }
                 isFavorited={
-                  !!favorites.find((x) => x.sku == item.items[0].itemId)
-                } // item.isFavorite}
+                  !!favorites.find((x) => x.sku === item?.items[0]?.itemId)
+                }
                 onClickFavorite={(isFavorite) => {
-                  // setLoafingFavorite([...loadingFavorite, item.productId])
                   handleOnFavorite(isFavorite, item);
-                  // setLoafingFavorite([...loadingFavorite.filter(x => x != item.productId)])
                 }}
-                // colors={null}
-                imageSource={item.items[0].images[0].imageUrl}
+                imageSource={item?.items[0]?.images[0]?.imageUrl}
                 installmentsNumber={
                   installmentsNumber?.NumberOfInstallments || 1
                 }
@@ -261,7 +257,6 @@ export const ListHorizontalProducts = ({
                     productId: item.productId,
                     colorSelected: getVariant(item.items[0]?.variations, 'ID_COR_ORIGINAL'),
                   }));
-
                   if (handleScrollToTheTop) {
                     handleScrollToTheTop();
                   }
@@ -271,15 +266,12 @@ export const ListHorizontalProducts = ({
           }}
         />
       </>
-      {/* ) : ( */}
-
-      {/* )} */}
       <Box
         flexDirection="row"
         alignSelf="center"
       >
         {Array(3).fill(0).map((_, index) => (
-          index != 0
+          index !== 0
             ? (
               <Box
                 width={8}
@@ -317,33 +309,3 @@ export const ListHorizontalProducts = ({
     </>
   );
 };
-
-interface ProductItemInterface extends ProductVerticalListCardProps {
-  item: any,
-  index: number,
-  horizontal?: boolean,
-}
-
-const ProductItem: React.FC<ProductItemInterface> = ({
-  item,
-  index,
-  horizontal,
-  ...props
-}) => (
-  <Box
-    flex={1}
-    alignItems="center"
-    justifyContent="center"
-    height={353}
-    mr={horizontal && 'xxxs'}
-  >
-    {
-        item.items[0].images[0].imageUrl && (
-          <ProductVerticalListCard
-            {...props}
-            imageSource={item.items[0].images[0].imageUrl}
-          />
-        )
-      }
-  </Box>
-);

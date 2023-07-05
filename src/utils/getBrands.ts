@@ -5,6 +5,6 @@ interface Item {
 }
 
 export const getBrands = (items: Item[]) => {
-  const brandNames = items.map((item) => item.additionalInfo?.brandName || '');
-  return brandNames.join(',');
+  const brandNames = items?.map((item) => item?.additionalInfo?.brandName || '');
+  return brandNames ? brandNames?.join(',') : '';
 };

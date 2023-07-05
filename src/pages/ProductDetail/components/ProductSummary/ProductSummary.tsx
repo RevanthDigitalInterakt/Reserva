@@ -1,17 +1,16 @@
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
-import { ProductDetailCard } from '@usereservaapp/reserva-ui';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { onShare } from '../../../../utils/onShare';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
-import { MktplaceName } from '../../../../modules/MarketplaceIn/components/MktPlaceName';
 import { slugify } from '../../../../utils/slugify';
 import { ModalZoomImage } from './ModalZoomImage';
 import { useWishlistProductActions } from '../../../../hooks/useWishlistProductActions';
-import { images } from '../../../../assets';
+import images from '../../../../base/styles/icons';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import EventProvider from '../../../../utils/EventProvider';
+import { ProductDetailCard } from '../../../../components/ProductDetailCard/ProductDetailCard';
 
 function ProductSummary() {
   const { getBoolean } = useRemoteConfig();
@@ -28,12 +27,6 @@ function ProductSummary() {
 
   const [imageIndex, setImageIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
-
-  const mktplaceNameComponent = useMemo(() => (
-    selectedSize?.seller
-      ? <MktplaceName sellerId={selectedSize.seller} showIconModalInfo />
-      : null
-  ), [selectedSize]);
 
   const saleOff = useMemo(() => {
     if (!productDetail) return null;
@@ -53,6 +46,17 @@ function ProductSummary() {
     onShare(share.title, share.message, share.url);
     EventProvider.logEvent('product_share', { product_id: productDetail.productId });
   }, [productDetail]);
+
+  const handleSetModalZoom = useCallback(() => {
+    if (productDetail) {
+      EventProvider.logEvent('product_zoom', {
+        product_id: productDetail.productId,
+        index: imageIndex,
+      });
+
+      setShowModal(true);
+    }
+  }, [imageIndex, productDetail]);
 
   useEffect(() => {
     EventProvider.logEvent('product_slide_images', {
@@ -87,14 +91,7 @@ function ProductSummary() {
         discountTag={selectedSize?.discountPercent || 0}
         saleOff={saleOff}
         avaibleUnits={selectedSize?.availableQuantity || undefined}
-        setModalZoom={() => {
-          EventProvider.logEvent('product_zoom', {
-            product_id: productDetail.productId,
-            index: imageIndex,
-          });
-
-          setShowModal(true);
-        }}
+        setModalZoom={handleSetModalZoom}
         imagesWidth={configDeviceSizes.DEVICE_WIDTH}
         images={selectedColor.images || []}
         imageIndexActual={(newIndex) => {
@@ -104,8 +101,9 @@ function ProductSummary() {
           setImageIndex(newIndex);
           return newIndex;
         }}
-        mktplaceNameComponent={mktplaceNameComponent}
       />
+      {/* TODO: Add this component to show select boxes to price prime */}
+      {/* <PricesSelectBoxes selectedSize={selectedSize} /> */}
     </>
   );
 }

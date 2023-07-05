@@ -1,10 +1,11 @@
 import {
-  Avatar, Box, Button, Typography,
+  Box, Button, Typography,
 } from '@usereservaapp/reserva-ui';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import type { IFile } from '../ModalChangeFile/ChangeFileModal';
 import { FirebaseService } from '../../../../shared/services/FirebaseService';
+import { Avatar } from '../../../../components/Avatar/AvatarComponent';
 
 interface IUserProfilePictureComponentProps {
   file: IFile;
@@ -53,14 +54,14 @@ function UserProfilePictureComponent({
         imageSource={{ uri: currentPath }}
         onPress={toogleModalChangeFile}
         buttonEdit
-        imageStyle={{ width: 60, height: 60 }}
+        imageStyle={{ width: 60, height: 60, borderRadius: 60 }}
       />
       )}
 
       {!(currentPath) && (
       <Avatar
         onPress={toogleModalChangeFile}
-        imageStyle={{ width: 60, height: 60 }}
+        imageStyle={{ width: 60, height: 60, borderRadius: 60 }}
         buttonEdit
       />
       )}

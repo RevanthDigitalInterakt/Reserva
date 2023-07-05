@@ -12,11 +12,9 @@ import {
   Typography,
   theme,
 } from '@usereservaapp/reserva-ui';
-import { ProfileVars } from '../../../../graphql/profile/profileQuery';
 import { platformType } from '../../../../utils/platformType';
 
 export interface RegisterCpfViewProps {
-  profile: ProfileVars;
   valueCpf: string;
   navigateToVerifyNumber: () => void;
   onChangeText: (value: string) => void;
@@ -25,7 +23,6 @@ export interface RegisterCpfViewProps {
 }
 
 export const RegisterCpfView = ({
-  profile,
   valueCpf,
   navigateToVerifyNumber,
   onChangeText,

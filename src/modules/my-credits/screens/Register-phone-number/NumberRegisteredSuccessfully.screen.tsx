@@ -1,31 +1,14 @@
-import React from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import React from 'react';
 
-import { BaseScreen } from '../../../../common/components/BaseScreen';
-import { MyCreditsParamList, MyCreditsScreensRoutes } from '../../navigation/MyCreditsNavigator';
-
+import { BaseScreen } from '../../../../components/BaseScreen';
 import { NumberRegisteredSuccessfullyContainer } from './NumberRegisteredSuccessfully.container';
 
-type NumberRegisteredSuccessfullyScreenProps = StackScreenProps<
-MyCreditsParamList,
-MyCreditsScreensRoutes.NUMBER_REGISTERED_SUCCESSFULLY
->;
-
-export const NumberRegisteredSuccessfullyScreen = (
-  {
-    route,
-    navigation: navigate,
-  }: NumberRegisteredSuccessfullyScreenProps,
-) => {
+export const NumberRegisteredSuccessfullyScreen = ({ route }) => {
   const navigation = useNavigation();
 
   const navigateBack = () => {
     navigation.goBack();
-  };
-
-  const navigateToError = () => {
-    navigation.navigate(MyCreditsScreensRoutes.ERROR);
   };
 
   const navigateToCashbackInStore = () => {
@@ -38,7 +21,6 @@ export const NumberRegisteredSuccessfullyScreen = (
     <BaseScreen testID="com.usereserva:id/NumberRegisteredSuccessfullyScreen">
       <NumberRegisteredSuccessfullyContainer
         navigateBack={navigateBack}
-        navigateToError={navigateToError}
         navigateToCashbackInStore={navigateToCashbackInStore}
       />
     </BaseScreen>

@@ -1,0 +1,145 @@
+import React from 'react';
+import { theme } from '@usereservaapp/reserva-ui';
+import { ThemeProvider } from 'styled-components/native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
+import { MockedProvider } from '@apollo/client/testing';
+import PricesSelectBoxes from '../PricesSelectBoxes';
+import { ApolloMockLPPrime } from '../../../pages/PrimeLP/__mocks__/primeLPMocks';
+import { CartContext } from '../../../context/CartContext';
+import * as useLandingPagePrimeQuery from '../../../base/graphql/generated';
+import { mockPrimeData } from '../../../../__mocks__/PrimeLP.mock';
+
+const selectedSizeMock = {
+  __typename: 'ProductSizeOutput',
+  availableQuantity: 140,
+  currentPrice: 349,
+  disabled: false,
+  discountPercent: 0,
+  ean: '0070649312',
+  hasDiscount: false,
+  installment: {
+    __typename: 'ProductSizeInstallmentOutput',
+    number: 5,
+    value: 69.8,
+  },
+  itemId: '434252',
+  listPrice: 349,
+  seller: '1',
+  size: 'M',
+  prime: {
+    installment: {
+      number: 4,
+      value: 69.8,
+    },
+    price: 279.2,
+  },
+};
+
+const selectedSizeWithDiscountMock = {
+  __typename: 'ProductSizeOutput',
+  availableQuantity: 140,
+  currentPrice: 349,
+  disabled: false,
+  discountPercent: 0,
+  ean: '0070649312',
+  hasDiscount: true,
+  installment: {
+    __typename: 'ProductSizeInstallmentOutput',
+    number: 5,
+    value: 69.8,
+  },
+  itemId: '434252',
+  listPrice: 349,
+  seller: '1',
+  size: 'M',
+  prime: {
+    installment: {
+      number: 4,
+      value: 69.8,
+    },
+    price: 279.2,
+  },
+};
+
+const mockAddItemFn = jest.fn();
+
+jest.mock('../../../zustand/useApolloFetchPolicyStore', () => ({
+  useApolloFetchPolicyStore: () => ({
+    getFetchPolicyPerKey: () => 'network-only',
+  }),
+}));
+
+jest
+  .spyOn(useLandingPagePrimeQuery, 'useLandingPagePrimeQuery')
+  .mockReturnValue({
+    data: {
+      landingPagePrime: {
+        ...mockPrimeData,
+      },
+    },
+    loading: false,
+  } as any);
+
+const TestingComponent = (selectedSize: any) => (
+  <ThemeProvider theme={theme}>
+    <MockedProvider mocks={ApolloMockLPPrime} addTypename={false}>
+      <CartContext.Provider value={{ addItem: mockAddItemFn } as any}>
+        <PricesSelectBoxes selectedSize={selectedSize} />
+      </CartContext.Provider>
+    </MockedProvider>
+  </ThemeProvider>
+);
+
+describe('PricesSelectBoxes', () => {
+  beforeEach(() => {
+    jest.useFakeTimers({ legacyFakeTimers: true });
+  });
+
+  it('should render properly', () => {
+    render(TestingComponent(selectedSizeMock));
+
+    const pricesSelectBoxes = screen.getByTestId(
+      'com.usereserva:id/prices_select_boxes',
+    );
+
+    expect(pricesSelectBoxes).toBeOnTheScreen();
+  });
+
+  it('should match to snapshot', () => {
+    render(TestingComponent(selectedSizeMock));
+    expect(screen.toJSON()).toMatchSnapshot();
+  });
+
+  it('should show text that prime is not cumulative if has discount', () => {
+    render(TestingComponent(selectedSizeWithDiscountMock));
+
+    const text = screen.getByText(
+      'O desconto do Prime não é cumulativo com produtos em liquidação.',
+    );
+
+    expect(text).toBeOnTheScreen();
+  });
+
+  it('should change selection when a price option is pressed', () => {
+    render(TestingComponent(selectedSizeMock));
+
+    const selectBoxNormal = screen.getByTestId('com.usereserva:id/select_box_price_normal');
+    const selectBoxPrime = screen.getByTestId('com.usereserva:id/select_box_price_prime');
+
+    fireEvent.press(selectBoxNormal);
+
+    // rerender component
+    screen.rerender(TestingComponent(selectedSizeMock));
+
+    const checkedNormal = screen.getByTestId('com.usereserva:id/select_box_price_normal_checked');
+
+    // verifying SelectBoxNormal is checked
+    expect(checkedNormal).toBeOnTheScreen();
+
+    fireEvent.press(selectBoxPrime);
+
+    const checkedPrime = screen.getByTestId('com.usereserva:id/select_box_price_prime_checked');
+
+    expect(checkedPrime).toBeOnTheScreen();
+  });
+});

@@ -1,18 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Box, Divider, Typography } from '@usereservaapp/reserva-ui';
 import { PriceCustom } from '../../../Checkout/components/PriceCustom';
 
 export interface CreditsViewProps {
   creditsBalance?: number;
-  screenCashbackInStoreActive: boolean;
-  handleNavigateToCashbackInStore: () => void;
 }
 
-export const CreditsView = ({
-  creditsBalance,
-  handleNavigateToCashbackInStore,
-  screenCashbackInStoreActive,
-}: CreditsViewProps) => (
+export const CreditsView = ({ creditsBalance }: CreditsViewProps) => (
   <>
     <Box mx="xxs" mt="sm">
       <Box mb="nano">

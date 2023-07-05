@@ -280,7 +280,6 @@ const CheckTheRules = ({
     onBackdropPress={() => setIsVisible(false)}
     isVisible={isVisible}
   >
-    {/* <ScrollView bounces={false}> */}
     <Box
       testID="com.usereserva:id/check_the_rules_container"
       bg="white"
@@ -336,6 +335,5 @@ const CheckTheRules = ({
         </Button>
       </Box>
     </Box>
-    {/* </ScrollView> */}
   </Modal>
 );

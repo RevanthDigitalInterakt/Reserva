@@ -1,52 +1,29 @@
 import { useNavigation } from '@react-navigation/native';
+import { Box } from '@usereservaapp/reserva-ui';
 import React, { useCallback } from 'react';
-import { Dimensions, TouchableHighlight } from 'react-native';
-import { Box, Image } from '@usereservaapp/reserva-ui';
+import { TouchableOpacity } from 'react-native';
+import ImageComponent from '../../../components/ImageComponent/ImageComponent';
 import EventProvider from '../../../utils/EventProvider';
-import type { IQueryFilters } from '../../../graphql/homePage/HomeQuery';
-import testProps from '../../../utils/testProps';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import testProps from '../../../utils/testProps';
+import { COLORS } from '../../../base/styles/colors';
 
 export interface BannerProps {
-  route?: string;
-  landingPageId?: string;
-  offsetWidth?: number;
   reference: string;
-  height: number;
   url: string;
   reservaMini?: boolean;
-  linkMktIn?: string;
-  orderBy: string;
-  filters?: IQueryFilters
+  orderBy?: string;
 }
 
-const deviceWidth = Dimensions.get('window').width;
-
 const Banner: React.FC<BannerProps> = ({
-  route,
-  landingPageId,
   reference,
-  offsetWidth = 0,
-  height,
   url,
   reservaMini,
-  linkMktIn,
   orderBy,
-  filters,
 }) => {
   const navigation = useNavigation();
 
   const handleOnPressed = useCallback(() => {
-    if (linkMktIn) {
-      navigation.navigate(linkMktIn);
-      return;
-    }
-
-    if (route) {
-      navigation.navigate(route, { landingPageId });
-      return;
-    }
-
     const facetInput = [];
     const [categoryType, categoryData] = reference?.split(':') || [undefined, undefined];
 
@@ -63,7 +40,7 @@ const Banner: React.FC<BannerProps> = ({
       navigation.navigate('ProductDetail', {
         productId: categoryData,
         itemId: categoryData,
-        colorSelected: '#FFFFFF',
+        colorSelected: COLORS.WHITE,
       });
     } else {
       if (categoryType === 'category') {
@@ -86,7 +63,7 @@ const Banner: React.FC<BannerProps> = ({
         orderBy,
       });
     }
-  }, [navigation, route, landingPageId, reference, reservaMini, linkMktIn, orderBy]);
+  }, [reference, navigation, reservaMini, orderBy]);
 
   if (!url) {
     return null;
@@ -95,20 +72,16 @@ const Banner: React.FC<BannerProps> = ({
   return (
     <Box testID="com.usereserva:id/banner_container" alignItems="flex-start">
       <Box mb="quarck" width={1 / 1}>
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={handleOnPressed}
           {...testProps('com.usereserva:id/banner_button')}
         >
-          <Image
-            height={height}
-            autoHeight
-            width={deviceWidth - offsetWidth}
+          <ImageComponent
             source={{ uri: url }}
-            isSkeletonLoading
           />
-        </TouchableHighlight>
+        </TouchableOpacity>
       </Box>
     </Box>
   );
 };
-export default React.memo(Banner);
+export default Banner;

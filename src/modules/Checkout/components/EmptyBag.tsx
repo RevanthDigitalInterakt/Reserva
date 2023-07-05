@@ -1,12 +1,12 @@
 import React from 'react';
 
 import {
-  Typography, Box, Button, Image,
+  Typography, Box, Button,
 } from '@usereservaapp/reserva-ui';
 
-import { images } from '../../../assets';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import testProps from '../../../utils/testProps';
+import IconComponent from '../../../components/IconComponent/IconComponent';
 
 interface IEmptyBag {
   onPress?: () => void;
@@ -23,7 +23,12 @@ export const EmptyBag = ({ backButtonPress, onPress, loading }: IEmptyBag) => (
       paddingTop={110}
       testID="com.usereserva:id/empty_bag"
     >
-      <Image source={images.bagEmpty} height={200} width={200} autoHeight />
+      <IconComponent
+        icon="bagEmpty"
+        height={200}
+        width={200}
+      />
+
       <Box mx={37} mt="md">
         <Typography fontFamily="reservaSerifRegular" fontSize={24} {...testProps('com.usereserva:id/sacola_vazia')}>
           Sua sacola está vazia
@@ -47,4 +52,3 @@ export const EmptyBag = ({ backButtonPress, onPress, loading }: IEmptyBag) => (
     </Box>
   </>
 );
-

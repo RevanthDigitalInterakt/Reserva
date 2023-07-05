@@ -5,11 +5,10 @@ import { ChangePhoneNumberScreen } from '../screens/Register-phone-number/Change
 import { RegisterCpfScreen } from '../screens/Register-phone-number/RegisterCpf.screen';
 import { NumberRegisteredSuccessfullyScreen } from '../screens/Register-phone-number/NumberRegisteredSuccessfully.screen';
 
-import { ProfileVars } from '../../../graphql/profile/profileQuery';
+import type { ProfileVars } from '../../../graphql/profile/profileQuery';
 
 export enum MyCreditsScreensRoutes {
   CREDITS = 'credits',
-  ERROR = 'error',
   CASHBACK_IN_STORE = 'cashbackInStore',
   REGISTER_PHONE_NUMBER = 'registerPhoneNumber',
   CHANGE_PHONE_NUMBER = 'changePhoneNumber',

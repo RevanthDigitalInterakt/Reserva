@@ -9,6 +9,7 @@ import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import AddressSelector from '../../Components/AddressSelector';
 import type { IEditAddress } from '../../interface';
 import useController from '../controller/useController';
+import testProps from '../../../../utils/testProps';
 
 const AddressList = () => {
   const controller = useController();
@@ -126,7 +127,7 @@ const AddressList = () => {
             ListEmptyComponent={controller.loadingStatusBar
               ? <ActivityIndicator />
               : (
-                <Typography fontFamily="reservaSerifRegular" fontSize={16}>
+                <Typography fontFamily="reservaSerifRegular" fontSize={16} {...testProps('com.usereserva:id/mensagemSemEndereco')}>
                   Você ainda não tem endereços cadastrados, clique em Novo Endereço
                   e cadastre
                 </Typography>

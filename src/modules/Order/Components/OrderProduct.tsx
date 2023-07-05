@@ -1,12 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
-  Typography, Box, Button, Image,
+  Typography, Box, Button,
 } from '@usereservaapp/reserva-ui';
-import { images } from '../../../assets';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import ImageComponent from '../../../components/ImageComponent/ImageComponent';
+import configDeviceSizes from '../../../utils/configDeviceSizes';
 
 type IOrderItemData = {
   listPrice?: number;
@@ -25,7 +26,6 @@ interface IOrderProduct {
 }
 
 const OrderProduct = ({ orderItem }: IOrderProduct) => {
-  // TODO: repassar nesse componente. se possivel trocar com o que ja foi feito anteriormente.
   const { navigate } = useNavigation();
 
   return (
@@ -52,9 +52,9 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
                   });
                 }}
               >
-                <Image
-                  imageDefault={images?.imageNotFound}
-                  variant="sm"
+                <ImageComponent
+                  height={152}
+                  width={configDeviceSizes.DEVICE_WIDTH * 0.25}
                   source={{
                     uri: orderItem?.imageUrl?.split('-55-55')?.join(''),
                   }}

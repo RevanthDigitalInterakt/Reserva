@@ -7,7 +7,7 @@ import IconPrimeLogo from '../Icons/IconPrimeLogo';
 import type { PrimeDetailOutput } from '../../../../base/graphql/generated';
 import EventProvider from '../../../../utils/EventProvider';
 
-const ImageSource = require('../../assets/header.png');
+const ImageSource = require('../../../../../assets/common/header.png');
 
 interface IPrimeHero {
   data: PrimeDetailOutput;

@@ -5,7 +5,7 @@ exports[`RonRedirectToBag renders without error and match snapshot 1`] = `
   emulateUnlessSupported={true}
   style={
     Object {
-      "backgroundColor": "#fff",
+      "backgroundColor": "#ffffff",
       "flex": 1,
       "justifyContent": "space-between",
     }

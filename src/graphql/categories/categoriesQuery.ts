@@ -13,7 +13,6 @@ export type CategoryQuery = {
   children: [CategoryQuery]
   highlight?: boolean;
   opened?: boolean;
-  mkt?: boolean
 };
 
 export const categoriesQuery = gql`
@@ -22,7 +21,6 @@ export const categoriesQuery = gql`
       items {
         itemsCollection(limit: 100) {
           items {
-            mkt
             name
             referenceId
             childCategoryCollection(limit: 100) {

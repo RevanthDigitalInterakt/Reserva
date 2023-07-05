@@ -13,7 +13,6 @@ module.exports = {
     btnSearch: ({ android: '#com.usereserva:id/header_button_search', ios: '' }),
     btnMenu: ({ android: '#com.usereserva:id/header_button_menu', ios: '' }),
     btnPrimeiraCompra: ({ android: '#com.usereserva:id/discout_code_modal_title', ios: '' }),
-    btnAdicionarSacola: ({ android: '#com.usereserva:id/productdetail_button_add_cart', ios: '' }),
     btnBagAposAdicionarProduto: ({ android: '#com.usereserva:id/top_bar_button_handbag', ios: '' }),
     fecharModal: ({ android: '//hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View[2]/android.widget.Image', ios: '' }),
 

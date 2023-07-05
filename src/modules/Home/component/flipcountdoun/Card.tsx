@@ -16,6 +16,7 @@ interface ICard {
   colorDivider: string;
   testID: string;
 }
+
 function Card({
   type, size, number, colorDivider, testID,
 }: ICard) {

@@ -11,7 +11,7 @@ import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { FlatList } from 'react-native';
-import { images } from '../../../../assets';
+import images from '../../../../base/styles/icons';
 import { ProductVerticalListCard, ProductVerticalListCardProps } from '../../../../components/ProductVerticalListCard';
 import type { ProductQL } from '../../../../graphql/products/productSearch';
 import wishListQueries from '../../../../graphql/wishlist/wishList';
@@ -25,7 +25,6 @@ import { getPercent } from '../../../../utils/getPercent';
 import { slugify } from '../../../../utils/slugify';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
-import useMarketPlaceInStore from '../../../../zustand/useMarketPlaceInStore';
 import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
 
 interface ListProductsProps {
@@ -73,7 +72,6 @@ export const ListVerticalProducts = ({
   const [isLoadingMore, setIsLoadingMore] = useState(true);
   const { profile } = useAuthStore(['profile']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
-  const { mktinActive, sellersMktIn } = useMarketPlaceInStore((state) => state);
 
   const [addWishList] = useMutation(wishListQueries.ADD_WISH_LIST);
 
@@ -288,8 +286,6 @@ export const ListVerticalProducts = ({
                 <ProductItem
                   item={item}
                   index={index}
-                  sellerId={mktinActive ? getDefaultSeller(item?.items[0]?.sellers) : null}
-                  sellersMktIn={sellersMktIn}
                   horizontal={horizontal}
                   isPrime={isPrime}
                   loadingFavorite={
@@ -345,8 +341,6 @@ interface ProductItemInterface extends ProductVerticalListCardProps {
   index: number;
   horizontal?: boolean;
   testID: string;
-  sellerId?: string;
-  sellersMktIn: Array<string>;
   showThumbColors: boolean;
   colors: string[];
   isPrime: boolean;

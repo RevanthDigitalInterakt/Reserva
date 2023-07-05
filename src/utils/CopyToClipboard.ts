@@ -1,7 +1,10 @@
 import Clipboard from '@react-native-community/clipboard';
 
-const handleCopyTextToClipboard = (text: string): void => {
+export const handleCopyTextToClipboard = (text: string): void => {
   Clipboard.setString(text);
 };
 
-export default handleCopyTextToClipboard;
+export const getCopiedValue = async () => {
+  const content = await Clipboard.getString();
+  return content;
+};

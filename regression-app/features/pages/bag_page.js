@@ -18,7 +18,7 @@ module.exports = {
     await I.seeElement(this.texts.msgSacolaVazia);
   },
 
-  async pressedGoShopping() {
+  async clickGoShopping() {
     await I.click(this.buttons.btnCompras);
   },
 };

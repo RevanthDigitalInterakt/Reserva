@@ -1,7 +1,6 @@
-/* eslint-disable no-undef */
 import React, { useEffect, useRef, useState } from 'react';
 
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import LottieView from 'lottie-react-native';
 import { TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
@@ -9,9 +8,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Box, Typography, Icon } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 
-import { images } from '../../../assets';
-import { ProfileVars } from '../../../graphql/profile/profileQuery';
-import { RootStackParamList } from '../../../routes/StackNavigator';
+import images from '../../../base/styles/icons';
+import type { ProfileVars } from '../../../graphql/profile/profileQuery';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { StorageService, StorageServiceKeys } from '../../../shared/services/StorageService';
 import { CashbackService } from '../../../shared/services/CashbackService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';

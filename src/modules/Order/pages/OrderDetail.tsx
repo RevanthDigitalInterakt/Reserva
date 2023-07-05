@@ -2,7 +2,7 @@ import { useClipboard } from '@react-native-community/clipboard';
 import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Linking, Platform, SafeAreaView, ScrollView,
 } from 'react-native';
@@ -46,11 +46,19 @@ const OrderList: React.FC<any> = ({ route }) => {
     setClickedIcon(true);
     if (orderDetails) {
       setCopiedText(
-        orderDetails?.packageAttachment?.packages[0].trackingNumber,
+        orderDetails?.packageAttachment?.packages[0]?.trackingNumber || '',
       );
     }
     setTimeout(() => setClickedIcon(false), 1000);
   };
+
+  const hasPackage = useMemo(() => {
+    const pack = orderDetails?.packageAttachment?.packages[0]?.courierStatus;
+    if (pack?.data?.length) {
+      return true;
+    }
+    return false;
+  }, [orderDetails?.packageAttachment?.packages]);
 
   return (
     <>
@@ -74,22 +82,18 @@ const OrderList: React.FC<any> = ({ route }) => {
                         Rastreamento de entrega
                       </Typography>
                     </Box>
-                    {orderDetails
-                      && orderDetails?.packageAttachment?.packages[0]
-                        .courierStatus != null
-                      && orderDetails?.packageAttachment?.packages[0].courierStatus
-                        .data.length > 0 && (
-                        <Box paddingX="xxs" paddingY="xs">
-                          <Stepper
-                            steps={[
-                              'Pedido Entregue a Transportadora',
-                              'Confirmação',
-                              'Envio',
-                              'Entrega',
-                            ]}
-                            actualStepIndex={2}
-                          />
-                        </Box>
+                    {hasPackage && (
+                    <Box paddingX="xxs" paddingY="xs">
+                      <Stepper
+                        steps={[
+                          'Pedido Entregue a Transportadora',
+                          'Confirmação',
+                          'Envio',
+                          'Entrega',
+                        ]}
+                        actualStepIndex={2}
+                      />
+                    </Box>
                     )}
                   </>
               )}
@@ -106,7 +110,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                       {' '}
                       {format(
                         new Date(
-                          orderDetails.shippingData.logisticsInfo[0].shippingEstimateDate,
+                          orderDetails?.shippingData?.logisticsInfo[0]?.shippingEstimateDate,
                         ),
                         'dd/MM/yy',
                         { locale: ptBR },
@@ -119,8 +123,8 @@ const OrderList: React.FC<any> = ({ route }) => {
                       fontSize={14}
                       fontFamily="nunitoRegular"
                     >
-                      {orderDetails.shippingData.logisticsInfo[0]
-                        .deliveryChannel === 'pickup-in-point'
+                      {orderDetails?.shippingData?.logisticsInfo[0]
+                        ?.deliveryChannel === 'pickup-in-point'
                         ? 'Endereço de retirada'
                         : 'Endereço de entrega'}
                       :
@@ -167,8 +171,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                               fontSize={13}
                             >
                               {
-                                orderDetails?.packageAttachment?.packages[0]
-                                  .trackingNumber
+                                orderDetails?.packageAttachment?.packages[0]?.trackingNumber
                               }
                             </Typography>
                           </Box>
@@ -185,10 +188,14 @@ const OrderList: React.FC<any> = ({ route }) => {
                               fontFamily="nunitoRegular"
                               fontSize={13}
                               style={{ textDecorationLine: 'underline' }}
-                              onPress={() => Linking.openURL(
-                                orderDetails?.packageAttachment?.packages[0]
-                                  ?.trackingUrl,
-                              )}
+                              onPress={async () => {
+                                const url = orderDetails
+                                  ?.packageAttachment?.packages[0]?.trackingUrl;
+
+                                if (url) {
+                                  await Linking.openURL(url);
+                                }
+                              }}
                             >
                               Ver rastreio no site da transportadora
                             </Typography>
@@ -202,7 +209,6 @@ const OrderList: React.FC<any> = ({ route }) => {
             </>
           )}
 
-          {/* <OrderDetailComponent data={order} deliveryState={3} /> */}
           {orderDetails && (
             <OrderDetailComponent data={orderDetails} deliveryState={3} />
           )}

@@ -19,12 +19,11 @@ import {
   Divider,
   SearchBar,
   Typography,
-  Image,
   Picker,
 } from '@usereservaapp/reserva-ui';
+import AsyncStorage from '@react-native-community/async-storage';
 import { FilterModal } from '../../ProductCatalog/modals/FilterModal/FilterModal';
 
-import { images } from '../../../assets';
 import {
   configCollection,
   ConfigCollection,
@@ -40,8 +39,8 @@ import {
 } from '../../../graphql/products/searchSuggestions';
 
 import type { RootStackParamList } from '../../../routes/StackNavigator';
-import { useCheckConnection } from '../../../shared/hooks/useCheckConnection';
-import useDebounce from '../../../shared/hooks/useDebounce';
+import { useCheckConnection } from '../../../hooks/useCheckConnection';
+import useDebounce from '../../../hooks/useDebounce';
 import { ListVerticalProducts } from '../../ProductCatalog/components/ListVerticalProducts/ListVerticalProducts';
 import { News } from '../components/News';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
@@ -57,7 +56,7 @@ import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import { useIsTester } from '../../../hooks/useIsTester';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
-import AsyncStorage from '@react-native-community/async-storage';
+import IconComponent from '../../../components/IconComponent/IconComponent';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -376,7 +375,6 @@ export const SearchScreen: React.FC<Props> = () => {
       gambiarraRedirect(text).then(({ data }: any) => {
         setShowResults(true);
         setSelectedTerm(false);
-        // resetProductsArray()
         setProducts(data?.productSearch?.products);
         setProductData({ data, loading: false });
         try {
@@ -402,7 +400,6 @@ export const SearchScreen: React.FC<Props> = () => {
       }).then(({ data }) => {
         setShowResults(true);
         setSelectedTerm(false);
-        // resetProductsArray();
         setProducts(data?.productSearch?.products);
         setProductData({ data, loading: false });
         try {
@@ -427,7 +424,6 @@ export const SearchScreen: React.FC<Props> = () => {
       fetchPolicy: getFetchPolicyPerKey('searchSuggestionsAndProductSearch'),
     });
 
-    // setShowResults(false);
     setShowAllProducts(false);
   }, [getSuggestions, setShowAllProducts, getFetchPolicyPerKey, debouncedSearchTerm, handleCheckSearchTerm]);
 
@@ -612,7 +608,6 @@ export const SearchScreen: React.FC<Props> = () => {
           value={searchTerm}
           onValueChange={(text) => {
             setSearchTerm(text);
-            // handleSearch(text);
           }}
           onClickIcon={() => {
             suggestionsData && setSelectedTerm(true);
@@ -644,7 +639,6 @@ export const SearchScreen: React.FC<Props> = () => {
                         key={`search-suggestion-${index}`}
                         onPress={async () => {
                           setSearchTerm(item.name);
-                          // setReturnSearch(true);
                           handleSearch(item.name);
                         }}
                       >
@@ -863,22 +857,6 @@ export const SearchScreen: React.FC<Props> = () => {
                 text: 'De Z a A',
                 value: OrderByEnum.OrderByNameDESC,
               },
-              // {
-              //   text: 'Menor Preço',
-              //   value: OrderByEnum.OrderByPriceASC,
-              // },
-              // {
-              //   text: 'Maior Preço',
-              //   value: OrderByEnum.OrderByPriceDESC,
-              // },
-              // {
-              //   text: 'Mais Recentes',
-              //   value: OrderByEnum.OrderByReleaseDateDESC,
-              // },
-              // {
-              //   text: 'Relevante',
-              //   value: OrderByEnum.OrderByReviewRateDESC,
-              // },
             ]}
             onConfirm={() => {
               setSorterVisible(false);
@@ -911,11 +889,10 @@ const ProductNotFound = () => (
     height={deviceHeight}
     mt="xxl"
     alignItems="center"
-    // justifyContent="center"
     px="micro"
   >
     <Box mb="sm">
-      <Image source={images.searchNotFound} resizeMode="contain" />
+      <IconComponent width={120} height={120} icon="searchNotFound" />
     </Box>
     <Box>
       <Typography fontFamily="nunitoRegular" fontSize={13} textAlign="center">

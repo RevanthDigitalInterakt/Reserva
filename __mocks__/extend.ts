@@ -71,6 +71,7 @@ jest.mock('react-native-reanimated', () => {
 
 jest.mock('@react-native-community/clipboard', () => ({
   setString: jest.fn(),
+  getString: jest.fn(),
 }));
 
 jest.mock('@react-native-firebase/messaging', () => ({

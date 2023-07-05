@@ -315,7 +315,7 @@ exports[`ModalSignIn should match with the snapshot 1`] = `
                     allowFontScaling={true}
                     autoCapitalize="none"
                     autoCompleteType="off"
-                    autoCorrect={true}
+                    autoCorrect={false}
                     collapsable={false}
                     keyboardType="email-address"
                     onChangeText={[Function]}
@@ -848,11 +848,11 @@ exports[`ModalSignIn should match with the snapshot 1`] = `
             , toque no botão abaixo e comece agora mesmo a comprar!
           </Text>
           <View
-            alignItems="center"
+            alignItems="stretch"
             style={
               Array [
                 Object {
-                  "alignItems": "center",
+                  "alignItems": "stretch",
                 },
               ]
             }

@@ -1,0 +1,468 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectBoxPrime should match with the snapshot 1`] = `
+<View
+  accessibilityLabel="com.usereserva:id/select_box_price_prime"
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "marginHorizontal": 16,
+      "opacity": 1,
+    }
+  }
+  testID="com.usereserva:id/select_box_price_prime"
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#FFF8FA",
+        "borderColor": "#A01E21",
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "paddingHorizontal": 16,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "borderColor": "#A01E21",
+          "borderRadius": 11,
+          "borderWidth": 1,
+          "height": 22,
+          "justifyContent": "center",
+          "padding": 3,
+          "width": 22,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "flex-end",
+          "paddingVertical": 10,
+        }
+      }
+    >
+      <Text
+        fontFamily="reservaSansRegular"
+        style={
+          Array [
+            Object {
+              "fontFamily": "ReservaSans-Regular",
+            },
+            Object {
+              "color": "#A01E21",
+              "fontSize": 18,
+              "fontWeight": "400",
+            },
+          ]
+        }
+      >
+        Clientes
+        <Text
+          fontSize={20}
+          style={
+            Array [
+              Object {
+                "fontFamily": "ReservaSerif-Bold",
+                "fontSize": 20,
+              },
+            ]
+          }
+          variant="descontoTag2"
+        >
+           
+          Prime
+        </Text>
+      </Text>
+      <View
+        style={
+          Object {
+            "alignItems": "baseline",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+            "marginTop": 4,
+          }
+        }
+      >
+        <Text
+          fontFamily="reservaSansRegular"
+          style={
+            Array [
+              Object {
+                "fontFamily": "ReservaSans-Regular",
+              },
+              Object {
+                "color": "#A01E21",
+                "fontSize": 18,
+                "fontWeight": "400",
+              },
+            ]
+          }
+        >
+          4
+          x
+           
+        </Text>
+        <Text
+          fontFamily="reservaSansRegular"
+          style={
+            Array [
+              Object {
+                "fontFamily": "ReservaSans-Regular",
+              },
+              Object {
+                "color": "#A01E21",
+                "fontSize": 24,
+                "fontWeight": "700",
+              },
+            ]
+          }
+        >
+          R$
+           
+          64,
+        </Text>
+        <Text
+          color="vermelhoRSV"
+          fontFamily="reservaSansRegular"
+          fontWeight="bold"
+          style={
+            Array [
+              Object {
+                "color": "#A00000",
+                "fontFamily": "ReservaSans-Regular",
+                "fontWeight": "700",
+              },
+            ]
+          }
+        >
+          50
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignSelf": "center",
+          "backgroundColor": "#8D8D8D",
+          "height": 30,
+          "marginTop": 30,
+          "width": 1,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "flex-end",
+          "paddingVertical": 10,
+        }
+      }
+    >
+      <View
+        accessibilityIgnoresInvertColors={true}
+        style={
+          Object {
+            "height": 28,
+            "justifyContent": "center",
+            "paddingLeft": 10,
+            "width": 160,
+          }
+        }
+      >
+        <Image
+          resizeMode="cover"
+          source={
+            Object {
+              "commons": Object {
+                "GuideBermuda": [Circular],
+                "GuideCalca": [Circular],
+                "GuideCamiseta": [Circular],
+                "GuideHoodie": [Circular],
+                "GuideJaqueta": [Circular],
+                "GuideMangaCurta": [Circular],
+                "GuideMangaLonga": [Circular],
+                "GuidePolo": [Circular],
+                "GuideShort": [Circular],
+                "GuideSueter": [Circular],
+                "GuideSungaCueca": [Circular],
+                "QrcodeBackground": [Circular],
+                "americanExpress": [Circular],
+                "arrowInstruction": [Circular],
+                "bagEmpty": [Circular],
+                "bannerCatalog": [Circular],
+                "bannerLogin": [Circular],
+                "bannerOffer": [Circular],
+                "cardFront": [Circular],
+                "cardVerso": [Circular],
+                "clothingCare1": [Circular],
+                "clothingCareBleach": [Circular],
+                "clothingCareDrying": [Circular],
+                "clothingCarePass": [Circular],
+                "clothingCareProfessionalWashing": [Circular],
+                "clothingCareWash": [Circular],
+                "cupomModalBackground": [Circular],
+                "dividerReserva": [Circular],
+                "elo": [Circular],
+                "emptyProductCatalog": [Circular],
+                "facebook": [Circular],
+                "foraDoAr": [Circular],
+                "headerLogin": [Circular],
+                "homeMock1": [Circular],
+                "homeMock2": [Circular],
+                "homeMock3": [Circular],
+                "homeMock4": [Circular],
+                "imageCashback": [Circular],
+                "imageNotFound": [Circular],
+                "instagram": [Circular],
+                "localReserva": [Circular],
+                "logoQRCode": [Circular],
+                "mastercard": [Circular],
+                "noStoresFound": [Circular],
+                "noWishList": [Circular],
+                "pinYou": [Circular],
+                "purchaseConfirmation": [Circular],
+                "raceImageBackground": [Circular],
+                "saleOff": [Circular],
+                "searchNotFound": [Circular],
+                "selectRectangle": [Circular],
+                "shirt1": [Circular],
+                "shirt2": [Circular],
+                "shirt3": [Circular],
+                "shirt4": [Circular],
+                "topBannerMock1": [Circular],
+                "twitter": [Circular],
+                "update": [Circular],
+                "visa": [Circular],
+                "whatsapp": [Circular],
+                "withoutInternet": [Circular],
+                "zoomHand": [Circular],
+              },
+              "default": Object {
+                "GuideBermuda": [Circular],
+                "GuideCalca": [Circular],
+                "GuideCamiseta": [Circular],
+                "GuideHoodie": [Circular],
+                "GuideJaqueta": [Circular],
+                "GuideMangaCurta": [Circular],
+                "GuideMangaLonga": [Circular],
+                "GuidePolo": [Circular],
+                "GuideShort": [Circular],
+                "GuideSueter": [Circular],
+                "GuideSungaCueca": [Circular],
+                "QrcodeBackground": [Circular],
+                "americanExpress": [Circular],
+                "arrowInstruction": [Circular],
+                "bagEmpty": [Circular],
+                "bannerCatalog": [Circular],
+                "bannerLogin": [Circular],
+                "bannerOffer": [Circular],
+                "cardFront": [Circular],
+                "cardVerso": [Circular],
+                "clothingCare1": [Circular],
+                "clothingCareBleach": [Circular],
+                "clothingCareDrying": [Circular],
+                "clothingCarePass": [Circular],
+                "clothingCareProfessionalWashing": [Circular],
+                "clothingCareWash": [Circular],
+                "cupomModalBackground": [Circular],
+                "dividerReserva": [Circular],
+                "elo": [Circular],
+                "emptyProductCatalog": [Circular],
+                "facebook": [Circular],
+                "foraDoAr": [Circular],
+                "headerLogin": [Circular],
+                "homeMock1": [Circular],
+                "homeMock2": [Circular],
+                "homeMock3": [Circular],
+                "homeMock4": [Circular],
+                "imageCashback": [Circular],
+                "imageNotFound": [Circular],
+                "instagram": [Circular],
+                "localReserva": [Circular],
+                "logoQRCode": [Circular],
+                "mastercard": [Circular],
+                "noStoresFound": [Circular],
+                "noWishList": [Circular],
+                "pinYou": [Circular],
+                "purchaseConfirmation": [Circular],
+                "raceImageBackground": [Circular],
+                "saleOff": [Circular],
+                "searchNotFound": [Circular],
+                "selectRectangle": [Circular],
+                "shirt1": [Circular],
+                "shirt2": [Circular],
+                "shirt3": [Circular],
+                "shirt4": [Circular],
+                "topBannerMock1": [Circular],
+                "twitter": [Circular],
+                "update": [Circular],
+                "visa": [Circular],
+                "whatsapp": [Circular],
+                "withoutInternet": [Circular],
+                "zoomHand": [Circular],
+              },
+            }
+          }
+          style={
+            Array [
+              Object {
+                "bottom": 0,
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+              },
+              Object {
+                "height": 28,
+                "width": 160,
+              },
+              undefined,
+            ]
+          }
+        />
+        <Text
+          fontFamily="reservaSansItalic"
+          style={
+            Array [
+              Object {
+                "fontFamily": "ReservaSans-Italic",
+              },
+              Object {
+                "color": "white",
+              },
+            ]
+          }
+        >
+          Economize
+          <Text
+            fontFamily="reservaSansRegular"
+            style={
+              Array [
+                Object {
+                  "fontFamily": "ReservaSans-Regular",
+                },
+                Object {
+                  "fontWeight": "bold",
+                },
+              ]
+            }
+          >
+             
+            R$
+            29
+          </Text>
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "baseline",
+              "flexDirection": "row",
+              "justifyContent": "flex-start",
+              "marginTop": 4,
+            },
+            Object {
+              "marginLeft": -50,
+            },
+          ]
+        }
+      >
+        <Text
+          fontFamily="reservaSansRegular"
+          style={
+            Array [
+              Object {
+                "fontFamily": "ReservaSans-Regular",
+              },
+              Object {
+                "color": "#A01E21",
+                "fontSize": 24,
+                "fontWeight": "700",
+              },
+            ]
+          }
+        >
+          R$
+           
+          149,
+        </Text>
+        <Text
+          color="vermelhoRSV"
+          fontFamily="reservaSansRegular"
+          fontWeight="bold"
+          style={
+            Array [
+              Object {
+                "color": "#A00000",
+                "fontFamily": "ReservaSans-Regular",
+                "fontWeight": "700",
+              },
+            ]
+          }
+        >
+          90
+        </Text>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#A01E21",
+        "justifyContent": "center",
+        "padding": 2,
+        "width": 150,
+      }
+    }
+  >
+    <Text
+      fontFamily="reservaSansRegular"
+      style={
+        Array [
+          Object {
+            "fontFamily": "ReservaSans-Regular",
+          },
+          Object {
+            "color": "#ffffff",
+          },
+        ]
+      }
+    >
+      Seja
+      <Text
+        fontSize={18}
+        style={
+          Array [
+            Object {
+              "fontFamily": "ReservaSerif-Bold",
+              "fontSize": 18,
+            },
+          ]
+        }
+        variant="descontoTag2"
+      >
+         
+        Prime
+      </Text>
+    </Text>
+  </View>
+</View>
+`;

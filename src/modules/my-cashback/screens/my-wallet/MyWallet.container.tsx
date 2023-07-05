@@ -1,17 +1,18 @@
-import { ProfileVars } from 'graphql/profile/profileQuery';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Alert } from 'react-native';
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
-import { StorageService, StorageServiceKeys } from '../../../../shared/services/StorageService';
-import {
-  CashbackHttpUrl, GetDigitalWalletResponse, GetExpireBalanceResponse, GetUserOperationsResponse, MyCashbackAPI, UserOperations,
-} from '../../api/MyCashbackAPI';
 import { MyWalletView } from './MyWallet.view';
 import EventProvider from '../../../../utils/EventProvider';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
+import {
+  useCashbackLazyQuery,
+  CashbackQuery,
+} from '../../../../base/graphql/generated';
+import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
+import Sentry from '../../../../config/sentryConfig';
 
 interface MyWalletContainerProps {
   navigateBack: () => void;
-  navigateToError: () => void;
 }
 
 export enum FilterOptions {
@@ -27,20 +28,26 @@ export enum BalanceType {
   FUTURE = 'future',
 }
 
-export const MyWalletContainer = (
-  {
-    navigateBack,
-  }: MyWalletContainerProps,
-) => {
+export const MyWalletContainer = ({ navigateBack }: MyWalletContainerProps) => {
   const [balance, setBalance] = useState<number>(0);
   const [operationFilter, setOperationFilter] = useState<FilterOptions>(FilterOptions.ALL);
-  const [userOperations, setUserOperations] = useState<GetUserOperationsResponse | null>(null);
-  const [userExpireBalance, setUserExpireBalance] = useState<GetExpireBalanceResponse | null>(null);
+  const [
+    userOperations,
+    setUserOperations,
+  ] = useState<CashbackQuery['cashback']['operations'] | null>(null);
+  const [
+    userExpireBalance,
+    setUserExpireBalance,
+  ] = useState<CashbackQuery['cashback']['expiration'] | null>(null);
   const [totalPending, setTotalPending] = useState<number | undefined>(0);
   const [userOperationsFiltered, setUserOperationsFiltered] = useState<any>(null);
   const [selectedBalance, setSelectedBalance] = useState<BalanceType>(BalanceType.ACTIVE);
-  const [profile, setProfile] = useState<ProfileVars>();
   const [balanceVisible, setBalanceVisible] = useState(true);
+  const { profile } = useAuthStore(['profile']);
+
+  const [getCashback, { loading }] = useCashbackLazyQuery({
+    context: { clientName: 'gateway' }, fetchPolicy: 'cache-and-network',
+  });
 
   const handleToggleBalanceVisibility = () => {
     setBalanceVisible(!balanceVisible);
@@ -49,13 +56,6 @@ export const MyWalletContainer = (
   useEffect(() => {
     EventProvider.logEvent('page_view', {
       wbrand: defaultBrand.picapau,
-    });
-
-    StorageService.getItem<ProfileVars>({
-      key: StorageServiceKeys.PROFILE,
-      isJSON: true,
-    }).then((value) => {
-      setProfile(value);
     });
   }, []);
 
@@ -69,20 +69,6 @@ export const MyWalletContainer = (
     setOperationFilter(filter);
   };
 
-  const getUserOperations = async (cpf: string) => {
-    const response = await MyCashbackAPI.get<GetUserOperationsResponse>(
-      `${CashbackHttpUrl.GetUserOperations}${cpf}/operations`,
-    );
-    setUserOperations(response.data);
-  };
-
-  const getUserExpireBalance = async (cpf: string) => {
-    const response = await MyCashbackAPI.get<GetExpireBalanceResponse>(
-      `${CashbackHttpUrl.GetExpireBalance}${cpf}`,
-    );
-    setUserExpireBalance(response.data);
-  };
-
   const changeSelectedBalance = (balance: BalanceType) => {
     if (balance === BalanceType.FUTURE) {
       setOperationFilter(FilterOptions.PENDING);
@@ -90,63 +76,72 @@ export const MyWalletContainer = (
     setSelectedBalance(balance);
   };
 
-  const getCreditBalance = async (cpf: string) => {
-    const { data } = await MyCashbackAPI.get<GetDigitalWalletResponse>(
-      `${CashbackHttpUrl.GetDigitalWallet}${cpf}`,
-    );
+  const getCashbackData = useCallback(async () => {
+    try {
+      const { data } = await getCashback();
 
-    const balanceFormated = data.data.balance_in_cents > 0
-      ? convertCentsToReal(data.data.balance_in_cents)
-      : data.data.balance_in_cents;
+      if (!data?.cashback) return;
 
-    setBalance(balanceFormated);
-  };
+      const { wallet, operations, expiration } = data?.cashback;
+      setBalance(wallet?.balanceInCents);
+      setUserOperations(operations);
+      setUserExpireBalance(expiration);
+    } catch (error) {
+      Sentry.withScope((scope) => {
+        scope.setExtra('currentProfileDocument', profile?.document);
+        Sentry.captureException(error);
+      });
+      Alert.alert(
+        'Ops!',
+        'Ocorreu um erro ao carregar o saldo de cashback.',
+        [{ text: 'Voltar', onPress: navigateBack }],
+      );
+    }
+  }, [getCashback, profile]);
 
-  const operationsFiltered = (filter: FilterOptions): UserOperations[] | undefined => {
+  const operationsFiltered = (filter: FilterOptions): CashbackQuery['cashback']['operations'] | undefined => {
     switch (filter) {
       case FilterOptions.ALL:
-        return userOperations?.data?.filter(
-          (operation) => operation.applied_balance_in_cents > 0
-          || operation.cashback_amount_in_cents > 0
+        return userOperations?.filter(
+          (operation) => operation.appliedBalanceInCents > 0
+          || operation.cashbackAmountInCents > 0
           && operation.status !== 'pending',
         );
       case FilterOptions.DEBIT:
-        return userOperations?.data?.filter(
-          (operation) => operation.applied_balance_in_cents > 0
+        return userOperations?.filter(
+          (operation) => operation.appliedBalanceInCents > 0
           && operation.status !== 'pending',
         );
       case FilterOptions.PENDING:
-        const filtered = userOperations?.data?.filter(
+        const filtered = userOperations?.filter(
           (operation) => operation.status === 'pending',
         );
         const initialValue = 0;
         const sumWithInitial = filtered?.reduce(
-          (previousValue, currentValue) => previousValue + currentValue.cashback_amount_in_cents,
+          (previousValue, currentValue) => previousValue + currentValue.cashbackAmountInCents,
           initialValue,
         );
         setTotalPending(sumWithInitial);
         return filtered;
       case FilterOptions.CREDIT:
-        return userOperations?.data?.filter(
-          (operation) => operation.cashback_amount_in_cents > 0
-          && operation.status !== 'pending',
+        return userOperations?.filter(
+          (operation) => operation?.cashbackAmountInCents > 0
+          && operation?.status !== 'pending',
         );
       default:
-        return userOperations?.data?.filter(
-          (operation) => operation.status !== 'pending',
+        return userOperations?.filter(
+          (operation) => operation?.status !== 'pending',
         );
     }
   };
 
   useEffect(() => {
     if (profile?.document) {
-      getCreditBalance(profile.document);
-      getUserOperations(profile.document);
-      getUserExpireBalance(profile.document);
+      getCashbackData();
       const filtered = operationsFiltered(operationFilter);
       setUserOperationsFiltered(filtered);
     }
-  }, [profile]);
+  }, [profile?.document]);
 
   useEffect(() => {
     const filtered = operationsFiltered(operationFilter);
@@ -158,8 +153,6 @@ export const MyWalletContainer = (
     const day = dateFormated.getDate();
     const month = (dateFormated.getMonth() + 1).toString().padStart(2, '0');
     const year = dateFormated.getFullYear();
-    const hours = dateFormated.getHours();
-    const minutes = dateFormated.getMinutes();
 
     return `${day}/${month}/${year}`;
   };
@@ -167,14 +160,13 @@ export const MyWalletContainer = (
   return (
     <>
       <TopBarBackButton
-        loading={false}
+        loading={loading}
         showShadow
         backButtonPress={navigateBack}
       />
       <MyWalletView
         balanceVisible={balanceVisible}
         balance={balance}
-        userOperations={userOperations}
         userOperationsFiltered={userOperationsFiltered}
         convertCentsToReal={convertCentsToReal}
         formatDate={formatDate}
