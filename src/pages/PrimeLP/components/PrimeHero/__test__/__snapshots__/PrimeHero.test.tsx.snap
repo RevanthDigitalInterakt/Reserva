@@ -344,7 +344,7 @@ exports[`PrimeHero should render without error and match to snapshot 1`] = `
           }
           variant="tituloSessao"
         >
-          CONTINUAR COMPRANDO
+          ASSINE AGORA
         </Text>
       </View>
     </View>

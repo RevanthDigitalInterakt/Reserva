@@ -39,8 +39,10 @@ jest.mock('../../../../../zustand/useAuth/useAuthStore', () => ({
   useAuthStore: () => ({ profile: mockProfile }),
 }));
 
-jest.mock('../../../../../zustand/usePrimeStore/usePrimeStore', () => ({
-  usePrimeStore: () => ({ }),
+jest.mock('../../../../../hooks/usePrimeInfo', () => ({
+  usePrimeInfo: () => ({
+    isPrime: false,
+  }),
 }));
 
 const TestingComponent = (
