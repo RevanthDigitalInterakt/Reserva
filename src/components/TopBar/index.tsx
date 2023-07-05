@@ -9,11 +9,7 @@ import ProgressBar from 'react-native-progress/Bar';
 import {
   Button, Box, Icon, theme,
 } from '@usereservaapp/reserva-ui';
-
 import testProps from '../../utils/testProps';
-// import { useCart } from '../../context/CartContext';
-// import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
-// import { useOrderFormLazyQuery } from '../../base/graphql/generated';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 import IconComponent from '../IconComponent/IconComponent';
 
@@ -48,30 +44,7 @@ export const TopBar = ({
   loading = false,
   ...props
 }: TopBarProps) => {
-  // const { orderForm } = useCart();
-  // const { getHasSubscriptionPrimeInCart } = usePrimeStore(['getHasSubscriptionPrimeInCart']);
-
   const { isPrime, primeActive } = usePrimeInfo();
-
-  // const [getOrderForm] = useOrderFormLazyQuery({
-  //   context: { clientName: 'gateway' },
-  //   fetchPolicy: 'no-cache',
-  // });
-  //
-  // const requestOrderForm = useCallback(async () => {
-  //   if (!orderForm) return;
-  //
-  //   const { data: dataOrderForm } = await getOrderForm({
-  //     variables: { orderFormId: orderForm?.orderFormId },
-  //   });
-  //
-  //   if (!dataOrderForm?.orderForm) return;
-  //   getHasSubscriptionPrimeInCart(dataOrderForm?.orderForm.hasPrimeSubscriptionInCart);
-  // }, [orderForm]);
-
-  // useEffect(() => {
-  //   requestOrderForm();
-  // }, [requestOrderForm]);
 
   return (
     <Box justifyContent="flex-end" {...props}>
