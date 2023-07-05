@@ -1,6 +1,7 @@
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
+import { ProductDetailCard as ProductDetailCardLegacy } from '@usereservaapp/reserva-ui';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { onShare } from '../../../../utils/onShare';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
@@ -11,10 +12,12 @@ import images from '../../../../base/styles/icons';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import EventProvider from '../../../../utils/EventProvider';
 import { ProductDetailCard } from '../../../../components/ProductDetailCard/ProductDetailCard';
-import PricesSelectBoxes from '../../../../components/PricesSelectBoxes/PricesSelectBoxes';
+import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
+import PricesSelectBoxes from '../../../../components/PricesSelectBoxes';
 
 function ProductSummary() {
   const { getBoolean } = useRemoteConfig();
+  const { primeActive } = usePrimeInfo();
   const { productDetail, selectedColor, selectedSize } = useProductDetailStore([
     'productDetail',
     'selectedSize',
@@ -66,6 +69,10 @@ function ProductSummary() {
     });
   }, [imageIndex, productDetail]);
 
+  const ProductDetailCardComponent = useMemo(() => (
+    primeActive ? ProductDetailCard : ProductDetailCardLegacy
+  ), [primeActive]);
+
   if (!productDetail || !selectedColor) return null;
 
   return (
@@ -77,7 +84,7 @@ function ProductSummary() {
         setIndexOpenImage={imageIndex}
       />
 
-      <ProductDetailCard
+      <ProductDetailCardComponent
         testID={`com.usereserva:id/productdetail_card_${slugify(productDetail.productId)}`}
         loadingFavorite={loadingWishlist}
         isFavorited={isFavorited}
@@ -103,7 +110,8 @@ function ProductSummary() {
           return newIndex;
         }}
       />
-      <PricesSelectBoxes selectedSize={selectedSize} />
+
+      {!!primeActive && <PricesSelectBoxes selectedSize={selectedSize} />}
     </>
   );
 }
