@@ -295,8 +295,6 @@ const Checkout: React.FC<{}> = () => {
     }
   }, [attemps]);
 
-  useEffect(() => {}, []);
-
   return (
     <View flex={1} backgroundColor="white">
       {loading && (
