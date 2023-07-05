@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.0.6
+
+- [14126 - Prime Feature Toggle](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14126)
+
+---
+
 ### 2.0.5
 
 - [SRN-333 - Erro evento Cadastrou DITO](https://reserva.atlassian.net/browse/SRN-333)
