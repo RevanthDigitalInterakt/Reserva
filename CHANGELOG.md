@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.0.5
+
+- [SRN-333 - Erro evento Cadastrou DITO](https://reserva.atlassian.net/browse/SRN-333)
+
+---
+
 ### 2.0.3
 
 - [SRN-257 - CPF obrigatório no cadastro](https://reserva.atlassian.net/browse/SRN-257)
