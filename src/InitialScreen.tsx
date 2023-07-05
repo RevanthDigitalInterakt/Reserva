@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { StatusBar } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import messaging from '@react-native-firebase/messaging';
 import { useStatusBar } from './context/StatusBarContext';
 import useInitialDito from './hooks/useInitialDito';
 import CodePushModal from './components/CodePushModal/CodePushModal';
@@ -15,10 +15,15 @@ interface IProps {
   children: React.ReactNode;
 }
 
-function InitialScreen({ children }: IProps) {
-  const { onInit, initialized } = useAuthStore(['onInit', 'initialized']);
+function InitialScreen({ children }: { children: JSX.Element }) {
+  const {
+    onInit, initialized, isAnonymousUser, profile,
+  } = useAuthStore(['onInit', 'initialized', 'isAnonymousUser', 'profile']);
   const { barStyle } = useStatusBar();
-  const { handleDitoRegister } = useInitialDito();
+
+  useCheckAppNewVersion();
+
+  const { handleDitoRegisterAnony, handleDitoRegister } = useInitialDito();
 
   useCheckAppNewVersion();
 
@@ -26,12 +31,22 @@ function InitialScreen({ children }: IProps) {
     onInit();
   }, [onInit]);
 
-  useEffect(() => {
-    if (initialized) {
+  const onAppInit = useCallback(async () => {
+    if (isAnonymousUser) {
+      const deviceToken = await messaging().getToken();
+      handleDitoRegisterAnony({ deviceToken });
+    }
+
+    if (profile) {
       handleDitoRegister();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialized]);
+  }, [handleDitoRegisterAnony, isAnonymousUser, profile, handleDitoRegister]);
+
+  useEffect(() => {
+    if (initialized) {
+      onAppInit();
+    }
+  }, [initialized, isAnonymousUser, onAppInit]);
 
   useEffect(() => {
     StorageService.setInstallationToken();

@@ -155,7 +155,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
 
         await onUpdateAuthData(response?.data?.signUp?.token, response?.data?.signUp?.authCookie);
         // TODO rebase PR Feature/SRN-202 dito send accessed category
-        // handleDitoRegister();
+        handleDitoRegister();
         setModalSignUpComplete(true);
         navigation.navigate('Home');
       }

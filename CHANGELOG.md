@@ -3,6 +3,7 @@
 ### 2.0.5
 
 - [SRN-333 - Erro evento Cadastrou DITO](https://reserva.atlassian.net/browse/SRN-333)
+- [SRN-192 - Bloquear a migração de eventos para perfis diferentes](https://reserva.atlassian.net/browse/SRN-192)
 
 ---
 

@@ -46,43 +46,48 @@ export default function useInitialDito() {
   }, []);
 
   const handleRegisterUser = useCallback(
-    async ({ userProfileData, deviceToken }: IHandleRegisterUser) => {
+    async ({ deviceToken }: IHandleRegisterUser) => {
       const syncAnonymousToUser = await AsyncStorage.getItem('@Dito:anonymousID');
-      const {
-        document, firstName, email, gender, birthDate,
-      } = userProfileData;
 
       if (syncAnonymousToUser) {
         await sendUpdateUserDataToDito({
           id: syncAnonymousToUser,
           user: {
-            email: userProfileData.email,
-            gender,
-            birthday: birthDate,
-            cpf: document,
+            email: profile?.email,
+            gender: profile?.gender || '',
+            birthday: profile?.birthDate,
+            cpf: profile?.document || '',
             data: { dispositivo: Platform.OS },
           },
         });
         await handleRegisterTokenDito({ id: syncAnonymousToUser, deviceToken });
       }
 
-      await setItem('@Dito:userRef', document);
+      await setItem('@Dito:userRef', profile?.document || '');
       await sendUserDataToDito({
-        id: document,
+        id: profile?.document || '',
         user: {
-          name: firstName,
-          email,
-          gender,
-          birthday: birthDate,
-          cpf: document,
+          name: profile?.firstName || '',
+          email: profile?.email,
+          gender: profile?.gender || '',
+          birthday: profile?.birthDate,
+          cpf: profile?.document || '',
           data: {
             dispositivo: Platform.OS,
           },
         },
       });
-      await handleRegisterTokenDito({ id: document, deviceToken });
-      await trackEventHomeDito({ id: document });
-    }, [handleRegisterTokenDito],
+      await handleRegisterTokenDito({ id: profile?.document || '', deviceToken });
+      await trackEventHomeDito({ id: profile?.document || '' });
+    }, [
+      handleRegisterTokenDito,
+      profile?.birthDate,
+      profile?.document,
+      profile?.email,
+      profile?.firstName,
+      profile?.gender,
+      setItem,
+    ],
   );
 
   const handleRegisterAnonymous = useCallback(async ({ deviceToken }: Pick<IHandleRegisterToken, 'deviceToken'>) => {
@@ -105,7 +110,7 @@ export default function useInitialDito() {
         await handleRegisterTokenDito({ id, deviceToken });
       }
 
-      await trackEventHomeDito({ id });
+      await trackEventHomeDito({ id: id || '' });
     } catch (e) {
       EventProvider.captureException(e);
     }
@@ -120,28 +125,34 @@ export default function useInitialDito() {
       }
       const deviceToken = await messaging().getToken();
 
-      if (profile?.email && deviceToken) {
-        await handleRegisterUser({
-          userProfileData: {
-            userId: profile.id,
-            lastName: profile?.lastName || '',
-            email: profile.email,
-            gender: profile?.gender || '',
-            birthDate: profile?.birthDate || '',
-            homePhone: profile?.homePhone || '',
-            firstName: profile?.firstName || '',
-            document: profile?.document || '',
-          },
-          deviceToken,
-        });
-      } else {
-        handleRegisterAnonymous({ deviceToken });
-      }
+      await handleRegisterUser({
+        userProfileData: {
+          userId: profile?.id || '',
+          lastName: profile?.lastName || '',
+          email: profile?.email || '',
+          gender: profile?.gender || '',
+          birthDate: profile?.birthDate || '',
+          homePhone: profile?.homePhone || '',
+          firstName: profile?.firstName || '',
+          document: profile?.document || '',
+        },
+        deviceToken,
+      });
     } catch (e) {
       // TODO verificar possibilidade de tratar futuramente
       EventProvider.captureException(e);
     }
-  }, [handleRegisterAnonymous, handleRegisterUser, profile]);
+  }, [
+    handleRegisterUser,
+    profile?.birthDate,
+    profile?.document,
+    profile?.email,
+    profile?.firstName,
+    profile?.gender,
+    profile?.homePhone,
+    profile?.id,
+    profile?.lastName,
+  ]);
 
-  return { handleDitoRegister: handleRegister };
+  return { handleDitoRegister: handleRegister, handleDitoRegisterAnony: handleRegisterAnonymous };
 }
