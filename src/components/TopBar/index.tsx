@@ -178,18 +178,19 @@ export const TopBar = ({
           )}
         </Box>
       </Box>
+
       {loading && (
-      <Box top={0} height={1} justifyContent="flex-end">
-        <ProgressBar
-          animated
-          indeterminate
-          color={theme.colors.vermelhoAlerta}
-          height={2}
-          borderWidth={0}
-          width={null}
-          borderRadius={0}
-        />
-      </Box>
+        <Box top={0} height={1} justifyContent="flex-end">
+          <ProgressBar
+            animated
+            indeterminate
+            color={theme.colors.vermelhoAlerta}
+            height={2}
+            borderWidth={0}
+            width={null}
+            borderRadius={0}
+          />
+        </Box>
       )}
     </Box>
   );

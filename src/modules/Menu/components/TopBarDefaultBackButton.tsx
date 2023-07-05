@@ -45,18 +45,13 @@ export const TopBarDefaultBackButton: React.FC<{
         testID: 'com.usereserva:id/top_bar_button_searchmenu',
         name: 'Search',
         size: 24,
-        onPress: () => {
-          navigation.navigate('SearchMenu');
-        },
+        onPress: () => navigation.navigate('SearchMenu'),
       }}
       rightButton2={{
         testID: 'com.usereserva:id/top_bar_button_handbag',
         name: 'Handbag',
         size: 24,
-        onPress: () => {
-          // Alert.alert('button right 2');
-          navigation.navigate('BagScreen');
-        },
+        onPress: () => navigation.navigate('BagScreen'),
         badgeCount: allItemsQuantity,
       }}
       height={50}
