@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { StatusBar } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,6 +10,8 @@ import { StorageService } from './shared/services/StorageService';
 import OnForegroundEventPush from './utils/Notifee/ForegroundEvents';
 import { useAuthStore } from './zustand/useAuth/useAuthStore';
 import useCheckAppNewVersion from './hooks/useCheckAppNewVersion';
+import { RefreshTokenError } from './zustand/useAuth/types/refreshTokenError';
+import { navigateUsingRef } from './utils/navigationRef';
 
 interface IProps {
   children: React.ReactNode;
@@ -17,9 +19,10 @@ interface IProps {
 
 function InitialScreen({ children }: { children: JSX.Element }) {
   const {
-    onInit, initialized, isAnonymousUser, profile,
-  } = useAuthStore(['onInit', 'initialized', 'isAnonymousUser', 'profile']);
+    onInit, onRefreshToken, initialized, isAnonymousUser, profile,
+  } = useAuthStore(['onInit', 'onRefreshToken', 'initialized', 'isAnonymousUser', 'profile']);
   const { barStyle } = useStatusBar();
+  const [loadingRefreshtoken, setLoadingRefreshToken] = useState(false);
 
   useCheckAppNewVersion();
 
@@ -28,8 +31,24 @@ function InitialScreen({ children }: { children: JSX.Element }) {
   useCheckAppNewVersion();
 
   useEffect(() => {
-    onInit();
-  }, [onInit]);
+    async function handleGetUserProfile() {
+      try {
+        setLoadingRefreshToken(true);
+        await onRefreshToken();
+
+        onInit();
+        setLoadingRefreshToken(false);
+      } catch (err) {
+        if (err instanceof RefreshTokenError) {
+          navigateUsingRef('Login', { invalidSession: true });
+        }
+      }
+    }
+
+    if (!loadingRefreshtoken) {
+      handleGetUserProfile();
+    }
+  }, []);
 
   const onAppInit = useCallback(async () => {
     if (isAnonymousUser) {

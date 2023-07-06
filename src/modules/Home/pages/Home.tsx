@@ -26,7 +26,6 @@ import configDeviceSizes from '../../../utils/configDeviceSizes';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import testProps from '../../../utils/testProps';
 import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
-import { RefreshTokenError } from '../../../zustand/useAuth/types/refreshTokenError';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { CountDownBanner } from '../component/CountDown';
@@ -88,15 +87,6 @@ export const HomeScreen = () => {
     countDown: true,
     initial: countDownClockGlobal?.formattedValue,
   });
-
-  useEffect(() => {
-    onRefreshToken()
-      .catch((err) => {
-        if (err instanceof RefreshTokenError) {
-          navigation.navigate('Login', { comeFrom: 'Profile', invalidSession: true });
-        }
-      });
-  }, [onRefreshToken, navigation]);
 
   const requestHome = useCallback(async () => {
     try {
