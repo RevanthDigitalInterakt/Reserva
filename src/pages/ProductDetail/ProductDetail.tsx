@@ -3,6 +3,7 @@ import { Alert, View } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { Box } from '@usereservaapp/reserva-ui';
 import * as Sentry from '@sentry/react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import ProductDetailWrapper from './components/ProductDetailWrapper';
 import FormNewsletter from './components/FormNewsletter';
@@ -19,10 +20,12 @@ import type { IProductDetailRouteParams } from '../../utils/createNavigateToProd
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 import { ProductRecommendation } from '../../components/ProductRecommendation/ProductRecommendation';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
+import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
 function ProductDetail({ route, navigation }: IProductDetailNew) {
+  const { getItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { setProduct, resetProduct, productDetail } = useProductDetailStore([
@@ -37,9 +40,13 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
     context: { clientName: 'gateway' },
   });
 
-  const trackEventDitoAccessProduct = useCallback(({ product }: ProductQuery) => {
+  const trackEventDitoAccessProduct = useCallback(async ({ product }: ProductQuery) => {
+    const id = profile?.email
+      ? await getItem('@Dito:userRef')
+      : await AsyncStorage.getItem('@Dito:anonymousID');
+
     EventProvider.sendTrackEvent('acessou-produto', {
-      id: profile?.document || '',
+      id,
       action: 'acessou-produto',
       data: {
         id_produto: product.productId,
@@ -51,7 +58,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         origem: 'app',
       },
     });
-  }, [profile?.document]);
+  }, [getItem, profile?.email]);
 
   const onInitialLoad = useCallback(async (params: IProductDetailRouteParams) => {
     try {

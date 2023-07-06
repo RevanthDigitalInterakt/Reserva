@@ -51,6 +51,7 @@ import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { getCollectionFacetsValue } from '../../../../utils/getCollectionFacetsValue';
 import { useProductCatalogStore } from '../../../../zustand/useProductCatalog/useProductCatalog';
+import { durationToTimeString } from '../../../../utils/durationToTimeString';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -219,8 +220,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
             setCountDownClockLocal({
               ...clockOffers,
               countdownStart: clockOffers?.countdownStart,
-              formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-              }:${limitDate.seconds}`,
+              formattedValue: durationToTimeString(limitDate),
             });
           }
         }
@@ -237,8 +237,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
             setCountDownClockGlobal({
               ...clockAll,
               countdownStart: clockAll?.countdownStart,
-              formattedValue: `${limitDate?.days * 24 + limitDate.hours}:${limitDate.minutes
-              }:${limitDate.seconds}`,
+              formattedValue: durationToTimeString(limitDate),
             });
           }
         }

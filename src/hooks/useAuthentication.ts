@@ -2,7 +2,6 @@ import { Keyboard } from 'react-native';
 import { useCallback, useState } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
 
-import useInitialDito from './useInitialDito';
 import { useCart } from '../context/CartContext';
 import EventProvider from '../utils/EventProvider';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
@@ -31,7 +30,6 @@ export function useAuthentication({ navigation, closeModal }: IParamsHook) {
   const [loginCredentials, setLoginCredentials] = useState(initialLoginCredentials);
 
   const { onSignIn } = useAuthStore(['onSignIn']);
-  const { handleDitoRegister } = useInitialDito();
 
   const validateCredentials = () => {
     setLoginCredentials({
@@ -51,7 +49,6 @@ export function useAuthentication({ navigation, closeModal }: IParamsHook) {
       Keyboard.dismiss();
 
       await onSignIn(email, password);
-      handleDitoRegister();
 
       if (closeModal) {
         closeModal();
@@ -64,7 +61,7 @@ export function useAuthentication({ navigation, closeModal }: IParamsHook) {
     } finally {
       setLoadingSignIn(false);
     }
-  }, [handleDitoRegister, navigation, onSignIn, validateCredentials]);
+  }, [navigation, onSignIn, validateCredentials]);
 
   const { identifyCustomer } = useCart();
 
