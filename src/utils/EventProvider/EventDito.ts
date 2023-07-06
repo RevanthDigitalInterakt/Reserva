@@ -13,6 +13,20 @@ type Ordered = {
   id: string;
 };
 
+type TProductOrderPlaced = {
+  id: string;
+  id_transacao: string;
+  quantidade: number;
+  marca: string;
+  id_produto: string;
+  nome_produto: string;
+  nome_categoria: string;
+  tamanho: string;
+  cor: string;
+  preco_produto: number;
+  origem: string;
+};
+
 type Department = {
   nome_departamento: string;
 };
@@ -35,7 +49,7 @@ type SignedUp = {
 export type EventsDitoValues = {
   id: string | null;
   action: string;
-  data: DataValues | Ordered | Department | Category | Searched | SignedUp;
+  data: DataValues | Ordered | Department | Category | Searched | SignedUp | TProductOrderPlaced;
 };
 
 export namespace EventsOptions {
@@ -45,6 +59,7 @@ export namespace EventsOptions {
   export type SendAccessedCategory = Pick<EventsDitoValues, | 'id' | 'action' | 'data' > & {};
   export type SearchedEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
   export type SignedUpEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type ProductOrderPlacedEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
 }
 // Os nomes dos eventos DEVEM ser enviados para a Dito em letras minúsculas
 export type EventOptionsDitoFn =
@@ -71,4 +86,8 @@ export type EventOptionsDitoFn =
     | {
       type: 'fez-cadastro';
       payload: EventsOptions.SignedUpEvent;
+    }
+    | {
+      type: 'fez-pedido-produto';
+      payload: EventsOptions.ProductOrderPlacedEvent;
     };

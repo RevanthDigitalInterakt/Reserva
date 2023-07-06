@@ -87,6 +87,7 @@ const Checkout: React.FC<{}> = () => {
     async function execute() {
       if (orderForm) {
         try {
+          const userDocument = await getItem('@Dito:userRef');
           const orderGroup = getOrderId()?.split('-')?.[0];
           const response = await GetPurchaseData(orderGroup);
 
@@ -110,6 +111,28 @@ const Checkout: React.FC<{}> = () => {
               wbrand: getBrands(items),
             });
           }
+
+          items.forEach((item) => {
+            EventProvider.sendTrackEvent(
+              'fez-pedido-produto', {
+                id: userDocument || '',
+                action: 'fez-pedido-produto',
+                data: {
+                  id: userDocument || '',
+                  id_transacao: response?.data[0]?.orderId || '',
+                  quantidade: item?.quantity,
+                  marca: getBrands(items),
+                  id_produto: item?.productId,
+                  nome_produto: item?.name,
+                  nome_categoria: item?.productCategories,
+                  tamanho: item?.skuName.split('-')?.[1]?.trim(),
+                  cor: item?.skuName.split('-')?.[0]?.trim(),
+                  preco_produto: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,
+                  origem: 'app',
+                },
+              },
+            );
+          });
         } catch (e) {
           EventProvider.captureException(e);
         }
@@ -166,6 +189,8 @@ const Checkout: React.FC<{}> = () => {
       const orderGroup = getOrderId()?.split('-')?.[0];
       const response = await GetPurchaseData(orderGroup);
 
+      const payload = await getItem('@Dito:userRef');
+
       const itemQuantity = sumQuantity(orderData?.items);
       const itemSubtotal = (orderData.totalizers.find((x) => x.id === 'Items')?.value || 0) / 100;
       const itemShippingTotal = (orderData.totalizers.find((x) => x.name === 'Shipping')?.value || 0) / 100;
@@ -173,7 +198,7 @@ const Checkout: React.FC<{}> = () => {
 
       EventProvider.sendTrackEvent(
         'fez-pedido', {
-          id: profile?.document || '',
+          id: payload,
           action: 'fez-pedido',
           data: {
             quantidade_produtos: Number(itemQuantity),
@@ -184,7 +209,7 @@ const Checkout: React.FC<{}> = () => {
             total_frete: itemShippingTotal,
             origem: 'app',
             dispositivo: Platform.OS,
-            id: profile?.document || '',
+            id: payload || '',
           },
         },
       );
