@@ -19,13 +19,11 @@ import type { IProductDetailRouteParams } from '../../utils/createNavigateToProd
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 import { ProductRecommendation } from '../../components/ProductRecommendation/ProductRecommendation';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
-import { useProductCatalogStore } from '../../zustand/useProductCatalog/useProductCatalog';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
 function ProductDetail({ route, navigation }: IProductDetailNew) {
   const { profile } = useAuthStore(['profile']);
-  const { facets } = useProductCatalogStore(['facets']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { setProduct, resetProduct, productDetail } = useProductDetailStore([
     'setProduct',
@@ -45,15 +43,15 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       action: 'acessou-produto',
       data: {
         id_produto: product.productId,
-        cor: '',
-        tamanho: product.initialSize?.size,
-        nome_categoria: facets,
+        cor: product.initialColor?.colorName || '',
+        tamanho: product.initialSize?.size || '',
+        nome_categoria: product.categoryTree?.map((item) => item.replace(/-+/g, '-')).join('-').toLowerCase(),
         nome_produto: product.productName,
-        marca: '',
+        marca: product.categoryTree[0],
         origem: 'app',
       },
     });
-  }, [facets, profile?.document]);
+  }, [profile?.document]);
 
   const onInitialLoad = useCallback(async (params: IProductDetailRouteParams) => {
     try {
