@@ -6,7 +6,6 @@ import React, {
   ReactNode,
   useContext,
   useEffect,
-  useCallback,
 } from 'react';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -667,39 +666,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const convertPrice = (value: number) => value / 100;
 
-  const trackEventAddItemToCart = useCallback(async (
-    brand:string,
-    productId: string,
-    productName: string,
-    category: string,
-    size: string,
-    color: string,
-    price: number,
-  ) => {
-    const id = profile?.email
-      ? await getItem('@Dito:userRef')
-      : await AsyncStorage.getItem('@Dito:anonymousID');
-
-    if (!productId) return;
-
-    EventProvider.sendTrackEvent(
-      'adicionou-produto-ao-carrinho', {
-        id,
-        action: 'adicionou-produto-ao-carrinho',
-        data: {
-          marca: brand,
-          id_produto: productId,
-          nome_produto: productName,
-          nome_categoria: category,
-          tamanho: size,
-          cor: color,
-          preco_produto: price,
-          origem: 'app',
-        },
-      },
-    );
-  }, [getItem, profile?.email]);
-
   const addItem = async (dto: IAddItemDTO): Promise<TAddItemResponse> => {
     const {
       quantity, itemId, seller, index = -1, isUpdate = false, hasBundleItems = false,
@@ -753,16 +719,27 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         wbrand: getBrands(data?.items || []),
       });
 
-      trackEventAddItemToCart(
-        product.additionalInfo.brandName,
-        itemId,
-        product.name,
-        Object.entries(product.productCategories)
-          .map(([key, value]) => `${key}: ${value}`)
-          .join(', '),
-        product.skuName.split(' - ')[1],
-        product.skuName.split(' - ')[0],
-        convertPrice(product.sellingPrice || 0),
+      const id = profile?.email
+        ? await getItem('@Dito:userRef')
+        : await AsyncStorage.getItem('@Dito:anonymousID');
+
+      EventProvider.sendTrackEvent(
+        'adicionou-produto-ao-carrinho', {
+          id,
+          action: 'adicionou-produto-ao-carrinho',
+          data: {
+            marca: product.additionalInfo.brandName,
+            id_produto: itemId,
+            nome_produto: product.name,
+            nome_categoria: Object.entries(product.productCategories)
+              .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
+              .join(', '),
+            tamanho: product.skuName.split(' - ')[1],
+            cor: product.skuName.split(' - ')[0],
+            preco_produto: convertPrice(product.sellingPrice || 0),
+            origem: 'app',
+          },
+        },
       );
 
       return { ok: !(product.quantity < quantity) };
