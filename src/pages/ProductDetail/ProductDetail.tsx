@@ -21,6 +21,7 @@ import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicySto
 import { ProductRecommendation } from '../../components/ProductRecommendation/ProductRecommendation';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
+import { getProductCategories } from '../../utils/getProductCategories';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -41,23 +42,27 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   });
 
   const trackEventDitoAccessProduct = useCallback(async ({ product }: ProductQuery) => {
-    const id = profile?.email
-      ? await getItem('@Dito:userRef')
-      : await AsyncStorage.getItem('@Dito:anonymousID');
+    try {
+      const id = profile?.email
+        ? await getItem('@Dito:userRef')
+        : await AsyncStorage.getItem('@Dito:anonymousID');
 
-    EventProvider.sendTrackEvent('acessou-produto', {
-      id,
-      action: 'acessou-produto',
-      data: {
-        id_produto: product.productId,
-        cor: product.initialColor?.colorName || '',
-        tamanho: product.initialSize?.size || '',
-        nome_categoria: product.categoryTree?.map((item) => item.replace(/-+/g, '-')).join('-').toLowerCase(),
-        nome_produto: product.productName,
-        marca: product.categoryTree[0],
-        origem: 'app',
-      },
-    });
+      EventProvider.sendTrackEvent('acessou-produto', {
+        id,
+        action: 'acessou-produto',
+        data: {
+          id_produto: product.productId,
+          cor: product.initialColor?.colorName || '',
+          tamanho: product.initialSize?.size || '',
+          nome_categoria: getProductCategories(product.categoryTree),
+          nome_produto: product.productName,
+          marca: product.categoryTree[0],
+          origem: 'app',
+        },
+      });
+    } catch (error) {
+      EventProvider.captureException(error);
+    }
   }, [getItem, profile?.email]);
 
   const onInitialLoad = useCallback(async (params: IProductDetailRouteParams) => {
