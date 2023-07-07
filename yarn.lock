@@ -1278,7 +1278,7 @@
   resolved "https://registry.yarnpkg.com/@evilmartians/lefthook/-/lefthook-1.2.6.tgz#cfe462f0198ae64aec6db2f4b570f7ba69883c4b"
   integrity sha512-9UgQbxadeFY2G+VhnWuyDzd394Oxpgm6NXCmDPQBfz/HUKHUN57PhqE14VXjZbzZfCnyhIIJW8rxlXcAI3HORQ==
 
-"@expo/config-plugins@^4.1.5":
+"@expo/config-plugins@^4.0.12":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-4.1.5.tgz#9d357d2cda9c095e511b51583ede8a3b76174068"
   integrity sha512-RVvU40RtZt12HavuDAe+LDIq9lHj7sheOfMEHdmpJ/uTA8pgvkbc56XF6JHQD+yRr6+uhhb+JnAasGq49dsQbw==
@@ -2567,69 +2567,69 @@
   dependencies:
     invariant "^2.2.4"
 
-"@react-native-firebase/analytics@^14.12.0":
-  version "14.12.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-14.12.0.tgz#a95ed34187018704d1c0aa7a05c02c1711fac94f"
-  integrity sha512-1ulisJVqpCVs+c3wukG7PCRyipBNqzWVzzC/WB+zaFLXu5gtYZU1RXbzuIUTQLLvVM4v+Yl1wdqcuhybjm+BQA==
+"@react-native-firebase/analytics@^13.0.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-13.1.1.tgz#f0d2e943903e745b0ed0004c2588983ad5dc5543"
+  integrity sha512-6FachaeuBlI0jiZDktQBsk7KKsJyzEYxylFcgDv1Z4DBsbut0Dl4+7TlPJAlrXxqjlnU8W/2PsAv0j6U85JLmA==
 
-"@react-native-firebase/app-check@^14.12.0":
-  version "14.12.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app-check/-/app-check-14.12.0.tgz#abcdc1d6ca5589e1fe268c83dc652adc95d50a90"
-  integrity sha512-q/2n5JcqFuUNUSkxODsvv4t6XFjs/f2ystW6hQ87TNgbPo5Ty9e9FuT/h+4fw11UQDfOHPHisC1vo3sa+he/sg==
+"@react-native-firebase/app-check@^13.0.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app-check/-/app-check-13.1.1.tgz#4f718e56771130afd419c4ce751b8e3ecfe2cdfd"
+  integrity sha512-Hl250QKgBA1UNceEerCFUmEFHDJ+2dxT/8ICMAQOGhWhl8m18SU6eghjEf+bUceLjHxOBl4MwysL7cp3cyfj6w==
 
-"@react-native-firebase/app@^14.12.0":
-  version "14.12.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-14.12.0.tgz#d9706973489485d8705ce8344e3b255115b381a8"
-  integrity sha512-r/4eP96U3StUs9t3QSlNwCIjjZpEAzI0u8GF8VlNNgrFxUKQXmwe63dRXQXVrI03MxnHgg87OpoWgIxhRlC9Rg==
+"@react-native-firebase/app@^13.0.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-13.1.1.tgz#cbf1a507718c545409cbf09b14516c1a1b55a490"
+  integrity sha512-Hb4At6vdOL2N6EisCHyy7dKF9BhCDBPt5wBuxFWDwtvf4gAA3DPCosmqjg0U2C++02NqrH3VZ1fJCrBDIhXTbg==
   dependencies:
-    "@expo/config-plugins" "^4.1.5"
+    "@expo/config-plugins" "^4.0.12"
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/crashlytics@^14.12.0":
-  version "14.12.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-14.12.0.tgz#5b619fc492a507e61847be3dbe14410c18152ebd"
-  integrity sha512-Qhcu8fYi9YjpBSwht/jTCW2aSyQzKhwc2PRqdp8frdVLsdgikOeGRElJ6DqUA8RgPtvsebAB1+v93lRfs6FTeQ==
+"@react-native-firebase/crashlytics@^13.0.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-13.1.1.tgz#a0206743cee1ee3dec667e230d2b1b5dc7c5a315"
+  integrity sha512-FYYITYCWtp85UQADhb++bhgmSbdvZR9p5kAHp/r0pJms/IzQPIgfU27toAEw4wo/Y87P3Q/pLYV37Ub+7Aghyg==
   dependencies:
-    "@expo/config-plugins" "^4.1.5"
+    "@expo/config-plugins" "^4.0.12"
     stacktrace-js "^2.0.0"
 
-"@react-native-firebase/firestore@^14.12.0":
-  version "14.12.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-14.12.0.tgz#106df3c38664f7e533df7a3d81be480ac2cb7bcc"
-  integrity sha512-oMR/eb2z6abxTHAqT+MC+vVYZ11OkboT/D/8olEc5C9PC8JFxu+xgwtj+bojJwJvpeOXJ2PV7QWTqFrECjBeBA==
+"@react-native-firebase/firestore@^13.0.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-13.1.1.tgz#9baa3810949813f15f9b30d10b4e9931f0b9a037"
+  integrity sha512-dfxJLLE+SGuIiX7AL6aRgqQGmXXKA48ms/ln5DdN6q89x7NE4zZWlclE4cNLKePRiorrFwb8KT8nJRWcu1prNw==
 
-"@react-native-firebase/in-app-messaging@^14.12.0":
-  version "14.12.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/in-app-messaging/-/in-app-messaging-14.12.0.tgz#1564d9fe5fcb2016d658974246097298a26d69bf"
-  integrity sha512-CtcNR7T1C1l6Zl3gKDIMpHV54n3AN9BnLQFvQiROOZxsQGEyTdoVU/htaEQGf0qPQVNuJjqrJwGbP3k0TZSH1g==
+"@react-native-firebase/in-app-messaging@^13.0.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/in-app-messaging/-/in-app-messaging-13.1.1.tgz#2d9e8d63bdfa8ad798ddaa7a4bd62db882b3ae55"
+  integrity sha512-qRPDfISNLpfY/2RirlkbyfKZJs+T0rNde1Z79dbEEpDe8qBvmwVX7fiw1YAG+RzSh/AikdL4X6uCRijfOsO/dw==
 
-"@react-native-firebase/installations@^14.12.0":
-  version "14.12.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/installations/-/installations-14.12.0.tgz#2378ab0b75c142cfd58fee09fda93c78ff32b594"
-  integrity sha512-qaBtPLYYjHDhqvmf9MdXGVVXdHOdpB3MH4QI8ZRtr6nMc3eflG8fML0sx5H1YgUHkH4/ugUdiNVZjPTaiPMVYg==
+"@react-native-firebase/installations@^13.0.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/installations/-/installations-13.1.1.tgz#252c92e0a9abc9a08bd74ee992d0b430615227ab"
+  integrity sha512-qe8qQpkma+k9QLxIrPOOjXaqAqKtQ6luI4ZnvfvJumR0PRajG4Rc45x4YTS6vN4OVS6EcMhCxO42wehh+uvrmw==
 
-"@react-native-firebase/messaging@^14.12.0":
-  version "14.12.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-14.12.0.tgz#02cad59f2cf52b68d9cdeed3f1206fe6f84c068f"
-  integrity sha512-4JF93pYLyFiLjwU2RYlHMKSjI7DKLuqQrqCnC3M2yhgTDeYaJsqnYnTSDMfmmh9vZHfHjTztc6E2scwr/Mw8tg==
+"@react-native-firebase/messaging@^13.0.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-13.1.1.tgz#fbf91a8126dedf7088db65a64ae4ff1bc17d6470"
+  integrity sha512-O5+WRZy9PHMHSzg0U2JotJ661ZBKP/92eTZeStaVcrfKA6miPiaNDLX4oYxu28AfwckHiwyLgM3SasTTYt15gA==
 
-"@react-native-firebase/perf@^14.12.0":
-  version "14.12.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/perf/-/perf-14.12.0.tgz#bb03ab4f45d091f59934d4c8f4e2a925813c4d9b"
-  integrity sha512-MSdAIXDdQfULXSkRvxi5Cia5oblMlqYvAsy5s3guaTjWphNt+s+PzI5UrH9vv4MvhuuD2zy0KXUzjnjiBoTujA==
+"@react-native-firebase/perf@^13.0.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/perf/-/perf-13.1.1.tgz#d1ab7696ac10efddd4c341203a779c223efc6e9e"
+  integrity sha512-y8iQvyYwQqWhJ7YzYU+fqgPcs81W7qtUoY5B4GvcEZTtSCeirZW6Zp4KO+Bd0GuS71YokVypBKIZ2D6ewQFSNw==
   dependencies:
-    "@expo/config-plugins" "^4.1.5"
+    "@expo/config-plugins" "^4.0.12"
 
-"@react-native-firebase/remote-config@^14.12.0":
-  version "14.12.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-14.12.0.tgz#9417d126d298cbec094be67dad86aa074cd61f6d"
-  integrity sha512-WASOY12cwdiWUPgaaeKH2jfSpIhtDG/Xu8y0Ws5+RZYu9pox6/pTUkWUdXnJpWnR9Cg3FdOhzKxijMovsezbpw==
+"@react-native-firebase/remote-config@^13.0.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-13.1.1.tgz#774b38a132a1782736caf310b03e850500ca423d"
+  integrity sha512-EtYxPtHrTdWjPvX6tEu04nksC+PkLmlOhxtiIf26uwbQJ8bXKV2RI/pviEuDUEEdDiORbZlFmEqC/M8s6eKidw==
 
-"@react-native-firebase/storage@^14.12.0":
-  version "14.12.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-14.12.0.tgz#3bd4a5e9aa2c57d6cba72771969a7e224a9809e1"
-  integrity sha512-oveveslj+BfrQNf1uMyjjj6ogEFK0UaDtkvMvbvEzp53hn9k9iHSQijjr6EDti4ieh51wF7XOwgh3X28nlwIQA==
+"@react-native-firebase/storage@^13.0.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-13.1.1.tgz#bb519055dbba49e42770082dd4bda837cd907329"
+  integrity sha512-To7i9iF8VwHUSMo/MQyPqcCViEgePX9xs9dfNOzE6F/KLvr90mYInJyrwr0R3c1AhnDj5brxNKlPXKfwKXE4hw==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
@@ -2670,7 +2670,7 @@
     query-string "^6.13.6"
     react-is "^16.13.0"
 
-"@react-navigation/native@^5.9.8":
+"@react-navigation/native@^5.9.4":
   version "5.9.8"
   resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-5.9.8.tgz#ac76ee6390ea7ce807486ca5c38d903e23433a97"
   integrity sha512-DNbcDHXQPSFDLn51kkVVJjT3V7jJy2GztNYZe/2bEg29mi5QEcHHcpifjMCtyFKntAOWzKlG88UicIQ17UEghg==
@@ -2686,7 +2686,7 @@
   dependencies:
     nanoid "^3.1.15"
 
-"@react-navigation/stack@^5.14.9":
+"@react-navigation/stack@^5.14.4":
   version "5.14.9"
   resolved "https://registry.yarnpkg.com/@react-navigation/stack/-/stack-5.14.9.tgz#49c7b9316e6fb456e9766c901e0d607862f0ea7d"
   integrity sha512-DuvrT9P+Tz8ezZLQYxORZqOGqO+vEufaxlW1hSLw1knLD4jNxkz8TJDXtfKwaz//9gb43UhTNccNM02vm7iPqQ==
@@ -3319,7 +3319,7 @@
   resolved "https://registry.yarnpkg.com/@types/strip-json-comments/-/strip-json-comments-0.0.30.tgz#9aa30c04db212a9a0649d6ae6fd50accc40748a1"
   integrity sha512-7NQmHra/JILCd1QqpSzl8+mJRc8ZHz3uDm8YV1Ks9IhK0epEiTw8aIErbvH9PI+6XbqhyIQy3462nEsn7UVzjQ==
 
-"@types/styled-components-react-native@^5.2.1":
+"@types/styled-components-react-native@^5.1.1":
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/@types/styled-components-react-native/-/styled-components-react-native-5.2.1.tgz#08cba1f638c7a3a0b7017954d6e59baef36fb022"
   integrity sha512-XI/SWDSLSe7IjZXA9jS0vv4WPpV2B+nQhefUqk00usNHxhErlzPtTGdhjMZgrH0uYz5R0hLLIandhmhDTLkKBg==
@@ -3942,14 +3942,12 @@ axe-core@^4.0.2:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.6.1.tgz#79cccdee3e3ab61a8f42c458d4123a6768e6fbce"
   integrity sha512-lCZN5XRuOnpG4bpMq8v0khrWtUOn+i8lZSb6wHZH56ZfbIEv6XwJV84AAueh9/zi7qPVJ/E4yz6fmsiyOmXR4w==
 
-axios@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.4.0.tgz#38a7bf1224cd308de271146038b551d725f0be1f"
-  integrity sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==
+axios@^0.21.1:
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
+  integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
   dependencies:
-    follow-redirects "^1.15.0"
-    form-data "^4.0.0"
-    proxy-from-env "^1.1.0"
+    follow-redirects "^1.14.0"
 
 axobject-query@^2.2.0:
   version "2.2.0"
@@ -6163,7 +6161,7 @@ flow-parser@^0.121.0:
   resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.121.0.tgz#9f9898eaec91a9f7c323e9e992d81ab5c58e618f"
   integrity sha512-1gIBiWJNR0tKUNv8gZuk7l9rVX06OuLzY9AoGio7y/JT4V1IZErEMEq2TJS+PFcw/y0RshZ1J/27VfK1UQzYVg==
 
-follow-redirects@^1.15.0:
+follow-redirects@^1.14.0:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
@@ -6198,15 +6196,6 @@ form-data@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-3.0.1.tgz#ebd53791b78356a99af9a300d4282c4d5eb9755f"
   integrity sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==
-  dependencies:
-    asynckit "^0.4.0"
-    combined-stream "^1.0.8"
-    mime-types "^2.1.12"
-
-form-data@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
-  integrity sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
   dependencies:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
@@ -8677,12 +8666,12 @@ loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-lottie-ios@3.4.4:
-  version "3.4.4"
-  resolved "https://registry.yarnpkg.com/lottie-ios/-/lottie-ios-3.4.4.tgz#74452da6b309833e67c0bf20f2914f9310bb3a06"
-  integrity sha512-ikj8VNuClItRDZ8C9MfRMDxN0U/UIX3HRF2aei3H44F9Hkhwv0EIVRkBwG+SwS/WSoGmBzkcVG8O3BjPk5hW7Q==
+lottie-ios@3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/lottie-ios/-/lottie-ios-3.2.3.tgz#d5a029ccce611603d178ea7ba725c1446f2310b4"
+  integrity sha512-mubYMN6+1HXa8z3EJKBvNBkl4UoVM4McjESeB2PgvRMSngmJtC5yUMRdhbbrIAn5Liu3hFGao/14s5hQIgtkRQ==
 
-lottie-react-native@^4.0.3, lottie-react-native@^4.1.3:
+lottie-react-native@^4.0.3:
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/lottie-react-native/-/lottie-react-native-4.1.3.tgz#813579b09f5346d6ceae21fd954f44f8392f8943"
   integrity sha512-RgQrn1VYRXMV3YTZE9DgZy/UqNsMmZvzXBU4eEUWDOTY9cemOoWmCg2BHrL7nNtDJqtsu1Mi/6e8hp0yN2mcBA==
@@ -10345,14 +10334,14 @@ react-devtools-core@^4.6.0:
     shell-quote "^1.6.1"
     ws "^7"
 
-react-dom@17.0.2:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
-  integrity sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
+react-dom@17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.1.tgz#1de2560474ec9f0e334285662ede52dbc5426fc6"
+  integrity sha512-6eV150oJZ9U2t9svnsspTMrWNyHc6chX0KzDeAOXftRa8bNeOKTTfCJ7KorIwenkHd2xqVTBTCZd79yk/lx/Ug==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    scheduler "^0.20.2"
+    scheduler "^0.20.1"
 
 react-error-boundary@^3.1.0:
   version "3.1.4"
@@ -10438,10 +10427,10 @@ react-native-clarity@0.0.4:
   resolved "https://registry.yarnpkg.com/react-native-clarity/-/react-native-clarity-0.0.4.tgz#cf5a7a92b9e6b19d6d98a3d9efa19c9b2d8f193e"
   integrity sha512-aFOpuCNjdnywKm63hq2UhGBa2Q9W96DMi/K/lYU0aEFVd5g8jQQTigxS/qTPHK0WaZxIGyCkeyUPed5BaicEbw==
 
-react-native-code-push@7.0.5:
-  version "7.0.5"
-  resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-7.0.5.tgz#17b4fb4acc6ba6616a3cb650a7bf3be9e3075938"
-  integrity sha512-0+xqxHS7onpvE/pFvKB0rN/ijLzXgNGAnmC4THxiSPvlLY7EABzeOQh1XHCSNhIBiecnTjHG36Yb15luSuqBtQ==
+react-native-code-push@7.0.4:
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-7.0.4.tgz#13a9d3cc12bee24cb317defb6560caddcb937b71"
+  integrity sha512-zBCj1vUnyLCG6tt2x5rXzoyYjvgFVEpTnwJUFbs24C5TUKjRw6BJVq1bWsOQklEUWpFYoqhAaZXz/iq3pbqa7g==
   dependencies:
     code-push "^4.0.5"
     glob "^7.1.7"
@@ -10696,7 +10685,7 @@ react-native-view-shot@^3.1.2:
   resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-3.5.0.tgz#129e92b893aca25918c6ecddc08ff44f29d70c27"
   integrity sha512-+/a0zcEcCzAwuzQTU7CmwR1/bDcuy3Yj7093xI3Dhcjccb3FwxNiRyIBonsMSj3fQMmBcqV5d8DGCAeOJ5Ij3A==
 
-react-native-webview@^11.26.1:
+react-native-webview@^11.6.4:
   version "11.26.1"
   resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-11.26.1.tgz#658c09ed5162dc170b361e48c2dd26c9712879da"
   integrity sha512-hC7BkxOpf+z0UKhxFSFTPAM4shQzYmZHoELa6/8a/MspcjEP7ukYKpuSUTLDywQditT8yI9idfcKvfZDKQExGw==
@@ -10765,10 +10754,10 @@ react-test-renderer@17.0.1:
     react-shallow-renderer "^16.13.1"
     scheduler "^0.20.1"
 
-react@17.0.2:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
-  integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
+react@17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-17.0.1.tgz#6e0600416bd57574e3f86d92edba3d9008726127"
+  integrity sha512-lG9c9UuMHdcAexXtigOZLX8exLWkW0Ku29qPRU8uhF2R9BN96dLCt0psvzPLlHc5OWkgymP3qwTRgbnw5BKx3w==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -11244,7 +11233,7 @@ sax@>=0.6.0, sax@^1.2.4:
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
-scheduler@^0.20.1, scheduler@^0.20.2:
+scheduler@^0.20.1:
   version "0.20.2"
   resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.20.2.tgz#4baee39436e34aa93b4874bddcbf0fe8b8b50e91"
   integrity sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==
@@ -11965,7 +11954,7 @@ strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
-styled-components@^5.3.11:
+styled-components@^5.2.3:
   version "5.3.11"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-5.3.11.tgz#9fda7bf1108e39bf3f3e612fcc18170dedcd57a8"
   integrity sha512-uuzIIfnVkagcVHv9nE0VPlHPSCmXIUGKfJ42LNjxCCTDTL5sgnJ8Z7GZBq0EnLYGln77tPpEpExt2+qa+cZqSw==
