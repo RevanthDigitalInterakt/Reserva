@@ -1,11 +1,5 @@
 mutation orderFormRemoveDiscountCoupon($orderFormId: String!) {
     orderFormRemoveDiscountCoupon(input: { orderFormId:$orderFormId }) {
-        orderFormId
-        appTotalizers {
-            items
-            discount
-            delivery
-            total
-        }
+        ...orderFormFragment
     }
 }

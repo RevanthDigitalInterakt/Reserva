@@ -1,0 +1,197 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NotFoundProduct component should match with the snapshot 1`] = `
+<View
+  forwardedRef={[Function]}
+  style={
+    Object {
+      "elevation": 10,
+      "left": 0,
+      "position": "absolute",
+      "right": 0,
+      "transform": Array [
+        Object {
+          "translateY": -1334,
+        },
+      ],
+      "zIndex": 2,
+    }
+  }
+  testID="com.usereserva:id/NotFoundProduct_container"
+>
+  <View
+    alignItems="center"
+    bg="white"
+    boxShadow="topBarShadow"
+    flexDirection="row"
+    minHeight={60}
+    paddingLeft="xxxs"
+    paddingRight="xxxs"
+    py="micro"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#FFF",
+          "flexDirection": "row",
+          "minHeight": 60,
+          "paddingBottom": 12,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 12,
+          "shadowColor": "rgba(0,0,0,0.1)",
+          "shadowOffset": Object {
+            "height": 3,
+            "width": 0,
+          },
+          "shadowOpacity": 1,
+          "shadowRadius": 2,
+        },
+        Object {
+          "elevation": 10,
+        },
+      ]
+    }
+  >
+    <View
+      flex={1}
+      style={
+        Array [
+          Object {
+            "flexBasis": 0,
+            "flexGrow": 1,
+            "flexShrink": 1,
+          },
+        ]
+      }
+    >
+      <Text
+        color="preto"
+        fontFamily="nunitoRegular"
+        fontSize={13}
+        style={
+          Array [
+            Object {
+              "color": "#333333",
+              "fontFamily": "Nunito-Regular",
+              "fontSize": 13,
+            },
+          ]
+        }
+      >
+        Product not found
+      </Text>
+    </View>
+    <View
+      alignItems="center"
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+          },
+        ]
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "flexBasis": 0,
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "justifyContent": "center",
+            "opacity": 1,
+          }
+        }
+        testID="com.usereserva:id/NotFoundProduct_setProduct"
+      >
+        <RNSVGSvgView
+          bbHeight={15}
+          bbWidth={15}
+          color="preto"
+          focusable={false}
+          ml="xxxs"
+          size={15}
+          style={
+            Array [
+              Object {
+                "backgroundColor": "transparent",
+                "borderWidth": 0,
+              },
+              Array [
+                Object {
+                  "color": "#333333",
+                  "height": 15,
+                  "marginLeft": 16,
+                  "width": 15,
+                },
+              ],
+              Object {
+                "flex": 0,
+                "height": 15,
+                "width": 15,
+              },
+            ]
+          }
+        >
+          <RNSVGGroup>
+            <RNSVGSvgView
+              align="xMidYMid"
+              bbHeight="100%"
+              bbWidth="100%"
+              focusable={false}
+              height="100%"
+              meetOrSlice={0}
+              minX={0}
+              minY={0}
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  Array [
+                    Object {
+                      "height": "100%",
+                      "width": "100%",
+                    },
+                  ],
+                  Object {
+                    "flex": 0,
+                    "height": "100%",
+                    "width": "100%",
+                  },
+                ]
+              }
+              vbHeight={8.24}
+              vbWidth={8.242}
+              width="100%"
+            >
+              <RNSVGGroup>
+                <RNSVGPath
+                  d="M5.098 4.12l2.944-2.944A.69.69 0 007.066.2L4.122 3.144 1.178.2a.69.69 0 10-.976.976L3.146 4.12.202 7.064a.69.69 0 00.976.976l2.944-2.944L7.066 8.04a.69.69 0 00.976-.976z"
+                  fill={4281545523}
+                  propList={
+                    Array [
+                      "fill",
+                    ]
+                  }
+                />
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </RNSVGGroup>
+        </RNSVGSvgView>
+      </View>
+    </View>
+  </View>
+</View>
+`;

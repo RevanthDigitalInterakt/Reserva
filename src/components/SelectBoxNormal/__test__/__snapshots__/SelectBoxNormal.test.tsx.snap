@@ -42,6 +42,7 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
           "borderWidth": 1,
           "height": 22,
           "justifyContent": "center",
+          "marginRight": 0,
           "padding": 3,
           "width": 22,
         }
@@ -145,6 +146,7 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
           "alignSelf": "center",
           "backgroundColor": "#8D8D8D",
           "height": 30,
+          "marginHorizontal": 0,
           "marginTop": 30,
           "width": 1,
         }

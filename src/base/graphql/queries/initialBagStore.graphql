@@ -1,5 +1,0 @@
-query initialBagStore ($orderFormId: String!){
-    orderForm (input: { orderFormId: $orderFormId}) {
-       ...InitialOrderFormFragment
-    }
-}
