@@ -9,6 +9,18 @@ import {
 import PrimeSubscribe from '../PrimeSubscribe';
 import { mockPrimeData, addToCartMock } from '../../../../../../__mocks__/PrimeLP.mock';
 
+jest.mock('../../../../../zustand/useApolloFetchPolicyStore', () => ({
+  useApolloFetchPolicyStore: () => ({
+    getFetchPolicyPerKey: () => 'network-only',
+  }),
+}));
+
+jest.mock('../../../../../hooks/usePrimeInfo', () => ({
+  usePrimeInfo: () => ({
+    isPrime: false,
+  }),
+}));
+
 const TestingComponent = (
   <ThemeProvider theme={theme}>
     <PrimeSubscribe data={mockPrimeData} onAddToCart={addToCartMock} />

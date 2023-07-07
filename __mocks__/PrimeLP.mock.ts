@@ -9,6 +9,7 @@ export const mockPrimeData: PrimeDetailOutput = {
   monthlyCashback: 25,
   productId: 35126,
   productSeller: '1',
+  skuId: 348009,
 };
 
 export const addToCartMock = jest.fn();

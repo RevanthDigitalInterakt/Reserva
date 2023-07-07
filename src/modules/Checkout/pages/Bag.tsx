@@ -58,10 +58,13 @@ import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import ImageComponent from '../../../components/ImageComponent/ImageComponent';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { ProductHorizontalListCard } from '../../../components/ProductHorizontalListCard/ProductHorizontalListCard';
+import ProductListItemPrime from '../../../pages/Bag/components/ProductListItem/ProductListItemPrime';
 
 const screenWidth = Dimensions.get('window').width;
 
 const BoxAnimation = createAnimatableComponent(Box);
+
+const PRIME_SKU_ID = 348009;
 
 type Props = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -1093,140 +1096,188 @@ export const BagScreen = ({ route }: Props) => {
                             </Typography>
                           </Box>
                           )}
-                          <ProductHorizontalListCard
-                            discountApi={
-                              item.priceTags.find(
-                                (x) => x.identifier
-                                  === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
-                              )
-                                ? parseInt(`${item?.priceTags[0]?.rawValue}`, 10)
-                                : undefined
-                            }
-                            disableCounter={
-                              item.priceTags.find(
-                                (x) => x.identifier
-                                  === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
-                              )
-                              && array.filter((x) => x.uniqueId == item.uniqueId)
-                                .length > 1
-                            }
-                            currency="R$"
-                            discountTag={getPercent(
-                              item.sellingPrice,
-                              item.listPrice,
-                            )}
-                            itemColor={item?.skuName?.split('-')[0] || ''}
-                            ItemSize={item?.skuName?.split('-')[1] || ''}
-                            productTitle={item?.name?.split(' - ')[0] || ''}
-                            price={item.listPrice / 100}
-                            priceWithDiscount={
-                              item.sellingPrice !== 0
-                                ? item.sellingPrice / 100
-                                : 0
-                            }
-                            count={optimistQuantities[index]}
-                            testID={`com.usereserva:id/product_card_bag_${slugify(item.productId + item.skuName)}`}
-                            isGift={item.bundleItems.length > 0}
-                            isGiftable={item.offerings.some(
-                              (offering) => offering?.type === 'Embalagem pra Presente',
-                            )}
-                            handleToggleGift={(value) => handleToggleGiftCheckbox(
-                              value,
-                              index,
-                              item,
-                              orderForm,
-                            )}
-                            onClickAddCount={async (countUpdated) => {
-                              const itemIndex = array.findIndex(
-                                (x) => x.refId === item.refId,
-                              );
 
-                              const isAssinaturaSimples = item?.attachmentOfferings?.find(
-                                (x) => x.schema.aceito,
-                              )?.required || false;
-
-                              const quantities = isAssinaturaSimples
-                                ? 1
-                                : countUpdated;
-
-                              const addItemResponse = await addItem({
-                                quantity: quantities,
-                                itemId: item.id,
+                          {item.id === `${PRIME_SKU_ID}` ? (
+                            <ProductListItemPrime
+                              data={{
+                                id: item.id,
+                                isPrimeSubscription: true,
+                                productId: item.productId,
+                                quantity: item.quantity,
                                 seller: item.seller,
-                                index,
-                                hasBundleItems: !!item.bundleItems?.length,
-                                isUpdate: true,
-                              });
-
-                              if (!addItemResponse?.ok) {
-                                const erros = errorsMessages?.filter((erro) => erro.includes(item.name));
-                                setNoProduct(erros[0]);
-                              } else if (!isAssinaturaSimples) {
-                                setOptimistQuantities([
-                                  ...optimistQuantities.slice(0, itemIndex),
-                                  countUpdated,
-                                  ...optimistQuantities.slice(itemIndex + 1),
-                                ]);
-                              } else {
-                                await addAttachmentsInProducts();
-                              }
-                            }}
-                            onClickSubCount={async (count) => {
-                              const prevCont = optimistQuantities[index];
-                              if (prevCont <= 1) {
+                                price: item.price,
+                                __typename: 'OrderformItemOutput',
+                                hasPrimeDiscount: false,
+                                isAssinaturaSimples: false,
+                                name: item.name,
+                                isAddedAsGift: false,
+                                discountPercent: 0,
+                                disableCounter: true,
+                                discountApi: 0,
+                                isGift: false,
+                                giftOfferingId: '',
+                                imageSource: item.imageUrl
+                                  .replace('http', 'https')
+                                  .split('-55-55')
+                                  .join(''),
+                                itemColor: '',
+                                key: '',
+                                itemSize: '',
+                                listPrice: item.listPrice,
+                                isGiftable: false,
+                                priceWithDiscount: item.sellingPrice !== 0
+                                  ? item.sellingPrice / 100
+                                  : 0,
+                                productCategories: [],
+                                productTitle: '',
+                                sellingPrice: item.sellingPrice,
+                                skuName: '',
+                                showFirstPurchaseDiscountMessage: '',
+                                showTotalDiscountFirstPurchaseValue: 0,
+                                uniqueId: '',
+                              }}
+                              onDelete={() => {
                                 setShowModal(true);
                                 setRemoveProduct({
-                                  id: item.id,
+                                  id: item?.id,
                                   index,
-                                  seller: item.seller,
+                                  seller: item?.seller,
                                 });
-                              } else {
-                                setOptimistQuantities([
-                                  ...optimistQuantities.slice(0, index),
-                                  count,
-                                  ...optimistQuantities.slice(index + 1),
-                                ]);
-                                const { ok } = await removeItem(
-                                  item.id,
-                                  index,
-                                  item.seller,
-                                  item.quantity - 1,
+                              }}
+                              onPress={() => navigation.navigate('PrimeLP')}
+                            />
+                          ) : (
+                            <ProductHorizontalListCard
+                              discountApi={
+                                item.priceTags.find(
+                                  (x) => x.identifier
+                                    === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
+                                )
+                                  ? parseInt(`${item?.priceTags[0]?.rawValue}`, 10)
+                                  : undefined
+                              }
+                              disableCounter={
+                                item.priceTags.find(
+                                  (x) => x.identifier
+                                    === 'd51ad0ed-150b-4ed6-92de-6d025ea46368',
+                                )
+                                && array.filter((x) => x.uniqueId == item.uniqueId)
+                                  .length > 1
+                              }
+                              currency="R$"
+                              discountTag={getPercent(
+                                item.sellingPrice,
+                                item.listPrice,
+                              )}
+                              itemColor={item?.skuName?.split('-')[0] || ''}
+                              ItemSize={item?.skuName?.split('-')[1] || ''}
+                              productTitle={item?.name?.split(' - ')[0] || ''}
+                              price={item.listPrice / 100}
+                              priceWithDiscount={item.sellingPrice !== 0 ? item.sellingPrice / 100 : 0}
+                              count={optimistQuantities[index]}
+                              testID={`com.usereserva:id/product_card_bag_${slugify(item.productId + item.skuName)}`}
+                              isGift={item.bundleItems.length > 0}
+                              isGiftable={item.offerings.some(
+                                (offering) => offering?.type === 'Embalagem pra Presente',
+                              )}
+                              handleToggleGift={(value) => handleToggleGiftCheckbox(
+                                value,
+                                index,
+                                item,
+                                orderForm,
+                              )}
+                              onClickAddCount={async (countUpdated) => {
+                                const itemIndex = array.findIndex(
+                                  (x) => x.refId === item.refId,
                                 );
-                                if (!ok) {
+
+                                const isAssinaturaSimples = item?.attachmentOfferings?.find(
+                                  (x) => x.schema.aceito,
+                                )?.required || false;
+
+                                const quantities = isAssinaturaSimples
+                                  ? 1
+                                  : countUpdated;
+
+                                const addItemResponse = await addItem({
+                                  quantity: quantities,
+                                  itemId: item.id,
+                                  seller: item.seller,
+                                  index,
+                                  hasBundleItems: !!item.bundleItems?.length,
+                                  isUpdate: true,
+                                });
+
+                                if (!addItemResponse?.ok) {
+                                  const erros = errorsMessages?.filter((erro) => erro.includes(item.name));
+                                  setNoProduct(erros[0]);
+                                } else if (!isAssinaturaSimples) {
+                                  setOptimistQuantities([
+                                    ...optimistQuantities.slice(0, itemIndex),
+                                    countUpdated,
+                                    ...optimistQuantities.slice(itemIndex + 1),
+                                  ]);
+                                } else {
+                                  await addAttachmentsInProducts();
+                                }
+                              }}
+                              onClickSubCount={async (count) => {
+                                const prevCont = optimistQuantities[index];
+                                if (prevCont <= 1) {
+                                  setShowModal(true);
+                                  setRemoveProduct({
+                                    id: item.id,
+                                    index,
+                                    seller: item.seller,
+                                  });
+                                } else {
                                   setOptimistQuantities([
                                     ...optimistQuantities.slice(0, index),
-                                    prevCont,
+                                    count,
                                     ...optimistQuantities.slice(index + 1),
                                   ]);
+                                  const { ok } = await removeItem(
+                                    item.id,
+                                    index,
+                                    item.seller,
+                                    item.quantity - 1,
+                                  );
+                                  if (!ok) {
+                                    setOptimistQuantities([
+                                      ...optimistQuantities.slice(0, index),
+                                      prevCont,
+                                      ...optimistQuantities.slice(index + 1),
+                                    ]);
+                                  }
                                 }
-                              }
-                            }}
-                            onClickClose={() => {
-                              setShowModal(true);
-                              setRemoveProduct({
-                                id: item?.id,
-                                index,
-                                seller: item?.seller,
-                              });
-                            }}
-                            imageSource={item?.imageUrl?.replace('http', 'https')?.split('-55-55')?.join('')}
-                            handleNavigateToProductDetail={() => {
-                              if (!item) return;
+                              }}
+                              onClickClose={() => {
+                                setShowModal(true);
+                                setRemoveProduct({
+                                  id: item?.id,
+                                  index,
+                                  seller: item?.seller,
+                                });
+                              }}
+                              imageSource={item?.imageUrl?.replace('http', 'https')?.split('-55-55')?.join('')}
+                              handleNavigateToProductDetail={() => {
+                                if (!item) return;
 
-                              EventProvider.logEvent('select_item', {
-                                item_list_id: item.productId,
-                                item_list_name: item.name,
-                              });
+                                EventProvider.logEvent('select_item', {
+                                  item_list_id: item.productId,
+                                  item_list_name: item.name,
+                                });
 
-                              navigation.navigate(
-                                'ProductDetail',
-                                createNavigateToProductParams({
-                                  productId: item.productId,
-                                  skuId: item.id,
-                                }),
-                              );
-                            }}
-                          />
+                                navigation.navigate(
+                                  'ProductDetail',
+                                  createNavigateToProductParams({
+                                    productId: item.productId,
+                                    skuId: item.id,
+                                  }),
+                                );
+                              }}
+                            />
+                          )}
 
                         </Box>
                     ),

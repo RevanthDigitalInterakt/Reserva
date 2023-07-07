@@ -2,56 +2,36 @@ import React from 'react';
 import { MockedProvider } from '@apollo/client/testing';
 import type { DocumentNode } from 'graphql';
 import {
-  fireEvent,
-  render, waitFor,
+  act, fireEvent, render, screen,
 } from '@testing-library/react-native';
 import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
-import { act } from '@testing-library/react-hooks';
-import { InitialBagStoreDocument, InitialBagStoreQuery } from '../../../base/graphql/generated';
+import {
+  OrderFormQuery,
+  OrderFormDocument,
+} from '../../../base/graphql/generated';
 import { orderFormMock } from '../components/ProductList/__mocks__/productListMock';
-import NewBag, { BagProps } from '../NewBag';
+import NewBag from '../NewBag';
 import 'react-native-gesture-handler/jestSetup';
 import '../components/ProductList';
 import * as useBagStore from '../../../zustand/useBagStore/useBagStore';
 import CartContextProvider from '../../../context/CartContext';
 import { mockCurrentOrderForm } from './__mocks__/mockCurrentOrderForm';
 
-const mockNavigation: BagProps['navigation'] = {
-  addListener: jest.fn(),
-  canGoBack: jest.fn(),
-  dangerouslyGetParent: jest.fn(),
-  dangerouslyGetState: jest.fn(),
-  dispatch: jest.fn(),
-  goBack: jest.fn(),
-  isFocused: jest.fn(),
-  navigate: jest.fn(),
-  pop: jest.fn(),
-  popToTop: jest.fn(),
-  push: jest.fn(),
-  removeListener: jest.fn(),
-  replace: jest.fn(),
-  reset: jest.fn(),
-  setOptions: jest.fn(),
-  setParams: jest.fn(),
-  getParent: jest.fn(),
-  getState: jest.fn(),
-};
-
 interface IApolloMock<T> {
   request: {
-    query: DocumentNode,
-    variables: object,
-  },
+    query: DocumentNode;
+    variables: object;
+  };
   result: {
-    data: T
-  }
+    data: T;
+  };
 }
 
-const apolloMocks: Array<IApolloMock<InitialBagStoreQuery>> = [
+const apolloMocks: Array<IApolloMock<OrderFormQuery>> = [
   {
     request: {
-      query: InitialBagStoreDocument,
+      query: OrderFormDocument,
       variables: {},
     },
     result: {
@@ -81,14 +61,7 @@ const Component = (
   <ThemeProvider theme={theme}>
     <MockedProvider mocks={apolloMocks} addTypename={false}>
       <CartContextProvider>
-        <NewBag
-          route={{
-            name: 'BagScreen',
-            params: { isProfileComplete: true, orderFormId: mockCurrentOrderForm.orderFormId },
-            key: 'teste',
-          }}
-          navigation={mockNavigation}
-        />
+        <NewBag />
       </CartContextProvider>
     </MockedProvider>
   </ThemeProvider>
@@ -96,6 +69,7 @@ const Component = (
 
 describe('NewBag', () => {
   beforeEach(() => {
+    jest.useFakeTimers({ legacyFakeTimers: true });
     jest.clearAllMocks();
   });
 
@@ -103,87 +77,210 @@ describe('NewBag', () => {
     jest.clearAllTimers();
   });
 
-  it('should match with the snapshot', async () => {
-    jest.spyOn(useBagStore, 'default').mockReturnValue({
+  it('should match with the snapshot', () => {
+    jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
+      actions: {
+        CLOSE_MODAL_DELETE_PRODUCT: jest.fn(),
+      },
+      appTotalizers: {
+        delivery: 0,
+        discount: 27,
+        items: 180,
+        total: 152,
+        __typename: 'OrderformAppTotalizersOutput',
+      },
       topBarLoading: false,
-      bagInfos: {
-        totalBagItems: 0,
+      items: mockCurrentOrderForm.items,
+      initialLoad: false,
+      initialized: true,
+      installmentInfo: {
+        __typename: 'OrderformInstallmentInfoOutput',
+        installmentPrice: 88,
+        installmentsNumber: 1,
+        totalPrice: 88,
       },
-      bagInitialLoad: false,
-      currentBagItems: [],
-      currentOrderForm: null,
-      shippingBar: {
-        loading: false,
-        sumPriceShipping: 0,
-        totalDelivery: 0,
+      productNotFound: 'Product Not found',
+      selectableGift: null,
+      deleteProductModal: {
+        show: false,
+        deleteInfo: {
+          index: 0,
+          product: {
+            __typename: 'OrderformItemOutput',
+            disableCounter: false,
+            discountApi: 0,
+            discountPercent: 60,
+            giftOfferingId: '211222',
+            id: '236953',
+            imageSource:
+              'https://lojausereserva.vteximg.com.br/arquivos/ids/6536635/0063187054_01.jpg?v=637744092183000000',
+            isAddedAsGift: false,
+            isAssinaturaSimples: false,
+            isGift: false,
+            isGiftable: true,
+            isPrimeSubscription: false,
+            itemColor: 'VERMELHO',
+            itemSize: 'M',
+            key: '236953-21900-8800-8800-8800-1-1-camiseta-estampada-netflix-chill-vermelho-m-',
+            listPrice: 21900,
+            name: 'CAMISETA ESTAMPADA NETFLIX CHILL VERMELHO - M',
+            price: 8800,
+            priceWithDiscount: 88,
+            productId: '34980',
+            productTitle: 'CAMISETA ESTAMPADA NETFLIX CHILL VERMELHO',
+            quantity: 1,
+            seller: '1',
+            sellingPrice: 8800,
+            showFirstPurchaseDiscountMessage: null,
+            showTotalDiscountFirstPurchaseValue: null,
+            skuName: 'VERMELHO - M',
+            uniqueId: 'FD10CC41F4B94E698633710AFDE70D31',
+          },
+        },
       },
-      productNotFound: [],
-      dispatch: jest.fn(),
-      selectableGift: {
-        showSelectableGift: false,
-      },
-    });
+    } as any);
 
-    const root = await waitFor(() => render(Component));
-    expect(root.toJSON()).toMatchSnapshot();
+    render(Component);
+
+    expect(screen.toJSON()).toMatchSnapshot();
   });
 
-  it('should render empty bag if current items has no length', async () => {
-    jest.spyOn(useBagStore, 'default').mockReturnValue({
+  it('should render empty bag if current items has no length', () => {
+    jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
+      actions: {
+        CLOSE_MODAL_DELETE_PRODUCT: jest.fn(),
+      },
+      appTotalizers: {
+        delivery: 0,
+        discount: 27,
+        items: 180,
+        total: 152,
+        __typename: 'OrderformAppTotalizersOutput',
+      },
       topBarLoading: false,
-      bagInfos: {
-        totalBagItems: 0,
-        totalBagItemsPrice: 0,
-        totalBagDiscountPrice: 0,
-        totalBagDeliveryPrice: 0,
+      items: [],
+      initialLoad: false,
+      initialized: true,
+      installmentInfo: {
+        __typename: 'OrderformInstallmentInfoOutput',
+        installmentPrice: 88,
+        installmentsNumber: 1,
+        totalPrice: 88,
       },
-      bagInitialLoad: false,
-      currentBagItems: [],
-      currentOrderForm: null,
-      shippingBar: {
-        loading: false,
-        sumPriceShipping: 0,
-        totalDelivery: 0,
+      productNotFound: 'Product Not found',
+      selectableGift: null,
+      deleteProductModal: {
+        show: false,
+        deleteInfo: {
+          index: 0,
+          product: {
+            __typename: 'OrderformItemOutput',
+            disableCounter: false,
+            discountApi: 0,
+            discountPercent: 60,
+            giftOfferingId: '211222',
+            id: '236953',
+            imageSource:
+              'https://lojausereserva.vteximg.com.br/arquivos/ids/6536635/0063187054_01.jpg?v=637744092183000000',
+            isAddedAsGift: false,
+            isAssinaturaSimples: false,
+            isGift: false,
+            isGiftable: true,
+            isPrimeSubscription: false,
+            itemColor: 'VERMELHO',
+            itemSize: 'M',
+            key: '236953-21900-8800-8800-8800-1-1-camiseta-estampada-netflix-chill-vermelho-m-',
+            listPrice: 21900,
+            name: 'CAMISETA ESTAMPADA NETFLIX CHILL VERMELHO - M',
+            price: 8800,
+            priceWithDiscount: 88,
+            productId: '34980',
+            productTitle: 'CAMISETA ESTAMPADA NETFLIX CHILL VERMELHO',
+            quantity: 1,
+            seller: '1',
+            sellingPrice: 8800,
+            showFirstPurchaseDiscountMessage: null,
+            showTotalDiscountFirstPurchaseValue: null,
+            skuName: 'VERMELHO - M',
+            uniqueId: 'FD10CC41F4B94E698633710AFDE70D31',
+          },
+        },
       },
-      productNotFound: [],
-      dispatch: jest.fn(),
-      selectableGift: {
-        showSelectableGift: false,
-      },
-    });
+    } as any);
 
-    const root = await waitFor(() => render(Component));
-    const emptyBag = root.getByTestId('com.usereserva:id/EmptyBag');
+    render(Component);
+
+    const emptyBag = screen.getByTestId('com.usereserva:id/EmptyBag');
+
     expect(emptyBag).toBeOnTheScreen();
   });
 
   it('should call handleNavigateToOffers when the EmptyBag button is pressed', async () => {
-    jest.spyOn(useBagStore, 'default').mockReturnValue({
+    jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
+      actions: {
+        CLOSE_MODAL_DELETE_PRODUCT: jest.fn(),
+      },
+      appTotalizers: {
+        delivery: 0,
+        discount: 27,
+        items: 180,
+        total: 152,
+        __typename: 'OrderformAppTotalizersOutput',
+      },
       topBarLoading: false,
-      bagInfos: {
-        totalBagItems: 0,
-        totalBagItemsPrice: 0,
-        totalBagDiscountPrice: 0,
-        totalBagDeliveryPrice: 0,
+      items: [],
+      initialLoad: false,
+      initialized: true,
+      installmentInfo: {
+        __typename: 'OrderformInstallmentInfoOutput',
+        installmentPrice: 88,
+        installmentsNumber: 1,
+        totalPrice: 88,
       },
-      bagInitialLoad: false,
-      currentBagItems: [],
-      currentOrderForm: mockCurrentOrderForm,
-      shippingBar: {
-        loading: false,
-        sumPriceShipping: 0,
-        totalDelivery: 0,
+      productNotFound: 'Product Not found',
+      selectableGift: null,
+      deleteProductModal: {
+        show: false,
+        deleteInfo: {
+          index: 0,
+          product: {
+            __typename: 'OrderformItemOutput',
+            disableCounter: false,
+            discountApi: 0,
+            discountPercent: 60,
+            giftOfferingId: '211222',
+            id: '236953',
+            imageSource:
+              'https://lojausereserva.vteximg.com.br/arquivos/ids/6536635/0063187054_01.jpg?v=637744092183000000',
+            isAddedAsGift: false,
+            isAssinaturaSimples: false,
+            isGift: false,
+            isGiftable: true,
+            isPrimeSubscription: false,
+            itemColor: 'VERMELHO',
+            itemSize: 'M',
+            key: '236953-21900-8800-8800-8800-1-1-camiseta-estampada-netflix-chill-vermelho-m-',
+            listPrice: 21900,
+            name: 'CAMISETA ESTAMPADA NETFLIX CHILL VERMELHO - M',
+            price: 8800,
+            priceWithDiscount: 88,
+            productId: '34980',
+            productTitle: 'CAMISETA ESTAMPADA NETFLIX CHILL VERMELHO',
+            quantity: 1,
+            seller: '1',
+            sellingPrice: 8800,
+            showFirstPurchaseDiscountMessage: null,
+            showTotalDiscountFirstPurchaseValue: null,
+            skuName: 'VERMELHO - M',
+            uniqueId: 'FD10CC41F4B94E698633710AFDE70D31',
+          },
+        },
       },
-      productNotFound: [],
-      dispatch: jest.fn(),
-      selectableGift: {
-        showSelectableGift: false,
-      },
-    });
+    } as any);
 
-    const root = await waitFor(() => render(Component));
+    render(Component);
 
-    const goToOffersButton = root.getByTestId('com.usereserva:id/button_going_shopping_empty_bag');
+    const goToOffersButton = screen.getByTestId('com.usereserva:id/button_going_shopping_empty_bag');
 
     await act(async () => {
       await fireEvent.press(goToOffersButton);
@@ -192,505 +289,77 @@ describe('NewBag', () => {
     expect(mockedNavigate).toHaveBeenCalledWith('Offers');
   });
 
-  it('should render new bag if has items', async () => {
-    jest.spyOn(useBagStore, 'default').mockReturnValue({
-      topBarLoading: false,
-      bagInfos: {
-        totalBagItems: 0,
-        totalBagItemsPrice: 0,
-        totalBagDiscountPrice: 0,
-        totalBagDeliveryPrice: 0,
-      },
-      bagInitialLoad: false,
-      currentBagItems: [{
-        productTitle: 'CAMISA ML SAMOA BRANCO',
-        itemColor: 'BRANCO',
-        itemSize: 'P',
-        isGift: false,
-        isGiftable: true,
-        imageSource: 'https://lojausereserva.vteximg.com.br/arquivos/ids/6413946/0054128014_01.jpg?v=637692018478770000',
-        key: '90368-39900-19929-19929-19929-1-1-camisa-ml-samoa-branco-p-',
-        isAssinaturaSimples: false,
-        priceWithDiscount: 199.29,
-        discountPercent: 50,
-        discountApi: 0,
-        showFirstPurchaseDiscountMessage: null,
-        showTotalDiscountFirstPurchaseValue: null,
-        price: 27900,
-        productId: '3239',
-        id: '90368',
-        listPrice: 39900,
-        giftOfferingId: '90310',
-        seller: '1',
-        skuName: 'BRANCO - P',
-        uniqueId: '52D9B57139FA4292909748AE8ED11774',
-        isAddedAsGift: false,
-        name: 'CAMISA ML SAMOA BRANCO - P',
-        quantity: 1,
-        disableCounter: false,
-        sellingPrice: 19929,
-      }],
-      currentOrderForm: mockCurrentOrderForm,
-      shippingBar: {
-        loading: false,
-        sumPriceShipping: 0,
-        totalDelivery: 0,
-      },
-      productNotFound: [],
-      dispatch: jest.fn(),
-      selectableGift: {
-        showSelectableGift: false,
-      },
-      couponInfo: {
-        seller: {
-          sellerName: '',
-          sellerCode: '',
-          sellerCouponError: false,
-        },
-        discount: {
-          discountCode: '',
-          discountCouponError: false,
-        },
-        installmentInfo: {
-          installmentPrice: 0,
-          installmentsNumber: 0,
-          totalPrice: 0,
-        },
-      },
-      getPriceWithDiscount: jest.fn().mockReturnValue(199.29000000000002),
-      deleteProductModal: {
-        show: false,
-        deleteInfo: {
-          product: [],
-          index: 1,
-        },
-      },
-      showLoadingModal: false,
-    });
-
-    const root = await waitFor(() => render(Component));
-
-    const newBag = root.getByTestId('com.usereserva:id/NewBag');
-    expect(newBag).toBeOnTheScreen();
-  });
-
   it('should call handleBackTopBarButtonPress when topBarBackButton is pressed', async () => {
-    jest.spyOn(useBagStore, 'default').mockReturnValue({
+    jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
+      actions: {
+        CLOSE_MODAL_DELETE_PRODUCT: jest.fn(),
+      },
+      appTotalizers: {
+        delivery: 0,
+        discount: 27,
+        items: 180,
+        total: 152,
+        __typename: 'OrderformAppTotalizersOutput',
+      },
       topBarLoading: false,
-      bagInfos: {
-        totalBagItems: 0,
-        totalBagItemsPrice: 0,
-        totalBagDiscountPrice: 0,
-        totalBagDeliveryPrice: 0,
+      items: mockCurrentOrderForm.items,
+      initialLoad: false,
+      initialized: true,
+      installmentInfo: {
+        __typename: 'OrderformInstallmentInfoOutput',
+        installmentPrice: 88,
+        installmentsNumber: 1,
+        totalPrice: 88,
       },
-      bagInitialLoad: false,
-      currentBagItems: [{
-        productTitle: 'CAMISA ML SAMOA BRANCO',
-        itemColor: 'BRANCO',
-        itemSize: 'P',
-        isGift: false,
-        isGiftable: true,
-        imageSource: 'https://lojausereserva.vteximg.com.br/arquivos/ids/6413946/0054128014_01.jpg?v=637692018478770000',
-        key: '90368-39900-19929-19929-19929-1-1-camisa-ml-samoa-branco-p-',
-        isAssinaturaSimples: false,
-        priceWithDiscount: 199.29,
-        discountPercent: 50,
-        discountApi: 0,
-        showFirstPurchaseDiscountMessage: null,
-        showTotalDiscountFirstPurchaseValue: null,
-        price: 27900,
-        productId: '3239',
-        id: '90368',
-        listPrice: 39900,
-        giftOfferingId: '90310',
-        seller: '1',
-        skuName: 'BRANCO - P',
-        uniqueId: '52D9B57139FA4292909748AE8ED11774',
-        isAddedAsGift: false,
-        name: 'CAMISA ML SAMOA BRANCO - P',
-        quantity: 1,
-        disableCounter: false,
-        sellingPrice: 19929,
-      }],
-      currentOrderForm: mockCurrentOrderForm,
-      shippingBar: {
-        loading: false,
-        sumPriceShipping: 0,
-        totalDelivery: 0,
-      },
-      productNotFound: [],
-      dispatch: jest.fn(),
-      selectableGift: {
-        showSelectableGift: false,
-      },
-      couponInfo: {
-        seller: {
-          sellerName: '',
-          sellerCode: '',
-          sellerCouponError: false,
-        },
-        discount: {
-          discountCode: '',
-          discountCouponError: false,
-        },
-        installmentInfo: {
-          installmentPrice: 0,
-          installmentsNumber: 0,
-          totalPrice: 0,
-        },
-      },
-      getPriceWithDiscount: jest.fn().mockReturnValue(199.29000000000002),
+      productNotFound: 'Product Not found',
+      selectableGift: null,
       deleteProductModal: {
         show: false,
         deleteInfo: {
-          product: [],
-          index: 1,
+          index: 0,
+          product: {
+            __typename: 'OrderformItemOutput',
+            disableCounter: false,
+            discountApi: 0,
+            discountPercent: 60,
+            giftOfferingId: '211222',
+            id: '236953',
+            imageSource:
+              'https://lojausereserva.vteximg.com.br/arquivos/ids/6536635/0063187054_01.jpg?v=637744092183000000',
+            isAddedAsGift: false,
+            isAssinaturaSimples: false,
+            isGift: false,
+            isGiftable: true,
+            isPrimeSubscription: false,
+            itemColor: 'VERMELHO',
+            itemSize: 'M',
+            key: '236953-21900-8800-8800-8800-1-1-camiseta-estampada-netflix-chill-vermelho-m-',
+            listPrice: 21900,
+            name: 'CAMISETA ESTAMPADA NETFLIX CHILL VERMELHO - M',
+            price: 8800,
+            priceWithDiscount: 88,
+            productId: '34980',
+            productTitle: 'CAMISETA ESTAMPADA NETFLIX CHILL VERMELHO',
+            quantity: 1,
+            seller: '1',
+            sellingPrice: 8800,
+            showFirstPurchaseDiscountMessage: null,
+            showTotalDiscountFirstPurchaseValue: null,
+            skuName: 'VERMELHO - M',
+            uniqueId: 'FD10CC41F4B94E698633710AFDE70D31',
+          },
         },
       },
-      showLoadingModal: false,
-    });
+    } as any);
 
-    const root = await waitFor(() => render(Component));
+    render(Component);
 
-    const topBarBackButton = root.getAllByTestId('com.usereserva:id/top_bar_button_go_back');
+    const topBarBackButton = screen.getAllByTestId('com.usereserva:id/top_bar_button_go_back');
 
     await act(async () => {
       await topBarBackButton.forEach((button) => fireEvent.press(button));
     });
 
-    await waitFor(() => expect(mockGoBackFn).toBeCalled());
+    expect(mockGoBackFn).toBeCalled();
   });
-
-  it('should render BagSkeleton and SkeletonBagFooter if bagInitialLoad is true and bag has item', async () => {
-    jest.spyOn(useBagStore, 'default').mockReturnValue({
-      topBarLoading: false,
-      bagInfos: {
-        totalBagItems: 0,
-        totalBagItemsPrice: 0,
-        totalBagDiscountPrice: 0,
-        totalBagDeliveryPrice: 0,
-      },
-      bagInitialLoad: true,
-      currentBagItems: [{
-        productTitle: 'CAMISA ML SAMOA BRANCO',
-        itemColor: 'BRANCO',
-        itemSize: 'P',
-        isGift: false,
-        isGiftable: true,
-        imageSource: 'https://lojausereserva.vteximg.com.br/arquivos/ids/6413946/0054128014_01.jpg?v=637692018478770000',
-        key: '90368-39900-19929-19929-19929-1-1-camisa-ml-samoa-branco-p-',
-        isAssinaturaSimples: false,
-        priceWithDiscount: 199.29,
-        discountPercent: 50,
-        discountApi: 0,
-        showFirstPurchaseDiscountMessage: null,
-        showTotalDiscountFirstPurchaseValue: null,
-        price: 27900,
-        productId: '3239',
-        id: '90368',
-        listPrice: 39900,
-        giftOfferingId: '90310',
-        seller: '1',
-        skuName: 'BRANCO - P',
-        uniqueId: '52D9B57139FA4292909748AE8ED11774',
-        isAddedAsGift: false,
-        name: 'CAMISA ML SAMOA BRANCO - P',
-        quantity: 1,
-        disableCounter: false,
-        sellingPrice: 19929,
-      }],
-      currentOrderForm: null,
-      shippingBar: {
-        loading: false,
-        sumPriceShipping: 0,
-        totalDelivery: 0,
-      },
-      productNotFound: [],
-      dispatch: jest.fn(),
-      selectableGift: {
-        showSelectableGift: false,
-      },
-      couponInfo: {
-        seller: {
-          sellerName: '',
-          sellerCode: '',
-          sellerCouponError: false,
-        },
-        discount: {
-          discountCode: '',
-          discountCouponError: false,
-        },
-        installmentInfo: {
-          installmentPrice: 0,
-          installmentsNumber: 0,
-          totalPrice: 0,
-        },
-      },
-      getPriceWithDiscount: jest.fn().mockReturnValue(199.29000000000002),
-      deleteProductModal: {
-        show: false,
-        deleteInfo: {
-          product: [],
-          index: 1,
-        },
-      },
-      showLoadingModal: false,
-    });
-
-    const root = await render(Component);
-
-    const bagSkeleton = root.getByTestId('com.usereserva:id/BagSkeleton');
-    const skeletonBagFooter = root.getByTestId('com.usereserva:id/skeletonBagFooter_bag');
-
-    expect(bagSkeleton).toBeOnTheScreen();
-    expect(skeletonBagFooter).toBeOnTheScreen();
-  });
-
-  it('should render NotFoundProduct if bagInitialLoad is false and productNotFound has a length', async () => {
-    jest.spyOn(useBagStore, 'default').mockReturnValue({
-      topBarLoading: false,
-      bagInfos: {
-        totalBagItems: 0,
-        totalBagItemsPrice: 0,
-        totalBagDiscountPrice: 0,
-        totalBagDeliveryPrice: 0,
-      },
-      bagInitialLoad: false,
-      currentBagItems: [{
-        productTitle: 'CAMISA ML SAMOA BRANCO',
-        itemColor: 'BRANCO',
-        itemSize: 'P',
-        isGift: false,
-        isGiftable: true,
-        imageSource: 'https://lojausereserva.vteximg.com.br/arquivos/ids/6413946/0054128014_01.jpg?v=637692018478770000',
-        key: '90368-39900-19929-19929-19929-1-1-camisa-ml-samoa-branco-p-',
-        isAssinaturaSimples: false,
-        priceWithDiscount: 199.29,
-        discountPercent: 50,
-        discountApi: 0,
-        showFirstPurchaseDiscountMessage: null,
-        showTotalDiscountFirstPurchaseValue: null,
-        price: 27900,
-        productId: '3239',
-        id: '90368',
-        listPrice: 39900,
-        giftOfferingId: '90310',
-        seller: '1',
-        skuName: 'BRANCO - P',
-        uniqueId: '52D9B57139FA4292909748AE8ED11774',
-        isAddedAsGift: false,
-        name: 'CAMISA ML SAMOA BRANCO - P',
-        quantity: 1,
-        disableCounter: false,
-        sellingPrice: 19929,
-      }],
-      currentOrderForm: mockCurrentOrderForm,
-      shippingBar: {
-        loading: false,
-        sumPriceShipping: 0,
-        totalDelivery: 0,
-      },
-      productNotFound: 'Produto não Encontrado',
-      dispatch: jest.fn(),
-      selectableGift: {
-        showSelectableGift: false,
-      },
-      couponInfo: {
-        seller: {
-          sellerName: '',
-          sellerCode: '',
-          sellerCouponError: false,
-        },
-        discount: {
-          discountCode: '',
-          discountCouponError: false,
-        },
-        installmentInfo: {
-          installmentPrice: 0,
-          installmentsNumber: 0,
-          totalPrice: 0,
-        },
-      },
-      getPriceWithDiscount: jest.fn().mockReturnValue(199.29000000000002),
-      deleteProductModal: {
-        show: false,
-        deleteInfo: {
-          product: [],
-          index: 1,
-        },
-      },
-      showLoadingModal: false,
-    });
-
-    const root = await waitFor(() => render(Component));
-
-    const notFoundProduct = root.getByTestId('com.usereserva:id/NotFoundProduct_container');
-    expect(notFoundProduct).toBeOnTheScreen();
-  });
-
-  it('should render bag itens details if bagInitialLoad is false', async () => {
-    jest.spyOn(useBagStore, 'default').mockReturnValue({
-      topBarLoading: false,
-      bagInfos: {
-        totalBagItems: 0,
-        totalBagItemsPrice: 0,
-        totalBagDiscountPrice: 0,
-        totalBagDeliveryPrice: 0,
-      },
-      bagInitialLoad: false,
-      currentBagItems: [{
-        productTitle: 'CAMISA ML SAMOA BRANCO',
-        itemColor: 'BRANCO',
-        itemSize: 'P',
-        isGift: false,
-        isGiftable: true,
-        imageSource: 'https://lojausereserva.vteximg.com.br/arquivos/ids/6413946/0054128014_01.jpg?v=637692018478770000',
-        key: '90368-39900-19929-19929-19929-1-1-camisa-ml-samoa-branco-p-',
-        isAssinaturaSimples: false,
-        priceWithDiscount: 199.29,
-        discountPercent: 50,
-        discountApi: 0,
-        showFirstPurchaseDiscountMessage: null,
-        showTotalDiscountFirstPurchaseValue: null,
-        price: 27900,
-        productId: '3239',
-        id: '90368',
-        listPrice: 39900,
-        giftOfferingId: '90310',
-        seller: '1',
-        skuName: 'BRANCO - P',
-        uniqueId: '52D9B57139FA4292909748AE8ED11774',
-        isAddedAsGift: false,
-        name: 'CAMISA ML SAMOA BRANCO - P',
-        quantity: 1,
-        disableCounter: false,
-        sellingPrice: 19929,
-      }],
-      currentOrderForm: null,
-      shippingBar: {
-        loading: false,
-        sumPriceShipping: 0,
-        totalDelivery: 0,
-      },
-      productNotFound: [],
-      dispatch: jest.fn(),
-      selectableGift: {
-        showSelectableGift: false,
-      },
-      couponInfo: {
-        seller: {
-          sellerName: '',
-          sellerCode: '',
-          sellerCouponError: false,
-        },
-        discount: {
-          discountCode: '',
-          discountCouponError: false,
-        },
-        installmentInfo: {
-          installmentPrice: 0,
-          installmentsNumber: 0,
-          totalPrice: 0,
-        },
-      },
-      getPriceWithDiscount: jest.fn().mockReturnValue(199.29000000000002),
-      deleteProductModal: {
-        show: false,
-        deleteInfo: {
-          product: [],
-          index: 1,
-        },
-      },
-      showLoadingModal: false,
-    });
-
-    const root = await waitFor(() => render(Component));
-
-    const bagItensDetails = root.getByTestId('com.usereserva:id/BagItensDetails');
-
-    expect(bagItensDetails).toBeOnTheScreen();
-  });
-
-  it('should render bagFooter if bagInitialLoad is false and currentBagItems has items',
-    async () => {
-      jest.spyOn(useBagStore, 'default').mockReturnValue({
-        topBarLoading: false,
-        bagInfos: {
-          totalBagItems: 0,
-          totalBagItemsPrice: 0,
-          totalBagDiscountPrice: 0,
-          totalBagDeliveryPrice: 0,
-        },
-        bagInitialLoad: false,
-        currentBagItems: [{
-          productTitle: 'CAMISA ML SAMOA BRANCO',
-          itemColor: 'BRANCO',
-          itemSize: 'P',
-          isGift: false,
-          isGiftable: true,
-          imageSource: 'https://lojausereserva.vteximg.com.br/arquivos/ids/6413946/0054128014_01.jpg?v=637692018478770000',
-          key: '90368-39900-19929-19929-19929-1-1-camisa-ml-samoa-branco-p-',
-          isAssinaturaSimples: false,
-          priceWithDiscount: 199.29,
-          discountPercent: 50,
-          discountApi: 0,
-          showFirstPurchaseDiscountMessage: null,
-          showTotalDiscountFirstPurchaseValue: null,
-          price: 27900,
-          productId: '3239',
-          id: '90368',
-          listPrice: 39900,
-          giftOfferingId: '90310',
-          seller: '1',
-          skuName: 'BRANCO - P',
-          uniqueId: '52D9B57139FA4292909748AE8ED11774',
-          isAddedAsGift: false,
-          name: 'CAMISA ML SAMOA BRANCO - P',
-          quantity: 1,
-          disableCounter: false,
-          sellingPrice: 19929,
-        }],
-        currentOrderForm: mockCurrentOrderForm,
-        shippingBar: {
-          loading: false,
-          sumPriceShipping: 0,
-          totalDelivery: 0,
-        },
-        productNotFound: 'Produto não Encontrado',
-        dispatch: jest.fn(),
-        selectableGift: {
-          showSelectableGift: false,
-        },
-        couponInfo: {
-          seller: {
-            sellerName: '',
-            sellerCode: '',
-            sellerCouponError: false,
-          },
-          discount: {
-            discountCode: '',
-            discountCouponError: false,
-          },
-          installmentInfo: {
-            installmentPrice: 0,
-            installmentsNumber: 0,
-            totalPrice: 0,
-          },
-        },
-        getPriceWithDiscount: jest.fn().mockReturnValue(199.29000000000002),
-        deleteProductModal: {
-          show: false,
-          deleteInfo: {
-            product: [],
-            index: 1,
-          },
-        },
-        showLoadingModal: false,
-      });
-
-      const root = await waitFor(() => render(Component));
-
-      const bagFooterButton = root.getByTestId('com.usereserva:id/bag_button_go_to_delivery');
-      expect(bagFooterButton).toBeOnTheScreen();
-    });
 });

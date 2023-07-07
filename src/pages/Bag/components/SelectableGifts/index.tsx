@@ -1,34 +1,48 @@
-/* eslint-disable-file */
-
 import {
   Box, Button, Icon, RadioButtons, Typography,
 } from '@usereservaapp/reserva-ui';
-import { Dimensions, Platform, ScrollView } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
+import { Platform, ScrollView } from 'react-native';
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import { createAnimatableComponent } from 'react-native-animatable';
 import { platformType } from '../../../../utils/platformType';
-import useBagStore from '../../../../zustand/useBagStore/useBagStore';
+import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import type { Maybe, OrderformSelectableGiftOptionOutput } from '../../../../base/graphql/generated';
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
 
-const screenWidth = Dimensions.get('window').width;
 const BoxAnimation = createAnimatableComponent(Box);
-const fontTitle = screenWidth * (Platform.OS === platformType.ANDROID ? 0.0352 : 0.036);
-const subtitle = screenWidth * 0.032;
 
-const getArrayColors = (
-  itemsInfo: Array<Maybe<OrderformSelectableGiftOptionOutput>>,
-): Set<string> => {
+const fontTitlePerPlatform = (Platform.OS === platformType.ANDROID ? 0.0352 : 0.036);
+const fontTitle = configDeviceSizes.DEVICE_WIDTH * fontTitlePerPlatform;
+const subtitle = configDeviceSizes.DEVICE_WIDTH * 0.032;
+
+function getArrayColors(itemsInfo: Array<Maybe<OrderformSelectableGiftOptionOutput>>): Set<string> {
   const colors = itemsInfo.map((itemInfo) => itemInfo?.color || '');
+
   return new Set(colors);
-};
+}
 
 export default function SelectableGifts() {
   const [showMoreSizes, setShowMoreSizes] = useState<boolean>(false);
   const [giftSizeList, setGiftSizeList] = useState<Array<string>>([]);
 
-  const { selectableGiftInfo, dispatch } = useBagStore();
-  const giftImage = React.useMemo(() => selectableGiftInfo.selectableGift?.currentSelectableGift.imageUrl?.replace('http', 'https')?.split('-55-55')?.join(''), [selectableGiftInfo.selectableGift?.currentSelectableGift]);
+  const {
+    currentSelectedColorGift,
+    currentSelectedGiftSize,
+    selectableGift,
+    actions,
+  } = useBagStore([
+    'selectableGift',
+    'currentSelectedGiftSize',
+    'currentSelectedColorGift',
+    'actions',
+  ]);
+
+  const giftImage = useMemo(() => (
+    selectableGift?.currentSelectableGift.imageUrl?.replace('http', 'https')?.split('-55-55')?.join('')
+  ), [selectableGift?.currentSelectableGift]);
 
   const handleGenerateAndSetGiftSizeList = useCallback(({
     currentColorSelected,
@@ -49,84 +63,65 @@ export default function SelectableGifts() {
   }, [setGiftSizeList]);
 
   const handleSelectedGiftColor = useCallback(({ color }: { color: string }) => {
-    dispatch({
-      actionType: 'HANDLE_SELECT_GIFT_SIZE_AND_COLOR',
-      payload: {
-        value: {
-          giftSize: '',
-          giftColor: color,
-        },
-      },
-    });
-  }, [dispatch]);
+    actions.SELECT_GIFT(color, '');
+  }, [actions]);
 
   const handleAddGift = useCallback((giftId: string) => {
-    const gift = selectableGiftInfo.selectableGift?.availableGifts.find(
+    const gift = selectableGift?.availableGifts.find(
       (giftItem) => giftItem.id === giftId,
     );
 
-    if (!gift) return;
+    if (!gift || !selectableGift?.id) return;
 
-    dispatch({
-      actionType: 'HANDLE_ADD_AVAILABLE_GIFT',
-      payload: {
-        value: {
-          gift,
-          giftId: selectableGiftInfo.selectableGift?.id,
-        },
-      },
-    });
-  }, [dispatch, selectableGiftInfo.selectableGift]);
+    actions.ADD_AVAILABLE_GIFT(gift, selectableGift?.id);
+  }, [actions, selectableGift]);
 
   const handleSelectGiftSize = useCallback(({ size }: { size: string | number }) => {
-    const giftToAddOrderForm = selectableGiftInfo.selectableGift?.giftOptions.find(
+    const giftToAddOrderForm = selectableGift?.giftOptions.find(
       (giftOption) => giftOption?.color
-      === selectableGiftInfo.currentSelectedColorGift && giftOption.size === size,
+      === currentSelectedColorGift && giftOption.size === size,
     );
 
     if (!giftToAddOrderForm) return;
 
     handleAddGift(giftToAddOrderForm.id);
-  }, [
-    selectableGiftInfo,
-    handleAddGift,
-  ]);
+  }, [currentSelectedColorGift, handleAddGift, selectableGift?.giftOptions]);
 
   useEffect(() => {
     handleGenerateAndSetGiftSizeList({
-      currentColorSelected: selectableGiftInfo.currentSelectedColorGift,
-      giftOptions: selectableGiftInfo.selectableGift?.giftOptions || [],
+      currentColorSelected: currentSelectedColorGift,
+      giftOptions: selectableGift?.giftOptions || [],
     });
   }, [
-    selectableGiftInfo.currentSelectedColorGift,
+    currentSelectedColorGift,
     handleGenerateAndSetGiftSizeList,
-    selectableGiftInfo.selectableGift?.giftOptions,
+    selectableGift?.giftOptions,
   ]);
 
   useEffect(() => {
-    if (selectableGiftInfo.selectableGift?.currentSelectableGift) {
-      const currentColorSelected = selectableGiftInfo.selectableGift.currentSelectableGift.skuName.split('-')[0]?.trim() || '';
+    if (selectableGift?.currentSelectableGift) {
+      const currentColorSelected = selectableGift.currentSelectableGift.skuName.split('-')[0]?.trim() || '';
 
       handleGenerateAndSetGiftSizeList({
         currentColorSelected,
-        giftOptions: selectableGiftInfo.selectableGift.giftOptions,
+        giftOptions: selectableGift.giftOptions,
       });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (selectableGiftInfo.selectableGift?.currentSelectableGift.isSelected === false) {
-      handleAddGift(selectableGiftInfo.selectableGift.currentSelectableGift.id);
+    if (selectableGift?.currentSelectableGift.isSelected === false) {
+      handleAddGift(selectableGift.currentSelectableGift.id);
     }
-  }, [selectableGiftInfo.selectableGift?.currentSelectableGift, handleAddGift]);
+  }, [selectableGift?.currentSelectableGift, handleAddGift]);
 
   return (
     <Box flexDirection="row" minHeight={152} mt="xxs">
       {giftImage && (
       <ImageComponent
         source={{ uri: giftImage }}
-        width={screenWidth * 0.25}
+        width={configDeviceSizes.DEVICE_WIDTH * 0.25}
         height={152}
       />
       )}
@@ -161,7 +156,7 @@ export default function SelectableGifts() {
                 {' '}
                 1
                 {' '}
-                {selectableGiftInfo.selectableGift?.currentSelectableGift.name?.split('-')[0]?.trim()}
+                {selectableGift?.currentSelectableGift.name?.split('-')[0]?.trim()}
               </Typography>
             </Typography>
           </Box>
@@ -172,7 +167,7 @@ export default function SelectableGifts() {
               flexDirection="row"
             >
               {[...getArrayColors(
-                selectableGiftInfo.selectableGift?.giftOptions || [],
+                selectableGift?.giftOptions || [],
               )].map((colorItem, index) => (
                 <Button
                   key={`${colorItem}_btn`}
@@ -182,15 +177,15 @@ export default function SelectableGifts() {
                     borderWidth="hairline"
                     borderColor="divider"
                     borderRadius="pico"
-                    height={screenWidth * 0.06}
-                    bg={selectableGiftInfo.currentSelectedColorGift === colorItem ? 'preto' : 'white'}
+                    height={configDeviceSizes.DEVICE_WIDTH * 0.06}
+                    bg={currentSelectedColorGift === colorItem ? 'preto' : 'white'}
                     alignItems="center"
                     justifyContent="center"
                     paddingX="nano"
                     marginRight={index < colorItem.length ? 'micro' : null}
                   >
                     <Typography
-                      color={selectableGiftInfo.currentSelectedColorGift === colorItem ? 'white' : 'preto'}
+                      color={currentSelectedColorGift === colorItem ? 'white' : 'preto'}
                       fontFamily="reservaSansBold"
                       fontSize={10.3}
                     >
@@ -236,16 +231,10 @@ export default function SelectableGifts() {
                 <Icon
                   style={
                     showMoreSizes
-                      ? {
-                        transform: [{ rotate: '-90deg' }],
-                      }
+                      ? { transform: [{ rotate: '-90deg' }] }
                       : { transform: [{ translateY: 4 }] }
                   }
-                  name={
-                    showMoreSizes
-                      ? 'ChevronRight'
-                      : 'ArrowDown'
-                  }
+                  name={showMoreSizes ? 'ChevronRight' : 'ArrowDown'}
                   color="preto"
                   marginLeft="nano"
                   size={12}
@@ -257,14 +246,14 @@ export default function SelectableGifts() {
           <Box flex={1} justifyContent="flex-end">
             <Box>
               <RadioButtons
-                size={screenWidth * 0.08}
+                size={configDeviceSizes.DEVICE_WIDTH * 0.08}
                 fontSize={11.5}
                 disbledOptions={[]}
                 onSelectedChange={(giftSize) => handleSelectGiftSize({ size: giftSize })}
                 optionsList={showMoreSizes ? giftSizeList : giftSizeList?.slice(0, 5)}
                 showMoreSizes={showMoreSizes}
                 defaultSelectedItem=""
-                selectedItem={selectableGiftInfo.currentSelectedGiftSize.trim()}
+                selectedItem={currentSelectedGiftSize.trim()}
               />
             </Box>
           </Box>

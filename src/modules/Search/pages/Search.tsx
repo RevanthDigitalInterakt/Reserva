@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  useCallback, useEffect, useMemo, useState,
+  useCallback, useEffect, useState,
 } from 'react';
 
 import { useLazyQuery } from '@apollo/client';
@@ -52,11 +52,10 @@ import { generateFacets } from '../../../utils/generateFacets';
 import { useCheckSearchRedirectLazyQuery } from '../../../base/graphql/generated';
 import DeepLinkPathModule from '../../../NativeModules/DeepLinkPathModule';
 import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
-import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
-import { useIsTester } from '../../../hooks/useIsTester';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import IconComponent from '../../../components/IconComponent/IconComponent';
+import { usePrimeInfo } from '../../../hooks/usePrimeInfo';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -94,21 +93,9 @@ export const SearchScreen: React.FC<Props> = () => {
 
   const { getItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
+  const { primeActive, primeLPSearchTerms } = usePrimeInfo();
 
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
-
-  const { getString, getBoolean } = useRemoteConfig();
-  const isTester = useIsTester();
-
-  const hasPrimeLandingPageRedirect = useMemo(() => (
-    getBoolean(isTester ? 'show_primelp_on_search_tester' : 'show_primelp_on_search')
-  ), [getBoolean, isTester]);
-
-  const primeLandingPageSearchTerms = useMemo(() => {
-    if (!hasPrimeLandingPageRedirect) return [];
-
-    return getString('primelp_terms_search')?.split('|');
-  }, [getString, hasPrimeLandingPageRedirect]);
 
   const [{ collectionData, loadingCollection }, setCollectionData] = useState({
     collectionData: null,
@@ -313,7 +300,7 @@ export const SearchScreen: React.FC<Props> = () => {
   const handleCheckSearchTerm = useCallback(async () => {
     const term = (debouncedSearchTerm || '').toLowerCase().trim();
 
-    if (hasPrimeLandingPageRedirect && primeLandingPageSearchTerms.includes(term)) {
+    if (primeActive && primeLPSearchTerms.includes(term)) {
       Keyboard.dismiss();
       navigation.navigate('PrimeLP');
       return;
@@ -332,8 +319,8 @@ export const SearchScreen: React.FC<Props> = () => {
     }
   }, [
     debouncedSearchTerm,
-    hasPrimeLandingPageRedirect,
-    primeLandingPageSearchTerms,
+    primeActive,
+    primeLPSearchTerms,
     getCheckSearchRedirect,
     getFetchPolicyPerKey,
     navigation,

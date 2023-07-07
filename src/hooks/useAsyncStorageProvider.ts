@@ -16,6 +16,7 @@ export interface IAsyncStorageKeys {
   'Auth:Token': string;
   'Auth:Cookie': string;
   'Auth:TokenRefreshTime': number;
+  'orderFormId': string;
 }
 
 type TStorageKey = keyof IAsyncStorageKeys;
