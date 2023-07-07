@@ -16,7 +16,7 @@
 
 ---
 
-### 2.0.3
+### 2.0.4
 
 - [SRN-257 - CPF obrigatório no cadastro](https://reserva.atlassian.net/browse/SRN-257)
 - [APP2022-1218 - BUG - Não exibe botão de voltar na bag vazia](https://reserva.atlassian.net/browse/APP2022-1218)
