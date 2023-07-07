@@ -802,6 +802,31 @@ export type PricePrimeInstallmentOutput = {
   value: Scalars['Float'];
 };
 
+export type PrimeConfigItemOutput = {
+  __typename?: 'PrimeConfigItemOutput';
+  id: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type PrimeConfigOutput = {
+  __typename?: 'PrimeConfigOutput';
+  brands: Array<PrimeConfigItemOutput>;
+  brandsAreInclusive: Scalars['Boolean'];
+  categories: Array<PrimeConfigItemOutput>;
+  categoriesAreInclusive: Scalars['Boolean'];
+  collections: Array<PrimeConfigItemOutput>;
+  collectionsIsInclusive: Scalars['Boolean'];
+  idCalculatorConfiguration: Scalars['String'];
+  idSeller: Scalars['String'];
+  idSellerIsInclusive: Scalars['Boolean'];
+  isActive: Scalars['Boolean'];
+  marketingTags: Array<PrimeConfigItemOutput>;
+  name: Scalars['String'];
+  percentualDiscountValue: Scalars['Int'];
+  totalValueCeling: Scalars['Int'];
+  totalValueFloor: Scalars['Int'];
+};
+
 export type PrimeDetailOutput = {
   __typename?: 'PrimeDetailOutput';
   discountFrom: Scalars['Float'];
@@ -812,6 +837,13 @@ export type PrimeDetailOutput = {
   productId: Scalars['Int'];
   productSeller: Scalars['String'];
   skuId: Scalars['Int'];
+};
+
+export type PrimeFaqOutput = {
+  __typename?: 'PrimeFaqOutput';
+  body: Scalars['String'];
+  id: Scalars['ID'];
+  title: Scalars['String'];
 };
 
 export type PrimeInfoOutput = {
@@ -1050,6 +1082,8 @@ export type Query = {
   order: OrderDetailOutput;
   orderForm: OrderformOutput;
   orders: OrderPaginationOutput;
+  primeConfig: PrimeConfigOutput;
+  primeFaq: Array<PrimeFaqOutput>;
   product: ProductOutput;
   productDeliveryTime: Array<ProductDeliveryTimeOutput>;
   productRecommendations: Array<ProductRecommendationOutput>;
@@ -1632,84 +1666,6 @@ export const OrderformSelectableGiftFragmentFragmentDoc = gql`
   }
 }
     ${AvailableGiftsFragmentFragmentDoc}`;
-export const OrderFormFragmentFragmentDoc = gql`
-    fragment orderFormFragment on OrderformOutput {
-  orderFormId
-  salesChannel
-  messages
-  clientProfileData {
-    email
-    firstName
-    lastName
-    document
-    documentType
-    phone
-    corporateName
-    tradeName
-    corporateDocument
-    stateInscription
-    corporatePhone
-    profileCompleteOnLoading
-  }
-  items {
-    ...OrderformItemFragment
-  }
-  selectableGift {
-    ...OrderformSelectableGiftFragment
-  }
-  marketingData {
-    coupon
-    sellerCoupon
-    sellerCouponName
-  }
-  shippingData {
-    address {
-      addressType
-      receiverName
-      addressId
-      isDisposable
-      postalCode
-      city
-      state
-      country
-      street
-      number
-      neighborhood
-      complement
-      reference
-    }
-    availableAddresses {
-      addressType
-      receiverName
-      addressId
-      isDisposable
-      postalCode
-      city
-      state
-      country
-      street
-      number
-      neighborhood
-      complement
-      reference
-    }
-  }
-  appTotalizers {
-    items
-    discount
-    delivery
-    total
-  }
-  installmentInfo {
-    installmentsNumber
-    installmentPrice
-    totalPrice
-  }
-  allItemsQuantity
-  hasPrimeSubscriptionInCart
-}
-    ${OrderformItemFragmentFragmentDoc}
-${OrderformSelectableGiftFragmentFragmentDoc}`;
 export const OrderFormFragmentFragmentDoc = gql`
     fragment orderFormFragment on OrderformOutput {
   orderFormId

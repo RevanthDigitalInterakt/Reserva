@@ -7,6 +7,7 @@ import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 export interface IShippingBar {
   totalOrder: number;
   loading: boolean;
+  isPrime: boolean;
 }
 
 export const ShippingBar = ({
