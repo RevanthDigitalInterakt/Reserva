@@ -42,7 +42,6 @@ const Checkout: React.FC<{}> = () => {
 
   const { profile } = useAuthStore(['profile']);
 
-
   useEffect(() => {
     EventProvider.logEvent('payment_step', {});
   }, []);

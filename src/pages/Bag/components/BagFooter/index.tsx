@@ -1,13 +1,13 @@
 import { Platform } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
 import analytics from '@react-native-firebase/analytics';
 import { platformType } from '../../../../utils/platformType';
 import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom';
-import useBagStore from '../../../../zustand/useBagStore/useBagStore';
+import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import {
   getAFContent,
   getAFContentId,
@@ -15,175 +15,139 @@ import {
   sumQuantity,
 } from '../../../../utils/checkoutInitiatedEvents';
 import EventProvider from '../../../../utils/EventProvider';
-import { useOrderFormRefreshDataMutation } from '../../../../base/graphql/generated';
 import { useCart } from '../../../../context/CartContext';
 import { getBrands } from '../../../../utils/getBrands';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 
-interface BagFooterParams {
-  isProfileComplete: boolean
-}
-export default function BagFooter({ isProfileComplete }: BagFooterParams) {
+export default function BagFooter() {
   const {
-    bagInfos,
-    currentOrderForm,
+    items,
+    orderFormId,
+    actions,
+    appTotalizers,
     topBarLoading,
     installmentInfo,
-    dispatch,
-    getPriceWithDiscount,
-  } = useBagStore();
-
-  const { restoreCart } = useCart();
+  } = useBagStore([
+    'orderFormId',
+    'appTotalizers',
+    'actions',
+    'topBarLoading',
+    'installmentInfo',
+    'items',
+  ]);
 
   const navigation = useNavigation();
-
-  const [navigateToDeliveryDisable, setNavigateToDeliveryDisable] = useState<boolean>(false);
+  const { restoreCart } = useCart();
   const { profile } = useAuthStore(['profile']);
 
-  const [refreshOrderForm, { loading: loadingRefresh }] = useOrderFormRefreshDataMutation({
-    context: { clientName: 'gateway' },
-    fetchPolicy: 'no-cache',
-  });
+  const [navigateToDeliveryDisable, setNavigateToDeliveryDisable] = useState<boolean>(false);
 
-  const validateFieldsProfile = useCallback(() => {
-    if (!profile) return false;
+  const bagInstallmentPrice = useMemo(() => {
+    const val = appTotalizers.total + appTotalizers.discount;
 
-    if (
-      profile?.firstName?.length === 0
-      || profile?.firstName === null
-      || profile?.lastName?.length === 0
-      || profile?.lastName === null
-      || profile?.birthDate?.length === 0
-      || profile?.birthDate === null
-      || profile?.homePhone?.length === 0
-      || profile?.homePhone === null
-      || profile?.document?.length === 0
-      || profile?.document === null
-      || profile?.gender?.length === 0
-      || profile?.gender === null
-    ) {
-      return true;
+    return val / installmentInfo.installmentsNumber;
+  }, [appTotalizers, installmentInfo]);
+
+  const onTrackCheckoutEvents = useCallback(() => {
+    try {
+      const { total, discount, delivery } = appTotalizers;
+
+      const newItems = items.map((item) => ({
+        price: (item.price / 100) || 0,
+        item_id: item.productId,
+        quantity: item.quantity,
+        item_name: item.name,
+        item_variant: item.skuName,
+        item_category: 'product',
+      }));
+
+      EventProvider.logEvent('begin_checkout', {
+        coupon: '',
+        currency: 'BRL',
+        items: newItems,
+        value: total + discount + delivery,
+        wbrand: getBrands(items),
+      });
+
+      appsFlyer.logEvent('af_initiated_checkout', {
+        af_content_type: 'product',
+        af_price: total + discount + delivery,
+        af_currency: 'BRL',
+        af_content_id: getAFContentId(items),
+        af_quantity: sumQuantity(items),
+        af_content: getAFContent(items),
+      });
+
+      const contentTypeItems = getAFContentType(items);
+      const contentIdsItems = getAFContentId(items);
+
+      analytics().logEvent('checkout_initiated', {
+        price: total + discount + delivery,
+        content_type: JSON.stringify(contentTypeItems),
+        content_ids: JSON.stringify(contentIdsItems),
+        currency: 'BRL',
+        quantity: getAFContent(items),
+      });
+    } catch (err) {
+      EventProvider.captureException(err);
     }
-    return false;
-  }, [profile]);
+  }, [appTotalizers, items]);
 
   const handleNavigateToDelivery = useCallback(async () => {
     setNavigateToDeliveryDisable(true);
 
-    const { unavailableItems } = await dispatch({
-      actionType: 'HANDLE_REMOVE_UNAVAILABLE_ITEMS',
-      payload: { value: {} },
-    });
+    if (!items?.length) return;
 
-    if (unavailableItems.error) {
-      setNavigateToDeliveryDisable(false);
+    if (!profile?.email) {
+      navigation.navigate('Login', { comeFrom: 'Checkout' });
       return;
     }
 
-    if (currentOrderForm?.items?.length) {
-      try {
-        const { items } = currentOrderForm;
-        const { totalBagItemsPrice, totalBagDiscountPrice, totalBagDeliveryPrice } = bagInfos;
+    if (!profile.isComplete) {
+      await restoreCart(orderFormId);
 
-        if (items.length) {
-          const newItems = items.map((item) => ({
-            price: (item.price / 100) || 0,
-            item_id: item.productId,
-            quantity: item.quantity,
-            item_name: item.name,
-            item_variant: item.skuName,
-            item_category: 'product',
-          }));
+      EventProvider.logEvent('complete_registration', {
+        registration_method: 'email',
+        custumer_email: profile?.email,
+      });
 
-          EventProvider.logEvent('begin_checkout', {
-            coupon: '',
-            currency: 'BRL',
-            items: newItems,
-            value: totalBagItemsPrice + totalBagDiscountPrice + totalBagDeliveryPrice,
-            wbrand: getBrands(currentOrderForm.items),
-          });
-        }
+      navigation.navigate('EditProfile', { isRegister: true });
+      return;
+    }
 
-        appsFlyer.logEvent('af_initiated_checkout', {
-          af_content_type: 'product',
-          af_price: totalBagItemsPrice + totalBagDiscountPrice + totalBagDeliveryPrice,
-          af_currency: 'BRL',
-          af_content_id: getAFContentId(currentOrderForm.items),
-          af_quantity: sumQuantity(currentOrderForm.items),
-          af_content: getAFContent(currentOrderForm.items),
-        });
+    try {
+      onTrackCheckoutEvents();
 
-        const contentTypeItems = getAFContentType(currentOrderForm.items);
-        const contentIdsItems = getAFContentId(currentOrderForm.items);
+      await actions.REMOVE_UNAVAILABLE_ITEMS();
 
-        await analytics().logEvent('checkout_initiated', {
-          price: totalBagItemsPrice + totalBagDiscountPrice + totalBagDeliveryPrice,
-          content_type: JSON.stringify(contentTypeItems),
-          content_ids: JSON.stringify(contentIdsItems),
-          currency: 'BRL',
-          quantity: getAFContent(currentOrderForm.items),
-        });
-      } catch (error) {
-        EventProvider.captureException(error);
-      }
+      await actions.REFRESH_ORDER_FORM();
 
-      if (!profile?.email) {
-        await restoreCart(currentOrderForm.orderFormId);
-        setNavigateToDeliveryDisable(false);
-        navigation.navigate('Login', { comeFrom: 'Checkout', previousPage: 'BagScreen' });
-        return;
-      }
-
-      const isEmptyProfile = validateFieldsProfile();
-
-      if (isEmptyProfile && !isProfileComplete) {
-        await restoreCart(currentOrderForm.orderFormId);
-        setNavigateToDeliveryDisable(false);
-
-        EventProvider.logEvent('complete_registration', {
-          registration_method: 'email',
-          custumer_email: profile?.email,
-        });
-
-        navigation.navigate('EditProfile', { isRegister: true });
-      } else {
-        try {
-          const { data: refreshResponse } = await refreshOrderForm({
-            variables: {
-              input: { orderFormId: currentOrderForm.orderFormId },
-            },
-          });
-
-          if (refreshResponse?.orderFormRefreshData.orderFormId) {
-            await restoreCart(currentOrderForm.orderFormId);
-            setNavigateToDeliveryDisable(false);
-            navigation.navigate('DeliveryScreen', {});
-            return;
-          }
-
-          throw new Error('Error on orderFormRefreshData [handleNavigateToDelivery]');
-        } catch (error) {
-          Sentry.withScope((scope) => {
-            scope.setExtra('currentOrderForm', currentOrderForm);
-            scope.addBreadcrumb({ message: 'Error [handleNavigateToDelivery]' });
-            Sentry.captureException(error);
-          });
-
-          setNavigateToDeliveryDisable(false);
-        }
-      }
+      await restoreCart(orderFormId);
+      navigation.navigate('DeliveryScreen', {});
+    } catch (error) {
+      Sentry.withScope((scope) => {
+        scope.setExtra('orderFormId', orderFormId);
+        scope.setExtra('items', items);
+        scope.addBreadcrumb({ message: 'Error [handleNavigateToDelivery]' });
+        Sentry.captureException(error);
+      });
+    } finally {
+      setNavigateToDeliveryDisable(false);
     }
   }, [
+    actions,
+    items,
     navigation,
+    onTrackCheckoutEvents,
+    orderFormId,
     profile?.email,
-    isProfileComplete,
-    currentOrderForm,
-    bagInfos,
-    dispatch,
+    profile?.isComplete,
     restoreCart,
-    validateFieldsProfile,
-    refreshOrderForm,
   ]);
+
+  if (!items?.length) {
+    return null;
+  }
 
   return (
     <Box
@@ -208,11 +172,11 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
             fontFamily="nunitoBold"
             sizeInterger={15}
             sizeDecimal={11}
-            num={bagInfos.totalBagItemsPrice + bagInfos.totalBagDiscountPrice}
+            num={appTotalizers.total + appTotalizers.discount}
           />
         </Box>
 
-        {bagInfos.totalBagItemsPrice > 0 && (
+        {appTotalizers.total > 0 && (
           <Box alignItems="flex-end">
             <Typography fontFamily="nunitoRegular" fontSize={13}>
               em até
@@ -233,7 +197,7 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
                 color="vermelhoRSV"
                 sizeInterger={15}
                 sizeDecimal={11}
-                num={getPriceWithDiscount({ calculateInstallments: true })}
+                num={bagInstallmentPrice}
               />
             </Box>
           </Box>
@@ -241,12 +205,11 @@ export default function BagFooter({ isProfileComplete }: BagFooterParams) {
       </Box>
 
       <Button
-        disabled={
-            !!(currentOrderForm && currentOrderForm?.items?.length === 0)
-            || topBarLoading
-            || navigateToDeliveryDisable
-            || loadingRefresh
-        }
+        disabled={(
+          items.length === 0
+          || topBarLoading
+          || navigateToDeliveryDisable
+        )}
         onPress={handleNavigateToDelivery}
         title="IR PARA ENTREGA"
         variant="primarioEstreito"

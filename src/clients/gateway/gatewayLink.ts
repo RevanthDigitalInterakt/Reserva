@@ -24,8 +24,7 @@ function extractOperationTransactionId(operation: Operation) {
 
 function trackApolloError(operation: Operation, errors: GraphQLErrors, response?: unknown) {
   try {
-    const [error] = errors;
-    const errorMessage = error?.message || `Gateway Operation Error [${operation.operationName}]`;
+    const errorMessage = `Gateway Operation Error [${operation.operationName}]`;
     const transactionId = extractOperationTransactionId(operation);
 
     Sentry.withScope((scope) => {

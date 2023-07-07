@@ -1,4 +1,5 @@
 /* eslint-disable global-require */
+/* mapping of images used as icons */
 export const commons = {
   foraDoAr: require('../../../assets/common/fora-do-ar.png'),
   topBannerMock1: require('../../../assets/common/topBannerMock1.png'),
@@ -64,6 +65,17 @@ export const commons = {
   emptyProductCatalog: require('../../../assets/common/emptyProductCatalog.png'),
 };
 
+/* mapping of svgs used as icons */
+export const svgs = {
+  logoPrime: require('../svgs/LogoPrime').default,
+};
+
+type TIconsKeys = keyof typeof commons;
+type TSVGsKeys = keyof typeof svgs;
+
+export type TIcons = TIconsKeys | TSVGsKeys;
+
 export default {
   ...commons,
+  ...svgs,
 };

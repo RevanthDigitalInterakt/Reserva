@@ -42,6 +42,7 @@ exports[`SelectBoxPrime should match with the snapshot 1`] = `
           "borderWidth": 1,
           "height": 22,
           "justifyContent": "center",
+          "marginRight": 0,
           "padding": 3,
           "width": 22,
         }
@@ -160,6 +161,7 @@ exports[`SelectBoxPrime should match with the snapshot 1`] = `
           "alignSelf": "center",
           "backgroundColor": "#8D8D8D",
           "height": 30,
+          "marginHorizontal": 0,
           "marginTop": 30,
           "width": 1,
         }
@@ -295,6 +297,7 @@ exports[`SelectBoxPrime should match with the snapshot 1`] = `
                 "imageNotFound": [Circular],
                 "instagram": [Circular],
                 "localReserva": [Circular],
+                "logoPrime": [Function],
                 "logoQRCode": [Circular],
                 "mastercard": [Circular],
                 "noStoresFound": [Circular],
@@ -316,6 +319,9 @@ exports[`SelectBoxPrime should match with the snapshot 1`] = `
                 "whatsapp": [Circular],
                 "withoutInternet": [Circular],
                 "zoomHand": [Circular],
+              },
+              "svgs": Object {
+                "logoPrime": [Function],
               },
             }
           }
@@ -344,7 +350,8 @@ exports[`SelectBoxPrime should match with the snapshot 1`] = `
                 "fontFamily": "ReservaSans-Italic",
               },
               Object {
-                "color": "white",
+                "color": "#ffffff",
+                "fontSize": 15,
               },
             ]
           }
@@ -365,7 +372,7 @@ exports[`SelectBoxPrime should match with the snapshot 1`] = `
           >
              
             R$
-            29
+            29.00
           </Text>
         </Text>
       </View>
@@ -379,7 +386,7 @@ exports[`SelectBoxPrime should match with the snapshot 1`] = `
               "marginTop": 4,
             },
             Object {
-              "marginLeft": -50,
+              "marginLeft": -40,
             },
           ]
         }

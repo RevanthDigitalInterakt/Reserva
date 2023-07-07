@@ -22,6 +22,8 @@ import {
 } from '../../../base/graphql/generated';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { ModalClientIsPrime } from '../components/ModalClientIsPrime/ModalClientIsPrime';
+import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
+import { usePrimeInfo } from '../../../hooks/usePrimeInfo';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 
@@ -34,6 +36,12 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
     identifyCustomer,
   } = useCart();
   const { profile } = useAuthStore(['profile']);
+  const { items, hasPrimeSubscriptionInCart, actions } = useBagStore([
+    'items',
+    'actions',
+    'hasPrimeSubscriptionInCart',
+  ]);
+
   const [Permission, setPermission] = useState(false);
   const [mapPermission, setMapPermission] = useState(false);
   const [shippingValue, setShippingValue] = useState(0);
@@ -46,6 +54,8 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   const [selectMethodDelivery, setSelectMethodDelivery] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isUserPrimeWithPrimeOnBag, setIsUserPrimeWithPrimeOnBag] = useState(false);
+
+  const { primeActive } = usePrimeInfo();
 
   const [profileAddress] = useProfileAddressMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
@@ -60,6 +70,24 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
       identifyCustomer();
     }, []),
   );
+
+  const onCheckPrime = useCallback(async () => {
+    if (profile?.isPrime && hasPrimeSubscriptionInCart && primeActive) {
+      const primeItemIndex = items.findIndex((item) => item.isPrimeSubscription);
+
+      if (primeItemIndex !== -1) {
+        await actions.UPDATE_PRODUCT_COUNT(primeItemIndex, items[primeItemIndex]!, 0);
+
+        setIsUserPrimeWithPrimeOnBag(true);
+
+        orderform();
+      }
+    }
+  }, [actions, hasPrimeSubscriptionInCart, items, profile?.isPrime]);
+
+  useEffect(() => {
+    onCheckPrime();
+  }, [onCheckPrime, primeActive]);
 
   const requestMap = async () => {
     try {
@@ -431,7 +459,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
       <ModalClientIsPrime
         isVisible={isUserPrimeWithPrimeOnBag}
         onBackdropPress={() => setIsUserPrimeWithPrimeOnBag(false)}
-        firstName={profile?.firstName ? profile.firstName : profile?.email}
+        firstName={profile?.firstName || profile?.email}
       />
 
       <ScrollView

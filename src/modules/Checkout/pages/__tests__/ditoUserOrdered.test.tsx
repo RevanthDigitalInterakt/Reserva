@@ -32,6 +32,12 @@ jest.mock('../../../../services/vtexService', () => ({
   }),
 }));
 
+jest.mock('../../../../zustand/useApolloFetchPolicyStore', () => ({
+  useApolloFetchPolicyStore: () => ({
+    getFetchPolicyPerKey: jest.fn(),
+  }),
+}));
+
 AsyncStorageMock.getItem = jest.fn((key) => {
   if (key === '@RNAuth:RSAKey') {
     return Promise.resolve('rsaKey123');

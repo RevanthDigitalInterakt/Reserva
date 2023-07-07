@@ -1,13 +1,22 @@
 ## CHANGELOG
 
+### 2.0.6
+
+- [14126 - Prime Feature Toggle](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14126)
+- [APP2022-1096 - Sacola Prime](https://reserva.atlassian.net/browse/APP2022-1096)
+- [14123 - Alteração header para usuários Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14123)
+
+---
+
 ### 2.0.5
 
 - [SRN-333 - Erro evento Cadastrou DITO](https://reserva.atlassian.net/browse/SRN-333)
 - [SRN-192 - Bloquear a migração de eventos para perfis diferentes](https://reserva.atlassian.net/browse/SRN-192)
+- [14535 - Problema Countdown Home](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14535)
 
 ---
 
-### 2.0.3
+### 2.0.4
 
 - [SRN-257 - CPF obrigatório no cadastro](https://reserva.atlassian.net/browse/SRN-257)
 - [APP2022-1218 - BUG - Não exibe botão de voltar na bag vazia](https://reserva.atlassian.net/browse/APP2022-1218)

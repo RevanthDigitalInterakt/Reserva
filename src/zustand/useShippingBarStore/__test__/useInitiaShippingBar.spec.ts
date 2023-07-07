@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useInitiaShippingBar } from '../useInitialShippingBarStore';
+import { useInitialShippingBar } from '../useInitialShippingBarStore';
 import { useConfigShippingBarLazyQuery } from '../../../base/graphql/generated';
 import { useShippingBarStore } from '../useShippingBarStore';
 
@@ -28,7 +28,7 @@ describe('useInitiaShippingBar', () => {
       { data: mockConfigShippingBarQueryResponse },
     ]);
 
-    renderHook(() => useInitiaShippingBar(sumPriceShipping, loading));
+    renderHook(() => useInitialShippingBar(sumPriceShipping, loading));
     const { result } = renderHook(() => useShippingBarStore());
 
     act(() => {

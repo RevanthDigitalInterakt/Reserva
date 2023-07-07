@@ -23,6 +23,12 @@ jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: mockedNavigate }),
 }));
 
+jest.mock('../../hooks/usePrimeInfo', () => ({
+  usePrimeInfo: () => ({
+    onAddPrimeToCart: mockAddItemFn,
+  }),
+}));
+
 jest.mock('../../zustand/useApolloFetchPolicyStore', () => ({
   useApolloFetchPolicyStore: () => ({
     getFetchPolicyPerKey: () => 'network-only',
@@ -50,9 +56,6 @@ const Component = (
         <ModalSignIn
           onClose={jest.fn()}
           isVisible
-          loadingAddCart={false}
-          setAnimationBag={jest.fn()}
-          setLoadingAddCart={jest.fn()}
         />
       </CartContext.Provider>
     </MockedProvider>

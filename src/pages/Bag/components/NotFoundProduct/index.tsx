@@ -5,25 +5,18 @@ import {
 } from '@usereservaapp/reserva-ui';
 import { Platform } from 'react-native';
 import { platformType } from '../../../../utils/platformType';
-import useBagStore from '../../../../zustand/useBagStore/useBagStore';
+import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 
 export default function NotFoundProduct() {
-  const { productNotFound, dispatch } = useBagStore();
+  const { productNotFound, actions } = useBagStore(['productNotFound', 'actions']);
 
   const refs = {
     animatedViewRef: useRef<View>(null),
   };
 
   const handleSetNotFoundProduct = useCallback(() => {
-    dispatch({
-      payload: {
-        value: {
-          productNotFound: '',
-        },
-      },
-      actionType: 'SET_PRODUCT_NOT_FOUND',
-    });
-  }, [dispatch]);
+    actions.CLEAR_PRODUCT_NOT_FOUND();
+  }, [actions]);
 
   useEffect(() => {
     if (refs.animatedViewRef.current) {

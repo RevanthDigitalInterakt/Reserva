@@ -1,22 +1,17 @@
 import React from 'react';
-
 import { Box, ProgressBar } from '@usereservaapp/reserva-ui';
-
-import { useShippingBarStore, useInitiaShippingBar } from '../../../../zustand/useShippingBarStore';
-
-import type { IPropsShippingBar } from './types';
+import { useShippingBarStore, useInitialShippingBar } from '../../../../zustand/useShippingBarStore';
 import { IfRenderShippingMessage } from './shippingMessage';
 
-export interface ShippingBarProps {
-  sumPriceShipping: number;
-  totalDelivery: number;
+export interface IShippingBar {
+  totalOrder: number;
   loading: boolean;
 }
 
 export const ShippingBar = ({
-  sumPriceShipping,
+  totalOrder,
   loading,
-}: IPropsShippingBar) => {
+}: IShippingBar) => {
   const {
     freeShippingValue,
     loadingBar,
@@ -24,16 +19,16 @@ export const ShippingBar = ({
     valueProgressBar,
   } = useShippingBarStore();
 
-  useInitiaShippingBar(sumPriceShipping, loading);
+  useInitialShippingBar(totalOrder, loading);
 
   return loadingBar ? (
     <Box mt="micro">
-
       <IfRenderShippingMessage
-        sumPriceShipping={sumPriceShipping}
+        sumPriceShipping={totalOrder}
         freeShippingValue={freeShippingValue}
         sumPrice={sumPrice}
       />
+
       <Box mt="nano">
         <ProgressBar
           colorBar="neutroFrio1"
