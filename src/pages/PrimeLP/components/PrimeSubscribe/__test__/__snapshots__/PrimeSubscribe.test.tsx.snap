@@ -195,6 +195,7 @@ Tudo isso por
             "imageNotFound": [Circular],
             "instagram": [Circular],
             "localReserva": [Circular],
+            "logoPrime": [Function],
             "logoQRCode": [Circular],
             "mastercard": [Circular],
             "noStoresFound": [Circular],
@@ -216,6 +217,9 @@ Tudo isso por
             "whatsapp": [Circular],
             "withoutInternet": [Circular],
             "zoomHand": [Circular],
+          },
+          "svgs": Object {
+            "logoPrime": [Function],
           },
         }
       }

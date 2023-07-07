@@ -4,65 +4,63 @@ import { ThemeProvider } from 'styled-components/native';
 import { fireEvent, render } from '@testing-library/react-native';
 import { act } from 'react-test-renderer';
 import DeleteProductModal from '..';
-import useBagStore from '../../../../../zustand/useBagStore/useBagStore';
+import * as useBagStore from '../../../../../zustand/useBagStore/useBagStore';
+
+const CLOSE_MODAL_DELETE_PRODUCT_MOCK = jest.fn();
+const UPDATE_PRODUCT_COUNT_MOCK = jest.fn();
 
 describe('DeleteProductModal component', () => {
-  it('should render correctly', async () => {
-    const { getByText } = render(
-      <ThemeProvider theme={theme}>
-        <DeleteProductModal />
-      </ThemeProvider>,
-    );
-
-    await act(async () => {
-      await fireEvent.press(getByText('SIM'));
-    });
-    expect(useBagStore.getState().deleteProductModal.show).toBe(false);
-  });
-  it('should render correctly and update state correctly when confirm button is clicked', async () => {
-    useBagStore.setState({
-      showLoadingModal: false,
+  it('should call action functions when the confirm button is pressed', async () => {
+    jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
+      actions: {
+        CLOSE_MODAL_DELETE_PRODUCT: CLOSE_MODAL_DELETE_PRODUCT_MOCK,
+        UPDATE_PRODUCT_COUNT: UPDATE_PRODUCT_COUNT_MOCK,
+      },
+      loadingModal: false,
       deleteProductModal: {
         show: true,
         deleteInfo: {
           index: 0,
           product: {
-            productTitle: 'test',
-            itemColor: 'test',
-            itemSize: 'test',
-            isGift: false,
-            isGiftable: false,
-            imageSource: 'test',
-            isAssinaturaSimples: false,
-            priceWithDiscount: 12,
-            discountPercent: 12,
-            price: 12,
-            productId: 'test',
-            id: 'test',
-            skuName: 'test',
-            name: 'test',
-            quantity: 12,
-            seller: 'test',
+            id: '1294528',
+            quantity: 1,
+            price: 376.99,
             disableCounter: false,
-            sellingPrice: 12,
-            listPrice: 12,
+            discountPercent: 0.5,
+            imageSource: 'www.images.com/testes.png',
+            name: 'Produto Para Teste P',
             isAddedAsGift: false,
-            uniqueId: 'test',
-            key: 'test',
+            isAssinaturaSimples: false,
+            isGift: false,
+            isGiftable: true,
+            isPrimeSubscription: false,
+            itemColor: 'Blue',
+            itemSize: 'M',
+            key: 'Teste Delete Product',
+            listPrice: 350.99,
+            priceWithDiscount: 350.99,
+            productId: '1294528',
+            productTitle: 'Produto Para Teste P',
+            seller: 'reserva',
+            sellingPrice: 350.99,
+            skuName: 'Teste',
+            uniqueId: '123499831',
           },
         },
       },
-      dispatch: jest.fn(),
+    } as any);
 
-    });
     const { getByText } = render(
       <ThemeProvider theme={theme}>
         <DeleteProductModal />
       </ThemeProvider>,
     );
-    await act(async () => {
-      await fireEvent.press(getByText('SIM'));
-    });
-    expect(useBagStore.getState().deleteProductModal.show).toBe(true);
+
+    const confirmButton = getByText('SIM');
+
+    await act(() => fireEvent.press(confirmButton));
+
+    expect(UPDATE_PRODUCT_COUNT_MOCK).toHaveBeenCalled();
+    expect(CLOSE_MODAL_DELETE_PRODUCT_MOCK).toHaveBeenCalled();
   });
 });

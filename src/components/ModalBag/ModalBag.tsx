@@ -8,9 +8,10 @@ import animations from '../../base/styles/animations';
 export interface ModalBagProps {
   isVisible: boolean;
   onBackdropPress: () => void;
+  onModalHide?: () => void;
 }
 
-export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
+export const ModalBag = ({ isVisible, onBackdropPress, onModalHide }: ModalBagProps) => {
   const [animationFinished, setAnimationFinished] = useState(false);
   const [animation, setAnimation] = useState(null);
 
@@ -29,12 +30,15 @@ export const ModalBag = ({ isVisible, onBackdropPress }: ModalBagProps) => {
           setAnimationFinished(false);
           onBackdropPress();
         }}
+        onModalHide={onModalHide}
         backdropColor={
           !animationFinished && isVisible ? theme.colors.preto : 'transparent'
         }
         animationInTiming={300}
         animationIn="fadeIn"
         animationOut="fadeIn"
+        useNativeDriver
+        useNativeDriverForBackdrop
       >
         {!animationFinished && (
           <LottieView

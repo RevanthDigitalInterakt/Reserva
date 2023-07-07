@@ -43,6 +43,10 @@ const Checkout: React.FC<{}> = () => {
   const { profile } = useAuthStore(['profile']);
 
   useEffect(() => {
+    EventProvider.logEvent('payment_step', {});
+  }, []);
+
+  useEffect(() => {
     EventProvider.getPushTags((receivedTags) => {
       if (receivedTags && receivedTags?.total_orders_value) {
         const result = parseFloat(receivedTags?.total_orders_value);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import AutoHeightImage from 'react-native-auto-height-image';
 import configDeviceSizes from '../../utils/configDeviceSizes';
 
@@ -11,7 +11,7 @@ interface IProps extends Omit<React.ComponentProps<typeof AutoHeightImage>, 'sou
   width?: number;
 }
 
-export default function ImageComponent({ ...props }: IProps) {
+function ImageComponent({ ...props }: IProps) {
   return (
     <AutoHeightImage
       resizeMode="contain"
@@ -20,3 +20,5 @@ export default function ImageComponent({ ...props }: IProps) {
     />
   );
 }
+
+export default memo(ImageComponent);

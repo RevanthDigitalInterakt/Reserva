@@ -98,23 +98,22 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
       <View
         accessibilityLabel="com.usereserva:id/modal_sign_in_container"
         backgroundColor="white"
-        height={1208}
         p="xxxs"
         style={
           Array [
             Object {
               "backgroundColor": "#FFF",
-              "height": 1208,
               "paddingBottom": 16,
               "paddingLeft": 16,
               "paddingRight": 16,
               "paddingTop": 16,
+            },
+            Object {
               "width": 726,
             },
           ]
         }
         testID="com.usereserva:id/modal_sign_in_container"
-        width={726}
       >
         <View
           flexDirection="row-reverse"
@@ -221,6 +220,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
           </View>
         </View>
         <Text
+          accessibilityLabel="com.usereserva:id/modal_sign_in_title"
           fontFamily="reservaSerifBlack"
           style={
             Array [
@@ -230,6 +230,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
               },
             ]
           }
+          testID="com.usereserva:id/modal_sign_in_title"
           variant="descontoTag1"
         >
           Prime
@@ -239,12 +240,12 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
         >
           <View>
             <View
-              my="micro"
               style={
                 Array [
+                  Object {},
                   Object {
-                    "marginBottom": 12,
-                    "marginTop": 12,
+                    "marginBottom": 24,
+                    "marginTop": 24,
                   },
                 ]
               }
@@ -265,12 +266,9 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
               </Text>
             </View>
             <View
-              mt="xxs"
               style={
                 Array [
-                  Object {
-                    "marginTop": 24,
-                  },
+                  Object {},
                 ]
               }
             >
@@ -636,6 +634,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                     "fontFamily": "Nunito-Bold",
                     "fontSize": 13,
                     "justifyContent": "center",
+                    "marginBottom": 24,
                     "marginTop": 32,
                     "minWidth": 130,
                     "opacity": 1,
@@ -703,8 +702,10 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "center",
+                  },
+                  Object {
                     "marginBottom": 24,
-                    "marginTop": 24,
+                    "marginTop": 8,
                   },
                 ]
               }
@@ -776,80 +777,408 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                 }
               />
             </View>
+            <View
+              style={
+                Array [
+                  Object {},
+                ]
+              }
+            >
+              <Text
+                color="neutroFrio2"
+                fontFamily="reservaSansRegular"
+                fontSize={14}
+                style={
+                  Array [
+                    Object {
+                      "color": "#8A8C8E",
+                      "fontFamily": "ReservaSans-Regular",
+                      "fontSize": 14,
+                    },
+                    Object {
+                      "marginBottom": 24,
+                    },
+                  ]
+                }
+              >
+                Por apenas
+                 
+                <Text
+                  color="fullBlack"
+                  fontFamily="reservaSansBold"
+                  fontSize={14}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#000",
+                        "fontFamily": "ReservaSans-Bold",
+                        "fontSize": 14,
+                      },
+                    ]
+                  }
+                >
+                  12
+                  x R$
+                   
+                  25
+                </Text>
+                , assinantes
+                 
+                <Text
+                  color="fullBlack"
+                  fontFamily="reservaSerifBlack"
+                  fontSize={14}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#000",
+                        "fontFamily": "ReservaSerif-Black",
+                        "fontSize": 14,
+                      },
+                    ]
+                  }
+                >
+                  Prime
+                </Text>
+                 
+                têm acesso a vantagens como descontos exclusivos e frete grátis em compras acima de
+                 
+                <Text
+                  color="fullBlack"
+                  fontFamily="reservaSansBold"
+                  fontSize={14}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#000",
+                        "fontFamily": "ReservaSans-Bold",
+                        "fontSize": 14,
+                      },
+                    ]
+                  }
+                >
+                  R$
+                   
+                  499
+                </Text>
+                , toque no botão abaixo e comece agora mesmo a comprar!
+              </Text>
+              <View
+                alignItems="stretch"
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "stretch",
+                    },
+                  ]
+                }
+              >
+                <View
+                  accessibilityLabel="com.usereserva:id/modal_sign_in_cta_add_prime"
+                  accessible={true}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "backgroundColor": "#11AB6B",
+                      "justifyContent": "center",
+                      "opacity": 1,
+                      "width": "100%",
+                    }
+                  }
+                  testID="com.usereserva:id/modal_sign_in_cta_add_prime"
+                >
+                  <View
+                    alignItems="center"
+                    height={48}
+                    justifyContent="center"
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "height": 48,
+                          "justifyContent": "center",
+                          "width": "100%",
+                        },
+                      ]
+                    }
+                    width="100%"
+                  >
+                    <Text
+                      color="white"
+                      fontFamily="reservaSansMedium"
+                      fontSize={14}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#FFF",
+                            "fontFamily": "ReservaSans-Medium",
+                            "fontSize": 14,
+                          },
+                        ]
+                      }
+                    >
+                      ADICIONAR PRIME AO CARRINHO
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <Text
+                color="neutroFrio2"
+                fontSize={12}
+                style={
+                  Array [
+                    Object {
+                      "color": "#8A8C8E",
+                      "fontSize": 12,
+                    },
+                    Object {
+                      "marginTop": 12,
+                    },
+                  ]
+                }
+              >
+                Para mais informações sobre o prime,
+                 
+                <Text
+                  accessibilityLabel="com.usereserva:id/modal_sign_click_here"
+                  color="fullBlack"
+                  fontFamily="reservaSansBold"
+                  fontSize={12}
+                  onPress={[Function]}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#000",
+                        "fontFamily": "ReservaSans-Bold",
+                        "fontSize": 12,
+                      },
+                      Object {
+                        "textDecorationLine": "underline",
+                      },
+                    ]
+                  }
+                  testID="com.usereserva:id/modal_sign_click_here"
+                >
+                  clique aqui
+                </Text>
+                 
+                antes de concluir seu pedido.
+              </Text>
+            </View>
+          </View>
+        </RCTScrollView>
+      </View>
+    </View>
+  </Modal>
+  <Modal
+    accessibilityLabel="com.usereserva:id/modal_welcome_prime"
+    animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
+    hardwareAccelerated={false}
+    hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
+    onModalHide={[Function]}
+    onModalWillHide={[Function]}
+    onModalWillShow={[Function]}
+    onRequestClose={[Function]}
+    panResponderThreshold={4}
+    scrollHorizontal={false}
+    scrollOffset={0}
+    scrollOffsetMax={0}
+    scrollTo={null}
+    supportedOrientations={
+      Array [
+        "portrait",
+        "landscape",
+      ]
+    }
+    swipeThreshold={100}
+    testID="com.usereserva:id/modal_welcome_prime"
+    transparent={true}
+    visible={false}
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      forwardedRef={[Function]}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "black",
+          "bottom": 0,
+          "height": 1334,
+          "left": 0,
+          "opacity": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+          "width": 750,
+        }
+      }
+    />
+    <View
+      accessibilityLabel="com.usereserva:id/modal_welcome_prime"
+      deviceHeight={null}
+      deviceWidth={null}
+      forwardedRef={[Function]}
+      hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
+      onModalHide={[Function]}
+      onModalWillHide={[Function]}
+      onModalWillShow={[Function]}
+      panResponderThreshold={4}
+      pointerEvents="box-none"
+      scrollHorizontal={false}
+      scrollOffset={0}
+      scrollOffsetMax={0}
+      scrollTo={null}
+      style={
+        Object {
+          "alignItems": "center",
+          "flex": 1,
+          "justifyContent": "center",
+          "margin": 37.5,
+          "transform": Array [
+            Object {
+              "translateY": 0,
+            },
+          ],
+        }
+      }
+      supportedOrientations={
+        Array [
+          "portrait",
+          "landscape",
+        ]
+      }
+      swipeThreshold={100}
+    >
+      <View
+        accessibilityLabel="com.usereserva:id/modal_sign_in_container"
+        backgroundColor="white"
+        p="xxxs"
+        style={
+          Array [
+            Object {
+              "backgroundColor": "#FFF",
+              "paddingBottom": 16,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 16,
+              "width": 726,
+            },
+          ]
+        }
+        testID="com.usereserva:id/modal_sign_in_container"
+        width={726}
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "ReservaSerif-Regular",
+                "fontSize": 28,
+              },
+            ]
+          }
+          variant="tituloSessoes"
+        >
+          Bem vindo ao
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontFamily": "ReservaSerif-Bold",
+                  "fontSize": 27,
+                },
+              ]
+            }
+            variant="descontoTag1"
+          >
+             Prime
+          </Text>
+        </Text>
+        <View
+          my="micro"
+          style={
+            Array [
+              Object {
+                "marginBottom": 12,
+                "marginTop": 12,
+              },
+            ]
+          }
+        >
+          <Text
+            color="fullBlack"
+            style={
+              Array [
+                Object {
+                  "color": "#000",
+                  "fontFamily": "Nunito-Regular",
+                  "fontSize": 15,
+                },
+              ]
+            }
+            variant="tituloSessao"
+          >
+            Agora você é um cliente
+             
             <Text
-              color="neutroFrio2"
-              fontFamily="reservaSansRegular"
+              fontFamily="reservaSerifBlack"
               fontSize={14}
               style={
                 Array [
                   Object {
-                    "color": "#8A8C8E",
-                    "fontFamily": "ReservaSans-Regular",
+                    "fontFamily": "ReservaSerif-Black",
                     "fontSize": 14,
-                  },
-                  Object {
-                    "marginBottom": 24,
                   },
                 ]
               }
             >
-              Por apenas
-               
-              <Text
-                color="fullBlack"
-                fontFamily="reservaSansBold"
-                fontSize={14}
-                style={
-                  Array [
-                    Object {
-                      "color": "#000",
-                      "fontFamily": "ReservaSans-Bold",
-                      "fontSize": 14,
-                    },
-                  ]
-                }
-              >
-                12x R$ 25
-              </Text>
-              , assinantes
-               
-              <Text
-                color="fullBlack"
-                fontFamily="reservaSerifBlack"
-                fontSize={14}
-                style={
-                  Array [
-                    Object {
-                      "color": "#000",
-                      "fontFamily": "ReservaSerif-Black",
-                      "fontSize": 14,
-                    },
-                  ]
-                }
-              >
-                Prime
-              </Text>
-               
-              têm acesso a vantagens como descontos exclusivos e frete grátis em compras acima de
-               
-              <Text
-                color="fullBlack"
-                fontFamily="reservaSansBold"
-                fontSize={14}
-                style={
-                  Array [
-                    Object {
-                      "color": "#000",
-                      "fontFamily": "ReservaSans-Bold",
-                      "fontSize": 14,
-                    },
-                  ]
-                }
-              >
-                R$ 499
-              </Text>
-              , toque no botão abaixo e comece agora mesmo a comprar!
+              Prime
             </Text>
+            , para facilitar na sua compra já adicionamos ao seu carrinho a assinatura, ela será concluída junto ao seu pedido, mas lembre-se, ela só será válida para compras acima de
+             
+            <Text
+              color="fullBlack"
+              fontFamily="reservaSansBold"
+              fontSize={14}
+              style={
+                Array [
+                  Object {
+                    "color": "#000",
+                    "fontFamily": "ReservaSans-Bold",
+                    "fontSize": 14,
+                  },
+                ]
+              }
+            >
+              R$
+               
+              499
+            </Text>
+          </Text>
+        </View>
+        <RCTScrollView
+          showsVerticalScrollIndicator={false}
+        >
+          <View>
             <View
               alignItems="stretch"
               style={
@@ -861,7 +1190,6 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
               }
             >
               <View
-                accessibilityLabel="com.usereserva:id/modal_sign_in_cta_add_prime"
                 accessible={true}
                 focusable={true}
                 onClick={[Function]}
@@ -874,90 +1202,69 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                 style={
                   Object {
                     "alignItems": "center",
+                    "backgroundColor": "#333333",
+                    "color": "#FFF",
+                    "fontFamily": "Nunito-Bold",
+                    "fontSize": 13,
                     "justifyContent": "center",
+                    "marginBottom": 24,
+                    "marginTop": 32,
+                    "minWidth": 130,
                     "opacity": 1,
-                    "width": "100%",
+                    "paddingBottom": 16,
+                    "paddingLeft": 8,
+                    "paddingRight": 8,
+                    "paddingTop": 16,
                   }
                 }
-                testID="com.usereserva:id/modal_sign_in_cta_add_prime"
+                testID="com.usereserva:id/modal_welcome_prime_continue"
               >
                 <View
                   alignItems="center"
-                  bg="verdeSucesso"
-                  height={48}
+                  flexDirection="row"
                   justifyContent="center"
                   style={
                     Array [
                       Object {
                         "alignItems": "center",
-                        "backgroundColor": "#38A238",
-                        "height": 48,
+                        "flexDirection": "row",
                         "justifyContent": "center",
-                        "width": "100%",
                       },
                     ]
                   }
-                  width="100%"
                 >
-                  <Text
-                    color="white"
-                    fontFamily="reservaSansMedium"
-                    fontSize={14}
+                  <View
+                    justifyContent="center"
                     style={
                       Array [
                         Object {
-                          "color": "#FFF",
-                          "fontFamily": "ReservaSans-Medium",
-                          "fontSize": 14,
+                          "justifyContent": "center",
                         },
                       ]
                     }
                   >
-                    ADICIONAR PRIME AO CARRINHO
-                  </Text>
+                    <Text
+                      color="white"
+                      fontFamily="nunitoBold"
+                      fontSize={13}
+                      letterSpacing={1.6}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#FFF",
+                            "fontFamily": "Nunito-Bold",
+                            "fontSize": 13,
+                            "letterSpacing": 1.6,
+                          },
+                        ]
+                      }
+                    >
+                      CONTINUAR COMPRANDO
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
-            <Text
-              color="neutroFrio2"
-              fontSize={12}
-              style={
-                Array [
-                  Object {
-                    "color": "#8A8C8E",
-                    "fontSize": 12,
-                    "marginTop": 12,
-                  },
-                ]
-              }
-            >
-              Para mais informações sobre o prime,
-               
-              <Text
-                accessibilityLabel="com.usereserva:id/modal_sign_click_here"
-                color="fullBlack"
-                fontFamily="reservaSansBold"
-                fontSize={12}
-                onPress={[Function]}
-                style={
-                  Array [
-                    Object {
-                      "color": "#000",
-                      "fontFamily": "ReservaSans-Bold",
-                      "fontSize": 12,
-                      "textDecorationColor": "black",
-                      "textDecorationLine": "underline",
-                      "textDecorationStyle": "solid",
-                    },
-                  ]
-                }
-                testID="com.usereserva:id/modal_sign_click_here"
-              >
-                clique aqui
-              </Text>
-               
-              antes de concluir seu pedido.
-            </Text>
           </View>
         </RCTScrollView>
       </View>
@@ -995,6 +1302,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
       swipeThreshold={100}
       testID="com.usereserva:id/modal_bag"
       transparent={true}
+      useNativeDriverForBackdrop={true}
       visible={false}
     >
       <View
@@ -1056,6 +1364,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
           ]
         }
         swipeThreshold={100}
+        useNativeDriverForBackdrop={true}
       >
         <View
           style={
@@ -1145,11 +1454,25 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
             "borderWidth": 1,
             "height": 22,
             "justifyContent": "center",
+            "marginRight": 0,
             "padding": 3,
             "width": 22,
           }
         }
-      />
+      >
+        <View
+          accessibilityLabel="com.usereserva:id/select_box_price_normal_checked"
+          style={
+            Object {
+              "backgroundColor": "#000000",
+              "borderRadius": 8,
+              "height": 16,
+              "width": 16,
+            }
+          }
+          testID="com.usereserva:id/select_box_price_normal_checked"
+        />
+      </View>
       <View
         style={
           Object {
@@ -1248,6 +1571,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
             "alignSelf": "center",
             "backgroundColor": "#8D8D8D",
             "height": 30,
+            "marginHorizontal": 0,
             "marginTop": 30,
             "width": 1,
           }
@@ -1362,24 +1686,12 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
             "borderWidth": 1,
             "height": 22,
             "justifyContent": "center",
+            "marginRight": 0,
             "padding": 3,
             "width": 22,
           }
         }
-      >
-        <View
-          accessibilityLabel="com.usereserva:id/select_box_price_prime_checked"
-          style={
-            Object {
-              "backgroundColor": "#A01E21",
-              "borderRadius": 8,
-              "height": 16,
-              "width": 16,
-            }
-          }
-          testID="com.usereserva:id/select_box_price_prime_checked"
-        />
-      </View>
+      />
       <View
         style={
           Object {
@@ -1493,6 +1805,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
             "alignSelf": "center",
             "backgroundColor": "#8D8D8D",
             "height": 30,
+            "marginHorizontal": 0,
             "marginTop": 30,
             "width": 1,
           }
@@ -1628,6 +1941,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "imageNotFound": [Circular],
                   "instagram": [Circular],
                   "localReserva": [Circular],
+                  "logoPrime": [Function],
                   "logoQRCode": [Circular],
                   "mastercard": [Circular],
                   "noStoresFound": [Circular],
@@ -1649,6 +1963,9 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "whatsapp": [Circular],
                   "withoutInternet": [Circular],
                   "zoomHand": [Circular],
+                },
+                "svgs": Object {
+                  "logoPrime": [Function],
                 },
               }
             }
@@ -1677,7 +1994,8 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "fontFamily": "ReservaSans-Italic",
                 },
                 Object {
-                  "color": "white",
+                  "color": "#ffffff",
+                  "fontSize": 15,
                 },
               ]
             }
@@ -1698,7 +2016,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
             >
                
               R$
-              15
+              69.80
             </Text>
           </Text>
         </View>
@@ -1712,7 +2030,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                 "marginTop": 4,
               },
               Object {
-                "marginLeft": -50,
+                "marginLeft": -40,
               },
             ]
           }
