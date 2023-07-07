@@ -50,7 +50,6 @@ import testProps from '../../../../utils/testProps';
 import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { getCollectionFacetsValue } from '../../../../utils/getCollectionFacetsValue';
-import { useProductCatalogStore } from '../../../../zustand/useProductCatalog/useProductCatalog';
 import { durationToTimeString } from '../../../../utils/durationToTimeString';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
@@ -132,7 +131,6 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { getItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
-  const { setFacets } = useProductCatalogStore(['setFacets']);
 
   const { WithoutInternet } = useCheckConnection({});
 
