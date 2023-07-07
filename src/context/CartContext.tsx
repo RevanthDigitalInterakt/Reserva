@@ -43,7 +43,7 @@ import { splitSellerName } from '../utils/splitSellerName';
 import { getBrands } from '../utils/getBrands';
 import { defaultBrand } from '../utils/defaultWBrand';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
-import { setAsyncStorageItem, useAsyncStorageProvider } from '../hooks/useAsyncStorageProvider';
+import useAsyncStorageProvider, { setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 
 interface ClientPreferencesData {
