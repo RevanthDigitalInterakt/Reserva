@@ -21,7 +21,6 @@ import {
   useProfileAddressMutation,
 } from '../../../base/graphql/generated';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
-import { ModalClientIsPrime } from '../components/ModalClientIsPrime/ModalClientIsPrime';
 import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
 import { usePrimeInfo } from '../../../hooks/usePrimeInfo';
 
@@ -53,7 +52,6 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   const [businessHours, setBusinessHours] = useState<any>([]);
   const [selectMethodDelivery, setSelectMethodDelivery] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isUserPrimeWithPrimeOnBag, setIsUserPrimeWithPrimeOnBag] = useState(false);
 
   const { primeActive } = usePrimeInfo();
 
@@ -70,24 +68,6 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
       identifyCustomer();
     }, []),
   );
-
-  const onCheckPrime = useCallback(async () => {
-    if (profile?.isPrime && hasPrimeSubscriptionInCart && primeActive) {
-      const primeItemIndex = items.findIndex((item) => item.isPrimeSubscription);
-
-      if (primeItemIndex !== -1) {
-        await actions.UPDATE_PRODUCT_COUNT(primeItemIndex, items[primeItemIndex]!, 0);
-
-        setIsUserPrimeWithPrimeOnBag(true);
-
-        orderform();
-      }
-    }
-  }, [actions, hasPrimeSubscriptionInCart, items, profile?.isPrime]);
-
-  useEffect(() => {
-    onCheckPrime();
-  }, [onCheckPrime, primeActive]);
 
   const requestMap = async () => {
     try {
@@ -454,12 +434,6 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
         backButtonPress={handlePressBackButton}
         showShadow
         loading={loading}
-      />
-
-      <ModalClientIsPrime
-        isVisible={isUserPrimeWithPrimeOnBag}
-        onBackdropPress={() => setIsUserPrimeWithPrimeOnBag(false)}
-        firstName={profile?.firstName || profile?.email}
       />
 
       <ScrollView

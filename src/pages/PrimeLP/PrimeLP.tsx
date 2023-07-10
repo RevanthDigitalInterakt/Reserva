@@ -16,6 +16,7 @@ import testProps from '../../utils/testProps';
 import { ModalWelcomePrime } from '../../components/ModalWelcomePrime';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
+import PrimeFAQ from './components/PrimeFAQ/PrimeFAQ';
 
 function PrimeLP() {
   const { onAddPrimeToCart, isPrime } = usePrimeInfo();
@@ -114,6 +115,8 @@ function PrimeLP() {
             <PrimeBenefits data={data} />
 
             <PrimeSubscribe data={data} onAddToCart={onAddToCart} />
+
+            <PrimeFAQ />
           </ScrollView>
         )}
       </Box>

@@ -276,6 +276,7 @@ exports[`SelectBoxPrime should match with the snapshot 1`] = `
                 "bannerOffer": [Circular],
                 "cardFront": [Circular],
                 "cardVerso": [Circular],
+                "chevronRight": [Function],
                 "clothingCare1": [Circular],
                 "clothingCareBleach": [Circular],
                 "clothingCareDrying": [Circular],
@@ -321,6 +322,7 @@ exports[`SelectBoxPrime should match with the snapshot 1`] = `
                 "zoomHand": [Circular],
               },
               "svgs": Object {
+                "chevronRight": [Function],
                 "logoPrime": [Function],
               },
             }
