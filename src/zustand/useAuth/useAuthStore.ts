@@ -68,6 +68,7 @@ const authStore = create<IAuthStore>((set, getState) => ({
   },
   onRefreshToken: async () => {
     try {
+      console.log('cai aqui');
       const needRefreshToken = await checkIfNeedRefreshToken();
 
       if (!needRefreshToken) return false;

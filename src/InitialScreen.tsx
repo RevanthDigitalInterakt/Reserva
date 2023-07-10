@@ -1,5 +1,7 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { StatusBar } from 'react-native';
+import React, {
+  useCallback, useState, useEffect, useRef,
+} from 'react';
+import { StatusBar, AppState } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import messaging from '@react-native-firebase/messaging';
@@ -17,12 +19,15 @@ interface IProps {
   children: React.ReactNode;
 }
 
+type AppStateType = 'active' | 'background' | 'inactive' | 'unknown' | 'extension';
+
 function InitialScreen({ children }: { children: JSX.Element }) {
   const {
     onInit, onRefreshToken, initialized, isAnonymousUser, profile,
   } = useAuthStore(['onInit', 'onRefreshToken', 'initialized', 'isAnonymousUser', 'profile']);
   const { barStyle } = useStatusBar();
   const [loadingRefreshtoken, setLoadingRefreshToken] = useState(false);
+  const appState = useRef(AppState.currentState);
 
   useCheckAppNewVersion();
 
@@ -34,6 +39,7 @@ function InitialScreen({ children }: { children: JSX.Element }) {
     async function handleGetUserProfile() {
       try {
         setLoadingRefreshToken(true);
+        console.log('cai aqui - handleGetUserProfile');
         await onRefreshToken();
 
         onInit();
@@ -48,7 +54,30 @@ function InitialScreen({ children }: { children: JSX.Element }) {
     if (!loadingRefreshtoken) {
       handleGetUserProfile();
     }
+
+    AppState.addEventListener('change', handleAppStateChange);
+
+    return () => {
+      // TODO: use "remove" method returned by addEventListener when updating react-native to 0.65+
+      AppState.removeEventListener('change', handleAppStateChange);
+    };
   }, []);
+
+  const handleAppStateChange = async (nextAppState: AppStateType) => {
+    console.log('cai aqui - handleAppStateChange', appState.current, nextAppState);
+    if (
+      appState.current.match(/inactive|background/)
+      && nextAppState === 'active' && !loadingRefreshtoken
+    ) {
+      setLoadingRefreshToken(true);
+      console.log('cai aqui - handleAppStateChange 2', nextAppState);
+
+      await onRefreshToken();
+      setLoadingRefreshToken(false);
+    }
+
+    appState.current = nextAppState;
+  };
 
   const onAppInit = useCallback(async () => {
     if (isAnonymousUser) {

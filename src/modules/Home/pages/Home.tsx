@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Box } from '@usereservaapp/reserva-ui';
 import { intervalToDuration } from 'date-fns';
 import dayjs from 'dayjs';
@@ -42,14 +42,13 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export const HomeScreen = () => {
-  const navigation = useNavigation();
   const { setOffersPage } = useConfigContext();
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { showModalSignUpComplete } = useAuthModalStore(['showModalSignUpComplete']);
   const { setTime } = useCountDown();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [modalDiscount, setModalDiscount] = useState<any>();
-  const { profile, onRefreshToken } = useAuthStore(['profile', 'onRefreshToken']);
+  const { profile } = useAuthStore(['profile']);
 
   const [countDownClockLocal, setCountDownClockLocal] = useState<ICountDownClock>();
 
