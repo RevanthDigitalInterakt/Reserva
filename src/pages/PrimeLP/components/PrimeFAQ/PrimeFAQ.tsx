@@ -4,13 +4,18 @@ import { View } from 'react-native';
 import DropdownItem from '../../../../components/DropdownItem/DropdownItem';
 import { styles } from './PrimeFAQ.styles';
 import { usePrimeFaqQuery } from '../../../../base/graphql/generated';
+import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 
 const Divider = () => <View style={styles.divider} />;
 
 function PrimeFAQ() {
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore([
+    'getFetchPolicyPerKey',
+  ]);
+
   const { data } = usePrimeFaqQuery({
     context: { clientName: 'gateway' },
-    fetchPolicy: 'network-only',
+    fetchPolicy: getFetchPolicyPerKey('primeFAQ'),
   });
 
   const primeFAQInformation = useMemo(() => data?.primeFaq, [data?.primeFaq]);
@@ -33,7 +38,7 @@ function PrimeFAQ() {
             key={item.id}
             justifyText
           />
-          {index !== primeFAQInformation.length - 1 && <Divider />}
+          {index !== primeFAQInformation.length - 1 && <Divider key={item.title} />}
         </>
       ))}
     </View>
