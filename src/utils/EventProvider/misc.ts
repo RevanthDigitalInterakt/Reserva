@@ -103,5 +103,6 @@ export const onlyGaEvents = [
   'add_payment_info',
   'add_shipping_info',
   'view_search_results',
+  'payment_step',
   'add_payment_info_test',
 ];

@@ -15,8 +15,8 @@ import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 
 function ProductAddToCart() {
   const { getString } = useRemoteConfig();
-  const { addItem, orderForm } = useCart();
-  const { actions } = useBagStore(['actions']);
+  const { restoreCart } = useCart();
+  const { actions, items, orderFormId } = useBagStore(['actions', 'orderFormId', 'items']);
   const {
     productDetail,
     selectedColor,
@@ -50,19 +50,15 @@ function ProductAddToCart() {
 
       setLoading(true);
 
-      const orderFormItem = orderForm?.items.find((items) => items.id === selectedSize.itemId);
+      const orderFormItem = items.find((item) => item.id === selectedSize.itemId);
 
-      // TODO: Update to use API Gateway
-      const addItemResponse = await addItem({
-        quantity: orderFormItem ? orderFormItem.quantity + 1 : 1,
-        itemId: selectedSize.itemId,
-        seller: selectedSize.seller || '',
-      });
+      await actions.ADD_ITEM(
+        selectedSize.seller,
+        selectedSize.itemId,
+        orderFormItem ? orderFormItem.quantity + 1 : 1,
+      );
 
-      if (!addItemResponse?.ok) {
-        Alert.alert('Produto sem estoque', addItemResponse?.message);
-        return;
-      }
+      await restoreCart(orderFormId);
 
       actions.REFETCH_ORDER_FORM();
 
@@ -74,7 +70,15 @@ function ProductAddToCart() {
     } finally {
       setLoading(false);
     }
-  }, [addItem, addTagsUponCartUpdate, loading, orderForm?.items, selectedSize]);
+  }, [
+    actions,
+    addTagsUponCartUpdate,
+    loading,
+    items,
+    orderFormId,
+    restoreCart,
+    selectedSize,
+  ]);
 
   const buttonAddCartActive = useMemo(() => {
     if (!selectedSize || !productDetail) return false;

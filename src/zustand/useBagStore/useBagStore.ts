@@ -9,6 +9,9 @@ import {
   OrderFormAddGiftDocument,
   OrderFormAddGiftMutation,
   OrderFormAddGiftMutationVariables,
+  OrderFormAddItemDocument,
+  OrderFormAddItemMutation,
+  OrderFormAddItemMutationVariables,
   OrderFormAddSellerCouponDocument,
   OrderFormAddSellerCouponMutation,
   OrderFormAddSellerCouponMutationVariables,
@@ -78,6 +81,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
   actions: {
     INITIAL_LOAD: async () => {
       try {
+        if (getState().initialized) return;
+
         const orderFormId = await getAsyncStorageItem('orderFormId') || '';
 
         if (!orderFormId) {
@@ -122,7 +127,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
       try {
         const orderFormId = await getAsyncStorageItem('orderFormId') || '';
 
-        set(() => ({ initialLoad: true }));
+        set(() => ({ topBarLoading: true }));
 
         const { data } = await getApolloClient().query<OrderFormQuery, OrderFormQueryVariables>({
           query: OrderFormDocument,
@@ -149,11 +154,13 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           installmentInfo: orderForm.installmentInfo,
           allItemsQuantity: orderForm.allItemsQuantity,
           hasPrimeSubscriptionInCart: orderForm.hasPrimeSubscriptionInCart,
+          initialized: true,
+          topBarLoading: false,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
       } finally {
-        set(() => ({ initialLoad: false, initialized: true }));
+        set(() => ({ topBarLoading: false, initialized: true }));
       }
     },
     REFRESH_ORDER_FORM: async () => {
@@ -504,6 +511,49 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
       set(() => ({
         productNotFound: '',
       }));
+    },
+    ADD_ITEM: async (seller, id, quantity) => {
+      try {
+        set(() => ({ topBarLoading: true }));
+
+        const { data } = await getApolloClient().mutate<
+        OrderFormAddItemMutation,
+        OrderFormAddItemMutationVariables
+        >({
+          mutation: OrderFormAddItemDocument,
+          context: { clientName: 'gateway' },
+          variables: {
+            input: {
+              orderFormId: getState().orderFormId,
+              seller,
+              id,
+              quantity,
+            },
+          },
+        });
+
+        const { orderFormAddItem: orderForm } = data || {};
+
+        set(() => ({
+          items: orderForm?.items,
+          selectableGift: orderForm?.selectableGift,
+          marketingData: orderForm?.marketingData,
+          appTotalizers: orderForm?.appTotalizers,
+          installmentInfo: orderForm?.installmentInfo,
+          allItemsQuantity: orderForm?.allItemsQuantity,
+          deleteProductModal: {
+            show: false,
+            deleteInfo: undefined,
+          },
+          hasPrimeSubscriptionInCart: orderForm?.hasPrimeSubscriptionInCart,
+        }));
+      } catch (error) {
+        set(() => ({ error: error.message }));
+
+        throw new Error(error.message);
+      } finally {
+        set(() => ({ topBarLoading: false }));
+      }
     },
   },
 }));

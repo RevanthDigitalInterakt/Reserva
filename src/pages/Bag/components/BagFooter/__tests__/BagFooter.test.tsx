@@ -28,6 +28,12 @@ jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: mockedFn }),
 }));
 
+jest.mock('../../../../../hooks/usePrimeInfo', () => ({
+  usePrimeInfo: () => ({
+    primeActive: true,
+  }),
+}));
+
 const mockRemoveUnavailableItems = jest.fn();
 
 jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({

@@ -42,6 +42,7 @@ export interface IBagStore {
     ADD_DISCOUNT_COUPON: (coupon: string) => Promise<void>;
     REMOVE_SELLER_COUPON: () => Promise<void>;
     REMOVE_DISCOUNT_COUPON: () => Promise<void>;
+    ADD_ITEM: (seller: string, id: string, quantity: number) => Promise<void>;
     ADD_AVAILABLE_GIFT: (
       gift: OrderformSelectableGiftAvailableGiftOutput,
       giftId: string,
