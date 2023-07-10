@@ -6,6 +6,7 @@
 - [APP2022-1096 - Sacola Prime](https://reserva.atlassian.net/browse/APP2022-1096)
 - [14123 - Alteração header para usuários Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14123)
 - [14647 BUG - Layout com valor do Prime](https://dev.azure.com/areco/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Downstream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14649)
+- [14419 - Mover lógica de remover prime da sacola quando o usuário for Prime para a bag](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14419)
 
 ---
 
