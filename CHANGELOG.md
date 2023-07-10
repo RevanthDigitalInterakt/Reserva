@@ -5,6 +5,7 @@
 - [14126 - Prime Feature Toggle](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14126)
 - [APP2022-1096 - Sacola Prime](https://reserva.atlassian.net/browse/APP2022-1096)
 - [14123 - Alteração header para usuários Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14123)
+- [14419 - Mover lógica de remover prime da sacola quando o usuário for Prime para a bag](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14419)
 - [SRN-227 - DITO - Evento adicionou produto ao carrinho](https://reserva.atlassian.net/browse/SRN-227)
 
 ---
