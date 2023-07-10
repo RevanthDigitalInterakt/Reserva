@@ -1407,6 +1407,7 @@ exports[`PrimeLP should match to snapshot 1`] = `
                   "bannerOffer": [Circular],
                   "cardFront": [Circular],
                   "cardVerso": [Circular],
+                  "chevronRight": [Function],
                   "clothingCare1": [Circular],
                   "clothingCareBleach": [Circular],
                   "clothingCareDrying": [Circular],
@@ -1452,6 +1453,7 @@ exports[`PrimeLP should match to snapshot 1`] = `
                   "zoomHand": [Circular],
                 },
                 "svgs": Object {
+                  "chevronRight": [Function],
                   "logoPrime": [Function],
                 },
               }
@@ -2559,6 +2561,7 @@ Tudo isso por
                     "bannerOffer": [Circular],
                     "cardFront": [Circular],
                     "cardVerso": [Circular],
+                    "chevronRight": [Function],
                     "clothingCare1": [Circular],
                     "clothingCareBleach": [Circular],
                     "clothingCareDrying": [Circular],
@@ -2604,6 +2607,7 @@ Tudo isso por
                     "zoomHand": [Circular],
                   },
                   "svgs": Object {
+                    "chevronRight": [Function],
                     "logoPrime": [Function],
                   },
                 }
@@ -2685,6 +2689,35 @@ Tudo isso por
               Quero ser Prime
             </Text>
           </View>
+        </View>
+        <View
+          style={
+            Object {
+              "marginVertical": 32,
+              "minHeight": "100%",
+              "overflow": "hidden",
+              "paddingHorizontal": 30,
+            }
+          }
+        >
+          <Text
+            fontFamily="reservaDisplayRegular"
+            style={
+              Array [
+                Object {
+                  "fontFamily": "ReservaDisplay-Regular",
+                  "textAlign": "center",
+                },
+                Object {
+                  "fontSize": 20,
+                  "marginBottom": 32,
+                },
+              ]
+            }
+            textAlign="center"
+          >
+            Perguntas Frequentes
+          </Text>
         </View>
       </View>
     </RCTScrollView>

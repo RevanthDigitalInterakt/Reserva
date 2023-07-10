@@ -802,6 +802,31 @@ export type PricePrimeInstallmentOutput = {
   value: Scalars['Float'];
 };
 
+export type PrimeConfigItemOutput = {
+  __typename?: 'PrimeConfigItemOutput';
+  id: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type PrimeConfigOutput = {
+  __typename?: 'PrimeConfigOutput';
+  brands: Array<PrimeConfigItemOutput>;
+  brandsAreInclusive: Scalars['Boolean'];
+  categories: Array<PrimeConfigItemOutput>;
+  categoriesAreInclusive: Scalars['Boolean'];
+  collections: Array<PrimeConfigItemOutput>;
+  collectionsIsInclusive: Scalars['Boolean'];
+  idCalculatorConfiguration: Scalars['String'];
+  idSeller: Scalars['String'];
+  idSellerIsInclusive: Scalars['Boolean'];
+  isActive: Scalars['Boolean'];
+  marketingTags: Array<PrimeConfigItemOutput>;
+  name: Scalars['String'];
+  percentualDiscountValue: Scalars['Int'];
+  totalValueCeling: Scalars['Int'];
+  totalValueFloor: Scalars['Int'];
+};
+
 export type PrimeDetailOutput = {
   __typename?: 'PrimeDetailOutput';
   discountFrom: Scalars['Float'];
@@ -812,6 +837,13 @@ export type PrimeDetailOutput = {
   productId: Scalars['Int'];
   productSeller: Scalars['String'];
   skuId: Scalars['Int'];
+};
+
+export type PrimeFaqOutput = {
+  __typename?: 'PrimeFaqOutput';
+  body: Scalars['String'];
+  id: Scalars['ID'];
+  title: Scalars['String'];
 };
 
 export type PrimeInfoOutput = {
@@ -1050,6 +1082,8 @@ export type Query = {
   order: OrderDetailOutput;
   orderForm: OrderformOutput;
   orders: OrderPaginationOutput;
+  primeConfig: PrimeConfigOutput;
+  primeFaq: Array<PrimeFaqOutput>;
   product: ProductOutput;
   productDeliveryTime: Array<ProductDeliveryTimeOutput>;
   productRecommendations: Array<ProductRecommendationOutput>;
@@ -1521,6 +1555,11 @@ export type OrderFormQueryVariables = Exact<{
 
 
 export type OrderFormQuery = { __typename?: 'Query', orderForm: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
+
+export type PrimeFaqQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PrimeFaqQuery = { __typename?: 'Query', primeFaq: Array<{ __typename?: 'PrimeFaqOutput', id: string, title: string, body: string }> };
 
 export type ProductQueryVariables = Exact<{
   input: ProductInput;
@@ -2990,6 +3029,45 @@ export type OrderFormLazyQueryHookResult = ReturnType<typeof useOrderFormLazyQue
 export type OrderFormQueryResult = Apollo.QueryResult<OrderFormQuery, OrderFormQueryVariables>;
 export function refetchOrderFormQuery(variables: OrderFormQueryVariables) {
       return { query: OrderFormDocument, variables: variables }
+    }
+export const PrimeFaqDocument = gql`
+    query primeFaq {
+  primeFaq {
+    id
+    title
+    body
+  }
+}
+    `;
+
+/**
+ * __usePrimeFaqQuery__
+ *
+ * To run a query within a React component, call `usePrimeFaqQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePrimeFaqQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePrimeFaqQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePrimeFaqQuery(baseOptions?: Apollo.QueryHookOptions<PrimeFaqQuery, PrimeFaqQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PrimeFaqQuery, PrimeFaqQueryVariables>(PrimeFaqDocument, options);
+      }
+export function usePrimeFaqLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PrimeFaqQuery, PrimeFaqQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PrimeFaqQuery, PrimeFaqQueryVariables>(PrimeFaqDocument, options);
+        }
+export type PrimeFaqQueryHookResult = ReturnType<typeof usePrimeFaqQuery>;
+export type PrimeFaqLazyQueryHookResult = ReturnType<typeof usePrimeFaqLazyQuery>;
+export type PrimeFaqQueryResult = Apollo.QueryResult<PrimeFaqQuery, PrimeFaqQueryVariables>;
+export function refetchPrimeFaqQuery(variables?: PrimeFaqQueryVariables) {
+      return { query: PrimeFaqDocument, variables: variables }
     }
 export const ProductDocument = gql`
     query product($input: ProductInput!) {

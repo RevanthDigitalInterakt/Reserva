@@ -13,6 +13,7 @@ type TCacheKeys = 'banner'
 | 'home'
 | 'landingPagePrime'
 | 'mktinStatus'
+| 'primeFAQ'
 | 'productDetail'
 | 'productFeaturedData'
 | 'productRecommendations'
@@ -25,6 +26,7 @@ const ONE_MINUTE = 1000 * 60;
 const TWO_MINUTES = ONE_MINUTE * 2;
 const FIVE_MINUTES = ONE_MINUTE * 5;
 const TEN_MINUTES = ONE_MINUTE * 10;
+const SIX_HOURS = TEN_MINUTES * 36;
 
 const DISABLED_CACHE_POLICY = false;
 
@@ -39,6 +41,7 @@ const expireTimes: { [key in TCacheKeys]: number } = {
   home: TWO_MINUTES,
   landingPagePrime: TEN_MINUTES,
   mktinStatus: TEN_MINUTES,
+  primeFAQ: SIX_HOURS,
   productDetail: ONE_MINUTE,
   productFeaturedData: ONE_MINUTE,
   productRecommendations: TWO_MINUTES,
@@ -71,6 +74,7 @@ const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
       home: 0,
       landingPagePrime: 0,
       mktinStatus: 0,
+      primeFAQ: 0,
       productDetail: 0,
       productFeaturedData: 0,
       productRecommendations: 0,
