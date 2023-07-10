@@ -6,6 +6,7 @@ import IconPrimeFreeShipping from '../Icons/IconPrimeFreeShipping';
 import IconPrimeCashback from '../Icons/IconPrimeCashback';
 import { styles } from './PrimeBenefits.styles';
 import type { PrimeDetailOutput } from '../../../../base/graphql/generated';
+import IconPrimePartners from '../Icons/IconPrimePartners';
 
 interface IPrimeBenefits {
   data: PrimeDetailOutput;
@@ -44,6 +45,19 @@ function PrimeBenefits({ data }: IPrimeBenefits) {
             Acumule mais*
           </Typography>
           pra comprar o que você quiser, quando preferir.
+        </Typography>
+      ),
+    },
+    {
+      Icon: <IconPrimePartners style={styles.icon} />,
+      title: 'Programa de Parcerias',
+      text: (
+        <Typography variant="tituloSessao" style={styles.itemDescription}>
+          <Typography variant="precoTotal" style={styles.itemDescriptionBold}>
+            Acesso exclusivo
+          </Typography>
+          {' '}
+          a benefícios com marcas parceiras de variados segmentos.
         </Typography>
       ),
     },
