@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import IconComponent from '../IconComponent/IconComponent';
-import { toggleAnimation } from '../../../assets/animations/toggleAnimation';
+import { toggleAnimation } from '../../routes/animations/toggleAnimation';
 import { styles } from './styles';
 import testProps from '../../utils/testProps';
 
