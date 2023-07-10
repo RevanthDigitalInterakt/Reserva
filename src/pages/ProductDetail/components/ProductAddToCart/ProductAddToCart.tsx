@@ -60,8 +60,6 @@ function ProductAddToCart() {
 
       await restoreCart(orderFormId);
 
-      actions.REFETCH_ORDER_FORM();
-
       setShowAnimationBag(true);
       addTagsUponCartUpdate();
     } catch (err) {
