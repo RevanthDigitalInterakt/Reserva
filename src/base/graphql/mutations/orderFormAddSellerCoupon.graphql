@@ -1,19 +1,5 @@
 mutation orderFormAddSellerCoupon($orderFormId: String!, $coupon: String!) {
-    orderFormAddSellerCoupon(
-        input: {
-            orderFormId: $orderFormId
-            coupon: $coupon
-        }
-    ) {
-        orderFormId
-        marketingData {
-            marketingTags
-        }
-        appTotalizers {
-            items
-            discount
-            delivery
-            total
-        }
+    orderFormAddSellerCoupon(input: { orderFormId: $orderFormId coupon: $coupon }) {
+        ...orderFormFragment
     }
 }

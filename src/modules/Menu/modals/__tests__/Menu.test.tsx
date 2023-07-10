@@ -117,6 +117,12 @@ jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: mockedNavigate, goBack: mockGoBackFn }),
 }));
 
+jest.mock('../../../../zustand/useApolloFetchPolicyStore', () => ({
+  useApolloFetchPolicyStore: () => ({
+    getFetchPolicyPerKey: jest.fn(),
+  }),
+}));
+
 describe('Componente Menu', () => {
   beforeEach(async () => {
     jest.clearAllMocks();

@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { memo } from 'react';
 import AutoHeightImage from 'react-native-auto-height-image';
-import icons from '../../base/styles/icons';
+import icons, { TIcons, svgs } from '../../base/styles/icons';
 
 export interface TSource {
   uri: string;
 }
 
 interface IProps extends Omit<React.ComponentProps<typeof AutoHeightImage>, 'source' | 'width' | 'height'> {
-  icon: keyof typeof icons;
+  icon: TIcons,
   source?: TSource | number
   width?: number;
   height?: number;
@@ -15,7 +15,16 @@ interface IProps extends Omit<React.ComponentProps<typeof AutoHeightImage>, 'sou
 
 const defaultIconSize = 60;
 
-export default function IconComponent({ icon, ...rest }: IProps) {
+function IconComponent({ icon, ...rest }: IProps) {
+  if (!icon) {
+    throw new Error('Required icon name');
+  }
+
+  if (Object.keys(svgs).includes(icon)) {
+    const ComponentSvg = icons[icon];
+    return <ComponentSvg />;
+  }
+
   return (
     <AutoHeightImage
       resizeMode="contain"
@@ -26,3 +35,5 @@ export default function IconComponent({ icon, ...rest }: IProps) {
     />
   );
 }
+
+export default memo(IconComponent);

@@ -12,5 +12,12 @@ fragment productSizeFragment on ProductSizeOutput {
         value
         number
     }
+    prime {
+        price
+        installment {
+            value
+            number
+        }
+    }
     disabled
 }

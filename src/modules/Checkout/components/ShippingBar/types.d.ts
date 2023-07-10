@@ -1,7 +1,7 @@
 export interface IPropsShippingBar {
   loading: boolean;
   totalDelivery: number;
-  sumPriceShipping: number;
+  totalOrder: number;
 }
 
 export interface IPropsShippingMessage {

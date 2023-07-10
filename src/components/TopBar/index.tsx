@@ -9,8 +9,9 @@ import ProgressBar from 'react-native-progress/Bar';
 import {
   Button, Box, Icon, theme,
 } from '@usereservaapp/reserva-ui';
-
 import testProps from '../../utils/testProps';
+import { usePrimeInfo } from '../../hooks/usePrimeInfo';
+import IconComponent from '../IconComponent/IconComponent';
 
 export type IconTopBar = {
   name: string;
@@ -42,21 +43,24 @@ export const TopBar = ({
   rightButton2,
   loading = false,
   ...props
-}: TopBarProps) => (
-  <Box justifyContent="flex-end" {...props}>
-    <Box
-      flex={1}
-      flexDirection="row"
-      justifyContent="flex-end"
-      paddingX="micro"
-    >
+}: TopBarProps) => {
+  const { isPrime, primeActive } = usePrimeInfo();
+
+  return (
+    <Box justifyContent="flex-end" {...props}>
       <Box
-        width="25%"
+        flex={1}
         flexDirection="row"
-        alignItems="flex-start"
-        alignSelf="center"
+        justifyContent="flex-end"
+        paddingX="micro"
       >
-        {leftButton !== undefined && (
+        <Box
+          width="25%"
+          flexDirection="row"
+          alignItems="flex-start"
+          alignSelf="center"
+        >
+          {leftButton !== undefined && (
           <Button
             justifyContent="flex-end"
             hitSlop={{
@@ -75,35 +79,37 @@ export const TopBar = ({
             {...testProps(leftButton.testID)}
             onPress={leftButton.onPress}
           />
-        )}
-      </Box>
+          )}
+        </Box>
 
-      {showLogo ? (
+        {showLogo ? (
+          <Box
+            width="50%"
+            justifyContent="flex-start"
+            alignItems="center"
+            alignSelf="center"
+          >
+            {isPrime && primeActive
+              ? <IconComponent icon="logoPrime" />
+              : <Icon name="Logo" color="vermelhoAlerta" size={24} />}
+          </Box>
+        ) : (
+          <Box
+            width="50%"
+            justifyContent="flex-start"
+            alignItems="center"
+            alignSelf="flex-start"
+          />
+        )}
+
         <Box
-          width="50%"
-          justifyContent="flex-start"
-          alignItems="center"
+          width="25%"
+          flexDirection="row"
+          justifyContent="flex-end"
+          alignItems="flex-end"
           alignSelf="center"
         >
-          <Icon name="Logo" color="vermelhoAlerta" size={24} />
-        </Box>
-      ) : (
-        <Box
-          width="50%"
-          justifyContent="flex-start"
-          alignItems="center"
-          alignSelf="flex-start"
-        />
-      )}
-
-      <Box
-        width="25%"
-        flexDirection="row"
-        justifyContent="flex-end"
-        alignItems="flex-end"
-        alignSelf="center"
-      >
-        {rightButton1 !== undefined && (
+          {rightButton1 !== undefined && (
           <Button
             hitSlop={{
               top: 20,
@@ -122,9 +128,9 @@ export const TopBar = ({
             onPress={rightButton1.onPress}
             mr={rightButton2 ? 20 : 0}
           />
-        )}
+          )}
 
-        {rightButton2 !== undefined && (
+          {rightButton2 !== undefined && (
           <Button
             variant="icone"
             hitSlop={{
@@ -142,21 +148,23 @@ export const TopBar = ({
             onPress={rightButton2.onPress}
             badgeCount={rightButton2.badgeCount}
           />
-        )}
+          )}
+        </Box>
       </Box>
+
+      {loading && (
+        <Box top={0} height={1} justifyContent="flex-end">
+          <ProgressBar
+            animated
+            indeterminate
+            color={theme.colors.vermelhoAlerta}
+            height={2}
+            borderWidth={0}
+            width={null}
+            borderRadius={0}
+          />
+        </Box>
+      )}
     </Box>
-    {loading && (
-      <Box top={0} height={1} justifyContent="flex-end">
-        <ProgressBar
-          animated
-          indeterminate
-          color={theme.colors.vermelhoAlerta}
-          height={2}
-          borderWidth={0}
-          width={null}
-          borderRadius={0}
-        />
-      </Box>
-    )}
-  </Box>
-);
+  );
+};

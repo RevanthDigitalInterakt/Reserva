@@ -1,29 +1,17 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Platform } from 'react-native';
-import { useCart } from '../../../context/CartContext';
 import { platformType } from '../../../utils/platformType';
 import { TopBar } from '../../../components/TopBar';
+import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
 
 export const TopBarDefault: React.FC<{
   showShadow?: Boolean;
   loading?: Boolean;
 }> = ({ showShadow = true, loading = false }) => {
   const navigation = useNavigation();
-  const { orderForm } = useCart();
-  const [bagQuantity, setBagQuantity] = useState(0);
-  useEffect(() => {
-    if (orderForm?.items) {
-      const quantity = orderForm?.items?.reduce(
-        (accumulator, currentValue) => accumulator + currentValue.quantity,
-        0,
-      );
-      setBagQuantity(quantity);
-    }
-  }, [orderForm]);
+  const { allItemsQuantity } = useBagStore(['allItemsQuantity']);
 
-  useEffect(() => {
-  }, [bagQuantity]);
   return (
     <TopBar
       loading={loading}
@@ -35,27 +23,20 @@ export const TopBarDefault: React.FC<{
         name: 'SideMenu',
         testID: 'com.usereserva:id/header_button_menu',
         size: 24,
-        onPress: () => {
-          navigation.navigate('Menu');
-        },
+        onPress: () => navigation.navigate('Menu'),
       }}
       rightButton1={{
         name: 'Search',
         size: 24,
         testID: 'com.usereserva:id/header_button_search',
-        onPress: () => {
-          navigation.navigate('SearchMenu');
-        },
+        onPress: () => navigation.navigate('SearchMenu'),
       }}
       rightButton2={{
         name: 'Handbag',
         testID: 'com.usereserva:id/button_bag',
         size: 24,
-        onPress: () => {
-          // Alert.alert('button right 2');
-          navigation.navigate('BagScreen');
-        },
-        badgeCount: bagQuantity,
+        onPress: () => navigation.navigate('BagScreen'),
+        badgeCount: allItemsQuantity,
       }}
       height={50}
     />

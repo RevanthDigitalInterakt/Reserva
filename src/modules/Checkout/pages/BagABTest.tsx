@@ -14,7 +14,7 @@ export const BagABTest: React.FC<Props> = (props) => {
 
   const showNewBag = useMemo(() => (
     getBoolean(isTester ? 'show_new_bag_tester' : 'show_new_bag')
-  ), [getBoolean]);
+  ), [getBoolean, isTester]);
 
   return (
     showNewBag ? <NewBag {...props} /> : <BagScreen {...props} />
