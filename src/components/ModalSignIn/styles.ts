@@ -7,7 +7,8 @@ export const objectStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   containerModal: {
-    width: configDeviceSizes.DEVICE_WIDTH - 24,
+    width: configDeviceSizes.DEVICE_WIDTH - 48,
+    top: -60,
   },
   wrapperAboutPrime: {
     marginTop: 8,

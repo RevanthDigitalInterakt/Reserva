@@ -13,6 +13,7 @@ import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicy
 
 import * as Styles from '../styles';
 import { usePrimeInfo } from '../../../hooks/usePrimeInfo';
+import { COLORS } from '../../../base/styles/colors';
 
 interface PropsComponent {
   onClose: () => void;
@@ -113,19 +114,32 @@ export function FooterModalPrime({
       <>
         <Typography
           fontFamily="reservaSansRegular"
-          style={{ marginTop: 24, marginBottom: 24 }}
+          style={{
+            marginTop: 24,
+            marginBottom: 24,
+            fontSize: 16,
+            lineHeight: 16.8,
+            letterSpacing: 0.5,
+            color: COLORS.DARK_GRAY,
+          }}
         >
           Olá!
           {' '}
-          <Typography fontFamily="reservaSansBold" fontSize={16}>{profile?.firstName}</Typography>
+          <Typography fontFamily="reservaSansBold" style={{ color: COLORS.BLACK }}>{profile?.firstName}</Typography>
           {' '}
           você ainda não é cliente
           {' '}
-          <Typography fontFamily="reservaDisplayRegular" fontSize={16}>Prime</Typography>
-          , mas não se preocupe, basta tocar no botão abaixo
-          e adicionar em sua sacola a assinatura pelo valor de
+          <Typography fontFamily="reservaDisplayRegular" style={{ color: COLORS.BLACK }}>Prime</Typography>
+          ,
+          {'\n'}
+          mas não se preocupe, basta tocar no botão
+          {'\n'}
+          abaixo
+          e adicionar em sua sacola a assinatura
+          {'\n'}
+          pelo valor de
           {' '}
-          <Typography fontFamily="reservaSansBold" fontSize={16}>
+          <Typography fontFamily="reservaSansBold" style={{ color: COLORS.BLACK }}>
             {primeInformation?.installmentQty}
             x de R$
             {' '}
@@ -136,11 +150,15 @@ export function FooterModalPrime({
 
           Ao aderir ao
           {' '}
-          <Typography fontFamily="reservaDisplayRegular" fontSize={16}>Prime</Typography>
+          <Typography fontFamily="reservaDisplayRegular" style={{ color: COLORS.BLACK }}>Prime</Typography>
           {' '}
-          você pode aproveitar todos os benefícios da sua assinatura em compras acima de
+          você pode aproveitar
+          {'\n'}
+          todos os benefícios da sua assinatura em
+          {'\n'}
+          compras acima de
           {' '}
-          <Typography fontFamily="reservaSansBold" fontSize={16}>
+          <Typography fontFamily="reservaSansBold" style={{ color: COLORS.BLACK }}>
             {primeInformation && `R$${primeInformation?.discountFrom}`}
           </Typography>
           !
