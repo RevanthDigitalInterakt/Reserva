@@ -68,6 +68,7 @@ export const commons = {
 /* mapping of svgs used as icons */
 export const svgs = {
   logoPrime: require('../svgs/LogoPrime').default,
+  chevronRight: require('../svgs/ChevronRight').default,
 };
 
 type TIconsKeys = keyof typeof commons;
