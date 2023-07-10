@@ -18,6 +18,8 @@ import EventProvider from '../../../../utils/EventProvider';
 import { useCart } from '../../../../context/CartContext';
 import { getBrands } from '../../../../utils/getBrands';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
+import { ModalClientIsPrime } from '../../../../modules/Checkout/components/ModalClientIsPrime/ModalClientIsPrime';
+import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 
 export default function BagFooter() {
   const {
@@ -27,6 +29,7 @@ export default function BagFooter() {
     appTotalizers,
     topBarLoading,
     installmentInfo,
+    hasPrimeSubscriptionInCart,
   } = useBagStore([
     'orderFormId',
     'appTotalizers',
@@ -34,13 +37,16 @@ export default function BagFooter() {
     'topBarLoading',
     'installmentInfo',
     'items',
+    'hasPrimeSubscriptionInCart',
   ]);
 
   const navigation = useNavigation();
   const { restoreCart } = useCart();
   const { profile } = useAuthStore(['profile']);
+  const { primeActive } = usePrimeInfo();
 
   const [navigateToDeliveryDisable, setNavigateToDeliveryDisable] = useState<boolean>(false);
+  const [isUserPrimeWithPrimeOnBag, setIsUserPrimeWithPrimeOnBag] = useState(false);
 
   const bagInstallmentPrice = useMemo(() => {
     const val = appTotalizers.total + appTotalizers.discount;
@@ -93,6 +99,22 @@ export default function BagFooter() {
     }
   }, [appTotalizers, items]);
 
+  const hasPrimeRemovedFromBag = useCallback(async () => {
+    if (profile?.isPrime && hasPrimeSubscriptionInCart && primeActive) {
+      const primeItemIndex = items.findIndex((item) => item.isPrimeSubscription);
+
+      if (primeItemIndex !== -1) {
+        await actions.UPDATE_PRODUCT_COUNT(primeItemIndex, items[primeItemIndex]!, 0);
+
+        setIsUserPrimeWithPrimeOnBag(true);
+
+        return true;
+      }
+    }
+
+    return false;
+  }, [actions, hasPrimeSubscriptionInCart, items, primeActive, profile?.isPrime]);
+
   const handleNavigateToDelivery = useCallback(async () => {
     setNavigateToDeliveryDisable(true);
 
@@ -120,10 +142,15 @@ export default function BagFooter() {
 
       await actions.REMOVE_UNAVAILABLE_ITEMS();
 
+      const primeRemovedFromCart = await hasPrimeRemovedFromBag();
+
       await actions.REFRESH_ORDER_FORM();
 
       await restoreCart(orderFormId);
-      navigation.navigate('DeliveryScreen', {});
+
+      if (!primeRemovedFromCart) {
+        navigation.navigate('DeliveryScreen', {});
+      }
     } catch (error) {
       Sentry.withScope((scope) => {
         scope.setExtra('orderFormId', orderFormId);
@@ -158,6 +185,15 @@ export default function BagFooter() {
       style={{ elevation: Platform.OS === platformType.ANDROID ? 10 : 0 }}
       boxShadow={Platform.OS === platformType.ANDROID ? null : 'bottomBarShadow'}
     >
+      <ModalClientIsPrime
+        isVisible={isUserPrimeWithPrimeOnBag}
+        onBackdropPress={() => {
+          setIsUserPrimeWithPrimeOnBag(false);
+          navigation.navigate('DeliveryScreen', {});
+        }}
+        firstName={profile?.firstName || profile?.email}
+      />
+
       <Box
         flexDirection="row"
         justifyContent="space-between"
