@@ -4,7 +4,7 @@ import EventProvider from './EventProvider';
 import { getBrands } from './getBrands';
 import type { OrderFormQuery } from '../base/graphql/generated';
 
-export const trackingOrderFormAddItem = async (id: string, orderForm: OrderFormQuery['orderForm']) => {
+export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderFormQuery['orderForm']) => {
   try {
     const product = orderForm?.items.find(
       (item) => item.id === id,
