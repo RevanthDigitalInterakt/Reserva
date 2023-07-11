@@ -10,18 +10,16 @@ import { StorageService } from './shared/services/StorageService';
 import OnForegroundEventPush from './utils/Notifee/ForegroundEvents';
 import { useAuthStore } from './zustand/useAuth/useAuthStore';
 import useCheckAppNewVersion from './hooks/useCheckAppNewVersion';
+import { usePrimeConfig } from './zustand/usePrimeConfig/usePrimeConfig';
 
-interface IProps {
-  children: React.ReactNode;
-}
-
-function InitialScreen({ children }: { children: JSX.Element }) {
+function InitialScreen({ children }: { children: React.ReactNode }) {
   const {
     onInit, initialized, isAnonymousUser, profile,
   } = useAuthStore(['onInit', 'initialized', 'isAnonymousUser', 'profile']);
-  const { barStyle } = useStatusBar();
 
-  useCheckAppNewVersion();
+  const { onPrimeConfig } = usePrimeConfig(['onPrimeConfig']);
+
+  const { barStyle } = useStatusBar();
 
   const { handleDitoRegisterAnony, handleDitoRegister } = useInitialDito();
 
@@ -40,7 +38,15 @@ function InitialScreen({ children }: { children: JSX.Element }) {
     if (profile) {
       handleDitoRegister();
     }
-  }, [handleDitoRegisterAnony, isAnonymousUser, profile, handleDitoRegister]);
+
+    await onPrimeConfig();
+  }, [
+    isAnonymousUser,
+    profile,
+    onPrimeConfig,
+    handleDitoRegisterAnony,
+    handleDitoRegister,
+  ]);
 
   useEffect(() => {
     if (initialized) {
