@@ -42,6 +42,7 @@ import {
 } from '../../base/graphql/generated';
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { getMessageErrorWhenUpdateItem } from './helpers/getMessageErrorWhenUpdateItem';
+import { trackingOrderFormAddItem } from '../../utils/trackingOrderFormAddItem';
 
 const bagStore = create<IBagStore>((set, getState): IBagStore => ({
   initialized: false,
@@ -547,6 +548,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           },
           hasPrimeSubscriptionInCart: orderForm?.hasPrimeSubscriptionInCart,
         }));
+
+        await trackingOrderFormAddItem(id, orderForm);
       } catch (error) {
         set(() => ({ error: error.message }));
 
