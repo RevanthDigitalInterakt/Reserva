@@ -1561,6 +1561,11 @@ export type PrimeConfigQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type PrimeConfigQuery = { __typename?: 'Query', primeConfig: { __typename?: 'PrimeConfigOutput', idCalculatorConfiguration: string, name: string, percentualDiscountValue: number, isActive: boolean, categoriesAreInclusive: boolean, collectionsIsInclusive: boolean, brandsAreInclusive: boolean, idSeller: string, idSellerIsInclusive: boolean, totalValueFloor: number, totalValueCeling: number, marketingTags: Array<{ __typename?: 'PrimeConfigItemOutput', id: string, name: string }>, categories: Array<{ __typename?: 'PrimeConfigItemOutput', id: string, name: string }>, brands: Array<{ __typename?: 'PrimeConfigItemOutput', id: string, name: string }>, collections: Array<{ __typename?: 'PrimeConfigItemOutput', id: string, name: string }> } };
 
+export type PrimeFaqQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PrimeFaqQuery = { __typename?: 'Query', primeFaq: Array<{ __typename?: 'PrimeFaqOutput', id: string, title: string, body: string }> };
+
 export type ProductQueryVariables = Exact<{
   input: ProductInput;
 }>;
@@ -3092,6 +3097,45 @@ export type PrimeConfigLazyQueryHookResult = ReturnType<typeof usePrimeConfigLaz
 export type PrimeConfigQueryResult = Apollo.QueryResult<PrimeConfigQuery, PrimeConfigQueryVariables>;
 export function refetchPrimeConfigQuery(variables?: PrimeConfigQueryVariables) {
       return { query: PrimeConfigDocument, variables: variables }
+    }
+export const PrimeFaqDocument = gql`
+    query primeFaq {
+  primeFaq {
+    id
+    title
+    body
+  }
+}
+    `;
+
+/**
+ * __usePrimeFaqQuery__
+ *
+ * To run a query within a React component, call `usePrimeFaqQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePrimeFaqQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePrimeFaqQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePrimeFaqQuery(baseOptions?: Apollo.QueryHookOptions<PrimeFaqQuery, PrimeFaqQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PrimeFaqQuery, PrimeFaqQueryVariables>(PrimeFaqDocument, options);
+      }
+export function usePrimeFaqLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PrimeFaqQuery, PrimeFaqQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PrimeFaqQuery, PrimeFaqQueryVariables>(PrimeFaqDocument, options);
+        }
+export type PrimeFaqQueryHookResult = ReturnType<typeof usePrimeFaqQuery>;
+export type PrimeFaqLazyQueryHookResult = ReturnType<typeof usePrimeFaqLazyQuery>;
+export type PrimeFaqQueryResult = Apollo.QueryResult<PrimeFaqQuery, PrimeFaqQueryVariables>;
+export function refetchPrimeFaqQuery(variables?: PrimeFaqQueryVariables) {
+      return { query: PrimeFaqDocument, variables: variables }
     }
 export const ProductDocument = gql`
     query product($input: ProductInput!) {
