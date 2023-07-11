@@ -1,16 +1,21 @@
 import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
 import LottieView from 'lottie-react-native';
-import React, { createRef, useState } from 'react';
+import React, {
+  createRef, useRef, useState,
+} from 'react';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   ScrollView,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
+import Video from 'react-native-video';
 import { DiscountLabel } from '../ProductVerticalListCard';
 import { Button } from '../Button';
-import ImageComponent from '../ImageComponent/ImageComponent';
+import configDeviceSizes from '../../utils/configDeviceSizes';
+
 import IconComponent from '../IconComponent/IconComponent';
 
 export interface ProductDetailCardProps {
@@ -61,6 +66,11 @@ export const ImageSlider = ({
 
   imageIndexActual(actualImage);
 
+  const midias = [
+    ...images,
+    'https://assets.mixkit.co/videos/preview/mixkit-close-view-of-denim-fabric-texture-34500-large.mp4',
+  ];
+
   const onChangeImage = (
     scrollEvent: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
@@ -71,15 +81,15 @@ export const ImageSlider = ({
 
     if (
       actualItem !== actualImage
-      && images
-      && actualItem <= Math.ceil(images.length)
+      && midias
+      && actualItem <= Math.ceil(midias.length)
     ) {
       setActualImage(actualItem);
     }
   };
   const goNext = () => {
     if (onGoNext) {
-      onGoNext({ image: images[actualImage + 1], index: actualImage + 1 });
+      onGoNext({ image: midias[actualImage + 1], index: actualImage + 1 });
     }
 
     if (!width) width = 360;
@@ -87,12 +97,17 @@ export const ImageSlider = ({
   };
   const goBack = () => {
     if (onGoBack) {
-      onGoBack({ image: images[actualImage - 1], index: actualImage - 1 });
+      onGoBack({ image: midias[actualImage - 1], index: actualImage - 1 });
     }
 
     if (!width) width = 360;
     scrollref.current?.scrollTo({ x: (actualImage - 1) * width });
   };
+  // instance of video
+  const videoRef = useRef<Video>(null);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
+  const scrollRef = useRef<ScrollView>(null);
+  const [count, setCount] = useState(0);
 
   return (
     <Box width={width} height={height}>
@@ -114,7 +129,7 @@ export const ImageSlider = ({
           />
         </Box>
       )}
-      {actualImage < images?.length - 1 && (
+      {actualImage < midias?.length - 1 && (
         <Box
           position="absolute"
           style={{ elevation: 3 }}
@@ -141,16 +156,27 @@ export const ImageSlider = ({
         ref={scrollref}
         showsHorizontalScrollIndicator={false}
       >
-        {images?.map((image) => (
-          <Box key={`product-card-${image}`} alignItems="center" width={width} height={height}>
-            <ImageComponent
-              key={image}
-              source={{ uri: image }}
-              height={height}
-              width={width}
-              resizeMode="contain"
+        {midias?.map((image, index) => (
+          <TouchableWithoutFeedback
+            // eslint-disable-next-line react/no-array-index-key
+            key={`index${index}`}
+            onPress={() => setIsPaused(!isPaused)}
+          >
+            <Video
+              ref={videoRef}
+              source={{
+                uri: image,
+              }}
+              resizeMode="cover"
+              paused={false}
+              repeat
+              style={{
+                width: configDeviceSizes.DEVICE_WIDTH,
+                height: configDeviceSizes.DEVICE_HEIGHT,
+                backgroundColor: 'red',
+              }}
             />
-          </Box>
+          </TouchableWithoutFeedback>
         ))}
       </ScrollView>
     </Box>
