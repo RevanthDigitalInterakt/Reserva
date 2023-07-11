@@ -1,10 +1,12 @@
 /* TODO when refactoring the PDC and Search, you should remove this logic */
 import { create } from 'zustand';
 import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
-import { getApolloClient } from '../../utils/getApolloClient';
-import { primeConfigQuery } from '../../graphql/prime/primeConfigQuery';
 import EventProvider from '../../utils/EventProvider';
-import type { PrimeConfigOutput } from '../../base/graphql/generated';
+import {
+  type PrimeConfigOutput, PrimeConfigQuery, PrimeConfigQueryVariables, PrimeConfigDocument,
+} from '../../base/graphql/generated';
+import { getApolloClient } from '../../utils/getApolloClient';
+import type { ProductQL } from '../../graphql/products/productSearch';
 
 interface IPrimeConfig {
   promo: any;
@@ -15,12 +17,10 @@ export const primeConfig = create<IPrimeConfig>((set, getState) => ({
   promo: null,
   onPrimeConfig: async () => {
     try {
-      const client = getApolloClient();
-
-      const { data } = await client.query<{ primeConfig: PrimeConfigOutput }>({
-        query: primeConfigQuery,
+      const { data } = await getApolloClient().query<PrimeConfigQuery, PrimeConfigQueryVariables>({
+        query: PrimeConfigDocument,
         context: { clientName: 'gateway' },
-        fetchPolicy: 'cache-first',
+        fetchPolicy: 'no-cache',
       });
 
       set({ ...getState(), promo: data.primeConfig });
@@ -46,7 +46,7 @@ export function getDefaultSeller(sellers?: any[]) {
 }
 
 export const hasPrimeConditions = (
-  product: any,
+  product: ProductQL,
   promo: PrimeConfigOutput,
 
 ) => {
@@ -81,10 +81,11 @@ export const hasPrimeConditions = (
 
   const collections = promo.collections.map((c) => String(c.id));
 
-  const productCollections = product.productClusters.map((c) => String(c.id));
+  const productCollections = product?.productClusters?.map((c) => String(c.id));
 
   const hasAnyCollectionInCluster = collections.reduce(
-    (acc, cur) => acc || productCollections.includes(cur), false,
+    (acc, cur) => acc || (!!productCollections?.length && productCollections.includes(cur)),
+    false,
   );
 
   const collectionsHasPrime = promo.collectionsIsInclusive
@@ -143,8 +144,8 @@ interface Installment {
 }
 
 const getPrimeInstallments = (Installments: Installment[], price: number) => {
-  const maxInstallmentOption = Installments.length ? Installments[0] : null;
-  let installments = maxInstallmentOption?.NumberOfInstallments || 1;
+  const maxInstallmentOption = Installments?.length ? Installments[0] : null;
+  let installments = maxInstallmentOption?.NumberOfInstallments ?? 1;
 
   new Array(12).fill(0).forEach((_, index) => {
     if (price / (index + 1) >= 60) {
@@ -163,7 +164,9 @@ export interface IGetPrimeReturn {
   primeInstallments: { number: number; value: number; };
 }
 
-export const getPrime = (item: any, promo: PrimeConfigOutput): IGetPrimeReturn | null => {
+export const getPrime = (
+  item: ProductQL, promo: PrimeConfigOutput,
+): IGetPrimeReturn | null => {
   const hasPrime = hasPrimeConditions(item, promo);
 
   if (hasPrime) {
@@ -173,6 +176,7 @@ export const getPrime = (item: any, promo: PrimeConfigOutput): IGetPrimeReturn |
 
     const primePercentualDiscount = promo?.percentualDiscountValue || 0;
     const primePrice = priceWithDiscount * ((100 - primePercentualDiscount) / 100);
+
     const primeInstallments = getPrimeInstallments(Installments, primePrice);
 
     return {

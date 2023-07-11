@@ -51,9 +51,6 @@ import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { getCollectionFacetsValue } from '../../../../utils/getCollectionFacetsValue';
 import { durationToTimeString } from '../../../../utils/durationToTimeString';
-import {
-  usePrimeConfig,
-} from '../../../../zustand/usePrimeConfig/usePrimeConfig';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -133,8 +130,6 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { getItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
-
-  const { promo } = usePrimeConfig(['promo']);
 
   const { WithoutInternet } = useCheckConnection({});
 
