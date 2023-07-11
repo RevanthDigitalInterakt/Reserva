@@ -13,7 +13,6 @@ import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicy
 
 import * as Styles from '../styles';
 import { usePrimeInfo } from '../../../hooks/usePrimeInfo';
-import { COLORS } from '../../../base/styles/colors';
 
 interface PropsComponent {
   onClose: () => void;
@@ -114,22 +113,15 @@ export function FooterModalPrime({
       <>
         <Typography
           fontFamily="reservaSansRegular"
-          style={{
-            marginTop: 24,
-            marginBottom: 24,
-            fontSize: 16,
-            lineHeight: 16.8,
-            letterSpacing: 0.5,
-            color: COLORS.DARK_GRAY,
-          }}
+          style={Styles.objectStyles.modalText}
         >
           Olá!
           {' '}
-          <Typography fontFamily="reservaSansBold" style={{ color: COLORS.BLACK }}>{profile?.firstName}</Typography>
+          <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>{profile?.firstName}</Typography>
           {' '}
           você ainda não é cliente
           {' '}
-          <Typography fontFamily="reservaDisplayRegular" style={{ color: COLORS.BLACK }}>Prime</Typography>
+          <Typography fontFamily="reservaDisplayRegular" style={Styles.objectStyles.highlightedText}>Prime</Typography>
           ,
           {'\n'}
           mas não se preocupe, basta tocar no botão
@@ -139,7 +131,7 @@ export function FooterModalPrime({
           {'\n'}
           pelo valor de
           {' '}
-          <Typography fontFamily="reservaSansBold" style={{ color: COLORS.BLACK }}>
+          <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>
             {primeInformation?.installmentQty}
             x de R$
             {' '}
@@ -150,7 +142,7 @@ export function FooterModalPrime({
 
           Ao aderir ao
           {' '}
-          <Typography fontFamily="reservaDisplayRegular" style={{ color: COLORS.BLACK }}>Prime</Typography>
+          <Typography fontFamily="reservaDisplayRegular" style={Styles.objectStyles.highlightedText}>Prime</Typography>
           {' '}
           você pode aproveitar
           {'\n'}
@@ -158,7 +150,7 @@ export function FooterModalPrime({
           {'\n'}
           compras acima de
           {' '}
-          <Typography fontFamily="reservaSansBold" style={{ color: COLORS.BLACK }}>
+          <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>
             {primeInformation && `R$${primeInformation?.discountFrom}`}
           </Typography>
           !
