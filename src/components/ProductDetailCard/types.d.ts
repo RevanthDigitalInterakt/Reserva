@@ -13,6 +13,7 @@ export interface ProductDetailCardProps {
   imagesHeight?: number
   isFavorited?: boolean
   loadingFavorite?: boolean
+  showZoomButton?: boolean
   onClickFavorite?: (favoriteState: boolean) => void
   onClickShare?: () => void
   onGoNextImage?: (next: { image: string; index: number }) => void

@@ -17,6 +17,7 @@ export const ProductDetailCard = ({
   title,
   imagesHeight,
   imagesWidth,
+  showZoomButton,
   onClickShare,
   onGoBackImage,
   onGoNextImage,
@@ -141,25 +142,26 @@ export const ProductDetailCard = ({
             />
           </Box>
         </Box>
-
-        <Box
-          position="absolute"
-          bottom="3%"
-          right="4%"
-        >
-          <Button
-            backgroundColor="rgba(255, 255, 255, 0.4)"
-            borderRadius={50}
-            alignItems="center"
-            justifyContent="center"
-            width={36}
-            height={36}
-            variant="icone"
-            onPress={setModalZoom}
-            testID={`${testID}_zoom`}
-            icon={<Icon name="Expand" size={18} color="preto" />}
-          />
-        </Box>
+        {showZoomButton ? (
+          <Box
+            position="absolute"
+            bottom="3%"
+            right="4%"
+          >
+            <Button
+              backgroundColor="rgba(255, 255, 255, 0.4)"
+              borderRadius={50}
+              alignItems="center"
+              justifyContent="center"
+              width={36}
+              height={36}
+              variant="icone"
+              onPress={setModalZoom}
+              testID={`${testID}_zoom`}
+              icon={<Icon name="Expand" size={18} color="preto" />}
+            />
+          </Box>
+        ) : null}
       </Box>
     </Box>
 

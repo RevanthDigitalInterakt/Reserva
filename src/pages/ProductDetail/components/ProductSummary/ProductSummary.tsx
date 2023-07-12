@@ -70,11 +70,13 @@ function ProductSummary() {
   }, [imageIndex, productDetail]);
 
   const video = useMemo(() => {
-    if (!productDetail) return '';
-    if (!productDetail.videoThumbnail) return '';
+    if (!productDetail || !productDetail.videoThumbnail) return '';
     const videoSku = productDetail.videoThumbnail.split('/').pop()?.split('.')[0];
     return videoSku === selectedSize?.ean ? productDetail.videoThumbnail : '';
   }, [productDetail, selectedSize?.ean]);
+  const showZoomButton = useMemo(() => (
+    (!!video && imageIndex >= 0) || !video
+  ), [imageIndex, video]);
 
   const ProductDetailCardComponent = useMemo(() => (
     primeActive ? ProductDetailCard : ProductDetailCardLegacy
@@ -110,12 +112,14 @@ function ProductSummary() {
         imagesWidth={configDeviceSizes.DEVICE_WIDTH}
         images={selectedColor.images || []}
         videoThumbnail={video}
+        showZoomButton={showZoomButton}
         imageIndexActual={(newIndex) => {
+          const handledIndex = video ? newIndex - 1 : newIndex;
           // To prevent some re-renders
-          if (newIndex === imageIndex) return imageIndex;
+          if (handledIndex === imageIndex) return handledIndex;
 
-          setImageIndex(newIndex);
-          return newIndex;
+          setImageIndex(handledIndex);
+          return handledIndex;
         }}
       />
 

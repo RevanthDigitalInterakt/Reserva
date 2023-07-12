@@ -1,11 +1,12 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, {
+  useCallback, useMemo, useRef, useState,
+} from 'react';
 import Video from 'react-native-video';
 import { Box, Icon } from '@usereservaapp/reserva-ui';
 import {
   ScrollView,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  TouchableWithoutFeedback,
 } from 'react-native';
 
 import { Button } from '../../../Button';
@@ -23,12 +24,15 @@ export const CarrouselMedias = ({
   imageIndexActual,
 }: IParamsCarrouselMedias) => {
   const [actualImage, setActualImage] = useState(0);
-  const [isPaused, setIsPaused] = useState<boolean>(false);
 
   const videoRef = useRef<Video>(null);
   const scrollRef = useRef<ScrollView>(null);
 
   imageIndexActual?.(actualImage);
+
+  const medias = useMemo(() => (
+    videoThumbnail ? [videoThumbnail, ...images] : images
+  ), [images, videoThumbnail]);
 
   const onChangeImage = (
     scrollEvent: NativeSyntheticEvent<NativeScrollEvent>,
@@ -39,8 +43,8 @@ export const CarrouselMedias = ({
 
     if (
       actualItem !== actualImage
-      && images
-      && actualItem <= Math.ceil(images.length)
+      && medias
+      && actualItem <= Math.ceil(medias.length)
     ) {
       setActualImage(actualItem);
     }
@@ -49,24 +53,24 @@ export const CarrouselMedias = ({
   const goNext = useCallback(() => {
     if (onGoNext) {
       onGoNext({
-        image: images[actualImage + 1] || '',
+        image: medias[actualImage + 1] || '',
         index: actualImage + 1,
       });
     }
 
     scrollRef.current?.scrollTo({ x: (actualImage + 1) * width });
-  }, [actualImage, images, onGoNext, width]);
+  }, [actualImage, medias, onGoNext, width]);
 
   const goBack = useCallback(() => {
     if (onGoBack) {
       onGoBack({
-        image: images[actualImage - 1] || '',
+        image: medias[actualImage - 1] || '',
         index: actualImage - 1,
       });
     }
 
     scrollRef.current?.scrollTo({ x: (actualImage - 1) * width });
-  }, [actualImage, images, onGoBack, width]);
+  }, [actualImage, medias, onGoBack, width]);
 
   return (
     <Box width={width} height={height}>
@@ -88,7 +92,7 @@ export const CarrouselMedias = ({
           />
         </Box>
       )}
-      {actualImage < images?.length - 1 && (
+      {actualImage < medias?.length - 1 && (
         <Box
           position="absolute"
           style={{ elevation: 3 }}
@@ -115,46 +119,37 @@ export const CarrouselMedias = ({
         ref={scrollRef}
         showsHorizontalScrollIndicator={false}
       >
-        {videoThumbnail ? (
-          <TouchableWithoutFeedback
-            key={`product-card-${videoThumbnail}`}
-            onPress={() => setIsPaused(!isPaused)}
-            style={{
-              width,
-              height,
-            }}
-          >
-            <Video
-              ref={videoRef}
-              source={{
-                uri: videoThumbnail,
-              }}
-              resizeMode="cover"
-              paused={false}
-              repeat
-              style={{
-                width,
-                height,
-                backgroundColor: 'red',
-              }}
-            />
-          </TouchableWithoutFeedback>
-        ) : null}
-
-        {images?.map((image) => (
+        {medias?.map((media, index) => (
           <Box
-            key={`product-card-${image}`}
+            key={`product-card-${media}`}
             alignItems="center"
             width={width}
             height={height}
           >
-            <ImageComponent
-              key={image}
-              source={{ uri: image }}
-              height={height}
-              width={width}
-              resizeMode="contain"
-            />
+            {videoThumbnail && index === 0 ? (
+              <Video
+                ref={videoRef}
+                source={{
+                  uri: videoThumbnail,
+                }}
+                resizeMode="cover"
+                paused={false}
+                repeat
+                style={{
+                  width,
+                  height,
+                }}
+              />
+            )
+              : (
+                <ImageComponent
+                  key={media}
+                  source={{ uri: media }}
+                  height={height}
+                  width={width}
+                  resizeMode="contain"
+                />
+              )}
           </Box>
         ))}
       </ScrollView>
