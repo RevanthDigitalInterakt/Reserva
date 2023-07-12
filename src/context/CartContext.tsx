@@ -41,8 +41,7 @@ import {
 } from '../base/graphql/generated';
 import { splitSellerName } from '../utils/splitSellerName';
 import { getBrands } from '../utils/getBrands';
-import { useAuthStore } from '../zustand/useAuth/useAuthStore';
-import useAsyncStorageProvider, { getAsyncStorageItem, setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
+import { getAsyncStorageItem, setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { defaultBrand } from '../utils/defaultWBrand';
 
@@ -559,8 +558,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [sellerName, setSellerName] = useState<string>('');
   const [topBarLoading, setTopBarLoading] = useState<boolean>(false);
   const [hasErrorApplyCoupon, setHasErrorApplyCoupon] = useState<boolean>(false);
-  const { getItem } = useAsyncStorageProvider();
-  const { profile } = useAuthStore(['profile']);
 
   const { actions } = useBagStore(['actions']);
 
@@ -731,12 +728,12 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       EventProvider.logEvent('add_to_cart', {
         item_id: itemId,
-        item_price: (product?.price || 0) / 100, // convertPrice
-        item_quantity: product.quantity,
+        item_price: convertPrice(product?.price || 0),
+        item_quantity: quantity,
         item_category: 'product',
         currency: 'BRL',
-        seller: product.seller,
-        wbrand: getBrands(orderForm?.items || []),
+        seller,
+        wbrand: getBrands(data?.items || []),
       });
 
       const ditoId = orderForm?.clientProfileData?.email
@@ -756,7 +753,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
               .join(', '),
             tamanho: product.skuName.split(' - ')[1],
             cor: product.skuName.split(' - ')[0],
-            preco_produto: (product.sellingPrice || 0) / 100, // convertPrice
+            preco_produto: convertPrice(product.sellingPrice || 0),
             origem: 'app',
           },
         },
