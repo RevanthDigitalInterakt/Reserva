@@ -48,13 +48,6 @@ function PrimeHero({ data, onAddToCart }: IPrimeHero) {
           </Typography>
         </Typography>
 
-        <Typography variant="tituloSessao" style={styles.subtitle}>
-          Torne-se membro do maior clube de vantagens da
-          {'\n'}
-          moda brasileira e tenha acesso a descontos
-          especiais, frete grátis e muito mais.
-        </Typography>
-
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             testID="com.usereserva:id/PrimeHero_call_to_action"

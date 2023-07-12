@@ -109,7 +109,8 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
               "paddingTop": 16,
             },
             Object {
-              "width": 726,
+              "top": -60,
+              "width": 702,
             },
           ]
         }
@@ -1920,6 +1921,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "bannerOffer": [Circular],
                   "cardFront": [Circular],
                   "cardVerso": [Circular],
+                  "chevronRight": [Function],
                   "clothingCare1": [Circular],
                   "clothingCareBleach": [Circular],
                   "clothingCareDrying": [Circular],
@@ -1965,6 +1967,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "zoomHand": [Circular],
                 },
                 "svgs": Object {
+                  "chevronRight": [Function],
                   "logoPrime": [Function],
                 },
               }

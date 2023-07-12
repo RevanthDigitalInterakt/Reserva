@@ -1,0 +1,7 @@
+query primeFaq {
+  primeFaq {
+    id
+    title 
+    body
+  }
+}

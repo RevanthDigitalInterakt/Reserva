@@ -21,15 +21,19 @@ interface IProps {
 
 type AppStateType = 'active' | 'background' | 'inactive' | 'unknown' | 'extension';
 
-function InitialScreen({ children }: { children: JSX.Element }) {
+
+import { usePrimeConfig } from './zustand/usePrimeConfig/usePrimeConfig';
+
+function InitialScreen({ children }: { children: React.ReactNode }) {
   const {
     onInit, onRefreshToken, initialized, isAnonymousUser, profile,
   } = useAuthStore(['onInit', 'onRefreshToken', 'initialized', 'isAnonymousUser', 'profile']);
-  const { barStyle } = useStatusBar();
   const [loadingRefreshtoken, setLoadingRefreshToken] = useState(false);
   const appState = useRef(AppState.currentState);
 
-  useCheckAppNewVersion();
+  const { onPrimeConfig } = usePrimeConfig(['onPrimeConfig']);
+
+  const { barStyle } = useStatusBar();
 
   const { handleDitoRegisterAnony, handleDitoRegister } = useInitialDito();
 
@@ -85,7 +89,15 @@ function InitialScreen({ children }: { children: JSX.Element }) {
     if (profile) {
       handleDitoRegister();
     }
-  }, [handleDitoRegisterAnony, isAnonymousUser, profile, handleDitoRegister]);
+
+    await onPrimeConfig();
+  }, [
+    isAnonymousUser,
+    profile,
+    onPrimeConfig,
+    handleDitoRegisterAnony,
+    handleDitoRegister,
+  ]);
 
   useEffect(() => {
     if (initialized) {
