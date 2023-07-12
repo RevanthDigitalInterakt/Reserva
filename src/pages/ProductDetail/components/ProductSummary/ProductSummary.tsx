@@ -69,6 +69,13 @@ function ProductSummary() {
     });
   }, [imageIndex, productDetail]);
 
+  const video = useMemo(() => {
+    if (!productDetail) return '';
+    if (!productDetail.videoThumbnail) return '';
+    const videoSku = productDetail.videoThumbnail.split('/').pop()?.split('.')[0];
+    return videoSku === selectedSize?.ean ? productDetail.videoThumbnail : '';
+  }, [productDetail, selectedSize?.ean]);
+
   const ProductDetailCardComponent = useMemo(() => (
     primeActive ? ProductDetailCard : ProductDetailCardLegacy
   ), [primeActive]);
@@ -102,6 +109,7 @@ function ProductSummary() {
         setModalZoom={handleSetModalZoom}
         imagesWidth={configDeviceSizes.DEVICE_WIDTH}
         images={selectedColor.images || []}
+        videoThumbnail={video}
         imageIndexActual={(newIndex) => {
           // To prevent some re-renders
           if (newIndex === imageIndex) return imageIndex;

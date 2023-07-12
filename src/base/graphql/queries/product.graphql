@@ -5,6 +5,7 @@ query product($input: ProductInput!) {
     categoryTree
     disabledColors
     saleOff
+    videoThumbnail
     priceRange {
       sellingPrice {
         highPrice

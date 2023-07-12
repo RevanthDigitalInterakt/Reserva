@@ -14,13 +14,14 @@ import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations'
 import Video from 'react-native-video';
 import { DiscountLabel } from '../ProductVerticalListCard';
 import { Button } from '../Button';
-import configDeviceSizes from '../../utils/configDeviceSizes';
 
 import IconComponent from '../IconComponent/IconComponent';
+import ImageComponent from '../ImageComponent/ImageComponent';
 
 export interface ProductDetailCardProps {
   currency?: string
   images: string[]
+  videoThumbnail?: string
   discountTag?: number
   saleOff?: string
   title: string
@@ -44,6 +45,7 @@ export interface ProductDetailCardProps {
 
 export interface ImageSliderProps {
   images: string[]
+  videoThumbnail?: string
   onGoNext?: (next: { image: string; index: number }) => void
   onGoBack?: (back: { image: string; index: number }) => void
   width?: number
@@ -55,6 +57,7 @@ const scrollref = createRef<ScrollView>();
 
 export const ImageSlider = ({
   images,
+  videoThumbnail,
   width,
   height,
   onGoBack,
@@ -66,11 +69,6 @@ export const ImageSlider = ({
 
   imageIndexActual(actualImage);
 
-  const midias = [
-    ...images,
-    'https://assets.mixkit.co/videos/preview/mixkit-close-view-of-denim-fabric-texture-34500-large.mp4',
-  ];
-
   const onChangeImage = (
     scrollEvent: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
@@ -81,15 +79,15 @@ export const ImageSlider = ({
 
     if (
       actualItem !== actualImage
-      && midias
-      && actualItem <= Math.ceil(midias.length)
+      && images
+      && actualItem <= Math.ceil(images.length)
     ) {
       setActualImage(actualItem);
     }
   };
   const goNext = () => {
     if (onGoNext) {
-      onGoNext({ image: midias[actualImage + 1], index: actualImage + 1 });
+      onGoNext({ image: images[actualImage + 1], index: actualImage + 1 });
     }
 
     if (!width) width = 360;
@@ -97,7 +95,7 @@ export const ImageSlider = ({
   };
   const goBack = () => {
     if (onGoBack) {
-      onGoBack({ image: midias[actualImage - 1], index: actualImage - 1 });
+      onGoBack({ image: images[actualImage - 1], index: actualImage - 1 });
     }
 
     if (!width) width = 360;
@@ -129,7 +127,7 @@ export const ImageSlider = ({
           />
         </Box>
       )}
-      {actualImage < midias?.length - 1 && (
+      {actualImage < images?.length - 1 && (
         <Box
           position="absolute"
           style={{ elevation: 3 }}
@@ -156,27 +154,44 @@ export const ImageSlider = ({
         ref={scrollref}
         showsHorizontalScrollIndicator={false}
       >
-        {midias?.map((image, index) => (
-          <TouchableWithoutFeedback
-            // eslint-disable-next-line react/no-array-index-key
-            key={`index${index}`}
-            onPress={() => setIsPaused(!isPaused)}
-          >
-            <Video
-              ref={videoRef}
-              source={{
-                uri: image,
-              }}
-              resizeMode="cover"
-              paused={false}
-              repeat
+        {
+          videoThumbnail ? (
+            <TouchableWithoutFeedback
+              key={`product-card-${videoThumbnail}`}
+              onPress={() => setIsPaused(!isPaused)}
               style={{
-                width: configDeviceSizes.DEVICE_WIDTH,
-                height: configDeviceSizes.DEVICE_HEIGHT,
-                backgroundColor: 'red',
+                width,
+                height,
               }}
+            >
+              <Video
+                ref={videoRef}
+                source={{
+                  uri: videoThumbnail,
+                }}
+                resizeMode="cover"
+                paused={false}
+                repeat
+                style={{
+                  width,
+                  height,
+                  backgroundColor: 'red',
+                }}
+              />
+            </TouchableWithoutFeedback>
+          ) : null
+        }
+
+        {images?.map((image, index) => (
+          <Box key={`product-card-${image}`} alignItems="center" width={width} height={height}>
+            <ImageComponent
+              key={image}
+              source={{ uri: image }}
+              height={height}
+              width={width}
+              resizeMode="contain"
             />
-          </TouchableWithoutFeedback>
+          </Box>
         ))}
       </ScrollView>
     </Box>
@@ -185,6 +200,7 @@ export const ImageSlider = ({
 
 export const ProductDetailCard = ({
   images,
+  videoThumbnail,
   discountTag,
   saleOff,
   title,
@@ -233,6 +249,7 @@ export const ProductDetailCard = ({
           width={imagesWidth}
           height={imagesHeight}
           images={images}
+          videoThumbnail={videoThumbnail}
           onGoBack={(back) => {
             if (onGoBackImage) {
               onGoBackImage(back);
