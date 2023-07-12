@@ -39,7 +39,6 @@ function InitialScreen({ children }: { children: JSX.Element }) {
     async function handleGetUserProfile() {
       try {
         setLoadingRefreshToken(true);
-        console.log('cai aqui - handleGetUserProfile');
         await onRefreshToken();
 
         onInit();
@@ -64,13 +63,11 @@ function InitialScreen({ children }: { children: JSX.Element }) {
   }, []);
 
   const handleAppStateChange = async (nextAppState: AppStateType) => {
-    console.log('cai aqui - handleAppStateChange', appState.current, nextAppState);
     if (
       appState.current.match(/inactive|background/)
       && nextAppState === 'active' && !loadingRefreshtoken
     ) {
       setLoadingRefreshToken(true);
-      console.log('cai aqui - handleAppStateChange 2', nextAppState);
 
       await onRefreshToken();
       setLoadingRefreshToken(false);
