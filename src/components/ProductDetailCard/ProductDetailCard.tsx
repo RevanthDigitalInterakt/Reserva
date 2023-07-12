@@ -1,202 +1,13 @@
-import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
+import React from 'react';
 import LottieView from 'lottie-react-native';
-import React, {
-  createRef, useRef, useState,
-} from 'react';
-import {
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  ScrollView,
-  TouchableWithoutFeedback,
-} from 'react-native';
-
+import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
-import Video from 'react-native-video';
-import { DiscountLabel } from '../ProductVerticalListCard';
+
 import { Button } from '../Button';
-
+import { DiscountLabel } from '../ProductVerticalListCard';
 import IconComponent from '../IconComponent/IconComponent';
-import ImageComponent from '../ImageComponent/ImageComponent';
-
-export interface ProductDetailCardProps {
-  currency?: string
-  images: string[]
-  videoThumbnail?: string
-  discountTag?: number
-  saleOff?: string
-  title: string
-  installmentsNumber: number
-  installmentsPrice: number
-  price: number
-  priceWithDiscount?: number
-  imagesWidth?: number
-  imagesHeight?: number
-  isFavorited?: boolean
-  loadingFavorite?: boolean
-  onClickFavorite?: (favoriteState: boolean) => void
-  onClickShare?: () => void
-  onGoNextImage?: (next: { image: string; index: number }) => void
-  onGoBackImage?: (back: { image: string; index: number }) => void
-  setModalZoom?(isVisible: boolean): void
-  imageIndexActual?: (indexImage: number) => number
-  avaibleUnits?: number;
-  testID?: string;
-}
-
-export interface ImageSliderProps {
-  images: string[]
-  videoThumbnail?: string
-  onGoNext?: (next: { image: string; index: number }) => void
-  onGoBack?: (back: { image: string; index: number }) => void
-  width?: number
-  height?: number
-  imageIndexActual?: (indexImage: number) => number
-}
-
-const scrollref = createRef<ScrollView>();
-
-export const ImageSlider = ({
-  images,
-  videoThumbnail,
-  width,
-  height,
-  onGoBack,
-  onGoNext,
-  imageIndexActual,
-}: ImageSliderProps) => {
-  const [actualImage, setActualImage] = useState(0);
-  if (!height) height = 374;
-
-  imageIndexActual(actualImage);
-
-  const onChangeImage = (
-    scrollEvent: NativeSyntheticEvent<NativeScrollEvent>,
-  ) => {
-    if (!width) width = 360;
-    const actualItem = Math.ceil(
-      scrollEvent.nativeEvent.contentOffset.x / (width + 12),
-    );
-
-    if (
-      actualItem !== actualImage
-      && images
-      && actualItem <= Math.ceil(images.length)
-    ) {
-      setActualImage(actualItem);
-    }
-  };
-  const goNext = () => {
-    if (onGoNext) {
-      onGoNext({ image: images[actualImage + 1], index: actualImage + 1 });
-    }
-
-    if (!width) width = 360;
-    scrollref.current?.scrollTo({ x: (actualImage + 1) * width });
-  };
-  const goBack = () => {
-    if (onGoBack) {
-      onGoBack({ image: images[actualImage - 1], index: actualImage - 1 });
-    }
-
-    if (!width) width = 360;
-    scrollref.current?.scrollTo({ x: (actualImage - 1) * width });
-  };
-  // instance of video
-  const videoRef = useRef<Video>(null);
-  const [isPaused, setIsPaused] = useState<boolean>(false);
-  const scrollRef = useRef<ScrollView>(null);
-  const [count, setCount] = useState(0);
-
-  return (
-    <Box width={width} height={height}>
-      {actualImage > 0 && (
-        <Box
-          position="absolute"
-          style={{ elevation: 3 }}
-          zIndex={1}
-          left={32}
-          top={height / 2 - 32}
-        >
-          <Button
-            p="nano"
-            variant="icone"
-            onPress={() => {
-              goBack();
-            }}
-            icon={<Icon name="ChevronLeft" color="neutroFrio2" size={23} />}
-          />
-        </Box>
-      )}
-      {actualImage < images?.length - 1 && (
-        <Box
-          position="absolute"
-          style={{ elevation: 3 }}
-          zIndex={1}
-          right={32}
-          top={height / 2 - 32}
-        >
-          <Button
-            p="nano"
-            variant="icone"
-            onPress={() => {
-              goNext();
-            }}
-            icon={<Icon name="ChevronRight" color="neutroFrio2" size={23} />}
-          />
-        </Box>
-      )}
-      <ScrollView
-        horizontal
-        pagingEnabled
-        onScroll={(event) => {
-          onChangeImage(event);
-        }}
-        ref={scrollref}
-        showsHorizontalScrollIndicator={false}
-      >
-        {
-          videoThumbnail ? (
-            <TouchableWithoutFeedback
-              key={`product-card-${videoThumbnail}`}
-              onPress={() => setIsPaused(!isPaused)}
-              style={{
-                width,
-                height,
-              }}
-            >
-              <Video
-                ref={videoRef}
-                source={{
-                  uri: videoThumbnail,
-                }}
-                resizeMode="cover"
-                paused={false}
-                repeat
-                style={{
-                  width,
-                  height,
-                  backgroundColor: 'red',
-                }}
-              />
-            </TouchableWithoutFeedback>
-          ) : null
-        }
-
-        {images?.map((image, index) => (
-          <Box key={`product-card-${image}`} alignItems="center" width={width} height={height}>
-            <ImageComponent
-              key={image}
-              source={{ uri: image }}
-              height={height}
-              width={width}
-              resizeMode="contain"
-            />
-          </Box>
-        ))}
-      </ScrollView>
-    </Box>
-  );
-};
+import { CarrouselMedias } from './components/CarrouselMedias';
+import type { ProductDetailCardProps } from './types';
 
 export const ProductDetailCard = ({
   images,
@@ -245,11 +56,12 @@ export const ProductDetailCard = ({
       </Box>
       )}
       <Box>
-        <ImageSlider
+        <CarrouselMedias
+          images={images}
           width={imagesWidth}
           height={imagesHeight}
-          images={images}
           videoThumbnail={videoThumbnail}
+          imageIndexActual={imageIndexActual}
           onGoBack={(back) => {
             if (onGoBackImage) {
               onGoBackImage(back);
@@ -260,7 +72,6 @@ export const ProductDetailCard = ({
               onGoNextImage(back);
             }
           }}
-          imageIndexActual={imageIndexActual}
         />
 
         <Box
