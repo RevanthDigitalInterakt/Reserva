@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { getAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import EventProvider from './EventProvider';
+import { defaultBrand } from './defaultWBrand';
 import { getBrands } from './getBrands';
 import type { OrderFormQuery } from '../base/graphql/generated';
 
@@ -13,6 +14,10 @@ export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderForm
     if (!product) {
       return;
     }
+
+    EventProvider.logEvent('page_view', {
+      wbrand: defaultBrand.picapau,
+    });
 
     EventProvider.logEvent('add_to_cart', {
       item_id: id,

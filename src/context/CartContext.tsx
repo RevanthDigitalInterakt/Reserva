@@ -8,7 +8,6 @@ import React, {
   useEffect,
 } from 'react';
 
-import AsyncStorage from '@react-native-community/async-storage';
 import {
   AddAddressToCart,
   AddCustomerToOrder,
@@ -41,7 +40,6 @@ import {
 } from '../base/graphql/generated';
 import { splitSellerName } from '../utils/splitSellerName';
 import { getBrands } from '../utils/getBrands';
-import { defaultBrand } from '../utils/defaultWBrand';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
 import useAsyncStorageProvider, { setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
@@ -724,44 +722,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       // set new order form
       setOrderForm(data);
-
-      EventProvider.logEvent('page_view', {
-        wbrand: defaultBrand.picapau,
-      });
-
-      EventProvider.logEvent('add_to_cart', {
-        item_id: itemId,
-        item_price: convertPrice(product?.price || 0),
-        item_quantity: quantity,
-        item_category: 'product',
-        currency: 'BRL',
-        seller,
-        wbrand: getBrands(data?.items || []),
-      });
-
-      const id = profile?.email
-        ? await getItem('@Dito:userRef')
-        : await AsyncStorage.getItem('@Dito:anonymousID');
-
-      EventProvider.sendTrackEvent(
-        'adicionou-produto-ao-carrinho', {
-          id,
-          action: 'adicionou-produto-ao-carrinho',
-          data: {
-            marca: product.additionalInfo.brandName,
-            id_produto: itemId,
-            nome_produto: product.name,
-            nome_categoria: Object.entries(product.productCategories)
-              .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
-              .join(', '),
-            tamanho: product.skuName.split(' - ')[1],
-            cor: product.skuName.split(' - ')[0],
-            preco_produto: convertPrice(product.sellingPrice || 0),
-            origem: 'app',
-          },
-        },
-      );
-
       return { ok: !(product.quantity < quantity) };
     } catch (error) {
       EventProvider.captureException(error);
