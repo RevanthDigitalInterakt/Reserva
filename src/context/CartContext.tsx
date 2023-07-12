@@ -8,6 +8,7 @@ import React, {
   useEffect,
 } from 'react';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   AddAddressToCart,
   AddCustomerToOrder,
@@ -43,7 +44,6 @@ import { getBrands } from '../utils/getBrands';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
 import useAsyncStorageProvider, { getAsyncStorageItem, setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
-import AsyncStorage from '@react-native-community/async-storage';
 import { defaultBrand } from '../utils/defaultWBrand';
 
 interface ClientPreferencesData {
