@@ -41,8 +41,10 @@ import {
 import { splitSellerName } from '../utils/splitSellerName';
 import { getBrands } from '../utils/getBrands';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
-import useAsyncStorageProvider, { setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
+import useAsyncStorageProvider, { getAsyncStorageItem, setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
+import AsyncStorage from '@react-native-community/async-storage';
+import { defaultBrand } from '../utils/defaultWBrand';
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -722,6 +724,43 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       // set new order form
       setOrderForm(data);
+
+      EventProvider.logEvent('page_view', {
+        wbrand: defaultBrand.picapau,
+      });
+
+      EventProvider.logEvent('add_to_cart', {
+        item_id: itemId,
+        item_price: (product?.price || 0) / 100, // convertPrice
+        item_quantity: product.quantity,
+        item_category: 'product',
+        currency: 'BRL',
+        seller: product.seller,
+        wbrand: getBrands(orderForm?.items || []),
+      });
+
+      const ditoId = orderForm?.clientProfileData?.email
+        ? await getAsyncStorageItem('@Dito:userRef')
+        : await AsyncStorage.getItem('@Dito:anonymousID');
+
+      EventProvider.sendTrackEvent(
+        'adicionou-produto-ao-carrinho', {
+          id: ditoId,
+          action: 'adicionou-produto-ao-carrinho',
+          data: {
+            marca: product?.additionalInfo?.brandName || '',
+            id_produto: itemId,
+            nome_produto: product?.name || '',
+            nome_categoria: Object.entries(product.productCategories)
+              .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
+              .join(', '),
+            tamanho: product.skuName.split(' - ')[1],
+            cor: product.skuName.split(' - ')[0],
+            preco_produto: (product.sellingPrice || 0) / 100, // convertPrice
+            origem: 'app',
+          },
+        },
+      );
       return { ok: !(product.quantity < quantity) };
     } catch (error) {
       EventProvider.captureException(error);
