@@ -5,6 +5,7 @@ import {
   LayoutAnimation,
   TouchableOpacity,
   View,
+  Text,
 } from 'react-native';
 import IconComponent from '../IconComponent/IconComponent';
 import { toggleAnimation } from '../../routes/animations/toggleAnimation';
@@ -58,15 +59,9 @@ function DropdownItem({ body, title, justifyText = false }: IDropDownItem) {
           style={styles.contentContainer}
           {...testProps('com.usereserva:id/dropdown_item_content')}
         >
-          <Typography
-            fontFamily="reservaSansRegular"
-            fontWeight="normal"
-            fontSize={16}
-            textAlign={justifyText ? 'justify' : 'left'}
-            style={styles.textGray}
-          >
+          <Text style={[styles.body, { textAlign: justifyText ? 'justify' : 'left' }]}>
             {body}
-          </Typography>
+          </Text>
         </View>
       )}
     </>

@@ -293,7 +293,7 @@ exports[`PrimeHero should render without error and match to snapshot 1`] = `
       style={
         Object {
           "paddingHorizontal": 20,
-          "width": "100%",
+          "width": 576.9230769230769,
         }
       }
     >
@@ -311,7 +311,7 @@ exports[`PrimeHero should render without error and match to snapshot 1`] = `
           Object {
             "alignItems": "center",
             "backgroundColor": "#ffffff",
-            "height": 40,
+            "height": 95.28571428571429,
             "justifyContent": "center",
             "opacity": 1,
           }

@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { COLORS } from '../../../../base/styles/colors';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
 
 export const styles = StyleSheet.create({
   wrapper: {
@@ -38,14 +39,14 @@ export const styles = StyleSheet.create({
 
   buttonContainer: {
     paddingHorizontal: 20,
-    width: '100%',
+    width: configDeviceSizes.DEVICE_WIDTH / 1.3,
   },
 
   button: {
     backgroundColor: COLORS.WHITE,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 40,
+    height: configDeviceSizes.DEVICE_HEIGHT / 14,
   },
 
   buttonText: {
