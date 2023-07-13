@@ -51,13 +51,12 @@ export const styles = StyleSheet.create({
   },
 
   button: {
-    width: 205,
+    width: configDeviceSizes.DEVICE_WIDTH / 1.4,
     backgroundColor: '#000000',
-    height: 40,
+    height: configDeviceSizes.DEVICE_HEIGHT / 13,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginBottom: 32,
   },
 
   buttonText: {

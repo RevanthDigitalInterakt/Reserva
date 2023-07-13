@@ -8,7 +8,7 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
   deviceWidth={null}
   hardwareAccelerated={false}
   hideModalContentWhileAnimating={false}
-  onBackdropPress={[Function]}
+  onBackdropPress={[MockFunction]}
   onModalHide={[Function]}
   onModalWillHide={[Function]}
   onModalWillShow={[Function]}
@@ -60,7 +60,7 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
     deviceWidth={null}
     forwardedRef={[Function]}
     hideModalContentWhileAnimating={false}
-    onBackdropPress={[Function]}
+    onBackdropPress={[MockFunction]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
@@ -94,85 +94,50 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
   >
     <View
       accessibilityLabel="com.usereserva:id/modal_sign_in_container"
-      backgroundColor="white"
-      p="xxxs"
       style={
-        Array [
-          Object {
-            "backgroundColor": "#FFF",
-            "paddingBottom": 16,
-            "paddingLeft": 16,
-            "paddingRight": 16,
-            "paddingTop": 16,
-            "width": 726,
-          },
-        ]
+        Object {
+          "backgroundColor": "#ffffff",
+          "padding": 32,
+          "width": 726,
+        }
       }
       testID="com.usereserva:id/modal_sign_in_container"
-      width={726}
     >
       <Text
+        accessibilityLabel="com.usereserva:id/title"
         style={
-          Array [
-            Object {
-              "fontFamily": "ReservaSerif-Regular",
-              "fontSize": 28,
-            },
-          ]
-        }
-        variant="tituloSessoes"
-      >
-        Bem vindo ao
-        <Text
-          style={
-            Array [
-              Object {
-                "fontFamily": "ReservaSerif-Bold",
-                "fontSize": 27,
-              },
-            ]
+          Object {
+            "color": "#000000",
+            "fontFamily": "ReservaDisplay-Regular",
+            "fontSize": 26,
+            "marginBottom": 24,
           }
-          variant="descontoTag1"
-        >
-           Prime
-        </Text>
+        }
+        testID="com.usereserva:id/title"
+      >
+        Prime
       </Text>
-      <View
-        my="micro"
-        style={
-          Array [
-            Object {
-              "marginBottom": 12,
-              "marginTop": 12,
-            },
-          ]
-        }
-      >
+      <View>
         <Text
-          color="fullBlack"
           style={
-            Array [
-              Object {
-                "color": "#000",
-                "fontFamily": "Nunito-Regular",
-                "fontSize": 15,
-              },
-            ]
+            Object {
+              "color": "#767676",
+              "fontFamily": "ReservaSans-Regular",
+              "fontSize": 16,
+              "lineHeight": 20,
+            }
           }
-          variant="tituloSessao"
         >
           Agora você é um cliente
            
           <Text
-            fontFamily="reservaSerifBlack"
-            fontSize={14}
             style={
-              Array [
-                Object {
-                  "fontFamily": "ReservaSerif-Black",
-                  "fontSize": 14,
-                },
-              ]
+              Object {
+                "color": "#000000",
+                "fontFamily": "ReservaDisplay-Regular",
+                "fontSize": 16,
+                "lineHeight": 20,
+              }
             }
           >
             Prime
@@ -180,17 +145,13 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
           , para facilitar na sua compra já adicionamos ao seu carrinho a assinatura, ela será concluída junto ao seu pedido, mas lembre-se, ela só será válida para compras acima de
            
           <Text
-            color="fullBlack"
-            fontFamily="reservaSansBold"
-            fontSize={14}
             style={
-              Array [
-                Object {
-                  "color": "#000",
-                  "fontFamily": "ReservaSans-Bold",
-                  "fontSize": 14,
-                },
-              ]
+              Object {
+                "color": "#000000",
+                "fontFamily": "ReservaSans-Bold",
+                "fontSize": 16,
+                "lineHeight": 20,
+              }
             }
           >
             R$
@@ -231,8 +192,7 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
                   "fontFamily": "Nunito-Bold",
                   "fontSize": 13,
                   "justifyContent": "center",
-                  "marginBottom": 24,
-                  "marginTop": 32,
+                  "marginTop": 24,
                   "minWidth": 130,
                   "opacity": 1,
                   "paddingBottom": 16,

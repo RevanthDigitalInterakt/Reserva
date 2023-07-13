@@ -9,7 +9,6 @@ export const objectStyles = StyleSheet.create({
   },
   containerModal: {
     width: configDeviceSizes.DEVICE_WIDTH - 48,
-    top: -60,
   },
   wrapperAboutPrime: {
     marginTop: 8,
