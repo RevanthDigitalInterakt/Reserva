@@ -5,6 +5,7 @@
 - [APP2022-1096 - Sacola Prime](https://reserva.atlassian.net/browse/APP2022-1096)
 - [14126 - Prime Feature Toggle](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14126)
 - [14123 - Alteração header para usuários Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14123)
+- [SRN-226 - Dito evento acessou produto](https://reserva.atlassian.net/browse/SRN-226)
 - [14122 -  Como cliente Prime quero enxergar frete grátis na sacola](https://dev.azure.com/areco/Canal%20App%20e%20Omni/_workitems/edit/14122)
 - [14419 - Mover lógica de remover prime da sacola quando o usuário for Prime para a bag](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14419)
 - [14123 - Prime header indique que sou Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14123)
