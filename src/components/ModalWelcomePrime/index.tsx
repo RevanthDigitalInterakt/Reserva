@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import Modal from 'react-native-modal';
-import { ScrollView } from 'react-native';
-import { Box, Typography } from '@usereservaapp/reserva-ui';
+import { ScrollView, Text, View } from 'react-native';
 
 import testProps from '../../utils/testProps';
 import { useLandingPagePrimeQuery } from '../../base/graphql/generated';
@@ -9,7 +8,7 @@ import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicySto
 
 import { Button } from '../Button';
 
-import * as Styles from './styles';
+import { styles, objectStyles } from './styles';
 import type { IParamsComponent } from './types';
 
 export function ModalWelcomePrime({ onClose, isVisible }: IParamsComponent) {
@@ -27,59 +26,50 @@ export function ModalWelcomePrime({ onClose, isVisible }: IParamsComponent) {
       animationIn="fadeIn"
       animationOut="zoomOut"
       isVisible={isVisible}
+      onBackdropPress={onClose}
       animationInTiming={300}
-      style={Styles.objectStyles.modal}
+      style={objectStyles.modal}
       {...testProps('com.usereserva:id/modal_welcome_prime')}
       testID="com.usereserva:id/modal_welcome_prime"
     >
-      <Styles.ContainerModal
-        p="xxxs"
-        backgroundColor="white"
+      <View
+        style={styles.containerModal}
         {...testProps('com.usereserva:id/modal_sign_in_container')}
       >
-        <Typography variant="tituloSessoes">
-          Bem vindo ao
-          <Typography variant="descontoTag1">
-            {' Prime'}
-          </Typography>
-        </Typography>
 
-        <Box my="micro">
-          <Typography variant="tituloSessao" color="fullBlack">
+        <Text {...testProps('com.usereserva:id/title')} style={styles.textPrimeTitle}>Prime</Text>
+
+        <View>
+          <Text style={styles.body}>
             Agora você é um cliente
             {' '}
-            <Typography fontSize={14} fontFamily="reservaSerifBlack">
+            <Text style={styles.textPrime}>
               Prime
-            </Typography>
+            </Text>
             , para facilitar na sua compra
             já adicionamos ao seu carrinho a assinatura, ela será concluída
             junto ao seu pedido, mas lembre-se, ela só será válida para compras
             acima de
             {' '}
-            <Typography
-              fontSize={14}
-              color="fullBlack"
-              fontFamily="reservaSansBold"
-            >
+            <Text style={styles.textPrice}>
               R$
               {' '}
               {data?.discountFrom}
-            </Typography>
-          </Typography>
-        </Box>
+            </Text>
+          </Text>
+        </View>
 
         <ScrollView showsVerticalScrollIndicator={false}>
           <Button
             inline
-            mt="xs"
-            mb="xxs"
+            mt="xxs"
             onPress={() => onClose()}
             variant="primarioEstreito"
             title="CONTINUAR COMPRANDO"
             testID="com.usereserva:id/modal_welcome_prime_continue"
           />
         </ScrollView>
-      </Styles.ContainerModal>
+      </View>
     </Modal>
   );
 }

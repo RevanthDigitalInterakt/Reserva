@@ -3,6 +3,7 @@ import { Alert, View } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { Box } from '@usereservaapp/reserva-ui';
 import * as Sentry from '@sentry/react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import ProductDetailWrapper from './components/ProductDetailWrapper';
 import FormNewsletter from './components/FormNewsletter';
@@ -11,17 +12,22 @@ import ProductAbout from './components/ProductAbout';
 import ProductSummary from './components/ProductSummary';
 import ProductAssinaturaSimples from './components/ProductAssinaturaSimples';
 import ProductSelectors from './components/ProductSelectors';
-import { useProductLazyQuery } from '../../base/graphql/generated';
+import { ProductQuery, useProductLazyQuery } from '../../base/graphql/generated';
 import { getProductLoadType } from './utils/getProductLoadType';
 import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
 import EventProvider from '../../utils/EventProvider';
 import type { IProductDetailRouteParams } from '../../utils/createNavigateToProductParams';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 import { ProductRecommendation } from '../../components/ProductRecommendation/ProductRecommendation';
+import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
+import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
+import { getProductCategories } from '../../utils/getProductCategories';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
 function ProductDetail({ route, navigation }: IProductDetailNew) {
+  const { getItem } = useAsyncStorageProvider();
+  const { profile } = useAuthStore(['profile']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { setProduct, resetProduct, productDetail } = useProductDetailStore([
     'setProduct',
@@ -35,6 +41,30 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
     context: { clientName: 'gateway' },
   });
 
+  const trackEventDitoAccessProduct = useCallback(async ({ product }: ProductQuery) => {
+    try {
+      const id = profile?.email
+        ? await getItem('@Dito:userRef')
+        : await AsyncStorage.getItem('@Dito:anonymousID');
+
+      EventProvider.sendTrackEvent('acessou-produto', {
+        id,
+        action: 'acessou-produto',
+        data: {
+          id_produto: product.productId,
+          cor: product.initialColor?.colorName || '',
+          tamanho: product.initialSize?.size || '',
+          nome_categoria: getProductCategories(product.categoryTree),
+          nome_produto: product.productName,
+          marca: product.categoryTree[0],
+          origem: 'app',
+        },
+      });
+    } catch (error) {
+      EventProvider.captureException(error);
+    }
+  }, [getItem, profile?.email]);
+
   const onInitialLoad = useCallback(async (params: IProductDetailRouteParams) => {
     try {
       const input = getProductLoadType(params);
@@ -45,6 +75,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       }
 
       const { product } = data;
+
+      trackEventDitoAccessProduct(data);
 
       EventProvider.logEvent('product_view', {
         product_id: product.productId,
@@ -66,7 +98,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         [{ text: 'OK', onPress: () => navigation.goBack() }],
       );
     }
-  }, [getProduct, navigation, setProduct]);
+  }, [getProduct, navigation, setProduct, trackEventDitoAccessProduct]);
 
   useEffect(() => {
     resetProduct();

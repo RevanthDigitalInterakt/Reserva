@@ -13,6 +13,20 @@ type Ordered = {
   id: string;
 };
 
+type TProductOrderPlaced = {
+  id: string;
+  id_transacao: string;
+  quantidade: number;
+  marca: string;
+  id_produto: string;
+  nome_produto: string;
+  nome_categoria: string;
+  tamanho: string;
+  cor: string;
+  preco_produto: number;
+  origem: string;
+};
+
 type Department = {
   nome_departamento: string;
 };
@@ -30,6 +44,17 @@ type Searched = {
 type SignedUp = {
   email: string;
   cpf: string;
+};
+
+type Product = {
+  marca: string;
+  id_produto: string;
+  id: string;
+  nome_produto: string;
+  nome_categoria: string;
+  tamanho: string;
+  cor: string;
+  preco_produto: number;
 };
 
 type AddToCart = {
@@ -50,7 +75,16 @@ type AccessBag = {
 export type EventsDitoValues = {
   id: string | null;
   action: string;
-  data: DataValues | Ordered | Department | Category | Searched | SignedUp | AddToCart | AccessBag;
+  data: DataValues
+  | Ordered
+  | Department
+  | Category
+  | Searched
+  | SignedUp
+  | Product
+  | AddToCart
+  | TProductOrderPlaced
+  | AccessBag;
 };
 
 export namespace EventsOptions {
@@ -60,6 +94,8 @@ export namespace EventsOptions {
   export type SendAccessedCategory = Pick<EventsDitoValues, | 'id' | 'action' | 'data' > & {};
   export type SearchedEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
   export type SignedUpEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type ProductOrderPlacedEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type AccessProduct = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
   export type AddToCartEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
   export type AccessBagEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
 }
@@ -88,6 +124,14 @@ export type EventOptionsDitoFn =
     | {
       type: 'fez-cadastro';
       payload: EventsOptions.SignedUpEvent;
+    }
+    | {
+      type: 'fez-pedido-produto';
+      payload: EventsOptions.ProductOrderPlacedEvent;
+    }
+    | {
+      type: 'acessou-produto';
+      payload: EventsOptions.AccessProduct;
     }
     | {
       type: 'adicionou-produto-ao-carrinho';
