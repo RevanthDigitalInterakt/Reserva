@@ -41,10 +41,9 @@ import {
 } from '../base/graphql/generated';
 import { splitSellerName } from '../utils/splitSellerName';
 import { getBrands } from '../utils/getBrands';
-import { defaultBrand } from '../utils/defaultWBrand';
-import { useAuthStore } from '../zustand/useAuth/useAuthStore';
-import useAsyncStorageProvider, { setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
+import { getAsyncStorageItem, setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
+import { defaultBrand } from '../utils/defaultWBrand';
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -559,8 +558,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [sellerName, setSellerName] = useState<string>('');
   const [topBarLoading, setTopBarLoading] = useState<boolean>(false);
   const [hasErrorApplyCoupon, setHasErrorApplyCoupon] = useState<boolean>(false);
-  const { getItem } = useAsyncStorageProvider();
-  const { profile } = useAuthStore(['profile']);
 
   const { actions } = useBagStore(['actions']);
 
@@ -739,18 +736,18 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         wbrand: getBrands(data?.items || []),
       });
 
-      const id = profile?.email
-        ? await getItem('@Dito:userRef')
+      const ditoId = orderForm?.clientProfileData?.email
+        ? await getAsyncStorageItem('@Dito:userRef')
         : await AsyncStorage.getItem('@Dito:anonymousID');
 
       EventProvider.sendTrackEvent(
         'adicionou-produto-ao-carrinho', {
-          id,
+          id: ditoId,
           action: 'adicionou-produto-ao-carrinho',
           data: {
-            marca: product.additionalInfo.brandName,
+            marca: product?.additionalInfo?.brandName || '',
             id_produto: itemId,
-            nome_produto: product.name,
+            nome_produto: product?.name || '',
             nome_categoria: Object.entries(product.productCategories)
               .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
               .join(', '),
@@ -761,7 +758,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
           },
         },
       );
-
       return { ok: !(product.quantity < quantity) };
     } catch (error) {
       EventProvider.captureException(error);

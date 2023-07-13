@@ -38,6 +38,7 @@ export default function NewBag(_: TNewBagProps): JSX.Element {
     appTotalizers,
     selectableGift,
     allItemsQuantity,
+    actions,
   } = useBagStore([
     'topBarLoading',
     'items',
@@ -47,6 +48,7 @@ export default function NewBag(_: TNewBagProps): JSX.Element {
     'appTotalizers',
     'selectableGift',
     'allItemsQuantity',
+    'actions',
   ]);
 
   useInitialBag();
@@ -88,6 +90,10 @@ export default function NewBag(_: TNewBagProps): JSX.Element {
       handleAbandonedCartTags();
     }
   }, [initialized, items.length, handleAbandonedCartTags]);
+
+  useEffect(() => {
+    actions.REFETCH_ORDER_FORM();
+  }, [actions]);
 
   if (!items.length && !initialLoad) {
     return (

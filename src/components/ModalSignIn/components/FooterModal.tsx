@@ -113,19 +113,25 @@ export function FooterModalPrime({
       <>
         <Typography
           fontFamily="reservaSansRegular"
-          style={{ marginTop: 24, marginBottom: 24 }}
+          style={Styles.objectStyles.modalText}
         >
           Olá!
           {' '}
-          <Typography fontFamily="reservaSansBold" fontSize={16}>{profile?.firstName}</Typography>
+          <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>{profile?.firstName}</Typography>
           {' '}
           você ainda não é cliente
           {' '}
-          <Typography fontFamily="reservaDisplayRegular" fontSize={16}>Prime</Typography>
-          , mas não se preocupe, basta tocar no botão abaixo
-          e adicionar em sua sacola a assinatura pelo valor de
+          <Typography fontFamily="reservaDisplayRegular" style={Styles.objectStyles.highlightedText}>Prime</Typography>
+          ,
+          {'\n'}
+          mas não se preocupe, basta tocar no botão
+          {'\n'}
+          abaixo
+          e adicionar em sua sacola a assinatura
+          {'\n'}
+          pelo valor de
           {' '}
-          <Typography fontFamily="reservaSansBold" fontSize={16}>
+          <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>
             {primeInformation?.installmentQty}
             x de R$
             {' '}
@@ -136,11 +142,15 @@ export function FooterModalPrime({
 
           Ao aderir ao
           {' '}
-          <Typography fontFamily="reservaDisplayRegular" fontSize={16}>Prime</Typography>
+          <Typography fontFamily="reservaDisplayRegular" style={Styles.objectStyles.highlightedText}>Prime</Typography>
           {' '}
-          você pode aproveitar todos os benefícios da sua assinatura em compras acima de
+          você pode aproveitar
+          {'\n'}
+          todos os benefícios da sua assinatura em
+          {'\n'}
+          compras acima de
           {' '}
-          <Typography fontFamily="reservaSansBold" fontSize={16}>
+          <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>
             {primeInformation && `R$${primeInformation?.discountFrom}`}
           </Typography>
           !

@@ -106,7 +106,8 @@ exports[`ModalSignIn should match with the snapshot 1`] = `
             "paddingTop": 16,
           },
           Object {
-            "width": 726,
+            "top": -60,
+            "width": 702,
           },
         ]
       }

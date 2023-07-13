@@ -17,6 +17,7 @@ import ImageComponent from '../ImageComponent/ImageComponent';
 import ProductPricePrimeRow from '../ProductPricePrimeLabelRow/ProductPricePrimeRow';
 import ProductPriceRow from '../ProductPriceRow/ProductPriceRow';
 import ProductThumbColorsRow from '../ProductThumbColorsRow/ProductThumbColorsRow';
+import type { IGetPrimeReturn } from '../../zustand/usePrimeConfig/usePrimeConfig';
 
 export interface ProductVerticalListCardProps {
   imageWidth?: number
@@ -37,7 +38,7 @@ export interface ProductVerticalListCardProps {
   isFavorited?: boolean
   onClickFavorite?: (favoriteState: boolean) => void
   onClickImage?: () => void
-  isPrime: boolean
+  prime: IGetPrimeReturn | null
   testID?: string;
 }
 
@@ -126,7 +127,7 @@ export const ProductVerticalListCard = ({
   colors,
   colorsLimit,
   showThumbColors,
-  isPrime,
+  prime,
   testID,
 }: ProductVerticalListCardProps) => (
   <View>
@@ -275,15 +276,15 @@ export const ProductVerticalListCard = ({
 
         <View style={{ marginVertical: 2 }} />
 
-        {isPrime
+        {!!prime
         && (
         <ProductPricePrimeRow
-          installmentsNumber={installmentsNumber}
+          installmentsNumber={prime.primeInstallments.number}
           currency={currency}
-          installmentsPrice={installmentsPrice}
+          installmentsPrice={prime.primeInstallments.value}
           discountTag={discountTag}
           priceWithDiscount={priceWithDiscount}
-          price={price}
+          price={prime.primePrice}
         />
         )}
       </Box>

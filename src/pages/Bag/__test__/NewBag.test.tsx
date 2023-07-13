@@ -81,6 +81,7 @@ describe('NewBag', () => {
     jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
       actions: {
         CLOSE_MODAL_DELETE_PRODUCT: jest.fn(),
+        REFETCH_ORDER_FORM: jest.fn(),
       },
       appTotalizers: {
         delivery: 0,
@@ -149,6 +150,7 @@ describe('NewBag', () => {
     jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
       actions: {
         CLOSE_MODAL_DELETE_PRODUCT: jest.fn(),
+        REFETCH_ORDER_FORM: jest.fn(),
       },
       appTotalizers: {
         delivery: 0,
@@ -219,6 +221,7 @@ describe('NewBag', () => {
     jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
       actions: {
         CLOSE_MODAL_DELETE_PRODUCT: jest.fn(),
+        REFETCH_ORDER_FORM: jest.fn(),
       },
       appTotalizers: {
         delivery: 0,
@@ -293,6 +296,7 @@ describe('NewBag', () => {
     jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
       actions: {
         CLOSE_MODAL_DELETE_PRODUCT: jest.fn(),
+        REFETCH_ORDER_FORM: jest.fn(),
       },
       appTotalizers: {
         delivery: 0,
