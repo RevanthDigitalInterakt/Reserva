@@ -173,7 +173,7 @@ exports[`PrimeHero should render without error and match to snapshot 1`] = `
         "alignItems": "center",
         "paddingBottom": 110,
         "paddingHorizontal": 20,
-        "paddingTop": 160,
+        "paddingTop": 175,
       }
     }
   >
