@@ -71,9 +71,11 @@ function ProductSummary() {
 
   const video = useMemo(() => {
     if (!productDetail || !productDetail.videoThumbnail) return '';
-    const videoSku = productDetail.videoThumbnail.split('/').pop()?.split('.')[0];
-    return videoSku === selectedSize?.ean ? productDetail.videoThumbnail : '';
+
+    const isEqualSku = productDetail.videoThumbnail.includes(selectedSize?.ean || '');
+    return isEqualSku ? productDetail.videoThumbnail : '';
   }, [productDetail, selectedSize?.ean]);
+
   const showZoomButton = useMemo(() => (
     (!!video && imageIndex >= 0) || !video
   ), [imageIndex, video]);
