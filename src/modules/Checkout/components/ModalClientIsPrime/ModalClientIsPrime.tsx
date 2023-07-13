@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-native-modal';
 import { Typography } from '@usereservaapp/reserva-ui';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Button } from '../../../../components/Button';
 import { styles } from './ModalClienteIsPrime.Styles';
 import IconLogoPrime from '../../icons/IconLogoPrime';
@@ -30,12 +30,12 @@ export const ModalClientIsPrime = ({
       <IconLogoPrime />
 
       <View style={styles.textContainer}>
-        <Typography variant="subtituloSessoes" style={styles.text}>
+        <Text style={styles.text}>
           Olá!
           {' '}
-          <Typography color="fullBlack" style={styles.textBold}>
+          <Text style={styles.textBold}>
             {firstName}
-          </Typography>
+          </Text>
           {' '}
           detectamos que você já é um cliente
           {' '}
@@ -49,7 +49,7 @@ export const ModalClientIsPrime = ({
           , então não se preocupe, estamos removendo este produto do carrinho e
           mantendo apenas os demais produtos selecionados com o desconto da sua
           assinatura ativa.
-        </Typography>
+        </Text>
       </View>
 
       <Button
