@@ -24,6 +24,7 @@ import { defaultBrand } from '../../../utils/defaultWBrand';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { getApolloClient } from '../../../utils/getApolloClient';
 import { Avatar } from '../../../components/Avatar/AvatarComponent';
+import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
 
 export function MenuProfile() {
   const navigation = useNavigation();
@@ -40,6 +41,7 @@ export function MenuProfile() {
     'initialized',
     'onSignOut',
   ]);
+  const { actions } = useBagStore(['actions']);
 
   const { getBoolean } = useRemoteConfig();
 
@@ -280,13 +282,14 @@ export function MenuProfile() {
                   testID="com.usereserva:id/profile_button_logout"
                   width={150}
                   disabled={isLoading}
-                  onPress={() => {
+                  onPress={async () => {
                     try {
-                      getApolloClient().clearStore();
                       useDitoStore.persist.clearStorage();
+                      await getApolloClient().clearStore();
                     } catch (err) {
                       EventProvider.captureException(err);
                     } finally {
+                      actions.RESET_ORDER_FORM();
                       authStore.onSignOut();
                     }
                   }}

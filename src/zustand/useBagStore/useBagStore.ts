@@ -33,6 +33,9 @@ import {
   OrderFormRemoveUnavailableItemsDocument,
   OrderFormRemoveUnavailableItemsMutation,
   OrderFormRemoveUnavailableItemsMutationVariables,
+  OrderFormResetDocument,
+  OrderFormResetMutation,
+  OrderFormResetMutationVariables,
   OrderFormSetGiftSizeDocument,
   OrderFormSetGiftSizeMutation,
   OrderFormSetGiftSizeMutationVariables,
@@ -181,6 +184,37 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         });
 
         const { orderFormRefreshData: orderForm } = data;
+
+        set(() => ({
+          clientProfileData: orderForm.clientProfileData,
+          items: orderForm.items,
+          marketingData: orderForm.marketingData,
+          shippingData: orderForm.shippingData,
+          installmentInfo: orderForm.installmentInfo,
+          appTotalizers: orderForm.appTotalizers,
+          allItemsQuantity: orderForm.allItemsQuantity,
+        }));
+      } catch (error) {
+        set(() => ({ error: error.message }));
+      } finally {
+        set(() => ({ topBarLoading: false }));
+      }
+    },
+    RESET_ORDER_FORM: async () => {
+      try {
+        set(() => ({ topBarLoading: true }));
+
+        const { data } = await getApolloClient().query<
+        OrderFormResetMutation,
+        OrderFormResetMutationVariables
+        >({
+          query: OrderFormResetDocument,
+          fetchPolicy: 'no-cache',
+          variables: { orderFormId: getState().orderFormId },
+          context: { clientName: 'gateway' },
+        });
+
+        const { orderFormReset: orderForm } = data;
 
         set(() => ({
           clientProfileData: orderForm.clientProfileData,

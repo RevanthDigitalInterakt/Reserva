@@ -14,7 +14,11 @@ import type {
 import { createTokenExpireDate } from '../../utils/createTokenExpireDate';
 import { getAsyncStorageItem, removeAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { getApolloClient } from '../../utils/getApolloClient';
-import { ProfileDocument, RefreshTokenDocument, SignInDocument } from '../../base/graphql/generated';
+import {
+  ProfileDocument,
+  RefreshTokenDocument,
+  SignInDocument,
+} from '../../base/graphql/generated';
 import EventProvider from '../../utils/EventProvider';
 import { identifyCustomer } from './methods/identifyCustomer';
 import { checkIfNeedRefreshToken } from '../../utils/checkIfNeedRefreshToken';
