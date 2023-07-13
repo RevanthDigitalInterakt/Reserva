@@ -357,15 +357,13 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
     const collectionFacetsValues = getCollectionFacetsValue(facets);
 
-    setFacets(collectionFacetsValues);
-
     trackEventAccessedCategoryDito(collectionFacetsValues);
 
     setPriceRangeFilters(priceFacetValues);
     setCategoryFilters(categoryFacetValues);
     setSizeFilters(sizeFacetValues);
     setColorsFilters(colorFacetValues);
-  }, [getFacets, getFetchPolicyPerKey, setFacets, trackEventAccessedCategoryDito]);
+  }, [getFacets, getFetchPolicyPerKey, trackEventAccessedCategoryDito]);
 
   const loadApplyFilter = useCallback(async (item: any) => {
     const reference = collectionIdByCategories || collectionIdByContentful || '';
