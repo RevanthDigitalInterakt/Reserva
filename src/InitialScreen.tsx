@@ -1,7 +1,7 @@
 import React, {
-  useCallback, useState, useEffect, useRef,
+  useCallback, useEffect,
 } from 'react';
-import { StatusBar, AppState } from 'react-native';
+import { StatusBar } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import messaging from '@react-native-firebase/messaging';
@@ -12,24 +12,18 @@ import { StorageService } from './shared/services/StorageService';
 import OnForegroundEventPush from './utils/Notifee/ForegroundEvents';
 import { useAuthStore } from './zustand/useAuth/useAuthStore';
 import useCheckAppNewVersion from './hooks/useCheckAppNewVersion';
-import { RefreshTokenError } from './zustand/useAuth/types/refreshTokenError';
-import { navigateUsingRef } from './utils/navigationRef';
+
+import { usePrimeConfig } from './zustand/usePrimeConfig/usePrimeConfig';
+import { useRefreshToken } from './hooks/useRefreshToken';
 
 interface IProps {
   children: React.ReactNode;
 }
 
-type AppStateType = 'active' | 'background' | 'inactive' | 'unknown' | 'extension';
-
-
-import { usePrimeConfig } from './zustand/usePrimeConfig/usePrimeConfig';
-
 function InitialScreen({ children }: { children: React.ReactNode }) {
   const {
-    onInit, onRefreshToken, initialized, isAnonymousUser, profile,
-  } = useAuthStore(['onInit', 'onRefreshToken', 'initialized', 'isAnonymousUser', 'profile']);
-  const [loadingRefreshtoken, setLoadingRefreshToken] = useState(false);
-  const appState = useRef(AppState.currentState);
+    initialized, isAnonymousUser, profile,
+  } = useAuthStore(['initialized', 'isAnonymousUser', 'profile']);
 
   const { onPrimeConfig } = usePrimeConfig(['onPrimeConfig']);
 
@@ -39,46 +33,7 @@ function InitialScreen({ children }: { children: React.ReactNode }) {
 
   useCheckAppNewVersion();
 
-  useEffect(() => {
-    async function handleGetUserProfile() {
-      try {
-        setLoadingRefreshToken(true);
-        await onRefreshToken();
-
-        onInit();
-        setLoadingRefreshToken(false);
-      } catch (err) {
-        if (err instanceof RefreshTokenError) {
-          navigateUsingRef('Login', { invalidSession: true });
-        }
-      }
-    }
-
-    if (!loadingRefreshtoken) {
-      handleGetUserProfile();
-    }
-
-    AppState.addEventListener('change', handleAppStateChange);
-
-    return () => {
-      // TODO: use "remove" method returned by addEventListener when updating react-native to 0.65+
-      AppState.removeEventListener('change', handleAppStateChange);
-    };
-  }, []);
-
-  const handleAppStateChange = async (nextAppState: AppStateType) => {
-    if (
-      appState.current.match(/inactive|background/)
-      && nextAppState === 'active' && !loadingRefreshtoken
-    ) {
-      setLoadingRefreshToken(true);
-
-      await onRefreshToken();
-      setLoadingRefreshToken(false);
-    }
-
-    appState.current = nextAppState;
-  };
+  useRefreshToken();
 
   const onAppInit = useCallback(async () => {
     if (isAnonymousUser) {

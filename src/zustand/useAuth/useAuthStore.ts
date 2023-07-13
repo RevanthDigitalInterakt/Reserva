@@ -69,7 +69,6 @@ const authStore = create<IAuthStore>((set, getState) => ({
   onRefreshToken: async () => {
     try {
       const needRefreshToken = await checkIfNeedRefreshToken();
-
       if (!needRefreshToken) return false;
 
       const client = getApolloClient();
