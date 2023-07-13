@@ -1,32 +1,37 @@
-import AsyncStorage from '@react-native-community/async-storage';
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import
+  {
+    Box, Button, Icon, Typography,
+  } from '@usereservaapp/reserva-ui';
 import React, { useEffect, useState } from 'react';
-import {
-  Modal,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import
+  {
+    Modal,
+    StyleSheet,
+    TouchableOpacity,
+    View,
+  } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import testProps from '../../../../utils/testProps';
 import IconComponent from '../../../../components/IconComponent/IconComponent';
 
-export interface ModalBagProps {
+export interface ModalBagProps
+{
   isVisible: boolean;
   image: string[];
   setIsVisibleZoom(isVisible: boolean): void;
   setIndexOpenImage: number;
 }
 
-interface ModalTutorialProps {
+interface ModalTutorialProps
+{
   setOpenTutorial(openTutorial: boolean): void;
 }
 
-interface ImageSelectionProps {
+interface ImageSelectionProps
+{
   imagesArray: any[];
   currentImage: number;
 }
@@ -215,16 +220,20 @@ export const ModalZoomImage = ({
   image,
   setIsVisibleZoom,
   setIndexOpenImage,
-}: ModalBagProps) => {
+}: ModalBagProps) =>
+{
   const [newArrayImages, setNewArrayImages] = useState([]);
   const [currentImage, setCurrentImage] = useState(0);
   const [openTutorial, setOpenTutorial] = useState(false);
 
-  useEffect(() => {
-    async function checkIsFirstTime() {
+  useEffect(() =>
+  {
+    async function checkIsFirstTime()
+    {
       const isFirstTime = await AsyncStorage.getItem('@IsFisrtTime');
 
-      if (isFirstTime == null) {
+      if (isFirstTime == null)
+      {
         await AsyncStorage.setItem('@IsFisrtTime', 'false');
         setOpenTutorial(true);
       }
@@ -233,13 +242,16 @@ export const ModalZoomImage = ({
     checkIsFirstTime();
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     const newArr = image.map((item: any) => ({ url: item }));
     setNewArrayImages(newArr);
   }, [image]);
 
-  const closeModal = () => {
-    if (setIsVisibleZoom) {
+  const closeModal = () =>
+  {
+    if (setIsVisibleZoom)
+    {
       setIsVisibleZoom(false);
     }
   };
@@ -254,13 +266,16 @@ export const ModalZoomImage = ({
           onRequestClose={closeModal}
         >
           <ImageViewer
-            renderIndicator={(currentIndex: number) => {
+            renderIndicator={(currentIndex: number) =>
+            {
               setCurrentImage(currentIndex - 1);
 
               return null;
             }}
-            renderImage={(props) => {
-              if (!props?.source?.uri) {
+            renderImage={(props) =>
+            {
+              if (!props?.source?.uri)
+              {
                 return <View />;
               }
 
@@ -291,7 +306,8 @@ export const ModalZoomImage = ({
                   testID="com.usereserva:id/modal_zoom_image-button"
                   width={20}
                   height={20}
-                  onPress={() => {
+                  onPress={() =>
+                  {
                     setIsVisibleZoom(false);
                   }}
                   variant="icone"

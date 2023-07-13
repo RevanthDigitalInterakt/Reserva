@@ -1,8 +1,9 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import {
-  Box, Button, Typography,
-} from '@usereservaapp/reserva-ui';
+import
+  {
+    Box, Button, Typography,
+  } from '@usereservaapp/reserva-ui';
 import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
@@ -19,7 +20,8 @@ import { getBrandByUrl } from '../../utils/getBrandByURL';
 import { getPercent } from '../../utils/getPercent';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 
-interface ListProductsProps {
+interface ListProductsProps
+{
   products: ProductQL[];
   horizontal?: boolean;
   listHeader?:
@@ -35,7 +37,8 @@ export const ListHorizontalProducts = ({
   horizontal,
   listHeader,
   handleScrollToTheTop,
-}: ListProductsProps) => {
+}: ListProductsProps) =>
+{
   const { getBoolean } = useRemoteConfig();
   const navigation = useNavigation();
   const [skip, setSkip] = useState(false);
@@ -46,36 +49,43 @@ export const ListHorizontalProducts = ({
   const { profile } = useAuthStore(['profile']);
   const scrollX = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setLoading(loading);
   }, [loading]);
 
-  const populateListWithFavorite = async () => {
+  const populateListWithFavorite = async () =>
+  {
     setLoading(true);
     setLoading(false);
   };
 
-  const handleOnFavorite = async (favorite: boolean, item: any) => {
+  const handleOnFavorite = async (favorite: boolean, item: any) =>
+  {
     const skuId = item.items[0].itemId;
     setLoadingFavorite([...loadingFavorite, skuId]);
     const { productId } = item;
 
-    if (profile?.email) {
-      if (favorite) {
+    if (profile?.email)
+    {
+      if (favorite)
+      {
         const handleFavorites = [...favorites, { productId, sku: skuId }];
         await AsyncStorage.setItem(
           '@WishData',
           JSON.stringify(handleFavorites),
         );
         setFavorites(handleFavorites);
-      } else {
+      } else
+      {
         const newWishIds = favorites.filter((x) => x.sku !== skuId);
         AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
         setFavorites([...favorites.filter((x) => x.sku !== skuId)]);
       }
       setLoading(false);
       await populateListWithFavorite();
-    } else {
+    } else
+    {
       navigation.navigate('Login', { comeFrom: 'Menu' });
     }
     setLoadingFavorite([...loadingFavorite.filter((x) => x !== skuId)]);
@@ -85,12 +95,14 @@ export const ListHorizontalProducts = ({
     variants: any, getVariantId: string,
   ) => variants.filter((v: any) => v.name === getVariantId)[0].values[0];
 
-  const populateWishlist = async () => {
+  const populateWishlist = async () =>
+  {
     setSkip(true);
 
     const wishData: any = await AsyncStorage.getItem('@WishData');
 
-    if (wishData) {
+    if (wishData)
+    {
       setFavorites([
         ...JSON.parse(wishData).map((x: any) => ({
           productId: x.productId,
@@ -101,24 +113,28 @@ export const ListHorizontalProducts = ({
     }
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     populateListWithFavorite();
     populateWishlist();
   }, [products]);
 
   useFocusEffect(
-    useCallback(() => {
+    useCallback(() =>
+    {
       populateListWithFavorite();
       populateWishlist();
     }, []),
   );
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     const value = getBoolean('sale_off_tag');
     setSaleOffTag(value);
   }, [getBoolean]);
 
-  const getSaleOff = (salOff) => {
+  const getSaleOff = (salOff) =>
+  {
     const idImage = salOff.clusterHighlights?.find((x) => x.id === '371');
     if (!saleOffTag) return null;
     if (idImage) return images.saleOff;
@@ -158,7 +174,8 @@ export const ListHorizontalProducts = ({
           <Button
             testID="com.usereserva:id/back_button_home_list_products"
             title="VOLTAR"
-            onPress={() => {
+            onPress={() =>
+            {
               navigation.navigate('Home');
             }}
             variant="primarioEstreitoOutline"
@@ -197,12 +214,14 @@ export const ListHorizontalProducts = ({
             </Box>
           )}
           ListHeaderComponent={listHeader}
-          renderItem={({ item, index }) => {
+          renderItem={({ item, index }) =>
+          {
             let installments;
 
             let countPosition = 0;
             // TODO refactor
-            while (item.items[0].sellers[countPosition].commertialOffer.Installments.length === 0) {
+            while (item.items[0].sellers[countPosition].commertialOffer.Installments.length === 0)
+            {
               countPosition++;
             }
 
@@ -217,7 +236,8 @@ export const ListHorizontalProducts = ({
             );
 
             let discountTag;
-            if (listPrice && sellingPrice) {
+            if (listPrice && sellingPrice)
+            {
               discountTag = getPercent(
                 sellingPrice,
                 listPrice,
@@ -244,7 +264,8 @@ export const ListHorizontalProducts = ({
                 isFavorited={
                   !!favorites.find((x) => x.sku === item.items[0].itemId)
                 }
-                onClickFavorite={(isFavorite) => {
+                onClickFavorite={(isFavorite) =>
+                {
                   handleOnFavorite(isFavorite, item);
                 }}
                 imageSource={item.items[0].images[0].imageUrl}
@@ -259,7 +280,8 @@ export const ListHorizontalProducts = ({
                 priceWithDiscount={sellingPrice}
                 price={listPrice || 0}
                 productTitle={item.productName}
-                onClickImage={() => {
+                onClickImage={() =>
+                {
                   EventProvider.logEvent('page_view', {
                     wbrand: defaultBrand.picapau,
                   });
@@ -274,7 +296,8 @@ export const ListHorizontalProducts = ({
                     colorSelected: getVariant(item?.items[0]?.variations, 'ID_COR_ORIGINAL'),
                   }));
 
-                  if (handleScrollToTheTop) {
+                  if (handleScrollToTheTop)
+                  {
                     handleScrollToTheTop();
                   }
                 }}
@@ -329,7 +352,8 @@ export const ListHorizontalProducts = ({
   );
 };
 
-interface ProductItemInterface extends ProductVerticalListCardProps {
+interface ProductItemInterface extends ProductVerticalListCardProps
+{
   item: any,
   index: number,
   horizontal?: boolean,
@@ -349,12 +373,12 @@ const ProductItem: React.FC<ProductItemInterface> = ({
     mr={horizontal && 'xxxs'}
   >
     {
-        item?.items[0]?.images[0]?.imageUrl && (
-          <ProductVerticalListCard
-            {...props}
-            imageSource={item.items[0].images[0].imageUrl}
-          />
-        )
-      }
+      item?.items[0]?.images[0]?.imageUrl && (
+        <ProductVerticalListCard
+          {...props}
+          imageSource={item.items[0].images[0].imageUrl}
+        />
+      )
+    }
   </Box>
 );

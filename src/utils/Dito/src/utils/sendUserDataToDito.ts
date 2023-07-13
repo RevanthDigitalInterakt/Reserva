@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import EventProvider from '../../../EventProvider';
 import { getDitoUser, registerDitoUser } from '../routes/user';
 import sendUpdateUserDataToDito from './sendUpdateUserDataToDito';
@@ -21,16 +21,21 @@ type SendUserDataToDito = {
 async function sendUserDataToDito({
   id,
   user,
-}: SendUserDataToDito) {
-  try {
+}: SendUserDataToDito)
+{
+  try
+  {
     const ditoUser = await getDitoUser({ id });
-    if (ditoUser?.data) {
+    if (ditoUser?.data)
+    {
       await sendUpdateUserDataToDito({ id, user });
-    } else {
+    } else
+    {
       await registerDitoUser({ id, payload: user });
       await AsyncStorage.setItem('@Dito:anonymousID', id);
     }
-  } catch (e) {
+  } catch (e)
+  {
     EventProvider.sentry.captureException(e);
   }
 }

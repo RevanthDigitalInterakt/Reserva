@@ -1,33 +1,36 @@
 import { useLazyQuery } from '@apollo/client';
 import type { StackScreenProps } from '@react-navigation/stack';
-import {
-  Box,
-  Button,
-  Icon,
-  Picker,
-  SearchBar,
-  theme,
-  Typography,
-} from '@usereservaapp/reserva-ui';
+import
+  {
+    Box,
+    Button,
+    Icon,
+    Picker,
+    SearchBar,
+    theme,
+    Typography,
+  } from '@usereservaapp/reserva-ui';
 import { intervalToDuration } from 'date-fns';
 import React, {
   useCallback, useEffect, useState,
 } from 'react';
 import { Linking } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
 import { useConfigContext } from '../../../../context/ConfigContext';
 import { countdownClockQuery, ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
 import { facetsQuery } from '../../../../graphql/facets/facetsQuery';
-import {
-  bannerQuery,
-} from '../../../../graphql/homePage/HomeQuery';
+import
+  {
+    bannerQuery,
+  } from '../../../../graphql/homePage/HomeQuery';
 import { ColorsToHexEnum } from '../../../../graphql/product/colorsToHexEnum';
-import {
-  OrderByEnum,
-  productSearch,
-} from '../../../../graphql/products/productSearch';
+import
+  {
+    OrderByEnum,
+    productSearch,
+  } from '../../../../graphql/products/productSearch';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../../hooks/useCheckConnection';
 import { referenceIdResolver } from '../../../../utils/referenceIdResolver';
@@ -98,7 +101,8 @@ const DEFAULT_NEXT_PAGINATION = {
 // TODO refactor create default collection on bff
 const defaultCategory = 'collection:2407';
 
-export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
+export const ProductCatalog: React.FC<Props> = ({ route, navigation }) =>
+{
   const { offersPage: collectionIdByContentful } = useConfigContext();
 
   const {
@@ -133,7 +137,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
   const { WithoutInternet } = useCheckConnection({});
 
-  const trackEventAccessedCategoryDito = useCallback(async (selectedCollection:string) => {
+  const trackEventAccessedCategoryDito = useCallback(async (selectedCollection: string) =>
+  {
     const id = profile?.email
       ? await getItem('@Dito:userRef')
       : await AsyncStorage.getItem('@Dito:anonymousID');
@@ -142,13 +147,13 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
     EventProvider.sendTrackEvent(
       'acessou-categoria', {
-        id,
-        action: 'acessou-categoria',
-        data: {
-          nome_categoria: selectedCollection,
-          origem: 'app',
-        },
+      id,
+      action: 'acessou-categoria',
+      data: {
+        nome_categoria: selectedCollection,
+        origem: 'app',
       },
+    },
     );
   }, [getItem, profile?.email]);
 
@@ -181,7 +186,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     },
   });
 
-  const wrapperGetCountdownClock = useCallback(async (value: string) => {
+  const wrapperGetCountdownClock = useCallback(async (value: string) =>
+  {
     const { data: countdownClockData } = await getcountdownClock({
       variables: {
         categoryReference: value,
@@ -192,28 +198,35 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
     const { items } = countdownClockData.countdownClockCollection;
 
-    if (items.length) {
-      if (items && items?.length > 0) {
+    if (items.length)
+    {
+      if (items && items?.length > 0)
+      {
         const clockOffers = items?.find((countDown: ICountDownClock) => countDown.selectClockScreen === 'OFFERS' || countDown?.selectClockScreen === 'CATEGORY');
         const clockAll = items?.find((countDown: ICountDownClock) => countDown.selectClockScreen === 'ALL');
 
-        if (clockOffers) {
+        if (clockOffers)
+        {
           if (new Date(clockOffers?.countdown).getTime() > Date.now()
-            && Date.now() > new Date(clockOffers?.countdownStart).getTime()) {
+            && Date.now() > new Date(clockOffers?.countdownStart).getTime())
+          {
             setShowClockOffers(true);
-          } else {
+          } else
+          {
             setShowClockOffers(false);
           }
 
           let limitDate;
 
-          if (clockOffers?.countdown) {
+          if (clockOffers?.countdown)
+          {
             limitDate = intervalToDuration({
               start: Date.now(),
               end: new Date(clockOffers?.countdown),
             });
           }
-          if (limitDate) {
+          if (limitDate)
+          {
             setCountDownClockLocal({
               ...clockOffers,
               countdownStart: clockOffers?.countdownStart,
@@ -222,15 +235,18 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
           }
         }
 
-        if (clockAll && !showClockOffers && clockAll.reference !== collectionIdByCategories) {
+        if (clockAll && !showClockOffers && clockAll.reference !== collectionIdByCategories)
+        {
           let limitDate;
-          if (clockAll?.countdown) {
+          if (clockAll?.countdown)
+          {
             limitDate = intervalToDuration({
               start: Date.now(),
               end: new Date(clockAll?.countdown),
             });
           }
-          if (limitDate) {
+          if (limitDate)
+          {
             setCountDownClockGlobal({
               ...clockAll,
               countdownStart: clockAll?.countdownStart,
@@ -243,7 +259,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   }, [getcountdownClock, collectionIdByCategories, showClockOffers]);
 
   const wrapperGetProductSearch = useCallback(
-    async (facetParams: IFacet[], orderByParams: string = '') => {
+    async (facetParams: IFacet[], orderByParams: string = '') =>
+    {
       const { data } = await getProductSearch({
         variables: {
           skusFilter: 'ALL_AVAILABLE',
@@ -267,7 +284,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     }, [getProductSearch, getFetchPolicyPerKey],
   );
 
-  const wrapperGetBanner = useCallback(async (value: string) => {
+  const wrapperGetBanner = useCallback(async (value: string) =>
+  {
     const { data: bannerData } = await getBanner({
       context: { clientName: 'contentful' },
       variables: {
@@ -278,25 +296,30 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
     const hasBanner = !!bannerData?.bannerCategoryCollection?.items?.length;
 
-    if (hasBanner) {
+    if (hasBanner)
+    {
       const bannerUrl = bannerData?.bannerCategoryCollection?.items[0]?.item?.image?.url;
-      if (bannerUrl) {
+      if (bannerUrl)
+      {
         setBannerImage(bannerUrl);
       }
     }
   }, [getBanner]);
 
-  const navigateGoBack = useCallback(() => {
+  const navigateGoBack = useCallback(() =>
+  {
     navigation.goBack();
 
-    if (comeFrom === 'Menu') {
+    if (comeFrom === 'Menu')
+    {
       navigation.navigate('Menu', {
         indexMenuOpened,
       });
     }
   }, [navigation, comeFrom, indexMenuOpened]);
 
-  const wrapperGetFacets = useCallback(async (facetParams: IFacetInput[]) => {
+  const wrapperGetFacets = useCallback(async (facetParams: IFacetInput[]) =>
+  {
     const { data: facetsData } = await getFacets({
       variables: {
         hideUnavailableItems: true,
@@ -307,7 +330,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
     const facets = facetsData?.facets?.facets;
 
-    if (!facets?.length) {
+    if (!facets?.length)
+    {
       return;
     }
 
@@ -366,7 +390,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     setColorsFilters(colorFacetValues);
   }, [getFacets, getFetchPolicyPerKey, trackEventAccessedCategoryDito]);
 
-  const loadApplyFilter = useCallback(async (item: any) => {
+  const loadApplyFilter = useCallback(async (item: any) =>
+  {
     const reference = collectionIdByCategories || collectionIdByContentful || '';
 
     const createdFacets = generateFacets({ ...filters, reference })
@@ -381,7 +406,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     filters,
     wrapperGetProductSearch]);
 
-  const loadCollectionDefault = useCallback(async () => {
+  const loadCollectionDefault = useCallback(async () =>
+  {
     const createdFacets = generateFacets({ ...filters, reference: defaultCategory })
       .concat(filterRequestList);
 
@@ -398,7 +424,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     wrapperGetFacets,
     wrapperGetProductSearch]);
 
-  const loadCollection = useCallback(async (reference: string) => {
+  const loadCollection = useCallback(async (reference: string) =>
+  {
     const createdFacets = generateFacets({ ...filters, reference })
       .concat(filterRequestList);
 
@@ -415,18 +442,21 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     wrapperGetFacets,
     wrapperGetProductSearch]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setLoading(true);
 
     // flow load collection by categories
-    if (collectionIdByCategories) {
+    if (collectionIdByCategories)
+    {
       loadCollection(collectionIdByCategories);
       setLoading(false);
       return;
     }
 
     // flow load collection by contentful
-    if (collectionIdByContentful) {
+    if (collectionIdByContentful)
+    {
       loadCollection(collectionIdByContentful);
       setLoading(false);
       return;
@@ -440,8 +470,10 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     loadCollection,
     loadCollectionDefault]);
 
-  useEffect(() => {
-    if (!loading && !!productData[0]) {
+  useEffect(() =>
+  {
+    if (!loading && !!productData[0])
+    {
       EventProvider.logEvent('product_list_view', {
         content_type: 'product_group',
         wbrand: getBrandByUrl(productData[0]),
@@ -449,7 +481,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     }
   }, [productData, loading]);
 
-  const wrapperPagination = useCallback(async () => {
+  const wrapperPagination = useCallback(async () =>
+  {
     const reference = collectionIdByCategories || collectionIdByContentful || '';
 
     const createdFacets = generateFacets({ ...filters, reference })
@@ -486,7 +519,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       to: currentPage.to + 12,
     });
 
-    try {
+    try
+    {
       EventProvider.logEvent('page_view', {
         wbrand: defaultBrand.picapau,
       });
@@ -499,7 +533,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         })),
         wbrand: getBrandByUrl(response.data.productSearch),
       });
-    } catch (err) {
+    } catch (err)
+    {
       EventProvider.captureException(err);
     }
   }, [collectionIdByCategories,
@@ -512,7 +547,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
     orderByParamsForPaginationPersist,
     productData]);
 
-  const onClickWhatsappButton = useCallback(async () => {
+  const onClickWhatsappButton = useCallback(async () =>
+  {
     await Linking.openURL('https://whts.co/reserva');
   }, []);
 
@@ -553,16 +589,19 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         title=""
       />
       <Picker
-        onSelect={(item) => {
+        onSelect={(item) =>
+        {
           loadApplyFilter(item);
           setOrderByParamsForPaginationPersist(item.value);
         }}
         isVisible={sorterVisible}
         items={pickerItem}
-        onConfirm={() => {
+        onConfirm={() =>
+        {
           setSorterVisible(false);
         }}
-        onClose={() => {
+        onClose={() =>
+        {
           setSorterVisible(false);
         }}
         onBackDropPress={() => setSorterVisible(false)}
@@ -677,7 +716,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
           cleanFilter={() => setFilterRequestList([])}
           loadMoreProducts={wrapperPagination}
           products={productData}
-          loadingHandler={(loadingState) => {
+          loadingHandler={(loadingState) =>
+          {
             setLoadingHandlerState(loadingState);
           }}
           totalProducts={totalProducts}
@@ -717,10 +757,13 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 <Box width={1 / 2}>
                   <Button
                     testID="com.usereserva:id/clear_filter_button_product_catalog"
-                    onPress={() => {
-                      if (productData?.length > 0) {
+                    onPress={() =>
+                    {
+                      if (productData?.length > 0)
+                      {
                         setFilterVisible(true);
-                      } else {
+                      } else
+                      {
                         setFilterRequestList([]);
                       }
                     }}
@@ -758,7 +801,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                     flexDirection="row"
                     inline
                     height={40}
-                    onPress={() => {
+                    onPress={() =>
+                    {
                       setSorterVisible(true);
                     }}
                   >
@@ -805,7 +849,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
       ) : (
         !loading && (
           <EmptyProductCatalog
-            onPress={() => {
+            onPress={() =>
+            {
               setFilterRequestList([]);
               navigation.navigate('Home');
             }}

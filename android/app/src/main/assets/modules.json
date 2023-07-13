@@ -20,7 +20,7 @@
   "use-subscription": "1.8.0",
   "use-sync-external-store": "1.2.0",
   "fast-base64-decode": "1.0.0",
-  "@react-native-community/async-storage": "1.12.1",
+  "@react-native-async-storage/async-storage": "1.12.1",
   "react-native-bootsplash": "4.5.3",
   "react-native-gesture-handler": "1.10.3",
   "fbjs": "3.0.4",

@@ -1,42 +1,49 @@
 import * as React from 'react';
-import {
-  useCallback, useEffect, useState,
-} from 'react';
+import
+  {
+    useCallback, useEffect, useState,
+  } from 'react';
 
 import { useLazyQuery } from '@apollo/client';
-import {
-  StackActions,
-  useNavigation,
-} from '@react-navigation/native';
+import
+  {
+    StackActions,
+    useNavigation,
+  } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
-import {
-  ScrollView, Dimensions, BackHandler, Keyboard, Platform,
-} from 'react-native';
+import
+  {
+    ScrollView, Dimensions, BackHandler, Keyboard, Platform,
+  } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import {
-  Box,
-  Button,
-  Divider,
-  SearchBar,
-  Typography,
-  Picker,
-} from '@usereservaapp/reserva-ui';
-import AsyncStorage from '@react-native-community/async-storage';
+import
+  {
+    Box,
+    Button,
+    Divider,
+    SearchBar,
+    Typography,
+    Picker,
+  } from '@usereservaapp/reserva-ui';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FilterModal } from '../../ProductCatalog/modals/FilterModal/FilterModal';
 
-import {
-  configCollection,
-  ConfigCollection,
-} from '../../../graphql/homePage/HomeQuery';
-import {
-  OrderByEnum,
-  productSearch,
-  ProductSearchData,
-} from '../../../graphql/products/productSearch';
-import {
-  SearchSuggestionsVars,
-  searchSuggestionsAndProductSearch,
-} from '../../../graphql/products/searchSuggestions';
+import
+  {
+    configCollection,
+    ConfigCollection,
+  } from '../../../graphql/homePage/HomeQuery';
+import
+  {
+    OrderByEnum,
+    productSearch,
+    ProductSearchData,
+  } from '../../../graphql/products/productSearch';
+import
+  {
+    SearchSuggestionsVars,
+    searchSuggestionsAndProductSearch,
+  } from '../../../graphql/products/searchSuggestions';
 
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../hooks/useCheckConnection';
@@ -61,7 +68,8 @@ const deviceHeight = Dimensions.get('window').height;
 
 type Props = StackScreenProps<RootStackParamList, 'SearchScreen'>;
 
-export const SearchScreen: React.FC<Props> = () => {
+export const SearchScreen: React.FC<Props> = () =>
+{
   const navigation = useNavigation();
   const { regionId } = useRegionalSearch();
   const [searchTerm, setSearchTerm] = React.useState('');
@@ -173,8 +181,10 @@ export const SearchScreen: React.FC<Props> = () => {
     mochilas: [{ key: 'productClusterIds', value: '902' }],
   };
 
-  const gambiarraRedirect = async (searchTerm: string) => {
-    if (Object.keys(redirectWightList).includes(searchTerm.toLowerCase())) {
+  const gambiarraRedirect = async (searchTerm: string) =>
+  {
+    if (Object.keys(redirectWightList).includes(searchTerm.toLowerCase()))
+    {
       const { data } = await getProducts({
         variables: {
           salesChannel: '4',
@@ -194,17 +204,20 @@ export const SearchScreen: React.FC<Props> = () => {
     return null;
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setCollectionData({ collectionData: null, loadingCollection: true });
     setFeaturedData({ featuredData: null, loadingFeatured: true });
     getCollection({
       fetchPolicy: getFetchPolicyPerKey('config'),
-    }).then(({ data }) => {
+    }).then(({ data }) =>
+    {
       setCollectionData({ collectionData: data, loadingCollection: false });
     });
     getFeaturedData({
       fetchPolicy: getFetchPolicyPerKey('productFeaturedData'),
-    }).then(({ data }) => {
+    }).then(({ data }) =>
+    {
       setFeaturedData({ featuredData: data, loadingFeatured: false });
     });
   }, []);
@@ -222,29 +235,37 @@ export const SearchScreen: React.FC<Props> = () => {
 
   const { WithoutInternet } = useCheckConnection({});
 
-  useEffect(() => {
-    if (!selectedTerm && debouncedSearchTerm) {
+  useEffect(() =>
+  {
+    if (!selectedTerm && debouncedSearchTerm)
+    {
       setRelatedProducts([]);
       handleDebouncedSearchTerm();
     }
   }, [debouncedSearchTerm]);
 
-  useEffect(() => {
-    if (suggestionsData) {
+  useEffect(() =>
+  {
+    if (suggestionsData)
+    {
       const { searchSuggestions, productSearch } = suggestionsData;
 
       setSuggestions(searchSuggestions.searches);
       setRelatedProducts(productSearch.products);
-      if (searchSuggestions?.searches.length > 0) {
+      if (searchSuggestions?.searches.length > 0)
+      {
         setSuggestionsFound(true);
-      } else {
+      } else
+      {
         setSuggestionsFound(false);
       }
     }
   }, [suggestionsData]);
 
-  useEffect(() => {
-    if (collectionData) {
+  useEffect(() =>
+  {
+    if (collectionData)
+    {
       setProductNews(
         collectionData?.configCollection?.items[0]?.searchMedia
           .secionMediaCollection.items,
@@ -257,30 +278,39 @@ export const SearchScreen: React.FC<Props> = () => {
     }
   }, [collectionData]);
 
-  useEffect(() => {
-    if (!loadingFeatured) {
+  useEffect(() =>
+  {
+    if (!loadingFeatured)
+    {
       setFeaturedProducts(featuredData?.productSearch?.products);
     }
   }, [featuredData]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setShowResults(false);
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setReturnSearch(false);
   }, []);
 
-  useEffect(() => {
-    if (returnSearch) {
-      BackHandler.addEventListener('hardwareBackPress', () => {
+  useEffect(() =>
+  {
+    if (returnSearch)
+    {
+      BackHandler.addEventListener('hardwareBackPress', () =>
+      {
         navigation.dispatch(StackActions.popToTop());
 
         navigation.navigate('SearchMenu');
         return true;
       });
-    } else {
-      BackHandler.addEventListener('hardwareBackPress', () => {
+    } else
+    {
+      BackHandler.addEventListener('hardwareBackPress', () =>
+      {
         navigation.goBack();
 
         return true;
@@ -297,10 +327,12 @@ export const SearchScreen: React.FC<Props> = () => {
    * of the browser and close the current app. On IOS it will only
    * open the link in the browser.
    * */
-  const handleCheckSearchTerm = useCallback(async () => {
+  const handleCheckSearchTerm = useCallback(async () =>
+  {
     const term = (debouncedSearchTerm || '').toLowerCase().trim();
 
-    if (primeActive && primeLPSearchTerms.includes(term)) {
+    if (primeActive && primeLPSearchTerms.includes(term))
+    {
       Keyboard.dismiss();
       navigation.navigate('PrimeLP');
       return;
@@ -311,7 +343,8 @@ export const SearchScreen: React.FC<Props> = () => {
       fetchPolicy: getFetchPolicyPerKey('checkSearchRedirect'),
     });
 
-    if (dataSearch?.checkSearchRedirect) {
+    if (dataSearch?.checkSearchRedirect)
+    {
       await DeepLinkPathModule.openUrlInBrowser({
         closeCurrentAppInstance: true,
         url: dataSearch.checkSearchRedirect,
@@ -326,30 +359,33 @@ export const SearchScreen: React.FC<Props> = () => {
     navigation,
   ]);
 
-  const trackEventSearchDito = useCallback(async (searchedTerm: string, amountFound: number) => {
+  const trackEventSearchDito = useCallback(async (searchedTerm: string, amountFound: number) =>
+  {
     const id = profile?.email
       ? await getItem('@Dito:userRef')
       : await AsyncStorage.getItem('@Dito:anonymousID');
 
-    if (!searchedTerm) {
+    if (!searchedTerm)
+    {
       return;
     }
 
     EventProvider.sendTrackEvent(
       'buscou-produto', {
-        id,
-        action: 'buscou-produto',
-        data: {
-          term: searchedTerm,
-          itens_encontrados: amountFound || 0,
-          dispositivo: Platform.OS,
-          origem: 'app',
-        },
+      id,
+      action: 'buscou-produto',
+      data: {
+        term: searchedTerm,
+        itens_encontrados: amountFound || 0,
+        dispositivo: Platform.OS,
+        origem: 'app',
       },
+    },
     );
   }, [getItem, profile?.email]);
 
-  const handleSearch = async (text: string) => {
+  const handleSearch = async (text: string) =>
+  {
     setProductData({ data: null, loading: true });
 
     /**
@@ -358,22 +394,27 @@ export const SearchScreen: React.FC<Props> = () => {
      * */
     await handleCheckSearchTerm();
 
-    if (Object.keys(redirectWightList).includes(text.toLowerCase())) {
-      gambiarraRedirect(text).then(({ data }: any) => {
+    if (Object.keys(redirectWightList).includes(text.toLowerCase()))
+    {
+      gambiarraRedirect(text).then(({ data }: any) =>
+      {
         setShowResults(true);
         setSelectedTerm(false);
         setProducts(data?.productSearch?.products);
         setProductData({ data, loading: false });
-        try {
+        try
+        {
           trackEventSearchDito(text, data?.productSearch?.recordsFiltered);
           EventProvider.logEvent('search', {
             search_term: text,
           });
-        } catch (error) {
+        } catch (error)
+        {
           EventProvider.captureException(error);
         }
       });
-    } else {
+    } else
+    {
       getProducts({
         variables: {
           fullText: text,
@@ -384,24 +425,28 @@ export const SearchScreen: React.FC<Props> = () => {
             },
           ],
         },
-      }).then(({ data }) => {
+      }).then(({ data }) =>
+      {
         setShowResults(true);
         setSelectedTerm(false);
         setProducts(data?.productSearch?.products);
         setProductData({ data, loading: false });
-        try {
+        try
+        {
           trackEventSearchDito(text, data?.productSearch?.recordsFiltered);
           EventProvider.logEvent('search', {
             search_term: text,
           });
-        } catch (error) {
+        } catch (error)
+        {
           EventProvider.captureException(error);
         }
       });
     }
   };
 
-  const handleDebouncedSearchTerm = useCallback(async () => {
+  const handleDebouncedSearchTerm = useCallback(async () =>
+  {
     await handleCheckSearchTerm();
 
     await getSuggestions({
@@ -414,7 +459,8 @@ export const SearchScreen: React.FC<Props> = () => {
     setShowAllProducts(false);
   }, [getSuggestions, setShowAllProducts, getFetchPolicyPerKey, debouncedSearchTerm, handleCheckSearchTerm]);
 
-  const loadMoreProducts = async (offset: number, searchQuery?: string) => {
+  const loadMoreProducts = async (offset: number, searchQuery?: string) =>
+  {
     setLoadingRefetch(true);
     const {
       data: {
@@ -425,17 +471,20 @@ export const SearchScreen: React.FC<Props> = () => {
         form: offset < pageSize ? pageSize : offset,
         to: offset < pageSize ? pageSize * 2 - 1 : offset + (pageSize - 1),
         selectedFacets:
-        generateFacets({ reference: referenceString })
-          .concat(
-            filterRequestList || [],
-          ),
+          generateFacets({ reference: referenceString })
+            .concat(
+              filterRequestList || [],
+            ),
       },
     });
 
-    if (!loading) {
-      if (Array.isArray(newProducts) && newProducts.length) {
+    if (!loading)
+    {
+      if (Array.isArray(newProducts) && newProducts.length)
+      {
         setProducts(newProducts);
-      } else {
+      } else
+      {
         const newProduct = [...products] as any[] | undefined;
         setProducts(newProduct);
       }
@@ -443,8 +492,10 @@ export const SearchScreen: React.FC<Props> = () => {
     setLoadingRefetch(false);
   };
 
-  useEffect(() => {
-    if (filterRequestList) {
+  useEffect(() =>
+  {
+    if (filterRequestList)
+    {
       setProducts({
         products: [],
       });
@@ -460,7 +511,8 @@ export const SearchScreen: React.FC<Props> = () => {
     lodingFacets: true,
   });
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setReferenceString('collection:1438');
   }, []);
 
@@ -468,14 +520,15 @@ export const SearchScreen: React.FC<Props> = () => {
     variables: {
       hideUnavailableItems: true,
       selectedFacets:
-      generateFacets({ reference: referenceString })
-        .concat(
-          filterRequestList || [],
-        ),
+        generateFacets({ reference: referenceString })
+          .concat(
+            filterRequestList || [],
+          ),
     },
   });
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     getFacets({
       fetchPolicy: getFetchPolicyPerKey('facets'),
     }).then((response) => setFacets({
@@ -484,11 +537,14 @@ export const SearchScreen: React.FC<Props> = () => {
     }));
   }, []);
 
-  useEffect(() => {
-    if (!lodingFacets) {
+  useEffect(() =>
+  {
+    if (!lodingFacets)
+    {
       const facets = facetsData?.facets?.facets;
 
-      if (!facets?.length) {
+      if (!facets?.length)
+      {
         return;
       }
 
@@ -541,13 +597,16 @@ export const SearchScreen: React.FC<Props> = () => {
     }
   }, [facetsData]);
 
-  useEffect(() => {
-    if (!loading && !!productSearch) {
+  useEffect(() =>
+  {
+    if (!loading && !!productSearch)
+    {
       setProductsQuery(data?.productSearch);
     }
   }, [data, featuredData]);
 
-  const refetch = async () => {
+  const refetch = async () =>
+  {
     const response = await getProducts({
       variables: {
         salesChannel: '4',
@@ -568,11 +627,13 @@ export const SearchScreen: React.FC<Props> = () => {
     return response;
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     refetch();
   }, [selectedOrder]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (!EventProvider) return;
     if (!searchTerm) return;
     if (!products || products?.length <= 0) return;
@@ -593,10 +654,12 @@ export const SearchScreen: React.FC<Props> = () => {
       <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
         <SearchBar
           value={searchTerm}
-          onValueChange={(text) => {
+          onValueChange={(text) =>
+          {
             setSearchTerm(text);
           }}
-          onClickIcon={() => {
+          onClickIcon={() =>
+          {
             suggestionsData && setSelectedTerm(true);
             handleSearch(searchTerm.replace(/^\s+|\s+$/gm, ''));
           }}
@@ -624,7 +687,8 @@ export const SearchScreen: React.FC<Props> = () => {
                     {searchSuggestions.map((item, index) => (
                       <Button
                         key={`search-suggestion-${index}`}
-                        onPress={async () => {
+                        onPress={async () =>
+                        {
                           setSearchTerm(item.name);
                           handleSearch(item.name);
                         }}
@@ -649,9 +713,11 @@ export const SearchScreen: React.FC<Props> = () => {
 
                 <News
                   data={productNews}
-                  onPress={(item) => {
+                  onPress={(item) =>
+                  {
                     const { reference, orderBy } = item;
-                    if (reference) {
+                    if (reference)
+                    {
                       const facetInput: any[] = [];
                       const [collecion, valueCollecion] = reference?.split(':');
                       facetInput.push({
@@ -686,7 +752,8 @@ export const SearchScreen: React.FC<Props> = () => {
                       <ListVerticalProducts
                         totalProducts={data?.productSearch?.recordsFiltered}
                         products={featuredProducts || []}
-                        loadMoreProducts={(offset) => {
+                        loadMoreProducts={(offset) =>
+                        {
                           loadMoreProducts(offset, '');
                         }}
                       />
@@ -704,7 +771,8 @@ export const SearchScreen: React.FC<Props> = () => {
                     <>
                       <Button
                         width="100%"
-                        onPress={() => {
+                        onPress={() =>
+                        {
                           setSearchTerm(suggestion.term);
                           setSelectedTerm(true);
                           handleSearch(suggestion.term);
@@ -739,10 +807,13 @@ export const SearchScreen: React.FC<Props> = () => {
           <Box paddingY="micro" flexDirection="row" justifyContent="center">
             <Box width={1 / 2}>
               <Button
-                onPress={() => {
-                  if (productsQuery.products.length > 0) {
+                onPress={() =>
+                {
+                  if (productsQuery.products.length > 0)
+                  {
                     setFilterVisible(true);
-                  } else {
+                  } else
+                  {
                     setFilterRequestList([]);
                   }
                 }}
@@ -777,7 +848,8 @@ export const SearchScreen: React.FC<Props> = () => {
                 flexDirection="row"
                 inline
                 height={40}
-                onPress={() => {
+                onPress={() =>
+                {
                   setSorterVisible(true);
                 }}
               >
@@ -806,7 +878,8 @@ export const SearchScreen: React.FC<Props> = () => {
             subtitle=""
           />
           <Picker
-            onSelect={(item) => {
+            onSelect={(item) =>
+            {
               setSorterVisible(false);
               setSelectedOrder(item?.value);
             }}
@@ -845,10 +918,12 @@ export const SearchScreen: React.FC<Props> = () => {
                 value: OrderByEnum.OrderByNameDESC,
               },
             ]}
-            onConfirm={() => {
+            onConfirm={() =>
+            {
               setSorterVisible(false);
             }}
-            onClose={() => {
+            onClose={() =>
+            {
               setSorterVisible(false);
             }}
             onBackDropPress={() => setSorterVisible(false)}
@@ -858,7 +933,8 @@ export const SearchScreen: React.FC<Props> = () => {
             products={products || featuredData?.productSearch || []}
             isLoading={loadingRefetch}
             totalProducts={data?.productSearch.recordsFiltered}
-            loadMoreProducts={(offset) => {
+            loadMoreProducts={(offset) =>
+            {
               loadMoreProducts(offset, searchTerm);
             }}
           />

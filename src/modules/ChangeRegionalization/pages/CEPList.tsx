@@ -3,13 +3,14 @@ import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { instance } from '../../../config/vtexConfig';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
 import { TopBarBackButtonWithoutLogo } from '../../Menu/components/TopBarBackButtonWithoutLogo';
 import Sentry from '../../../config/sentryConfig';
 
-export interface CepsInfo {
+export interface CepsInfo
+{
   cep: string,
   logradouro: string,
   complemento: string,
@@ -24,7 +25,8 @@ export interface CepsInfo {
 
 export type SearchBy = 'cep' | 'address';
 
-export const CEPList = ({ ...props }) => {
+export const CEPList = ({ ...props }) =>
+{
   const {
     route: {
       params: {
@@ -41,16 +43,20 @@ export const CEPList = ({ ...props }) => {
 
   const [ceps, setCeps] = React.useState<CepsInfo[]>([]);
 
-  const selectCep = async (cep: string) => {
-    if (isCepAddress) {
+  const selectCep = async (cep: string) =>
+  {
+    if (isCepAddress)
+    {
       navigation.navigate('NewAddress', {
         hasCep: cep,
       });
-    } else if (isCepProductDetail) {
+    } else if (isCepProductDetail)
+    {
       navigation.navigate('ProductDetail', {
         hasCep: cep,
       });
-    } else {
+    } else
+    {
       const { data } = await instance.post('/sessions', {
         public: {
           country: {
@@ -71,11 +77,13 @@ export const CEPList = ({ ...props }) => {
     }
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     Sentry.configureScope((scope) => scope.setTransactionName('CEPList'));
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setCeps(list);
   }, []);
 
@@ -88,7 +96,8 @@ export const CEPList = ({ ...props }) => {
     >
       <TopBarBackButtonWithoutLogo
         loading={false}
-        backButtonPress={() => {
+        backButtonPress={() =>
+        {
           navigation.goBack();
         }}
       />
@@ -187,7 +196,8 @@ export const CEPList = ({ ...props }) => {
         )}
         ListFooterComponent={() => (
           <Button
-            onPress={() => {
+            onPress={() =>
+            {
               navigation.navigate('ChangeRegionalization');
             }}
           >

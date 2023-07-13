@@ -1,5 +1,5 @@
 import { ApolloProvider } from '@apollo/client';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { theme } from '@usereservaapp/reserva-ui';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -35,7 +35,8 @@ const DefaultTheme = {
   },
 };
 
-const App = () => {
+const App = () =>
+{
   useApolloFetchPolicyStore(['initialized']);
 
   const [isTesting, setIsTesting] = useState<boolean>(false);
@@ -45,45 +46,54 @@ const App = () => {
   const remoteConfigStore = useRemoteConfig();
   const { setItem } = useAsyncStorageProvider();
 
-  const firstLaunchedData = async () => {
+  const firstLaunchedData = async () =>
+  {
     await setItem('@RNSession:Ron', false);
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     firstLaunchedData();
 
     remoteConfigStore.fetchInitialData(remoteConfig());
   }, []);
 
-  const getTestEnvironment = useCallback(async () => {
+  const getTestEnvironment = useCallback(async () =>
+  {
     const res = await AsyncStorage.getItem('isTesting');
 
     setIsTesting(res === 'true');
   }, []);
 
-  const trackScreenViewOnSentry = useCallback(() => {
+  const trackScreenViewOnSentry = useCallback(() =>
+  {
     EventProvider.trackScreen(navigationRef?.current?.getCurrentRoute());
   }, []);
 
-  const getMaintenanceValue = async () => {
+  const getMaintenanceValue = async () =>
+  {
     const screenMaintenance = await RemoteConfigService.getValue<boolean>(
       'SCREEN_MAINTENANCE',
     );
     setIsOnMaintenance(screenMaintenance);
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     getTestEnvironment();
   }, [getTestEnvironment]);
 
-  useEffect(() => {
-    (async () => {
+  useEffect(() =>
+  {
+    (async () =>
+    {
       await requestTrackingPermission();
     })();
 
     EventProvider.initializeModules();
 
-    setTimeout(() => {
+    setTimeout(() =>
+    {
       getMaintenanceValue();
     }, 1000);
   }, []);
@@ -96,7 +106,8 @@ const App = () => {
             <NavigationContainer
               linking={linkingConfig}
               theme={DefaultTheme}
-              onReady={() => {
+              onReady={() =>
+              {
                 trackScreenViewOnSentry();
                 RNBootSplash.hide();
               }}

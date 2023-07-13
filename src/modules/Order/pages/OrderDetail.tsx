@@ -1,25 +1,28 @@
-import { useClipboard } from '@react-native-community/clipboard';
+import { useClipboard } from '@react-native-clipboard/clipboard';
 import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  Linking, Platform, SafeAreaView, ScrollView,
-} from 'react-native';
-import {
-  Box,
-  Button,
-  Icon,
-  Stepper,
-  Typography,
-} from '@usereservaapp/reserva-ui';
+import
+  {
+    Linking, Platform, SafeAreaView, ScrollView,
+  } from 'react-native';
+import
+  {
+    Box,
+    Button,
+    Icon,
+    Stepper,
+    Typography,
+  } from '@usereservaapp/reserva-ui';
 import { IOrderId, useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import OrderDetailComponent from '../Components/OrderDetailComponent';
 import { platformType } from '../../../utils/platformType';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
-const OrderList: React.FC<any> = ({ route }) => {
+const OrderList: React.FC<any> = ({ route }) =>
+{
   const { order } = route.params;
   const navigation = useNavigation();
   const { orderDetail } = useCart();
@@ -29,8 +32,10 @@ const OrderList: React.FC<any> = ({ route }) => {
   const [clickedIcon, setClickedIcon] = useState(false);
   const { profile } = useAuthStore(['profile']);
 
-  const fetchOrderDetail = async () => {
-    if (profile?.authCookie != null) {
+  const fetchOrderDetail = async () =>
+  {
+    if (profile?.authCookie != null)
+    {
       setLoading(true);
       const data = await orderDetail(order.orderId);
       setOrderDetails(data);
@@ -38,13 +43,16 @@ const OrderList: React.FC<any> = ({ route }) => {
     }
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     fetchOrderDetail();
   }, []);
 
-  const handleCopiedText = () => {
+  const handleCopiedText = () =>
+  {
     setClickedIcon(true);
-    if (orderDetails) {
+    if (orderDetails)
+    {
       setCopiedText(
         orderDetails?.packageAttachment?.packages[0]?.trackingNumber || '',
       );
@@ -52,9 +60,11 @@ const OrderList: React.FC<any> = ({ route }) => {
     setTimeout(() => setClickedIcon(false), 1000);
   };
 
-  const hasPackage = useMemo(() => {
+  const hasPackage = useMemo(() =>
+  {
     const pack = orderDetails?.packageAttachment?.packages[0]?.courierStatus;
-    if (pack?.data?.length) {
+    if (pack?.data?.length)
+    {
       return true;
     }
     return false;
@@ -83,20 +93,20 @@ const OrderList: React.FC<any> = ({ route }) => {
                       </Typography>
                     </Box>
                     {hasPackage && (
-                    <Box paddingX="xxs" paddingY="xs">
-                      <Stepper
-                        steps={[
-                          'Pedido Entregue a Transportadora',
-                          'Confirmação',
-                          'Envio',
-                          'Entrega',
-                        ]}
-                        actualStepIndex={2}
-                      />
-                    </Box>
+                      <Box paddingX="xxs" paddingY="xs">
+                        <Stepper
+                          steps={[
+                            'Pedido Entregue a Transportadora',
+                            'Confirmação',
+                            'Envio',
+                            'Entrega',
+                          ]}
+                          actualStepIndex={2}
+                        />
+                      </Box>
                     )}
                   </>
-              )}
+                )}
               {orderDetails && (
                 <Box
                   marginY="micro"
@@ -105,17 +115,17 @@ const OrderList: React.FC<any> = ({ route }) => {
                 >
                   {order?.paymentApprovedDate
                     && (
-                    <Typography fontSize={14} fontFamily="nunitoBold">
-                      Previsão:
-                      {' '}
-                      {format(
-                        new Date(
-                          orderDetails?.shippingData?.logisticsInfo[0]?.shippingEstimateDate,
-                        ),
-                        'dd/MM/yy',
-                        { locale: ptBR },
-                      )}
-                    </Typography>
+                      <Typography fontSize={14} fontFamily="nunitoBold">
+                        Previsão:
+                        {' '}
+                        {format(
+                          new Date(
+                            orderDetails?.shippingData?.logisticsInfo[0]?.shippingEstimateDate,
+                          ),
+                          'dd/MM/yy',
+                          { locale: ptBR },
+                        )}
+                      </Typography>
                     )}
                   <Box mt="nano">
                     <Typography
@@ -183,27 +193,29 @@ const OrderList: React.FC<any> = ({ route }) => {
                           orderDetails?.packageAttachment?.packages[0]
                             ?.trackingUrl
                           && (
-                          <Box mb="xxs">
-                            <Typography
-                              fontFamily="nunitoRegular"
-                              fontSize={13}
-                              style={{ textDecorationLine: 'underline' }}
-                              onPress={async () => {
-                                const url = orderDetails
-                                  ?.packageAttachment?.packages[0]?.trackingUrl;
+                            <Box mb="xxs">
+                              <Typography
+                                fontFamily="nunitoRegular"
+                                fontSize={13}
+                                style={{ textDecorationLine: 'underline' }}
+                                onPress={async () =>
+                                {
+                                  const url = orderDetails
+                                    ?.packageAttachment?.packages[0]?.trackingUrl;
 
-                                if (url) {
-                                  await Linking.openURL(url);
-                                }
-                              }}
-                            >
-                              Ver rastreio no site da transportadora
-                            </Typography>
-                          </Box>
+                                  if (url)
+                                  {
+                                    await Linking.openURL(url);
+                                  }
+                                }}
+                              >
+                                Ver rastreio no site da transportadora
+                              </Typography>
+                            </Box>
                           )
                         }
                       </>
-                  )}
+                    )}
                 </Box>
               )}
             </>
@@ -227,7 +239,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                 {orderDetails.paymentData.transactions[0].payments[0]
                   .paymentSystem === 'Cartão de crédito' && (
                     <Icon name="Card" size={20} mr="nano" />
-                )}
+                  )}
 
                 <Typography fontSize={12} fontFamily="nunitoRegular">
                   {
@@ -245,7 +257,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                     >
                       {orderDetails.paymentData.transactions[0].payments[0].firstDigits}
                     </Typography>
-                )}
+                  )}
               </Box>
               <Box flexDirection="row" alignItems="center">
                 <Typography fontSize={14} fontFamily="nunitoSemiBold">
@@ -271,7 +283,8 @@ const OrderList: React.FC<any> = ({ route }) => {
                 inline
                 title="PRECISO DE AJUDA"
                 variant="primarioEstreitoOutline"
-                onPress={() => {
+                onPress={() =>
+                {
                   navigation.navigate('HelpCenter');
                 }}
               />
@@ -279,7 +292,8 @@ const OrderList: React.FC<any> = ({ route }) => {
             <Box my="xxxs">
               <Button
                 inline
-                onPress={() => {
+                onPress={() =>
+                {
                   navigation.navigate('OrderCancel');
                 }}
                 title="Desejo cancelar meu pedido"

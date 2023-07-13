@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import * as Sentry from '@sentry/react-native';
 import type { FetchPolicy } from '@apollo/client';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
 import type {
   ProfileQuery,
@@ -22,7 +22,8 @@ import { RefreshTokenError } from './types/refreshTokenError';
 
 type TProfileData = ProfileQuery['profile'];
 
-export interface IAuthStore {
+export interface IAuthStore
+{
   initialized: boolean;
   isAnonymousUser: boolean;
   onInit: () => Promise<boolean>;
@@ -41,13 +42,16 @@ const authStore = create<IAuthStore>((set, getState) => ({
   initialized: false,
   profile: undefined,
   isAnonymousUser: true,
-  onInit: async () => {
-    try {
+  onInit: async () =>
+  {
+    try
+    {
       const state = getState();
       const token = await getAsyncStorageItem('Auth:Token');
 
       // If toke do not exists, user's not logged in. No need to request a profile
-      if (!token) {
+      if (!token)
+      {
         set({ ...state, initialized: true });
 
         return true;
@@ -58,7 +62,8 @@ const authStore = create<IAuthStore>((set, getState) => ({
       set({ ...state, profile, initialized: true });
 
       return true;
-    } catch (err) {
+    } catch (err)
+    {
       EventProvider.captureException(err);
 
       set({ ...getState(), initialized: true });
@@ -66,8 +71,10 @@ const authStore = create<IAuthStore>((set, getState) => ({
       return false;
     }
   },
-  onRefreshToken: async () => {
-    try {
+  onRefreshToken: async () =>
+  {
+    try
+    {
       const needRefreshToken = await checkIfNeedRefreshToken();
 
       if (!needRefreshToken) return false;
@@ -80,7 +87,8 @@ const authStore = create<IAuthStore>((set, getState) => ({
         fetchPolicy: 'no-cache',
       });
 
-      if (!data?.refreshToken?.token || !data?.refreshToken?.authCookie) {
+      if (!data?.refreshToken?.token || !data?.refreshToken?.authCookie)
+      {
         throw new Error('Unauthorized');
       }
 
@@ -89,8 +97,10 @@ const authStore = create<IAuthStore>((set, getState) => ({
       await setAsyncStorageItem('Auth:TokenRefreshTime', createTokenExpireDate());
 
       return true;
-    } catch (err) {
-      Sentry.withScope((scope) => {
+    } catch (err)
+    {
+      Sentry.withScope((scope) =>
+      {
         scope.addBreadcrumb({ message: 'Error on refresh token' });
         scope.setExtra('profile', getState().profile);
         Sentry.captureException(err);
@@ -99,8 +109,10 @@ const authStore = create<IAuthStore>((set, getState) => ({
       throw new RefreshTokenError();
     }
   },
-  onGetProfile: async (fetchPolicy: FetchPolicy = 'network-only') => {
-    try {
+  onGetProfile: async (fetchPolicy: FetchPolicy = 'network-only') =>
+  {
+    try
+    {
       const client = getApolloClient();
 
       const { data } = await client.query<ProfileQuery, ProfileQueryVariables>({
@@ -109,7 +121,8 @@ const authStore = create<IAuthStore>((set, getState) => ({
         fetchPolicy,
       });
 
-      if (!data?.profile) {
+      if (!data?.profile)
+      {
         throw new Error('Unauthorized [onGetProfile]');
       }
 
@@ -118,14 +131,17 @@ const authStore = create<IAuthStore>((set, getState) => ({
       EventProvider.setPushExternalUserId(data.profile.email);
 
       return data.profile;
-    } catch (err) {
+    } catch (err)
+    {
       EventProvider.captureException(err);
 
       throw new Error(err);
     }
   },
-  onSignIn: async (email: string, password: string, isNewUser = false) => {
-    try {
+  onSignIn: async (email: string, password: string, isNewUser = false) =>
+  {
+    try
+    {
       const client = getApolloClient();
 
       const input = { email, password, isNewUser };
@@ -136,7 +152,8 @@ const authStore = create<IAuthStore>((set, getState) => ({
         variables: { input },
       });
 
-      if (!data?.signIn?.token || !data?.signIn?.authCookie) {
+      if (!data?.signIn?.token || !data?.signIn?.authCookie)
+      {
         throw new Error('Unauthorized [onSignIn]');
       }
 
@@ -144,7 +161,8 @@ const authStore = create<IAuthStore>((set, getState) => ({
 
       const profile = await getState().onGetProfile('network-only');
 
-      if (!profile.authCookie || !profile.email) {
+      if (!profile.authCookie || !profile.email)
+      {
         throw new Error('Invalid Profile [onSignIn]');
       }
 
@@ -155,8 +173,10 @@ const authStore = create<IAuthStore>((set, getState) => ({
       set({
         ...getState(), initialized: true, profile, isAnonymousUser: false,
       });
-    } catch (err) {
-      Sentry.withScope((scope) => {
+    } catch (err)
+    {
+      Sentry.withScope((scope) =>
+      {
         scope.setExtra('email', email);
         scope.setExtra('password', password);
         Sentry.captureException(err);
@@ -165,14 +185,16 @@ const authStore = create<IAuthStore>((set, getState) => ({
       throw new Error(err);
     }
   },
-  onUpdateAuthData: async (token: string, cookie: string) => {
+  onUpdateAuthData: async (token: string, cookie: string) =>
+  {
     await setAsyncStorageItem('Auth:Token', token);
     await setAsyncStorageItem('Auth:TokenRefreshTime', createTokenExpireDate());
     await setAsyncStorageItem('Auth:Cookie', cookie);
 
     getState().onGetProfile();
   },
-  onSignOut: async () => {
+  onSignOut: async () =>
+  {
     await removeAsyncStorageItem('Auth:Token');
     await removeAsyncStorageItem('Auth:TokenRefreshTime');
     await removeAsyncStorageItem('Auth:Cookie');

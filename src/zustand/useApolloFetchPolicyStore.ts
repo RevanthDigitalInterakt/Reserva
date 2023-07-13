@@ -1,26 +1,26 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { createZustandStoreWithSelectors } from '../utils/createZustandStoreWithSelectors';
 
 type TCacheKeys = 'banner'
-| 'brandsCarousel'
-| 'checkSearchRedirect'
-| 'config'
-| 'countdownClock'
-| 'facets'
-| 'getWishlist'
-| 'home'
-| 'landingPagePrime'
-| 'mktinStatus'
-| 'primeFAQ'
-| 'productDetail'
-| 'productFeaturedData'
-| 'productRecommendations'
-| 'productSearch'
-| 'profile'
-| 'searchSuggestionsAndProductSearch'
-| 'sellerInfo';
+  | 'brandsCarousel'
+  | 'checkSearchRedirect'
+  | 'config'
+  | 'countdownClock'
+  | 'facets'
+  | 'getWishlist'
+  | 'home'
+  | 'landingPagePrime'
+  | 'mktinStatus'
+  | 'primeFAQ'
+  | 'productDetail'
+  | 'productFeaturedData'
+  | 'productRecommendations'
+  | 'productSearch'
+  | 'profile'
+  | 'searchSuggestionsAndProductSearch'
+  | 'sellerInfo';
 
 const ONE_MINUTE = 1000 * 60;
 const TWO_MINUTES = ONE_MINUTE * 2;
@@ -51,7 +51,8 @@ const expireTimes: { [key in TCacheKeys]: number } = {
   sellerInfo: TWO_MINUTES,
 };
 
-interface IApolloFetchPolicyStore {
+interface IApolloFetchPolicyStore
+{
   initialized: boolean;
   setInitialized: () => void;
   lastFetchedTimes: { [key in TCacheKeys]: number };
@@ -83,12 +84,14 @@ const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
       searchSuggestionsAndProductSearch: 0,
       sellerInfo: 0,
     },
-    getFetchPolicyPerKey: (key: TCacheKeys) => {
+    getFetchPolicyPerKey: (key: TCacheKeys) =>
+    {
       if (DISABLED_CACHE_POLICY) return 'network-only';
 
       const lastFetchedTime = getState().lastFetchedTimes[key];
 
-      if (!lastFetchedTime) {
+      if (!lastFetchedTime)
+      {
         getState().updateLastFetchedTime(key);
 
         return 'network-only';
@@ -97,7 +100,8 @@ const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
       const expirationTime = expireTimes[key] || 0;
       const nextAllowedFetchTime = lastFetchedTime + expirationTime;
 
-      if (nextAllowedFetchTime > new Date().getTime()) {
+      if (nextAllowedFetchTime > new Date().getTime())
+      {
         return 'cache-first';
       }
 
@@ -105,7 +109,8 @@ const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
 
       return 'network-only';
     },
-    updateLastFetchedTime: (key: TCacheKeys) => {
+    updateLastFetchedTime: (key: TCacheKeys) =>
+    {
       const state = getState();
 
       set({
@@ -117,13 +122,14 @@ const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
       });
     },
   }),
-  {
-    name: 'apollo-fetch-policy-storage',
-    storage: createJSONStorage(() => AsyncStorage),
-    onRehydrateStorage: () => (state) => {
-      state?.setInitialized();
-    },
-  }),
+    {
+      name: 'apollo-fetch-policy-storage',
+      storage: createJSONStorage(() => AsyncStorage),
+      onRehydrateStorage: () => (state) =>
+      {
+        state?.setInitialized();
+      },
+    }),
 );
 
 export const useApolloFetchPolicyStore = createZustandStoreWithSelectors(apolloFetchPolicyStore);
