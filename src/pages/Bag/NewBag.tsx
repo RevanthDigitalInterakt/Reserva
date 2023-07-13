@@ -23,6 +23,8 @@ import LoadingModal from './components/LoadingModal';
 import DeleteProductModal from './components/DeleteProduct';
 import BagProductList from './components/ProductList';
 import SelectableGifts from './components/SelectableGifts';
+import { trackAccessBag } from '../../utils/trackAccessBag';
+import { getBrands } from '../../utils/getBrands';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -38,6 +40,7 @@ export default function NewBag(_: TNewBagProps): JSX.Element {
     appTotalizers,
     selectableGift,
     allItemsQuantity,
+    clientProfileData,
     actions,
   } = useBagStore([
     'topBarLoading',
@@ -48,6 +51,7 @@ export default function NewBag(_: TNewBagProps): JSX.Element {
     'appTotalizers',
     'selectableGift',
     'allItemsQuantity',
+    'clientProfileData',
     'actions',
   ]);
 
@@ -94,6 +98,10 @@ export default function NewBag(_: TNewBagProps): JSX.Element {
   useEffect(() => {
     actions.REFETCH_ORDER_FORM();
   }, [actions]);
+
+  useEffect(() => {
+    trackAccessBag(allItemsQuantity, appTotalizers.total, getBrands(items), clientProfileData);
+  }, []);
 
   if (!items.length && !initialLoad) {
     return (
