@@ -1,168 +1,84 @@
 import React, { useCallback } from 'react';
-import { Box, Typography } from '@usereservaapp/reserva-ui';
+
 import { useNavigation } from '@react-navigation/native';
-import useBagStore from '../../../../zustand/useBagStore/useBagStore';
-import type { IItemsBag } from '../../../../zustand/useBagStore/types/bagStore';
+import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
+import type { TItemBag } from '../../../../zustand/useBagStore/types/bagStore';
 import EventProvider from '../../../../utils/EventProvider';
-import { slugify } from '../../../../utils/slugify';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../../utils/createNavigateToProductParams';
 import { getBrands } from '../../../../utils/getBrands';
 import { useCart } from '../../../../context/CartContext';
-import { ProductHorizontalListCard } from '../../../../components/ProductHorizontalListCard/ProductHorizontalListCard';
-
-const ShowFirstPurchaseDiscount = ({ discountText }: { discountText: string }) => (
-  <Box paddingBottom="nano" testID="com.usereserva:id/ShowFirstPurchaseDiscount">
-    <Typography
-      fontFamily="nunitoRegular"
-      fontSize={11}
-      color="verdeSucesso"
-    >
-      {discountText}
-    </Typography>
-  </Box>
-);
-
-const ShowTotalDiscountFirstPurchase = ({ priceDiscount }: { priceDiscount: string }) => (
-  <Box
-    position="absolute"
-    zIndex={5}
-    top={84}
-    right={21}
-    testID="com.usereserva:id/ShowTotalDiscountFirstPurchase"
-  >
-    <Typography
-      color="verdeSucesso"
-      fontFamily="nunitoRegular"
-      fontSize={11}
-    >
-      -R$
-      {' '}
-      {priceDiscount}
-    </Typography>
-  </Box>
-);
+import ProductListItem from '../ProductListItem';
+import ProductListItemPrime from '../ProductListItem/ProductListItemPrime';
 
 export default function BagProductList() {
   const { orderForm } = useCart();
-  const { currentBagItems, dispatch } = useBagStore();
+  const { actions, items } = useBagStore(['actions', 'items']);
   const navigation = useNavigation();
 
-  const handleActiveTopBarLoading = useCallback(() => {
-    dispatch({
-      actionType: 'SET_TOP_BAR_LOADING',
-      payload: {
-        value: true,
-      },
-    });
-  }, [dispatch]);
-
   const handleAddProductToGift = useCallback(async (
-    isGift: boolean,
+    isAddedAsGift: boolean,
     index: number,
     id: string | null | undefined,
   ) => {
     if (!id) return;
 
-    await dispatch({
-      actionType: 'SET_TOP_BAR_LOADING',
-      payload: {
-        value: {
-          topBarLoading: true,
-        },
-      },
-    });
-
-    if (isGift) {
-      await dispatch({
-        actionType: 'HANDLE_ADD_GIFT',
-        payload: {
-          value: {
-            index,
-            id,
-          },
-        },
-      });
-
+    if (!isAddedAsGift) {
+      await actions.ADD_GIFT(index, id);
       return;
     }
 
-    await dispatch({
-      actionType: 'HANDLE_REMOVE_GIFT',
-      payload: {
-        value: {
-          index,
-          id,
-        },
-      },
+    await actions.REMOVE_GIFT(index, id);
+  }, [actions]);
+
+  const handleDeleteProductModal = useCallback((product: TItemBag, index: number) => {
+    actions.ACTIVE_MODAL_DELETE_PRODUCT(product, index);
+  }, [actions]);
+
+  const handleAddCount = useCallback(async (
+    countUpdated: number,
+    item: TItemBag,
+    index: number,
+  ) => {
+    await actions.UPDATE_PRODUCT_COUNT(index, item, countUpdated);
+
+    EventProvider.logEvent('add_to_cart', {
+      item_id: item.id,
+      item_price: (item.price || 0) / 100,
+      item_quantity: countUpdated,
+      item_category: 'product',
+      currency: 'BRL',
+      seller: item.seller,
+      wbrand: getBrands(orderForm?.items || []),
     });
-  }, [dispatch]);
+  }, [actions, orderForm?.items]);
 
-  const handleDeleteProductModal = useCallback((product: IItemsBag, index: number) => {
-    handleActiveTopBarLoading();
+  const handleSubCount = useCallback(async (
+    countUpdated: number,
+    oldCountValue: number,
+    item: TItemBag,
+    index: number,
+  ) => {
+    if (oldCountValue <= 1) {
+      await handleDeleteProductModal(item, index);
+      return;
+    }
 
-    dispatch({
-      actionType: 'HANDLE_ACTIVE_MODAL_DELETE_PRODUCT',
-      payload: {
-        value: {
-          show: true,
-          product,
-          index,
-        },
-      },
+    EventProvider.logEvent('remove_from_cart', {
+      item_id: item.id,
+      item_categories: 'product',
+      wbrand: defaultBrand.reserva,
     });
-  }, [dispatch, handleActiveTopBarLoading]);
 
-  const handleAddCount = useCallback(
-    async (countUpdated: number, item: IItemsBag, index: number) => {
-      await handleActiveTopBarLoading();
+    await actions.UPDATE_PRODUCT_COUNT(index, item, countUpdated);
+  }, [actions, handleDeleteProductModal]);
 
-      await dispatch({
-        actionType: 'HANDLE_UPDATE_PRODUCT_COUNT',
-        payload: {
-          value: {
-            index,
-            item,
-            countUpdated,
-          },
-        },
-      });
-
-      EventProvider.logEvent('add_to_cart', {
-        item_id: item.id,
-        item_price: (item.price || 0) / 100,
-        item_quantity: countUpdated,
-        item_category: 'product',
-        currency: 'BRL',
-        seller: item.seller,
-        wbrand: getBrands(orderForm?.items || []),
-      });
-    }, [dispatch, handleActiveTopBarLoading, orderForm],
-  );
-
-  const handleSubCount = useCallback(
-    async (countUpdated: number, oldCountValue: number, item: IItemsBag, index: number) => {
-      if (oldCountValue <= 1) {
-        await handleDeleteProductModal(item, index);
-        return;
-      }
-
-      EventProvider.logEvent('remove_from_cart',
-        {
-          item_id: item.id,
-          item_categories: 'product',
-        });
-
-      await dispatch({
-        actionType: 'HANDLE_UPDATE_PRODUCT_COUNT',
-        payload: {
-          value: { index, item, countUpdated },
-        },
-      });
-    }, [dispatch, handleDeleteProductModal],
-  );
-
-  const handleNavigationToDetail = useCallback(({ productId, name, id }: IItemsBag) => {
+  const handleNavigationToDetail = useCallback(({
+    productId,
+    name,
+    id,
+    isPrimeSubscription,
+  }: TItemBag) => {
     EventProvider.logEvent('page_view', {
       wbrand: defaultBrand.picapau,
     });
@@ -173,51 +89,38 @@ export default function BagProductList() {
       wbrand: defaultBrand.reserva,
     });
 
+    if (isPrimeSubscription) {
+      navigation.navigate('PrimeLP');
+      return;
+    }
+
     navigation.navigate('ProductDetail', createNavigateToProductParams({ productId, skuId: id }));
   }, [navigation]);
 
   return (
     <>
-      {currentBagItems.map((item, index: number) => {
+      {items.map((item, index: number) => {
         if (item.sellingPrice !== 0 && item.isGift === false) {
-          return (
-            <Box key={item.key} bg="white" marginTop="xxxs" testID="com.usereserva:id/BagProductList">
-              {!!item.showFirstPurchaseDiscountMessage && (
-                <ShowFirstPurchaseDiscount discountText={item.showFirstPurchaseDiscountMessage} />
+          return item.isPrimeSubscription ? (
+            <ProductListItemPrime
+              data={item}
+              onDelete={() => handleDeleteProductModal(item, index)}
+              onPress={() => handleNavigationToDetail(item)}
+            />
+          ) : (
+            <ProductListItem
+              data={item}
+              onAddCount={(count) => handleAddCount(count, item, index)}
+              onSubCount={(count) => handleSubCount(count, item.quantity, item, index)}
+              onDelete={() => handleDeleteProductModal(item, index)}
+              onPress={() => handleNavigationToDetail(item)}
+              onAddGift={() => (
+                handleAddProductToGift(item.isAddedAsGift, index, item.giftOfferingId)
               )}
-
-              {!!item.showTotalDiscountFirstPurchaseValue && (
-                <ShowTotalDiscountFirstPurchase
-                  priceDiscount={item.showFirstPurchaseDiscountMessage || ''}
-                />
-              )}
-
-              <ProductHorizontalListCard
-                discountApi={item.discountApi || 0}
-                disableCounter={item.disableCounter}
-                currency="R$"
-                discountTag={item.discountPercent > 0 ? item.discountPercent : undefined}
-                itemColor={item.itemColor}
-                ItemSize={item.itemSize}
-                productTitle={item.productTitle}
-                price={item.listPrice / 100}
-                priceWithDiscount={item.priceWithDiscount}
-                count={item.quantity}
-                testID={`product_card_bag_${slugify(item.productId + item.skuName)}`}
-                isGift={item.isAddedAsGift}
-                isGiftable={item.isGiftable}
-                handleToggleGift={
-                  (isGift) => handleAddProductToGift(isGift, index, item.giftOfferingId)
-                }
-                onClickAddCount={(count) => handleAddCount(count, item, index)}
-                onClickSubCount={(count) => handleSubCount(count, item.quantity, item, index)}
-                onClickClose={() => handleDeleteProductModal(item, index)}
-                imageSource={item.imageSource}
-                handleNavigateToProductDetail={() => handleNavigationToDetail(item)}
-              />
-            </Box>
+            />
           );
         }
+
         return null;
       })}
     </>

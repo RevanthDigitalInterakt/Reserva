@@ -1,34 +1,39 @@
-import styled from 'styled-components/native';
-import { Dimensions, StyleSheet } from 'react-native';
-import { Box, Typography } from '@usereservaapp/reserva-ui';
-
-const { width, height } = Dimensions.get('window');
+import { StyleSheet } from 'react-native';
+import configDeviceSizes from '../../utils/configDeviceSizes';
+import { COLORS } from '../../base/styles/colors';
 
 export const objectStyles = StyleSheet.create({
   modal: {
     alignItems: 'center',
     justifyContent: 'center',
   },
+  containerModal: {
+    width: configDeviceSizes.DEVICE_WIDTH - 48,
+    top: -60,
+  },
+  wrapperAboutPrime: {
+    marginTop: 8,
+    marginBottom: 24,
+  },
+  footerDescription: {
+    marginTop: 12,
+  },
+  footerHighlight: {
+    textDecorationLine: 'underline',
+  },
+  headerDescription: {
+    marginTop: 24,
+    marginBottom: 24,
+  },
+  modalText: {
+    marginTop: 24,
+    marginBottom: 24,
+    fontSize: 16,
+    lineHeight: 16.8,
+    letterSpacing: 0.5,
+    color: COLORS.DARK_GRAY,
+  },
+  highlightedText: {
+    color: COLORS.BLACK,
+  },
 });
-
-export const ContainerModal = styled(Box).attrs(() => ({
-  width: width - 24,
-  height: height - 126,
-}))``;
-
-export const WrapperAboutPrime = styled(Box).attrs(() => ({
-  alignItems: 'center',
-  flexDirection: 'row',
-  justifyContent: 'center',
-}))`
-  margin-top: 24;
-  margin-bottom: 24;
-`;
-
-export const FooterDescription = styled(Typography)`
-    margin-top: 12;
-`;
-
-export const FooterHighlight = styled(Typography)`
-    text-decoration: underline;
-`;

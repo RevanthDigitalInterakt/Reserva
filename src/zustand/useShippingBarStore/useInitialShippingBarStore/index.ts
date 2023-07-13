@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { useShippingBarStore } from '../useShippingBarStore';
 import { useConfigShippingBarLazyQuery } from '../../../base/graphql/generated';
 
-export const useInitiaShippingBar = (sumPriceShipping: number, loading: boolean) => {
+export const useInitialShippingBar = (sumPriceShipping: number, loading: boolean) => {
   const {
     setSumPrice,
     setLoadingBar,
@@ -14,9 +14,7 @@ export const useInitiaShippingBar = (sumPriceShipping: number, loading: boolean)
   } = useShippingBarStore();
 
   const [getConfigShippingBar] = useConfigShippingBarLazyQuery({
-    context: {
-      clientName: 'gateway',
-    },
+    context: { clientName: 'gateway' },
   });
 
   const initializeShippingBar = useCallback(() => {

@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { COLORS } from '../../base/styles/colors';
+
+const smallDevices = Dimensions.get('screen').width <= 375;
 
 export const styles = StyleSheet.create({
   checkBoxContainer: {
@@ -12,8 +14,8 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.SELECT_BOX_BACKGROUND,
   },
   imageBackgroundBadge: {
-    width: 160,
-    height: 28,
+    width: smallDevices ? 135 : 160,
+    height: smallDevices ? 24 : 28,
     justifyContent: 'center',
     paddingLeft: 10,
   },
@@ -32,7 +34,7 @@ export const styles = StyleSheet.create({
     color: COLORS.RED,
   },
   negativeMarginText: {
-    marginLeft: -50,
+    marginLeft: smallDevices ? -35 : -40,
   },
   priceContainer: {
     flexDirection: 'row',
@@ -52,6 +54,7 @@ export const styles = StyleSheet.create({
     borderRadius: 11,
     borderWidth: 1,
     borderColor: COLORS.RED,
+    marginRight: smallDevices ? 15 : 0,
   },
   primeCheckBoxFill: {
     height: 16,
@@ -70,6 +73,7 @@ export const styles = StyleSheet.create({
     height: 30,
     backgroundColor: COLORS.LIGHT_GRAY,
     marginTop: 30,
+    marginHorizontal: smallDevices ? 15 : 0,
   },
   bePrimeBadge: {
     backgroundColor: COLORS.RED,
@@ -80,5 +84,9 @@ export const styles = StyleSheet.create({
   },
   textWhite: {
     color: COLORS.WHITE,
+  },
+  textRedBadge: {
+    color: COLORS.WHITE,
+    fontSize: smallDevices ? 12 : 15,
   },
 });

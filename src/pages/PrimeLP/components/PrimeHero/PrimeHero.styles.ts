@@ -4,7 +4,7 @@ import { COLORS } from '../../../../base/styles/colors';
 export const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
-    paddingTop: 65,
+    paddingTop: 175,
     paddingBottom: 110,
     paddingHorizontal: 20,
   },

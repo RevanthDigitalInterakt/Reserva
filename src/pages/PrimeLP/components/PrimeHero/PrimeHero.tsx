@@ -6,6 +6,7 @@ import { styles } from './PrimeHero.styles';
 import IconPrimeLogo from '../Icons/IconPrimeLogo';
 import type { PrimeDetailOutput } from '../../../../base/graphql/generated';
 import EventProvider from '../../../../utils/EventProvider';
+import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 
 const ImageSource = require('../../../../../assets/common/header.png');
 
@@ -15,6 +16,8 @@ interface IPrimeHero {
 }
 
 function PrimeHero({ data, onAddToCart }: IPrimeHero) {
+  const { isPrime } = usePrimeInfo();
+
   const onPressAddCart = useCallback(() => {
     EventProvider.logEvent('prime_press_add_to_cart_lp', { position: 'top' });
     onAddToCart();
@@ -39,20 +42,15 @@ function PrimeHero({ data, onAddToCart }: IPrimeHero) {
           </Typography>
         </Typography>
 
-        <Typography variant="tituloSessao" style={styles.subtitle}>
-          Torne-se membro do maior clube de vantagens da
-          {'\n'}
-          moda brasileira e tenha acesso a descontos
-          especiais, frete grátis e muito mais.
-        </Typography>
-
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             testID="com.usereserva:id/PrimeHero_call_to_action"
             style={styles.button}
             onPress={onPressAddCart}
           >
-            <Typography variant="tituloSessao" style={styles.buttonText}>ASSINE AGORA</Typography>
+            <Typography variant="tituloSessao" style={styles.buttonText}>
+              {isPrime ? 'CONTINUAR COMPRANDO' : 'ASSINE AGORA'}
+            </Typography>
           </TouchableOpacity>
         </View>
       </View>

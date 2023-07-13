@@ -12,12 +12,14 @@ fragment OrderformItemFragment on OrderformItemOutput {
     discountApi
     showFirstPurchaseDiscountMessage
     showTotalDiscountFirstPurchaseValue
+    productCategories
     price
     productId
     id
     listPrice
     giftOfferingId
     seller
+    hasPrimeDiscount
     skuName
     uniqueId
     isAddedAsGift
@@ -25,4 +27,8 @@ fragment OrderformItemFragment on OrderformItemOutput {
     quantity
     disableCounter
     sellingPrice
+    isPrimeSubscription
+    additionalInfo {
+        brandName
+    }
 }

@@ -1,25 +1,46 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, {
+  useCallback, useMemo, useState,
+} from 'react';
 import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Box } from '@usereservaapp/reserva-ui';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { TopBarDefaultBackButton } from '../../modules/Menu/components/TopBarDefaultBackButton';
 import PrimeHero from './components/PrimeHero';
 import PrimeIntro from './components/PrimeIntro';
 import PrimeBenefits from './components/PrimeBenefits';
 import PrimeSubscribe from './components/PrimeSubscribe';
 import { useLandingPagePrimeQuery } from '../../base/graphql/generated';
-import { useCart } from '../../context/CartContext';
 import { ModalBag } from '../../components/ModalBag/ModalBag';
 import EventProvider from '../../utils/EventProvider';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 import testProps from '../../utils/testProps';
+import { ModalWelcomePrime } from '../../components/ModalWelcomePrime';
+import { usePrimeInfo } from '../../hooks/usePrimeInfo';
+import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
+import PrimeFAQ from './components/PrimeFAQ/PrimeFAQ';
+import type { RootStackParamList } from '../../routes/StackNavigator';
 
-function PrimeLP() {
+type IPrimeLP = StackScreenProps<RootStackParamList, 'PrimeLP'>;
+
+function PrimeLP({ navigation }: IPrimeLP) {
+  const { onAddPrimeToCart, isPrime } = usePrimeInfo();
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
-  const [loadingAddCart, setLoadingAddCart] = useState(false);
-  const [animationBag, setAnimationBag] = useState(false);
+  const [loadingAddCartPrime, setLoadingAddCartPrime] = useState(false);
 
-  const { addItem } = useCart();
+  const {
+    animationBag,
+    handleClickContinue,
+    isVisibleModalWelcome,
+    changeStateAnimationBag,
+    changeStateIsVisibleModalWelcome,
+  } = usePrimeStore([
+    'animationBag',
+    'handleClickContinue',
+    'isVisibleModalWelcome',
+    'changeStateAnimationBag',
+    'changeStateIsVisibleModalWelcome',
+  ]);
 
   const { data: rawData, loading } = useLandingPagePrimeQuery({
     context: { clientName: 'gateway' },
@@ -28,39 +49,61 @@ function PrimeLP() {
 
   const data = useMemo(() => rawData?.landingPagePrime, [rawData?.landingPagePrime]);
 
-  const onAddPrimeToCart = useCallback(async () => {
+  const handleOnModalHideSignIn = useCallback(() => {
+    changeStateAnimationBag(true);
+  }, [changeStateAnimationBag]);
+
+  const handleOnModalHide = useCallback(() => {
+    if (isPrime) {
+      setTimeout(() => {
+        changeStateIsVisibleModalWelcome(true);
+      }, 500);
+    }
+  }, [changeStateIsVisibleModalWelcome, isPrime]);
+
+  const onAddToCart = useCallback(async () => {
     try {
-      if (!data || loadingAddCart) return;
+      if (!data || loadingAddCartPrime) return;
 
-      setLoadingAddCart(true);
+      if (isPrime) {
+        navigation.popToTop();
+        return;
+      }
 
-      await addItem({
-        quantity: 1,
-        itemId: `${data.productId}`,
-        seller: data.productSeller,
-      });
+      setLoadingAddCartPrime(true);
 
-      EventProvider.logEvent('add_to_cart_prime', {
-        item_quantity: 1,
-        item_id: `${data.productId}`,
-        seller: data.productSeller,
-      });
+      await onAddPrimeToCart();
 
-      setLoadingAddCart(false);
-      setAnimationBag(true);
+      handleOnModalHideSignIn();
     } catch (e) {
       EventProvider.captureException(e);
+    } finally {
+      setLoadingAddCartPrime(false);
     }
-  }, [addItem, data, loadingAddCart]);
+  }, [data, handleOnModalHideSignIn, isPrime, loadingAddCartPrime, navigation, onAddPrimeToCart]);
+
+  const onCloseModalWelcomePrime = useCallback(() => {
+    handleClickContinue();
+    navigation.popToTop();
+  }, [handleClickContinue, navigation]);
 
   return (
     <SafeAreaView style={{ backgroundColor: '#fff' }}>
       <Box bg="white">
-        <TopBarDefaultBackButton loading={loading || loadingAddCart} navigateGoBack />
+        <TopBarDefaultBackButton
+          loading={loading || loadingAddCartPrime}
+          navigateGoBack
+        />
 
         <ModalBag
           isVisible={animationBag}
-          onBackdropPress={() => setAnimationBag(false)}
+          onBackdropPress={() => changeStateAnimationBag(false)}
+          onModalHide={handleOnModalHide}
+        />
+
+        <ModalWelcomePrime
+          isVisible={isVisibleModalWelcome}
+          onClose={onCloseModalWelcomePrime}
         />
 
         {!!(data && !loading) && (
@@ -68,13 +111,15 @@ function PrimeLP() {
             contentContainerStyle={{ paddingBottom: 100 }}
             {...testProps('PrimeLP_page')}
           >
-            <PrimeHero data={data} onAddToCart={onAddPrimeToCart} />
+            <PrimeHero data={data} onAddToCart={onAddToCart} />
 
             <PrimeIntro data={data} />
 
             <PrimeBenefits data={data} />
 
-            <PrimeSubscribe data={data} onAddToCart={onAddPrimeToCart} />
+            <PrimeSubscribe data={data} onAddToCart={onAddToCart} />
+
+            <PrimeFAQ />
           </ScrollView>
         )}
       </Box>

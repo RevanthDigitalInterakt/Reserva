@@ -25,7 +25,11 @@ import { getPercent } from '../../../../utils/getPercent';
 import { slugify } from '../../../../utils/slugify';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
-import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
+import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
+import {
+  IGetPrimeReturn,
+  getPrime, usePrimeConfig,
+} from '../../../../zustand/usePrimeConfig/usePrimeConfig';
 
 interface ListProductsProps {
   cleanFilter: () => void;
@@ -41,19 +45,6 @@ interface ListProductsProps {
   handleScrollToTheTop?: () => void;
 }
 
-export function getDefaultSeller(sellers?: any[]) {
-  if (!sellers?.length) {
-    return undefined;
-  }
-
-  const defaultSeller = sellers.find((seller) => seller.sellerDefault === true);
-  if (defaultSeller?.sellerId) {
-    return defaultSeller.sellerId;
-  }
-
-  return sellers[0].sellerId;
-}
-
 export const ListVerticalProducts = ({
   cleanFilter,
   products,
@@ -65,13 +56,14 @@ export const ListVerticalProducts = ({
   handleScrollToTheTop,
 }: ListProductsProps) => {
   const { getBoolean } = useRemoteConfig();
-  const { isPrime } = usePrimeStore(['isPrime']);
   const navigation = useNavigation();
   const [loadingFavorite, setLoadingFavorite] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
   const [isLoadingMore, setIsLoadingMore] = useState(true);
   const { profile } = useAuthStore(['profile']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
+
+  const { promo } = usePrimeConfig(['promo']);
 
   const [addWishList] = useMutation(wishListQueries.ADD_WISH_LIST);
 
@@ -141,6 +133,8 @@ export const ListVerticalProducts = ({
       ]);
     }
   };
+
+  const { primeActive } = usePrimeInfo();
 
   const showThumbColors = useMemo(() => getBoolean('show_pdc_thumb_color'), [getBoolean]);
 
@@ -275,6 +269,9 @@ export const ListVerticalProducts = ({
                 installmentPrice,
               } = getItemPrice(item.items[0]);
 
+              // prime
+              const prime = getPrime(item, promo);
+
               const product = item.items[0];
               const colors = showThumbColors
                 ? (product?.variations || [])
@@ -287,7 +284,7 @@ export const ListVerticalProducts = ({
                   item={item}
                   index={index}
                   horizontal={horizontal}
-                  isPrime={isPrime}
+                  prime={primeActive ? prime : null}
                   loadingFavorite={
                     !!loadingFavorite.find((x) => x === item?.items[0]?.itemId)
                   }
@@ -343,7 +340,7 @@ interface ProductItemInterface extends ProductVerticalListCardProps {
   testID: string;
   showThumbColors: boolean;
   colors: string[];
-  isPrime: boolean;
+  prime: IGetPrimeReturn | null
 }
 
 const ProductItem: React.FC<ProductItemInterface> = ({
@@ -352,7 +349,7 @@ const ProductItem: React.FC<ProductItemInterface> = ({
   horizontal,
   testID,
   showThumbColors,
-  isPrime,
+  prime,
   ...props
 }) => (
   <Box
@@ -365,7 +362,7 @@ const ProductItem: React.FC<ProductItemInterface> = ({
     {!!item?.items[0]?.images[0]?.imageUrl && (
       <ProductVerticalListCard
         {...props}
-        isPrime={isPrime}
+        prime={prime}
         showThumbColors={showThumbColors}
         testID={testID}
         imageSource={item?.items[0]?.images[0]?.imageUrl}

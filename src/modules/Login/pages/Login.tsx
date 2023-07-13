@@ -22,7 +22,7 @@ export const LoginScreen: FC<Props> = ({
   route,
   navigation,
 }) => {
-  const { comeFrom, previousPage } = route.params;
+  const { comeFrom, previousPage } = route.params || {};
 
   const {
     handleLogin,
@@ -35,7 +35,7 @@ export const LoginScreen: FC<Props> = ({
     setLoginCredentials,
   } = useAuthentication({ navigation });
 
-  const { onSignOut } = useAuthStore(['onSignIn', 'onSignOut']);
+  const { onSignOut } = useAuthStore(['onSignOut']);
 
   useEffect(() => {
     if (comeFrom === 'Profile') {

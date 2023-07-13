@@ -95,6 +95,12 @@ const apolloMocks: Array<IApolloMock<RonRedirectQuery>> = [
   },
 ];
 
+jest.mock('../../zustand/useApolloFetchPolicyStore', () => ({
+  useApolloFetchPolicyStore: () => ({
+    getFetchPolicyPerKey: jest.fn(),
+  }),
+}));
+
 AsyncStorageMock.setItem = jest.fn();
 
 describe('RonRedirectToBag', () => {

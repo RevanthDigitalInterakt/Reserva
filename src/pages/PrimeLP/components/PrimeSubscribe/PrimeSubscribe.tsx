@@ -7,6 +7,7 @@ import { styles } from './PrimeSubscribe.styles';
 import testProps from '../../../../utils/testProps';
 import type { PrimeDetailOutput } from '../../../../base/graphql/generated';
 import EventProvider from '../../../../utils/EventProvider';
+import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 
 const ImageProductSource = require('../../../../../assets/common/product.png');
 
@@ -16,7 +17,9 @@ interface IPrimeSubscribe {
 }
 
 function PrimeSubscribe({ data, onAddToCart }: IPrimeSubscribe) {
-  const onPressAddCart = useCallback(() => {
+  const { isPrime } = usePrimeInfo();
+
+  const onPressAddCart = useCallback(async () => {
     EventProvider.logEvent('prime_press_add_to_cart_lp', { position: 'bottom' });
     onAddToCart();
   }, [onAddToCart]);
@@ -46,7 +49,9 @@ function PrimeSubscribe({ data, onAddToCart }: IPrimeSubscribe) {
         onPress={onPressAddCart}
         {...testProps('prime_lp_bottom_button_add')}
       >
-        <Typography style={styles.buttonText}>Quero ser Prime</Typography>
+        <Typography style={styles.buttonText}>
+          {isPrime ? 'CONTINUAR COMPRANDO' : 'Quero ser Prime'}
+        </Typography>
       </TouchableOpacity>
     </View>
   );

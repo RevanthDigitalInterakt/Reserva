@@ -8,6 +8,7 @@ import React, {
   useEffect,
 } from 'react';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   AddAddressToCart,
   AddCustomerToOrder,
@@ -40,6 +41,8 @@ import {
 } from '../base/graphql/generated';
 import { splitSellerName } from '../utils/splitSellerName';
 import { getBrands } from '../utils/getBrands';
+import { getAsyncStorageItem, setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
+import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { defaultBrand } from '../utils/defaultWBrand';
 
 interface ClientPreferencesData {
@@ -454,7 +457,7 @@ export interface IOrderId {
   cancellationData: null;
 }
 
-interface IAddItemDTO {
+export interface IAddItemDTO {
   quantity: number,
   itemId: string,
   seller: string,
@@ -463,7 +466,7 @@ interface IAddItemDTO {
   hasBundleItems?: boolean,
 }
 
-type TAddItemResponse = {
+export type TAddItemResponse = {
   message: string;
   ok?: undefined;
 } | {
@@ -556,6 +559,15 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [topBarLoading, setTopBarLoading] = useState<boolean>(false);
   const [hasErrorApplyCoupon, setHasErrorApplyCoupon] = useState<boolean>(false);
 
+  const { actions } = useBagStore(['actions']);
+
+  useEffect(() => {
+    if (orderForm?.orderFormId && orderForm?.items) {
+      setAsyncStorageItem('orderFormId', orderForm?.orderFormId)
+        .then(actions.REFETCH_ORDER_FORM);
+    }
+  }, [orderForm?.orderFormId, orderForm?.items, actions.REFETCH_ORDER_FORM]);
+
   const [orderFormAddSellerCoupon] = useOrderFormAddSellerCouponMutation({
     context: { clientName: 'gateway' },
   });
@@ -570,11 +582,17 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const _requestOrderForm = async () => {
     const { data } = await CreateCart();
+
     setOrderForm(data);
   };
 
   const _requestRestoreCart = async (orderFormId: string): Promise<OrderForm> => {
     const { data } = await RestoreCart(orderFormId);
+
+    if (orderFormId) {
+      setAsyncStorageItem('orderFormId', orderFormId);
+    }
+
     setOrderForm(data);
 
     return data;
@@ -666,6 +684,10 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       quantity, itemId, seller, index = -1, isUpdate = false, hasBundleItems = false,
     } = dto;
 
+    if (orderForm?.orderFormId) {
+      setAsyncStorageItem('orderFormId', orderForm.orderFormId);
+    }
+
     try {
       const isUpdateItem = hasBundleItems && isUpdate && index >= 0;
 
@@ -714,6 +736,28 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         wbrand: getBrands(data?.items || []),
       });
 
+      const ditoId = orderForm?.clientProfileData?.email
+        ? await getAsyncStorageItem('@Dito:userRef')
+        : await AsyncStorage.getItem('@Dito:anonymousID');
+
+      EventProvider.sendTrackEvent(
+        'adicionou-produto-ao-carrinho', {
+          id: ditoId,
+          action: 'adicionou-produto-ao-carrinho',
+          data: {
+            marca: product?.additionalInfo?.brandName || '',
+            id_produto: itemId,
+            nome_produto: product?.name || '',
+            nome_categoria: Object.entries(product.productCategories)
+              .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
+              .join(', '),
+            tamanho: product.skuName.split(' - ')[1],
+            cor: product.skuName.split(' - ')[0],
+            preco_produto: convertPrice(product.sellingPrice || 0),
+            origem: 'app',
+          },
+        },
+      );
       return { ok: !(product.quantity < quantity) };
     } catch (error) {
       EventProvider.captureException(error);

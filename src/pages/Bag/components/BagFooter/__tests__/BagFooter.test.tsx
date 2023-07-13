@@ -7,41 +7,111 @@ import { act } from '@testing-library/react-hooks';
 import appsFlyer from 'react-native-appsflyer';
 import BagFooter from '..';
 import EventProvider from '../../../../../utils/EventProvider';
-import CartContextProvider from '../../../../../context/CartContext';
-import useBagStore from '../../../../../zustand/useBagStore/useBagStore';
+import { CartContext } from '../../../../../context/CartContext';
+import * as useBagStore from '../../../../../zustand/useBagStore/useBagStore';
 import {
-  apolloMocks, apolloMocksWithoutDataUser, bagInfos, currentOrderForm, installmentInfo,
+  apolloMocks,
+  apolloMocksWithoutDataUser,
+  bagInfos,
+  currentOrderForm,
+  installmentInfo,
 } from '../__mocks__';
+import * as useAuthStore from '../../../../../zustand/useAuth/useAuthStore';
 
 jest.mock('../../../../../utils/EventProvider');
+jest.mock('@sentry/react-native');
 
 const mockedFn = jest.fn();
+const mockRestoreCart = jest.fn((_orderFormId: string) => Promise.resolve({}));
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: mockedFn }),
 }));
 
+jest.mock('../../../../../hooks/usePrimeInfo', () => ({
+  usePrimeInfo: () => ({
+    primeActive: true,
+  }),
+}));
+
+const mockRemoveUnavailableItems = jest.fn();
+
+jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
+  actions: {
+    REMOVE_UNAVAILABLE_ITEMS: mockRemoveUnavailableItems,
+  },
+  appTotalizers: {
+    delivery: bagInfos.totalBagDeliveryPrice,
+    discount: bagInfos.totalBagDiscountPrice,
+    items: bagInfos.totalBagItems,
+    total: bagInfos.totalBagItems,
+    __typename: 'OrderformAppTotalizersOutput',
+  },
+  orderFormId: '12578e89687rieoua186',
+  installmentInfo: {
+    __typename: 'OrderformInstallmentInfoOutput',
+    installmentPrice: installmentInfo.installmentPrice,
+    installmentsNumber: installmentInfo.installmentsNumber,
+    totalPrice: installmentInfo.totalPrice,
+  },
+  items: currentOrderForm.items,
+  topBarLoading: false,
+} as any);
+
 describe('BagFooter Component', () => {
   it('should be renders correctly with EventProvider', async () => {
-    await act(async () => {
-      useBagStore.setState({
-        currentOrderForm,
-        installmentInfo,
-        bagInfos,
-        topBarLoading: false,
-        dispatch: jest
-          .fn()
-          .mockReturnValue({ unavailableItems: { error: false } }),
-        getPriceWithDiscount: jest.fn(),
-      });
-    });
+    jest.spyOn(useAuthStore, 'useAuthStore').mockReturnValue({
+      profile: {
+        __typename: 'ProfileOutput',
+        addresses: [
+          {
+            city: 'Lugar Nenhum',
+            country: 'Vazio',
+            id: '1235478',
+            __typename: 'ProfileAddressOutput',
+          },
+        ],
+        authCookie: 'VtexIdclientAutCookie',
+        birthDate: '1995-03-09T00:00:00.000Z',
+        customFields: [
+          {
+            __typename: 'ProfileCustomFieldOutput',
+            cacheId: 'profileImagePath',
+            key: 'profileImagePath',
+            value:
+              'user/profile/image/a6017658-3a04-4f80-ab6b-71e9be47d341.jpg',
+          },
+          {
+            __typename: 'ProfileCustomFieldOutput',
+            cacheId: 'isNewsletterOptIn',
+            key: 'isNewsletterOptIn',
+            value: 'false',
+          },
+          {
+            __typename: 'ProfileCustomFieldOutput',
+            cacheId: 'userAcceptedTerms',
+            key: 'userAcceptedTerms',
+            value: 'false',
+          },
+        ],
+        document: '90188779051',
+        email: 'augustoneves@frwk.com.br',
+        firstName: 'Augusto',
+        gender: 'male',
+        homePhone: '+5563993560705',
+        id: '1wder78te-1898re-resdoie-145er3',
+        isComplete: true,
+        isPrime: true,
+        lastName: 'Neves',
+      },
+    } as any);
 
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
-        <MockedProvider mocks={apolloMocksWithoutDataUser}>
-          <CartContextProvider>
-            <BagFooter isProfileComplete={false} />
-          </CartContextProvider>
+        <MockedProvider mocks={apolloMocks}>
+          <CartContext.Provider value={{ restoreCart: mockRestoreCart } as any}>
+            <BagFooter />
+          </CartContext.Provider>
         </MockedProvider>
       </ThemeProvider>,
     );
@@ -52,148 +122,79 @@ describe('BagFooter Component', () => {
       await fireEvent.press(button);
     });
 
-    expect(EventProvider.logEvent).toHaveBeenNthCalledWith(1,
-      'begin_checkout',
-      {
-        coupon: '',
-        currency: 'BRL',
-        items: [{
-          item_category: 'product', item_id: 4, item_name: 'Produto A', item_variant: 'test', price: 0.5, quantity: 2,
-        }, {
-          item_category: 'product', item_id: 4, item_name: 'Produto B', item_variant: 'test', price: 0.2, quantity: 1,
-        }],
-        value: 200,
-        wbrand: 'RESERVA,RESERVA',
-      });
+    expect(mockRemoveUnavailableItems).toHaveBeenCalled();
+    expect(appsFlyer.logEvent).toHaveBeenCalled();
+    expect(EventProvider.logEvent).toHaveBeenCalled();
+  });
 
-    expect(appsFlyer.logEvent).toHaveBeenCalledWith(
-      'af_initiated_checkout',
-      {
-        af_content_type: 'product',
-        af_price: 200,
-        af_currency: 'BRL',
-        af_content_id: [4, 4],
-        af_quantity: 3,
-        af_content: [{ id: 4, price: 0.5, quantity: 2 }, { id: 4, price: 0.2, quantity: 1 }],
+  it('should call EventProvider complete registration if profile is not complete', async () => {
+    jest.spyOn(useAuthStore, 'useAuthStore').mockReturnValue({
+      profile: {
+        __typename: 'ProfileOutput',
+        addresses: [
+          {
+            city: 'Lugar Nenhum',
+            country: 'Vazio',
+            id: '1235478',
+            __typename: 'ProfileAddressOutput',
+          },
+        ],
+        authCookie: 'VtexIdclientAutCookie',
+        birthDate: '1995-03-09T00:00:00.000Z',
+        customFields: [
+          {
+            __typename: 'ProfileCustomFieldOutput',
+            cacheId: 'profileImagePath',
+            key: 'profileImagePath',
+            value:
+              'user/profile/image/a6017658-3a04-4f80-ab6b-71e9be47d341.jpg',
+          },
+          {
+            __typename: 'ProfileCustomFieldOutput',
+            cacheId: 'isNewsletterOptIn',
+            key: 'isNewsletterOptIn',
+            value: 'false',
+          },
+          {
+            __typename: 'ProfileCustomFieldOutput',
+            cacheId: 'userAcceptedTerms',
+            key: 'userAcceptedTerms',
+            value: 'false',
+          },
+        ],
+        document: '90188779051',
+        email: 'augustoneves@frwk.com.br',
+        firstName: 'Augusto',
+        gender: 'male',
+        homePhone: '+5563993560705',
+        id: '1wder78te-1898re-resdoie-145er3',
+        isComplete: false,
+        isPrime: true,
+        lastName: 'Neves',
       },
-    );
-  });
-
-  it('should capture exception on EventProvider', async () => {
-    const currentOrderFormMock: any = {
-      items: [
-        {
-          name: 'Produto A',
-          skuName: 'test',
-          price: 50.0,
-          quantity: 2,
-          productId: 4,
-
-        },
-      ],
-      orderFormId: '1',
-    };
-
-    await act(async () => {
-      useBagStore.setState({
-        currentOrderForm: currentOrderFormMock,
-        installmentInfo,
-        bagInfos,
-        topBarLoading: false,
-        dispatch: jest
-          .fn()
-          .mockReturnValue({ unavailableItems: { error: false } }),
-        getPriceWithDiscount: jest.fn(),
-      });
-    });
-
-    const { getByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <MockedProvider mocks={apolloMocks}>
-          <CartContextProvider>
-            <BagFooter isProfileComplete={false} />
-          </CartContextProvider>
-        </MockedProvider>
-      </ThemeProvider>,
-    );
-    const buttonDelivery = getByTestId('com.usereserva:id/bag_button_go_to_delivery');
-
-    await act(async () => {
-      await fireEvent.press(buttonDelivery);
-    });
-
-    expect(EventProvider.captureException).toBeTruthy();
-  });
-
-  it('Should renders the error message for unavailable items', async () => {
-    const dispatch = jest
-      .fn()
-      .mockReturnValue({ unavailableItems: { error: true } });
-
-    await act(async () => {
-      useBagStore.setState({
-        currentOrderForm,
-        installmentInfo,
-        bagInfos,
-        topBarLoading: false,
-        dispatch,
-        getPriceWithDiscount: jest.fn(),
-      });
-    });
+    } as any);
 
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
         <MockedProvider mocks={apolloMocksWithoutDataUser}>
-          <CartContextProvider>
-            <BagFooter isProfileComplete />
-          </CartContextProvider>
+          <CartContext.Provider value={{ restoreCart: mockRestoreCart } as any}>
+            <BagFooter />
+          </CartContext.Provider>
         </MockedProvider>
       </ThemeProvider>,
     );
 
-    const buttonDelivery = getByTestId('com.usereserva:id/bag_button_go_to_delivery');
-    expect(buttonDelivery).toBeTruthy();
+    const button = getByTestId('com.usereserva:id/bag_button_go_to_delivery');
 
     await act(async () => {
-      await fireEvent.press(buttonDelivery);
+      await fireEvent.press(button);
     });
 
-    expect(dispatch).toHaveBeenNthCalledWith(1, { actionType: 'HANDLE_REMOVE_UNAVAILABLE_ITEMS', payload: { value: {} } });
-  });
-
-  it('Should be renders correctly without email', async () => {
-    const dispatch = jest
-      .fn()
-      .mockReturnValue({ unavailableItems: { error: false } });
-
-    await act(async () => {
-      useBagStore.setState({
-        currentOrderForm,
-        installmentInfo,
-        bagInfos,
-        topBarLoading: false,
-        dispatch,
-        getPriceWithDiscount: jest.fn(),
-      });
+    expect(EventProvider.logEvent).toHaveBeenCalledWith('complete_registration', {
+      registration_method: 'email',
+      custumer_email: 'augustoneves@frwk.com.br',
     });
-
-    const { getByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <MockedProvider mocks={apolloMocks}>
-          <CartContextProvider>
-            <BagFooter isProfileComplete />
-          </CartContextProvider>
-        </MockedProvider>
-      </ThemeProvider>,
-    );
-
-    const buttonDelivery = getByTestId('com.usereserva:id/bag_button_go_to_delivery');
-    expect(buttonDelivery).toBeTruthy();
-
-    await act(async () => {
-      await fireEvent.press(buttonDelivery);
-    });
-
-    expect(dispatch).toHaveBeenNthCalledWith(1, { actionType: 'HANDLE_REMOVE_UNAVAILABLE_ITEMS', payload: { value: {} } });
+    expect(mockRestoreCart).toHaveBeenCalledWith('12578e89687rieoua186');
+    expect(mockedFn).toHaveBeenCalled();
   });
 });

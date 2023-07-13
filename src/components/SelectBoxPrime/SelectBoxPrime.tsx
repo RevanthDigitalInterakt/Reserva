@@ -93,7 +93,7 @@ export function SelectBoxPrime({
           >
             <Typography
               fontFamily="reservaSansItalic"
-              style={{ color: 'white' }}
+              style={styles.textRedBadge}
             >
               Economize
               <Typography
@@ -102,7 +102,7 @@ export function SelectBoxPrime({
               >
                 {' '}
                 R$
-                {savedValue}
+                {savedValue.toFixed(2)}
               </Typography>
             </Typography>
           </ImageBackground>

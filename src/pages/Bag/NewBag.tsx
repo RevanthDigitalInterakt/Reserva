@@ -1,74 +1,70 @@
 import React, { useCallback, useEffect } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { Box, Typography } from '@usereservaapp/reserva-ui';
-import { useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 import { bagStyles } from './styles/bagStyles';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
-import useBagStore from '../../zustand/useBagStore/useBagStore';
 import { EmptyBag } from '../../modules/Checkout/components/EmptyBag';
 import WithAvoidingView from '../../utils/WithAvoidingView';
 import ToastProvider from '../../utils/Toast';
 import BagSkeleton from './components/Skeleton';
-import LoadingModal from './components/LoadingModal';
-import DeleteProductModal from './components/DeleteProduct';
 import useInitialBag from '../../zustand/useBagStore/useInitialBagStore/useInitialBag';
-import { ShippingBar } from '../../modules/Checkout/components/ShippingBar';
-import { Recommendation } from '../../modules/Checkout/components/Recommendation';
-import CouponComponent from './components/Coupon';
 import SkeletonBagFooter from './components/SkeletonBagFooter';
 import BagFooter from './components/BagFooter';
-import { useCart } from '../../context/CartContext';
-import BagProductList from './components/ProductList';
 import NotFoundProduct from './components/NotFoundProduct';
 import type { RootStackParamList } from '../../routes/StackNavigator';
-import SelectableGifts from './components/SelectableGifts';
 import EventProvider from '../../utils/EventProvider';
+import { useBagStore } from '../../zustand/useBagStore/useBagStore';
+import { Recommendation } from '../../modules/Checkout/components/Recommendation';
+import { ShippingBar } from '../../modules/Checkout/components/ShippingBar';
+import CouponComponent from './components/Coupon';
+import LoadingModal from './components/LoadingModal';
+import DeleteProductModal from './components/DeleteProduct';
+import BagProductList from './components/ProductList';
+import SelectableGifts from './components/SelectableGifts';
 
-export type BagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
-export default function NewBag({ route }: BagProps): JSX.Element {
+type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
+
+export default function NewBag(_: TNewBagProps): JSX.Element {
   const navigation = useNavigation();
-  const { restoreCart } = useCart();
 
   const {
     topBarLoading,
-    bagInfos,
-    bagInitialLoad,
-    currentBagItems,
-    currentOrderForm,
-    shippingBar,
+    items,
+    initialLoad,
+    initialized,
     productNotFound,
-    selectableGiftInfo,
-    dispatch,
-  } = useBagStore();
+    appTotalizers,
+    selectableGift,
+    allItemsQuantity,
+    actions,
+  } = useBagStore([
+    'topBarLoading',
+    'items',
+    'initialLoad',
+    'initialized',
+    'productNotFound',
+    'appTotalizers',
+    'selectableGift',
+    'allItemsQuantity',
+    'actions',
+  ]);
 
   useInitialBag();
 
-  const handleNavigateToOffers = useCallback(
-    async () => {
-      navigation.navigate('Offers');
+  const handleNavigateToOffers = useCallback(() => {
+    navigation.navigate('Offers');
+  }, [navigation]);
 
-      if (currentOrderForm) {
-        await restoreCart(currentOrderForm.orderFormId);
-        dispatch({
-          actionType: 'SET_INITIAL_LOAD',
-          payload: {
-            value: {
-              bagInitialLoad: true,
-            },
-          },
-        });
-      }
-    },
-    [navigation, dispatch, currentOrderForm, restoreCart],
-  );
+  const handleBackTopBarButtonPress = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
 
   const handleAbandonedCartTags = useCallback(() => {
-    if (!currentOrderForm) return;
-
     // Caso o cliente ainda tenha produtos no carrinho, envia os dados para o OneSignal
-    if (currentBagItems.length) {
-      const [item] = currentBagItems;
+    if (items.length) {
+      const [item] = items;
 
       if (!item) return;
 
@@ -87,20 +83,19 @@ export default function NewBag({ route }: BagProps): JSX.Element {
       product_name: '',
       product_image: '',
     });
-  }, [currentBagItems]);
-
-  const handleBackTopBarButtonPress = useCallback(async () => {
-    navigation.goBack();
-    if (currentOrderForm) {
-      await restoreCart(currentOrderForm.orderFormId);
-    }
-  }, [currentOrderForm, restoreCart, navigation]);
+  }, [items]);
 
   useEffect(() => {
-    handleAbandonedCartTags();
-  }, [currentBagItems.length, handleAbandonedCartTags]);
+    if (initialized) {
+      handleAbandonedCartTags();
+    }
+  }, [initialized, items.length, handleAbandonedCartTags]);
 
-  if (!currentBagItems.length && !bagInitialLoad) {
+  useEffect(() => {
+    actions.REFETCH_ORDER_FORM();
+  }, [actions]);
+
+  if (!items.length && !initialLoad) {
     return (
       <Box flex={1} testID="com.usereserva:id/EmptyBag">
         <EmptyBag
@@ -123,9 +118,9 @@ export default function NewBag({ route }: BagProps): JSX.Element {
       />
 
       <WithAvoidingView>
-        {bagInitialLoad && <BagSkeleton />}
+        {initialLoad && <BagSkeleton />}
 
-        {!bagInitialLoad && (
+        {!initialLoad && (
           <>
             {!!productNotFound.length && <NotFoundProduct />}
 
@@ -137,17 +132,13 @@ export default function NewBag({ route }: BagProps): JSX.Element {
               <Box paddingX="xxxs" paddingY="xxs">
                 <Box bg="white" marginTop="xxs">
                   <Typography variant="tituloSessoes">
-                    {`Sacola  (${bagInfos.totalBagItems})`}
+                    {`Sacola  (${allItemsQuantity})`}
                   </Typography>
                 </Box>
 
-                <ShippingBar
-                  loading={shippingBar.loading}
-                  sumPriceShipping={shippingBar.sumPriceShipping}
-                  totalDelivery={shippingBar.totalDelivery}
-                />
+                <ShippingBar loading={false} totalOrder={appTotalizers.total} />
 
-                {selectableGiftInfo?.selectableGift?.availableGifts?.length && (
+                {selectableGift?.availableGifts?.length && (
                   <SelectableGifts />
                 )}
 
@@ -160,13 +151,11 @@ export default function NewBag({ route }: BagProps): JSX.Element {
             </ScrollView>
           </>
         )}
+
         <Box width="100%" height={145} bg="white">
-          {bagInitialLoad && <SkeletonBagFooter />}
-          {!bagInitialLoad
-            && currentOrderForm
-            && currentBagItems.length > 0 && (
-              <BagFooter isProfileComplete={route.params.isProfileComplete} />
-          )}
+          {initialLoad && <SkeletonBagFooter />}
+
+          {(!initialLoad && items?.length > 0) && <BagFooter />}
         </Box>
       </WithAvoidingView>
 

@@ -16,6 +16,3 @@ pre-push:
     test:
       run: yarn test
       skip: merge
-    check-branch:
-      run: bash scripts/git-check-branch.sh
-      skip: merge

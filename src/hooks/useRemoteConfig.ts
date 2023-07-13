@@ -16,13 +16,13 @@ export interface IRemoteConfigKeys {
   show_new_bag_tester: boolean;
   show_campaign_boyfriend: boolean;
   show_pdc_thumb_color: boolean;
-  show_primelp_on_search: boolean;
-  show_primelp_on_search_tester: boolean;
   primelp_terms_search: string;
   pdp_button_add_bag: string;
   sale_off_tag: boolean;
   cashback_in_store: boolean;
   balance_cashback_in_app: boolean;
+  show_prime: boolean;
+  show_prime_tester: boolean;
   EMAIL_TESTERS: string[];
   appName: string;
   appVersion: string;
@@ -41,9 +41,6 @@ export const defaults: IRemoteConfigKeys = {
   show_new_bag_tester: true,
   show_campaign_boyfriend: false,
   pdp_button_add_bag: '#11AB6B',
-  show_primelp_on_search: false,
-  show_primelp_on_search_tester: false,
-  primelp_terms_search: 'prime',
   sale_off_tag: false,
   show_pdc_thumb_color: false,
   cashback_in_store: false,
@@ -51,6 +48,9 @@ export const defaults: IRemoteConfigKeys = {
   EMAIL_TESTERS: [],
   appName: 'My App',
   appVersion: '1.0.0',
+  primelp_terms_search: 'prime',
+  show_prime: false,
+  show_prime_tester: false,
 };
 
 const THREE_MINUTES_IN_MS = 180000;

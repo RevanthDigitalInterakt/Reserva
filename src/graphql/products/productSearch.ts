@@ -44,6 +44,10 @@ export const productSearch = gql`
       options: $options
     ) @context(provider: "vtex.search-graphql") {
       products {
+        productClusters {
+          id
+          name
+        }
         categoryTree {
           href
         }

@@ -1,13 +1,32 @@
 ## CHANGELOG
 
+### 2.0.6
+
+- [APP2022-1096 - Sacola Prime](https://reserva.atlassian.net/browse/APP2022-1096)
+- [14126 - Prime Feature Toggle](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14126)
+- [14123 - Alteração header para usuários Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14123)
+- [14122 -  Como cliente Prime quero enxergar frete grátis na sacola](https://dev.azure.com/areco/Canal%20App%20e%20Omni/_workitems/edit/14122)
+- [14419 - Mover lógica de remover prime da sacola quando o usuário for Prime para a bag](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14419)
+- [14123 - Prime header indique que sou Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14123)
+- [14128 - Criar componente de FAQ na LP do Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Downstream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14128)
+- [SRN-227 - DITO - Evento adicionou produto ao carrinho](https://reserva.atlassian.net/browse/SRN-227)
+- [SRN-230 - DITO - Evento fez pedido de produto](https://reserva.atlassian.net/browse/SRN-230)
+- [14674 - Colocar novo ícone de benefício na LP Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14674)
+- [14671 - Alterar imagem de fundo na LP Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14671)
+- [14647 - BUG Layout com valor do Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Downstream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14647)
+- [14785 - Troca de domínio API Gateway](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Downstream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14785)
+
+---
+
 ### 2.0.5
 
 - [SRN-333 - Erro evento Cadastrou DITO](https://reserva.atlassian.net/browse/SRN-333)
 - [SRN-192 - Bloquear a migração de eventos para perfis diferentes](https://reserva.atlassian.net/browse/SRN-192)
+- [14535 - Problema Countdown Home](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14535)
 
 ---
 
-### 2.0.3
+### 2.0.4
 
 - [SRN-257 - CPF obrigatório no cadastro](https://reserva.atlassian.net/browse/SRN-257)
 - [APP2022-1218 - BUG - Não exibe botão de voltar na bag vazia](https://reserva.atlassian.net/browse/APP2022-1218)
