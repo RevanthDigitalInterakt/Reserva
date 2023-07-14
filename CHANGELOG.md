@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.0.7
+
+- [SRN-229 - DITO - Evento Acessou o carrinho](https://reserva.atlassian.net/browse/SRN-229)
+
 ### 2.0.6
 
 - [APP2022-1096 - Sacola Prime](https://reserva.atlassian.net/browse/APP2022-1096)
