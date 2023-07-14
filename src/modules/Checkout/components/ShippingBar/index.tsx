@@ -7,13 +7,11 @@ import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 export interface IShippingBar {
   totalOrder: number;
   loading: boolean;
-  isPrime: boolean;
 }
 
-export const ShippingBar = ({
-  totalOrder,
-  loading,
-}: IShippingBar) => {
+export function ShippingBar({ totalOrder, loading }: IShippingBar) {
+  const { isPrime } = usePrimeInfo();
+
   const {
     freeShippingValue,
     loadingBar,
@@ -22,8 +20,6 @@ export const ShippingBar = ({
   } = useShippingBarStore();
 
   useInitialShippingBar(totalOrder, loading);
-
-  const { isPrime } = usePrimeInfo();
 
   const isFreeShipping = useMemo(() => freeShippingValue === 0 || isPrime,
     [freeShippingValue, isPrime]);
@@ -50,4 +46,4 @@ export const ShippingBar = ({
       </Box>
     </Box>
   ) : null;
-};
+}

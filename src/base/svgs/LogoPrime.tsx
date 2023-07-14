@@ -3,11 +3,7 @@ import { SvgCss } from 'react-native-svg';
 
 const xml = `
   <svg width="60" height="25" viewBox="0 0 60 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="60" height="25" fill="#1E1E1E"/>
-  <rect x="-1167.5" y="-310.5" width="4187" height="2976" stroke="#D9D9D9" stroke-width="5"/>
-  <rect width="360" height="2613" transform="translate(-150 -45)" fill="white"/>
   <g filter="url(#filter0_d_47_853)">
-  <rect x="-150" y="-13" width="360" height="50" fill="white"/>
   </g>
   <g clip-path="url(#clip0_47_853)">
   <path d="M6.01263 11.8938V14.2025L7.87278 15.8571H0L1.76614 14.2025V4.8139L0 3.04395H5.9938C10.0711 3.04395 12.6641 4.67932 12.6641 7.48815C12.6641 10.3355 10.3717 11.9515 6.85816 11.9515C6.57624 11.9515 6.29444 11.9324 6.01263 11.8938ZM6.01263 4.0444V10.9703C7.38424 10.8165 8.26731 9.87375 8.26731 7.69972C8.26731 5.29496 7.64734 4.31379 6.01263 4.0444Z" fill="#1E1E1E"/>

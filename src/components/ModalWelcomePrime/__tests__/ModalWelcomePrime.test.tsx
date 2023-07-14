@@ -43,7 +43,7 @@ describe('ModalWelcomePrime', () => {
   it('should render properly', () => {
     render(TestingComponent());
 
-    const titleModal = screen.getByText('Bem vindo ao Prime');
+    const titleModal = screen.getByTestId('com.usereserva:id/title');
 
     expect(titleModal).toBeOnTheScreen();
   });

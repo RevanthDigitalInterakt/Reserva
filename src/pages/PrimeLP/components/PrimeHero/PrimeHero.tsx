@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import { ImageBackground, TouchableOpacity, View } from 'react-native';
 import { Typography } from '@usereservaapp/reserva-ui';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
@@ -18,16 +17,11 @@ interface IPrimeHero {
 
 function PrimeHero({ data, onAddToCart }: IPrimeHero) {
   const { isPrime } = usePrimeInfo();
-  const { goBack } = useNavigation();
 
   const onPressAddCart = useCallback(() => {
-    if (isPrime) {
-      goBack();
-    } else {
-      EventProvider.logEvent('prime_press_add_to_cart_lp', { position: 'top' });
-      onAddToCart();
-    }
-  }, [isPrime, goBack, onAddToCart]);
+    EventProvider.logEvent('prime_press_add_to_cart_lp', { position: 'top' });
+    onAddToCart();
+  }, [onAddToCart]);
 
   return (
     <ImageBackground
@@ -46,13 +40,6 @@ function PrimeHero({ data, onAddToCart }: IPrimeHero) {
           <Typography variant="descontoTag2" style={styles.bold}>
             {` ${data.installmentPrice}/Mês*.`}
           </Typography>
-        </Typography>
-
-        <Typography variant="tituloSessao" style={styles.subtitle}>
-          Torne-se membro do maior clube de vantagens da
-          {'\n'}
-          moda brasileira e tenha acesso a descontos
-          especiais, frete grátis e muito mais.
         </Typography>
 
         <View style={styles.buttonContainer}>

@@ -162,7 +162,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2023000054
-        versionName "2.0.5"
+        versionName "2.0.7"
         missingDimensionStrategy 'react-native-camera', 'general'
         resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
         resValue "string", "URL_GATEWAY_CLIENT", project.env.get("URL_GATEWAY_CLIENT")

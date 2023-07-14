@@ -28,4 +28,7 @@ fragment OrderformItemFragment on OrderformItemOutput {
     disableCounter
     sellingPrice
     isPrimeSubscription
+    additionalInfo {
+        brandName
+    }
 }

@@ -12,6 +12,7 @@ export const IfRenderShippingMessage = ({
   freeShippingValue,
 }: IPropsShippingMessage) => {
   const { isPrime } = usePrimeInfo();
+
   if (isPrime) {
     return (
       <Box flexDirection="row" alignItems="center">
@@ -28,6 +29,7 @@ export const IfRenderShippingMessage = ({
       </Box>
     );
   }
+
   if (sumPriceShipping < freeShippingValue) {
     return (
       <Box flexDirection="row">

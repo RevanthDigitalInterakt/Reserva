@@ -123,7 +123,6 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const [countDownClockLocal, setCountDownClockLocal] = useState<ICountDownClock>();
   const [countDownClockGlobal, setCountDownClockGlobal] = useState<ICountDownClock>();
   const [showClockOffers, setShowClockOffers] = useState<boolean>(false);
-  const [showMkt, setShowMkt] = useState(false);
   const [productData, setProductData] = useState([]);
   const [totalProducts, setTotalProducts] = useState(0);
   const [currentPage, setCurrentPage] = useState(DEFAULT_NEXT_PAGINATION);
@@ -245,7 +244,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
   const wrapperGetProductSearch = useCallback(
     async (facetParams: IFacet[], orderByParams: string = '') => {
-      const response = await getProductSearch({
+      const { data } = await getProductSearch({
         variables: {
           skusFilter: 'ALL_AVAILABLE',
           hideUnavailableItems: true,
@@ -257,11 +256,13 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
           productOriginVtex: false,
         },
         fetchPolicy: getFetchPolicyPerKey('productSearch'),
-        nextFetchPolicy: 'network-only',
+        nextFetchPolicy: 'cache-and-network',
       });
 
-      setProductData(response.data.productSearch.products);
-      setTotalProducts(response.data.productSearch.recordsFiltered);
+      const { products, recordsFiltered } = data.productSearch;
+
+      setProductData(products);
+      setTotalProducts(recordsFiltered);
       setSkeletonLoading(false);
     }, [getProductSearch, getFetchPolicyPerKey],
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-native-modal';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 
@@ -40,6 +40,7 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
       animationOut="zoomOut"
       isVisible={isVisible}
       animationInTiming={300}
+      onBackdropPress={onClose}
       onModalHide={onModalHide}
       style={Styles.objectStyles.modal}
       {...testProps('com.usereserva:id/modal_sign_in')}
@@ -104,7 +105,10 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
                   }}
                 />
 
-                <Box mt="md" width="100%">
+                <View style={{
+                  marginTop: 24,
+                }}
+                >
                   <UnderlineInput
                     isSecureText
                     placeholder="Digite sua senha"
@@ -146,7 +150,7 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
                       {loginCredentials.showMessageError}
                     </Typography>
                   )}
-                </Box>
+                </View>
               </Box>
 
               <Button

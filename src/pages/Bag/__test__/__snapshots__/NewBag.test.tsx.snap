@@ -3970,7 +3970,7 @@ exports[`NewBag should match with the snapshot 1`] = `
                 Object {
                   "backgroundColor": "#ffffff",
                   "justifyContent": "space-between",
-                  "padding": 40,
+                  "padding": 24,
                 }
               }
             >
@@ -4023,39 +4023,30 @@ exports[`NewBag should match with the snapshot 1`] = `
               <View
                 style={
                   Object {
-                    "paddingVertical": 40,
+                    "paddingVertical": 24,
                   }
                 }
               >
                 <Text
                   style={
-                    Array [
-                      Object {
-                        "fontFamily": "ReservaSerif-Regular",
-                        "fontSize": 20,
-                      },
-                      Object {
-                        "color": "#767676",
-                        "lineHeight": 27,
-                      },
-                    ]
+                    Object {
+                      "color": "#767676",
+                      "fontFamily": "ReservaSans-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 20,
+                    }
                   }
-                  variant="subtituloSessoes"
                 >
                   Olá!
                    
                   <Text
-                    color="fullBlack"
                     style={
-                      Array [
-                        Object {
-                          "color": "#000",
-                        },
-                        Object {
-                          "fontSize": 20,
-                          "fontWeight": "bold",
-                        },
-                      ]
+                      Object {
+                        "color": "#000000",
+                        "fontFamily": "ReservaSans-Bold",
+                        "fontSize": 16,
+                        "lineHeight": 20,
+                      }
                     }
                   />
                    
@@ -4071,7 +4062,10 @@ exports[`NewBag should match with the snapshot 1`] = `
                           "fontSize": 15,
                         },
                         Object {
-                          "fontSize": 20,
+                          "fontFamily": "ReservaDisplay-Regular",
+                          "fontSize": 16,
+                          "fontWeight": "bold",
+                          "lineHeight": 20,
                         },
                       ]
                     }
