@@ -1712,8 +1712,8 @@ exports[`PrimeLP should match to snapshot 1`] = `
                   },
                   Object {
                     "color": "#848484",
-                    "fontSize": 12,
-                    "lineHeight": 15.5,
+                    "fontSize": 16,
+                    "lineHeight": 20,
                     "marginBottom": 24,
                     "textAlign": "center",
                   },
@@ -1732,8 +1732,8 @@ exports[`PrimeLP should match to snapshot 1`] = `
                   },
                   Object {
                     "color": "#848484",
-                    "fontSize": 12,
-                    "lineHeight": 15.5,
+                    "fontSize": 16,
+                    "lineHeight": 20,
                     "marginBottom": 24,
                     "textAlign": "center",
                   },
@@ -1751,8 +1751,8 @@ exports[`PrimeLP should match to snapshot 1`] = `
                     },
                     Object {
                       "color": "#000000",
-                      "fontSize": 12,
-                      "lineHeight": 15.5,
+                      "fontSize": 16,
+                      "lineHeight": 20,
                     },
                   ]
                 }
@@ -1819,8 +1819,8 @@ exports[`PrimeLP should match to snapshot 1`] = `
                 },
                 Object {
                   "color": "#848484",
-                  "fontSize": 11,
-                  "lineHeight": 16,
+                  "fontSize": 16,
+                  "lineHeight": 20,
                   "marginBottom": 32,
                   "textAlign": "center",
                 },
@@ -1863,7 +1863,7 @@ exports[`PrimeLP should match to snapshot 1`] = `
                       "borderWidth": 0,
                     },
                     Object {
-                      "marginBottom": 24,
+                      "marginBottom": 32,
                     },
                     Object {
                       "flex": 0,
@@ -1927,9 +1927,9 @@ exports[`PrimeLP should match to snapshot 1`] = `
                       "fontSize": 15,
                     },
                     Object {
-                      "fontSize": 16,
-                      "lineHeight": 21,
-                      "marginBottom": 4,
+                      "fontSize": 20,
+                      "lineHeight": 20,
+                      "marginBottom": 16,
                       "textAlign": "center",
                     },
                   ]
@@ -1947,8 +1947,8 @@ exports[`PrimeLP should match to snapshot 1`] = `
                     },
                     Object {
                       "color": "#848484",
-                      "fontSize": 12,
-                      "lineHeight": 16,
+                      "fontSize": 16,
+                      "lineHeight": 20,
                       "textAlign": "center",
                     },
                   ]
@@ -1964,8 +1964,8 @@ exports[`PrimeLP should match to snapshot 1`] = `
                       },
                       Object {
                         "color": "#000000",
-                        "fontSize": 12,
-                        "lineHeight": 16,
+                        "fontSize": 16,
+                        "lineHeight": 20,
                       },
                     ]
                   }
@@ -1983,8 +1983,8 @@ exports[`PrimeLP should match to snapshot 1`] = `
                       },
                       Object {
                         "color": "#000000",
-                        "fontSize": 12,
-                        "lineHeight": 16,
+                        "fontSize": 16,
+                        "lineHeight": 20,
                       },
                     ]
                   }
@@ -2021,7 +2021,7 @@ exports[`PrimeLP should match to snapshot 1`] = `
                       "borderWidth": 0,
                     },
                     Object {
-                      "marginBottom": 24,
+                      "marginBottom": 32,
                     },
                     Object {
                       "flex": 0,
@@ -2125,9 +2125,9 @@ exports[`PrimeLP should match to snapshot 1`] = `
                       "fontSize": 15,
                     },
                     Object {
-                      "fontSize": 16,
-                      "lineHeight": 21,
-                      "marginBottom": 4,
+                      "fontSize": 20,
+                      "lineHeight": 20,
+                      "marginBottom": 16,
                       "textAlign": "center",
                     },
                   ]
@@ -2145,8 +2145,8 @@ exports[`PrimeLP should match to snapshot 1`] = `
                     },
                     Object {
                       "color": "#848484",
-                      "fontSize": 12,
-                      "lineHeight": 16,
+                      "fontSize": 16,
+                      "lineHeight": 20,
                       "textAlign": "center",
                     },
                   ]
@@ -2182,7 +2182,7 @@ exports[`PrimeLP should match to snapshot 1`] = `
                       "borderWidth": 0,
                     },
                     Object {
-                      "marginBottom": 24,
+                      "marginBottom": 32,
                     },
                     Object {
                       "flex": 0,
@@ -2286,9 +2286,9 @@ exports[`PrimeLP should match to snapshot 1`] = `
                       "fontSize": 15,
                     },
                     Object {
-                      "fontSize": 16,
-                      "lineHeight": 21,
-                      "marginBottom": 4,
+                      "fontSize": 20,
+                      "lineHeight": 20,
+                      "marginBottom": 16,
                       "textAlign": "center",
                     },
                   ]
@@ -2306,8 +2306,8 @@ exports[`PrimeLP should match to snapshot 1`] = `
                     },
                     Object {
                       "color": "#848484",
-                      "fontSize": 12,
-                      "lineHeight": 16,
+                      "fontSize": 16,
+                      "lineHeight": 20,
                       "textAlign": "center",
                     },
                   ]
@@ -2323,8 +2323,8 @@ exports[`PrimeLP should match to snapshot 1`] = `
                       },
                       Object {
                         "color": "#000000",
-                        "fontSize": 12,
-                        "lineHeight": 16,
+                        "fontSize": 16,
+                        "lineHeight": 20,
                       },
                     ]
                   }
@@ -2361,7 +2361,7 @@ exports[`PrimeLP should match to snapshot 1`] = `
                       "borderWidth": 0,
                     },
                     Object {
-                      "marginBottom": 24,
+                      "marginBottom": 32,
                     },
                     Object {
                       "flex": 0,
@@ -2423,9 +2423,9 @@ exports[`PrimeLP should match to snapshot 1`] = `
                       "fontSize": 15,
                     },
                     Object {
-                      "fontSize": 16,
-                      "lineHeight": 21,
-                      "marginBottom": 4,
+                      "fontSize": 20,
+                      "lineHeight": 20,
+                      "marginBottom": 16,
                       "textAlign": "center",
                     },
                   ]
@@ -2443,8 +2443,8 @@ exports[`PrimeLP should match to snapshot 1`] = `
                     },
                     Object {
                       "color": "#848484",
-                      "fontSize": 12,
-                      "lineHeight": 16,
+                      "fontSize": 16,
+                      "lineHeight": 20,
                       "textAlign": "center",
                     },
                   ]
@@ -2460,8 +2460,8 @@ exports[`PrimeLP should match to snapshot 1`] = `
                       },
                       Object {
                         "color": "#000000",
-                        "fontSize": 12,
-                        "lineHeight": 16,
+                        "fontSize": 16,
+                        "lineHeight": 20,
                       },
                     ]
                   }
@@ -2516,8 +2516,8 @@ exports[`PrimeLP should match to snapshot 1`] = `
                   },
                   Object {
                     "color": "#848484",
-                    "fontSize": 12,
-                    "lineHeight": 16,
+                    "fontSize": 16,
+                    "lineHeight": 20,
                     "marginBottom": 20,
                     "textAlign": "center",
                   },
@@ -2525,8 +2525,7 @@ exports[`PrimeLP should match to snapshot 1`] = `
               }
               variant="tituloSessao"
             >
-              Ganhe 20% OFF* em todos os produtos da Reserva.
-Tudo isso por
+              Ganhe 20% OFF* em todos os produtos da Reserva. Tudo isso por
               <Text
                 style={
                   Array [
@@ -2536,7 +2535,7 @@ Tudo isso por
                     },
                     Object {
                       "color": "#000000",
-                      "fontSize": 12,
+                      "fontSize": 16,
                     },
                   ]
                 }
@@ -2552,7 +2551,7 @@ Tudo isso por
               Object {
                 "alignItems": "center",
                 "justifyContent": "center",
-                "marginTop": -35,
+                "marginTop": -18,
                 "paddingHorizontal": 32,
                 "paddingTop": 400,
                 "width": 750,
@@ -2726,6 +2725,7 @@ Tudo isso por
                     "lineHeight": 14,
                     "marginBottom": 24,
                     "textAlign": "center",
+                    "top": 18,
                   },
                 ]
               }
@@ -2751,6 +2751,7 @@ Tudo isso por
                 "backgroundColor": "#000000",
                 "height": 102.61538461538461,
                 "justifyContent": "center",
+                "marginTop": 24,
                 "opacity": 1,
                 "width": 535.7142857142858,
               }

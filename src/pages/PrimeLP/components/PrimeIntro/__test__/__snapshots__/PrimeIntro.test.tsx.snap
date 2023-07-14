@@ -103,8 +103,8 @@ exports[`PrimeIntro should render properly and match to snapshot 1`] = `
           },
           Object {
             "color": "#848484",
-            "fontSize": 12,
-            "lineHeight": 15.5,
+            "fontSize": 16,
+            "lineHeight": 20,
             "marginBottom": 24,
             "textAlign": "center",
           },
@@ -123,8 +123,8 @@ exports[`PrimeIntro should render properly and match to snapshot 1`] = `
           },
           Object {
             "color": "#848484",
-            "fontSize": 12,
-            "lineHeight": 15.5,
+            "fontSize": 16,
+            "lineHeight": 20,
             "marginBottom": 24,
             "textAlign": "center",
           },
@@ -142,8 +142,8 @@ exports[`PrimeIntro should render properly and match to snapshot 1`] = `
             },
             Object {
               "color": "#000000",
-              "fontSize": 12,
-              "lineHeight": 15.5,
+              "fontSize": 16,
+              "lineHeight": 20,
             },
           ]
         }

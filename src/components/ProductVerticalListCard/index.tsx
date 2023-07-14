@@ -265,6 +265,8 @@ export const ProductVerticalListCard = ({
           )}
         </Box>
 
+        <View style={{ marginTop: 8 }} />
+
         <ProductPriceRow
           installmentsNumber={installmentsNumber}
           currency={currency}
@@ -274,7 +276,7 @@ export const ProductVerticalListCard = ({
           price={price}
         />
 
-        <View style={{ marginVertical: 2 }} />
+        <View style={{ marginTop: 6 }} />
 
         {!!prime
         && (
