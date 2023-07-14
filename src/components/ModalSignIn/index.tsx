@@ -106,11 +106,12 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
                 />
 
                 <View style={{
-                  marginTop: 12,
+                  marginTop: 24,
                 }}
                 >
                   <UnderlineInput
                     isSecureText
+                    isModal
                     placeholder="Digite sua senha"
                     value={loginCredentials.password}
                     showError={loginCredentials.showPasswordError}
@@ -137,6 +138,7 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
 
                   <Box mt="micro" mb="quarck">
                     <TouchableOpacity
+                      style={{ marginTop: 12 }}
                       {...testProps(
                         'com.usereserva:id/modal_sign_in_cta_forgot_password',
                       )}

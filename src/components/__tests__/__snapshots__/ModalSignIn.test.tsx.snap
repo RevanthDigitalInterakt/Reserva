@@ -328,6 +328,7 @@ exports[`ModalSignIn should match with the snapshot 1`] = `
                         "margin": 0,
                         "maxWidth": 710,
                         "padding": 0,
+                        "paddingRight": 0,
                       }
                     }
                     testID="com.usereserva:id/modal_sign_in_input_email"
@@ -340,7 +341,7 @@ exports[`ModalSignIn should match with the snapshot 1`] = `
             <View
               style={
                 Object {
-                  "marginTop": 12,
+                  "marginTop": 24,
                 }
               }
             >
@@ -402,6 +403,7 @@ exports[`ModalSignIn should match with the snapshot 1`] = `
                           "margin": 0,
                           "maxWidth": 684,
                           "padding": 0,
+                          "paddingRight": 62,
                         }
                       }
                       testID="com.usereserva:id/modal_sign_in_input_password"
@@ -410,18 +412,11 @@ exports[`ModalSignIn should match with the snapshot 1`] = `
                     />
                   </View>
                   <View
-                    justifyContent="center"
-                    mr="xxxs"
                     style={
-                      Array [
-                        Object {
-                          "justifyContent": "center",
-                          "marginRight": 16,
-                        },
-                        Object {
-                          "width": 40,
-                        },
-                      ]
+                      Object {
+                        "alignSelf": "center",
+                        "right": 52,
+                      }
                     }
                   >
                     <View
@@ -574,6 +569,7 @@ exports[`ModalSignIn should match with the snapshot 1`] = `
                   onStartShouldSetResponder={[Function]}
                   style={
                     Object {
+                      "marginTop": 12,
                       "opacity": 1,
                     }
                   }
