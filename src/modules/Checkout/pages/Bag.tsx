@@ -59,6 +59,8 @@ import ImageComponent from '../../../components/ImageComponent/ImageComponent';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { ProductHorizontalListCard } from '../../../components/ProductHorizontalListCard/ProductHorizontalListCard';
 import ProductListItemPrime from '../../../pages/Bag/components/ProductListItem/ProductListItemPrime';
+import { handleCopyTextToClipboard } from '../../../utils/CopyToClipboard';
+import { useIsTester } from '../../../hooks/useIsTester';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -167,6 +169,8 @@ export const BagScreen = ({ route }: Props) => {
     (): boolean => discountCoupon.length > 0,
     [discountCoupon],
   );
+
+  const isTester = useIsTester();
 
   const [isEmptyProfile, setIsEmptyProfile] = useState(false);
   const [profile, setProfile] = useState();
@@ -870,7 +874,15 @@ export const BagScreen = ({ route }: Props) => {
                 />
                 <Box paddingX="xxxs" paddingY="xxs">
                   <Box bg="white" marginTop="xxs">
-                    <Typography testID="com.usereserva:id/title_bag" variant="tituloSessoes">
+                    <Typography
+                      testID="com.usereserva:id/title_bag"
+                      variant="tituloSessoes"
+                      onPress={() => {
+                        if (isTester) {
+                          handleCopyTextToClipboard(orderForm?.orderFormId || '');
+                        }
+                      }}
+                    >
                       Sacola (
                       {optimistQuantities.reduce(
                         (accumulator, currentValue) => accumulator + currentValue,
