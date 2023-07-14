@@ -172,7 +172,7 @@ export const ProductDetailCard = ({
               />
             </Box>
           </Box>
-          {showZoomButton ? (
+          {showZoomButton && (
             <Box
               position="absolute"
               bottom="3%"
@@ -191,7 +191,7 @@ export const ProductDetailCard = ({
                 icon={<Icon name="Expand" size={18} color="preto" />}
               />
             </Box>
-          ) : null}
+          )}
         </Box>
       </Box>
 

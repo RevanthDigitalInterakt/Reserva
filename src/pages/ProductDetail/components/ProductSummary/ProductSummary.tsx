@@ -70,11 +70,11 @@ function ProductSummary() {
   }, [imageIndex, productDetail]);
 
   const video = useMemo(() => {
-    if (!productDetail || !productDetail.videoThumbnail) return '';
+    if (!productDetail?.videoThumbnail) return '';
 
     const isEqualSku = productDetail.videoThumbnail.includes(selectedSize?.ean || '');
     return isEqualSku ? productDetail.videoThumbnail : '';
-  }, [productDetail, selectedSize?.ean]);
+  }, [productDetail?.videoThumbnail, selectedSize?.ean]);
 
   const showZoomButton = useMemo(() => (
     (!!video && imageIndex >= 0) || !video

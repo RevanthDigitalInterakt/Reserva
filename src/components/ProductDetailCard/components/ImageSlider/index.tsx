@@ -111,10 +111,10 @@ export const ImageSlider = ({
         ref={scrollRef}
         showsHorizontalScrollIndicator={false}
       >
-        {images?.map((image, index) => (
-          <Box key={`product-card-${index}`} alignItems="center" width={width} height={height}>
+        {images?.map((image) => (
+          <Box key={`product-card-${image}`} alignItems="center" width={width} height={height}>
             <ImageComponent
-              key={index}
+              key={image}
               source={{ uri: image }}
               height={height}
               width={width}
