@@ -204,7 +204,7 @@ export const ProductVerticalListCard = ({
         />
       </Button>
 
-      {!showThumbColors && (
+      {!!showThumbColors && (
         <ProductThumbColorsRow
           identifier={`${productTitle}-${imageSource}-${price}`}
           colors={colors || []}
