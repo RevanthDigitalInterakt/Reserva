@@ -34,5 +34,6 @@ export const objectStyles = StyleSheet.create({
   },
   highlightedText: {
     color: COLORS.BLACK,
+    top: 3.5,
   },
 });

@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 
+import { View } from 'react-native';
 import testProps from '../../../utils/testProps';
 import EventProvider from '../../../utils/EventProvider';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
@@ -117,32 +118,41 @@ export function FooterModalPrime({
         >
           Olá!
           {' '}
-          <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>{profile?.firstName}</Typography>
+          <View>
+
+            <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>{profile?.firstName}</Typography>
+          </View>
           {' '}
           você ainda não é cliente
           {' '}
-          <Typography fontFamily="reservaDisplayRegular" style={Styles.objectStyles.highlightedText}>Prime</Typography>
+          <View>
+            <Typography fontFamily="reservaDisplayRegular" style={Styles.objectStyles.highlightedText}>Prime</Typography>
+          </View>
           ,
           {'\n'}
           mas não se preocupe, basta tocar no botão
           {'\n'}
           abaixo
           e adicionar em sua sacola a assinatura
-          {'\n'}
+
           pelo valor de
           {' '}
-          <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>
-            {primeInformation?.installmentQty}
-            x de R$
-            {' '}
-            {primeInformation?.installmentPrice}
-          </Typography>
+          <View>
+            <Typography fontFamily="reservaSansBold" numberOfLines={1} style={Styles.objectStyles.highlightedText}>
+              {primeInformation?.installmentQty}
+              x de R$
+              {' '}
+              {primeInformation?.installmentPrice}
+            </Typography>
+          </View>
           .
           {'\n\n'}
 
           Ao aderir ao
           {' '}
-          <Typography fontFamily="reservaDisplayRegular" style={Styles.objectStyles.highlightedText}>Prime</Typography>
+          <View>
+            <Typography fontFamily="reservaDisplayRegular" style={Styles.objectStyles.highlightedText}>Prime</Typography>
+          </View>
           {' '}
           você pode aproveitar
           {'\n'}
@@ -150,9 +160,11 @@ export function FooterModalPrime({
           {'\n'}
           compras acima de
           {' '}
-          <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>
-            {primeInformation && `R$${primeInformation?.discountFrom}`}
-          </Typography>
+          <View>
+            <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>
+              {primeInformation && `R$${primeInformation?.discountFrom}`}
+            </Typography>
+          </View>
           !
         </Typography>
 
