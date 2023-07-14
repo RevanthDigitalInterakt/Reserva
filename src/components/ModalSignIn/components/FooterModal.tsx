@@ -129,9 +129,8 @@ export function FooterModalPrime({
             <Typography fontFamily="reservaDisplayRegular" style={Styles.objectStyles.highlightedText}>Prime</Typography>
           </View>
           ,
-          {'\n'}
           mas não se preocupe, basta tocar no botão
-          {'\n'}
+
           abaixo
           e adicionar em sua sacola a assinatura
 
@@ -155,9 +154,9 @@ export function FooterModalPrime({
           </View>
           {' '}
           você pode aproveitar
-          {'\n'}
+
           todos os benefícios da sua assinatura em
-          {'\n'}
+
           compras acima de
           {' '}
           <View>
