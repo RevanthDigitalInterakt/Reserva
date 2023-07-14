@@ -11,6 +11,7 @@ import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { FlatList } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import images from '../../../../base/styles/icons';
 import { ProductVerticalListCard, ProductVerticalListCardProps } from '../../../../components/ProductVerticalListCard';
 import type { ProductQL } from '../../../../graphql/products/productSearch';
@@ -30,6 +31,10 @@ import {
   IGetPrimeReturn,
   getPrime, usePrimeConfig,
 } from '../../../../zustand/usePrimeConfig/usePrimeConfig';
+import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
+import { getProductColor } from '../../../../utils/getProductColor';
+import { getProductSize } from '../../../../utils/getProductSize';
+import { getCategoriesByHref } from '../../../../utils/getCategoriesByHref';
 
 interface ListProductsProps {
   cleanFilter: () => void;
@@ -63,6 +68,8 @@ export const ListVerticalProducts = ({
   const { profile } = useAuthStore(['profile']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
 
+  const { getItem } = useAsyncStorageProvider();
+
   const { promo } = usePrimeConfig(['promo']);
 
   const [addWishList] = useMutation(wishListQueries.ADD_WISH_LIST);
@@ -74,6 +81,31 @@ export const ListVerticalProducts = ({
   });
 
   const [removeWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST);
+
+  const trackEventDitoAddWishlist = useCallback(async (item: any) => {
+    try {
+      const id = profile?.email
+        ? await getItem('@Dito:userRef')
+        : await AsyncStorage.getItem('@Dito:anonymousID');
+
+      EventProvider.sendTrackEvent('adicionou-produto-a-wishlist', {
+        id,
+        action: 'adicionou-produto-a-wishlist',
+        data: {
+          id_produto: item.items[0].itemId,
+          cor: getProductColor(item.items[0].variations),
+          tamanho: getProductSize(item.items[0].variations),
+          nome_categoria: getCategoriesByHref(item.categoryTree[3].href),
+          nome_produto: item.productName,
+          marca: getCategoriesByHref(item.categoryTree[0].href).toUpperCase(),
+          preco_produto: item.priceRange.sellingPrice.lowPrice,
+          origem: 'app',
+        },
+      });
+    } catch (error) {
+      EventProvider.captureException(error);
+    }
+  }, [getItem, profile?.email]);
 
   const handleOnFavorite = async (favorite: boolean, item: any) => {
     const skuId = item.items[0].itemId;
@@ -94,6 +126,8 @@ export const ListVerticalProducts = ({
             { productId, listId: data.addToList, sku: skuId },
           ]);
         }
+
+        trackEventDitoAddWishlist(item);
       } else {
         const { data } = await removeWishList({
           variables: {
