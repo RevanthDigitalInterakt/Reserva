@@ -106,7 +106,7 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
                 />
 
                 <View style={{
-                  marginTop: 24,
+                  marginTop: 12,
                 }}
                 >
                   <UnderlineInput
@@ -123,6 +123,18 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
                       setPasswordIsValid(isValidPassword(text));
                     }}
                   />
+
+                  {loginCredentials.hasError && (
+                    <Typography
+                      style={{ bottom: 8 }}
+                      fontSize={13}
+                      color="vermelhoAlerta"
+                      fontFamily="nunitoRegular"
+                    >
+                      {loginCredentials.showMessageError}
+                    </Typography>
+                  )}
+
                   <Box mt="micro" mb="quarck">
                     <TouchableOpacity
                       {...testProps(
@@ -141,15 +153,6 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
                     </TouchableOpacity>
                   </Box>
 
-                  {loginCredentials.hasError && (
-                    <Typography
-                      fontSize={13}
-                      color="vermelhoAlerta"
-                      fontFamily="nunitoRegular"
-                    >
-                      {loginCredentials.showMessageError}
-                    </Typography>
-                  )}
                 </View>
               </Box>
 

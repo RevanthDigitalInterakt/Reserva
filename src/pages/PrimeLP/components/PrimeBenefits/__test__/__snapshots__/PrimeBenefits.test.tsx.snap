@@ -56,8 +56,8 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
         },
         Object {
           "color": "#848484",
-          "fontSize": 11,
-          "lineHeight": 16,
+          "fontSize": 16,
+          "lineHeight": 20,
           "marginBottom": 32,
           "textAlign": "center",
         },
@@ -100,7 +100,7 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
               "borderWidth": 0,
             },
             Object {
-              "marginBottom": 24,
+              "marginBottom": 32,
             },
             Object {
               "flex": 0,
@@ -164,9 +164,9 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
               "fontSize": 15,
             },
             Object {
-              "fontSize": 16,
-              "lineHeight": 21,
-              "marginBottom": 4,
+              "fontSize": 20,
+              "lineHeight": 20,
+              "marginBottom": 16,
               "textAlign": "center",
             },
           ]
@@ -184,8 +184,8 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
             },
             Object {
               "color": "#848484",
-              "fontSize": 12,
-              "lineHeight": 16,
+              "fontSize": 16,
+              "lineHeight": 20,
               "textAlign": "center",
             },
           ]
@@ -201,8 +201,8 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
               },
               Object {
                 "color": "#000000",
-                "fontSize": 12,
-                "lineHeight": 16,
+                "fontSize": 16,
+                "lineHeight": 20,
               },
             ]
           }
@@ -220,8 +220,8 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
               },
               Object {
                 "color": "#000000",
-                "fontSize": 12,
-                "lineHeight": 16,
+                "fontSize": 16,
+                "lineHeight": 20,
               },
             ]
           }
@@ -258,7 +258,7 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
               "borderWidth": 0,
             },
             Object {
-              "marginBottom": 24,
+              "marginBottom": 32,
             },
             Object {
               "flex": 0,
@@ -362,9 +362,9 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
               "fontSize": 15,
             },
             Object {
-              "fontSize": 16,
-              "lineHeight": 21,
-              "marginBottom": 4,
+              "fontSize": 20,
+              "lineHeight": 20,
+              "marginBottom": 16,
               "textAlign": "center",
             },
           ]
@@ -382,8 +382,8 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
             },
             Object {
               "color": "#848484",
-              "fontSize": 12,
-              "lineHeight": 16,
+              "fontSize": 16,
+              "lineHeight": 20,
               "textAlign": "center",
             },
           ]
@@ -419,7 +419,7 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
               "borderWidth": 0,
             },
             Object {
-              "marginBottom": 24,
+              "marginBottom": 32,
             },
             Object {
               "flex": 0,
@@ -523,9 +523,9 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
               "fontSize": 15,
             },
             Object {
-              "fontSize": 16,
-              "lineHeight": 21,
-              "marginBottom": 4,
+              "fontSize": 20,
+              "lineHeight": 20,
+              "marginBottom": 16,
               "textAlign": "center",
             },
           ]
@@ -543,8 +543,8 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
             },
             Object {
               "color": "#848484",
-              "fontSize": 12,
-              "lineHeight": 16,
+              "fontSize": 16,
+              "lineHeight": 20,
               "textAlign": "center",
             },
           ]
@@ -560,8 +560,8 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
               },
               Object {
                 "color": "#000000",
-                "fontSize": 12,
-                "lineHeight": 16,
+                "fontSize": 16,
+                "lineHeight": 20,
               },
             ]
           }
@@ -598,7 +598,7 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
               "borderWidth": 0,
             },
             Object {
-              "marginBottom": 24,
+              "marginBottom": 32,
             },
             Object {
               "flex": 0,
@@ -660,9 +660,9 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
               "fontSize": 15,
             },
             Object {
-              "fontSize": 16,
-              "lineHeight": 21,
-              "marginBottom": 4,
+              "fontSize": 20,
+              "lineHeight": 20,
+              "marginBottom": 16,
               "textAlign": "center",
             },
           ]
@@ -680,8 +680,8 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
             },
             Object {
               "color": "#848484",
-              "fontSize": 12,
-              "lineHeight": 16,
+              "fontSize": 16,
+              "lineHeight": 20,
               "textAlign": "center",
             },
           ]
@@ -697,8 +697,8 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
               },
               Object {
                 "color": "#000000",
-                "fontSize": 12,
-                "lineHeight": 16,
+                "fontSize": 16,
+                "lineHeight": 20,
               },
             ]
           }

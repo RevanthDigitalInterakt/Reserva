@@ -23,6 +23,7 @@ import LoadingModal from './components/LoadingModal';
 import DeleteProductModal from './components/DeleteProduct';
 import BagProductList from './components/ProductList';
 import SelectableGifts from './components/SelectableGifts';
+import { useIsTester } from '../../hooks/useIsTester';
 import { trackAccessBag } from '../../utils/trackAccessBag';
 import { getBrands } from '../../utils/getBrands';
 
@@ -30,6 +31,7 @@ type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
 export default function NewBag(_: TNewBagProps): JSX.Element {
   const navigation = useNavigation();
+  const isTester = useIsTester();
 
   const {
     topBarLoading,
@@ -139,7 +141,14 @@ export default function NewBag(_: TNewBagProps): JSX.Element {
 
               <Box paddingX="xxxs" paddingY="xxs">
                 <Box bg="white" marginTop="xxs">
-                  <Typography variant="tituloSessoes">
+                  <Typography
+                    variant="tituloSessoes"
+                    onPress={() => {
+                      if (isTester) {
+                        actions.COPY_ORDERFORM();
+                      }
+                    }}
+                  >
                     {`Sacola  (${allItemsQuantity})`}
                   </Typography>
                 </Box>
