@@ -63,7 +63,7 @@ export function ModalWelcomePrime({ onClose, isVisible }: IParamsComponent) {
           <Button
             inline
             mt="xxs"
-            onPress={() => onClose()}
+            onPress={onClose}
             variant="primarioEstreito"
             title="CONTINUAR COMPRANDO"
             testID="com.usereserva:id/modal_welcome_prime_continue"
