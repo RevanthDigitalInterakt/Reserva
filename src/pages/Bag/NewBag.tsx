@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { Box, Typography } from '@usereservaapp/reserva-ui';
 import type { StackScreenProps } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
 import { bagStyles } from './styles/bagStyles';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
 import { EmptyBag } from '../../modules/Checkout/components/EmptyBag';
@@ -24,12 +23,18 @@ import DeleteProductModal from './components/DeleteProduct';
 import BagProductList from './components/ProductList';
 import SelectableGifts from './components/SelectableGifts';
 import { useIsTester } from '../../hooks/useIsTester';
+import { ModalClientIsPrime } from '../../modules/Checkout/components/ModalClientIsPrime/ModalClientIsPrime';
+import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
-export default function NewBag(_: TNewBagProps): JSX.Element {
-  const navigation = useNavigation();
+export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   const isTester = useIsTester();
+
+  const { changeStateIsVisibleModalPrimeRemoved, isVisibleModalPrimeRemoved } = usePrimeStore([
+    'changeStateIsVisibleModalPrimeRemoved',
+    'isVisibleModalPrimeRemoved',
+  ]);
 
   const {
     topBarLoading,
@@ -97,78 +102,92 @@ export default function NewBag(_: TNewBagProps): JSX.Element {
     actions.REFETCH_ORDER_FORM();
   }, [actions]);
 
-  if (!items.length && !initialLoad) {
-    return (
-      <Box flex={1} testID="com.usereserva:id/EmptyBag">
-        <EmptyBag
-          backButtonPress={handleBackTopBarButtonPress}
-          loading={topBarLoading}
-          onPress={handleNavigateToOffers}
-        />
-      </Box>
-    );
-  }
-
   return (
     <SafeAreaView style={bagStyles.safeArea} testID="com.usereserva:id/NewBag">
-      <ToastProvider />
+      {!items.length && (
+        <Box flex={1} testID="com.usereserva:id/EmptyBag">
+          <EmptyBag
+            backButtonPress={handleBackTopBarButtonPress}
+            loading={topBarLoading}
+            onPress={handleNavigateToOffers}
+          />
+        </Box>
+      )}
 
-      <TopBarBackButton
-        showShadow
-        backButtonPress={handleBackTopBarButtonPress}
-        loading={topBarLoading}
-      />
+      {!!items.length && (
+        <>
+          <TopBarBackButton
+            showShadow
+            backButtonPress={handleBackTopBarButtonPress}
+            loading={topBarLoading}
+          />
 
-      <WithAvoidingView>
-        {initialLoad && <BagSkeleton />}
+          <WithAvoidingView>
+            {initialLoad && <BagSkeleton />}
 
-        {!initialLoad && (
-          <>
-            {!!productNotFound.length && <NotFoundProduct />}
+            {!initialLoad && (
+            <>
+              {!!productNotFound.length && <NotFoundProduct />}
 
-            <ScrollView testID="com.usereserva:id/BagItensDetails">
-              <LoadingModal />
+              <ScrollView testID="com.usereserva:id/BagItensDetails">
+                <LoadingModal />
 
-              <DeleteProductModal />
+                <DeleteProductModal />
 
-              <Box paddingX="xxxs" paddingY="xxs">
-                <Box bg="white" marginTop="xxs">
-                  <Typography
-                    variant="tituloSessoes"
-                    onPress={() => {
-                      if (isTester) {
-                        actions.COPY_ORDERFORM();
-                      }
-                    }}
-                  >
-                    {`Sacola  (${allItemsQuantity})`}
-                  </Typography>
+                <Box paddingX="xxxs" paddingY="xxs">
+                  <Box bg="white" marginTop="xxs">
+                    <Typography
+                      variant="tituloSessoes"
+                      onPress={() => {
+                        if (isTester) {
+                          actions.COPY_ORDERFORM();
+                        }
+                      }}
+                    >
+                      {`Sacola  (${allItemsQuantity})`}
+                    </Typography>
+                  </Box>
+
+                  <ShippingBar loading={false} totalOrder={appTotalizers.total} />
+
+                  {selectableGift?.availableGifts?.length && (
+                  <SelectableGifts />
+                  )}
+
+                  <BagProductList />
                 </Box>
 
-                <ShippingBar loading={false} totalOrder={appTotalizers.total} />
+                <Recommendation />
 
-                {selectableGift?.availableGifts?.length && (
-                  <SelectableGifts />
-                )}
+                <CouponComponent />
+              </ScrollView>
+            </>
+            )}
 
-                <BagProductList />
-              </Box>
+            <Box width="100%" height={145} bg="white">
+              {initialLoad && <SkeletonBagFooter />}
 
-              <Recommendation />
-
-              <CouponComponent />
-            </ScrollView>
-          </>
-        )}
-
-        <Box width="100%" height={145} bg="white">
-          {initialLoad && <SkeletonBagFooter />}
-
-          {(!initialLoad && items?.length > 0) && <BagFooter />}
-        </Box>
-      </WithAvoidingView>
+              {(!initialLoad && items?.length > 0) && <BagFooter />}
+            </Box>
+          </WithAvoidingView>
+        </>
+      )}
 
       <ToastProvider />
+
+      <ModalClientIsPrime
+        isVisible={isVisibleModalPrimeRemoved}
+        onBackdropPress={() => {
+          changeStateIsVisibleModalPrimeRemoved(false);
+
+          if (items.length) {
+            navigation.navigate('DeliveryScreen', { comeFrom: 'Checkout' });
+            return;
+          }
+
+          navigation.popToTop();
+        }}
+      />
     </SafeAreaView>
   );
 }

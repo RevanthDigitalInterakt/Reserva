@@ -14,6 +14,19 @@ const makeSut = (children: ReactNode) => (
   </CartContext.Provider>
 );
 
+jest.mock('../../zustand/useBagStore/useBagStore', () => ({
+  useBagStore: () => ({
+    actions: {
+      RESET_ORDER_FORM: () => {},
+    },
+  }),
+}));
+
+jest.mock('../../zustand/useDitoStore', () => ({
+  useDitoStore: () => ({
+  }),
+}));
+
 describe('useAuthentication test', () => {
   it('should successfully initial datas', async () => {
     const { result } = renderHook(() => useAuthentication({}), {

@@ -4,15 +4,21 @@ import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreW
 interface IPrimeStore {
   animationBag: boolean;
   isVisibleModalWelcome: boolean;
+  isVisibleModalPrimeRemoved: boolean;
   handleClickContinue: () => void;
   changeStateAnimationBag: (state: boolean) => void;
   changeStateIsVisibleModalWelcome: (state: boolean) => void;
+  changeStateIsVisibleModalPrimeRemoved: (state: boolean) => void;
 }
 
 export const primeStore = create<IPrimeStore>((_set, _getState) => ({
   animationBag: false,
   isVisibleModalWelcome: false,
   hasPrimeSubscriptionInCart: false,
+  isVisibleModalPrimeRemoved: false,
+  changeStateIsVisibleModalPrimeRemoved: (state) => {
+    _set({ isVisibleModalPrimeRemoved: state });
+  },
   changeStateAnimationBag: (state) => {
     _set({ animationBag: state });
   },

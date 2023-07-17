@@ -61,7 +61,7 @@ export function usePrimeInfo() {
         seller: data?.landingPagePrime.productSeller,
       });
     } catch (err) {
-      console.log('Error', err);
+      EventProvider.captureException(err);
     }
   }, [actions, addItem, hasPrimeSubscriptionInCart, loadLpData]);
 
