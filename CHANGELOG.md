@@ -1,7 +1,7 @@
 ## CHANGELOG
 
 ### 2.0.7
-
+- [14848 - BUG - Layout do modal após clicar no valor prime na PDP](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14848)
 - [14895 - Thumb de cores na PDC não estava aparecendo](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14895)
 
 ---
@@ -22,7 +22,6 @@
 - [14671 - Alterar imagem de fundo na LP Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14671)
 - [14647 - BUG Layout com valor do Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Downstream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14647)
 - [14785 - Troca de domínio API Gateway](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Downstream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14785)
-
 ---
 
 ### 2.0.5
