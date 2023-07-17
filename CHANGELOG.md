@@ -2,6 +2,8 @@
 
 ### 2.0.7
 - [14848 - BUG - Layout do modal após clicar no valor prime na PDP](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14848)
+- [14895 - Thumb de cores na PDC não estava aparecendo](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14895)
+
 ---
 
 ### 2.0.6

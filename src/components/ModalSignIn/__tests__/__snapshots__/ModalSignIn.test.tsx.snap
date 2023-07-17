@@ -371,7 +371,7 @@ exports[`ModalSignIn should match to snapshot 1`] = `
             <View
               style={
                 Object {
-                  "marginTop": 24,
+                  "marginTop": 12,
                 }
               }
             >

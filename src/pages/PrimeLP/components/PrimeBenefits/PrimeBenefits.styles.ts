@@ -21,8 +21,8 @@ export const styles = StyleSheet.create({
   },
 
   subtitle: {
-    fontSize: 11,
-    lineHeight: 16,
+    fontSize: 16,
+    lineHeight: 20,
     textAlign: 'center',
     color: COLORS.GRAY,
     marginBottom: 32,
@@ -39,26 +39,26 @@ export const styles = StyleSheet.create({
   },
 
   icon: {
-    marginBottom: 24,
+    marginBottom: 32,
   },
 
   itemTitle: {
-    marginBottom: 4,
-    fontSize: 16,
-    lineHeight: 21,
+    marginBottom: 16,
+    fontSize: 20,
+    lineHeight: 20,
     textAlign: 'center',
   },
 
   itemDescription: {
     color: COLORS.GRAY,
-    fontSize: 12,
-    lineHeight: 16,
+    fontSize: 16,
+    lineHeight: 20,
     textAlign: 'center',
   },
 
   itemDescriptionBold: {
     color: '#000000',
-    fontSize: 12,
-    lineHeight: 16,
+    fontSize: 16,
+    lineHeight: 20,
   },
 });
