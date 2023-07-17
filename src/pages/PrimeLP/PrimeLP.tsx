@@ -84,7 +84,10 @@ function PrimeLP({ navigation }: IPrimeLP) {
 
   const onCloseModalWelcomePrime = useCallback(() => {
     handleClickContinue();
-    navigation.popToTop();
+
+    setTimeout(() => {
+      navigation.navigate('Home');
+    }, 300);
   }, [handleClickContinue, navigation]);
 
   return (
