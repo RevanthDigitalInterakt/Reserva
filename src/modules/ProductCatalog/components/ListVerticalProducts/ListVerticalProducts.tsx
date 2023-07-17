@@ -11,7 +11,6 @@ import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { FlatList } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import images from '../../../../base/styles/icons';
 import { ProductVerticalListCard, ProductVerticalListCardProps } from '../../../../components/ProductVerticalListCard';
 import type { ProductQL } from '../../../../graphql/products/productSearch';
@@ -31,10 +30,10 @@ import {
   IGetPrimeReturn,
   getPrime, usePrimeConfig,
 } from '../../../../zustand/usePrimeConfig/usePrimeConfig';
-import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
 import { getProductColor } from '../../../../utils/getProductColor';
 import { getProductSize } from '../../../../utils/getProductSize';
 import { getCategoriesByHref } from '../../../../utils/getCategoriesByHref';
+import { getDitoUserID } from '../../../../utils/Dito/src/utils/getDitoUserID';
 
 interface ListProductsProps {
   cleanFilter: () => void;
@@ -68,8 +67,6 @@ export const ListVerticalProducts = ({
   const { profile } = useAuthStore(['profile']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
 
-  const { getItem } = useAsyncStorageProvider();
-
   const { promo } = usePrimeConfig(['promo']);
 
   const [addWishList] = useMutation(wishListQueries.ADD_WISH_LIST);
@@ -84,9 +81,7 @@ export const ListVerticalProducts = ({
 
   const trackEventDitoAddWishlist = useCallback(async (item: any) => {
     try {
-      const id = profile?.email
-        ? await getItem('@Dito:userRef')
-        : await AsyncStorage.getItem('@Dito:anonymousID');
+      const id = await getDitoUserID(profile?.email || '');
 
       EventProvider.sendTrackEvent('adicionou-produto-a-wishlist', {
         id,
@@ -105,7 +100,7 @@ export const ListVerticalProducts = ({
     } catch (error) {
       EventProvider.captureException(error);
     }
-  }, [getItem, profile?.email]);
+  }, [profile?.email]);
 
   const handleOnFavorite = async (favorite: boolean, item: any) => {
     const skuId = item.items[0].itemId;

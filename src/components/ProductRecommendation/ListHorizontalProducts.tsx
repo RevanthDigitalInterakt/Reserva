@@ -21,7 +21,7 @@ import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import { getProductColor } from '../../utils/getProductColor';
 import { getProductSize } from '../../utils/getProductSize';
 import { getCategoriesByHref } from '../../utils/getCategoriesByHref';
-import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
+import { getDitoUserID } from '../../utils/Dito/src/utils/getDitoUserID';
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -50,8 +50,6 @@ export const ListHorizontalProducts = ({
   const { profile } = useAuthStore(['profile']);
   const scrollX = useRef(new Animated.Value(0)).current;
 
-  const { getItem } = useAsyncStorageProvider();
-
   useEffect(() => {
     setLoading(loading);
   }, [loading]);
@@ -63,9 +61,7 @@ export const ListHorizontalProducts = ({
 
   const trackEventDitoAddWishlist = useCallback(async (item: any) => {
     try {
-      const id = profile?.email
-        ? await getItem('@Dito:userRef')
-        : await AsyncStorage.getItem('@Dito:anonymousID');
+      const id = await getDitoUserID(profile?.email || '');
 
       EventProvider.sendTrackEvent('adicionou-produto-a-wishlist', {
         id,
@@ -84,7 +80,7 @@ export const ListHorizontalProducts = ({
     } catch (error) {
       EventProvider.captureException(error);
     }
-  }, [getItem, profile?.email]);
+  }, [profile?.email]);
 
   const handleOnFavorite = async (favorite: boolean, item: any) => {
     const skuId = item.items[0].itemId;
