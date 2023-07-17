@@ -33,7 +33,7 @@ export const LoginScreen: FC<Props> = ({
     loginCredentials,
     setPasswordIsValid,
     setLoginCredentials,
-  } = useAuthentication({ navigation });
+  } = useAuthentication({});
 
   const { onSignOut } = useAuthStore(['onSignOut']);
 

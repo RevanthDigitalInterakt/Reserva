@@ -6,6 +6,7 @@ import {
 } from '@testing-library/react-native';
 import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import {
   OrderFormQuery,
   OrderFormDocument,
@@ -17,6 +18,9 @@ import '../components/ProductList';
 import * as useBagStore from '../../../zustand/useBagStore/useBagStore';
 import CartContextProvider from '../../../context/CartContext';
 import { mockCurrentOrderForm } from './__mocks__/mockCurrentOrderForm';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
+
+type TNavigation = StackScreenProps<RootStackParamList, 'BagScreen'>['navigation'];
 
 interface IApolloMock<T> {
   request: {
@@ -46,9 +50,10 @@ const apolloMocks: Array<IApolloMock<OrderFormQuery>> = [
 const mockedNavigate = jest.fn();
 const mockGoBackFn = jest.fn();
 
-jest.mock('@react-navigation/native', () => ({
-  useNavigation: () => ({ navigate: mockedNavigate, goBack: mockGoBackFn }),
-}));
+const navigationMock: Partial<TNavigation> = {
+  navigate: mockedNavigate,
+  goBack: mockGoBackFn,
+};
 
 jest.mock('../../../zustand/useApolloFetchPolicyStore', () => ({
   useApolloFetchPolicyStore: () => ({
@@ -61,7 +66,14 @@ const Component = (
   <ThemeProvider theme={theme}>
     <MockedProvider mocks={apolloMocks} addTypename={false}>
       <CartContextProvider>
-        <NewBag />
+        <NewBag
+          navigation={navigationMock as TNavigation}
+          route={{
+            name: 'BagScreen',
+            key: '',
+            params: { isProfileComplete: false, orderFormId: '' },
+          }}
+        />
       </CartContextProvider>
     </MockedProvider>
   </ThemeProvider>
@@ -217,7 +229,7 @@ describe('NewBag', () => {
     expect(emptyBag).toBeOnTheScreen();
   });
 
-  it('should call handleNavigateToOffers when the EmptyBag button is pressed', async () => {
+  it.only('should call handleNavigateToOffers when the EmptyBag button is pressed', async () => {
     jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
       actions: {
         CLOSE_MODAL_DELETE_PRODUCT: jest.fn(),

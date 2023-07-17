@@ -13,6 +13,7 @@ export interface UnderlineInputProps {
   showError?: boolean;
   placeholder?: string;
   isSecureText?: boolean;
+  isModal?: boolean;
   onChangeText: (value: string) => void;
   keyboardType?: KeyboardTypeOptions | undefined;
   onFocus?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
