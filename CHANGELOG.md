@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.0.7
+
+- [14895 - Thumb de cores na PDC não estava aparecendo](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14895)
+
+---
+
 ### 2.0.6
 
 - [APP2022-1096 - Sacola Prime](https://reserva.atlassian.net/browse/APP2022-1096)
