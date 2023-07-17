@@ -46,6 +46,8 @@ import {
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { getMessageErrorWhenUpdateItem } from './helpers/getMessageErrorWhenUpdateItem';
 import { trackingOrderFormAddItem } from '../../utils/trackingOrderFormAddItem';
+import { handleCopyTextToClipboard } from '../../utils/CopyToClipboard';
+import EventProvider from '../../utils/EventProvider';
 
 const bagStore = create<IBagStore>((set, getState): IBagStore => ({
   initialized: false,
@@ -229,6 +231,17 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ error: error.message }));
       } finally {
         set(() => ({ topBarLoading: false }));
+      }
+    },
+    COPY_ORDERFORM: () => {
+      try {
+        handleCopyTextToClipboard(getState().orderFormId);
+
+        return true;
+      } catch (err) {
+        EventProvider.captureException(err);
+
+        return false;
       }
     },
     ADD_SELLER_COUPON: async (sellerCoupon: string) => {
