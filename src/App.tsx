@@ -35,8 +35,7 @@ const DefaultTheme = {
   },
 };
 
-const App = () =>
-{
+function App() {
   useApolloFetchPolicyStore(['initialized']);
 
   const [isTesting, setIsTesting] = useState<boolean>(false);
@@ -46,54 +45,45 @@ const App = () =>
   const remoteConfigStore = useRemoteConfig();
   const { setItem } = useAsyncStorageProvider();
 
-  const firstLaunchedData = async () =>
-  {
+  const firstLaunchedData = async () => {
     await setItem('@RNSession:Ron', false);
   };
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     firstLaunchedData();
 
     remoteConfigStore.fetchInitialData(remoteConfig());
   }, []);
 
-  const getTestEnvironment = useCallback(async () =>
-  {
+  const getTestEnvironment = useCallback(async () => {
     const res = await AsyncStorage.getItem('isTesting');
 
     setIsTesting(res === 'true');
   }, []);
 
-  const trackScreenViewOnSentry = useCallback(() =>
-  {
+  const trackScreenViewOnSentry = useCallback(() => {
     EventProvider.trackScreen(navigationRef?.current?.getCurrentRoute());
   }, []);
 
-  const getMaintenanceValue = async () =>
-  {
+  const getMaintenanceValue = async () => {
     const screenMaintenance = await RemoteConfigService.getValue<boolean>(
       'SCREEN_MAINTENANCE',
     );
     setIsOnMaintenance(screenMaintenance);
   };
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     getTestEnvironment();
   }, [getTestEnvironment]);
 
-  useEffect(() =>
-  {
-    (async () =>
-    {
+  useEffect(() => {
+    (async () => {
       await requestTrackingPermission();
     })();
 
     EventProvider.initializeModules();
 
-    setTimeout(() =>
-    {
+    setTimeout(() => {
       getMaintenanceValue();
     }, 1000);
   }, []);
@@ -106,8 +96,7 @@ const App = () =>
             <NavigationContainer
               linking={linkingConfig}
               theme={DefaultTheme}
-              onReady={() =>
-              {
+              onReady={() => {
                 trackScreenViewOnSentry();
                 RNBootSplash.hide();
               }}
@@ -138,6 +127,6 @@ const App = () =>
       </ApolloProvider>
     </ThemeProvider>
   );
-};
+}
 
 export default SentryConfig.wrap(App);

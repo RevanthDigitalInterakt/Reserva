@@ -13,7 +13,8 @@ import BirthDateIcon from './Icons/BirthDateIcon';
 import PhoneNumberIcon from './Icons/PhoneNumberIcon';
 import UserProfilePictureComponent from '../UserProfilePicture/UserProfilePictureComponent';
 import { FormEditProfileInitialValues } from './static/formEditProfile.initialValues';
-import ChangeFileModal, { IFile } from '../ModalChangeFile/ChangeFileModal';
+//TODO update
+//import ChangeFileModal, { IFile } from '../ModalChangeFile/ChangeFileModal';
 import type { TModalStateKeys } from '../../interfaces/editProfile';
 import TesterAreaViewComponent from '../TesterAreaView/TesterAreaViewComponent';
 import NewsLetterComponent from '../Newsletter/NewsLetterComponent';
@@ -253,12 +254,16 @@ function FormEditProfileComponent({
 
   return (
     <>
-      <ChangeFileModal
+      {
+        //TODO update
+      /*  
+    <ChangeFileModal
         show={showChangeFileModal}
         handleDeleteProfileImage={handleDeleteProfileImage}
         handleChangeFile={(file: IFile) => handleChangeProfileImage(file)}
         toggleModal={() => handleModal('changeFileModal')}
       />
+      */}
 
       {!isRegister && (
         <UserProfilePictureComponent

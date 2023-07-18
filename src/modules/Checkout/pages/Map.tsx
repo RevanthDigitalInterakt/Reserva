@@ -1,3 +1,10 @@
+// TODO update
+export function MapScreen() {
+  return null;
+}
+
+/*
+
 import React, { useState, useEffect, useRef } from 'react';
 import {
   SafeAreaView,
@@ -283,3 +290,5 @@ ${item.address.complement} - ${item.address.neighborhood} - ${item.address.state
     </SafeAreaView>
   );
 };
+
+*/
