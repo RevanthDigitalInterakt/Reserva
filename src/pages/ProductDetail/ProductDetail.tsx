@@ -3,7 +3,7 @@ import { Alert, View } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { Box } from '@usereservaapp/reserva-ui';
 import * as Sentry from '@sentry/react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import ProductDetailWrapper from './components/ProductDetailWrapper';
 import FormNewsletter from './components/FormNewsletter';
@@ -25,7 +25,8 @@ import { getProductCategories } from '../../utils/getProductCategories';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
-function ProductDetail({ route, navigation }: IProductDetailNew) {
+function ProductDetail({ route, navigation }: IProductDetailNew)
+{
   const { getItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
@@ -41,8 +42,10 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
     context: { clientName: 'gateway' },
   });
 
-  const trackEventDitoAccessProduct = useCallback(async ({ product }: ProductQuery) => {
-    try {
+  const trackEventDitoAccessProduct = useCallback(async ({ product }: ProductQuery) =>
+  {
+    try
+    {
       const id = profile?.email
         ? await getItem('@Dito:userRef')
         : await AsyncStorage.getItem('@Dito:anonymousID');
@@ -60,17 +63,21 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
           origem: 'app',
         },
       });
-    } catch (error) {
+    } catch (error)
+    {
       EventProvider.captureException(error);
     }
   }, [getItem, profile?.email]);
 
-  const onInitialLoad = useCallback(async (params: IProductDetailRouteParams) => {
-    try {
+  const onInitialLoad = useCallback(async (params: IProductDetailRouteParams) =>
+  {
+    try
+    {
       const input = getProductLoadType(params);
       const { data, error } = await getProduct({ variables: { input } });
 
-      if (error || !data?.product) {
+      if (error || !data?.product)
+      {
         throw new Error(error?.message || 'Ocorreu um erro ao carregar o produto.');
       }
 
@@ -86,8 +93,10 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       });
 
       setProduct(product, params);
-    } catch (err) {
-      Sentry.withScope((scope) => {
+    } catch (err)
+    {
+      Sentry.withScope((scope) =>
+      {
         scope.setExtra('params', params);
         Sentry.captureException(err);
       });
@@ -100,7 +109,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
     }
   }, [getProduct, navigation, setProduct, trackEventDitoAccessProduct]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     resetProduct();
 
     onInitialLoad(route.params);
