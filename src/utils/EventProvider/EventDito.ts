@@ -77,6 +77,11 @@ type AddToWishlist = {
   preco_produto: number;
 };
 
+type AccessBag = {
+  quantidade: number;
+  total: number;
+};
+
 export type EventsDitoValues = {
   id: string | null;
   action: string;
@@ -90,7 +95,8 @@ export type EventsDitoValues = {
   Product |
   AddToCart |
   TProductOrderPlaced |
-  AddToWishlist;
+  AddToWishlist |
+  AccessBag;
 };
 
 export namespace EventsOptions {
@@ -104,6 +110,7 @@ export namespace EventsOptions {
   export type AccessProduct = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
   export type AddToCartEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
   export type AddToWishlistEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type AccessBagEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
 }
 // Os nomes dos eventos DEVEM ser enviados para a Dito em letras minúsculas
 export type EventOptionsDitoFn =
@@ -146,4 +153,8 @@ export type EventOptionsDitoFn =
     | {
       type: 'adicionou-produto-a-wishlist';
       payload: EventsOptions.AddToWishlistEvent;
+    }
+    | {
+      type: 'acessou-carrinho';
+      payload: EventsOptions.AccessBagEvent;
     };

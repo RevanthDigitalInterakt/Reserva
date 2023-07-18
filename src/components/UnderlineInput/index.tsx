@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dimensions, Platform } from 'react-native';
+import { Dimensions, Platform, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import {
   Box, Button, Icon, Typography,
@@ -24,6 +24,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
   onChangeText,
   isSecureText,
   keyboardType,
+  isModal = false,
 }) => {
   width = width == undefined ? (width = screenWidth - 20 * 2) : width;
   iconSize = iconSize == undefined ? (iconSize = 22) : iconSize;
@@ -59,13 +60,18 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
             style={{
               padding: 0,
               margin: 0,
+              paddingRight: isModal ? 62 : 0,
               maxWidth: isSecureText ? width - (iconSize + 4) : width,
             }}
             autoCorrect={false}
           />
         </Box>
         {isSecureText && (
-          <Box justifyContent="center" mr="xxxs" style={{ width: 40 }}>
+          <View style={{
+            alignSelf: 'center',
+            right: isModal ? 52 : 14,
+          }}
+          >
             <Button
               testID={`${testID}_button_hide_password`}
               onPress={() => {
@@ -77,7 +83,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
                 name={hidePassword ? 'EyeOff' : 'EyeOpen'}
               />
             </Button>
-          </Box>
+          </View>
         )}
       </Box>
       {showError && (

@@ -3,14 +3,16 @@
 ### 2.0.8
 
 - [SRN-228 - DITO - Evento adicionou produto a wishlist](https://reserva.atlassian.net/browse/SRN-228)
+- [SRN-229 - DITO - Evento Acessou o carrinho](https://reserva.atlassian.net/browse/SRN-229)
 
 ---
 
 ### 2.0.7
-
+- [14848 - BUG - Layout do modal após clicar no valor prime na PDP](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14848)
 - [14895 - Thumb de cores na PDC não estava aparecendo](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14895)
 - [SRN-227 - DITO - Evento adicionou produto ao carrinho](https://reserva.atlassian.net/browse/SRN-227)
 - [SRN-230 - DITO - Evento fez pedido de produto](https://reserva.atlassian.net/browse/SRN-230)
+- [14858 - Sacola Prime esvazia ao realizar login sem informar o motivo ao usuário](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14858)
 
 ---
 
@@ -28,7 +30,6 @@
 - [14671 - Alterar imagem de fundo na LP Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14671)
 - [14647 - BUG Layout com valor do Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Downstream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14647)
 - [14785 - Troca de domínio API Gateway](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Downstream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14785)
-
 ---
 
 ### 2.0.5
