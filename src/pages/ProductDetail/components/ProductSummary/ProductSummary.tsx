@@ -25,6 +25,7 @@ function ProductSummary() {
   ]);
 
   const { onToggleFavorite, loading: loadingWishlist, isFavorited } = useWishlistProductActions({
+    productDetail,
     productId: productDetail?.productId || '',
     skuId: selectedSize?.itemId || '',
   });

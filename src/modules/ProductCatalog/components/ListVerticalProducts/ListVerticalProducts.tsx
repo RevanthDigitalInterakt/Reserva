@@ -30,6 +30,10 @@ import {
   IGetPrimeReturn,
   getPrime, usePrimeConfig,
 } from '../../../../zustand/usePrimeConfig/usePrimeConfig';
+import { getProductColor } from '../../../../utils/getProductColor';
+import { getProductSize } from '../../../../utils/getProductSize';
+import { getCategoriesByHref } from '../../../../utils/getCategoriesByHref';
+import { getDitoUserID } from '../../../../utils/Dito/src/utils/getDitoUserID';
 
 interface ListProductsProps {
   cleanFilter: () => void;
@@ -75,6 +79,29 @@ export const ListVerticalProducts = ({
 
   const [removeWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST);
 
+  const trackEventDitoAddWishlist = useCallback(async (item: any) => {
+    try {
+      const id = await getDitoUserID(profile?.email || '');
+
+      EventProvider.sendTrackEvent('adicionou-produto-a-wishlist', {
+        id,
+        action: 'adicionou-produto-a-wishlist',
+        data: {
+          id_produto: item.items[0].itemId,
+          cor: getProductColor(item.items[0].variations),
+          tamanho: getProductSize(item.items[0].variations),
+          nome_categoria: getCategoriesByHref(item.categoryTree[3].href),
+          nome_produto: item.productName,
+          marca: getCategoriesByHref(item.categoryTree[0].href).toUpperCase(),
+          preco_produto: item.priceRange.sellingPrice.lowPrice,
+          origem: 'app',
+        },
+      });
+    } catch (error) {
+      EventProvider.captureException(error);
+    }
+  }, [profile?.email]);
+
   const handleOnFavorite = async (favorite: boolean, item: any) => {
     const skuId = item.items[0].itemId;
     setLoadingFavorite([...loadingFavorite, skuId]);
@@ -94,6 +121,8 @@ export const ListVerticalProducts = ({
             { productId, listId: data.addToList, sku: skuId },
           ]);
         }
+
+        trackEventDitoAddWishlist(item);
       } else {
         const { data } = await removeWishList({
           variables: {
