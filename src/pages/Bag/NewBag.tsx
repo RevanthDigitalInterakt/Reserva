@@ -25,6 +25,8 @@ import SelectableGifts from './components/SelectableGifts';
 import { useIsTester } from '../../hooks/useIsTester';
 import { ModalClientIsPrime } from '../../modules/Checkout/components/ModalClientIsPrime/ModalClientIsPrime';
 import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
+import { trackAccessBag } from '../../utils/trackAccessBag';
+import { getBrands } from '../../utils/getBrands';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -45,6 +47,7 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
     appTotalizers,
     selectableGift,
     allItemsQuantity,
+    clientProfileData,
     actions,
   } = useBagStore([
     'topBarLoading',
@@ -55,6 +58,7 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
     'appTotalizers',
     'selectableGift',
     'allItemsQuantity',
+    'clientProfileData',
     'actions',
   ]);
 
@@ -101,6 +105,10 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   useEffect(() => {
     actions.REFETCH_ORDER_FORM();
   }, [actions]);
+
+  useEffect(() => {
+    trackAccessBag(allItemsQuantity, appTotalizers.total, getBrands(items), clientProfileData);
+  }, []);
 
   return (
     <SafeAreaView style={bagStyles.safeArea} testID="com.usereserva:id/NewBag">

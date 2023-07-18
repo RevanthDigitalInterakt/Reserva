@@ -67,10 +67,24 @@ type AddToCart = {
   preco_produto: number;
 };
 
+type AccessBag = {
+  quantidade: number;
+  total: number;
+};
+
 export type EventsDitoValues = {
   id: string | null;
   action: string;
-  data: DataValues | Ordered | Department | Category | Searched | SignedUp | Product | AddToCart | TProductOrderPlaced;
+  data: DataValues
+  | Ordered
+  | Department
+  | Category
+  | Searched
+  | SignedUp
+  | Product
+  | AddToCart
+  | TProductOrderPlaced
+  | AccessBag;
 };
 
 export namespace EventsOptions {
@@ -83,6 +97,7 @@ export namespace EventsOptions {
   export type ProductOrderPlacedEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
   export type AccessProduct = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
   export type AddToCartEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type AccessBagEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
 }
 // Os nomes dos eventos DEVEM ser enviados para a Dito em letras minúsculas
 export type EventOptionsDitoFn =
@@ -121,4 +136,8 @@ export type EventOptionsDitoFn =
     | {
       type: 'adicionou-produto-ao-carrinho';
       payload: EventsOptions.AddToCartEvent;
+    }
+    | {
+      type: 'acessou-carrinho';
+      payload: EventsOptions.AccessBagEvent;
     };
