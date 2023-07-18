@@ -60,6 +60,7 @@ export const ListVerticalProducts = ({
   handleScrollToTheTop,
 }: ListProductsProps) => {
   const { getBoolean } = useRemoteConfig();
+
   const navigation = useNavigation();
   const [loadingFavorite, setLoadingFavorite] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
@@ -166,6 +167,10 @@ export const ListVerticalProducts = ({
   const { primeActive } = usePrimeInfo();
 
   const showThumbColors = useMemo(() => getBoolean('show_pdc_thumb_color'), [getBoolean]);
+
+  const showPrimePrice = useMemo(() => (
+    getBoolean('show_price_prime_pdc') && primeActive
+  ), [getBoolean, primeActive]);
 
   const saleOffTag = useMemo(() => getBoolean('sale_off_tag'), [getBoolean]);
 
@@ -313,7 +318,7 @@ export const ListVerticalProducts = ({
                   item={item}
                   index={index}
                   horizontal={horizontal}
-                  prime={primeActive ? prime : null}
+                  prime={showPrimePrice ? prime : null}
                   loadingFavorite={
                     !!loadingFavorite.find((x) => x === item?.items[0]?.itemId)
                   }
