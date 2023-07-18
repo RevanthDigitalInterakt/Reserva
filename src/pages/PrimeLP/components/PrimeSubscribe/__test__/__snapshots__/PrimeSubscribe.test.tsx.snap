@@ -42,8 +42,8 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
           },
           Object {
             "color": "#848484",
-            "fontSize": 12,
-            "lineHeight": 16,
+            "fontSize": 16,
+            "lineHeight": 20,
             "marginBottom": 20,
             "textAlign": "center",
           },
@@ -51,8 +51,7 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
       }
       variant="tituloSessao"
     >
-      Ganhe 20% OFF* em todos os produtos da Reserva.
-Tudo isso por
+      Ganhe 20% OFF* em todos os produtos da Reserva. Tudo isso por
       <Text
         style={
           Array [
@@ -62,7 +61,7 @@ Tudo isso por
             },
             Object {
               "color": "#000000",
-              "fontSize": 12,
+              "fontSize": 16,
             },
           ]
         }
@@ -78,7 +77,7 @@ Tudo isso por
       Object {
         "alignItems": "center",
         "justifyContent": "center",
-        "marginTop": -35,
+        "marginTop": -18,
         "paddingHorizontal": 32,
         "paddingTop": 400,
         "width": 750,
@@ -252,6 +251,7 @@ Tudo isso por
             "lineHeight": 14,
             "marginBottom": 24,
             "textAlign": "center",
+            "top": 18,
           },
         ]
       }
@@ -275,11 +275,11 @@ Tudo isso por
         "alignItems": "center",
         "alignSelf": "center",
         "backgroundColor": "#000000",
-        "height": 40,
+        "height": 102.61538461538461,
         "justifyContent": "center",
-        "marginBottom": 32,
+        "marginTop": 24,
         "opacity": 1,
-        "width": 205,
+        "width": 535.7142857142858,
       }
     }
     testID="com.usereserva:id/prime_lp_bottom_button_add"

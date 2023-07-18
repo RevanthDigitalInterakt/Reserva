@@ -1,11 +1,13 @@
 import { Keyboard } from 'react-native';
 import { useCallback, useState } from 'react';
-import type { StackScreenProps } from '@react-navigation/stack';
 
+import { useNavigation } from '@react-navigation/native';
 import { useCart } from '../context/CartContext';
 import EventProvider from '../utils/EventProvider';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
-import type { RootStackParamList } from '../routes/StackNavigator';
+import useDitoStore from '../zustand/useDitoStore';
+import { getApolloClient } from '../utils/getApolloClient';
+import { useBagStore } from '../zustand/useBagStore/useBagStore';
 
 const initialLoginCredentials = {
   username: '',
@@ -18,18 +20,20 @@ const initialLoginCredentials = {
   showUsernameError: false,
 };
 
-type IParamsHook = Partial<StackScreenProps<RootStackParamList, 'LoginAlternative'>> & {
-  closeModal?: () => void,
-};
+interface IParamsHook {
+  closeModal?: () => void;
+}
 
-export function useAuthentication({ navigation, closeModal }: IParamsHook) {
+export function useAuthentication({ closeModal }: IParamsHook) {
+  const navigation = useNavigation();
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [loadingSignIn, setLoadingSignIn] = useState(false);
   const [isLoadingEmail, setIsLoadingEmail] = useState(false);
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [loginCredentials, setLoginCredentials] = useState(initialLoginCredentials);
 
-  const { onSignIn } = useAuthStore(['onSignIn']);
+  const { onSignIn, onSignOut } = useAuthStore(['onSignIn', 'onSignOut']);
+  const { actions } = useBagStore(['actions']);
 
   const validateCredentials = () => {
     setLoginCredentials({
@@ -83,6 +87,18 @@ export function useAuthentication({ navigation, closeModal }: IParamsHook) {
     }
   }, [emailIsValid, passwordIsValid, loginCredentials, doSignIn, validateCredentials]);
 
+  const handleLogout = useCallback(async () => {
+    try {
+      useDitoStore.persist.clearStorage();
+      await getApolloClient().clearStore();
+    } catch (err) {
+      EventProvider.captureException(err);
+    } finally {
+      actions.RESET_ORDER_FORM();
+      onSignOut();
+    }
+  }, [actions, onSignOut]);
+
   const verifyUserEmail = useCallback(async () => {
     if (loginCredentials.username.trim().toLowerCase()) {
       setIsLoadingEmail(true);
@@ -95,6 +111,7 @@ export function useAuthentication({ navigation, closeModal }: IParamsHook) {
 
   return {
     handleLogin,
+    handleLogout,
     loadingSignIn,
     isLoadingEmail,
     verifyUserEmail,

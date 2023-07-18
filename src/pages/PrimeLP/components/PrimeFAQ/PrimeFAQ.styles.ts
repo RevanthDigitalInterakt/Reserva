@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   divider: {
     borderWidth: 0.5,
     borderColor: COLORS.GRAY,
-    marginVertical: 24,
+    marginBottom: 32,
   },
   sectionTitle: {
     marginBottom: 32,

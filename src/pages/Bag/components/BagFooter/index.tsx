@@ -18,8 +18,8 @@ import EventProvider from '../../../../utils/EventProvider';
 import { useCart } from '../../../../context/CartContext';
 import { getBrands } from '../../../../utils/getBrands';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
-import { ModalClientIsPrime } from '../../../../modules/Checkout/components/ModalClientIsPrime/ModalClientIsPrime';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
+import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
 
 export default function BagFooter() {
   const {
@@ -45,8 +45,11 @@ export default function BagFooter() {
   const { profile } = useAuthStore(['profile']);
   const { primeActive } = usePrimeInfo();
 
+  const { changeStateIsVisibleModalPrimeRemoved } = usePrimeStore([
+    'changeStateIsVisibleModalPrimeRemoved',
+  ]);
+
   const [navigateToDeliveryDisable, setNavigateToDeliveryDisable] = useState<boolean>(false);
-  const [isUserPrimeWithPrimeOnBag, setIsUserPrimeWithPrimeOnBag] = useState(false);
 
   const bagInstallmentPrice = useMemo(() => {
     const val = appTotalizers.total + appTotalizers.discount;
@@ -104,16 +107,23 @@ export default function BagFooter() {
       const primeItemIndex = items.findIndex((item) => item.isPrimeSubscription);
 
       if (primeItemIndex !== -1) {
-        await actions.UPDATE_PRODUCT_COUNT(primeItemIndex, items[primeItemIndex]!, 0);
+        changeStateIsVisibleModalPrimeRemoved(true);
 
-        setIsUserPrimeWithPrimeOnBag(true);
+        await actions.UPDATE_PRODUCT_COUNT(primeItemIndex, items[primeItemIndex]!, 0);
 
         return true;
       }
     }
 
     return false;
-  }, [actions, hasPrimeSubscriptionInCart, items, primeActive, profile?.isPrime]);
+  }, [
+    actions,
+    changeStateIsVisibleModalPrimeRemoved,
+    hasPrimeSubscriptionInCart,
+    items,
+    primeActive,
+    profile?.isPrime,
+  ]);
 
   const handleNavigateToDelivery = useCallback(async () => {
     setNavigateToDeliveryDisable(true);
@@ -185,15 +195,6 @@ export default function BagFooter() {
       style={{ elevation: Platform.OS === platformType.ANDROID ? 10 : 0 }}
       boxShadow={Platform.OS === platformType.ANDROID ? null : 'bottomBarShadow'}
     >
-      <ModalClientIsPrime
-        isVisible={isUserPrimeWithPrimeOnBag}
-        onBackdropPress={() => {
-          setIsUserPrimeWithPrimeOnBag(false);
-          navigation.navigate('DeliveryScreen', {});
-        }}
-        firstName={profile?.firstName || profile?.email}
-      />
-
       <Box
         flexDirection="row"
         justifyContent="space-between"

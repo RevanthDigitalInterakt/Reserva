@@ -10,43 +10,42 @@ import React, {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import
-  {
-    AddAddressToCart,
-    AddCustomerToOrder,
-    AddItemToCart,
-    CreateCart,
-    RestoreData,
-    RemoveItemFromCart,
-    addToCoupon,
-    removeCouponToOder,
-    removeSellerCouponToOder,
-    ResetUserCheckout,
-    SendUserEmail,
-    ConvertZipCode,
-    Tracking,
-    PickupPoint,
-    Orders,
-    SearchNewOrders,
-    SearchNewOrderDetail,
-    OrderDetail,
-    RestoreCart,
-    SetGiftSize,
-    UpdateItemToCart,
-  } from '../services/vtexService';
+{
+  AddAddressToCart,
+  AddCustomerToOrder,
+  AddItemToCart,
+  CreateCart,
+  RestoreData,
+  RemoveItemFromCart,
+  addToCoupon,
+  removeCouponToOder,
+  removeSellerCouponToOder,
+  ResetUserCheckout,
+  SendUserEmail,
+  ConvertZipCode,
+  Tracking,
+  PickupPoint,
+  Orders,
+  SearchNewOrders,
+  SearchNewOrderDetail,
+  OrderDetail,
+  RestoreCart,
+  SetGiftSize,
+  UpdateItemToCart,
+} from '../services/vtexService';
 import { checkoutService } from '../services/checkoutService';
 import EventProvider from '../utils/EventProvider';
 import
-  {
-    useCheckIfUserExistsLazyQuery,
-    useOrderFormAddSellerCouponMutation,
-    useOrderFormRefreshDataMutation,
-  } from '../base/graphql/generated';
+{
+  useCheckIfUserExistsLazyQuery,
+  useOrderFormAddSellerCouponMutation,
+  useOrderFormRefreshDataMutation,
+} from '../base/graphql/generated';
 import { splitSellerName } from '../utils/splitSellerName';
 import { getBrands } from '../utils/getBrands';
-import { defaultBrand } from '../utils/defaultWBrand';
-import { useAuthStore } from '../zustand/useAuth/useAuthStore';
-import useAsyncStorageProvider, { setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
+import { getAsyncStorageItem, setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
+import { defaultBrand } from '../utils/defaultWBrand';
 
 interface ClientPreferencesData
 {
@@ -592,8 +591,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
   const [sellerName, setSellerName] = useState<string>('');
   const [topBarLoading, setTopBarLoading] = useState<boolean>(false);
   const [hasErrorApplyCoupon, setHasErrorApplyCoupon] = useState<boolean>(false);
-  const { getItem } = useAsyncStorageProvider();
-  const { profile } = useAuthStore(['profile']);
 
   const { actions } = useBagStore(['actions']);
 
@@ -799,18 +796,18 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
         wbrand: getBrands(data?.items || []),
       });
 
-      const id = profile?.email
-        ? await getItem('@Dito:userRef')
+      const ditoId = orderForm?.clientProfileData?.email
+        ? await getAsyncStorageItem('@Dito:userRef')
         : await AsyncStorage.getItem('@Dito:anonymousID');
 
       EventProvider.sendTrackEvent(
         'adicionou-produto-ao-carrinho', {
-        id,
+        id: ditoId,
         action: 'adicionou-produto-ao-carrinho',
         data: {
-          marca: product.additionalInfo.brandName,
+          marca: product?.additionalInfo?.brandName || '',
           id_produto: itemId,
-          nome_produto: product.name,
+          nome_produto: product?.name || '',
           nome_categoria: Object.entries(product.productCategories)
             .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
             .join(', '),
@@ -821,7 +818,6 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
         },
       },
       );
-
       return { ok: !(product.quantity < quantity) };
     } catch (error)
     {

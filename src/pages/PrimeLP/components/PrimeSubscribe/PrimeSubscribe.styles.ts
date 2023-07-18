@@ -23,15 +23,15 @@ export const styles = StyleSheet.create({
   },
 
   subtitle: {
-    fontSize: 12,
-    lineHeight: 16,
+    fontSize: 16,
+    lineHeight: 20,
     color: COLORS.GRAY,
     marginBottom: 20,
     textAlign: 'center',
   },
 
   subtitleBold: {
-    fontSize: 12,
+    fontSize: 16,
     color: '#000000',
   },
 
@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     ...commonWrapperStyle.wrapper,
     width: configDeviceSizes.DEVICE_WIDTH,
     paddingTop: 400,
-    marginTop: -35,
+    marginTop: -18,
   },
 
   legalText: {
@@ -48,16 +48,17 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: COLORS.GRAY,
     marginBottom: 24,
+    top: 18,
   },
 
   button: {
-    width: 205,
+    marginTop: 24,
+    width: configDeviceSizes.DEVICE_WIDTH / 1.4,
     backgroundColor: '#000000',
-    height: 40,
+    height: configDeviceSizes.DEVICE_HEIGHT / 13,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginBottom: 32,
   },
 
   buttonText: {
