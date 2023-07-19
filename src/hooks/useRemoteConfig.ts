@@ -26,6 +26,9 @@ export interface IRemoteConfigKeys {
   EMAIL_TESTERS: string[];
   appName: string;
   appVersion: string;
+  show_price_prime_pdp: boolean;
+  show_price_prime_pdc: boolean;
+  regionalization: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -51,6 +54,9 @@ export const defaults: IRemoteConfigKeys = {
   primelp_terms_search: 'prime',
   show_prime: false,
   show_prime_tester: false,
+  show_price_prime_pdp: false,
+  show_price_prime_pdc: false,
+  regionalization: false,
 };
 
 const THREE_MINUTES_IN_MS = 180000;
