@@ -1,12 +1,13 @@
 ## CHANGELOG
 
+### 2.0.9
+- [SRN-311 BUG - Login infinito perde o token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_backlogs/backlog/Siren%20Team%20Downstream/Product%20Backlog/?workitem=10614)
 ### 2.0.8
 
 - [SRN-228 - DITO - Evento adicionou produto a wishlist](https://reserva.atlassian.net/browse/SRN-228)
 - [SRN-229 - DITO - Evento Acessou o carrinho](https://reserva.atlassian.net/browse/SRN-229)
 - [15058 - Possibilidade de links no menu que não vão para a PDC](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14858)
 - Teste A/B nos preços prime PDC e PDP
-
 ---
 
 ### 2.0.7
