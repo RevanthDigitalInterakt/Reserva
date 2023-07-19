@@ -1,4 +1,4 @@
-import { AppState } from 'react-native';
+import { AppState, AppStateStatus } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
 import { RefreshTokenError } from '../zustand/useAuth/types/refreshTokenError';
@@ -6,11 +6,24 @@ import { navigateUsingRef } from '../utils/navigationRef';
 
 type AppStateType = 'active' | 'background' | 'inactive' | 'unknown' | 'extension';
 
+export const handleCheckAppState = async (
+  appState: React.MutableRefObject<AppStateStatus>, nextAppState: AppStateType,
+) => {
+  if (
+    appState.current.match(/inactive|background/)
+    && nextAppState === 'active'
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
 export function useRefreshToken() {
   const {
     onInit, onRefreshToken,
   } = useAuthStore(['onInit', 'onRefreshToken']);
-  const [loadingRefreshtoken, setLoadingRefreshToken] = useState(false);
+  const [loadingRefreshToken, setLoadingRefreshToken] = useState(false);
   const appState = useRef(AppState.currentState);
 
   useEffect(() => {
@@ -28,7 +41,7 @@ export function useRefreshToken() {
       }
     }
 
-    if (!loadingRefreshtoken) {
+    if (!loadingRefreshToken) {
       handleGetUserProfile();
     }
 
@@ -41,10 +54,9 @@ export function useRefreshToken() {
   }, []);
 
   const handleAppStateChange = async (nextAppState: AppStateType) => {
-    if (
-      appState.current.match(/inactive|background/)
-      && nextAppState === 'active' && !loadingRefreshtoken
-    ) {
+    const changeAppState = await handleCheckAppState(appState, nextAppState);
+
+    if (changeAppState && !loadingRefreshToken) {
       setLoadingRefreshToken(true);
       await onRefreshToken();
       setLoadingRefreshToken(false);
