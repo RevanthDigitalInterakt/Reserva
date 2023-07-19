@@ -173,7 +173,7 @@ exports[`ModalClientIsPrime should match with snapshot 1`] = `
               }
             }
           >
-            User teste
+            name
           </Text>
            
           detectamos que você já é um cliente
