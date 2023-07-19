@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import type { TextInput } from 'react-native';
 
 export interface IInputForm {
@@ -6,4 +7,7 @@ export interface IInputForm {
   onTextChange(value: string): void;
   inputRef: React.RefObject<TextInput>;
   nextInputRef: React.RefObject<TextInput>;
+  inputName: string;
+  fieldTouched: (field: string) => void;
+  error?: string;
 }

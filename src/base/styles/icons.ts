@@ -63,6 +63,7 @@ export const commons = {
   arrowInstruction: require('../../../assets/common/arrowInstruction.png'),
   selectRectangle: require('../../../assets/common/selectRectangle.png'),
   emptyProductCatalog: require('../../../assets/common/emptyProductCatalog.png'),
+  infoFill: require('../../../assets/common/infoFill.png'),
 };
 
 /* mapping of svgs used as icons */
