@@ -30,6 +30,7 @@ export interface IRemoteConfigKeys {
   appVersion: string;
   show_price_prime_pdp: boolean;
   show_price_prime_pdc: boolean;
+  regionalization: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -59,6 +60,7 @@ export const defaults: IRemoteConfigKeys = {
   show_price_prime_pdc: false,
   pdp_show_video: false,
   pdp_show_video_tester: false,
+  regionalization: false,
 };
 
 const THREE_MINUTES_IN_MS = 180000;

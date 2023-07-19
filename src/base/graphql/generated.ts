@@ -216,6 +216,40 @@ export type LoggedInOutput = {
   token: Scalars['String'];
 };
 
+export type MenuCategoryItemFacetOutput = {
+  __typename?: 'MenuCategoryItemFacetOutput';
+  key: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type MenuCategoryItemOutput = {
+  __typename?: 'MenuCategoryItemOutput';
+  deeplinkUrl?: Maybe<Scalars['String']>;
+  facets: Array<MenuCategoryItemFacetOutput>;
+  highlight: Scalars['Boolean'];
+  name: Scalars['String'];
+  referenceId?: Maybe<Scalars['String']>;
+  type: MenuItemTypeEnum;
+};
+
+export type MenuCategoryOutput = {
+  __typename?: 'MenuCategoryOutput';
+  children: Array<MenuCategoryItemOutput>;
+  deeplinkUrl?: Maybe<Scalars['String']>;
+  facets: Array<MenuCategoryItemFacetOutput>;
+  highlight: Scalars['Boolean'];
+  name: Scalars['String'];
+  referenceId?: Maybe<Scalars['String']>;
+  type: MenuItemTypeEnum;
+};
+
+export enum MenuItemTypeEnum {
+  Category = 'CATEGORY',
+  Collection = 'COLLECTION',
+  Deeplink = 'DEEPLINK',
+  ParentCategory = 'PARENT_CATEGORY'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
   orderFormAddDiscountCoupon: OrderformOutput;
@@ -1084,6 +1118,7 @@ export type ProfileUpdateInput = {
 
 export type Query = {
   __typename?: 'Query';
+  appMenu: Array<MenuCategoryOutput>;
   cashback: CashbackOutput;
   cep?: Maybe<CepOutput>;
   checkIfUserExists: Scalars['Boolean'];
@@ -1108,6 +1143,7 @@ export type Query = {
   ronRedirect?: Maybe<RonRedirectOutput>;
   sellerInfo?: Maybe<SellerInfoOutput>;
   sellersMktin: Array<Scalars['String']>;
+  updateInApp?: Maybe<UpdateInAppOutput>;
   wishlistCheckProduct: WishlistCheckOutput;
 };
 
@@ -1278,6 +1314,16 @@ export type SignUpUserInput = {
 
 export type SubscribeNewsletterInput = {
   email: Scalars['String'];
+};
+
+export type UpdateInAppOutput = {
+  __typename?: 'UpdateInAppOutput';
+  onlyPlatform?: Maybe<Scalars['String']>;
+  targetVersion?: Maybe<Scalars['String']>;
+  updateAllVersions?: Maybe<Scalars['Boolean']>;
+  updateDescription?: Maybe<Scalars['String']>;
+  updateTitle?: Maybe<Scalars['String']>;
+  updateType?: Maybe<Scalars['String']>;
 };
 
 export type UpsertProfileAddressInput = {
@@ -1531,6 +1577,11 @@ export type WishlistRemoveProductMutationVariables = Exact<{
 
 
 export type WishlistRemoveProductMutation = { __typename?: 'Mutation', wishlistRemoveProduct: boolean };
+
+export type AppMenuQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AppMenuQuery = { __typename?: 'Query', appMenu: Array<{ __typename?: 'MenuCategoryOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'MenuCategoryItemFacetOutput', key: string, value: string }>, children: Array<{ __typename?: 'MenuCategoryItemOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'MenuCategoryItemFacetOutput', key: string, value: string }> }> }> };
 
 export type CashbackQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2774,6 +2825,62 @@ export function useWishlistRemoveProductMutation(baseOptions?: Apollo.MutationHo
 export type WishlistRemoveProductMutationHookResult = ReturnType<typeof useWishlistRemoveProductMutation>;
 export type WishlistRemoveProductMutationResult = Apollo.MutationResult<WishlistRemoveProductMutation>;
 export type WishlistRemoveProductMutationOptions = Apollo.BaseMutationOptions<WishlistRemoveProductMutation, WishlistRemoveProductMutationVariables>;
+export const AppMenuDocument = gql`
+    query appMenu {
+  appMenu {
+    name
+    type
+    deeplinkUrl
+    highlight
+    referenceId
+    facets {
+      key
+      value
+    }
+    children {
+      name
+      type
+      deeplinkUrl
+      highlight
+      referenceId
+      facets {
+        key
+        value
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useAppMenuQuery__
+ *
+ * To run a query within a React component, call `useAppMenuQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAppMenuQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAppMenuQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAppMenuQuery(baseOptions?: Apollo.QueryHookOptions<AppMenuQuery, AppMenuQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AppMenuQuery, AppMenuQueryVariables>(AppMenuDocument, options);
+      }
+export function useAppMenuLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AppMenuQuery, AppMenuQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AppMenuQuery, AppMenuQueryVariables>(AppMenuDocument, options);
+        }
+export type AppMenuQueryHookResult = ReturnType<typeof useAppMenuQuery>;
+export type AppMenuLazyQueryHookResult = ReturnType<typeof useAppMenuLazyQuery>;
+export type AppMenuQueryResult = Apollo.QueryResult<AppMenuQuery, AppMenuQueryVariables>;
+export function refetchAppMenuQuery(variables?: AppMenuQueryVariables) {
+      return { query: AppMenuDocument, variables: variables }
+    }
 export const CashbackDocument = gql`
     query cashback {
   cashback {
