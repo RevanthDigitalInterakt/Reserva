@@ -3,7 +3,8 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { createZustandStoreWithSelectors } from '../utils/createZustandStoreWithSelectors';
 
-type TCacheKeys = 'banner'
+type TCacheKeys = 'appMenu'
+| 'banner'
 | 'brandsCarousel'
 | 'checkSearchRedirect'
 | 'config'
@@ -31,6 +32,7 @@ const SIX_HOURS = TEN_MINUTES * 36;
 const DISABLED_CACHE_POLICY = false;
 
 const expireTimes: { [key in TCacheKeys]: number } = {
+  appMenu: TEN_MINUTES,
   banner: ONE_MINUTE,
   brandsCarousel: TWO_MINUTES,
   checkSearchRedirect: FIVE_MINUTES,
@@ -64,6 +66,7 @@ const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
     initialized: false,
     setInitialized: () => set({ ...getState(), initialized: true }),
     lastFetchedTimes: {
+      appMenu: 0,
       banner: 0,
       brandsCarousel: 0,
       checkSearchRedirect: 0,
