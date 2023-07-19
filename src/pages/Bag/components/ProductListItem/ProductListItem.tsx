@@ -9,7 +9,7 @@ import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import type { OrderFormQuery } from '../../../../base/graphql/generated';
 import { FirstPurchaseDiscount, TotalDiscountFirstPurchase } from './ProductListItemDiscount.utils';
 import testProps from '../../../../utils/testProps';
-import IconPrimeLogo from '../../../PrimeLP/components/Icons/IconPrimeLogo';
+import IconPrimeLogoWhite from '../../../PrimeLP/components/Icons/IconPrimeLogoWhite';
 import { styles } from './ProductListItem.styles';
 
 interface IProductListItem {
@@ -58,7 +58,7 @@ function ProductListItem({
 
               {!!data.hasPrimeDiscount && (
                 <View style={styles.primeTag}>
-                  <IconPrimeLogo height={7} width={30} />
+                  <IconPrimeLogoWhite height={7} width={30} />
                 </View>
               )}
             </TouchableOpacity>

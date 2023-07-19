@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import {
   View, TouchableOpacity, ImageBackground,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { Typography } from '@usereservaapp/reserva-ui';
 import { styles } from './PrimeSubscribe.styles';
 import testProps from '../../../../utils/testProps';
@@ -18,17 +17,12 @@ interface IPrimeSubscribe {
 }
 
 function PrimeSubscribe({ data, onAddToCart }: IPrimeSubscribe) {
-  const { goBack } = useNavigation();
   const { isPrime } = usePrimeInfo();
 
   const onPressAddCart = useCallback(async () => {
-    if (isPrime) {
-      goBack();
-    } else {
-      EventProvider.logEvent('prime_press_add_to_cart_lp', { position: 'top' });
-      onAddToCart();
-    }
-  }, [goBack, isPrime, onAddToCart]);
+    EventProvider.logEvent('prime_press_add_to_cart_lp', { position: 'bottom' });
+    onAddToCart();
+  }, [onAddToCart]);
 
   return (
     <View {...testProps('prime_subscribe_component')}>
@@ -36,7 +30,7 @@ function PrimeSubscribe({ data, onAddToCart }: IPrimeSubscribe) {
         <Typography variant="descontoTag2" style={styles.title}>Assine Agora!</Typography>
 
         <Typography variant="tituloSessao" style={styles.subtitle}>
-          {`Ganhe ${data.discountPercentage}% OFF* em todos os produtos da Reserva.\nTudo isso por`}
+          {`Ganhe ${data.discountPercentage}% OFF* em todos os produtos da Reserva. Tudo isso por`}
           <Typography variant="precoPromocional2" style={styles.subtitleBold}>
             {` ${data.installmentQty}x de R$ ${data.installmentPrice}/Mês.`}
           </Typography>

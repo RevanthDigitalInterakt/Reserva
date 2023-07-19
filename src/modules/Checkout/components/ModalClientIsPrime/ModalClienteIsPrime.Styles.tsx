@@ -4,21 +4,28 @@ import { COLORS } from '../../../../base/styles/colors';
 export const styles = StyleSheet.create({
   modalWrapper: {
     justifyContent: 'space-between',
-    padding: 40,
+    padding: 24,
     backgroundColor: COLORS.WHITE,
   },
   textContainer: {
-    paddingVertical: 40,
+    paddingVertical: 24,
   },
   textBold: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: 'ReservaSans-Bold',
+    fontSize: 16,
+    color: COLORS.BLACK,
+    lineHeight: 20,
   },
   primeText: {
-    fontSize: 20,
+    fontFamily: 'ReservaDisplay-Regular',
+    fontSize: 16,
+    fontWeight: 'bold',
+    lineHeight: 20,
   },
   text: {
     color: COLORS.DARK_GRAY,
-    lineHeight: 27,
+    fontFamily: 'ReservaSans-Regular',
+    fontSize: 16,
+    lineHeight: 20,
   },
 });

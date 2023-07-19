@@ -1,8 +1,10 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, {
+  useCallback, useMemo, useState,
+} from 'react';
 import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
 import { Box } from '@usereservaapp/reserva-ui';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { TopBarDefaultBackButton } from '../../modules/Menu/components/TopBarDefaultBackButton';
 import PrimeHero from './components/PrimeHero';
 import PrimeIntro from './components/PrimeIntro';
@@ -17,12 +19,13 @@ import { ModalWelcomePrime } from '../../components/ModalWelcomePrime';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 import PrimeFAQ from './components/PrimeFAQ/PrimeFAQ';
+import type { RootStackParamList } from '../../routes/StackNavigator';
 
-function PrimeLP() {
+type IPrimeLP = StackScreenProps<RootStackParamList, 'PrimeLP'>;
+
+function PrimeLP({ navigation }: IPrimeLP) {
   const { onAddPrimeToCart, isPrime } = usePrimeInfo();
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
-  const navigation = useNavigation();
-
   const [loadingAddCartPrime, setLoadingAddCartPrime] = useState(false);
 
   const {
@@ -63,7 +66,7 @@ function PrimeLP() {
       if (!data || loadingAddCartPrime) return;
 
       if (isPrime) {
-        navigation.navigate('Offers');
+        navigation.popToTop();
         return;
       }
 
@@ -81,7 +84,10 @@ function PrimeLP() {
 
   const onCloseModalWelcomePrime = useCallback(() => {
     handleClickContinue();
-    navigation.goBack();
+
+    setTimeout(() => {
+      navigation.navigate('Home');
+    }, 300);
   }, [handleClickContinue, navigation]);
 
   return (

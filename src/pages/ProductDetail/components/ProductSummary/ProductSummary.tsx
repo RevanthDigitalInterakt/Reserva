@@ -25,6 +25,7 @@ function ProductSummary() {
   ]);
 
   const { onToggleFavorite, loading: loadingWishlist, isFavorited } = useWishlistProductActions({
+    productDetail,
     productId: productDetail?.productId || '',
     skuId: selectedSize?.itemId || '',
   });
@@ -41,6 +42,10 @@ function ProductSummary() {
 
     return null;
   }, [getBoolean, productDetail]);
+
+  const showPrimeBox = useMemo(() => (
+    getBoolean('show_price_prime_pdp') && primeActive
+  ), [getBoolean, primeActive]);
 
   const onClickShare = useCallback(() => {
     if (!productDetail) return;
@@ -70,8 +75,8 @@ function ProductSummary() {
   }, [imageIndex, productDetail]);
 
   const ProductDetailCardComponent = useMemo(() => (
-    primeActive ? ProductDetailCard : ProductDetailCardLegacy
-  ), [primeActive]);
+    showPrimeBox ? ProductDetailCard : ProductDetailCardLegacy
+  ), [showPrimeBox]);
 
   if (!productDetail || !selectedColor) return null;
 
@@ -111,7 +116,7 @@ function ProductSummary() {
         }}
       />
 
-      {!!primeActive && <PricesSelectBoxes selectedSize={selectedSize} />}
+      {!!showPrimeBox && <PricesSelectBoxes selectedSize={selectedSize} />}
     </>
   );
 }

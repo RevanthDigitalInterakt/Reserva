@@ -17,13 +17,12 @@ import { RemoteConfigService } from '../../../shared/services/RemoteConfigServic
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import EventProvider from '../../../utils/EventProvider';
-import useDitoStore from '../../../zustand/useDitoStore';
 import testProps from '../../../utils/testProps';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
-import { getApolloClient } from '../../../utils/getApolloClient';
 import { Avatar } from '../../../components/Avatar/AvatarComponent';
+import { useAuthentication } from '../../../hooks/useAuthentication';
 
 export function MenuProfile() {
   const navigation = useNavigation();
@@ -35,11 +34,9 @@ export function MenuProfile() {
   const [hasThreeMonths, setHasThreeMonths] = useState<boolean>(false);
   const [, setScreenCashbackInStoreActive] = useState<boolean>(false);
 
-  const { profile, ...authStore } = useAuthStore([
-    'profile',
-    'initialized',
-    'onSignOut',
-  ]);
+  const { profile, ...authStore } = useAuthStore(['profile', 'initialized']);
+
+  const { handleLogout } = useAuthentication({});
 
   const { getBoolean } = useRemoteConfig();
 
@@ -128,35 +125,6 @@ export function MenuProfile() {
       checkPhoneTime(profile?.id);
     }
   }, [profile]);
-
-  const handleCashback = () => {
-    if (hasThreeMonths) {
-      if (profile?.homePhone) {
-        if (profile?.document) {
-          navigation.navigate('changePhoneNumber', {
-            profileData: profile,
-          });
-        } else {
-          navigation.navigate('registerCPF', {
-            profileData: profile,
-          });
-        }
-      } else if (profile?.document) {
-        navigation.navigate('registerPhoneNumber', {
-          profileData: profile,
-        });
-      } else {
-        navigation.navigate('registerCPF', {
-          profileData: profile,
-        });
-      }
-    } else {
-      navigation.navigate('cashbackInStore', {
-        isLoyal: true,
-        costumerDocument: profile?.document,
-      });
-    }
-  };
 
   return (
     <Box flex={1} backgroundColor="white">
@@ -280,16 +248,7 @@ export function MenuProfile() {
                   testID="com.usereserva:id/profile_button_logout"
                   width={150}
                   disabled={isLoading}
-                  onPress={() => {
-                    try {
-                      getApolloClient().clearStore();
-                      useDitoStore.persist.clearStorage();
-                    } catch (err) {
-                      EventProvider.captureException(err);
-                    } finally {
-                      authStore.onSignOut();
-                    }
-                  }}
+                  onPress={handleLogout}
                   title="LOGOUT"
                   variant="primarioEstreitoOutline"
                 />

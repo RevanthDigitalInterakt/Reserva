@@ -11,7 +11,6 @@ import CodePushModal from './components/CodePushModal/CodePushModal';
 import { StorageService } from './shared/services/StorageService';
 import OnForegroundEventPush from './utils/Notifee/ForegroundEvents';
 import { useAuthStore } from './zustand/useAuth/useAuthStore';
-import useCheckAppNewVersion from './hooks/useCheckAppNewVersion';
 
 import { usePrimeConfig } from './zustand/usePrimeConfig/usePrimeConfig';
 import { useRefreshToken } from './hooks/useRefreshToken';
@@ -31,7 +30,7 @@ function InitialScreen({ children }: { children: React.ReactNode }) {
 
   const { handleDitoRegisterAnony, handleDitoRegister } = useInitialDito();
 
-  useCheckAppNewVersion();
+  // useCheckAppNewVersion();
 
   useRefreshToken();
 

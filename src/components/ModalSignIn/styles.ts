@@ -2,6 +2,8 @@ import { StyleSheet } from 'react-native';
 import configDeviceSizes from '../../utils/configDeviceSizes';
 import { COLORS } from '../../base/styles/colors';
 
+const smallDevices = configDeviceSizes.DEVICE_WIDTH <= 375;
+
 export const objectStyles = StyleSheet.create({
   modal: {
     alignItems: 'center',
@@ -9,7 +11,6 @@ export const objectStyles = StyleSheet.create({
   },
   containerModal: {
     width: configDeviceSizes.DEVICE_WIDTH - 48,
-    top: -60,
   },
   wrapperAboutPrime: {
     marginTop: 8,
@@ -22,18 +23,17 @@ export const objectStyles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   headerDescription: {
-    marginTop: 24,
-    marginBottom: 24,
+    marginVertical: 24,
   },
   modalText: {
-    marginTop: 24,
-    marginBottom: 24,
-    fontSize: 16,
+    marginVertical: 24,
+    fontSize: smallDevices ? 14 : 16,
     lineHeight: 16.8,
     letterSpacing: 0.5,
     color: COLORS.DARK_GRAY,
   },
   highlightedText: {
     color: COLORS.BLACK,
+    top: 3.5,
   },
 });
