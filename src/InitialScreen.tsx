@@ -9,8 +9,8 @@ import CodePushModal from './components/CodePushModal/CodePushModal';
 import { StorageService } from './shared/services/StorageService';
 import OnForegroundEventPush from './utils/Notifee/ForegroundEvents';
 import { useAuthStore } from './zustand/useAuth/useAuthStore';
-import useCheckAppNewVersion from './hooks/useCheckAppNewVersion';
 import { usePrimeConfig } from './zustand/usePrimeConfig/usePrimeConfig';
+import useCheckAppNewVersion from './hooks/useCheckAppNewVersion';
 
 function InitialScreen({ children }: { children: React.ReactNode }) {
   const {
