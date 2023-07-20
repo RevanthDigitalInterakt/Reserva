@@ -1,10 +1,11 @@
-export interface ProductDetailCardProps {
+export interface ProductDetailCardLegacyProps {
   currency?: string
   images: string[]
   discountTag?: number
   saleOff?: string
   title: string
   installmentsNumber: number
+  videoThumbnail?: string
   installmentsPrice: number
   price: number
   priceWithDiscount?: number
@@ -12,7 +13,6 @@ export interface ProductDetailCardProps {
   imagesHeight?: number
   isFavorited?: boolean
   loadingFavorite?: boolean
-  showZoomButton?: boolean
   onClickFavorite?: (favoriteState: boolean) => void
   onClickShare?: () => void
   onGoNextImage?: (next: { image: string; index: number }) => void
@@ -21,4 +21,5 @@ export interface ProductDetailCardProps {
   imageIndexActual?: (indexImage: number) => number
   avaibleUnits?: number;
   testID?: string;
+  mktplaceNameComponent?: React.ReactNode;
 }

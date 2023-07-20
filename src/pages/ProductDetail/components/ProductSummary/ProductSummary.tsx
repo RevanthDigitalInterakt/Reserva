@@ -1,7 +1,6 @@
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
-import { ProductDetailCard as ProductDetailCardLegacy } from '@usereservaapp/reserva-ui';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { onShare } from '../../../../utils/onShare';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
@@ -14,6 +13,7 @@ import EventProvider from '../../../../utils/EventProvider';
 import { ProductDetailCard } from '../../../../components/ProductDetailCard/ProductDetailCard';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 import PricesSelectBoxes from '../../../../components/PricesSelectBoxes';
+import { ProductDetailCardLegacy } from '../../../../components/ProductDetailCardLegacy/ProductDetailCardLegacy';
 
 function ProductSummary() {
   const { getBoolean } = useRemoteConfig();
