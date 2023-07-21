@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Box } from '@usereservaapp/reserva-ui';
 import { intervalToDuration } from 'date-fns';
 import dayjs from 'dayjs';
@@ -26,7 +26,6 @@ import configDeviceSizes from '../../../utils/configDeviceSizes';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import testProps from '../../../utils/testProps';
 import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
-import { RefreshTokenError } from '../../../zustand/useAuth/types/refreshTokenError';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { CountDownBanner } from '../component/CountDown';
@@ -43,14 +42,13 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export const HomeScreen = () => {
-  const navigation = useNavigation();
   const { setOffersPage } = useConfigContext();
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { showModalSignUpComplete } = useAuthModalStore(['showModalSignUpComplete']);
   const { setTime } = useCountDown();
   const [modalCodeIsVisible, setModalCodeIsVisible] = useState(true);
   const [modalDiscount, setModalDiscount] = useState<any>();
-  const { profile, onRefreshToken } = useAuthStore(['profile', 'onRefreshToken']);
+  const { profile } = useAuthStore(['profile']);
 
   const [countDownClockLocal, setCountDownClockLocal] = useState<ICountDownClock>();
 
@@ -88,15 +86,6 @@ export const HomeScreen = () => {
     countDown: true,
     initial: countDownClockGlobal?.formattedValue,
   });
-
-  useEffect(() => {
-    onRefreshToken()
-      .catch((err) => {
-        if (err instanceof RefreshTokenError) {
-          navigation.navigate('Login', { comeFrom: 'Profile', invalidSession: true });
-        }
-      });
-  }, [onRefreshToken, navigation]);
 
   const requestHome = useCallback(async () => {
     try {
