@@ -1,10 +1,7 @@
 ## CHANGELOG
 
-### 2.0.10
-- [10614 - BUG - Login infinito perde o token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10614/)
-
----
 ### 2.0.9
+- [10614 - BUG - Login infinito perde o token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10614/)
 - Correção do preço divergente na Bag x PDP
 
 ---
@@ -14,6 +11,7 @@
 - [SRN-229 - DITO - Evento Acessou o carrinho](https://reserva.atlassian.net/browse/SRN-229)
 - [15058 - Possibilidade de links no menu que não vão para a PDC](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14858)
 - Teste A/B nos preços prime PDC e PDP
+
 ---
 
 ### 2.0.7
