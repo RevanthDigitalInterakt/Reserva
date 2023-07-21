@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
 import analytics from '@react-native-firebase/analytics';
@@ -50,12 +50,6 @@ export default function BagFooter() {
   ]);
 
   const [navigateToDeliveryDisable, setNavigateToDeliveryDisable] = useState<boolean>(false);
-
-  const bagInstallmentPrice = useMemo(() => {
-    const val = appTotalizers.total + appTotalizers.discount;
-
-    return val / installmentInfo.installmentsNumber;
-  }, [appTotalizers, installmentInfo]);
 
   const onTrackCheckoutEvents = useCallback(() => {
     try {
@@ -209,7 +203,7 @@ export default function BagFooter() {
             fontFamily="nunitoBold"
             sizeInterger={15}
             sizeDecimal={11}
-            num={appTotalizers.total + appTotalizers.discount}
+            num={appTotalizers.total}
           />
         </Box>
 
@@ -234,7 +228,7 @@ export default function BagFooter() {
                 color="vermelhoRSV"
                 sizeInterger={15}
                 sizeDecimal={11}
-                num={bagInstallmentPrice}
+                num={installmentInfo.installmentPrice}
               />
             </Box>
           </Box>

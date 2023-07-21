@@ -2,6 +2,9 @@
 
 ### 2.0.9
 - [SRN-311 BUG - Login infinito perde o token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_backlogs/backlog/Siren%20Team%20Downstream/Product%20Backlog/?workitem=10614)
+- Correção do preço divergente na Bag x PDP
+
+---
 
 ### 2.0.8
 
