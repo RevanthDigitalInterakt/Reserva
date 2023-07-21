@@ -1,7 +1,7 @@
 ## CHANGELOG
 
 ### 2.0.9
-- [SRN-311 BUG - Login infinito perde o token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10614/)
+- [10614 - BUG - Login infinito perde o token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10614/)
 - Correção do preço divergente na Bag x PDP
 
 ---
