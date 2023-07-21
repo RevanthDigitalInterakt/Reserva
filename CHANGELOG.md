@@ -2,6 +2,7 @@
 
 ### 2.0.9
 - [SRN-311 BUG - Login infinito perde o token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_backlogs/backlog/Siren%20Team%20Downstream/Product%20Backlog/?workitem=10614)
+
 ### 2.0.8
 
 - [SRN-228 - DITO - Evento adicionou produto a wishlist](https://reserva.atlassian.net/browse/SRN-228)
