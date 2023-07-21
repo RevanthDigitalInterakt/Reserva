@@ -2,6 +2,7 @@
 
 ### 2.0.9
 - Correção do preço divergente na Bag x PDP
+- [14769 - Direcionamento deeplink Kit Look](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14769)
 
 ---
 
@@ -9,7 +10,7 @@
 
 - [SRN-228 - DITO - Evento adicionou produto a wishlist](https://reserva.atlassian.net/browse/SRN-228)
 - [SRN-229 - DITO - Evento Acessou o carrinho](https://reserva.atlassian.net/browse/SRN-229)
-- [15058 - Possibilidade de links no menu que não vão para a PDC](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14858)
+- [15058 - Possibilidade de links no menu que não vão para a PDC](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=15058)
 - Teste A/B nos preços prime PDC e PDP
 
 ---

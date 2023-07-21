@@ -216,16 +216,10 @@ export type LoggedInOutput = {
   token: Scalars['String'];
 };
 
-export type MenuCategoryItemFacetOutput = {
-  __typename?: 'MenuCategoryItemFacetOutput';
-  key: Scalars['String'];
-  value: Scalars['String'];
-};
-
 export type MenuCategoryItemOutput = {
   __typename?: 'MenuCategoryItemOutput';
   deeplinkUrl?: Maybe<Scalars['String']>;
-  facets: Array<MenuCategoryItemFacetOutput>;
+  facets: Array<ProductFacetOutput>;
   highlight: Scalars['Boolean'];
   name: Scalars['String'];
   referenceId?: Maybe<Scalars['String']>;
@@ -236,7 +230,7 @@ export type MenuCategoryOutput = {
   __typename?: 'MenuCategoryOutput';
   children: Array<MenuCategoryItemOutput>;
   deeplinkUrl?: Maybe<Scalars['String']>;
-  facets: Array<MenuCategoryItemFacetOutput>;
+  facets: Array<ProductFacetOutput>;
   highlight: Scalars['Boolean'];
   name: Scalars['String'];
   referenceId?: Maybe<Scalars['String']>;
@@ -846,12 +840,6 @@ export type PaginationInput = {
   page: Scalars['Int'];
 };
 
-export type PricePrimeInstallmentOutput = {
-  __typename?: 'PricePrimeInstallmentOutput';
-  number: Scalars['Float'];
-  value: Scalars['Float'];
-};
-
 export type PrimeConfigItemOutput = {
   __typename?: 'PrimeConfigItemOutput';
   id: Scalars['String'];
@@ -898,7 +886,7 @@ export type PrimeFaqOutput = {
 
 export type PrimeInfoOutput = {
   __typename?: 'PrimeInfoOutput';
-  installment: PricePrimeInstallmentOutput;
+  installment: ProductPriceInstallmentOutput;
   price: Scalars['Float'];
 };
 
@@ -923,6 +911,12 @@ export type ProductDeliveryTimeOutput = {
   estimatedDay?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   price: Scalars['Float'];
+};
+
+export type ProductFacetOutput = {
+  __typename?: 'ProductFacetOutput';
+  key: Scalars['String'];
+  value: Scalars['String'];
 };
 
 export type ProductInput = {
@@ -975,8 +969,28 @@ export type ProductItemVariationOutput = {
   values?: Maybe<Array<Scalars['String']>>;
 };
 
+export type ProductListOutput = {
+  __typename?: 'ProductListOutput';
+  currentPrice: Scalars['Float'];
+  discountPercentage: Scalars['Float'];
+  hasDiscount: Scalars['Boolean'];
+  image: Scalars['String'];
+  installment: ProductPriceInstallmentOutput;
+  listPrice: Scalars['Float'];
+  prime?: Maybe<ProductListPrimeOutput>;
+  productName: Scalars['String'];
+  skuId: Scalars['String'];
+};
+
+export type ProductListPrimeOutput = {
+  __typename?: 'ProductListPrimeOutput';
+  installment: ProductPriceInstallmentOutput;
+  price: Scalars['Float'];
+};
+
 export type ProductOutput = {
   __typename?: 'ProductOutput';
+  action: ProductResultActionEnum;
   categoryTree: Array<Scalars['String']>;
   colorUrls: Array<ProductColorUrlOutput>;
   colors: Array<ProductColorOutput>;
@@ -992,6 +1006,12 @@ export type ProductOutput = {
   saleOff: Scalars['Boolean'];
   share: ProductShareOutput;
   videoThumbnail?: Maybe<Scalars['String']>;
+};
+
+export type ProductPriceInstallmentOutput = {
+  __typename?: 'ProductPriceInstallmentOutput';
+  number: Scalars['Float'];
+  value: Scalars['Float'];
 };
 
 export type ProductPriceLevelOutput = {
@@ -1021,6 +1041,11 @@ export type ProductRecommendationOutput = {
   productId: Scalars['String'];
   productName: Scalars['String'];
 };
+
+export enum ProductResultActionEnum {
+  RedirectToSite = 'RedirectToSite',
+  ShowProduct = 'ShowProduct'
+}
 
 export type ProductShareOutput = {
   __typename?: 'ProductShareOutput';
@@ -1131,6 +1156,7 @@ export type Query = {
   deeplinkPath?: Maybe<DeeplinkOutput>;
   landingPagePrime: PrimeDetailOutput;
   mktinStatus: Scalars['Boolean'];
+  mostSearchedWords: Array<Scalars['String']>;
   order: OrderDetailOutput;
   orderForm: OrderformOutput;
   orders: OrderPaginationOutput;
@@ -1141,6 +1167,10 @@ export type Query = {
   productRecommendations: Array<ProductRecommendationOutput>;
   profile: ProfileOutput;
   ronRedirect?: Maybe<RonRedirectOutput>;
+  search: SearchOutput;
+  searchAutocompleteSuggestions: Array<Scalars['String']>;
+  searchFacets: SearchFacetOutput;
+  searchNews: Array<SearchNewsOutput>;
   sellerInfo?: Maybe<SellerInfoOutput>;
   sellersMktin: Array<Scalars['String']>;
   updateInApp?: Maybe<UpdateInAppOutput>;
@@ -1218,6 +1248,21 @@ export type QueryRonRedirectArgs = {
 };
 
 
+export type QuerySearchArgs = {
+  input: SearchProductInput;
+};
+
+
+export type QuerySearchAutocompleteSuggestionsArgs = {
+  q: Scalars['String'];
+};
+
+
+export type QuerySearchFacetsArgs = {
+  input: SearchFacetsInput;
+};
+
+
 export type QuerySellerInfoArgs = {
   input: SellerInfoInput;
 };
@@ -1270,6 +1315,75 @@ export enum RonRedirectTypeEnum {
   Pdc = 'PDC',
   Pdp = 'PDP'
 }
+
+export type SearchFacetItemOutput = {
+  __typename?: 'SearchFacetItemOutput';
+  key: Scalars['String'];
+  name: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type SearchFacetOutput = {
+  __typename?: 'SearchFacetOutput';
+  categories: Array<SearchFacetItemOutput>;
+  colors: Array<SearchFacetItemOutput>;
+  prices: SearchFacetRangeOutput;
+  sizes: Array<SearchFacetItemOutput>;
+};
+
+export type SearchFacetRangeOutput = {
+  __typename?: 'SearchFacetRangeOutput';
+  from: Scalars['Float'];
+  to: Scalars['Float'];
+};
+
+export type SearchFacetsInput = {
+  facets: Array<SearchProductFacetInput>;
+  q: Scalars['String'];
+};
+
+export type SearchNewsOutput = {
+  __typename?: 'SearchNewsOutput';
+  facets: Array<ProductFacetOutput>;
+  image: Scalars['String'];
+  orderBy?: Maybe<Scalars['String']>;
+};
+
+export enum SearchOrderByEnum {
+  OrderByBestDiscountDesc = 'OrderByBestDiscountDESC',
+  OrderByNameAsc = 'OrderByNameASC',
+  OrderByNameDesc = 'OrderByNameDESC',
+  OrderByPriceAsc = 'OrderByPriceASC',
+  OrderByPriceDesc = 'OrderByPriceDESC',
+  OrderByReleaseDateDesc = 'OrderByReleaseDateDESC',
+  OrderByScoreDesc = 'OrderByScoreDESC',
+  OrderByTopSaleDesc = 'OrderByTopSaleDESC'
+}
+
+export type SearchOutput = {
+  __typename?: 'SearchOutput';
+  count: Scalars['Int'];
+  items: Array<ProductListOutput>;
+};
+
+export type SearchProductFacetInput = {
+  key: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type SearchProductInput = {
+  facets: Array<SearchProductFacetInput>;
+  orderBy?: InputMaybe<SearchOrderByEnum>;
+  page: Scalars['Int'];
+  perPage?: InputMaybe<Scalars['Int']>;
+  priceRange?: InputMaybe<SearchProductPriceRangeInput>;
+  q: Scalars['String'];
+};
+
+export type SearchProductPriceRangeInput = {
+  from: Scalars['Int'];
+  to: Scalars['Int'];
+};
 
 export type SellerInfoInput = {
   sellerId: Scalars['String'];
@@ -1369,9 +1483,9 @@ export type OrderformItemFragmentFragment = { __typename?: 'OrderformItemOutput'
 
 export type OrderformSelectableGiftFragmentFragment = { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> };
 
-export type ProductColorFragmentFragment = { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'PricePrimeInstallmentOutput', value: number, number: number } } | null }> };
+export type ProductColorFragmentFragment = { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> };
 
-export type ProductSizeFragmentFragment = { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'PricePrimeInstallmentOutput', value: number, number: number } } | null };
+export type ProductSizeFragmentFragment = { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null };
 
 export type ProfileFragmentFragment = { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, isPrime: boolean, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null> };
 
@@ -1581,7 +1695,7 @@ export type WishlistRemoveProductMutation = { __typename?: 'Mutation', wishlistR
 export type AppMenuQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AppMenuQuery = { __typename?: 'Query', appMenu: Array<{ __typename?: 'MenuCategoryOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'MenuCategoryItemFacetOutput', key: string, value: string }>, children: Array<{ __typename?: 'MenuCategoryItemOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'MenuCategoryItemFacetOutput', key: string, value: string }> }> }> };
+export type AppMenuQuery = { __typename?: 'Query', appMenu: Array<{ __typename?: 'MenuCategoryOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, children: Array<{ __typename?: 'MenuCategoryItemOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> }> }> };
 
 export type CashbackQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1646,7 +1760,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', productId: string, productName: string, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'PricePrimeInstallmentOutput', value: number, number: number } } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'PricePrimeInstallmentOutput', value: number, number: number } } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'PricePrimeInstallmentOutput', value: number, number: number } } | null } | null } };
+export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null } | null } };
 
 export type ProductDeliveryTimeQueryVariables = Exact<{
   input: CheckDeliveryTimeByProductInput;
@@ -3308,6 +3422,7 @@ export function refetchPrimeFaqQuery(variables?: PrimeFaqQueryVariables) {
 export const ProductDocument = gql`
     query product($input: ProductInput!) {
   product(input: $input) {
+    action
     productId
     productName
     categoryTree
