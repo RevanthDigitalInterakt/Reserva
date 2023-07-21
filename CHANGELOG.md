@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### 2.0.9
+- Correção do preço divergente na Bag x PDP
+
+---
+
 ### 2.0.8
 
 - [SRN-228 - DITO - Evento adicionou produto a wishlist](https://reserva.atlassian.net/browse/SRN-228)
