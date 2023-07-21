@@ -212,10 +212,31 @@ const Checkout: React.FC<{}> = () => {
           },
         },
       );
+
+      EventProvider.logPurchase({
+        affiliation: 'APP',
+        coupon: 'coupon',
+        currency: 'BRL',
+        items: adaptOrderFormItemsTrack(orderForm?.items) || [],
+        shipping:
+          (orderForm?.totalizers.find((x) => x.id === 'Shipping')?.value
+            || 0) / 100,
+        tax:
+          (orderForm?.paymentData?.payments[0]?.merchantSellerPayments[0]
+            ?.interestRate || 0) / 100,
+        transaction_id: response?.data[0]?.orderId || '',
+        value: itemTotal,
+      });
     } catch (error) {
       EventProvider.captureException(error);
     }
-  }, [getItem, getOrderId, profile?.authCookie]);
+  }, [
+    getItem,
+    getOrderId,
+    orderForm?.items,
+    orderForm?.paymentData?.payments,
+    orderForm?.totalizers,
+  ]);
 
   useEffect(() => {
     if (isOrderPlaced) {
@@ -258,21 +279,6 @@ const Checkout: React.FC<{}> = () => {
 
           EventProvider.logEvent('page_view', {
             wbrand: defaultBrand.picapau,
-          });
-
-          EventProvider.logPurchase({
-            affiliation: 'APP',
-            coupon: 'coupon',
-            currency: 'BRL',
-            items: adaptOrderFormItemsTrack(orderForm?.items) || [],
-            shipping:
-              (orderForm.totalizers.find((x) => x.id === 'Shipping')?.value
-                || 0) / 100,
-            tax:
-              (orderForm?.paymentData?.payments[0]?.merchantSellerPayments[0]
-                ?.interestRate || 0) / 100,
-            transaction_id: '',
-            value: orderValue,
           });
 
           EventProvider.logEvent('add_payment_info_test', {});

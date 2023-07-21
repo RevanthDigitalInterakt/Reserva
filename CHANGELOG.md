@@ -4,6 +4,7 @@
 - [10614 - BUG - Login infinito perde o token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10614/)
 - Correção do preço divergente na Bag x PDP
 - [14769 - Direcionamento deeplink Kit Look](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14769)
+- [SRN-334 - Envio ID da transação VTEX para o Firebase](https://reserva.atlassian.net/browse/SRN-334)
 
 ---
 ### 2.0.8
