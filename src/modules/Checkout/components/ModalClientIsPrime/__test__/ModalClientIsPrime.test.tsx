@@ -5,15 +5,21 @@ import { theme } from '@usereservaapp/reserva-ui';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { ModalClientIsPrime } from '../ModalClientIsPrime';
 
-// Mocks
-const userNameMock = 'User teste';
 const onBackDropPressMock = jest.fn();
+
+jest.mock('../../../../../zustand/useAuth/useAuthStore', () => ({
+  useAuthStore: () => ({
+    profile: {
+      firstName: 'name',
+      email: 'email@test.com',
+    },
+  }),
+}));
 
 const TestingComponent = (
   <ThemeProvider theme={theme}>
     <ModalClientIsPrime
       isVisible
-      firstName={userNameMock}
       onBackdropPress={onBackDropPressMock}
     />
   </ThemeProvider>
@@ -36,7 +42,7 @@ describe('ModalClientIsPrime', () => {
   });
 
   it('should render userName passed through props', () => {
-    const userName = screen.getByText(userNameMock);
+    const userName = screen.getByText('name');
 
     expect(userName).toBeOnTheScreen();
   });

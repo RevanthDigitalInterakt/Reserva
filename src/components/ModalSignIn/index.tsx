@@ -16,6 +16,7 @@ import { FooterModalPrime } from './components/FooterModal';
 import * as Styles from './styles';
 import type { IParamsComponent } from './types';
 import { isValidEmail, isValidPassword } from './utils';
+import IconLogoPrime from '../../../assets/icons/IconLogoPrime';
 
 export const ModalSignIn: React.FC<IParamsComponent> = ({
   onClose,
@@ -44,7 +45,6 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
       onModalHide={onModalHide}
       style={Styles.objectStyles.modal}
       {...testProps('com.usereserva:id/modal_sign_in')}
-      testID="com.usereserva:id/modal_sign_in"
     >
       <Box
         p="xxxs"
@@ -61,13 +61,9 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
           </TouchableOpacity>
         </Box>
 
-        <Typography
-          variant="descontoTag1"
-          fontFamily="reservaSerifBlack"
+        <IconLogoPrime
           {...testProps('com.usereserva:id/modal_sign_in_title')}
-        >
-          Prime
-        </Typography>
+        />
 
         <ScrollView showsVerticalScrollIndicator={false}>
           {!profile?.email && (
@@ -111,6 +107,7 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
                 >
                   <UnderlineInput
                     isSecureText
+                    isModal
                     placeholder="Digite sua senha"
                     value={loginCredentials.password}
                     showError={loginCredentials.showPasswordError}
@@ -123,12 +120,26 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
                       setPasswordIsValid(isValidPassword(text));
                     }}
                   />
+
+                  {loginCredentials.hasError && (
+                    <Typography
+                      style={{ bottom: 8 }}
+                      fontSize={13}
+                      color="vermelhoAlerta"
+                      fontFamily="nunitoRegular"
+                    >
+                      {loginCredentials.showMessageError}
+                    </Typography>
+                  )}
+
                   <Box mt="micro" mb="quarck">
                     <TouchableOpacity
+                      style={{ marginTop: 12 }}
                       {...testProps(
                         'com.usereserva:id/modal_sign_in_cta_forgot_password',
                       )}
                       onPress={() => {
+                        onClose();
                         navigate('ForgotEmail', {});
                       }}
                     >
@@ -141,15 +152,6 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
                     </TouchableOpacity>
                   </Box>
 
-                  {loginCredentials.hasError && (
-                    <Typography
-                      fontSize={13}
-                      color="vermelhoAlerta"
-                      fontFamily="nunitoRegular"
-                    >
-                      {loginCredentials.showMessageError}
-                    </Typography>
-                  )}
                 </View>
               </Box>
 

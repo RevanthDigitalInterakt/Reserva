@@ -40,16 +40,16 @@ export const styles = StyleSheet.create({
   },
 
   subtitle: {
-    fontSize: 12,
-    lineHeight: 15.5,
+    fontSize: 16,
+    lineHeight: 20,
     color: COLORS.GRAY,
     marginBottom: 24,
     textAlign: 'center',
   },
 
   subtitleStrong: {
-    fontSize: 12,
-    lineHeight: 15.5,
+    fontSize: 16,
+    lineHeight: 20,
     color: '#000000',
   },
 });

@@ -14,7 +14,11 @@ import type {
 import { createTokenExpireDate } from '../../utils/createTokenExpireDate';
 import { getAsyncStorageItem, removeAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { getApolloClient } from '../../utils/getApolloClient';
-import { ProfileDocument, RefreshTokenDocument, SignInDocument } from '../../base/graphql/generated';
+import {
+  ProfileDocument,
+  RefreshTokenDocument,
+  SignInDocument,
+} from '../../base/graphql/generated';
 import EventProvider from '../../utils/EventProvider';
 import { identifyCustomer } from './methods/identifyCustomer';
 import { checkIfNeedRefreshToken } from '../../utils/checkIfNeedRefreshToken';
@@ -46,7 +50,7 @@ const authStore = create<IAuthStore>((set, getState) => ({
       const state = getState();
       const token = await getAsyncStorageItem('Auth:Token');
 
-      // If toke do not exists, user's not logged in. No need to request a profile
+      // If token do not exists, user's not logged in. No need to request a profile
       if (!token) {
         set({ ...state, initialized: true });
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Box,
   Button,
@@ -46,10 +46,6 @@ export default function CouponComponent() {
 
     handleSetCouponValue('discount', '');
   }, [actions, couponsValue.discount, handleSetCouponValue]);
-
-  const fullPrice = useMemo(() => (
-    appTotalizers.total + appTotalizers.discount
-  ), [appTotalizers]);
 
   return (
     <Box paddingX="micro" testID="com.usereserva:id/Coupon_Component">
@@ -172,7 +168,7 @@ export default function CouponComponent() {
               fontFamily="nunitoSemiBold"
               sizeInterger={15}
               sizeDecimal={11}
-              num={appTotalizers.total}
+              num={appTotalizers.items}
             />
           </Box>
         ) : null}
@@ -204,11 +200,12 @@ export default function CouponComponent() {
         alignItems="center"
       >
         <Typography variant="precoAntigo3">Total</Typography>
+
         <PriceCustom
           fontFamily="nunitoBold"
           sizeInterger={20}
           sizeDecimal={11}
-          num={fullPrice}
+          num={appTotalizers.total}
         />
       </Box>
     </Box>

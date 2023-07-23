@@ -21,7 +21,7 @@ export const EmptyBag = ({ backButtonPress, onPress, loading }: IEmptyBag) => (
     <Box
       flex={1}
       alignItems="center"
-      paddingTop={110}
+      paddingTop={70}
       testID="com.usereserva:id/empty_bag"
     >
       <IconComponent

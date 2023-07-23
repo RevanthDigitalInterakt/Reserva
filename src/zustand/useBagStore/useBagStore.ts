@@ -33,6 +33,9 @@ import {
   OrderFormRemoveUnavailableItemsDocument,
   OrderFormRemoveUnavailableItemsMutation,
   OrderFormRemoveUnavailableItemsMutationVariables,
+  OrderFormResetDocument,
+  OrderFormResetMutation,
+  OrderFormResetMutationVariables,
   OrderFormSetGiftSizeDocument,
   OrderFormSetGiftSizeMutation,
   OrderFormSetGiftSizeMutationVariables,
@@ -43,6 +46,8 @@ import {
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { getMessageErrorWhenUpdateItem } from './helpers/getMessageErrorWhenUpdateItem';
 import { trackingOrderFormAddItem } from '../../utils/trackingOrderFormAddItem';
+import { handleCopyTextToClipboard } from '../../utils/CopyToClipboard';
+import EventProvider from '../../utils/EventProvider';
 
 const bagStore = create<IBagStore>((set, getState): IBagStore => ({
   initialized: false,
@@ -197,6 +202,48 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ topBarLoading: false }));
       }
     },
+    RESET_ORDER_FORM: async () => {
+      try {
+        set(() => ({ topBarLoading: true }));
+
+        const { data } = await getApolloClient().query<
+        OrderFormResetMutation,
+        OrderFormResetMutationVariables
+        >({
+          query: OrderFormResetDocument,
+          fetchPolicy: 'no-cache',
+          variables: { orderFormId: getState().orderFormId },
+          context: { clientName: 'gateway' },
+        });
+
+        const { orderFormReset: orderForm } = data;
+
+        set(() => ({
+          clientProfileData: orderForm.clientProfileData,
+          items: orderForm.items,
+          marketingData: orderForm.marketingData,
+          shippingData: orderForm.shippingData,
+          installmentInfo: orderForm.installmentInfo,
+          appTotalizers: orderForm.appTotalizers,
+          allItemsQuantity: orderForm.allItemsQuantity,
+        }));
+      } catch (error) {
+        set(() => ({ error: error.message }));
+      } finally {
+        set(() => ({ topBarLoading: false }));
+      }
+    },
+    COPY_ORDERFORM: () => {
+      try {
+        handleCopyTextToClipboard(getState().orderFormId);
+
+        return true;
+      } catch (err) {
+        EventProvider.captureException(err);
+
+        return false;
+      }
+    },
     ADD_SELLER_COUPON: async (sellerCoupon: string) => {
       try {
         set(() => ({ topBarLoading: true }));
@@ -224,6 +271,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm.appTotalizers,
           installmentInfo: orderForm.installmentInfo,
           allItemsQuantity: orderForm.allItemsQuantity,
+          items: orderForm.items,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -264,6 +312,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
+          items: orderForm.items,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -294,6 +343,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             sellerCoupon: '',
             sellerCouponName: '',
           },
+          items: orderForm.items,
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
@@ -324,6 +374,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             ...getState().marketingData,
             coupon: '',
           },
+          items: orderForm.items,
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,

@@ -1053,7 +1053,7 @@ exports[`Componente Menu should match with snapshot 1`] = `
                     ]
                   }
                 >
-                  Pagina Inicial
+                  Página Inicial
                 </Text>
               </View>
             </View>
@@ -1267,6 +1267,370 @@ exports[`Componente Menu should match with snapshot 1`] = `
             </View>
           </View>
           <View
+            style={
+              Array [
+                Object {},
+              ]
+            }
+          >
+            <View
+              accessibilityLabel="com.usereserva:id/menu_button_masculino"
+              accessible={true}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "opacity": 1,
+                }
+              }
+              testID="com.usereserva:id/menu_button_masculino"
+            >
+              <View
+                flexDirection="row"
+                justifyContent="space-between"
+                marginX="xxxs"
+                marginY="micro"
+                style={
+                  Array [
+                    Object {
+                      "flexDirection": "row",
+                      "justifyContent": "space-between",
+                      "marginBottom": 12,
+                      "marginLeft": 16,
+                      "marginRight": 16,
+                      "marginTop": 12,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  color="preto"
+                  fontFamily="nunitoBold"
+                  fontSize={13}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#333333",
+                        "fontFamily": "Nunito-Bold",
+                        "fontSize": 13,
+                      },
+                    ]
+                  }
+                >
+                  MASCULINO
+                </Text>
+                <View
+                  style={
+                    Array [
+                      Object {},
+                    ]
+                  }
+                >
+                  <RNSVGSvgView
+                    bbHeight={12}
+                    bbWidth={12}
+                    color="preto"
+                    focusable={false}
+                    size={12}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        Array [
+                          Object {
+                            "color": "#333333",
+                            "height": 12,
+                            "width": 12,
+                          },
+                          Object {
+                            "transform": Array [
+                              Object {
+                                "rotate": "0deg",
+                              },
+                            ],
+                          },
+                        ],
+                        Object {
+                          "flex": 0,
+                          "height": 12,
+                          "width": 12,
+                        },
+                      ]
+                    }
+                  >
+                    <RNSVGGroup
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0,
+                        ]
+                      }
+                    >
+                      <RNSVGSvgView
+                        align="xMidYMid"
+                        bbHeight="100%"
+                        bbWidth="100%"
+                        focusable={false}
+                        height="100%"
+                        meetOrSlice={0}
+                        minX={0}
+                        minY={0}
+                        style={
+                          Array [
+                            Object {
+                              "backgroundColor": "transparent",
+                              "borderWidth": 0,
+                            },
+                            Array [
+                              Object {
+                                "height": "100%",
+                                "width": "100%",
+                              },
+                            ],
+                            Object {
+                              "flex": 0,
+                              "height": "100%",
+                              "width": "100%",
+                            },
+                          ]
+                        }
+                        vbHeight={24.22}
+                        vbWidth={14.137}
+                        width="100%"
+                      >
+                        <RNSVGGroup>
+                          <RNSVGGroup>
+                            <RNSVGPath
+                              d="M0 1.539L1.539 0l10.06 10.08L21.681 0l1.539 1.539-11.621 11.6-4.343-4.344z"
+                              fill={4281545523}
+                              matrix={
+                                Array [
+                                  6.123233995736766e-17,
+                                  -1,
+                                  1,
+                                  6.123233995736766e-17,
+                                  0.5,
+                                  23.72,
+                                ]
+                              }
+                              propList={
+                                Array [
+                                  "fill",
+                                  "stroke",
+                                  "strokeWidth",
+                                  "strokeLinecap",
+                                  "strokeLinejoin",
+                                ]
+                              }
+                              stroke={4281545523}
+                              strokeLinecap={1}
+                              strokeLinejoin={1}
+                              strokeWidth={1}
+                            />
+                          </RNSVGGroup>
+                        </RNSVGGroup>
+                      </RNSVGSvgView>
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Array [
+                Object {},
+              ]
+            }
+          >
+            <View
+              accessibilityLabel="com.usereserva:id/menu_button_prime"
+              accessible={true}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "opacity": 1,
+                }
+              }
+              testID="com.usereserva:id/menu_button_prime"
+            >
+              <View
+                flexDirection="row"
+                justifyContent="space-between"
+                marginX="xxxs"
+                marginY="micro"
+                style={
+                  Array [
+                    Object {
+                      "flexDirection": "row",
+                      "justifyContent": "space-between",
+                      "marginBottom": 12,
+                      "marginLeft": 16,
+                      "marginRight": 16,
+                      "marginTop": 12,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  color="vermelhoAlerta"
+                  fontFamily="nunitoBold"
+                  fontSize={13}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#EF1E1E",
+                        "fontFamily": "Nunito-Bold",
+                        "fontSize": 13,
+                      },
+                    ]
+                  }
+                >
+                  PRIME
+                </Text>
+                <View
+                  style={
+                    Array [
+                      Object {},
+                    ]
+                  }
+                >
+                  <RNSVGSvgView
+                    bbHeight={12}
+                    bbWidth={12}
+                    color="preto"
+                    focusable={false}
+                    size={12}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        Array [
+                          Object {
+                            "color": "#333333",
+                            "height": 12,
+                            "width": 12,
+                          },
+                          Object {
+                            "transform": Array [
+                              Object {
+                                "rotate": "0deg",
+                              },
+                            ],
+                          },
+                        ],
+                        Object {
+                          "flex": 0,
+                          "height": 12,
+                          "width": 12,
+                        },
+                      ]
+                    }
+                  >
+                    <RNSVGGroup
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0,
+                        ]
+                      }
+                    >
+                      <RNSVGSvgView
+                        align="xMidYMid"
+                        bbHeight="100%"
+                        bbWidth="100%"
+                        focusable={false}
+                        height="100%"
+                        meetOrSlice={0}
+                        minX={0}
+                        minY={0}
+                        style={
+                          Array [
+                            Object {
+                              "backgroundColor": "transparent",
+                              "borderWidth": 0,
+                            },
+                            Array [
+                              Object {
+                                "height": "100%",
+                                "width": "100%",
+                              },
+                            ],
+                            Object {
+                              "flex": 0,
+                              "height": "100%",
+                              "width": "100%",
+                            },
+                          ]
+                        }
+                        vbHeight={24.22}
+                        vbWidth={14.137}
+                        width="100%"
+                      >
+                        <RNSVGGroup>
+                          <RNSVGGroup>
+                            <RNSVGPath
+                              d="M0 1.539L1.539 0l10.06 10.08L21.681 0l1.539 1.539-11.621 11.6-4.343-4.344z"
+                              fill={4281545523}
+                              matrix={
+                                Array [
+                                  6.123233995736766e-17,
+                                  -1,
+                                  1,
+                                  6.123233995736766e-17,
+                                  0.5,
+                                  23.72,
+                                ]
+                              }
+                              propList={
+                                Array [
+                                  "fill",
+                                  "stroke",
+                                  "strokeWidth",
+                                  "strokeLinecap",
+                                  "strokeLinejoin",
+                                ]
+                              }
+                              stroke={4281545523}
+                              strokeLinecap={1}
+                              strokeLinejoin={1}
+                              strokeWidth={1}
+                            />
+                          </RNSVGGroup>
+                        </RNSVGGroup>
+                      </RNSVGSvgView>
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
             backgroundColor="divider"
             height={1}
             marginBottom="nano"
@@ -1286,7 +1650,7 @@ exports[`Componente Menu should match with snapshot 1`] = `
           <View
             accessibilityLabel="com.usereserva:id/menu_button_account"
             accessible={true}
-            focusable={false}
+            focusable={true}
             onClick={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
@@ -1423,16 +1787,7 @@ exports[`Componente Menu should match with snapshot 1`] = `
                     ]
                   }
                 >
-                  <Text
-                    onPress={[Function]}
-                    style={
-                      Array [
-                        Object {},
-                      ]
-                    }
-                  >
-                    Acessar Conta
-                  </Text>
+                  Acessar Conta
                 </Text>
               </View>
             </View>
@@ -2359,10 +2714,7 @@ exports[`Componente Menu should match with snapshot 1`] = `
               ]
             }
           >
-            Versão
-             
-            unknown
-            
+            Versão unknown 
           </Text>
         </View>
       </View>
