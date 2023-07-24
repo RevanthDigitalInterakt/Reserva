@@ -1,11 +1,19 @@
 ## CHANGELOG
 
+### 2.0.9
+- [10614 - BUG - Login infinito perde o token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10614/)
+- Correção do preço divergente na Bag x PDP
+- [14769 - Direcionamento deeplink Kit Look](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14769)
+- [SRN-334 - Envio ID da transação VTEX para o Firebase](https://reserva.atlassian.net/browse/SRN-334)
+
+---
 ### 2.0.8
 
 - [14551 - Como usuário quero ver vídeo do produto na PDP](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14551)
 - [SRN-228 - DITO - Evento adicionou produto a wishlist](https://reserva.atlassian.net/browse/SRN-228)
 - [SRN-229 - DITO - Evento Acessou o carrinho](https://reserva.atlassian.net/browse/SRN-229)
-- [15058 - Possibilidade de links no menu que não vão para a PDC](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14858)
+- [15058 - Possibilidade de links no menu que não vão para a PDC](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=15058)
+- Teste A/B nos preços prime PDC e PDP
 
 ---
 
@@ -32,7 +40,6 @@
 - [14671 - Alterar imagem de fundo na LP Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14671)
 - [14647 - BUG Layout com valor do Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Downstream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14647)
 - [14785 - Troca de domínio API Gateway](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Downstream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14785)
-
 ---
 
 ### 2.0.5

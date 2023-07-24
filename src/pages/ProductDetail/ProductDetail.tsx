@@ -12,7 +12,7 @@ import ProductAbout from './components/ProductAbout';
 import ProductSummary from './components/ProductSummary';
 import ProductAssinaturaSimples from './components/ProductAssinaturaSimples';
 import ProductSelectors from './components/ProductSelectors';
-import { ProductQuery, useProductLazyQuery } from '../../base/graphql/generated';
+import { ProductQuery, ProductResultActionEnum, useProductLazyQuery } from '../../base/graphql/generated';
 import { getProductLoadType } from './utils/getProductLoadType';
 import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
 import EventProvider from '../../utils/EventProvider';
@@ -22,6 +22,7 @@ import { ProductRecommendation } from '../../components/ProductRecommendation/Pr
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
 import { getProductCategories } from '../../utils/getProductCategories';
+import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -84,6 +85,17 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         product_price: product.priceRange?.listPrice?.lowPrice,
         product_currency: 'BRL',
       });
+
+      if (product.action !== ProductResultActionEnum.ShowProduct) {
+        await DeepLinkPathModule.openUrlInBrowser({
+          closeCurrentAppInstance: false,
+          url: product.share.url,
+        });
+
+        navigation.goBack();
+
+        return;
+      }
 
       setProduct(product, params);
     } catch (err) {
