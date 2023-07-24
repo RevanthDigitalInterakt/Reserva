@@ -1,6 +1,6 @@
 import AddressList from '../../modules/Address/AddressList/view';
 import NewAddress from '../../modules/Address/NewAddress/view/NewAddress';
-import CreateAddress from '../../pages/Address/CreateAddress';
+import CreateAddress from '../../pages/Address/CreateAddress/CreateAddress';
 import type { Flow } from '../types/flow.type';
 
 export const AddressFlow: Flow[] = [

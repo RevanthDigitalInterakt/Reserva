@@ -1,7 +1,11 @@
-/* eslint-disable max-len */
 import React from 'react';
 
-import { View, TextInput, Image, Text } from 'react-native';
+import {
+  View,
+  TextInput,
+  Image,
+  Text,
+} from 'react-native';
 
 import styles from './InputForm.styles';
 import type { IInputForm } from './interfaces/IInputForm';
@@ -16,22 +20,31 @@ export default function InputForm({
   inputName,
   fieldTouched,
   error,
+  isEditable,
+  textInputType,
 }: IInputForm): JSX.Element {
-  const containerStyle = error ? [styles.inputContainer, styles.borderErrorActive] : [styles.inputContainer];
+  const containerStyle = error
+    ? [styles.inputContainer, { ...styles.borderErrorActive }] : [styles.inputContainer];
+
+  const editableFieldStyle = !isEditable && { containerStyle, backgroundColor: '#f0f0f0' };
+
+  const inputStyle = [...containerStyle, editableFieldStyle];
 
   return (
     <View>
-      <View style={containerStyle}>
+      <View style={inputStyle}>
         <TextInput
           placeholder={placeholder}
           style={styles.inputText}
           autoCapitalize="none"
           autoCorrect={false}
           returnKeyType="next"
+          placeholderTextColor="#A3A3A3"
           onChangeText={(text: string) => onTextChange(text)}
           value={inputValue}
           ref={inputRef}
-          name={inputName}
+          editable={isEditable}
+          keyboardType={textInputType}
           onBlur={() => fieldTouched(inputName)}
           onSubmitEditing={() => {
             if (nextInputRef && nextInputRef.current) {

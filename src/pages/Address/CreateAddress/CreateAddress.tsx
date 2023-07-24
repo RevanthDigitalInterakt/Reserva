@@ -1,5 +1,3 @@
-/* eslint-disable object-curly-newline */
-/* eslint-disable max-len */
 import React, { useState, useRef } from 'react';
 import {
   View,
@@ -13,8 +11,8 @@ import {
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
-import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
-import InputForm from './components/InputForm';
+import { TopBarBackButton } from '../../../modules/Menu/components/TopBarBackButton';
+import InputForm from '../components/InputForm';
 
 import {
   addressNumberSchema,
@@ -26,21 +24,10 @@ import {
   neighborhoodSchema,
   postalCodeSchema,
   streetSchema,
-} from './utils/inputValidations';
+} from '../utils/inputValidations';
 
-export interface IAddressData {
-  addressSurname: string;
-  fullname: string;
-  postalCode: string;
-  street: string;
-  neighborhood: string;
-  addressNumber: string;
-  complement: string;
-  addressState: string;
-  city: string
-}
+import type { IAddressData } from './interfaces/ICreateAddress';
 
-//  TODO
 const createAddressSchema = Yup.object().shape({
   addressSurname: addressSurnameSchema,
   fullname: fullNameSchema,
@@ -67,7 +54,7 @@ export default function CreateAddress(): JSX.Element {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(!isEnabled);
 
-  const [addressData, setAddressData] = useState<IAddressData>({
+  const [addressData] = useState<IAddressData>({
     addressSurname: '',
     fullname: '',
     postalCode: '',
@@ -97,10 +84,16 @@ export default function CreateAddress(): JSX.Element {
 
         <Formik
           initialValues={addressData}
-          onSubmit={(values) => console.log('values', values)}
+          onSubmit={() => { }}
           validationSchema={createAddressSchema}
         >
-          {({ handleChange, handleSubmit, values, errors, touched, setFieldTouched }) => (
+          {({
+            handleChange,
+            handleSubmit,
+            values,
+            errors,
+            setFieldTouched,
+          }) => (
             <>
               <View style={{ marginVertical: 10 }}>
                 <InputForm
@@ -112,6 +105,8 @@ export default function CreateAddress(): JSX.Element {
                   inputName="addressSurname"
                   fieldTouched={() => setFieldTouched('addressSurname')}
                   error={errors.addressSurname}
+                  isEditable
+                  textInputType="default"
                 />
               </View>
 
@@ -125,6 +120,8 @@ export default function CreateAddress(): JSX.Element {
                   inputName="fullname"
                   fieldTouched={() => setFieldTouched('fullname')}
                   error={errors.fullname}
+                  isEditable
+                  textInputType="default"
                 />
               </View>
 
@@ -138,6 +135,8 @@ export default function CreateAddress(): JSX.Element {
                   inputName="postalCode"
                   fieldTouched={() => setFieldTouched('postalCode')}
                   error={errors.postalCode}
+                  isEditable
+                  textInputType="number-pad"
                 />
               </View>
 
@@ -151,6 +150,8 @@ export default function CreateAddress(): JSX.Element {
                   inputName="street"
                   fieldTouched={() => setFieldTouched('street')}
                   error={errors.street}
+                  isEditable
+                  textInputType="default"
                 />
               </View>
 
@@ -164,6 +165,8 @@ export default function CreateAddress(): JSX.Element {
                   inputName="neighborhood"
                   fieldTouched={() => setFieldTouched('neighborhood')}
                   error={errors.neighborhood}
+                  isEditable
+                  textInputType="default"
                 />
               </View>
 
@@ -177,6 +180,8 @@ export default function CreateAddress(): JSX.Element {
                   inputName="addressNumber"
                   fieldTouched={() => setFieldTouched('addressNumber')}
                   error={errors.addressNumber}
+                  isEditable
+                  textInputType="number-pad"
                 />
               </View>
 
@@ -190,6 +195,38 @@ export default function CreateAddress(): JSX.Element {
                   inputName="complement"
                   fieldTouched={() => {}}
                   error={errors.complement}
+                  isEditable
+                  textInputType="default"
+                />
+              </View>
+
+              <View style={{ marginVertical: 10 }}>
+                <InputForm
+                  placeholder="*Para preencher o Estado, digite o CEP acima"
+                  onTextChange={handleChange('addressState')}
+                  inputValue={values.addressState}
+                  fieldTouched={() => setFieldTouched('addressState')}
+                  error={errors.addressState}
+                  inputRef={inputComplementRef}
+                  nextInputRef={inputComplementRef}
+                  inputName="addressState"
+                  isEditable={false}
+                  textInputType="default"
+                />
+              </View>
+
+              <View style={{ marginVertical: 10 }}>
+                <InputForm
+                  placeholder="*Para preencher a Cidade, digite o CEP acima"
+                  onTextChange={handleChange('city')}
+                  inputValue={values.city}
+                  fieldTouched={() => setFieldTouched('city')}
+                  error={errors.city}
+                  inputRef={inputComplementRef}
+                  nextInputRef={inputComplementRef}
+                  inputName="city"
+                  isEditable={false}
+                  textInputType="default"
                 />
               </View>
 
@@ -238,22 +275,6 @@ export default function CreateAddress(): JSX.Element {
             </>
           )}
         </Formik>
-
-        {/* <View style={{ marginVertical: 10 }}>
-          <InputForm
-            placeholder="*Para preencher o Estado, digite o CEP acima"
-            onTextChange={() => {}}
-            inputValue=""
-          />
-        </View>
-
-        <View style={{ marginVertical: 10 }}>
-          <InputForm
-            placeholder="*Para preencher a Cidade, digite o CEP acima"
-            onTextChange={() => {}}
-            inputValue=""
-          />
-        </View> */}
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,5 +1,6 @@
-/* eslint-disable max-len */
 import type { TextInput } from 'react-native';
+
+type KeyboardType = 'default' | 'number-pad' | 'decimal-pad' | 'numeric' | 'email-address' | 'phone-pad' | 'url';
 
 export interface IInputForm {
   placeholder: string;
@@ -10,4 +11,6 @@ export interface IInputForm {
   inputName: string;
   fieldTouched: (field: string) => void;
   error?: string;
+  isEditable: boolean;
+  textInputType: KeyboardType;
 }
