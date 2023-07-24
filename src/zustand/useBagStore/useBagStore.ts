@@ -271,6 +271,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm.appTotalizers,
           installmentInfo: orderForm.installmentInfo,
           allItemsQuantity: orderForm.allItemsQuantity,
+          items: orderForm.items,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -311,6 +312,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
+          items: orderForm.items,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -341,6 +343,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             sellerCoupon: '',
             sellerCouponName: '',
           },
+          items: orderForm.items,
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
@@ -371,6 +374,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             ...getState().marketingData,
             coupon: '',
           },
+          items: orderForm.items,
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,

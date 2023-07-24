@@ -151,7 +151,6 @@ function Menu() {
 
               <FixedMenuItem
                 iconName="Profile"
-                disabled={!!profile?.email}
                 testID="com.usereserva:id/menu_button_account"
                 onPress={() => {
                   if (profile?.email) {

@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect } from 'react';
+import React, {
+  useCallback, useEffect,
+} from 'react';
 import { StatusBar } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,12 +11,18 @@ import CodePushModal from './components/CodePushModal/CodePushModal';
 import { StorageService } from './shared/services/StorageService';
 import OnForegroundEventPush from './utils/Notifee/ForegroundEvents';
 import { useAuthStore } from './zustand/useAuth/useAuthStore';
+
 import { usePrimeConfig } from './zustand/usePrimeConfig/usePrimeConfig';
+import { useRefreshToken } from './hooks/useRefreshToken';
+
+interface IProps {
+  children: React.ReactNode;
+}
 
 function InitialScreen({ children }: { children: React.ReactNode }) {
   const {
-    onInit, initialized, isAnonymousUser, profile,
-  } = useAuthStore(['onInit', 'initialized', 'isAnonymousUser', 'profile']);
+    initialized, isAnonymousUser, profile,
+  } = useAuthStore(['initialized', 'isAnonymousUser', 'profile']);
 
   const { onPrimeConfig } = usePrimeConfig(['onPrimeConfig']);
 
@@ -24,9 +32,7 @@ function InitialScreen({ children }: { children: React.ReactNode }) {
 
   // useCheckAppNewVersion();
 
-  useEffect(() => {
-    onInit();
-  }, [onInit]);
+  useRefreshToken();
 
   const onAppInit = useCallback(async () => {
     if (isAnonymousUser) {

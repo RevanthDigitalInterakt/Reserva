@@ -1,5 +1,6 @@
 query product($input: ProductInput!) {
   product(input: $input) {
+    action
     productId
     productName
     categoryTree
