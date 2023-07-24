@@ -12,6 +12,7 @@ export interface ProductDetailCardLegacyProps {
   imagesWidth?: number
   imagesHeight?: number
   isFavorited?: boolean
+  showZoomButton?: boolean
   loadingFavorite?: boolean
   onClickFavorite?: (favoriteState: boolean) => void
   onClickShare?: () => void

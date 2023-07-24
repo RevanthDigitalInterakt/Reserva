@@ -17,7 +17,6 @@ export const ProductDetailCard = ({
   title,
   imagesHeight,
   imagesWidth,
-  showZoomButton,
   onClickShare,
   onGoBackImage,
   onGoNextImage,
@@ -142,7 +141,6 @@ export const ProductDetailCard = ({
             />
           </Box>
         </Box>
-        {showZoomButton && (
         <Box
           position="absolute"
           bottom="3%"
@@ -161,7 +159,6 @@ export const ProductDetailCard = ({
             icon={<Icon name="Expand" size={18} color="preto" />}
           />
         </Box>
-        )}
       </Box>
     </Box>
 
