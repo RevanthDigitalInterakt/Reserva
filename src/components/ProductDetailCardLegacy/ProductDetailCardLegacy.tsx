@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import LottieView from 'lottie-react-native';
+import DeviceInfo, { PowerState } from 'react-native-device-info';
 import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 
@@ -44,9 +45,26 @@ export const ProductDetailCardLegacy = ({
   const isTester = useIsTester();
   const { getBoolean } = useRemoteConfig();
 
+  const [statePhone, setStatePhone] = useState <Partial<PowerState> | null >(null);
+
+  useEffect(() => {
+    const checkBatterySaverStatus = async () => {
+      try {
+        const batterySaverEnabled = await DeviceInfo.getPowerState();
+        setStatePhone(batterySaverEnabled);
+      } catch (error) {
+        console.error('Error checking battery saver status:', error);
+      }
+    };
+
+    checkBatterySaverStatus();
+  }, []);
+
   const videoActive = useMemo(() => (
     getBoolean(isTester ? 'pdp_show_video_tester' : 'pdp_show_video')
   ), [getBoolean, isTester]);
+
+  const showVideoInCard = videoActive || !statePhone?.lowPowerMode;
 
   return (
     <Box alignItems="center" justifyContent="center">
@@ -79,7 +97,7 @@ export const ProductDetailCardLegacy = ({
         </Box>
         )}
         <Box>
-          {videoActive ? (
+          {showVideoInCard ? (
             <CarrouselMedias
               images={images}
               width={imagesWidth}
