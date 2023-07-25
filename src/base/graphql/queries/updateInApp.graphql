@@ -1,0 +1,10 @@
+query updateInApp {
+  updateInApp {
+    updateTitle
+    updateDescription
+    updateAllVersions
+    targetVersion
+    onlyPlatform
+    updateType
+  }
+}

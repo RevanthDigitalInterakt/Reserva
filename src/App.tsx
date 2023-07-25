@@ -40,7 +40,7 @@ const App = () => {
 
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [isOnMaintenance, setIsOnMaintenance] = useState(false);
-  const client = useApolloClientHook(true);
+  const client = useApolloClientHook(isTesting);
 
   const remoteConfigStore = useRemoteConfig();
   const { setItem } = useAsyncStorageProvider();

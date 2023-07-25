@@ -1786,6 +1786,11 @@ export type RonRedirectQueryVariables = Exact<{
 
 export type RonRedirectQuery = { __typename?: 'Query', ronRedirect?: { __typename?: 'RonRedirectOutput', type: RonRedirectTypeEnum, url?: string | null, orderFormId?: string | null } | null };
 
+export type UpdateInAppQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UpdateInAppQuery = { __typename?: 'Query', updateInApp?: { __typename?: 'UpdateInAppOutput', updateTitle?: string | null, updateDescription?: string | null, updateAllVersions?: boolean | null, targetVersion?: string | null, onlyPlatform?: string | null, updateType?: string | null } | null };
+
 export type WishlistCheckProductQueryVariables = Exact<{
   input: WishlistCheckProductInput;
 }>;
@@ -3687,6 +3692,48 @@ export type RonRedirectLazyQueryHookResult = ReturnType<typeof useRonRedirectLaz
 export type RonRedirectQueryResult = Apollo.QueryResult<RonRedirectQuery, RonRedirectQueryVariables>;
 export function refetchRonRedirectQuery(variables: RonRedirectQueryVariables) {
       return { query: RonRedirectDocument, variables: variables }
+    }
+export const UpdateInAppDocument = gql`
+    query updateInApp {
+  updateInApp {
+    updateTitle
+    updateDescription
+    updateAllVersions
+    targetVersion
+    onlyPlatform
+    updateType
+  }
+}
+    `;
+
+/**
+ * __useUpdateInAppQuery__
+ *
+ * To run a query within a React component, call `useUpdateInAppQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUpdateInAppQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUpdateInAppQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUpdateInAppQuery(baseOptions?: Apollo.QueryHookOptions<UpdateInAppQuery, UpdateInAppQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UpdateInAppQuery, UpdateInAppQueryVariables>(UpdateInAppDocument, options);
+      }
+export function useUpdateInAppLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UpdateInAppQuery, UpdateInAppQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UpdateInAppQuery, UpdateInAppQueryVariables>(UpdateInAppDocument, options);
+        }
+export type UpdateInAppQueryHookResult = ReturnType<typeof useUpdateInAppQuery>;
+export type UpdateInAppLazyQueryHookResult = ReturnType<typeof useUpdateInAppLazyQuery>;
+export type UpdateInAppQueryResult = Apollo.QueryResult<UpdateInAppQuery, UpdateInAppQueryVariables>;
+export function refetchUpdateInAppQuery(variables?: UpdateInAppQueryVariables) {
+      return { query: UpdateInAppDocument, variables: variables }
     }
 export const WishlistCheckProductDocument = gql`
     query wishlistCheckProduct($input: WishlistCheckProductInput!) {
