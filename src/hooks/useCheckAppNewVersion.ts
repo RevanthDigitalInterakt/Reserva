@@ -1,13 +1,13 @@
 import { useCallback, useEffect } from 'react';
 import { Alert, Linking, Platform } from 'react-native';
 import Config from 'react-native-config';
+import deviceInfoModule from 'react-native-device-info';
 import checkVersion from 'react-native-store-version';
 import semver from 'semver';
-import deviceInfoModule from 'react-native-device-info';
-import EventProvider from '../utils/EventProvider';
-import { useApolloFetchPolicyStore } from '../zustand/useApolloFetchPolicyStore';
-import { platformType } from '../utils/platformType';
 import { useUpdateInAppLazyQuery } from '../base/graphql/generated';
+import EventProvider from '../utils/EventProvider';
+import { platformType } from '../utils/platformType';
+import { useApolloFetchPolicyStore } from '../zustand/useApolloFetchPolicyStore';
 
 export default function useCheckAppNewVersion() {
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
@@ -26,29 +26,29 @@ export default function useCheckAppNewVersion() {
   }, []);
 
   const onGetUpdateInApp = useCallback(async () => {
-    const { data } = await getUpdateInApp();
-
-    const platform = Platform.OS;
-
-    const targetVersion = data?.updateInApp?.targetVersion ?? '1.0.0';
-    const updateType = data?.updateInApp?.updateType;
-    const updateTitle = data?.updateInApp?.updateTitle;
-    const updateDescription = data?.updateInApp?.updateDescription;
-    const onlyPlatform = data?.updateInApp?.onlyPlatform;
-    const updateAllVersions = data?.updateInApp?.updateAllVersions;
-
-    const buttons = [
-      updateType === 'FLEXIBLE' ? {
-        text: 'Atualizar depois',
-        onPress: () => { },
-      } : {},
-      {
-        text: 'Atualizar',
-        onPress: goToStore,
-      },
-    ];
-
     try {
+      const { data } = await getUpdateInApp();
+
+      const platform = Platform.OS;
+
+      const targetVersion = data?.updateInApp?.targetVersion ?? '1.0.0';
+      const updateType = data?.updateInApp?.updateType;
+      const updateTitle = data?.updateInApp?.updateTitle;
+      const updateDescription = data?.updateInApp?.updateDescription;
+      const onlyPlatform = data?.updateInApp?.onlyPlatform;
+      const updateAllVersions = data?.updateInApp?.updateAllVersions;
+
+      const buttons = [
+        updateType === 'FLEXIBLE' ? {
+          text: 'Atualizar depois',
+          onPress: () => { },
+        } : {},
+        {
+          text: 'Atualizar',
+          onPress: goToStore,
+        },
+      ];
+
       const { remote, local } = await checkVersion({
         version: deviceInfoModule.getVersion(),
         iosStoreURL: Config.IOS_STORE_URL,
