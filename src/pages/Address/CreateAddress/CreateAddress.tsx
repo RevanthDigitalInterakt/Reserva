@@ -1,4 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+} from 'react';
 import {
   View,
   Text,
@@ -7,12 +12,15 @@ import {
   Switch,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
 import { TopBarBackButton } from '../../../modules/Menu/components/TopBarBackButton';
 import InputForm from '../components/InputForm';
+
+import styles from './CreateAddress.styles';
 
 import {
   addressNumberSchema,
@@ -27,6 +35,10 @@ import {
 } from '../utils/inputValidations';
 
 import type { IAddressData } from './interfaces/ICreateAddress';
+import { useProfileAddressMutation } from '../../../base/graphql/generated';
+import EventProvider from '../../../utils/EventProvider';
+import { CepVerifyPostalCode } from '../../../services/vtexService';
+import type { CheckPostalCodeFn } from '../components/InputForm/interfaces/IInputForm';
 
 const createAddressSchema = Yup.object().shape({
   addressSurname: addressSurnameSchema,
@@ -51,40 +63,111 @@ export default function CreateAddress(): JSX.Element {
   const inputNumberRef = useRef<TextInput>(null);
   const inputComplementRef = useRef<TextInput>(null);
 
+  const [loading, setLoading] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(!isEnabled);
 
-  const [addressData] = useState<IAddressData>({
-    addressSurname: '',
-    fullname: '',
-    postalCode: '',
-    street: '',
-    neighborhood: '',
-    addressNumber: '',
-    complement: '',
-    addressState: '',
-    city: '',
+  const [profileAddress] = useProfileAddressMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
 
+  const checkPostalCode = useCallback<CheckPostalCodeFn>(async (value, setFieldValue) => {
+    if (value.length < 8) return;
+
+    try {
+      const {
+        city,
+        neighborhood,
+        state,
+        street,
+      } = await CepVerifyPostalCode(value);
+
+      setFieldValue('city', city);
+      setFieldValue('neighborhood', neighborhood);
+      setFieldValue('addressState', state);
+      setFieldValue('street', street);
+    } catch (error) {
+      EventProvider.captureException(error);
+    }
+  }, []);
+
+  const handleCreateAddress = useCallback(async (addressValues: IAddressData) => {
+    const {
+      addressNumber,
+      addressState,
+      addressSurname,
+      city,
+      complement,
+      fullname,
+      neighborhood,
+      postalCode,
+      street,
+    } = addressValues;
+
+    setLoading(true);
+
+    try {
+      await profileAddress(
+        {
+          variables: {
+            input: {
+              city,
+              country: 'Brasil',
+              neighborhood,
+              number: addressNumber,
+              postalCode,
+              receiverName: fullname,
+              state: addressState,
+              street,
+              addressName: addressSurname,
+              complement,
+              mainAddress: isEnabled,
+            },
+          },
+        },
+      );
+
+      goBack();
+    } catch (error) {
+      EventProvider.captureException(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [goBack, isEnabled, profileAddress]);
+
+  useEffect(() => {
+
+  }, []);
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.container}>
       <TopBarBackButton
         loading={false}
         showShadow
         backButtonPress={goBack}
       />
       <ScrollView contentContainerStyle={{ padding: 20 }}>
-        <View style={{ marginVertical: 10 }}>
+        <View style={styles.content}>
           <Text>Adicionar endereço</Text>
         </View>
 
-        <View style={{ marginVertical: 10 }}>
+        <View style={styles.content}>
           <Text>Os campos a seguir são obrigatórios então lembre-se de preencher todos eles.</Text>
         </View>
 
         <Formik
-          initialValues={addressData}
-          onSubmit={() => { }}
+          initialValues={{
+            addressSurname: '',
+            fullname: '',
+            postalCode: '',
+            street: '',
+            neighborhood: '',
+            addressNumber: '',
+            complement: '',
+            addressState: '',
+            city: '',
+          }}
+          onSubmit={(values) => handleCreateAddress(values)}
           validationSchema={createAddressSchema}
         >
           {({
@@ -93,9 +176,10 @@ export default function CreateAddress(): JSX.Element {
             values,
             errors,
             setFieldTouched,
+            setFieldValue,
           }) => (
             <>
-              <View style={{ marginVertical: 10 }}>
+              <View style={styles.content}>
                 <InputForm
                   placeholder="*Digite um apelido para este endereço"
                   onTextChange={handleChange('addressSurname')}
@@ -110,7 +194,7 @@ export default function CreateAddress(): JSX.Element {
                 />
               </View>
 
-              <View style={{ marginVertical: 10 }}>
+              <View style={styles.content}>
                 <InputForm
                   placeholder="*Digite seu nome completo"
                   onTextChange={handleChange('fullname')}
@@ -125,7 +209,7 @@ export default function CreateAddress(): JSX.Element {
                 />
               </View>
 
-              <View style={{ marginVertical: 10 }}>
+              <View style={styles.content}>
                 <InputForm
                   placeholder="*Digite seu CEP"
                   onTextChange={handleChange('postalCode')}
@@ -137,10 +221,12 @@ export default function CreateAddress(): JSX.Element {
                   error={errors.postalCode}
                   isEditable
                   textInputType="number-pad"
+                  checkPostalCode={checkPostalCode}
+                  setFieldValue={setFieldValue}
                 />
               </View>
 
-              <View style={{ marginVertical: 10 }}>
+              <View style={styles.content}>
                 <InputForm
                   placeholder="*Digite sua Rua"
                   onTextChange={handleChange('street')}
@@ -155,7 +241,7 @@ export default function CreateAddress(): JSX.Element {
                 />
               </View>
 
-              <View style={{ marginVertical: 10 }}>
+              <View style={styles.content}>
                 <InputForm
                   placeholder="*Digite seu bairro"
                   onTextChange={handleChange('neighborhood')}
@@ -170,7 +256,7 @@ export default function CreateAddress(): JSX.Element {
                 />
               </View>
 
-              <View style={{ marginVertical: 10 }}>
+              <View style={styles.content}>
                 <InputForm
                   placeholder="*Número"
                   onTextChange={handleChange('addressNumber')}
@@ -185,7 +271,7 @@ export default function CreateAddress(): JSX.Element {
                 />
               </View>
 
-              <View style={{ marginVertical: 10 }}>
+              <View style={styles.content}>
                 <InputForm
                   placeholder="Complemento"
                   onTextChange={handleChange('complement')}
@@ -200,7 +286,7 @@ export default function CreateAddress(): JSX.Element {
                 />
               </View>
 
-              <View style={{ marginVertical: 10 }}>
+              <View style={styles.content}>
                 <InputForm
                   placeholder="*Para preencher o Estado, digite o CEP acima"
                   onTextChange={handleChange('addressState')}
@@ -210,12 +296,12 @@ export default function CreateAddress(): JSX.Element {
                   inputRef={inputComplementRef}
                   nextInputRef={inputComplementRef}
                   inputName="addressState"
-                  isEditable={false}
+                  isEditable
                   textInputType="default"
                 />
               </View>
 
-              <View style={{ marginVertical: 10 }}>
+              <View style={styles.content}>
                 <InputForm
                   placeholder="*Para preencher a Cidade, digite o CEP acima"
                   onTextChange={handleChange('city')}
@@ -225,12 +311,12 @@ export default function CreateAddress(): JSX.Element {
                   inputRef={inputComplementRef}
                   nextInputRef={inputComplementRef}
                   inputName="city"
-                  isEditable={false}
+                  isEditable
                   textInputType="default"
                 />
               </View>
 
-              <View style={{ marginVertical: 10 }}>
+              <View style={styles.content}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Text style={{ color: '#656565', fontWeight: '700' }}>Tornar este o meu endereço padrão</Text>
 
@@ -244,9 +330,9 @@ export default function CreateAddress(): JSX.Element {
                 </View>
               </View>
 
-              <View style={{ marginVertical: 10 }}>
+              <View style={styles.content}>
                 <TouchableOpacity
-                  onPress={handleSubmit}
+                  onPress={() => handleSubmit()}
                   style={{
                     backgroundColor: '#333333',
                     padding: 20,
@@ -254,11 +340,15 @@ export default function CreateAddress(): JSX.Element {
                     justifyContent: 'center',
                   }}
                 >
-                  <Text style={{ color: '#ffffff', textTransform: 'uppercase' }}>salvar endereço</Text>
+                  {loading ? (
+                    <ActivityIndicator size="small" color="#ffffff" />
+                  ) : (
+                    <Text style={{ color: '#ffffff', textTransform: 'uppercase' }}>salvar endereço</Text>
+                  )}
                 </TouchableOpacity>
               </View>
 
-              <View style={{ marginVertical: 10 }}>
+              <View style={styles.content}>
                 <TouchableOpacity
                   style={{
                     backgroundColor: '#ffffff',
