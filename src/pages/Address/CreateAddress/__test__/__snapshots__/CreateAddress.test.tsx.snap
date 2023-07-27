@@ -479,6 +479,7 @@ exports[`Create Address snapshot 1`] = `
                   "marginHorizontal": 10,
                 }
               }
+              testID="com.usereserva:id/create_address_input_surname"
               underlineColorAndroid="transparent"
               value=""
             />
@@ -523,6 +524,7 @@ exports[`Create Address snapshot 1`] = `
                   "marginHorizontal": 10,
                 }
               }
+              testID="com.usereserva:id/create_address_input_fullname"
               underlineColorAndroid="transparent"
               value=""
             />
@@ -567,6 +569,7 @@ exports[`Create Address snapshot 1`] = `
                   "marginHorizontal": 10,
                 }
               }
+              testID="com.usereserva:id/create_address_input_postal_code"
               underlineColorAndroid="transparent"
               value=""
             />
@@ -611,6 +614,7 @@ exports[`Create Address snapshot 1`] = `
                   "marginHorizontal": 10,
                 }
               }
+              testID="com.usereserva:id/create_address_input_street"
               underlineColorAndroid="transparent"
               value=""
             />
@@ -655,6 +659,7 @@ exports[`Create Address snapshot 1`] = `
                   "marginHorizontal": 10,
                 }
               }
+              testID="com.usereserva:id/create_address_input_neighborhood"
               underlineColorAndroid="transparent"
               value=""
             />
@@ -699,6 +704,7 @@ exports[`Create Address snapshot 1`] = `
                   "marginHorizontal": 10,
                 }
               }
+              testID="com.usereserva:id/create_address_input_address_number"
               underlineColorAndroid="transparent"
               value=""
             />
@@ -743,6 +749,7 @@ exports[`Create Address snapshot 1`] = `
                   "marginHorizontal": 10,
                 }
               }
+              testID="com.usereserva:id/create_address_input_complement"
               underlineColorAndroid="transparent"
               value=""
             />
@@ -796,6 +803,7 @@ exports[`Create Address snapshot 1`] = `
                   "marginHorizontal": 10,
                 }
               }
+              testID="com.usereserva:id/create_address_input_address_state"
               underlineColorAndroid="transparent"
               value=""
             />
@@ -849,6 +857,7 @@ exports[`Create Address snapshot 1`] = `
                   "marginHorizontal": 10,
                 }
               }
+              testID="com.usereserva:id/create_address_input_city"
               underlineColorAndroid="transparent"
               value=""
             />
@@ -931,6 +940,7 @@ exports[`Create Address snapshot 1`] = `
               "padding": 20,
             }
           }
+          testID="com.usereserva:id/create_address_button_submit"
         >
           <Text
             style={
@@ -972,6 +982,7 @@ exports[`Create Address snapshot 1`] = `
               "padding": 20,
             }
           }
+          testID="com.usereserva:id/create_address_button_cancel"
         >
           <Text
             style={

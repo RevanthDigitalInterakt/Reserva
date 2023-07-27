@@ -24,6 +24,7 @@ export default function InputForm({
   textInputType,
   checkPostalCode,
   setFieldValue,
+  inputID,
 }: IInputForm): JSX.Element {
   const containerStyle = error
     ? [styles.inputContainer, { ...styles.borderErrorActive }] : [styles.inputContainer];
@@ -42,6 +43,7 @@ export default function InputForm({
           autoCorrect={false}
           returnKeyType="next"
           placeholderTextColor="#A3A3A3"
+          testID={inputID}
           onChangeText={(text: string) => {
             onTextChange(text);
             if (inputName === 'postalCode' && checkPostalCode && setFieldValue) {

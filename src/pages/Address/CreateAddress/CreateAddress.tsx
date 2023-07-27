@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigation } from '@react-navigation/native';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { TopBarBackButton } from '../../../modules/Menu/components/TopBarBackButton';
 import InputForm from '../components/InputForm';
 import ModalCancelCreateAddress from '../components/ModalCancelCreateAddress';
@@ -39,6 +39,7 @@ import { useProfileAddressMutation } from '../../../base/graphql/generated';
 import EventProvider from '../../../utils/EventProvider';
 import { CepVerifyPostalCode } from '../../../services/vtexService';
 import type { CheckPostalCodeFn } from '../components/InputForm/types/IInputForm';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 
 const createAddressSchema = Yup.object().shape({
   addressSurname: addressSurnameSchema,
@@ -52,9 +53,11 @@ const createAddressSchema = Yup.object().shape({
   city: citySchema,
 });
 
-export default function CreateAddress(): JSX.Element {
-  const { goBack } = useNavigation();
+type TCreateAddressProps = StackScreenProps<RootStackParamList, 'CreateAddress'>;
 
+export default function CreateAddress(
+  { navigation }: TCreateAddressProps,
+): JSX.Element {
   const inputSurnameRef = useRef<TextInput>(null);
   const inputFullnameRef = useRef<TextInput>(null);
   const inputCEPRef = useRef<TextInput>(null);
@@ -128,41 +131,41 @@ export default function CreateAddress(): JSX.Element {
         },
       );
 
-      goBack();
+      navigation.goBack();
     } catch (error) {
       EventProvider.captureException(error);
     } finally {
       setLoading(false);
     }
-  }, [goBack, isMainAddress, profileAddress]);
+  }, [profileAddress, isMainAddress, navigation]);
 
   const modalController = useCallback((actionType: string) => {
     if (actionType === 'cancel') {
       setModalVisible(!modalVisible);
-      goBack();
+      navigation.goBack();
       return;
     }
 
     setModalVisible(!modalVisible);
-  }, [goBack, modalVisible]);
+  }, [navigation, modalVisible]);
 
   const checkFilledInput = useCallback((values: IAddressData) => {
-    const valuesExists = Object.keys(values).some((x) => values[x] !== '');
+    const valuesExists = Object.values(values).some((value) => value !== '');
 
     if (valuesExists) {
       modalController('open');
       return;
     }
 
-    goBack();
-  }, [goBack, modalController]);
+    navigation.goBack();
+  }, [navigation, modalController]);
 
   return (
     <SafeAreaView style={styles.container}>
       <TopBarBackButton
         loading={false}
         showShadow
-        backButtonPress={goBack}
+        backButtonPress={navigation.goBack}
       />
       <ScrollView contentContainerStyle={{ padding: 20 }}>
         <View style={styles.content}>
@@ -209,6 +212,7 @@ export default function CreateAddress(): JSX.Element {
                   error={errors.addressSurname}
                   isEditable
                   textInputType="default"
+                  inputID="com.usereserva:id/create_address_input_surname"
                 />
               </View>
 
@@ -224,6 +228,7 @@ export default function CreateAddress(): JSX.Element {
                   error={errors.fullname}
                   isEditable
                   textInputType="default"
+                  inputID="com.usereserva:id/create_address_input_fullname"
                 />
               </View>
 
@@ -241,6 +246,7 @@ export default function CreateAddress(): JSX.Element {
                   textInputType="number-pad"
                   checkPostalCode={checkPostalCode}
                   setFieldValue={setFieldValue}
+                  inputID="com.usereserva:id/create_address_input_postal_code"
                 />
               </View>
 
@@ -256,6 +262,7 @@ export default function CreateAddress(): JSX.Element {
                   error={errors.street}
                   isEditable
                   textInputType="default"
+                  inputID="com.usereserva:id/create_address_input_street"
                 />
               </View>
 
@@ -271,6 +278,7 @@ export default function CreateAddress(): JSX.Element {
                   error={errors.neighborhood}
                   isEditable
                   textInputType="default"
+                  inputID="com.usereserva:id/create_address_input_neighborhood"
                 />
               </View>
 
@@ -286,6 +294,7 @@ export default function CreateAddress(): JSX.Element {
                   error={errors.addressNumber}
                   isEditable
                   textInputType="number-pad"
+                  inputID="com.usereserva:id/create_address_input_address_number"
                 />
               </View>
 
@@ -301,6 +310,7 @@ export default function CreateAddress(): JSX.Element {
                   error={errors.complement}
                   isEditable
                   textInputType="default"
+                  inputID="com.usereserva:id/create_address_input_complement"
                 />
               </View>
 
@@ -316,6 +326,7 @@ export default function CreateAddress(): JSX.Element {
                   inputName="addressState"
                   isEditable={false}
                   textInputType="default"
+                  inputID="com.usereserva:id/create_address_input_address_state"
                 />
               </View>
 
@@ -331,6 +342,7 @@ export default function CreateAddress(): JSX.Element {
                   inputName="city"
                   isEditable={false}
                   textInputType="default"
+                  inputID="com.usereserva:id/create_address_input_city"
                 />
               </View>
 
@@ -350,6 +362,7 @@ export default function CreateAddress(): JSX.Element {
 
               <View style={styles.content}>
                 <TouchableOpacity
+                  testID="com.usereserva:id/create_address_button_submit"
                   onPress={() => handleSubmit()}
                   style={styles.actionButtonSubmit}
                 >
@@ -363,6 +376,7 @@ export default function CreateAddress(): JSX.Element {
 
               <View style={styles.content}>
                 <TouchableOpacity
+                  testID="com.usereserva:id/create_address_button_cancel"
                   onPress={() => checkFilledInput(values)}
                   style={styles.actionButtonCancel}
                 >

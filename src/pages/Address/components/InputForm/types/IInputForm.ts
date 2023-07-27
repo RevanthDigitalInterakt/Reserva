@@ -22,4 +22,5 @@ export type IInputForm = {
   textInputType: KeyboardType;
   checkPostalCode?: CheckPostalCodeFn;
   setFieldValue?: SetFieldValue;
+  inputID: string;
 };
