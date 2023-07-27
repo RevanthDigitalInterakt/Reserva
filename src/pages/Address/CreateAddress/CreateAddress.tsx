@@ -2,7 +2,6 @@ import React, {
   useState,
   useRef,
   useCallback,
-  useEffect,
 } from 'react';
 import {
   View,
@@ -19,6 +18,7 @@ import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
 import { TopBarBackButton } from '../../../modules/Menu/components/TopBarBackButton';
 import InputForm from '../components/InputForm';
+import ModalCancelCreateAddress from '../components/ModalCancelCreateAddress';
 
 import styles from './CreateAddress.styles';
 
@@ -34,11 +34,11 @@ import {
   streetSchema,
 } from '../utils/inputValidations';
 
-import type { IAddressData } from './interfaces/ICreateAddress';
+import type { IAddressData } from './types/ICreateAddress';
 import { useProfileAddressMutation } from '../../../base/graphql/generated';
 import EventProvider from '../../../utils/EventProvider';
 import { CepVerifyPostalCode } from '../../../services/vtexService';
-import type { CheckPostalCodeFn } from '../components/InputForm/interfaces/IInputForm';
+import type { CheckPostalCodeFn } from '../components/InputForm/types/IInputForm';
 
 const createAddressSchema = Yup.object().shape({
   addressSurname: addressSurnameSchema,
@@ -64,8 +64,9 @@ export default function CreateAddress(): JSX.Element {
   const inputComplementRef = useRef<TextInput>(null);
 
   const [loading, setLoading] = useState(false);
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(!isEnabled);
+  const [isMainAddress, setIsMainAddress] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const switchMainAddress = () => setIsMainAddress(!isMainAddress);
 
   const [profileAddress] = useProfileAddressMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
@@ -121,7 +122,7 @@ export default function CreateAddress(): JSX.Element {
               street,
               addressName: addressSurname,
               complement,
-              mainAddress: isEnabled,
+              mainAddress: isMainAddress,
             },
           },
         },
@@ -133,11 +134,28 @@ export default function CreateAddress(): JSX.Element {
     } finally {
       setLoading(false);
     }
-  }, [goBack, isEnabled, profileAddress]);
+  }, [goBack, isMainAddress, profileAddress]);
 
-  useEffect(() => {
+  const modalController = useCallback((actionType: string) => {
+    if (actionType === 'cancel') {
+      setModalVisible(!modalVisible);
+      goBack();
+      return;
+    }
 
-  }, []);
+    setModalVisible(!modalVisible);
+  }, [goBack, modalVisible]);
+
+  const checkFilledInput = useCallback((values: IAddressData) => {
+    const valuesExists = Object.keys(values).some((x) => values[x] !== '');
+
+    if (valuesExists) {
+      modalController('open');
+      return;
+    }
+
+    goBack();
+  }, [goBack, modalController]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -296,7 +314,7 @@ export default function CreateAddress(): JSX.Element {
                   inputRef={inputComplementRef}
                   nextInputRef={inputComplementRef}
                   inputName="addressState"
-                  isEditable
+                  isEditable={false}
                   textInputType="default"
                 />
               </View>
@@ -311,21 +329,21 @@ export default function CreateAddress(): JSX.Element {
                   inputRef={inputComplementRef}
                   nextInputRef={inputComplementRef}
                   inputName="city"
-                  isEditable
+                  isEditable={false}
                   textInputType="default"
                 />
               </View>
 
               <View style={styles.content}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Text style={{ color: '#656565', fontWeight: '700' }}>Tornar este o meu endereço padrão</Text>
+                <View style={styles.contentRow}>
+                  <Text style={styles.labelMainAddress}>Tornar este o meu endereço padrão</Text>
 
                   <Switch
                     trackColor={{ false: '#767577', true: '#31B94F' }}
-                    thumbColor={isEnabled ? '#ffffff' : '#f4f3f4'}
+                    thumbColor={isMainAddress ? '#ffffff' : '#f4f3f4'}
                     ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch}
-                    value={isEnabled}
+                    onValueChange={switchMainAddress}
+                    value={isMainAddress}
                   />
                 </View>
               </View>
@@ -333,35 +351,30 @@ export default function CreateAddress(): JSX.Element {
               <View style={styles.content}>
                 <TouchableOpacity
                   onPress={() => handleSubmit()}
-                  style={{
-                    backgroundColor: '#333333',
-                    padding: 20,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
+                  style={styles.actionButtonSubmit}
                 >
                   {loading ? (
                     <ActivityIndicator size="small" color="#ffffff" />
                   ) : (
-                    <Text style={{ color: '#ffffff', textTransform: 'uppercase' }}>salvar endereço</Text>
+                    <Text style={styles.textActionButtonSubmit}>salvar endereço</Text>
                   )}
                 </TouchableOpacity>
               </View>
 
               <View style={styles.content}>
                 <TouchableOpacity
-                  style={{
-                    backgroundColor: '#ffffff',
-                    padding: 20,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderWidth: 2,
-                    borderColor: '#333333',
-                  }}
+                  onPress={() => checkFilledInput(values)}
+                  style={styles.actionButtonCancel}
                 >
-                  <Text style={{ color: '#333333', textTransform: 'uppercase', fontWeight: '700' }}>cancelar</Text>
+                  <Text style={styles.textActionButtonCancel}>cancelar</Text>
                 </TouchableOpacity>
               </View>
+              { modalVisible && (
+                <ModalCancelCreateAddress
+                  showModal={modalVisible}
+                  modalController={modalController}
+                />
+              )}
             </>
           )}
         </Formik>

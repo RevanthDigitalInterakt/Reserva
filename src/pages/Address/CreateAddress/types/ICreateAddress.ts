@@ -1,4 +1,4 @@
-export interface IAddressData {
+export type IAddressData = {
   addressSurname: string;
   fullname: string;
   postalCode: string;
@@ -8,4 +8,6 @@ export interface IAddressData {
   complement: string;
   addressState: string;
   city: string
-}
+};
+
+export type AddressDataKeys = keyof IAddressData;

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import styles from './InputForm.styles';
-import type { IInputForm } from './interfaces/IInputForm';
+import type { IInputForm } from './types/IInputForm';
 import icons from '../../../../base/styles/icons';
 
 export default function InputForm({
