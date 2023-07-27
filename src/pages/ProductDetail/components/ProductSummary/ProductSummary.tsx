@@ -1,7 +1,6 @@
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
-import { ProductDetailCard as ProductDetailCardLegacy } from '@usereservaapp/reserva-ui';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { onShare } from '../../../../utils/onShare';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
@@ -14,6 +13,7 @@ import EventProvider from '../../../../utils/EventProvider';
 import { ProductDetailCard } from '../../../../components/ProductDetailCard/ProductDetailCard';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 import PricesSelectBoxes from '../../../../components/PricesSelectBoxes';
+import { ProductDetailCardLegacy } from '../../../../components/ProductDetailCardLegacy/ProductDetailCardLegacy';
 
 function ProductSummary() {
   const { getBoolean } = useRemoteConfig();
@@ -74,6 +74,17 @@ function ProductSummary() {
     });
   }, [imageIndex, productDetail]);
 
+  const video = useMemo(() => {
+    if (!productDetail?.videoThumbnail) return '';
+
+    const isEqualSku = productDetail.videoThumbnail.includes(selectedSize?.ean || '');
+    return isEqualSku ? productDetail.videoThumbnail : '';
+  }, [productDetail?.videoThumbnail, selectedSize?.ean]);
+
+  const showZoomButton = useMemo(() => (
+    (!!video && imageIndex >= 0) || !video
+  ), [imageIndex, video]);
+
   const ProductDetailCardComponent = useMemo(() => (
     showPrimeBox ? ProductDetailCard : ProductDetailCardLegacy
   ), [showPrimeBox]);
@@ -107,12 +118,15 @@ function ProductSummary() {
         setModalZoom={handleSetModalZoom}
         imagesWidth={configDeviceSizes.DEVICE_WIDTH}
         images={selectedColor.images || []}
+        videoThumbnail={video}
+        showZoomButton={showZoomButton}
         imageIndexActual={(newIndex) => {
+          const handledIndex = video ? newIndex - 1 : newIndex;
           // To prevent some re-renders
-          if (newIndex === imageIndex) return imageIndex;
+          if (handledIndex === imageIndex) return handledIndex;
 
-          setImageIndex(newIndex);
-          return newIndex;
+          setImageIndex(handledIndex);
+          return handledIndex;
         }}
       />
 

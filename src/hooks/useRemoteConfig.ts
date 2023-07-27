@@ -12,6 +12,8 @@ interface IUseRemoteConfigStore {
 }
 
 export interface IRemoteConfigKeys {
+  pdp_show_video: boolean;
+  pdp_show_video_tester: boolean;
   show_new_bag: boolean;
   show_new_bag_tester: boolean;
   show_campaign_boyfriend: boolean;
@@ -56,6 +58,8 @@ export const defaults: IRemoteConfigKeys = {
   show_prime_tester: false,
   show_price_prime_pdp: false,
   show_price_prime_pdc: false,
+  pdp_show_video: false,
+  pdp_show_video_tester: false,
   regionalization: false,
 };
 
