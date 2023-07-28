@@ -17,7 +17,6 @@ import {
   SearchBy,
 } from '../modules/ChangeRegionalization/pages/CEPList';
 import { AccountDeletedSuccessfully } from '../modules/Profile/pages/AccountDeletedSuccessfully';
-import { SearchScreen } from '../modules/Search/pages/Search';
 
 // TODO refactor Dependency cycle
 import { Cashback } from '../modules/Cashback/pages/Cashback';
@@ -39,6 +38,7 @@ import type { IFilters } from '../utils/generateFacets';
 import { AsyncDeepLinkScreenLoading } from '../pages/WebRedirectToCatalog/AsyncDeepLinkScreenLoading';
 import { BagABTest } from '../modules/Checkout/pages/BagABTest';
 import PrimeLP from '../pages/PrimeLP';
+import { SearchABTest } from '../modules/Search/pages/SearchABTest';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -178,7 +178,7 @@ export const MainStackScreen = () => (
         initialParams={flow.initialParams}
       />
     ))}
-    <MainStack.Screen name="SearchMenu" component={SearchScreen} />
+    <MainStack.Screen name="SearchMenu" component={SearchABTest} />
     <MainStack.Screen
       name="ChangeRegionalization"
       component={ChangeRegionalization}

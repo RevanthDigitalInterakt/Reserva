@@ -6,7 +6,7 @@ import { onShare } from '../../../../utils/onShare';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import { slugify } from '../../../../utils/slugify';
 import { ModalZoomImage } from './ModalZoomImage';
-import { useWishlistProductActions } from '../../../../hooks/useWishlistProductActions';
+import { useWishlistActions } from '../../../../hooks/useWishlistActions';
 import images from '../../../../base/styles/icons';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import EventProvider from '../../../../utils/EventProvider';
@@ -24,11 +24,7 @@ function ProductSummary() {
     'selectedColor',
   ]);
 
-  const { onToggleFavorite, loading: loadingWishlist, isFavorited } = useWishlistProductActions({
-    productDetail,
-    productId: productDetail?.productId || '',
-    skuId: selectedSize?.itemId || '',
-  });
+  const { loadingSkuId, checkIsFavorite, onToggleFavorite } = useWishlistActions();
 
   const [imageIndex, setImageIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
@@ -102,9 +98,21 @@ function ProductSummary() {
 
       <ProductDetailCardComponent
         testID={`com.usereserva:id/productdetail_card_${slugify(productDetail.productId)}`}
-        loadingFavorite={loadingWishlist}
-        isFavorited={isFavorited}
-        onClickFavorite={onToggleFavorite}
+        loadingFavorite={loadingSkuId === selectedSize?.itemId}
+        isFavorited={checkIsFavorite(selectedSize?.itemId || '')}
+        onClickFavorite={() => {
+          onToggleFavorite({
+            productName: productDetail.productName,
+            productId: productDetail?.productId,
+            size: selectedSize?.size,
+            lowPrice: selectedSize?.currentPrice || 0,
+            colorName: selectedColor?.colorName,
+            skuId: selectedSize?.itemId || '',
+            category: '',
+            brand: '',
+            // category: prod
+          });
+        }}
         imagesHeight={3 * (configDeviceSizes.DEVICE_WIDTH / 2)}
         title={productDetail.productName}
         price={selectedSize?.listPrice || 0}
