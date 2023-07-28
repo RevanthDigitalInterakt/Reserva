@@ -15,7 +15,6 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.WHITE,
     borderRadius: 10,
     padding: 20,
-    alignItems: 'center',
   },
 
   modalView: {
@@ -57,5 +56,15 @@ export const styles = StyleSheet.create({
 
   modalTextButtonCancel: {
     color: '#ffffff',
+    fontFamily: 'ReservaSans-Regular',
+    fontSize: 14,
+    textTransform: 'uppercase',
+  },
+
+  modalTextButtonClose: {
+    color: '#333333',
+    fontFamily: 'ReservaSans-Regular',
+    fontSize: 14,
+    textTransform: 'uppercase',
   },
 });

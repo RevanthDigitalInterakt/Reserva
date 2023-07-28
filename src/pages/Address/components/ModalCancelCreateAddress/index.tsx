@@ -17,15 +17,25 @@ export default function ModalCancelCreateAddress({
     <Modal animationType="fade" transparent visible={showModal}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <Text>
-            Deseja cancelar o cadastro do endereço ?
+          <Text
+            style={{
+              fontFamily: 'ReservaSerif-Regular',
+              fontSize: 20,
+              color: '#000000',
+              marginBottom: 10,
+            }}
+          >
+            Cancelar cadastro de endereço
+          </Text>
+          <Text style={{ fontFamily: 'ReservaSans-Regular', fontSize: 14 }}>
+            Tem certeza que deseja cancelar o cadastro do endereço ?
           </Text>
           <View style={styles.modalRow}>
             <TouchableOpacity style={styles.modalButtonCancel} onPress={() => modalController('cancel')}>
               <Text style={styles.modalTextButtonCancel}>Cancelar</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.modalButtonClose} onPress={() => modalController('close')}>
-              <Text>Fechar</Text>
+              <Text style={styles.modalTextButtonClose}>Fechar</Text>
             </TouchableOpacity>
           </View>
         </View>

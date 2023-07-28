@@ -9,6 +9,10 @@ const styles = StyleSheet.create({
 
   inputText: {
     marginHorizontal: 10,
+    fontFamily: 'Nunito-Regular',
+    color: '#656565',
+    fontWeight: 'bold',
+    fontSize: 14,
   },
 
   borderErrorActive: {
@@ -28,6 +32,23 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
     marginLeft: 5,
+  },
+
+  labelStyle: {
+    top: 10,
+    left: 10,
+    position: 'absolute',
+    zIndex: 10000,
+    backgroundColor: '#fff',
+    paddingHorizontal: 5,
+  },
+
+  labelNoEditableFieldStyle: {
+    top: 10,
+    left: 10,
+    position: 'absolute',
+    zIndex: 10000,
+    paddingHorizontal: 5,
   },
 });
 

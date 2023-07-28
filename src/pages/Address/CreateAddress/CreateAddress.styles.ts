@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ffffff',
   },
 
   content: {
@@ -30,6 +31,9 @@ const styles = StyleSheet.create({
   textActionButtonSubmit: {
     color: '#ffffff',
     textTransform: 'uppercase',
+    fontFamily: 'ReservaSans-Bold',
+    fontSize: 14,
+    lineHeight: 18,
   },
 
   actionButtonCancel: {
@@ -44,7 +48,9 @@ const styles = StyleSheet.create({
   textActionButtonCancel: {
     color: '#333333',
     textTransform: 'uppercase',
-    fontWeight: '700',
+    fontFamily: 'ReservaSans-Bold',
+    fontSize: 14,
+    lineHeight: 18,
   },
 });
 

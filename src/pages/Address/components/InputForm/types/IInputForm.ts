@@ -23,4 +23,5 @@ export type IInputForm = {
   checkPostalCode?: CheckPostalCodeFn;
   setFieldValue?: SetFieldValue;
   inputID: string;
+  touched?: boolean;
 };

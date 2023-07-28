@@ -169,11 +169,11 @@ export default function CreateAddress(
       />
       <ScrollView contentContainerStyle={{ padding: 20 }}>
         <View style={styles.content}>
-          <Text>Adicionar endereço</Text>
+          <Text style={{ fontFamily: 'ReservaSerif-Regular', fontSize: 24, color: '#000000' }}>Adicionar endereço</Text>
         </View>
 
         <View style={styles.content}>
-          <Text>Os campos a seguir são obrigatórios então lembre-se de preencher todos eles.</Text>
+          <Text style={{ fontFamily: 'ReservaSans-Regular', fontSize: 14 }}>Os campos a seguir são obrigatórios então lembre-se de preencher todos eles.</Text>
         </View>
 
         <Formik
@@ -196,6 +196,7 @@ export default function CreateAddress(
             handleSubmit,
             values,
             errors,
+            touched,
             setFieldTouched,
             setFieldValue,
           }) => (
@@ -213,6 +214,7 @@ export default function CreateAddress(
                   isEditable
                   textInputType="default"
                   inputID="com.usereserva:id/create_address_input_surname"
+                  touched={touched.addressSurname}
                 />
               </View>
 
@@ -229,6 +231,7 @@ export default function CreateAddress(
                   isEditable
                   textInputType="default"
                   inputID="com.usereserva:id/create_address_input_fullname"
+                  touched={touched.fullname}
                 />
               </View>
 
@@ -247,6 +250,7 @@ export default function CreateAddress(
                   checkPostalCode={checkPostalCode}
                   setFieldValue={setFieldValue}
                   inputID="com.usereserva:id/create_address_input_postal_code"
+                  touched={touched.postalCode}
                 />
               </View>
 
@@ -263,6 +267,7 @@ export default function CreateAddress(
                   isEditable
                   textInputType="default"
                   inputID="com.usereserva:id/create_address_input_street"
+                  touched={touched.street}
                 />
               </View>
 
@@ -279,6 +284,7 @@ export default function CreateAddress(
                   isEditable
                   textInputType="default"
                   inputID="com.usereserva:id/create_address_input_neighborhood"
+                  touched={touched.neighborhood}
                 />
               </View>
 
@@ -295,6 +301,7 @@ export default function CreateAddress(
                   isEditable
                   textInputType="number-pad"
                   inputID="com.usereserva:id/create_address_input_address_number"
+                  touched={touched.addressNumber}
                 />
               </View>
 
@@ -327,6 +334,7 @@ export default function CreateAddress(
                   isEditable={false}
                   textInputType="default"
                   inputID="com.usereserva:id/create_address_input_address_state"
+                  touched={touched.addressState}
                 />
               </View>
 
@@ -343,6 +351,7 @@ export default function CreateAddress(
                   isEditable={false}
                   textInputType="default"
                   inputID="com.usereserva:id/create_address_input_city"
+                  touched={touched.city}
                 />
               </View>
 
