@@ -41,6 +41,7 @@ import { CepVerifyPostalCode } from '../../../services/vtexService';
 import type { CheckPostalCodeFn } from '../components/InputForm/types/IInputForm';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { COLORS } from '../../../base/styles/colors';
+import { postalCodeMask } from '../../../utils/postalCodeMask';
 
 const createAddressSchema = Yup.object().shape({
   addressSurname: addressSurnameSchema,
@@ -79,7 +80,7 @@ export default function CreateAddress(
   const checkPostalCode = useCallback<CheckPostalCodeFn>(async (value, setFieldValue) => {
     if (value.length < 8) return;
 
-    const newValue = value.replace(/(\d{5})(\d{3})/, '$1-$2');
+    const newValue = postalCodeMask(value);
 
     setFieldValue('postalCode', newValue);
 
