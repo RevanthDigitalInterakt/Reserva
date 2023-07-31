@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../../base/styles/colors';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: COLORS.WHITE,
   },
 
   content: {
@@ -17,19 +18,31 @@ const styles = StyleSheet.create({
   },
 
   labelMainAddress: {
-    color: '#656565',
+    color: COLORS.TEXT_INPUT,
     fontWeight: '700',
   },
 
+  title: {
+    fontFamily: 'ReservaSerif-Regular',
+    fontSize: 24,
+    color: COLORS.BLACK,
+  },
+
+  subtitle: {
+    fontFamily: 'ReservaSans-Regular',
+    fontSize: 14,
+    color: COLORS.BLACK,
+  },
+
   actionButtonSubmit: {
-    backgroundColor: '#333333',
+    backgroundColor: COLORS.TEXT_INPUT_CONTAINER,
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   textActionButtonSubmit: {
-    color: '#ffffff',
+    color: COLORS.WHITE,
     textTransform: 'uppercase',
     fontFamily: 'ReservaSans-Bold',
     fontSize: 14,
@@ -37,20 +50,24 @@ const styles = StyleSheet.create({
   },
 
   actionButtonCancel: {
-    backgroundColor: '#ffffff',
+    backgroundColor: COLORS.WHITE,
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
-    borderColor: '#333333',
+    borderColor: COLORS.TEXT_INPUT_CONTAINER,
   },
 
   textActionButtonCancel: {
-    color: '#333333',
+    color: COLORS.TEXT_INPUT_CONTAINER,
     textTransform: 'uppercase',
     fontFamily: 'ReservaSans-Bold',
     fontSize: 14,
     lineHeight: 18,
+  },
+
+  scrollViewContent: {
+    padding: 20,
   },
 });
 

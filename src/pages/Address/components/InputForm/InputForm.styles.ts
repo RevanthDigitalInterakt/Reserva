@@ -1,22 +1,23 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../../../base/styles/colors';
 
 const styles = StyleSheet.create({
   inputContainer: {
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: '#333333',
+    borderColor: COLORS.TEXT_INPUT_CONTAINER,
   },
 
   inputText: {
     marginHorizontal: 10,
     fontFamily: 'Nunito-Regular',
-    color: '#656565',
+    color: COLORS.TEXT_INPUT,
     fontWeight: 'bold',
     fontSize: 14,
   },
 
   borderErrorActive: {
-    borderColor: '#E4002B',
+    borderColor: COLORS.INPUT_ERROR_MESSAGE,
   },
   errorContainer: {
     flexDirection: 'row',
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
     height: 13,
   },
   errorMessage: {
-    color: '#E4002B',
+    color: COLORS.INPUT_ERROR_MESSAGE,
     fontSize: 12,
     fontWeight: 'bold',
     marginLeft: 5,
@@ -39,8 +40,13 @@ const styles = StyleSheet.create({
     left: 10,
     position: 'absolute',
     zIndex: 10000,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.WHITE,
     paddingHorizontal: 5,
+  },
+
+  inputPlaceholder: {
+    fontFamily: 'Nunito-Regular',
+    color: COLORS.TEXT_INPUT_PLACEHOLDER,
   },
 });
 

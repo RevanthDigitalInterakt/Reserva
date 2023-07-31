@@ -40,6 +40,7 @@ import EventProvider from '../../../utils/EventProvider';
 import { CepVerifyPostalCode } from '../../../services/vtexService';
 import type { CheckPostalCodeFn } from '../components/InputForm/types/IInputForm';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
+import { COLORS } from '../../../base/styles/colors';
 
 const createAddressSchema = Yup.object().shape({
   addressSurname: addressSurnameSchema,
@@ -171,13 +172,15 @@ export default function CreateAddress(
         showShadow
         backButtonPress={navigation.goBack}
       />
-      <ScrollView contentContainerStyle={{ padding: 20 }}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.content}>
-          <Text style={{ fontFamily: 'ReservaSerif-Regular', fontSize: 24, color: '#000000' }}>Adicionar endereço</Text>
+          <Text style={styles.title}>Adicionar endereço</Text>
         </View>
 
         <View style={styles.content}>
-          <Text style={{ fontFamily: 'ReservaSans-Regular', fontSize: 14 }}>Os campos a seguir são obrigatórios então lembre-se de preencher todos eles.</Text>
+          <Text style={styles.subtitle}>
+            Os campos a seguir são obrigatórios então lembre-se de preencher todos eles.
+          </Text>
         </View>
 
         <Formik
@@ -364,9 +367,11 @@ export default function CreateAddress(
                   <Text style={styles.labelMainAddress}>Tornar este o meu endereço padrão</Text>
 
                   <Switch
-                    trackColor={{ false: '#767577', true: '#31B94F' }}
-                    thumbColor={isMainAddress ? '#ffffff' : '#f4f3f4'}
-                    ios_backgroundColor="#3e3e3e"
+                    trackColor={{ false: COLORS.SWITCH_INACTIVE, true: COLORS.SWITCH_ACTIVE }}
+                    thumbColor={
+                      isMainAddress ? COLORS.SWITCH_THUMB_ACTIVE : COLORS.SWITCH_THUMB_INACTIVE
+                    }
+                    ios_backgroundColor={COLORS.SWITCH_BACKGROUND_COLOR_IOS}
                     onValueChange={switchMainAddress}
                     value={isMainAddress}
                   />
@@ -380,7 +385,7 @@ export default function CreateAddress(
                   style={styles.actionButtonSubmit}
                 >
                   {loading ? (
-                    <ActivityIndicator size="small" color="#ffffff" />
+                    <ActivityIndicator size="small" color={COLORS.WHITE} />
                   ) : (
                     <Text style={styles.textActionButtonSubmit}>salvar endereço</Text>
                   )}

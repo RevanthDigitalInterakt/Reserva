@@ -80,15 +80,13 @@ export default function InputForm({
             transform: [{ translateY: translateStyleY }],
           }]}
         >
-          <Text style={{ fontFamily: 'Nunito-Regular', color: '#a3a3a3' }}>{placeholder}</Text>
+          <Text style={styles.inputPlaceholder}>{placeholder}</Text>
         </Animated.View>
         <TextInput
-          placeholder=""
           style={styles.inputText}
           autoCapitalize="none"
           autoCorrect={false}
           returnKeyType="next"
-          placeholderTextColor="#A3A3A3"
           testID={inputID}
           onChangeText={(text: string) => {
             onTextChange(text);

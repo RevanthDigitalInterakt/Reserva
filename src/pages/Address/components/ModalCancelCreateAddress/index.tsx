@@ -18,16 +18,11 @@ export default function ModalCancelCreateAddress({
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <Text
-            style={{
-              fontFamily: 'ReservaSerif-Regular',
-              fontSize: 20,
-              color: '#000000',
-              marginBottom: 10,
-            }}
+            style={styles.modalTitle}
           >
             Cancelar cadastro de endereço
           </Text>
-          <Text style={{ fontFamily: 'ReservaSans-Regular', fontSize: 14 }}>
+          <Text style={styles.modalSubtitle}>
             Tem certeza que deseja cancelar o cadastro do endereço ?
           </Text>
           <View style={styles.modalRow}>

@@ -5,7 +5,7 @@ enum FeedbackMessageEnum {
   MIN_INPUT_SIZE_4 = 'Minimo de 4 caracterers para esse campo',
   MIN_INPUT_SIZE_8 = 'Mínimo de 8 caracterers para esse campo',
   MAX_INPUT_SIZE_6 = 'Máximo de 6 caracterers para esse campo',
-  MAX_INPUT_SIZE_8 = 'Máximo de 8 caracterers para esse campo',
+  MAX_INPUT_SIZE_9 = 'Máximo de 9 caracterers para esse campo',
   MAX_INPUT_SIZE_30 = 'Máximo de 30 caracterers para esse campo',
   MAX_INPUT_SIZE_100 = 'Máximo de 100 caracterers para esse campo',
   REQUIRED_ADDRESS_SURNAME = 'Insira um apelido',
@@ -36,7 +36,7 @@ export const addressNumberSchema = Yup.number()
 
 export const postalCodeSchema = Yup.string()
   .min(0, FeedbackMessageEnum.MIN_INPUT_SIZE_8)
-  .max(99999999, FeedbackMessageEnum.MAX_INPUT_SIZE_8)
+  .max(9, FeedbackMessageEnum.MAX_INPUT_SIZE_9)
   .required(FeedbackMessageEnum.REQUIRED_POSTALCODE);
 
 export const streetSchema = Yup.string()

@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    backgroundColor: COLORS.MODAL_BACKGROUND_COLOR,
   },
 
   modalContent: {
@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'stretch',
     padding: 15,
-    backgroundColor: '#333333',
+    backgroundColor: COLORS.TEXT_INPUT_CONTAINER,
   },
 
   modalRow: {
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
   },
 
   modalButtonCancel: {
-    backgroundColor: '#333333',
+    backgroundColor: COLORS.TEXT_INPUT_CONTAINER,
     padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
@@ -45,26 +45,39 @@ export const styles = StyleSheet.create({
   },
 
   modalButtonClose: {
-    backgroundColor: '#ffffff',
+    backgroundColor: COLORS.WHITE,
     padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
-    borderColor: '#333333',
+    borderColor: COLORS.TEXT_INPUT_CONTAINER,
     width: '45%',
   },
 
   modalTextButtonCancel: {
-    color: '#ffffff',
+    color: COLORS.WHITE,
     fontFamily: 'ReservaSans-Regular',
     fontSize: 14,
     textTransform: 'uppercase',
   },
 
   modalTextButtonClose: {
-    color: '#333333',
+    color: COLORS.TEXT_INPUT_CONTAINER,
     fontFamily: 'ReservaSans-Regular',
     fontSize: 14,
     textTransform: 'uppercase',
+  },
+
+  modalTitle: {
+    fontFamily: 'ReservaSerif-Regular',
+    fontSize: 20,
+    color: COLORS.BLACK,
+    marginBottom: 10,
+  },
+
+  modalSubtitle: {
+    fontFamily: 'ReservaSans-Regular',
+    fontSize: 14,
+    color: COLORS.BLACK,
   },
 });
