@@ -69,7 +69,7 @@ describe('trackingOrderFormAddItem', () => {
           marca: productMock?.additionalInfo?.brandName || '',
           id_produto: idMock,
           nome_produto: productMock?.name || '',
-          nome_categoria: Object.entries(productMock.productCategories)
+          categorias_produto: Object.entries(productMock.productCategories)
             .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
             .join(', '),
           tamanho: productMock.skuName.split(' - ')[1],
@@ -92,7 +92,7 @@ describe('trackingOrderFormAddItem', () => {
       action: 'adicionou-produto-ao-carrinho',
       data:
         {
-          cor: 'BRANCO', id_produto: '433083', marca: 'RESERVA', nome_categoria: '0: Reserva, 1: Masculino, 2: polos', nome_produto: 'POLO PIQUET PIMA ENXUTO PICA-PAU OURO BRANCO - GGG', origem: 'app', preco_produto: 429, tamanho: 'GGG',
+          cor: 'BRANCO', id_produto: '433083', marca: 'RESERVA', categorias_produto: '0: Reserva, 1: Masculino, 2: polos', nome_produto: 'POLO PIQUET PIMA ENXUTO PICA-PAU OURO BRANCO - GGG', origem: 'app', preco_produto: 429, tamanho: 'GGG',
         },
       id: 'teste@usereserva.com',
     });

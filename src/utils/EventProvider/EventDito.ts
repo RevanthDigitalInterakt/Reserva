@@ -20,7 +20,7 @@ type TProductOrderPlaced = {
   marca: string;
   id_produto: string;
   nome_produto: string;
-  nome_categoria: string;
+  categorias_produto: string;
   tamanho: string;
   cor: string;
   preco_produto: number;
@@ -61,7 +61,7 @@ type AddToCart = {
   marca: string;
   id_produto: string;
   nome_produto: string;
-  nome_categoria: string;
+  categorias_produto: string;
   tamanho: string;
   cor: string;
   preco_produto: number;
@@ -71,7 +71,7 @@ type AddToWishlist = {
   marca: string;
   id_produto: string;
   nome_produto: string;
-  nome_categoria: string;
+  categorias_produto: string;
   tamanho: string;
   cor: string;
   preco_produto: number;
