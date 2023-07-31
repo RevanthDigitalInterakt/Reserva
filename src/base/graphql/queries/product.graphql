@@ -1,10 +1,12 @@
 query product($input: ProductInput!) {
   product(input: $input) {
+    action
     productId
     productName
     categoryTree
     disabledColors
     saleOff
+    videoThumbnail
     priceRange {
       sellingPrice {
         highPrice

@@ -273,8 +273,8 @@ export type Mutation = {
   signUp: LoggedInOutput;
   signUpVerificationCode: RequestCodeOutput;
   subscribeNewsletter: Scalars['Boolean'];
-  wishlistAddProduct: Scalars['ID'];
-  wishlistRemoveProduct: Scalars['Boolean'];
+  wishlistAddProduct: Array<Scalars['String']>;
+  wishlistRemoveProduct: Array<Scalars['String']>;
 };
 
 
@@ -969,6 +969,10 @@ export type ProductItemVariationOutput = {
 
 export type ProductListOutput = {
   __typename?: 'ProductListOutput';
+  brand: Scalars['String'];
+  category?: Maybe<Scalars['String']>;
+  colorName?: Maybe<Scalars['String']>;
+  colors?: Maybe<Array<Scalars['String']>>;
   currentPrice: Scalars['Float'];
   discountPercentage: Scalars['Float'];
   hasDiscount: Scalars['Boolean'];
@@ -976,7 +980,9 @@ export type ProductListOutput = {
   installment: ProductPriceInstallmentOutput;
   listPrice: Scalars['Float'];
   prime?: Maybe<ProductListPrimeOutput>;
+  productId: Scalars['String'];
   productName: Scalars['String'];
+  size?: Maybe<Scalars['String']>;
   skuId: Scalars['String'];
 };
 
@@ -1145,6 +1151,7 @@ export type Query = {
   cashback: CashbackOutput;
   cep?: Maybe<CepOutput>;
   checkIfUserExists: Scalars['Boolean'];
+  /** @deprecated Use new query `search` */
   checkSearchRedirect?: Maybe<Scalars['String']>;
   config?: Maybe<ConfigOutput>;
   contentfulCategories: Array<ContentfulCategoryOutput>;
@@ -1172,6 +1179,7 @@ export type Query = {
   sellerInfo?: Maybe<SellerInfoOutput>;
   sellersMktin: Array<Scalars['String']>;
   updateInApp?: Maybe<UpdateInAppOutput>;
+  wishlist: Array<Scalars['String']>;
   wishlistCheckProduct: WishlistCheckOutput;
 };
 
@@ -1684,14 +1692,19 @@ export type WishlistAddProductMutationVariables = Exact<{
 }>;
 
 
-export type WishlistAddProductMutation = { __typename?: 'Mutation', wishlistAddProduct: string };
+export type WishlistAddProductMutation = { __typename?: 'Mutation', wishlistAddProduct: Array<string> };
 
 export type WishlistRemoveProductMutationVariables = Exact<{
   input: WishlistRemoveProductInput;
 }>;
 
 
-export type WishlistRemoveProductMutation = { __typename?: 'Mutation', wishlistRemoveProduct: boolean };
+export type WishlistRemoveProductMutation = { __typename?: 'Mutation', wishlistRemoveProduct: Array<string> };
+
+export type AppMenuQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AppMenuQuery = { __typename?: 'Query', appMenu: Array<{ __typename?: 'MenuCategoryOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, children: Array<{ __typename?: 'MenuCategoryItemOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> }> }> };
 
 export type CashbackQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1734,6 +1747,11 @@ export type MktinStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MktinStatusQuery = { __typename?: 'Query', mktinStatus: boolean };
 
+export type MostSearchedWordsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MostSearchedWordsQuery = { __typename?: 'Query', mostSearchedWords: Array<string> };
+
 export type OrderFormQueryVariables = Exact<{
   orderFormId: Scalars['String'];
 }>;
@@ -1756,7 +1774,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', productId: string, productName: string, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null } | null } };
+export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, videoThumbnail?: string | null, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null } | null } };
 
 export type ProductDeliveryTimeQueryVariables = Exact<{
   input: CheckDeliveryTimeByProductInput;
@@ -1781,6 +1799,37 @@ export type RonRedirectQueryVariables = Exact<{
 
 
 export type RonRedirectQuery = { __typename?: 'Query', ronRedirect?: { __typename?: 'RonRedirectOutput', type: RonRedirectTypeEnum, url?: string | null, orderFormId?: string | null } | null };
+
+export type SearchQueryVariables = Exact<{
+  input: SearchProductInput;
+}>;
+
+
+export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'SearchOutput', count: number, items: Array<{ __typename?: 'ProductListOutput', productId: string, skuId: string, productName: string, colors?: Array<string> | null, brand: string, category?: string | null, size?: string | null, colorName?: string | null, image: string, listPrice: number, currentPrice: number, hasDiscount: boolean, discountPercentage: number, prime?: { __typename?: 'ProductListPrimeOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } }> } };
+
+export type SearchAutocompleteSuggestionsQueryVariables = Exact<{
+  q: Scalars['String'];
+}>;
+
+
+export type SearchAutocompleteSuggestionsQuery = { __typename?: 'Query', searchAutocompleteSuggestions: Array<string> };
+
+export type SearchFacetsQueryVariables = Exact<{
+  input: SearchFacetsInput;
+}>;
+
+
+export type SearchFacetsQuery = { __typename?: 'Query', searchFacets: { __typename?: 'SearchFacetOutput', categories: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, colors: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, sizes: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, prices: { __typename?: 'SearchFacetRangeOutput', from: number, to: number } } };
+
+export type SearchNewsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SearchNewsQuery = { __typename?: 'Query', searchNews: Array<{ __typename?: 'SearchNewsOutput', image: string, referenceId: string, orderBy?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> }> };
+
+export type WishlistQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type WishlistQuery = { __typename?: 'Query', wishlist: Array<string> };
 
 export type WishlistCheckProductQueryVariables = Exact<{
   input: WishlistCheckProductInput;
@@ -2935,6 +2984,62 @@ export function useWishlistRemoveProductMutation(baseOptions?: Apollo.MutationHo
 export type WishlistRemoveProductMutationHookResult = ReturnType<typeof useWishlistRemoveProductMutation>;
 export type WishlistRemoveProductMutationResult = Apollo.MutationResult<WishlistRemoveProductMutation>;
 export type WishlistRemoveProductMutationOptions = Apollo.BaseMutationOptions<WishlistRemoveProductMutation, WishlistRemoveProductMutationVariables>;
+export const AppMenuDocument = gql`
+    query appMenu {
+  appMenu {
+    name
+    type
+    deeplinkUrl
+    highlight
+    referenceId
+    facets {
+      key
+      value
+    }
+    children {
+      name
+      type
+      deeplinkUrl
+      highlight
+      referenceId
+      facets {
+        key
+        value
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useAppMenuQuery__
+ *
+ * To run a query within a React component, call `useAppMenuQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAppMenuQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAppMenuQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAppMenuQuery(baseOptions?: Apollo.QueryHookOptions<AppMenuQuery, AppMenuQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AppMenuQuery, AppMenuQueryVariables>(AppMenuDocument, options);
+      }
+export function useAppMenuLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AppMenuQuery, AppMenuQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AppMenuQuery, AppMenuQueryVariables>(AppMenuDocument, options);
+        }
+export type AppMenuQueryHookResult = ReturnType<typeof useAppMenuQuery>;
+export type AppMenuLazyQueryHookResult = ReturnType<typeof useAppMenuLazyQuery>;
+export type AppMenuQueryResult = Apollo.QueryResult<AppMenuQuery, AppMenuQueryVariables>;
+export function refetchAppMenuQuery(variables?: AppMenuQueryVariables) {
+      return { query: AppMenuDocument, variables: variables }
+    }
 export const CashbackDocument = gql`
     query cashback {
   cashback {
@@ -3219,6 +3324,41 @@ export type MktinStatusQueryResult = Apollo.QueryResult<MktinStatusQuery, MktinS
 export function refetchMktinStatusQuery(variables?: MktinStatusQueryVariables) {
       return { query: MktinStatusDocument, variables: variables }
     }
+export const MostSearchedWordsDocument = gql`
+    query mostSearchedWords {
+  mostSearchedWords
+}
+    `;
+
+/**
+ * __useMostSearchedWordsQuery__
+ *
+ * To run a query within a React component, call `useMostSearchedWordsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMostSearchedWordsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMostSearchedWordsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMostSearchedWordsQuery(baseOptions?: Apollo.QueryHookOptions<MostSearchedWordsQuery, MostSearchedWordsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MostSearchedWordsQuery, MostSearchedWordsQueryVariables>(MostSearchedWordsDocument, options);
+      }
+export function useMostSearchedWordsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MostSearchedWordsQuery, MostSearchedWordsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MostSearchedWordsQuery, MostSearchedWordsQueryVariables>(MostSearchedWordsDocument, options);
+        }
+export type MostSearchedWordsQueryHookResult = ReturnType<typeof useMostSearchedWordsQuery>;
+export type MostSearchedWordsLazyQueryHookResult = ReturnType<typeof useMostSearchedWordsLazyQuery>;
+export type MostSearchedWordsQueryResult = Apollo.QueryResult<MostSearchedWordsQuery, MostSearchedWordsQueryVariables>;
+export function refetchMostSearchedWordsQuery(variables?: MostSearchedWordsQueryVariables) {
+      return { query: MostSearchedWordsDocument, variables: variables }
+    }
 export const OrderFormDocument = gql`
     query orderForm($orderFormId: String!) {
   orderForm(input: {orderFormId: $orderFormId}) {
@@ -3362,11 +3502,13 @@ export function refetchPrimeFaqQuery(variables?: PrimeFaqQueryVariables) {
 export const ProductDocument = gql`
     query product($input: ProductInput!) {
   product(input: $input) {
+    action
     productId
     productName
     categoryTree
     disabledColors
     saleOff
+    videoThumbnail
     priceRange {
       sellingPrice {
         highPrice
@@ -3626,6 +3768,240 @@ export type RonRedirectLazyQueryHookResult = ReturnType<typeof useRonRedirectLaz
 export type RonRedirectQueryResult = Apollo.QueryResult<RonRedirectQuery, RonRedirectQueryVariables>;
 export function refetchRonRedirectQuery(variables: RonRedirectQueryVariables) {
       return { query: RonRedirectDocument, variables: variables }
+    }
+export const SearchDocument = gql`
+    query search($input: SearchProductInput!) {
+  search(input: $input) {
+    count
+    items {
+      productId
+      skuId
+      productName
+      colors
+      brand
+      category
+      size
+      colorName
+      image
+      listPrice
+      currentPrice
+      hasDiscount
+      discountPercentage
+      prime {
+        price
+        installment {
+          value
+          number
+        }
+      }
+      installment {
+        value
+        number
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchQuery__
+ *
+ * To run a query within a React component, call `useSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSearchQuery(baseOptions: Apollo.QueryHookOptions<SearchQuery, SearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+      }
+export function useSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchQuery, SearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+        }
+export type SearchQueryHookResult = ReturnType<typeof useSearchQuery>;
+export type SearchLazyQueryHookResult = ReturnType<typeof useSearchLazyQuery>;
+export type SearchQueryResult = Apollo.QueryResult<SearchQuery, SearchQueryVariables>;
+export function refetchSearchQuery(variables: SearchQueryVariables) {
+      return { query: SearchDocument, variables: variables }
+    }
+export const SearchAutocompleteSuggestionsDocument = gql`
+    query searchAutocompleteSuggestions($q: String!) {
+  searchAutocompleteSuggestions(q: $q)
+}
+    `;
+
+/**
+ * __useSearchAutocompleteSuggestionsQuery__
+ *
+ * To run a query within a React component, call `useSearchAutocompleteSuggestionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchAutocompleteSuggestionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchAutocompleteSuggestionsQuery({
+ *   variables: {
+ *      q: // value for 'q'
+ *   },
+ * });
+ */
+export function useSearchAutocompleteSuggestionsQuery(baseOptions: Apollo.QueryHookOptions<SearchAutocompleteSuggestionsQuery, SearchAutocompleteSuggestionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchAutocompleteSuggestionsQuery, SearchAutocompleteSuggestionsQueryVariables>(SearchAutocompleteSuggestionsDocument, options);
+      }
+export function useSearchAutocompleteSuggestionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchAutocompleteSuggestionsQuery, SearchAutocompleteSuggestionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchAutocompleteSuggestionsQuery, SearchAutocompleteSuggestionsQueryVariables>(SearchAutocompleteSuggestionsDocument, options);
+        }
+export type SearchAutocompleteSuggestionsQueryHookResult = ReturnType<typeof useSearchAutocompleteSuggestionsQuery>;
+export type SearchAutocompleteSuggestionsLazyQueryHookResult = ReturnType<typeof useSearchAutocompleteSuggestionsLazyQuery>;
+export type SearchAutocompleteSuggestionsQueryResult = Apollo.QueryResult<SearchAutocompleteSuggestionsQuery, SearchAutocompleteSuggestionsQueryVariables>;
+export function refetchSearchAutocompleteSuggestionsQuery(variables: SearchAutocompleteSuggestionsQueryVariables) {
+      return { query: SearchAutocompleteSuggestionsDocument, variables: variables }
+    }
+export const SearchFacetsDocument = gql`
+    query searchFacets($input: SearchFacetsInput!) {
+  searchFacets(input: $input) {
+    categories {
+      key
+      value
+      name
+    }
+    colors {
+      key
+      value
+      name
+    }
+    sizes {
+      key
+      value
+      name
+    }
+    prices {
+      from
+      to
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchFacetsQuery__
+ *
+ * To run a query within a React component, call `useSearchFacetsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchFacetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchFacetsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSearchFacetsQuery(baseOptions: Apollo.QueryHookOptions<SearchFacetsQuery, SearchFacetsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchFacetsQuery, SearchFacetsQueryVariables>(SearchFacetsDocument, options);
+      }
+export function useSearchFacetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchFacetsQuery, SearchFacetsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchFacetsQuery, SearchFacetsQueryVariables>(SearchFacetsDocument, options);
+        }
+export type SearchFacetsQueryHookResult = ReturnType<typeof useSearchFacetsQuery>;
+export type SearchFacetsLazyQueryHookResult = ReturnType<typeof useSearchFacetsLazyQuery>;
+export type SearchFacetsQueryResult = Apollo.QueryResult<SearchFacetsQuery, SearchFacetsQueryVariables>;
+export function refetchSearchFacetsQuery(variables: SearchFacetsQueryVariables) {
+      return { query: SearchFacetsDocument, variables: variables }
+    }
+export const SearchNewsDocument = gql`
+    query searchNews {
+  searchNews {
+    image
+    referenceId
+    facets {
+      key
+      value
+    }
+    orderBy
+  }
+}
+    `;
+
+/**
+ * __useSearchNewsQuery__
+ *
+ * To run a query within a React component, call `useSearchNewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchNewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchNewsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSearchNewsQuery(baseOptions?: Apollo.QueryHookOptions<SearchNewsQuery, SearchNewsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchNewsQuery, SearchNewsQueryVariables>(SearchNewsDocument, options);
+      }
+export function useSearchNewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchNewsQuery, SearchNewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchNewsQuery, SearchNewsQueryVariables>(SearchNewsDocument, options);
+        }
+export type SearchNewsQueryHookResult = ReturnType<typeof useSearchNewsQuery>;
+export type SearchNewsLazyQueryHookResult = ReturnType<typeof useSearchNewsLazyQuery>;
+export type SearchNewsQueryResult = Apollo.QueryResult<SearchNewsQuery, SearchNewsQueryVariables>;
+export function refetchSearchNewsQuery(variables?: SearchNewsQueryVariables) {
+      return { query: SearchNewsDocument, variables: variables }
+    }
+export const WishlistDocument = gql`
+    query wishlist {
+  wishlist
+}
+    `;
+
+/**
+ * __useWishlistQuery__
+ *
+ * To run a query within a React component, call `useWishlistQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWishlistQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWishlistQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useWishlistQuery(baseOptions?: Apollo.QueryHookOptions<WishlistQuery, WishlistQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WishlistQuery, WishlistQueryVariables>(WishlistDocument, options);
+      }
+export function useWishlistLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WishlistQuery, WishlistQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WishlistQuery, WishlistQueryVariables>(WishlistDocument, options);
+        }
+export type WishlistQueryHookResult = ReturnType<typeof useWishlistQuery>;
+export type WishlistLazyQueryHookResult = ReturnType<typeof useWishlistLazyQuery>;
+export type WishlistQueryResult = Apollo.QueryResult<WishlistQuery, WishlistQueryVariables>;
+export function refetchWishlistQuery(variables?: WishlistQueryVariables) {
+      return { query: WishlistDocument, variables: variables }
     }
 export const WishlistCheckProductDocument = gql`
     query wishlistCheckProduct($input: WishlistCheckProductInput!) {

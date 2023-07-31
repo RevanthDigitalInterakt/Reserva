@@ -3,7 +3,8 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { createZustandStoreWithSelectors } from '../utils/createZustandStoreWithSelectors';
 
-type TCacheKeys = 'banner'
+type TCacheKeys = 'appMenu'
+| 'banner'
 | 'brandsCarousel'
 | 'checkSearchRedirect'
 | 'config'
@@ -20,17 +21,24 @@ type TCacheKeys = 'banner'
 | 'productSearch'
 | 'profile'
 | 'searchSuggestionsAndProductSearch'
-| 'sellerInfo';
+| 'sellerInfo'
+| 'mostSearchedWords'
+| 'searchNews'
+| 'search'
+| 'searchFacets'
+| 'searchAutocompleteSuggestions';
 
 const ONE_MINUTE = 1000 * 60;
 const TWO_MINUTES = ONE_MINUTE * 2;
 const FIVE_MINUTES = ONE_MINUTE * 5;
 const TEN_MINUTES = ONE_MINUTE * 10;
 const SIX_HOURS = TEN_MINUTES * 36;
+const ONE_DAY = SIX_HOURS * 4;
 
 const DISABLED_CACHE_POLICY = false;
 
 const expireTimes: { [key in TCacheKeys]: number } = {
+  appMenu: TEN_MINUTES,
   banner: ONE_MINUTE,
   brandsCarousel: TWO_MINUTES,
   checkSearchRedirect: FIVE_MINUTES,
@@ -49,6 +57,11 @@ const expireTimes: { [key in TCacheKeys]: number } = {
   profile: FIVE_MINUTES,
   searchSuggestionsAndProductSearch: TWO_MINUTES,
   sellerInfo: TWO_MINUTES,
+  mostSearchedWords: TEN_MINUTES,
+  searchNews: TEN_MINUTES,
+  search: TWO_MINUTES,
+  searchFacets: TWO_MINUTES,
+  searchAutocompleteSuggestions: ONE_DAY,
 };
 
 interface IApolloFetchPolicyStore {
@@ -64,6 +77,7 @@ const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
     initialized: false,
     setInitialized: () => set({ ...getState(), initialized: true }),
     lastFetchedTimes: {
+      appMenu: 0,
       banner: 0,
       brandsCarousel: 0,
       checkSearchRedirect: 0,
@@ -82,6 +96,11 @@ const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
       profile: 0,
       searchSuggestionsAndProductSearch: 0,
       sellerInfo: 0,
+      mostSearchedWords: 0,
+      searchNews: 0,
+      search: 0,
+      searchFacets: 0,
+      searchAutocompleteSuggestions: 0,
     },
     getFetchPolicyPerKey: (key: TCacheKeys) => {
       if (DISABLED_CACHE_POLICY) return 'network-only';

@@ -12,8 +12,12 @@ interface IUseRemoteConfigStore {
 }
 
 export interface IRemoteConfigKeys {
+  pdp_show_video: boolean;
+  pdp_show_video_tester: boolean;
   show_new_bag: boolean;
   show_new_bag_tester: boolean;
+  show_new_search: boolean;
+  show_new_search_tester: boolean;
   show_campaign_boyfriend: boolean;
   show_pdc_thumb_color: boolean;
   primelp_terms_search: string;
@@ -26,6 +30,9 @@ export interface IRemoteConfigKeys {
   EMAIL_TESTERS: string[];
   appName: string;
   appVersion: string;
+  show_price_prime_pdp: boolean;
+  show_price_prime_pdc: boolean;
+  regionalization: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -39,6 +46,8 @@ type TRemoteConfigStringArrayKeys = KeysMatching<IRemoteConfigKeys, string[]>;
 export const defaults: IRemoteConfigKeys = {
   show_new_bag: false,
   show_new_bag_tester: true,
+  show_new_search: false,
+  show_new_search_tester: false,
   show_campaign_boyfriend: false,
   pdp_button_add_bag: '#11AB6B',
   sale_off_tag: false,
@@ -51,6 +60,11 @@ export const defaults: IRemoteConfigKeys = {
   primelp_terms_search: 'prime',
   show_prime: false,
   show_prime_tester: false,
+  show_price_prime_pdp: false,
+  show_price_prime_pdc: false,
+  pdp_show_video: false,
+  pdp_show_video_tester: false,
+  regionalization: false,
 };
 
 const THREE_MINUTES_IN_MS = 180000;

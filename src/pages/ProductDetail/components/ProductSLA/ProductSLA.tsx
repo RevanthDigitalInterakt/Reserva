@@ -84,7 +84,7 @@ function ProductSLA() {
           accessibilityLabel="productdetail_input_cep"
           value={cep}
           placeholder="Informe seu CEP"
-          iconName="Search"
+          iconName="NewSearch"
           keyboardType="number-pad"
           loading={loading}
           keyboardAppearance="light"

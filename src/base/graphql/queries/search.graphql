@@ -1,0 +1,31 @@
+query search($input: SearchProductInput!) {
+  search(input: $input) {
+    count
+    items {
+      productId
+      skuId
+      productName
+      colors
+      brand
+      category
+      size
+      colorName
+      image
+      listPrice
+      currentPrice
+      hasDiscount
+      discountPercentage
+      prime {
+        price
+        installment {
+          value
+          number
+        }
+      }
+      installment {
+        value
+        number
+      }
+    }
+  }
+}

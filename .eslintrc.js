@@ -44,7 +44,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 0,
     'unused-imports/no-unused-imports': 'error',
     'react/require-default-props': 'off',
-    'linebreak-style': 0,
   },
 };
 

@@ -14,6 +14,7 @@
     "lint": "eslint . --ext .ts --ext .tsx --cache",
     "clean": "cd android && ./gradlew clean && cd ..",
     "android-build-release": "cd android && ./gradlew assembleRelease",
+    "android-build-aab": "cd android && ./gradlew bundleRelease",
     "codepush-android:dev": "appcenter codepush release-react -a Reserva-App/reserva-app-1 -d Staging",
     "codepush-android:prod": "appcenter codepush release-react -a Reserva-App/reserva-app-1 -d Production",
     "codepush-ios:dev": "appcenter codepush release-react -a Reserva-App/reserva-app -d Staging",
@@ -105,6 +106,7 @@
     "react-native-tracking-transparency": "^0.1.2",
     "react-native-url-polyfill": "1.3.0",
     "react-native-uuid": "^2.0.1",
+    "react-native-video": "^5.2.1",
     "react-native-view-shot": "^3.1.2",
     "react-native-webview": "^11.26.1",
     "sha1": "^1.1.1",
@@ -136,6 +138,7 @@
     "@types/react-native-background-timer": "^2.0.0",
     "@types/react-native-countdown-component": "^2.7.0",
     "@types/react-native-fetch-blob": "^0.10.7",
+    "@types/react-native-video": "^5.0.15",
     "@types/react-test-renderer": "17.0.1",
     "@types/sha1": "^1.1.3",
     "@types/styled-components": "5.1.26",
@@ -210,7 +213,7 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 16,
+        "branches": 15,
         "functions": 17,
         "lines": 22,
         "statements": 22

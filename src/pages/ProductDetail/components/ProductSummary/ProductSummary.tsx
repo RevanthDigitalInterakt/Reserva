@@ -1,19 +1,19 @@
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
-import { ProductDetailCard as ProductDetailCardLegacy } from '@usereservaapp/reserva-ui';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { onShare } from '../../../../utils/onShare';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import { slugify } from '../../../../utils/slugify';
 import { ModalZoomImage } from './ModalZoomImage';
-import { useWishlistProductActions } from '../../../../hooks/useWishlistProductActions';
+import { useWishlistActions } from '../../../../hooks/useWishlistActions';
 import images from '../../../../base/styles/icons';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import EventProvider from '../../../../utils/EventProvider';
 import { ProductDetailCard } from '../../../../components/ProductDetailCard/ProductDetailCard';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 import PricesSelectBoxes from '../../../../components/PricesSelectBoxes';
+import { ProductDetailCardLegacy } from '../../../../components/ProductDetailCardLegacy/ProductDetailCardLegacy';
 
 function ProductSummary() {
   const { getBoolean } = useRemoteConfig();
@@ -24,10 +24,7 @@ function ProductSummary() {
     'selectedColor',
   ]);
 
-  const { onToggleFavorite, loading: loadingWishlist, isFavorited } = useWishlistProductActions({
-    productId: productDetail?.productId || '',
-    skuId: selectedSize?.itemId || '',
-  });
+  const { loadingSkuId, checkIsFavorite, onToggleFavorite } = useWishlistActions();
 
   const [imageIndex, setImageIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
@@ -41,6 +38,10 @@ function ProductSummary() {
 
     return null;
   }, [getBoolean, productDetail]);
+
+  const showPrimeBox = useMemo(() => (
+    getBoolean('show_price_prime_pdp') && primeActive
+  ), [getBoolean, primeActive]);
 
   const onClickShare = useCallback(() => {
     if (!productDetail) return;
@@ -69,9 +70,20 @@ function ProductSummary() {
     });
   }, [imageIndex, productDetail]);
 
+  const video = useMemo(() => {
+    if (!productDetail?.videoThumbnail) return '';
+
+    const isEqualSku = productDetail.videoThumbnail.includes(selectedSize?.ean || '');
+    return isEqualSku ? productDetail.videoThumbnail : '';
+  }, [productDetail?.videoThumbnail, selectedSize?.ean]);
+
+  const showZoomButton = useMemo(() => (
+    (!!video && imageIndex >= 0) || !video
+  ), [imageIndex, video]);
+
   const ProductDetailCardComponent = useMemo(() => (
-    primeActive ? ProductDetailCard : ProductDetailCardLegacy
-  ), [primeActive]);
+    showPrimeBox ? ProductDetailCard : ProductDetailCardLegacy
+  ), [showPrimeBox]);
 
   if (!productDetail || !selectedColor) return null;
 
@@ -86,9 +98,21 @@ function ProductSummary() {
 
       <ProductDetailCardComponent
         testID={`com.usereserva:id/productdetail_card_${slugify(productDetail.productId)}`}
-        loadingFavorite={loadingWishlist}
-        isFavorited={isFavorited}
-        onClickFavorite={onToggleFavorite}
+        loadingFavorite={loadingSkuId === selectedSize?.itemId}
+        isFavorited={checkIsFavorite(selectedSize?.itemId || '')}
+        onClickFavorite={() => {
+          onToggleFavorite({
+            productName: productDetail.productName,
+            productId: productDetail?.productId,
+            size: selectedSize?.size,
+            lowPrice: selectedSize?.currentPrice || 0,
+            colorName: selectedColor?.colorName,
+            skuId: selectedSize?.itemId || '',
+            category: '',
+            brand: '',
+            // category: prod
+          });
+        }}
         imagesHeight={3 * (configDeviceSizes.DEVICE_WIDTH / 2)}
         title={productDetail.productName}
         price={selectedSize?.listPrice || 0}
@@ -102,16 +126,19 @@ function ProductSummary() {
         setModalZoom={handleSetModalZoom}
         imagesWidth={configDeviceSizes.DEVICE_WIDTH}
         images={selectedColor.images || []}
+        videoThumbnail={video}
+        showZoomButton={showZoomButton}
         imageIndexActual={(newIndex) => {
+          const handledIndex = video ? newIndex - 1 : newIndex;
           // To prevent some re-renders
-          if (newIndex === imageIndex) return imageIndex;
+          if (handledIndex === imageIndex) return handledIndex;
 
-          setImageIndex(newIndex);
-          return newIndex;
+          setImageIndex(handledIndex);
+          return handledIndex;
         }}
       />
 
-      {!!primeActive && <PricesSelectBoxes selectedSize={selectedSize} />}
+      {!!showPrimeBox && <PricesSelectBoxes selectedSize={selectedSize} />}
     </>
   );
 }
