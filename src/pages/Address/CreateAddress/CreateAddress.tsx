@@ -78,6 +78,10 @@ export default function CreateAddress(
   const checkPostalCode = useCallback<CheckPostalCodeFn>(async (value, setFieldValue) => {
     if (value.length < 8) return;
 
+    const newValue = value.replace(/(\d{5})(\d{3})/, '$1-$2');
+
+    setFieldValue('postalCode', newValue);
+
     try {
       const {
         city,
@@ -139,8 +143,8 @@ export default function CreateAddress(
     }
   }, [profileAddress, isMainAddress, navigation]);
 
-  const modalController = useCallback((actionType: string) => {
-    if (actionType === 'cancel') {
+  const modalController = useCallback((actionType?: string) => {
+    if (actionType && actionType === 'cancel') {
       setModalVisible(!modalVisible);
       navigation.goBack();
       return;
@@ -153,7 +157,7 @@ export default function CreateAddress(
     const valuesExists = Object.values(values).some((value) => value !== '');
 
     if (valuesExists) {
-      modalController('open');
+      modalController();
       return;
     }
 

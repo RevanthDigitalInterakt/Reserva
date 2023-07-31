@@ -34,7 +34,7 @@ export default function ModalCancelCreateAddress({
             <TouchableOpacity style={styles.modalButtonCancel} onPress={() => modalController('cancel')}>
               <Text style={styles.modalTextButtonCancel}>Cancelar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.modalButtonClose} onPress={() => modalController('close')}>
+            <TouchableOpacity style={styles.modalButtonClose} onPress={() => modalController()}>
               <Text style={styles.modalTextButtonClose}>Fechar</Text>
             </TouchableOpacity>
           </View>

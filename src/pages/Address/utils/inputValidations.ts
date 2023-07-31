@@ -34,11 +34,9 @@ export const addressNumberSchema = Yup.number()
   .positive()
   .required(FeedbackMessageEnum.REQUIRED_NUMBER);
 
-export const postalCodeSchema = Yup.number()
+export const postalCodeSchema = Yup.string()
   .min(0, FeedbackMessageEnum.MIN_INPUT_SIZE_8)
   .max(99999999, FeedbackMessageEnum.MAX_INPUT_SIZE_8)
-  .integer()
-  .positive()
   .required(FeedbackMessageEnum.REQUIRED_POSTALCODE);
 
 export const streetSchema = Yup.string()

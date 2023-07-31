@@ -42,14 +42,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 5,
   },
-
-  labelNoEditableFieldStyle: {
-    top: 10,
-    left: 10,
-    position: 'absolute',
-    zIndex: 10000,
-    paddingHorizontal: 5,
-  },
 });
 
 export default styles;

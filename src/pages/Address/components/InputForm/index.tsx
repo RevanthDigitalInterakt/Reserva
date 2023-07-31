@@ -33,10 +33,6 @@ export default function InputForm({
   const containerStyle = error && touched
     ? [styles.inputContainer, { ...styles.borderErrorActive }] : [styles.inputContainer];
 
-  const editableFieldStyle = !isEditable && { containerStyle, backgroundColor: '#f0f0f0' };
-
-  const inputStyle = [...containerStyle, editableFieldStyle];
-
   const moveLabelToTop = useCallback(() => {
     Animated.timing(animatedLabel, {
       toValue: 1,
@@ -78,9 +74,9 @@ export default function InputForm({
 
   return (
     <View>
-      <View style={inputStyle}>
+      <View style={containerStyle}>
         <Animated.View style={[
-          isEditable ? styles.labelStyle : styles.labelNoEditableFieldStyle, {
+          styles.labelStyle, {
             transform: [{ translateY: translateStyleY }],
           }]}
         >
