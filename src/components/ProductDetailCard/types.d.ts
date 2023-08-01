@@ -11,6 +11,7 @@ export interface ProductDetailCardProps {
   imagesWidth?: number
   imagesHeight?: number
   isFavorited?: boolean
+  showZoomButton?: boolean
   loadingFavorite?: boolean
   onClickFavorite?: (favoriteState: boolean) => void
   onClickShare?: () => void
@@ -20,4 +21,5 @@ export interface ProductDetailCardProps {
   imageIndexActual?: (indexImage: number) => number
   avaibleUnits?: number;
   testID?: string;
+  videoThumbnail?: string;
 }

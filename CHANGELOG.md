@@ -1,7 +1,7 @@
 ## CHANGELOG
 
 ### 2.0.10
-
+- [14551 - Como usuário quero ver vídeo do produto na PDP](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14551)
 - [14879 - Ajustar lógica atualização forçada](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14879)
 - [14806 - Integração nova busca](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14806)
 
@@ -18,7 +18,6 @@
 
 ### 2.0.8
 
-- [14551 - Como usuário quero ver vídeo do produto na PDP](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14551)
 - [SRN-228 - DITO - Evento adicionou produto a wishlist](https://reserva.atlassian.net/browse/SRN-228)
 - [SRN-229 - DITO - Evento Acessou o carrinho](https://reserva.atlassian.net/browse/SRN-229)
 - [15058 - Possibilidade de links no menu que não vão para a PDC](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=15058)
