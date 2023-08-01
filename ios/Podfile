@@ -94,6 +94,5 @@ target 'reserva' do
 end
 
 target 'OneSignalNotificationServiceExtension' do
-  use_frameworks! :linkage => :static
-  pod 'OneSignal', '>= 3.0', '< 4.0'
+  pod 'OneSignalXCFramework', '>= 3.0', '< 4.0'
 end
