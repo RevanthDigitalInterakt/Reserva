@@ -90,32 +90,6 @@ export const ListHorizontalProducts = ({
     }
   }, [profile?.email]);
 
-  const trackEventDitoAddWishlist = useCallback(async (item: any) =>
-  {
-    try
-    {
-      const id = await getDitoUserID(profile?.email || '');
-
-      EventProvider.sendTrackEvent('adicionou-produto-a-wishlist', {
-        id,
-        action: 'adicionou-produto-a-wishlist',
-        data: {
-          id_produto: item.items[0].itemId,
-          cor: getProductColor(item.items[0].variations),
-          tamanho: getProductSize(item.items[0].variations),
-          nome_categoria: item.categoryTree ? getCategoriesByHref(item.categoryTree[3].href) : 'Reserva',
-          nome_produto: item.productName,
-          marca: item.categoryTree ? getCategoriesByHref(item.categoryTree[0].href).toUpperCase() : 'Reserva',
-          preco_produto: item.priceRange.sellingPrice.lowPrice,
-          origem: 'app',
-        },
-      });
-    } catch (error)
-    {
-      EventProvider.captureException(error);
-    }
-  }, [profile?.email]);
-
   const handleOnFavorite = async (favorite: boolean, item: any) =>
   {
     const skuId = item.items[0].itemId;
