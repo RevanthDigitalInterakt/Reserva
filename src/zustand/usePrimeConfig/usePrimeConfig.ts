@@ -1,4 +1,4 @@
-/* TODO when refactoring the PDC and Search, you should remove this logic */
+/* TODO when refactoring the PDC and NewSearch, you should remove this logic */
 import { create } from 'zustand';
 import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
 import EventProvider from '../../utils/EventProvider';

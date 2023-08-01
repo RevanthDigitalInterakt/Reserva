@@ -1,0 +1,3 @@
+query searchAutocompleteSuggestions($q: String!) {
+  searchAutocompleteSuggestions(q: $q)
+}
