@@ -1483,7 +1483,6 @@ export type WishlistCheckProductInput = {
 export type WishlistRemoveProductInput = {
   productId?: InputMaybe<Scalars['String']>;
   skuId?: InputMaybe<Scalars['String']>;
-  wishlistItemId?: InputMaybe<Scalars['String']>;
 };
 
 export type AvailableGiftsFragmentFragment = { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string };
@@ -1776,7 +1775,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, videoThumbnail?: string | null, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null } | null } };
+export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, videoThumbnail?: string | null, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null } | null } };
 
 export type ProductDeliveryTimeQueryVariables = Exact<{
   input: CheckDeliveryTimeByProductInput;
@@ -1802,10 +1801,6 @@ export type RonRedirectQueryVariables = Exact<{
 
 export type RonRedirectQuery = { __typename?: 'Query', ronRedirect?: { __typename?: 'RonRedirectOutput', type: RonRedirectTypeEnum, url?: string | null, orderFormId?: string | null } | null };
 
-export type UpdateInAppQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UpdateInAppQuery = { __typename?: 'Query', updateInApp?: { __typename?: 'UpdateInAppOutput', updateTitle?: string | null, updateDescription?: string | null, updateAllVersions?: boolean | null, targetVersion?: string | null, onlyPlatform?: string | null, updateType?: string | null } | null };
 export type SearchQueryVariables = Exact<{
   input: SearchProductInput;
 }>;
@@ -1831,6 +1826,11 @@ export type SearchNewsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type SearchNewsQuery = { __typename?: 'Query', searchNews: Array<{ __typename?: 'SearchNewsOutput', image: string, referenceId: string, orderBy?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> }> };
+
+export type UpdateInAppQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UpdateInAppQuery = { __typename?: 'Query', updateInApp?: { __typename?: 'UpdateInAppOutput', updateTitle?: string | null, updateDescription?: string | null, updateAllVersions?: boolean | null, targetVersion?: string | null, onlyPlatform?: string | null, updateType?: string | null } | null };
 
 export type WishlistQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3775,15 +3775,6 @@ export type RonRedirectQueryResult = Apollo.QueryResult<RonRedirectQuery, RonRed
 export function refetchRonRedirectQuery(variables: RonRedirectQueryVariables) {
       return { query: RonRedirectDocument, variables: variables }
     }
-export const UpdateInAppDocument = gql`
-    query updateInApp {
-  updateInApp {
-    updateTitle
-    updateDescription
-    updateAllVersions
-    targetVersion
-    onlyPlatform
-    updateType
 export const SearchDocument = gql`
     query search($input: SearchProductInput!) {
   search(input: $input) {
@@ -3819,10 +3810,6 @@ export const SearchDocument = gql`
     `;
 
 /**
- * __useUpdateInAppQuery__
- *
- * To run a query within a React component, call `useUpdateInAppQuery` and pass it any options that fit your needs.
- * When your component renders, `useUpdateInAppQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * __useSearchQuery__
  *
  * To run a query within a React component, call `useSearchQuery` and pass it any options that fit your needs.
@@ -3832,7 +3819,6 @@ export const SearchDocument = gql`
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUpdateInAppQuery({
  * const { data, loading, error } = useSearchQuery({
  *   variables: {
  *      input: // value for 'input'
@@ -3974,19 +3960,6 @@ export const SearchNewsDocument = gql`
  *   },
  * });
  */
-export function useUpdateInAppQuery(baseOptions?: Apollo.QueryHookOptions<UpdateInAppQuery, UpdateInAppQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UpdateInAppQuery, UpdateInAppQueryVariables>(UpdateInAppDocument, options);
-      }
-export function useUpdateInAppLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UpdateInAppQuery, UpdateInAppQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UpdateInAppQuery, UpdateInAppQueryVariables>(UpdateInAppDocument, options);
-        }
-export type UpdateInAppQueryHookResult = ReturnType<typeof useUpdateInAppQuery>;
-export type UpdateInAppLazyQueryHookResult = ReturnType<typeof useUpdateInAppLazyQuery>;
-export type UpdateInAppQueryResult = Apollo.QueryResult<UpdateInAppQuery, UpdateInAppQueryVariables>;
-export function refetchUpdateInAppQuery(variables?: UpdateInAppQueryVariables) {
-      return { query: UpdateInAppDocument, variables: variables }
 export function useSearchNewsQuery(baseOptions?: Apollo.QueryHookOptions<SearchNewsQuery, SearchNewsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<SearchNewsQuery, SearchNewsQueryVariables>(SearchNewsDocument, options);
@@ -4000,6 +3973,48 @@ export type SearchNewsLazyQueryHookResult = ReturnType<typeof useSearchNewsLazyQ
 export type SearchNewsQueryResult = Apollo.QueryResult<SearchNewsQuery, SearchNewsQueryVariables>;
 export function refetchSearchNewsQuery(variables?: SearchNewsQueryVariables) {
       return { query: SearchNewsDocument, variables: variables }
+    }
+export const UpdateInAppDocument = gql`
+    query updateInApp {
+  updateInApp {
+    updateTitle
+    updateDescription
+    updateAllVersions
+    targetVersion
+    onlyPlatform
+    updateType
+  }
+}
+    `;
+
+/**
+ * __useUpdateInAppQuery__
+ *
+ * To run a query within a React component, call `useUpdateInAppQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUpdateInAppQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUpdateInAppQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUpdateInAppQuery(baseOptions?: Apollo.QueryHookOptions<UpdateInAppQuery, UpdateInAppQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UpdateInAppQuery, UpdateInAppQueryVariables>(UpdateInAppDocument, options);
+      }
+export function useUpdateInAppLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UpdateInAppQuery, UpdateInAppQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UpdateInAppQuery, UpdateInAppQueryVariables>(UpdateInAppDocument, options);
+        }
+export type UpdateInAppQueryHookResult = ReturnType<typeof useUpdateInAppQuery>;
+export type UpdateInAppLazyQueryHookResult = ReturnType<typeof useUpdateInAppLazyQuery>;
+export type UpdateInAppQueryResult = Apollo.QueryResult<UpdateInAppQuery, UpdateInAppQueryVariables>;
+export function refetchUpdateInAppQuery(variables?: UpdateInAppQueryVariables) {
+      return { query: UpdateInAppDocument, variables: variables }
     }
 export const WishlistDocument = gql`
     query wishlist {
