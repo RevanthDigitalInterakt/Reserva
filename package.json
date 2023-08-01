@@ -10,7 +10,7 @@
     "ios": "react-native run-ios",
     "mini-ios": "react-native run-ios --simulator='iPad Pro (9.7-inch)'",
     "start": "react-native start",
-    "test": "jest --passWithNoTests --detectOpenHandles --forceExit --silent",
+    "test": "jest --passWithNoTests --detectOpenHandles --forceExit",
     "lint": "eslint . --ext .ts --ext .tsx --cache",
     "clean": "cd android && ./gradlew clean && cd ..",
     "android-build-release": "cd android && ./gradlew assembleRelease",
@@ -49,6 +49,7 @@
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
     "@sentry/react-native": "4.12.0",
+    "@types/semver": "^7.5.0",
     "@usereservaapp/reserva-ui": "0.57.0",
     "axios": "0.27.2",
     "date-fns": "^2.21.3",
@@ -109,6 +110,7 @@
     "react-native-video": "^5.2.1",
     "react-native-view-shot": "^3.1.2",
     "react-native-webview": "^11.26.1",
+    "semver": "^7.5.4",
     "sha1": "^1.1.1",
     "styled-components": "^5.3.11",
     "styled-system": "^5.1.5",
@@ -196,7 +198,7 @@
       "json",
       "node"
     ],
-    "collectCoverage": true,
+    "collectCoverage": false,
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.(ts|tsx)"
     ],

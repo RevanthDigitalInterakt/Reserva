@@ -2,11 +2,13 @@
 
 ### 2.0.10
 - [14551 - Como usuário quero ver vídeo do produto na PDP](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14551)
+- [14879 - Ajustar lógica atualização forçada](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14879)
 - [14806 - Integração nova busca](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14806)
 
 ---
 
 ### 2.0.9
+
 - [10614 - BUG - Login infinito perde o token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10614/)
 - Correção do preço divergente na Bag x PDP
 - [14769 - Direcionamento deeplink Kit Look](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14769)
