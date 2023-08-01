@@ -1,9 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 
-
-
-
 react {
     /* Folders */
     //   The root of your project, i.e. where "package.json" lives. Default is '..'
@@ -44,14 +41,6 @@ react {
     //
     //   The list of flags to pass to the Hermes compiler. By default is "-O", "-output-source-map"
     // hermesFlags = ["-O", "-output-source-map"]
-}
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.10, 0.99.99]'
-    }
 }
 
 project.ext.envConfigFiles = [
@@ -117,7 +106,6 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2023000058
         versionName "2.0.9"
-        missingDimensionStrategy 'react-native-camera', 'general'
         resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
         resValue "string", "URL_GATEWAY_CLIENT", project.env.get("URL_GATEWAY_CLIENT")
         resValue "string", "API_KEY_GATEWAY", project.env.get("API_KEY_GATEWAY")
@@ -157,13 +145,13 @@ android {
 dependencies {
     implementation("com.facebook.react:react-android")
 
-    implementation 'androidx.work:work-runtime:2.7.1'
+    implementation 'androidx.work:work-runtime:2.8.1'
     
     //bootlsash
     implementation "androidx.core:core-splashscreen:1.0.1"
 
     // Responsys dependencies
-    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+    implementation 'com.google.firebase:firebase-messaging:23.2.0'
 
     // For animated GIF support
     implementation 'com.facebook.fresco:animated-gif:3.0.0'
@@ -178,7 +166,7 @@ dependencies {
     implementation "com.airbnb.android:lottie:5.2.0"
 
     // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:30.4.1')
+    implementation platform('com.google.firebase:firebase-bom:32.2.0')
 
     // Add the dependencies for the Dynamic Links and Analytics libraries
     // When using the BoM, you don't specify versions in Firebase library dependencies
@@ -187,14 +175,10 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'com.google.guava:guava:32.0.0-android'
-    
-      implementation(project(':react-native-maps')){
-      exclude group: 'com.google.android.gms'
-  }
 
     implementation 'com.google.android.gms:play-services-base:18.2.0'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
-    implementation 'com.google.android.gms:play-services-location:20.0.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.google.android.gms:play-services-tasks:18.0.2'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
