@@ -1,22 +1,23 @@
 import { useEffect, useState } from 'react';
 
-interface IuseDebounce {
+interface IUseDebounce {
   value: string;
   delay: number;
 }
-export default function useDebounce({ value, delay }: IuseDebounce) {
+
+export default function useDebounce({ value, delay }: IUseDebounce) {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(
     () => {
-      // Set debouncedValue to value (passed in) after the specified delay
       const handler = setTimeout(() => {
         setDebouncedValue(value);
       }, delay);
+
       return () => {
         clearTimeout(handler);
       };
-    }, [value],
+    }, [delay, value],
   );
 
   return debouncedValue;

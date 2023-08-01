@@ -18,6 +18,7 @@ import java.util.List;
 import com.microsoft.codepush.react.CodePush;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
+import com.brentvatne.react.ReactVideoPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -40,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
       // Packages that cannot be autolinked yet can be added manually here, for
       // example:
       packages.add(new DeepLinkPathPackage());
+          packages.add(new ReactVideoPackage());
       return packages;
     }
 

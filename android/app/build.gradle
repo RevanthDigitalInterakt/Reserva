@@ -145,6 +145,10 @@ android {
 dependencies {
     implementation("com.facebook.react:react-android")
 
+    compile project(':react-native-video')
+
+    implementation "androidx.appcompat:appcompat:1.0.0"
+
     implementation 'androidx.work:work-runtime:2.8.1'
     
     //bootlsash

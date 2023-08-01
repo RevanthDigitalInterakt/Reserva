@@ -1,161 +1,14 @@
-import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
+import React from 'react';
 import LottieView from 'lottie-react-native';
-import React, { createRef, useState } from 'react';
-import {
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  ScrollView,
-} from 'react-native';
-
+import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
 import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
-import { DiscountLabel } from '../ProductVerticalListCard';
+
 import { Button } from '../Button';
-import ImageComponent from '../ImageComponent/ImageComponent';
+import { ImageSlider } from './components/ImageSlider';
+import { DiscountLabel } from '../ProductVerticalListCard';
 import IconComponent from '../IconComponent/IconComponent';
 
-export interface ProductDetailCardProps {
-  currency?: string
-  images: string[]
-  discountTag?: number
-  saleOff?: string
-  title: string
-  installmentsNumber: number
-  installmentsPrice: number
-  price: number
-  priceWithDiscount?: number
-  imagesWidth?: number
-  imagesHeight?: number
-  isFavorited?: boolean
-  loadingFavorite?: boolean
-  onClickFavorite?: (favoriteState: boolean) => void
-  onClickShare?: () => void
-  onGoNextImage?: (next: { image: string; index: number }) => void
-  onGoBackImage?: (back: { image: string; index: number }) => void
-  setModalZoom?(isVisible: boolean): void
-  imageIndexActual?: (indexImage: number) => number
-  avaibleUnits?: number;
-  testID?: string;
-}
-
-export interface ImageSliderProps {
-  images: string[]
-  onGoNext?: (next: { image: string; index: number }) => void
-  onGoBack?: (back: { image: string; index: number }) => void
-  width?: number
-  height?: number
-  imageIndexActual?: (indexImage: number) => number
-}
-
-const scrollref = createRef<ScrollView>();
-
-export const ImageSlider = ({
-  images,
-  width,
-  height,
-  onGoBack,
-  onGoNext,
-  imageIndexActual,
-}: ImageSliderProps) => {
-  const [actualImage, setActualImage] = useState(0);
-  if (!height) height = 374;
-
-  imageIndexActual(actualImage);
-
-  const onChangeImage = (
-    scrollEvent: NativeSyntheticEvent<NativeScrollEvent>,
-  ) => {
-    if (!width) width = 360;
-    const actualItem = Math.ceil(
-      scrollEvent.nativeEvent.contentOffset.x / (width + 12),
-    );
-
-    if (
-      actualItem !== actualImage
-      && images
-      && actualItem <= Math.ceil(images.length)
-    ) {
-      setActualImage(actualItem);
-    }
-  };
-  const goNext = () => {
-    if (onGoNext) {
-      onGoNext({ image: images[actualImage + 1], index: actualImage + 1 });
-    }
-
-    if (!width) width = 360;
-    scrollref.current?.scrollTo({ x: (actualImage + 1) * width });
-  };
-  const goBack = () => {
-    if (onGoBack) {
-      onGoBack({ image: images[actualImage - 1], index: actualImage - 1 });
-    }
-
-    if (!width) width = 360;
-    scrollref.current?.scrollTo({ x: (actualImage - 1) * width });
-  };
-
-  return (
-    <Box width={width} height={height}>
-      {actualImage > 0 && (
-        <Box
-          position="absolute"
-          style={{ elevation: 3 }}
-          zIndex={1}
-          left={32}
-          top={height / 2 - 32}
-        >
-          <Button
-            p="nano"
-            variant="icone"
-            onPress={() => {
-              goBack();
-            }}
-            icon={<Icon name="ChevronLeft" color="neutroFrio2" size={23} />}
-          />
-        </Box>
-      )}
-      {actualImage < images?.length - 1 && (
-        <Box
-          position="absolute"
-          style={{ elevation: 3 }}
-          zIndex={1}
-          right={32}
-          top={height / 2 - 32}
-        >
-          <Button
-            p="nano"
-            variant="icone"
-            onPress={() => {
-              goNext();
-            }}
-            icon={<Icon name="ChevronRight" color="neutroFrio2" size={23} />}
-          />
-        </Box>
-      )}
-      <ScrollView
-        horizontal
-        pagingEnabled
-        onScroll={(event) => {
-          onChangeImage(event);
-        }}
-        ref={scrollref}
-        showsHorizontalScrollIndicator={false}
-      >
-        {images?.map((image) => (
-          <Box key={`product-card-${image}`} alignItems="center" width={width} height={height}>
-            <ImageComponent
-              key={image}
-              source={{ uri: image }}
-              height={height}
-              width={width}
-              resizeMode="contain"
-            />
-          </Box>
-        ))}
-      </ScrollView>
-    </Box>
-  );
-};
+import type { ProductDetailCardProps } from './types';
 
 export const ProductDetailCard = ({
   images,
@@ -178,35 +31,37 @@ export const ProductDetailCard = ({
   <Box alignItems="center" justifyContent="center">
     <Box>
       {!!discountTag && (
-      <Box
-        position="absolute"
-        style={{ elevation: 3 }}
-        zIndex={1}
-        left={0}
-        top={0}
-      >
-        <DiscountLabel
-          discountTag={discountTag}
-          width={80}
-          height={80}
-          isDetail
-        />
-      </Box>
+        <Box
+          position="absolute"
+          style={{ elevation: 3 }}
+          zIndex={1}
+          left={0}
+          top={0}
+        >
+          <DiscountLabel
+            discountTag={discountTag}
+            width={80}
+            height={80}
+            isDetail
+          />
+        </Box>
       )}
       {saleOff && (
-      <Box style={{ elevation: 3 }} position="absolute" top={discountTag ? 80 : 0} left={0} zIndex={1}>
-        <IconComponent
-          icon="saleOff"
-          width={80}
-          height={80}
-        />
-      </Box>
+        <Box style={{ elevation: 3 }} position="absolute" top={discountTag ? 80 : 0} left={0} zIndex={1}>
+          <IconComponent
+            icon="saleOff"
+            width={80}
+            height={80}
+          />
+        </Box>
       )}
+
       <Box>
         <ImageSlider
+          images={images}
           width={imagesWidth}
           height={imagesHeight}
-          images={images}
+          imageIndexActual={imageIndexActual}
           onGoBack={(back) => {
             if (onGoBackImage) {
               onGoBackImage(back);
@@ -217,7 +72,6 @@ export const ProductDetailCard = ({
               onGoNextImage(back);
             }
           }}
-          imageIndexActual={imageIndexActual}
         />
 
         <Box
@@ -287,7 +141,6 @@ export const ProductDetailCard = ({
             />
           </Box>
         </Box>
-
         <Box
           position="absolute"
           bottom="3%"

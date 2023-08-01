@@ -1,0 +1,11 @@
+query searchNews {
+  searchNews {
+    image
+    referenceId
+    facets {
+      key
+      value
+    }
+    orderBy
+  }
+}

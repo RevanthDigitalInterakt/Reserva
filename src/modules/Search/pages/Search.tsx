@@ -1,49 +1,49 @@
 import * as React from 'react';
 import
-  {
-    useCallback, useEffect, useState,
-  } from 'react';
+{
+  useCallback, useEffect, useState,
+} from 'react';
 
 import { useLazyQuery } from '@apollo/client';
 import
-  {
-    StackActions,
-    useNavigation,
-  } from '@react-navigation/native';
+{
+  StackActions,
+  useNavigation,
+} from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import
-  {
-    ScrollView, Dimensions, BackHandler, Keyboard, Platform,
-  } from 'react-native';
+{
+  ScrollView, Dimensions, BackHandler, Keyboard, Platform,
+} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import
-  {
-    Box,
-    Button,
-    Divider,
-    SearchBar,
-    Typography,
-    Picker,
-  } from '@usereservaapp/reserva-ui';
+{
+  Box,
+  Button,
+  Divider,
+  SearchBar,
+  Typography,
+  Picker,
+} from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FilterModal } from '../../ProductCatalog/modals/FilterModal/FilterModal';
 
 import
-  {
-    configCollection,
-    ConfigCollection,
-  } from '../../../graphql/homePage/HomeQuery';
+{
+  configCollection,
+  ConfigCollection,
+} from '../../../graphql/homePage/HomeQuery';
 import
-  {
-    OrderByEnum,
-    productSearch,
-    ProductSearchData,
-  } from '../../../graphql/products/productSearch';
+{
+  OrderByEnum,
+  productSearch,
+  ProductSearchData,
+} from '../../../graphql/products/productSearch';
 import
-  {
-    SearchSuggestionsVars,
-    searchSuggestionsAndProductSearch,
-  } from '../../../graphql/products/searchSuggestions';
+{
+  SearchSuggestionsVars,
+  searchSuggestionsAndProductSearch,
+} from '../../../graphql/products/searchSuggestions';
 
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCheckConnection } from '../../../hooks/useCheckConnection';
@@ -320,7 +320,7 @@ export const SearchScreen: React.FC<Props> = () =>
 
   /**
    * @name handleCheckSearchTerm
-   * @description Search for specific terms in the backend,
+   * @description NewSearch for specific terms in the backend,
    * and checks whether it should be opened in the app or browser.
    * If it is to be opened in the browser and it is on android, it
    * will use the DeepLinkPathModule module to open a new instance
@@ -711,27 +711,7 @@ export const SearchScreen: React.FC<Props> = () =>
                   </Box>
                 </Box>
 
-                <News
-                  data={productNews}
-                  onPress={(item) =>
-                  {
-                    const { reference, orderBy } = item;
-                    if (reference)
-                    {
-                      const facetInput: any[] = [];
-                      const [collecion, valueCollecion] = reference?.split(':');
-                      facetInput.push({
-                        key: 'productClusterIds',
-                        value: valueCollecion,
-                      });
-                      navigation.navigate('ProductCatalog', {
-                        facetInput,
-                        referenceId: reference,
-                        orderBy,
-                      });
-                    }
-                  }}
-                />
+                <News />
 
                 {featuredProducts && featuredProducts?.length > 0 && (
                   <>
