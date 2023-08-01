@@ -123,7 +123,7 @@ const Checkout: React.FC<{}> = () => {
                   marca: getBrands(items),
                   id_produto: item?.productId,
                   nome_produto: item?.name,
-                  nome_categoria: item?.productCategories,
+                  categorias_produto: item?.productCategories,
                   tamanho: item?.skuName.split('-')?.[1]?.trim(),
                   cor: item?.skuName.split('-')?.[0]?.trim(),
                   preco_produto: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,

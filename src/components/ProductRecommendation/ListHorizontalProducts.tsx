@@ -70,7 +70,7 @@ export const ListHorizontalProducts = ({
           id_produto: item.items[0].itemId,
           cor: getProductColor(item.items[0].variations),
           tamanho: getProductSize(item.items[0].variations),
-          nome_categoria: item.categoryTree ? getCategoriesByHref(item.categoryTree[3].href) : 'Reserva',
+          categorias_produto: item.categoryTree ? getCategoriesByHref(item.categoryTree[3].href) : 'Reserva',
           nome_produto: item.productName,
           marca: item.categoryTree ? getCategoriesByHref(item.categoryTree[0].href).toUpperCase() : 'Reserva',
           preco_produto: item.priceRange.sellingPrice.lowPrice,
