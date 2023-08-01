@@ -11,8 +11,8 @@ import CodePushModal from './components/CodePushModal/CodePushModal';
 import { StorageService } from './shared/services/StorageService';
 import OnForegroundEventPush from './utils/Notifee/ForegroundEvents';
 import { useAuthStore } from './zustand/useAuth/useAuthStore';
-
 import { usePrimeConfig } from './zustand/usePrimeConfig/usePrimeConfig';
+import useCheckAppNewVersion from './hooks/useCheckAppNewVersion';
 import { useRefreshToken } from './hooks/useRefreshToken';
 import { useWishlistActions } from './hooks/useWishlistActions';
 
@@ -20,7 +20,7 @@ interface IProps {
   children: React.ReactNode;
 }
 
-function InitialScreen({ children }: { children: React.ReactNode }) {
+function InitialScreen({ children }: IProps) {
   const {
     initialized, isAnonymousUser, profile,
   } = useAuthStore(['initialized', 'isAnonymousUser', 'profile']);
@@ -31,8 +31,7 @@ function InitialScreen({ children }: { children: React.ReactNode }) {
 
   const { handleDitoRegisterAnony, handleDitoRegister } = useInitialDito();
 
-  // useCheckAppNewVersion();
-
+  useCheckAppNewVersion();
   useRefreshToken();
 
   useWishlistActions();
