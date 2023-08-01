@@ -22,6 +22,7 @@ type TCacheKeys = 'appMenu'
 | 'profile'
 | 'searchSuggestionsAndProductSearch'
 | 'sellerInfo'
+| 'updateInApp'
 | 'mostSearchedWords'
 | 'searchNews'
 | 'search'
@@ -57,6 +58,7 @@ const expireTimes: { [key in TCacheKeys]: number } = {
   profile: FIVE_MINUTES,
   searchSuggestionsAndProductSearch: TWO_MINUTES,
   sellerInfo: TWO_MINUTES,
+  updateInApp: TEN_MINUTES,
   mostSearchedWords: TEN_MINUTES,
   searchNews: TEN_MINUTES,
   search: TWO_MINUTES,
@@ -96,6 +98,7 @@ const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
       profile: 0,
       searchSuggestionsAndProductSearch: 0,
       sellerInfo: 0,
+      updateInApp: 0,
       mostSearchedWords: 0,
       searchNews: 0,
       search: 0,
