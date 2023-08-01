@@ -748,7 +748,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
             marca: product?.additionalInfo?.brandName || '',
             id_produto: itemId,
             nome_produto: product?.name || '',
-            nome_categoria: Object.entries(product.productCategories)
+            categorias_produto: Object.entries(product.productCategories)
               .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
               .join(', '),
             tamanho: product.skuName.split(' - ')[1],

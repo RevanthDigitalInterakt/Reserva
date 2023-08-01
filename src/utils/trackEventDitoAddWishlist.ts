@@ -12,7 +12,7 @@ export async function trackEventDitoAddWishlist(item: IWishlistProduct) {
       id_produto: item.skuId,
       cor: item.colorName,
       tamanho: item.size,
-      nome_categoria: item.category,
+      categorias_produto: item.category,
       nome_produto: item.productName,
       marca: item.brand,
       preco_produto: item.lowPrice,
