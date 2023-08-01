@@ -1,4 +1,4 @@
-export type IAddressData = {
+export interface ICreateAddress {
   addressSurname: string;
   fullname: string;
   postalCode: string;
@@ -8,6 +8,4 @@ export type IAddressData = {
   complement: string;
   addressState: string;
   city: string
-};
-
-export type AddressDataKeys = keyof IAddressData;
+}

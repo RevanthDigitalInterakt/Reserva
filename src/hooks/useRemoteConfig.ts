@@ -33,6 +33,8 @@ export interface IRemoteConfigKeys {
   show_price_prime_pdp: boolean;
   show_price_prime_pdc: boolean;
   regionalization: boolean;
+  show_new_address: boolean;
+  show_new_address_tester: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -65,6 +67,8 @@ export const defaults: IRemoteConfigKeys = {
   pdp_show_video: false,
   pdp_show_video_tester: false,
   regionalization: false,
+  show_new_address: false,
+  show_new_address_tester: true,
 };
 
 const THREE_MINUTES_IN_MS = 180000;

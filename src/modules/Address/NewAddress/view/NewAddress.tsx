@@ -27,7 +27,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
   const edit = route?.params?.edit;
   const editAddress = route?.params?.editAddress;
-  const executeCallback = route.params?.executeCallback;
+  const executeCallback = route?.params?.executeCallback;
   const hasCep = route?.params?.hasCep;
   const [toggleActivated] = useState(false);
 

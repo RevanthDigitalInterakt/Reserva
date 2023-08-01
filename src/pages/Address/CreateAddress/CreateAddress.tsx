@@ -34,14 +34,15 @@ import {
   streetSchema,
 } from '../utils/inputValidations';
 
-import type { IAddressData } from './types/ICreateAddress';
+import type { ICreateAddress } from './interface/ICreateAddress';
 import { useProfileAddressMutation } from '../../../base/graphql/generated';
 import EventProvider from '../../../utils/EventProvider';
 import { CepVerifyPostalCode } from '../../../services/vtexService';
-import type { CheckPostalCodeFn } from '../components/InputForm/types/IInputForm';
+import type { TCheckPostalCodeFn } from '../components/InputForm/interface/IInputForm';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { COLORS } from '../../../base/styles/colors';
 import { postalCodeMask } from '../../../utils/postalCodeMask';
+import testProps from '../../../utils/testProps';
 
 const createAddressSchema = Yup.object().shape({
   addressSurname: addressSurnameSchema,
@@ -77,7 +78,7 @@ export default function CreateAddress(
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
 
-  const checkPostalCode = useCallback<CheckPostalCodeFn>(async (value, setFieldValue) => {
+  const checkPostalCode = useCallback<TCheckPostalCodeFn>(async (value, setFieldValue) => {
     if (value.length < 8) return;
 
     const newValue = postalCodeMask(value);
@@ -101,7 +102,7 @@ export default function CreateAddress(
     }
   }, []);
 
-  const handleCreateAddress = useCallback(async (addressValues: IAddressData) => {
+  const handleCreateAddress = useCallback(async (addressValues: ICreateAddress) => {
     const {
       addressNumber,
       addressState,
@@ -155,7 +156,7 @@ export default function CreateAddress(
     setModalVisible(!modalVisible);
   }, [navigation, modalVisible]);
 
-  const checkFilledInput = useCallback((values: IAddressData) => {
+  const checkFilledInput = useCallback((values: ICreateAddress) => {
     const valuesExists = Object.values(values).some((value) => value !== '');
 
     if (valuesExists) {
@@ -221,7 +222,7 @@ export default function CreateAddress(
                   error={errors.addressSurname}
                   isEditable
                   textInputType="default"
-                  inputID="com.usereserva:id/create_address_input_surname"
+                  inputID={testProps('com.usereserva:id/create_address_input_surname')}
                   touched={touched.addressSurname}
                 />
               </View>
@@ -238,7 +239,7 @@ export default function CreateAddress(
                   error={errors.fullname}
                   isEditable
                   textInputType="default"
-                  inputID="com.usereserva:id/create_address_input_fullname"
+                  inputID={testProps('com.usereserva:id/create_address_input_fullname')}
                   touched={touched.fullname}
                 />
               </View>
@@ -257,7 +258,7 @@ export default function CreateAddress(
                   textInputType="number-pad"
                   checkPostalCode={checkPostalCode}
                   setFieldValue={setFieldValue}
-                  inputID="com.usereserva:id/create_address_input_postal_code"
+                  inputID={testProps('com.usereserva:id/create_address_input_postal_code')}
                   touched={touched.postalCode}
                 />
               </View>
@@ -274,7 +275,7 @@ export default function CreateAddress(
                   error={errors.street}
                   isEditable
                   textInputType="default"
-                  inputID="com.usereserva:id/create_address_input_street"
+                  inputID={testProps('com.usereserva:id/create_address_input_street')}
                   touched={touched.street}
                 />
               </View>
@@ -291,7 +292,7 @@ export default function CreateAddress(
                   error={errors.neighborhood}
                   isEditable
                   textInputType="default"
-                  inputID="com.usereserva:id/create_address_input_neighborhood"
+                  inputID={testProps('com.usereserva:id/create_address_input_neighborhood')}
                   touched={touched.neighborhood}
                 />
               </View>
@@ -308,7 +309,7 @@ export default function CreateAddress(
                   error={errors.addressNumber}
                   isEditable
                   textInputType="number-pad"
-                  inputID="com.usereserva:id/create_address_input_address_number"
+                  inputID={testProps('com.usereserva:id/create_address_input_address_number')}
                   touched={touched.addressNumber}
                 />
               </View>
@@ -325,7 +326,7 @@ export default function CreateAddress(
                   error={errors.complement}
                   isEditable
                   textInputType="default"
-                  inputID="com.usereserva:id/create_address_input_complement"
+                  inputID={testProps('com.usereserva:id/create_address_input_complement')}
                 />
               </View>
 
@@ -341,7 +342,7 @@ export default function CreateAddress(
                   inputName="addressState"
                   isEditable={false}
                   textInputType="default"
-                  inputID="com.usereserva:id/create_address_input_address_state"
+                  inputID={testProps('com.usereserva:id/create_address_input_address_state')}
                   touched={touched.addressState}
                 />
               </View>
@@ -358,7 +359,7 @@ export default function CreateAddress(
                   inputName="city"
                   isEditable={false}
                   textInputType="default"
-                  inputID="com.usereserva:id/create_address_input_city"
+                  inputID={testProps('com.usereserva:id/create_address_input_city')}
                   touched={touched.city}
                 />
               </View>

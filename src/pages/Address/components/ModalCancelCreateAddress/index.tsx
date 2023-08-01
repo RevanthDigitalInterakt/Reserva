@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { styles } from './ModalCancelCreateAddress.styles';
-import type { IModalCancelCreateAddress } from './types/IModalCancelCreateAddress';
+import type { IModalCancelCreateAddress } from './interface/IModalCancelCreateAddress';
 
 export default function ModalCancelCreateAddress({
   modalController,

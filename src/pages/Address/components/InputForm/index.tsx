@@ -3,14 +3,13 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import {
   View,
   TextInput,
-  Image,
   Text,
   Animated,
 } from 'react-native';
 
 import styles from './InputForm.styles';
-import type { IInputForm } from './types/IInputForm';
-import icons from '../../../../base/styles/icons';
+import type { IInputForm } from './interface/IInputForm';
+import IconInfoFill from '../../../../../assets/icons/IconInfoFill';
 
 export default function InputForm({
   onTextChange,
@@ -87,7 +86,7 @@ export default function InputForm({
           autoCapitalize="none"
           autoCorrect={false}
           returnKeyType="next"
-          testID={inputID}
+          testID={inputID.testID}
           onChangeText={(text: string) => {
             onTextChange(text);
             if (inputName === 'postalCode' && checkPostalCode && setFieldValue) {
@@ -109,10 +108,7 @@ export default function InputForm({
       </View>
       {error && touched && (
         <View style={styles.errorContainer}>
-          <Image
-            source={icons.infoFill}
-            style={styles.errorIcon}
-          />
+          <IconInfoFill />
           <Text style={styles.errorMessage}>{error}</Text>
         </View>
       )}
