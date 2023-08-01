@@ -22,13 +22,19 @@ type TCacheKeys = 'appMenu'
 | 'profile'
 | 'searchSuggestionsAndProductSearch'
 | 'sellerInfo'
-| 'updateInApp';
+| 'updateInApp'
+| 'mostSearchedWords'
+| 'searchNews'
+| 'search'
+| 'searchFacets'
+| 'searchAutocompleteSuggestions';
 
 const ONE_MINUTE = 1000 * 60;
 const TWO_MINUTES = ONE_MINUTE * 2;
 const FIVE_MINUTES = ONE_MINUTE * 5;
 const TEN_MINUTES = ONE_MINUTE * 10;
 const SIX_HOURS = TEN_MINUTES * 36;
+const ONE_DAY = SIX_HOURS * 4;
 
 const DISABLED_CACHE_POLICY = false;
 
@@ -53,6 +59,11 @@ const expireTimes: { [key in TCacheKeys]: number } = {
   searchSuggestionsAndProductSearch: TWO_MINUTES,
   sellerInfo: TWO_MINUTES,
   updateInApp: TEN_MINUTES,
+  mostSearchedWords: TEN_MINUTES,
+  searchNews: TEN_MINUTES,
+  search: TWO_MINUTES,
+  searchFacets: TWO_MINUTES,
+  searchAutocompleteSuggestions: ONE_DAY,
 };
 
 interface IApolloFetchPolicyStore {
@@ -88,6 +99,11 @@ const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
       searchSuggestionsAndProductSearch: 0,
       sellerInfo: 0,
       updateInApp: 0,
+      mostSearchedWords: 0,
+      searchNews: 0,
+      search: 0,
+      searchFacets: 0,
+      searchAutocompleteSuggestions: 0,
     },
     getFetchPolicyPerKey: (key: TCacheKeys) => {
       if (DISABLED_CACHE_POLICY) return 'network-only';

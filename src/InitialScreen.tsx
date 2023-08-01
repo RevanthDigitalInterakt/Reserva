@@ -14,6 +14,7 @@ import { useAuthStore } from './zustand/useAuth/useAuthStore';
 import { usePrimeConfig } from './zustand/usePrimeConfig/usePrimeConfig';
 import useCheckAppNewVersion from './hooks/useCheckAppNewVersion';
 import { useRefreshToken } from './hooks/useRefreshToken';
+import { useWishlistActions } from './hooks/useWishlistActions';
 
 interface IProps {
   children: React.ReactNode;
@@ -32,6 +33,8 @@ function InitialScreen({ children }: IProps) {
 
   useCheckAppNewVersion();
   useRefreshToken();
+
+  useWishlistActions();
 
   const onAppInit = useCallback(async () => {
     if (isAnonymousUser) {

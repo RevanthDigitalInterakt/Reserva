@@ -1,0 +1,23 @@
+query searchFacets($input: SearchFacetsInput!) {
+  searchFacets(input: $input) {
+    categories {
+      key
+      value
+      name
+    }
+    colors {
+      key
+      value
+      name
+    }
+    sizes {
+      key
+      value
+      name
+    }
+    prices {
+      from
+      to
+    }
+  }
+}

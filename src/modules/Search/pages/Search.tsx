@@ -290,7 +290,7 @@ export const SearchScreen: React.FC<Props> = () => {
 
   /**
    * @name handleCheckSearchTerm
-   * @description Search for specific terms in the backend,
+   * @description NewSearch for specific terms in the backend,
    * and checks whether it should be opened in the app or browser.
    * If it is to be opened in the browser and it is on android, it
    * will use the DeepLinkPathModule module to open a new instance
@@ -647,25 +647,7 @@ export const SearchScreen: React.FC<Props> = () => {
                   </Box>
                 </Box>
 
-                <News
-                  data={productNews}
-                  onPress={(item) => {
-                    const { reference, orderBy } = item;
-                    if (reference) {
-                      const facetInput: any[] = [];
-                      const [collecion, valueCollecion] = reference?.split(':');
-                      facetInput.push({
-                        key: 'productClusterIds',
-                        value: valueCollecion,
-                      });
-                      navigation.navigate('ProductCatalog', {
-                        facetInput,
-                        referenceId: reference,
-                        orderBy,
-                      });
-                    }
-                  }}
-                />
+                <News />
 
                 {featuredProducts && featuredProducts?.length > 0 && (
                   <>
