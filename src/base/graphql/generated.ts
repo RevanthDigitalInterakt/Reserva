@@ -1,5 +1,3 @@
-// @ts-nocheck
-/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -1324,6 +1322,14 @@ export enum RonRedirectTypeEnum {
   Pdp = 'PDP'
 }
 
+export type SearchFacetColorItemOutput = {
+  __typename?: 'SearchFacetColorItemOutput';
+  hex: Scalars['String'];
+  key: Scalars['String'];
+  name: Scalars['String'];
+  value: Scalars['String'];
+};
+
 export type SearchFacetItemOutput = {
   __typename?: 'SearchFacetItemOutput';
   key: Scalars['String'];
@@ -1334,7 +1340,7 @@ export type SearchFacetItemOutput = {
 export type SearchFacetOutput = {
   __typename?: 'SearchFacetOutput';
   categories: Array<SearchFacetItemOutput>;
-  colors: Array<SearchFacetItemOutput>;
+  colors: Array<SearchFacetColorItemOutput>;
   prices: SearchFacetRangeOutput;
   sizes: Array<SearchFacetItemOutput>;
 };
@@ -1608,7 +1614,7 @@ export type ProfileAddressMutationVariables = Exact<{
 }>;
 
 
-export type ProfileAddressMutation = { __typename?: 'Mutation', profileAddress: { __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, number?: string | null, city?: string | null, complement?: string | null, postalCode?: string | null, state?: string | null, street?: string | null, neighborhood?: string | null, country?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } };
+export type ProfileAddressMutation = { __typename?: 'Mutation', profileAddress: { __typename?: 'ProfileAddressOutput', id: string, addressName?: string | null, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null } };
 
 export type ProfileAddressRemoveMutationVariables = Exact<{
   input: RemoveProfileAddressInput;
@@ -1820,7 +1826,7 @@ export type SearchFacetsQueryVariables = Exact<{
 }>;
 
 
-export type SearchFacetsQuery = { __typename?: 'Query', searchFacets: { __typename?: 'SearchFacetOutput', categories: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, colors: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, sizes: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, prices: { __typename?: 'SearchFacetRangeOutput', from: number, to: number } } };
+export type SearchFacetsQuery = { __typename?: 'Query', searchFacets: { __typename?: 'SearchFacetOutput', categories: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, colors: Array<{ __typename?: 'SearchFacetColorItemOutput', key: string, value: string, name: string }>, sizes: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, prices: { __typename?: 'SearchFacetRangeOutput', from: number, to: number } } };
 
 export type SearchNewsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2521,18 +2527,13 @@ export const ProfileAddressDocument = gql`
     mutation profileAddress($input: UpsertProfileAddressInput!) {
   profileAddress(input: $input) {
     id
+    addressName
     receiverName
-    number
-    city
     complement
-    postalCode
-    state
-    street
     neighborhood
     country
-    reference
-    addressName
-    addressType
+    state
+    number
   }
 }
     `;

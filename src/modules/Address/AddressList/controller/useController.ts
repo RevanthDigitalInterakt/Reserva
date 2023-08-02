@@ -134,7 +134,7 @@ const useController = (): IUseController => {
   };
 
   const navigateToNewAddress = useCallback(
-    () => navigation.navigate('NewAddress'),
+    () => navigation.navigate('CreateAddress'),
     [navigation],
   );
 
