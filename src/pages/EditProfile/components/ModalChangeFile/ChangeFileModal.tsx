@@ -4,12 +4,14 @@ import {
   Box, Button, Divider, Icon, Typography,
 } from '@usereservaapp/reserva-ui';
 import { TouchableOpacity } from 'react-native';
-import {
+// TODO Update
+/* import {
   ImageLibraryOptions,
   ImagePickerResponse,
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
+*/
 import { ChangeFileModalStyles as Styles } from './styles/changeFileModal.styles';
 import { requestCameraPermission, requestExternalWritePermission } from './helpers/permissions';
 
@@ -46,12 +48,12 @@ export interface IFile {
   initialFilePath: string | undefined
 }
 
-const ChangeFileModal = ({
+function ChangeFileModal({
   show,
   toggleModal,
   handleChangeFile,
   handleDeleteProfileImage,
-}: IChangeFileModalProps): JSX.Element => {
+}: IChangeFileModalProps): JSX.Element {
   const handleChooseGallery = useCallback(async (): Promise<void> => {
     const isCameraPermitted = await requestCameraPermission();
     const isStoragePermitted = await requestExternalWritePermission();
@@ -180,6 +182,6 @@ const ChangeFileModal = ({
       </Box>
     </Modal>
   );
-};
+}
 
 export default ChangeFileModal;
