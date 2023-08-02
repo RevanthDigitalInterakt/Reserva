@@ -56,8 +56,6 @@ target 'reserva' do
   # Packages
   pod 'RNBootSplash', :path => '../node_modules/react-native-bootsplash'
   
-  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
-
   permissions_path = '../node_modules/react-native-permissions/ios'
 
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"

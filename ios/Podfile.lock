@@ -924,9 +924,9 @@ PODS:
     - Base64 (~> 1.1.2)
   - leveldb-library (1.22.2)
   - libevent (2.1.12)
-  - lottie-ios (3.4.4)
-  - lottie-react-native (5.1.6):
-    - lottie-ios (~> 3.4.0)
+  - lottie-ios (4.2.0)
+  - lottie-react-native (6.0.1):
+    - lottie-ios (~> 4.2.0)
     - React-Core
   - nanopb (2.30909.0):
     - nanopb/decode (= 2.30909.0)
@@ -1884,8 +1884,8 @@ SPEC CHECKSUMS:
   JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  lottie-ios: 8f97d3271e155c2d688875c29cd3c74908aef5f8
-  lottie-react-native: 8f9d4be452e23f6e5ca0fdc11669dc99ab52be81
+  lottie-ios: 809ecf2d460ed650a6aed7aa88b2ec45fab4779c
+  lottie-react-native: 646955b3212c448d59cf1895a0cb485a0a7be3cf
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   OneSignalXCFramework: 087934ab0d4d7445fcf1c015c7c782359e26c020
   Permission-AppTrackingTransparency: 644f9b7ee1355b34c1b552f87c2fc9f440e03236
@@ -1975,6 +1975,6 @@ SPEC CHECKSUMS:
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: 8796b55dba14d7004f980b54bcc9833ee45b28ce
 
-PODFILE CHECKSUM: ed9f354bf43365c0b33506a8f37355fc8d357a5f
+PODFILE CHECKSUM: 0beb184722cb3b6d9e4be42489e0f2f6549155cd
 
 COCOAPODS: 1.12.1
