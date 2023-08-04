@@ -109,6 +109,7 @@ function NewListVerticalProducts({
       ListEmptyComponent={() => (
         <Box height="100%">
           <Typography textAlign="center" fontFamily="nunitoRegular" fontSize={16}>
+            {'\n'}
             Produtos não encontrados
           </Typography>
         </Box>

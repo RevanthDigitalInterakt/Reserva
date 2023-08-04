@@ -149,6 +149,7 @@ export namespace EventsOptions {
   export type ProductViewAbout = Pick<EventValues, | 'product_id' | 'show'>;
   export type PressAddToCartPrimeLP = Pick<EventValues, | 'position'>;
   export type ViewCart = Pick<EventValues, | 'currency' | 'items' | 'value'>;
+  export type PressHeaderSearch = Pick<EventValues, 'open'>;
 }
 
 export type EventOptionsFn =
@@ -295,4 +296,7 @@ export type EventOptionsFn =
   | {
     type: 'view_cart',
     payload: EventsOptions.ViewCart
+  } | {
+    type: 'header_search_click',
+    payload: EventsOptions.PressHeaderSearch;
   };
