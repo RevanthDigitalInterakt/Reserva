@@ -1,5 +1,6 @@
-import AddressList from '../../modules/Address/AddressList/view';
+// import AddressList from '../../modules/Address/AddressList/view';
 import NewAddressABTest from '../../modules/Address/NewAddress/NewAddressABTest';
+import NewAddressList from '../../pages/Address/ListAddress/ListAddress';
 import type { Flow } from '../types/flow.type';
 
 export const AddressFlow: Flow[] = [
@@ -12,7 +13,7 @@ export const AddressFlow: Flow[] = [
     name: 'NewAddress',
   },
   {
-    component: AddressList,
+    component: NewAddressList,
     name: 'AddressList',
   },
 ];
