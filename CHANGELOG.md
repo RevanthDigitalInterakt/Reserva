@@ -2,7 +2,7 @@
 
 ### 2.0.11
 - [SRN-15136 Meus Endereços - Criar Endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15136)
-- [SRN-15156 Meus Endereços - Listar Endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15156)
+- [SRN-15156 Meus Endereços - Listagem Endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15156)
 
 ---
 
