@@ -5,9 +5,9 @@ import deviceInfoModule from 'react-native-device-info';
 import checkVersion from 'react-native-store-version';
 import semver from 'semver';
 import { useUpdateInAppLazyQuery } from '../base/graphql/generated';
-import EventProvider from '../utils/EventProvider';
 import { platformType } from '../utils/platformType';
 import { useApolloFetchPolicyStore } from '../zustand/useApolloFetchPolicyStore';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export default function useCheckAppNewVersion() {
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
@@ -69,7 +69,7 @@ export default function useCheckAppNewVersion() {
         );
       }
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [getUpdateInApp, goToStore]);
 

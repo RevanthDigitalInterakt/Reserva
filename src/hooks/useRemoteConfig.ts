@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import * as Sentry from '@sentry/react-native';
 import type { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 interface IUseRemoteConfigStore {
   initialized: boolean;
@@ -94,10 +94,7 @@ export const useRemoteConfig = create<IUseRemoteConfigStore>((set, getState) => 
 
       return set({ initialized: true, instance: remoteConfig });
     } catch (err) {
-      Sentry.withScope((scope) => {
-        scope.addBreadcrumb({ message: 'Error useRemoteConfig()' });
-        Sentry.captureException(err);
-      });
+      ExceptionProvider.captureException(err, { message: 'Error useRemoteConfig()' });
 
       return set({ initialized: true, instance: remoteConfig });
     }

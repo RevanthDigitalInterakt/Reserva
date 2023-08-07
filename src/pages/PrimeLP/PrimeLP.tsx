@@ -12,7 +12,6 @@ import PrimeBenefits from './components/PrimeBenefits';
 import PrimeSubscribe from './components/PrimeSubscribe';
 import { useLandingPagePrimeQuery } from '../../base/graphql/generated';
 import { ModalBag } from '../../components/ModalBag/ModalBag';
-import EventProvider from '../../utils/EventProvider';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 import testProps from '../../utils/testProps';
 import { ModalWelcomePrime } from '../../components/ModalWelcomePrime';
@@ -20,6 +19,7 @@ import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 import PrimeFAQ from './components/PrimeFAQ/PrimeFAQ';
 import type { RootStackParamList } from '../../routes/StackNavigator';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 type IPrimeLP = StackScreenProps<RootStackParamList, 'PrimeLP'>;
 
@@ -76,7 +76,7 @@ function PrimeLP({ navigation }: IPrimeLP) {
 
       handleOnModalHideSignIn();
     } catch (e) {
-      EventProvider.captureException(e);
+      ExceptionProvider.captureException(e);
     } finally {
       setLoadingAddCartPrime(false);
     }

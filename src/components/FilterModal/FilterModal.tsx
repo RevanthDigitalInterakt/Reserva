@@ -7,7 +7,6 @@ import {
   theme,
   Typography,
 } from '@usereservaapp/reserva-ui';
-import * as Sentry from '@sentry/react-native';
 import Modal from 'react-native-modal';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,6 +18,7 @@ import FilterColors from './components/FilterColors';
 import FilterSizes from './components/FilterSizes';
 import FilterPrices from './components/FilterPrices';
 import { COLORS } from '../../base/styles/colors';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 function getFacetValue(values: Set<{ value: string; hex?: string; }>) {
   return new Set(Array.from(values).map((item) => item.hex || item.value));
@@ -56,7 +56,7 @@ function FilterModal({ onClose, visible }: IFilterModal) {
 
       setFacets(data?.searchFacets);
     } catch (err) {
-      Sentry.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [doLoadFacetsData, parameters]);
 

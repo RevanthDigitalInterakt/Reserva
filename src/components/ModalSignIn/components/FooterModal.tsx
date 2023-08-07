@@ -14,6 +14,7 @@ import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicy
 
 import * as Styles from '../styles';
 import { usePrimeInfo } from '../../../hooks/usePrimeInfo';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 interface PropsComponent {
   onClose: () => void;
@@ -46,7 +47,7 @@ export function FooterModalPrime({
 
       onClose();
     } catch (e) {
-      EventProvider.captureException(e);
+      ExceptionProvider.captureException(e);
     } finally {
       setLoadingAddCartPrime(false);
     }

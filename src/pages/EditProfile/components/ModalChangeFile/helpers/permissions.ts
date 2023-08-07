@@ -1,6 +1,6 @@
 import { PermissionsAndroid, Platform } from 'react-native';
-import * as Sentry from '@sentry/react-native';
 import { platformType } from '../../../../../utils/platformType';
+import { ExceptionProvider } from '../../../../../base/providers/ExceptionProvider';
 
 const requestCameraPermission = async (): Promise<boolean> => {
   if (Platform.OS !== platformType.ANDROID) return true;
@@ -15,7 +15,7 @@ const requestCameraPermission = async (): Promise<boolean> => {
       },
     )) === PermissionsAndroid.RESULTS.GRANTED;
   } catch (err) {
-    Sentry.captureException(err);
+    ExceptionProvider.captureException(err);
   }
 
   return false;
@@ -34,7 +34,7 @@ const requestExternalWritePermission = async (): Promise<boolean> => {
       },
     )) === PermissionsAndroid.RESULTS.GRANTED;
   } catch (err) {
-    Sentry.captureException(err);
+    ExceptionProvider.captureException(err);
   }
 
   return false;

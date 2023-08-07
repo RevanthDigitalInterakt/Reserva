@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import * as Sentry from '@sentry/react-native';
 import type { FetchPolicy } from '@apollo/client';
 import AsyncStorage from '@react-native-community/async-storage';
 import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
@@ -23,6 +22,7 @@ import EventProvider from '../../utils/EventProvider';
 import { identifyCustomer } from './methods/identifyCustomer';
 import { checkIfNeedRefreshToken } from '../../utils/checkIfNeedRefreshToken';
 import { RefreshTokenError } from './types/refreshTokenError';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 type TProfileData = ProfileQuery['profile'];
 
@@ -63,7 +63,7 @@ const authStore = create<IAuthStore>((set, getState) => ({
 
       return true;
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
 
       set({ ...getState(), initialized: true });
 
@@ -94,11 +94,12 @@ const authStore = create<IAuthStore>((set, getState) => ({
 
       return true;
     } catch (err) {
-      Sentry.withScope((scope) => {
-        scope.addBreadcrumb({ message: 'Error on refresh token' });
-        scope.setExtra('profile', getState().profile);
-        Sentry.captureException(err);
-      });
+      ExceptionProvider.captureException(
+        err,
+        { profile: getState().profile },
+        {},
+        { message: 'Error on refresh token' },
+      );
 
       throw new RefreshTokenError();
     }
@@ -123,7 +124,7 @@ const authStore = create<IAuthStore>((set, getState) => ({
 
       return data.profile;
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
 
       throw new Error(err);
     }
@@ -154,17 +155,17 @@ const authStore = create<IAuthStore>((set, getState) => ({
 
       await getState().onUpdateAuthData(data.signIn.token, profile.authCookie);
 
-      await identifyCustomer(profile.email);
+      await identifyCustomer({
+        id: profile.id,
+        email: profile.email,
+        name: profile.firstName || '',
+      });
 
       set({
         ...getState(), initialized: true, profile, isAnonymousUser: false,
       });
     } catch (err) {
-      Sentry.withScope((scope) => {
-        scope.setExtra('email', email);
-        scope.setExtra('password', password);
-        Sentry.captureException(err);
-      });
+      ExceptionProvider.captureException(err, { email, password });
 
       throw new Error(err);
     }
@@ -190,7 +191,7 @@ const authStore = create<IAuthStore>((set, getState) => ({
 
     EventProvider.removePushExternalUserId();
 
-    Sentry.setUser(null);
+    ExceptionProvider.unsetUser();
 
     set({ ...getState(), profile: undefined });
   },

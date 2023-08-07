@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import * as Sentry from '@sentry/react-native';
 import { createZustandStoreWithSelectors } from '../utils/createZustandStoreWithSelectors';
 import { getApolloClient } from '../utils/getApolloClient';
 import {
@@ -13,6 +12,7 @@ import {
   WishlistRemoveProductMutation,
   WishlistRemoveProductMutationVariables,
 } from '../base/graphql/generated';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export interface IWishlistProduct {
   skuId: string;
@@ -75,10 +75,7 @@ const useWishlistStore = create<IWishlistStore>((set, getState) => ({
 
       return true;
     } catch (err) {
-      Sentry.withScope((scope) => {
-        scope.setExtra('product', product);
-        Sentry.captureException(err);
-      });
+      ExceptionProvider.captureException(err, { product });
 
       return false;
     }
@@ -105,10 +102,7 @@ const useWishlistStore = create<IWishlistStore>((set, getState) => ({
 
       return true;
     } catch (err) {
-      Sentry.withScope((scope) => {
-        scope.setExtra('product', product);
-        Sentry.captureException(err);
-      });
+      ExceptionProvider.captureException(err, { product });
 
       return false;
     }

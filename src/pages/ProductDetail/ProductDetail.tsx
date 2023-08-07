@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from 'react';
 import { Alert, View } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { Box } from '@usereservaapp/reserva-ui';
-import * as Sentry from '@sentry/react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import ProductDetailWrapper from './components/ProductDetailWrapper';
@@ -23,6 +22,7 @@ import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
 import { getProductCategories } from '../../utils/getProductCategories';
 import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -62,7 +62,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         },
       });
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [getItem, profile?.email]);
 
@@ -99,10 +99,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
       setProduct(product, params);
     } catch (err) {
-      Sentry.withScope((scope) => {
-        scope.setExtra('params', params);
-        Sentry.captureException(err);
-      });
+      ExceptionProvider.captureException(err, { params });
 
       Alert.alert(
         'Ops!',

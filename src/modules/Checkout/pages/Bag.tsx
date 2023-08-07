@@ -30,7 +30,6 @@ import appsFlyer from 'react-native-appsflyer';
 import analytics from '@react-native-firebase/analytics';
 import { instance2 } from '../../../config/vtexConfig';
 import ToastProvider, { showToast } from '../../../utils/Toast';
-import Sentry from '../../../config/sentryConfig';
 import { IOrderFormItem, OrderForm, useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
@@ -61,6 +60,7 @@ import { ProductHorizontalListCard } from '../../../components/ProductHorizontal
 import ProductListItemPrime from '../../../pages/Bag/components/ProductListItem/ProductListItemPrime';
 import { handleCopyTextToClipboard } from '../../../utils/CopyToClipboard';
 import { useIsTester } from '../../../hooks/useIsTester';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -155,10 +155,6 @@ export const BagScreen = ({ route }: Props) => {
   const [restoreCartLoading, setRestoreCartLoading] = useState(false);
 
   const showMoreGiftSize = giftSizeList && giftSizeList.length > 5;
-
-  useEffect(() => {
-    Sentry.configureScope((scope) => scope.setTransactionName('BagScreen'));
-  }, []);
 
   const hasSellerCoupon = useCallback(
     (): boolean => sellerCoupon.length > 0,
@@ -428,12 +424,7 @@ export const BagScreen = ({ route }: Props) => {
       setDiscountCoupon('');
       orderform();
     } catch (error) {
-      Sentry.addBreadcrumb({
-        message: 'Erro ao inserir o cupom de desconto',
-        data: {
-          error,
-        },
-      });
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -498,7 +489,7 @@ export const BagScreen = ({ route }: Props) => {
           quantity: getAFContent(arr),
         });
       } catch (error) {
-        EventProvider.captureException(error);
+        ExceptionProvider.captureException(error);
       }
 
       if (!authStore?.profile?.email) {
@@ -514,12 +505,7 @@ export const BagScreen = ({ route }: Props) => {
             .then(() => setLoadingGoDelivery(false))
             .then(() => navigation.navigate('DeliveryScreen', {}));
         } catch (error) {
-          Sentry.addBreadcrumb({
-            message: 'Erro na chamada para tela de entrega',
-            data: {
-              error,
-            },
-          });
+          ExceptionProvider.captureException(error);
         }
       }
     }

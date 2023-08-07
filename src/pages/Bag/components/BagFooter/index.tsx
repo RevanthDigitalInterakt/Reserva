@@ -1,5 +1,4 @@
 import { Platform } from 'react-native';
-import * as Sentry from '@sentry/react-native';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import React, { useCallback, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
@@ -20,6 +19,7 @@ import { getBrands } from '../../../../utils/getBrands';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 export default function BagFooter() {
   const {
@@ -92,7 +92,7 @@ export default function BagFooter() {
         quantity: getAFContent(items),
       });
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [appTotalizers, items]);
 
@@ -156,12 +156,12 @@ export default function BagFooter() {
         navigation.navigate('DeliveryScreen', {});
       }
     } catch (error) {
-      Sentry.withScope((scope) => {
-        scope.setExtra('orderFormId', orderFormId);
-        scope.setExtra('items', items);
-        scope.addBreadcrumb({ message: 'Error [handleNavigateToDelivery]' });
-        Sentry.captureException(error);
-      });
+      ExceptionProvider.captureException(
+        error,
+        { orderFormId, items },
+        {},
+        { message: 'Error [handleNavigateToDelivery]' },
+      );
     } finally {
       setNavigateToDeliveryDisable(false);
     }

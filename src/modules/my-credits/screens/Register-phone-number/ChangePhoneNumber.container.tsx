@@ -10,7 +10,7 @@ import {
   CashbackHttpUrl,
   MyCashbackAPI,
 } from '../../../my-cashback/api/MyCashbackAPI';
-import EventProvider from '../../../../utils/EventProvider';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 interface ChangePhoneNumberContainerProps {
   profile: ProfileVars;
@@ -84,7 +84,7 @@ export const ChangePhoneNumberContainer = ({
           navigateToConfirmPhone();
         }
       } catch (error) {
-        EventProvider.captureException(error);
+        ExceptionProvider.captureException(error);
       }
     }
   };

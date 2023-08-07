@@ -1,5 +1,5 @@
 import { checkoutInstance } from '../config/checkoutConfig';
-import EventProvider from '../utils/EventProvider';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 type TActiveCheckoutGift = {
   id: string;
@@ -24,7 +24,7 @@ export const checkoutService = {
         },
       );
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   },
 
@@ -44,7 +44,7 @@ export const checkoutService = {
         },
       );
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   },
 };

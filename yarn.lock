@@ -1229,6 +1229,11 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
+"@datadog/mobile-react-native@1.8.2":
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/@datadog/mobile-react-native/-/mobile-react-native-1.8.2.tgz#66dad6619d8a692a2487284a5fdb5cea7930d789"
+  integrity sha512-DO+jQKVUk7FGstDA/VoMwgpZ43dReMxiDMr8SRDwA2mMJXxyo8Nc6ZNiN7gS7r/uIt4oFbPQtOFT5MsW2NDCYg==
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"

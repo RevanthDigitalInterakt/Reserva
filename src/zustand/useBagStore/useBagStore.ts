@@ -47,7 +47,7 @@ import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { getMessageErrorWhenUpdateItem } from './helpers/getMessageErrorWhenUpdateItem';
 import { trackingOrderFormAddItem } from '../../utils/trackingOrderFormAddItem';
 import { handleCopyTextToClipboard } from '../../utils/CopyToClipboard';
-import EventProvider from '../../utils/EventProvider';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 const bagStore = create<IBagStore>((set, getState): IBagStore => ({
   initialized: false,
@@ -239,7 +239,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         return true;
       } catch (err) {
-        EventProvider.captureException(err);
+        ExceptionProvider.captureException(err);
 
         return false;
       }

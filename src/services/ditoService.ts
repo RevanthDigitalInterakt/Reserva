@@ -1,5 +1,5 @@
 import { configs, ditoNotificationsApi } from '../utils/Dito/src/config';
-import EventProvider from '../utils/EventProvider';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export const pushClicked = async (notificationId: number, reference: string) => {
   try {
@@ -12,6 +12,6 @@ export const pushClicked = async (notificationId: number, reference: string) => 
       },
     });
   } catch (error) {
-    EventProvider.captureException(error);
+    ExceptionProvider.captureException(error);
   }
 };

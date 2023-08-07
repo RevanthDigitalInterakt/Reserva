@@ -1,5 +1,5 @@
-import EventProvider from '../../../EventProvider';
 import { sendMobileToken } from '../routes/notifications';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 type TSendMobileToken = {
   id: string,
@@ -15,7 +15,7 @@ async function createMobileToken({
   try {
     await sendMobileToken({ id, token, platform });
   } catch (e) {
-    EventProvider.sentry.captureException(e);
+    ExceptionProvider.captureException(e);
   }
 }
 

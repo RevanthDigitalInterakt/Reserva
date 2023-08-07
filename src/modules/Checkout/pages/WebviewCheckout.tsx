@@ -24,6 +24,7 @@ import { getAFContent, sumQuantity } from '../../../utils/checkoutInitiatedEvent
 import { getBrands } from '../../../utils/getBrands';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 const FINAL_URL_TO_REDIRECT_CHECKOUT = 'https://lojausereservaqa.myvtex.com/' as const;
 const URL_CHECKOUT_QA = 'https://lojausereservaqa.myvtex.com/checkout' as const;
@@ -71,7 +72,7 @@ const Checkout: React.FC<{}> = () => {
         product_image: '',
       });
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, []);
 
@@ -133,7 +134,7 @@ const Checkout: React.FC<{}> = () => {
             );
           });
         } catch (e) {
-          EventProvider.captureException(e);
+          ExceptionProvider.captureException(e);
         }
       }
     }
@@ -179,7 +180,7 @@ const Checkout: React.FC<{}> = () => {
         );
       }
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [orderForm]);
 
@@ -228,7 +229,7 @@ const Checkout: React.FC<{}> = () => {
         value: itemTotal,
       });
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [
     getItem,
@@ -283,7 +284,7 @@ const Checkout: React.FC<{}> = () => {
 
           EventProvider.logEvent('add_payment_info_test', {});
         } catch (error) {
-          EventProvider.captureException(error);
+          ExceptionProvider.captureException(error);
         }
 
         orderform();

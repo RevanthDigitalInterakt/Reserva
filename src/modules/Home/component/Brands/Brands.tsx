@@ -10,10 +10,10 @@ import {
   IBrandsCarouselQuery,
   brandsCarouselQuery,
 } from '../../../../graphql/brands/brandsCarouselQuery';
-import EventProvider from '../../../../utils/EventProvider';
 import testProps from '../../../../utils/testProps';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 import { BrandContainer, brandShadowContainer, styles } from './styles/styles';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 const BrandsComponent = (): JSX.Element => {
   const [brands, setBrands] = useState<IBrandCarouselItem[]>([]);
@@ -37,7 +37,7 @@ const BrandsComponent = (): JSX.Element => {
         referenceId: reference,
       });
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [navigation]);
 
@@ -52,7 +52,7 @@ const BrandsComponent = (): JSX.Element => {
           setBrands(items);
         }
       } catch (error) {
-        EventProvider.captureException(error);
+        ExceptionProvider.captureException(error);
       }
     })();
   }, [getBrands]);

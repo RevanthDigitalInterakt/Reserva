@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import EventProvider from './EventProvider';
 import { getAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import type { IBagStore } from '../zustand/useBagStore/types/bagStore';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export const trackAccessBag = async (
   quantity: number,
@@ -29,6 +30,6 @@ export const trackAccessBag = async (
       },
     );
   } catch (e) {
-    EventProvider.captureException(e);
+    ExceptionProvider.captureException(e);
   }
 };

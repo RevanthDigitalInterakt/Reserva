@@ -10,7 +10,7 @@ import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import { useCart } from '../../../context/CartContext';
 import { validateEmail } from '../../../utils/validateEmail';
 import { useSignUpVerificationCodeMutation } from '../../../base/graphql/generated';
-import EventProvider from '../../../utils/EventProvider';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 export interface RegisterEmailProps
   extends StackScreenProps<RootStackParamList, 'RegisterEmail'> {}
@@ -56,7 +56,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
         );
       }
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [email]);
 
@@ -75,7 +75,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
         );
       }
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [email]);
 

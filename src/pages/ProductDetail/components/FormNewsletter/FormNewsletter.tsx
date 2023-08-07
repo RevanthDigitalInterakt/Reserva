@@ -2,11 +2,11 @@ import React, { useCallback, useState } from 'react';
 import { Box, OutlineInput, Typography } from '@usereservaapp/reserva-ui';
 import * as Yup from 'yup';
 import { Keyboard } from 'react-native';
-import * as Sentry from '@sentry/react-native';
 import Tooltip from './Tooltip';
 import { useSubscribeNewsletterMutation } from '../../../../base/graphql/generated';
 import EventProvider from '../../../../utils/EventProvider';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 function FormNewsletter() {
   const { productDetail } = useProductDetailStore(['productDetail']);
@@ -54,10 +54,7 @@ function FormNewsletter() {
       setSuccess(true);
       setEmail('');
     } catch (err) {
-      Sentry.withScope((scope) => {
-        scope.setExtra('email', email);
-        Sentry.captureException(err);
-      });
+      ExceptionProvider.captureException(err, { email });
 
       setValidationError(err.message);
 

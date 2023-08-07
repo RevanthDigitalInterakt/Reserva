@@ -36,13 +36,13 @@ import {
 
 import type { ICreateAddress } from './interface/ICreateAddress';
 import { useProfileAddressMutation } from '../../../base/graphql/generated';
-import EventProvider from '../../../utils/EventProvider';
 import { CepVerifyPostalCode } from '../../../services/vtexService';
 import type { TCheckPostalCodeFn } from '../components/InputForm/interface/IInputForm';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { COLORS } from '../../../base/styles/colors';
 import { postalCodeMask } from '../../../utils/postalCodeMask';
 import testProps from '../../../utils/testProps';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 const createAddressSchema = Yup.object().shape({
   addressSurname: addressSurnameSchema,
@@ -98,7 +98,7 @@ export default function CreateAddress(
       setFieldValue('addressState', state);
       setFieldValue('street', street);
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, []);
 
@@ -140,7 +140,7 @@ export default function CreateAddress(
 
       navigation.goBack();
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     } finally {
       setLoading(false);
     }

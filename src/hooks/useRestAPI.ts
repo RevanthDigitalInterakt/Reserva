@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import axios from 'axios';
-import * as Sentry from '@sentry/react-native';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 // TODO: Replace with useQuery
 export function useRestAPI(url: string, headers: { [key: string]: string } = {}) {
@@ -21,11 +21,8 @@ export function useRestAPI(url: string, headers: { [key: string]: string } = {})
         if (err?.response) {
           const { status, data } = err.response || {};
 
-          Sentry.withScope((scope) => {
-            scope.setExtra('status', status);
-            scope.setExtra('body', data);
-            scope.setExtra('response', err.response);
-            Sentry.captureException(err);
+          ExceptionProvider.captureException(err, {
+            status, body: data, response: err.response,
           });
         }
 

@@ -7,6 +7,7 @@ import EventProvider from '../utils/EventProvider';
 import { useLandingPagePrimeLazyQuery } from '../base/graphql/generated';
 import { useApolloFetchPolicyStore } from '../zustand/useApolloFetchPolicyStore';
 import { useCart } from '../context/CartContext';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export function usePrimeInfo() {
   const isTester = useIsTester();
@@ -61,7 +62,7 @@ export function usePrimeInfo() {
         seller: data?.landingPagePrime.productSeller,
       });
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [actions, addItem, hasPrimeSubscriptionInCart, loadLpData]);
 

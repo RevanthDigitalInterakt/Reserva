@@ -5,6 +5,7 @@
 - [SRN-15136 Meus Endereços - Criar Endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15136)
 - [SRN-15169 Evento view_cart](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15169)
 - [14784 - Integração filtros da busca com API Gateway](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14784)
+- [15832 - Implementar Datadog](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=15832)
 
 ---
 

@@ -32,10 +32,10 @@ import {
 } from '../../../../utils/updateUserData';
 import { FirebaseService } from '../../../../shared/services/FirebaseService';
 import type { IFormEditProfileSchema } from './interfaces/formEditProfile';
-import EventProvider from '../../../../utils/EventProvider';
 import { useProfileLazyQuery, useProfileUpdateMutation } from '../../../../base/graphql/generated';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 interface IFormEditProfileComponentProps {
   isRegister: boolean;
@@ -205,7 +205,7 @@ function FormEditProfileComponent({
         handleToogleLoading(false);
       }
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, []);
 

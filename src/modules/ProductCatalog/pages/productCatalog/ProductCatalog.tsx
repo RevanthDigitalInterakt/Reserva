@@ -51,6 +51,7 @@ import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { getCollectionFacetsValue } from '../../../../utils/getCollectionFacetsValue';
 import { durationToTimeString } from '../../../../utils/durationToTimeString';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -500,7 +501,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         wbrand: getBrandByUrl(response.data.productSearch),
       });
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [collectionIdByCategories,
     collectionIdByContentful,

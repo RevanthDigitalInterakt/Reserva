@@ -22,6 +22,7 @@ import { getProductColor } from '../../utils/getProductColor';
 import { getProductSize } from '../../utils/getProductSize';
 import { getCategoriesByHref } from '../../utils/getCategoriesByHref';
 import { getDitoUserID } from '../../utils/Dito/src/utils/getDitoUserID';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 interface ListProductsProps {
   products: ProductQL[];
@@ -78,7 +79,7 @@ export const ListHorizontalProducts = ({
         },
       });
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [profile?.email]);
 

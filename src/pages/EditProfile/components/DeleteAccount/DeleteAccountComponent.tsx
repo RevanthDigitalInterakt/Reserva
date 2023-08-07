@@ -5,7 +5,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import ModalDeleteAccount from '../../../../modules/Profile/Components/ModalDeleteAccount';
 import { useRemoveUserMutationMutation } from '../../../../base/graphql/generated';
-import EventProvider from '../../../../utils/EventProvider';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 interface IDeleteAccountProps {
   userId: string
@@ -31,7 +31,7 @@ function DeleteAccountComponent({ userId }: IDeleteAccountProps): JSX.Element {
         navigation.navigate('AccountDeletedSuccessfully');
       }
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [userId]);
 

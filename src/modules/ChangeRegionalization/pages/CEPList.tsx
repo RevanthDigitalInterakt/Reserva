@@ -7,7 +7,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { instance } from '../../../config/vtexConfig';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
 import { TopBarBackButtonWithoutLogo } from '../../Menu/components/TopBarBackButtonWithoutLogo';
-import Sentry from '../../../config/sentryConfig';
 
 export interface CepsInfo {
   cep: string,
@@ -70,10 +69,6 @@ export const CEPList = ({ ...props }) => {
       navigation.navigate('Home');
     }
   };
-
-  useEffect(() => {
-    Sentry.configureScope((scope) => scope.setTransactionName('CEPList'));
-  }, []);
 
   useEffect(() => {
     setCeps(list);

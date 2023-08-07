@@ -357,6 +357,14 @@ PODS:
     - JWT (~> 3.0.0-beta.12)
     - React-Core
     - SSZipArchive (~> 2.2.2)
+  - DatadogSDK (1.22.0)
+  - DatadogSDKCrashReporting (1.22.0):
+    - DatadogSDK (= 1.22.0)
+    - PLCrashReporter (~> 1.11.0)
+  - DatadogSDKReactNative (1.8.2):
+    - DatadogSDK (~> 1.22.0)
+    - DatadogSDKCrashReporting (~> 1.22.0)
+    - React-Core
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.64.4)
   - FBReactNativeSpec (0.64.4):
@@ -686,6 +694,7 @@ PODS:
     - RNPermissions
   - Permission-Notifications (3.6.1):
     - RNPermissions
+  - PLCrashReporter (1.11.1)
   - PromisesObjC (2.3.1)
   - RCT-Folly (2020.01.13.00):
     - boost-for-react-native
@@ -1113,6 +1122,7 @@ PODS:
 DEPENDENCIES:
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - CodePush (from `../node_modules/react-native-code-push`)
+  - "DatadogSDKReactNative (from `../node_modules/@datadog/mobile-react-native`)"
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
@@ -1227,6 +1237,8 @@ SPEC REPOS:
     - boost-for-react-native
     - BoringSSL-GRPC
     - CocoaAsyncSocket
+    - DatadogSDK
+    - DatadogSDKCrashReporting
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -1265,6 +1277,7 @@ SPEC REPOS:
     - OneSignal
     - OneSignalXCFramework
     - OpenSSL-Universal
+    - PLCrashReporter
     - PromisesObjC
     - Sentry
     - SSZipArchive
@@ -1275,6 +1288,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-linear-gradient"
   CodePush:
     :path: "../node_modules/react-native-code-push"
+  DatadogSDKReactNative:
+    :path: "../node_modules/@datadog/mobile-react-native"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   FBLazyVector:
@@ -1449,9 +1464,12 @@ SPEC CHECKSUMS:
   BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CodePush: ef496b6fd053012e985e3d4a0ab9f9dbf2739eac
+  DatadogSDK: 46e1a7363bc3130fae151ec4aedf11ea291517c5
+  DatadogSDKCrashReporting: 24a0e6ec6db905cdeb174721962a7941b2f8a9d2
+  DatadogSDKReactNative: d4372ad5eb31c6516f9ef43162ab715024b8db7d
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: fa8275d5086566e22a26ddc385ab5772e7f9b1bd
-  FBReactNativeSpec: 1028b35afee883db9c12c27bfc320f89c89e1cda
+  FBReactNativeSpec: f022ccbf67f06ef8e25ac4689ab28e9e17226430
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
   FirebaseAnalytics: 319c9b3b1bdd400d60e2f415dff0c5f6959e6760
@@ -1498,6 +1516,7 @@ SPEC CHECKSUMS:
   Permission-LocationAlways: 8d99b025c9f73c696e0cdb367e42525f2e9a26f2
   Permission-LocationWhenInUse: 3ba99e45c852763f730eabecec2870c2382b7bd4
   Permission-Notifications: 150484ae586eb9be4e32217582a78350a9bb31c3
+  PLCrashReporter: 5d2d3967afe0efad61b3048d617e2199a5d1b787
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: f85fa00af016059cf88b90b8f8ff9a6af9e4b6c3
@@ -1576,4 +1595,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c534ae8163c87ff43d11bd061eb19c199a91a16f
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1

@@ -3,11 +3,11 @@ import {
   Box, Button, Divider, OutlineInput, Typography,
 } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
-import * as Sentry from '@sentry/react-native';
 import { useProductDeliveryTimeLazyQuery } from '../../../../base/graphql/generated';
 import { removeNonNumbers } from '../../../../utils/removeNonNumbers';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import EventProvider from '../../../../utils/EventProvider';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 function ProductSLA() {
   const { selectedSize, productDetail, initialCep } = useProductDetailStore([
@@ -51,10 +51,7 @@ function ProductSLA() {
         success: 1,
       });
     } catch (err) {
-      Sentry.withScope((scope) => {
-        scope.setExtra('selectedSize', selectedSize);
-        Sentry.captureException(err);
-      });
+      ExceptionProvider.captureException(err, { selectedSize });
 
       EventProvider.logEvent('product_check_delivery_time', {
         product_id: productDetail?.productId || '',

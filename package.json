@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.12",
+    "@datadog/mobile-react-native": "1.8.2",
     "@notifee/react-native": "^7.4.0",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-community/async-storage": "^1.12.1",

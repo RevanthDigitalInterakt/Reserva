@@ -4,6 +4,7 @@ import EventProvider from './EventProvider';
 import { defaultBrand } from './defaultWBrand';
 import { getBrands } from './getBrands';
 import type { OrderFormQuery } from '../base/graphql/generated';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderFormQuery['orderForm']) => {
   try {
@@ -52,6 +53,6 @@ export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderForm
       },
     );
   } catch (e) {
-    EventProvider.captureException(e);
+    ExceptionProvider.captureException(e);
   }
 };

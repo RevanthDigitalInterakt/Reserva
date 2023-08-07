@@ -11,7 +11,6 @@ import { useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import ReceiveHome from '../components/ReceiveHome';
 import Store from '../components/Store';
-import Sentry from '../../../config/sentryConfig';
 import EventProvider from '../../../utils/EventProvider';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
 import { getBrands } from '../../../utils/getBrands';
@@ -21,6 +20,7 @@ import {
   useProfileAddressMutation,
 } from '../../../base/graphql/generated';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 
@@ -49,10 +49,6 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   const [profileAddress] = useProfileAddressMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
-
-  useEffect(() => {
-    Sentry.configureScope((scope) => scope.setTransactionName('DeliveryScreen'));
-  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -196,7 +192,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                   wbrand: getBrands(items),
                 });
               } catch (e) {
-                EventProvider.captureException(e);
+                ExceptionProvider.captureException(e);
               }
             }
 
@@ -246,7 +242,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                 wbrand: getBrands(items),
               });
             } catch (e) {
-              EventProvider.captureException(e);
+              ExceptionProvider.captureException(e);
             }
           }
 

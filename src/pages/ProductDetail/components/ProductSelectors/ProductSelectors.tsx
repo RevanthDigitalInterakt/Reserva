@@ -4,7 +4,6 @@ import React, {
 import {
   Box, Divider, Icon, RadioButtons, SelectColor, Typography,
 } from '@usereservaapp/reserva-ui';
-import * as Sentry from '@sentry/react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { View } from 'react-native';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
@@ -12,6 +11,7 @@ import { SizeGuide, SizeGuideImages } from './SizeGuide';
 import EventProvider from '../../../../utils/EventProvider';
 import ProductAddToCart from '../ProductAddToCart';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 function ProductSelectors() {
   const {
@@ -52,7 +52,7 @@ function ProductSelectors() {
         wbrand: `${productDetail?.categoryTree[0]?.toUpperCase()},`,
       });
     } catch (err) {
-      Sentry.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [productDetail, selectedSize]);
 

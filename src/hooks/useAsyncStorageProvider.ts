@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import * as Sentry from '@sentry/react-native';
 import type { Cookies } from '@react-native-cookies/cookies';
-import EventProvider from '../utils/EventProvider';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export interface IAsyncStorageKeys {
   '@RNOrder:RonItems': string[];
@@ -29,10 +28,7 @@ export async function getAsyncStorageItem<K extends TStorageKey>(
 
     return res ? JSON.parse(res) : null;
   } catch (err) {
-    Sentry.withScope((scope) => {
-      scope.setExtra('key', key);
-      EventProvider.captureException(err);
-    });
+    ExceptionProvider.captureException(err, { key });
 
     return null;
   }
@@ -47,11 +43,7 @@ export async function setAsyncStorageItem<K extends TStorageKey>(
 
     return true;
   } catch (err) {
-    Sentry.withScope((scope) => {
-      scope.setExtra('key', key);
-      scope.setExtra('value', val);
-      EventProvider.captureException(err);
-    });
+    ExceptionProvider.captureException(err, { key, value: val });
 
     return false;
   }
@@ -65,10 +57,7 @@ export async function removeAsyncStorageItem<K extends TStorageKey>(
 
     return true;
   } catch (err) {
-    Sentry.withScope((scope) => {
-      scope.setExtra('key', key);
-      EventProvider.captureException(err);
-    });
+    ExceptionProvider.captureException(err, { key });
 
     return false;
   }

@@ -5,7 +5,6 @@ import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 
 import testProps from '../../utils/testProps';
-import EventProvider from '../../utils/EventProvider';
 import { useAuthentication } from '../../hooks/useAuthentication';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 
@@ -17,6 +16,7 @@ import * as Styles from './styles';
 import type { IParamsComponent } from './types';
 import { isValidEmail, isValidPassword } from './utils';
 import IconLogoPrime from '../../../assets/icons/IconLogoPrime';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 export const ModalSignIn: React.FC<IParamsComponent> = ({
   onClose,
@@ -92,11 +92,7 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
                       });
                       setEmailIsValid(isValidEmail(text));
                     } catch (error) {
-                      EventProvider.sentry.captureException(error, {
-                        extra: {
-                          writtenEmail: text,
-                        },
-                      });
+                      ExceptionProvider.captureException(error, { writtenEmail: text });
                     }
                   }}
                 />

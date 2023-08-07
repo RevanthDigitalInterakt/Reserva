@@ -23,6 +23,7 @@ import { defaultBrand } from '../../../utils/defaultWBrand';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { Avatar } from '../../../components/Avatar/AvatarComponent';
 import { useAuthentication } from '../../../hooks/useAuthentication';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 export function MenuProfile() {
   const navigation = useNavigation();
@@ -50,7 +51,7 @@ export function MenuProfile() {
 
       setImageProfile(response);
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [firebaseRef]);
 

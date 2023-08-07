@@ -1,12 +1,12 @@
 /* TODO when refactoring the PDC and NewSearch, you should remove this logic */
 import { create } from 'zustand';
 import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
-import EventProvider from '../../utils/EventProvider';
 import {
   type PrimeConfigOutput, PrimeConfigQuery, PrimeConfigQueryVariables, PrimeConfigDocument,
 } from '../../base/graphql/generated';
 import { getApolloClient } from '../../utils/getApolloClient';
 import type { ProductQL } from '../../graphql/products/productSearch';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 interface IPrimeConfig {
   promo: any;
@@ -25,7 +25,7 @@ export const primeConfig = create<IPrimeConfig>((set, getState) => ({
 
       set({ ...getState(), promo: data.primeConfig });
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   },
 }));

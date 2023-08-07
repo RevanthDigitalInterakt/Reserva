@@ -1,6 +1,6 @@
-import Sentry from '../../config/sentryConfig';
 import { ditoUsersApi } from '../Dito/src/config';
 import sendUserDataToDito from '../Dito/src/utils/sendUserDataToDito';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 const mockSuccessGetUser = {
   data: {
@@ -111,6 +111,6 @@ describe('sendUserDataToDito', () => {
         },
       },
     });
-    expect(Sentry.captureException).toBeCalled();
+    expect(ExceptionProvider.captureException).toBeCalled();
   });
 });

@@ -1,21 +1,21 @@
 import { sha256 } from 'react-native-sha256';
-import * as Sentry from '@sentry/react-native';
 import EventProvider from '../../../utils/EventProvider';
+import { ExceptionProvider, IUser } from '../../../base/providers/ExceptionProvider';
 
 enum CryptType {
   SHA256 = 3,
 }
 
-export async function identifyCustomer(email: string) {
-  const emailHash = await sha256(email);
-  EventProvider.setPushExternalUserId(email);
+export async function identifyCustomer(user: IUser) {
+  const emailHash = await sha256(user.email);
+  EventProvider.setPushExternalUserId(user.email);
 
   EventProvider.appsFlyer.logEvent(
     'af_login',
     {},
     () => { },
     (error) => {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     },
   );
 
@@ -26,11 +26,9 @@ export async function identifyCustomer(email: string) {
     },
     () => { },
     (error) => {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     },
   );
 
-  Sentry.configureScope((scope) => {
-    scope.setUser({ email });
-  });
+  ExceptionProvider.setUser(user);
 }

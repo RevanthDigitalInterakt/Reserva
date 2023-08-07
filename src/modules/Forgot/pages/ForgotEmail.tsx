@@ -11,7 +11,7 @@ import UnderlineInput from '../../../components/UnderlineInput';
 import HeaderBanner from '../componet/HeaderBanner';
 import testProps from '../../../utils/testProps';
 import { useRecoverPasswordVerificationCodeMutation } from '../../../base/graphql/generated';
-import EventProvider from '../../../utils/EventProvider';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 export interface ForgotEmailProps
   extends StackScreenProps<RootStackParamList, 'ForgotEmail'> {}
@@ -42,7 +42,7 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
         );
       }
     } catch (e) {
-      EventProvider.captureException(e);
+      ExceptionProvider.captureException(e);
     }
   }, [email]);
 

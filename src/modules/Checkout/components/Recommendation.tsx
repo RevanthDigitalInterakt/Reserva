@@ -11,6 +11,7 @@ import useRecommendation from '../../../zustand/useRecommendation/useRecommendat
 import { useProductRecommendationsLazyQuery } from '../../../base/graphql/generated';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 export function Recommendation() {
   const {
@@ -55,7 +56,7 @@ export function Recommendation() {
         wbrand: getBrandByUrl(products),
       });
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [products]);
 

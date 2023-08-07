@@ -11,14 +11,13 @@ import {
   Pressable,
 } from 'react-native';
 
-import Sentry from '../../../../config/sentryConfig';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import InputOption from '../../Components/InputOption';
 import { CepVerifyPostalCode } from '../../../../services/vtexService';
-import EventProvider from '../../../../utils/EventProvider';
 import { useProfileAddressMutation } from '../../../../base/graphql/generated';
 import type { IAddress } from '../../interface';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
 type TAddressProps = Omit<IAddress, 'addressType'>;
@@ -64,10 +63,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
   const [isVisibleStatePicker, setIsVisibleStatePicker] = useState(false);
   const [isVisibleCityPicker, setIsVisibleCityPicker] = useState(false);
 
-  useEffect(() => {
-    Sentry.configureScope((scope) => scope.setTransactionName('NewAddress'));
-  }, []);
-
   const handleSaveAddress = async () => {
     setLoadingStatusBar(true);
 
@@ -91,12 +86,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         });
       }
     } catch (error) {
-      Sentry.addBreadcrumb({
-        message: 'Erro ao salvar endereço',
-        data: {
-          error,
-        },
-      });
+      ExceptionProvider.captureException(error);
     }
 
     // TODO
@@ -219,7 +209,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
           state,
         });
       } catch (e) {
-        EventProvider.captureException(e);
+        ExceptionProvider.captureException(e);
       } finally {
         setLoadingStatusBar(false);
       }
@@ -231,7 +221,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       setInitialValues({ ...initialValues, postalCode: hasCep });
       cepHandler(hasCep.replace('-', ''));
     }
-    Sentry.configureScope((scope) => scope.setTransactionName('AddressScreen'));
   }, [hasCep]);
 
   return (
@@ -442,7 +431,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   .then(() => {
                     setLoadingStatusBar(false);
                   })
-                  .catch((EventProvider.captureException))
+                  .catch(ExceptionProvider.captureException)
                   .finally(() => setLoadingStatusBar(false));
               }}
               title="INCLUIR ENDEREÇO"

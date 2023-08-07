@@ -1,5 +1,5 @@
 import axios from 'axios';
-import EventProvider from '../utils/EventProvider';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 interface ICategory {
   extensions: any;
@@ -19,7 +19,7 @@ export const deeplinkService = {
       );
       return response.data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
 
     return undefined;

@@ -56,6 +56,7 @@ import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import IconComponent from '../../../components/IconComponent/IconComponent';
 import { usePrimeInfo } from '../../../hooks/usePrimeInfo';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -370,7 +371,7 @@ export const SearchScreen: React.FC<Props> = () => {
             search_term: text,
           });
         } catch (error) {
-          EventProvider.captureException(error);
+          ExceptionProvider.captureException(error);
         }
       });
     } else {
@@ -395,7 +396,7 @@ export const SearchScreen: React.FC<Props> = () => {
             search_term: text,
           });
         } catch (error) {
-          EventProvider.captureException(error);
+          ExceptionProvider.captureException(error);
         }
       });
     }

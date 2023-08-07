@@ -14,8 +14,8 @@ import { platformType } from '../../../utils/platformType';
 import testProps from '../../../utils/testProps';
 
 import { useRecoverPasswordResetMutation } from '../../../base/graphql/generated';
-import EventProvider from '../../../utils/EventProvider';
 import CodeInput from '../../../components/CodeInput/CodeInput';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 export interface ForgotAccessCodeProps
   extends StackScreenProps<RootStackParamList, 'ForgotAccessCode'> { }
@@ -80,7 +80,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
       }
     } catch (err) {
       setShowError(true);
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [code, cookies, email, navigation, passwords.confirm, recoveryPasswordReset]);
 

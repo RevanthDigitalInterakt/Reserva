@@ -1,6 +1,7 @@
 import type { OrderFormQuery } from '../base/graphql/generated';
 import EventProvider from './EventProvider';
 import type { Items } from './EventProvider/Event';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 type TTrackViewCartProps = {
   items: OrderFormQuery['orderForm']['items'],
@@ -27,6 +28,6 @@ export const trackViewCart = ({
       value: price,
     });
   } catch (error) {
-    EventProvider.captureException(error);
+    ExceptionProvider.captureException(error);
   }
 };

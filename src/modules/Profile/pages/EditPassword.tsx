@@ -3,7 +3,6 @@ import {
 } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
-import * as Sentry from '@sentry/react-native';
 import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
@@ -16,6 +15,7 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useRedefinePasswordMutation } from '../../../base/graphql/generated';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 function EditPasswordSuccessful() {
   const navigation = useNavigation();
@@ -108,11 +108,7 @@ export const EditPassword = () => {
         await onUpdateAuthData(data.redefinePassword.token, data.redefinePassword.authCookie);
       }
     } catch (err) {
-      Sentry.withScope((scope) => {
-        scope.setExtra('password', password);
-        scope.setExtra('currentPassword', currentPassword);
-        Sentry.captureException(err);
-      });
+      ExceptionProvider.captureException(err, { password, currentPassword });
 
       Alert.alert('', 'Aconteceu um erro na alteração de senha.');
     }

@@ -44,6 +44,7 @@ import { getBrands } from '../utils/getBrands';
 import { getAsyncStorageItem, setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { defaultBrand } from '../utils/defaultWBrand';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -620,7 +621,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return false;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     } finally {
       setLoading(false);
     }
@@ -632,7 +633,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     try {
       await _requestOrderForm();
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     } finally {
       setLoading(false);
     }
@@ -656,7 +657,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         await _requestOrderForm();
       }
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     } finally {
       setTopBarLoading(false);
     }
@@ -672,7 +673,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return data?.checkIfUserExists || false;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
       return false;
     }
   };
@@ -760,7 +761,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       );
       return { ok: !(product.quantity < quantity) };
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -791,7 +792,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return { ok: true };
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   };
 
@@ -811,7 +812,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -820,7 +821,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await ResetUserCheckout(orderForm?.orderFormId);
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -841,7 +842,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         setOrderForm(data);
       }
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -861,7 +862,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -881,7 +882,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -900,7 +901,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -916,7 +917,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       return !!isCouponInValid;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -927,7 +928,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       setOrderForm(data);
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     } finally {
       setLoading(false);
     }
@@ -945,7 +946,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       setOrderForm(data);
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     } finally {
       setTopBarLoading(false);
     }
@@ -960,7 +961,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await SendUserEmail(email);
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -969,7 +970,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await ConvertZipCode(postalCode);
       return data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
   const tracking = async (cookie: string, order: string) => {
@@ -977,7 +978,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await Tracking(cookie, order);
       return data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -986,7 +987,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await PickupPoint(longitude, latitude);
       return data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -995,7 +996,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await Orders(page);
       return data || [];
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -1004,7 +1005,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await OrderDetail(orderId);
       return data || [];
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -1017,7 +1018,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await SearchNewOrders(page, email, cookie);
       return data || [];
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -1030,7 +1031,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       const { data } = await SearchNewOrderDetail(page, email, cookie);
       return data || [];
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -1071,7 +1072,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         setSellerName(splitSellerName(data.orderFormAddSellerCoupon.marketingData.marketingTags[2] || ''));
       }
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
       setHasErrorApplyCoupon(true);
     } finally {
       setTopBarLoading(false);
@@ -1096,7 +1097,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       setOrderForm(data);
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     } finally {
       setLoading(false);
     }
@@ -1143,7 +1144,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
       await _requestRestoreCart(orderFormId);
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     } finally {
       setTopBarLoading(false);
     }

@@ -9,6 +9,7 @@ import { ListHorizontalProducts } from './ListHorizontalProducts';
 import EventProvider from '../../utils/EventProvider';
 import useRecommendation from '../../zustand/useRecommendation/useRecommendation';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 interface IProductRecommendation {
   handleScrollToTheTop?: () => void;
@@ -45,7 +46,7 @@ export const ProductRecommendation = ({ handleScrollToTheTop }: IProductRecommen
 
       EventProvider.logEvent('view_item_list', { items: newItems });
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [products]);
 

@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from 'react';
 import { useBagStore } from '../useBagStore';
 import { useCart } from '../../../context/CartContext';
-import Sentry from '../../../config/sentryConfig';
 import { setAsyncStorageItem } from '../../../hooks/useAsyncStorageProvider';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 const useInitialBag = () => {
   const { orderForm } = useCart();
@@ -10,11 +10,10 @@ const useInitialBag = () => {
 
   const handleInitializeBag = useCallback(async () => {
     if (!orderForm?.orderFormId) {
-      Sentry.withScope((scope) => {
-        const error = new Error('Bag invalid OrderForm');
-        scope.setExtra('bag_orderForm', orderForm);
-        Sentry.captureException(error);
-      });
+      ExceptionProvider.captureException(
+        new Error('Bag invalid OrderForm'),
+        { orderForm },
+      );
 
       return;
     }
