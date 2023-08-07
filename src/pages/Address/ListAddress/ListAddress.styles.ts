@@ -34,6 +34,14 @@ const style = StyleSheet.create({
     fontSize: 14,
     lineHeight: 18,
   },
+
+  emptyListAddressText: {
+    color: COLORS.ACTION_BUTTON_COLOR,
+    textTransform: 'uppercase',
+    fontFamily: 'ReservaSans-Bold',
+    fontSize: 14,
+    lineHeight: 18,
+  },
 });
 
 export default style;

@@ -14,6 +14,7 @@ import {
   Animated,
   LayoutAnimation,
   BackHandler,
+  ActivityIndicator,
 } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
@@ -26,6 +27,7 @@ import ListAddressItem from './components/ListAddressItem';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import type { IAddressData } from './interface/IAddressData';
 import EventProvider from '../../../utils/EventProvider';
+import testProps from '../../../utils/testProps';
 
 type TAddressListProps = StackScreenProps<RootStackParamList, 'AddressList'>;
 
@@ -136,10 +138,17 @@ export default function ListAddress({
           />
         )}
         contentContainerStyle={styles.listContainer}
+        ListEmptyComponent={loading ? <ActivityIndicator size="large" color="#333333" /> : (
+          <Text testID="com.usereserva:id/empty_list_message" style={styles.emptyListAddressText}>
+            Você ainda não tem endereços cadastrados, clique em Novo Endereço
+            e cadastre um
+          </Text>
+        )}
       />
 
       <View style={styles.content}>
         <TouchableOpacity
+          {...testProps('com.usereserva:id/action_button_navigate_create_address')}
           onPress={() => navigate('CreateAddress')}
           style={styles.actionButton}
         >
