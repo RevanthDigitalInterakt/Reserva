@@ -4,6 +4,7 @@ import { Platform } from 'react-native';
 import { platformType } from '../../../utils/platformType';
 import { TopBar } from '../../../components/TopBar';
 import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
+import EventProvider from '../../../utils/EventProvider';
 
 export const TopBarDefault: React.FC<{
   showShadow?: Boolean;
@@ -29,7 +30,10 @@ export const TopBarDefault: React.FC<{
         name: 'Search',
         size: 24,
         testID: 'com.usereserva:id/header_button_search',
-        onPress: () => navigation.navigate('SearchMenu'),
+        onPress: () => {
+          EventProvider.logEvent('header_search_click', { open: 1 });
+          navigation.navigate('SearchMenu');
+        },
       }}
       rightButton2={{
         name: 'Handbag',

@@ -2,11 +2,12 @@ import { create } from 'zustand';
 import { Keyboard } from 'react-native';
 import { createZustandStoreWithSelectors } from '../utils/createZustandStoreWithSelectors';
 import type {
-  ProductListOutput, SearchProductInput, SearchQuery, SearchQueryVariables,
+  ProductListOutput, SearchFacetColorItemOutput, SearchProductInput, SearchQuery, SearchQueryVariables,
 } from '../base/graphql/generated';
-import { SearchDocument, SearchOrderByEnum } from '../base/graphql/generated';
+import { SearchDocument, SearchFacetItemOutput, SearchOrderByEnum } from '../base/graphql/generated';
 import { getApolloClient } from '../utils/getApolloClient';
 import { trackEventSearchDito } from '../utils/trackEventSearchDito';
+import EventProvider from '../utils/EventProvider';
 
 export enum SearchStatusEnum {
   INITIAL,
@@ -22,6 +23,12 @@ const initialData = {
   status: SearchStatusEnum.INITIAL,
   resultCount: 0,
   result: [],
+  filters: {
+    categories: new Set<SearchFacetItemOutput>(),
+    colors: new Set<SearchFacetColorItemOutput>(),
+    sizes: new Set<SearchFacetItemOutput>(),
+    price: undefined,
+  },
   parameters: {
     facets: [],
     page: 1,
@@ -32,17 +39,25 @@ const initialData = {
   },
 };
 
+interface ISearchStoreFilters {
+  categories: Set<SearchFacetItemOutput>;
+  colors: Set<SearchFacetColorItemOutput>;
+  sizes: Set<SearchFacetItemOutput>;
+  price?: { from: number; to: number }
+}
+
 interface ISearchStore {
   initialized: boolean,
   loading: boolean;
   status: SearchStatusEnum;
+  filters: ISearchStoreFilters;
   parameters: Required<SearchProductInput>;
   resultCount: number;
   result: ProductListOutput[];
   onInit: () => void,
   setStatus: (status: SearchStatusEnum) => void;
   setQ: (s: string) => void;
-  onSearch: (input: Partial<Omit<SearchProductInput, 'perPage'>>) => Promise<void>;
+  onSearch: (input: Partial<Omit<SearchProductInput, 'perPage'>>, filters?: ISearchStoreFilters) => Promise<void>;
   doFetchMore: () => void;
 }
 
@@ -51,6 +66,12 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
   loading: false,
   status: SearchStatusEnum.INITIAL,
   resultCount: 0,
+  filters: {
+    categories: new Set<SearchFacetItemOutput>(),
+    colors: new Set<SearchFacetColorItemOutput>(),
+    sizes: new Set<SearchFacetItemOutput>(),
+    price: undefined,
+  },
   parameters: {
     q: '',
     page: 1,
@@ -66,7 +87,7 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
     const newParameters = { ...getState().parameters, q };
     set(() => ({ parameters: newParameters }));
   },
-  onSearch: async (parameters) => {
+  onSearch: async (parameters, filters) => {
     try {
       const client = getApolloClient();
 
@@ -91,9 +112,11 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
       });
 
       trackEventSearchDito(newParameters.q, data.search.count);
+      EventProvider.logEvent('view_search_results', { search_term: newParameters.q });
 
       set(() => ({
         loading: false,
+        ...(filters ? { filters } : {}),
         result: data.search.items,
         resultCount: data.search.count,
       }));
@@ -119,8 +142,6 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
           input: newParameters,
         },
       });
-
-      trackEventSearchDito(newParameters.q, data.search.count);
 
       set(() => ({
         loading: false,

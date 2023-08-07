@@ -9,6 +9,7 @@ query searchFacets($input: SearchFacetsInput!) {
       key
       value
       name
+      hex
     }
     sizes {
       key
