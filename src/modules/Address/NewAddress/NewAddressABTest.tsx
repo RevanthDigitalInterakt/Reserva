@@ -18,5 +18,8 @@ export default function NewAddressABTest(
 
   const showNewAddress = useMemo(() => getBoolean(isTester ? 'show_new_address_tester' : 'show_new_address'), [getBoolean, isTester]);
 
-  return <NewCreateAddress {...newCreateAddressProps} />
+  return (
+    showNewAddress
+      ? <NewCreateAddress {...newCreateAddressProps} /> : <NewAddress {...newAddressProps} />
+  );
 }
