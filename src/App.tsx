@@ -29,7 +29,7 @@ import { useApolloFetchPolicyStore } from './zustand/useApolloFetchPolicyStore';
 import { navigationRef } from './utils/navigationRef';
 import { ExceptionProvider } from './base/providers/ExceptionProvider';
 import sentryConfig from './config/sentryConfig';
-import { DatadogComponentProvider } from './components/DatadogComponentProvider/DatadogComponentProvider';
+import DatadogComponentProvider from './components/DatadogComponentProvider';
 
 const DefaultTheme = {
   colors: {
