@@ -3,12 +3,12 @@ import { deeplinkService } from '../../../../../../services/deeplinkService';
 import { platformType } from '../../../../../../utils/platformType';
 import type { IListContentQuery, ListContent } from '../../../../../../graphql/facets/facetsQuery';
 import { listContentQuery } from '../../../../../../graphql/facets/facetsQuery';
-import EventProvider from '../../../../../../utils/EventProvider';
 import type { IFallBackRoute } from '../../../../types/asyncDeepLinkStore';
 import type { IDeepLinkQuery, IDeepLinkRoute } from '../../../../../../graphql/DeepLink/DeepLinkQuery';
 import { DeeplinkPathDocument } from '../../../../../../base/graphql/generated';
 import DeepLinkPathModule from '../../../../../../NativeModules/DeepLinkPathModule';
 import { getApolloClient } from '../../../../../../utils/getApolloClient';
+import { ExceptionProvider } from '../../../../../../base/providers/ExceptionProvider';
 
 interface IExtensionsInArray {
   after: string[];
@@ -87,7 +87,7 @@ const getContentFullUrl = async (
 
     return deeplinkPath;
   } catch (error) {
-    EventProvider.captureException(error);
+    ExceptionProvider.captureException(error);
   }
 
   return undefined;
@@ -189,7 +189,7 @@ export const catalogService = async (
       },
     };
   } catch (err) {
-    EventProvider.sentry.captureException(err);
+    ExceptionProvider.captureException(err);
     return createRouteFallbackPlatform(newPathName);
   }
 };

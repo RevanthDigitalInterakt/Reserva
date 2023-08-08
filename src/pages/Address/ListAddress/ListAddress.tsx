@@ -26,8 +26,8 @@ import styles from './ListAddress.styles';
 import ListAddressItem from './components/ListAddressItem';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import type { IAddressData } from './interface/IAddressData';
-import EventProvider from '../../../utils/EventProvider';
 import testProps from '../../../utils/testProps';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 type TAddressListProps = StackScreenProps<RootStackParamList, 'AddressList'>;
 
@@ -94,7 +94,7 @@ export default function ListAddress({
 
       await onGetProfile();
     } catch (e) {
-      EventProvider.captureException(e);
+      ExceptionProvider.captureException(e);
     } finally {
       setLoading(false);
     }
