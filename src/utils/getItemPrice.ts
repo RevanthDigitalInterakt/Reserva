@@ -11,7 +11,7 @@ export interface ItemPrice {
   installmentPrice?: Installment;
 }
 
-export const getItemPrice = (item?: SKU|null) => {
+export const getItemPrice = (item?: SKU | null) => {
   if (!item) {
     return {
       listPrice: 0,

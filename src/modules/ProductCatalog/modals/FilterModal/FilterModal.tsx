@@ -29,7 +29,7 @@ const deviceWidth = Dimensions.get('window').width;
 
 const BoxAnimation = createAnimatableComponent(Box);
 
-export type TFilterType = string|null|number|IFacet;
+export type TFilterType = string | null | number | IFacet;
 export interface IFilterModalProps {
   setFilterRequestList: (val: TFilterType[]) => void;
   isVisible: boolean;
@@ -97,7 +97,7 @@ export const TitleFilter: React.FC<{
   </Box>
 );
 
-export const FilterModal = ({
+export function FilterModal({
   setFilterRequestList,
   isVisible,
   onCancel,
@@ -109,7 +109,7 @@ export const FilterModal = ({
   sizes,
   categories,
   priceRange,
-}: IFilterModalProps) => {
+}: IFilterModalProps) {
   const [selectedColors, setSelectedColors] = useState<any[]>([]);
   const [showCategories, setShowCategories] = React.useState(false);
   const [showColors, setShowColors] = React.useState(false);
@@ -399,4 +399,4 @@ export const FilterModal = ({
       </Modal>
     </Box>
   );
-};
+}

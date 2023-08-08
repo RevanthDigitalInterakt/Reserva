@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import
-  {
-    Box, Button, ProductVerticalListCardProps, Typography,
-  } from '@usereservaapp/reserva-ui';
+{
+  Box, Button, ProductVerticalListCardProps, Typography,
+} from '@usereservaapp/reserva-ui';
 import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
@@ -19,28 +19,28 @@ import { getItemPrice } from '../../../utils/getItemPrice';
 import { getPercent } from '../../../utils/getPercent';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
-interface ProductItemInterface extends ProductVerticalListCardProps
-{
+interface ProductItemInterface extends ProductVerticalListCardProps {
   item: any,
   index: number,
   horizontal?: boolean,
   isPrime: boolean,
 }
 
-const ProductItem = ({
+function ProductItem({
   item,
   index,
   horizontal,
   ...props
-}: ProductItemInterface) => (
-  <Box
-    flex={1}
-    alignItems="center"
-    justifyContent="center"
-    height={353}
-    mr={horizontal && 'xxxs'}
-  >
-    {
+}: ProductItemInterface) {
+  return (
+    <Box
+      flex={1}
+      alignItems="center"
+      justifyContent="center"
+      height={353}
+      mr={horizontal && 'xxxs'}
+    >
+      {
       item?.items[0]?.images[0]?.imageUrl && (
         <ProductVerticalListCard
           {...props}
@@ -48,11 +48,11 @@ const ProductItem = ({
         />
       )
     }
-  </Box>
-);
+    </Box>
+  );
+}
 
-interface ListProductsProps
-{
+interface ListProductsProps {
   products: ProductQL[];
   horizontal?: boolean;
   listHeader?:
@@ -63,13 +63,12 @@ interface ListProductsProps
 
 const { width } = Dimensions.get('window');
 
-export const ListHorizontalProducts = ({
+export function ListHorizontalProducts({
   products,
   horizontal,
   listHeader,
   handleScrollToTheTop,
-}: ListProductsProps) =>
-{
+}: ListProductsProps) {
   const { getBoolean } = useRemoteConfig();
   const navigation = useNavigation();
   const [saleOffTag, setSaleOffTag] = useState(false);
@@ -78,30 +77,25 @@ export const ListHorizontalProducts = ({
   const { profile } = useAuthStore(['profile']);
   const scrollX = useRef(new Animated.Value(0)).current;
 
-  const handleOnFavorite = async (favorite: boolean, item: any) =>
-  {
+  const handleOnFavorite = async (favorite: boolean, item: any) => {
     const skuId = item.items[0].itemId;
     setLoadingFavorite([...loadingFavorite, skuId]);
     const { productId } = item;
 
-    if (profile?.email)
-    {
-      if (favorite)
-      {
+    if (profile?.email) {
+      if (favorite) {
         const handleFavorites = [...favorites, { productId, sku: skuId }];
         await AsyncStorage.setItem(
           '@WishData',
           JSON.stringify(handleFavorites),
         );
         setFavorites(handleFavorites);
-      } else
-      {
+      } else {
         const newWishIds = favorites.filter((x) => x.sku !== skuId);
         AsyncStorage.setItem('@WishData', JSON.stringify(newWishIds));
         setFavorites([...favorites.filter((x) => x.sku !== skuId)]);
       }
-    } else
-    {
+    } else {
       navigation.navigate('Login', { comeFrom: 'Menu' });
     }
     setLoadingFavorite([...loadingFavorite.filter((x) => x != skuId)]);
@@ -114,12 +108,10 @@ export const ListHorizontalProducts = ({
     (v: any) => v.name === getVariantId,
   )[0].values[0];
 
-  const populateWishlist = async () =>
-  {
+  const populateWishlist = async () => {
     const wishData: any = await AsyncStorage.getItem('@WishData');
 
-    if (wishData)
-    {
+    if (wishData) {
       setFavorites([
         ...JSON.parse(wishData).map((x: any) => ({
           productId: x.productId,
@@ -131,19 +123,16 @@ export const ListHorizontalProducts = ({
   };
 
   useFocusEffect(
-    useCallback(() =>
-    {
+    useCallback(() => {
       populateWishlist();
     }, []),
   );
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     setSaleOffTag(getBoolean('sale_off_tag'));
   }, [getBoolean]);
 
-  const getSaleOff = (salOff: object) =>
-  {
+  const getSaleOff = (salOff: object) => {
     const idImage = salOff?.clusterHighlights?.find((x) => x?.id === '371');
     if (!saleOffTag) return null;
     if (idImage) return images.saleOff;
@@ -183,8 +172,7 @@ export const ListHorizontalProducts = ({
           </Box>
           <Button
             title="VOLTAR"
-            onPress={() =>
-            {
+            onPress={() => {
               navigation.navigate('Home');
             }}
             variant="primarioEstreitoOutline"
@@ -195,96 +183,90 @@ export const ListHorizontalProducts = ({
         </Box>
       )}
 
-      <>
-        <Animated.FlatList
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: true },
-          )}
-          showsHorizontalScrollIndicator={false}
-          snapToOffsets={products && products.map((_, index) => index * (width - 10))}
-          snapToAlignment="start"
-          decelerationRate="fast"
-          scrollEventThrottle={16}
-          horizontal={horizontal}
-          data={products}
-          keyExtractor={(item) => item.productId}
-          numColumns={horizontal ? 1 : 2}
-          ListEmptyComponent={() => (
-            <Box height="100%">
-              <Typography
-                textAlign="center"
-                fontFamily="nunitoRegular"
-                fontSize={16}
-              >
-                Produtos não encontrados
-              </Typography>
-            </Box>
-          )}
-          ListHeaderComponent={listHeader}
-          renderItem={({ item, index }) =>
-          {
-            const {
-              listPrice,
-              sellingPrice,
-              installmentsNumber,
-              cashPaymentPrice,
-              installmentPrice,
-            } = getItemPrice(item.items[0]);
+      <Animated.FlatList
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+          { useNativeDriver: true },
+        )}
+        showsHorizontalScrollIndicator={false}
+        snapToOffsets={products && products.map((_, index) => index * (width - 10))}
+        snapToAlignment="start"
+        decelerationRate="fast"
+        scrollEventThrottle={16}
+        horizontal={horizontal}
+        data={products}
+        keyExtractor={(item) => item.productId}
+        numColumns={horizontal ? 1 : 2}
+        ListEmptyComponent={() => (
+          <Box height="100%">
+            <Typography
+              textAlign="center"
+              fontFamily="nunitoRegular"
+              fontSize={16}
+            >
+              Produtos não encontrados
+            </Typography>
+          </Box>
+        )}
+        ListHeaderComponent={listHeader}
+        renderItem={({ item, index }) => {
+          const {
+            listPrice,
+            sellingPrice,
+            installmentsNumber,
+            cashPaymentPrice,
+            installmentPrice,
+          } = getItemPrice(item.items[0]);
 
-            return (
-              <ProductItem
-                item={item}
-                index={index}
-                horizontal={horizontal}
-                loadingFavorite={
+          return (
+            <ProductItem
+              item={item}
+              index={index}
+              horizontal={horizontal}
+              loadingFavorite={
                   !!loadingFavorite.find((x) => x === item?.items[0]?.itemId)
                 }
-                isFavorited={
+              isFavorited={
                   !!favorites.find((x) => x.sku === item?.items[0]?.itemId)
                 }
-                onClickFavorite={(isFavorite) =>
-                {
-                  handleOnFavorite(isFavorite, item);
-                }}
-                imageSource={item?.items[0]?.images[0]?.imageUrl}
-                installmentsNumber={
+              onClickFavorite={(isFavorite) => {
+                handleOnFavorite(isFavorite, item);
+              }}
+              imageSource={item?.items[0]?.images[0]?.imageUrl}
+              installmentsNumber={
                   installmentsNumber?.NumberOfInstallments || 1
                 }
-                installmentsPrice={
+              installmentsPrice={
                   installmentPrice?.Value || cashPaymentPrice || 0
                 }
-                currency="R$"
-                discountTag={getPercent(
-                  sellingPrice,
-                  listPrice,
-                )}
-                saleOff={getSaleOff(item)}
-                priceWithDiscount={sellingPrice}
-                price={listPrice || 0}
-                productTitle={item.productName}
-                onClickImage={() =>
-                {
-                  EventProvider.logEvent('select_item', {
-                    item_list_id: item?.productId,
-                    item_list_name: item?.productName,
-                    wbrand: getBrandByUrl(products),
-                  });
+              currency="R$"
+              discountTag={getPercent(
+                sellingPrice,
+                listPrice,
+              )}
+              saleOff={getSaleOff(item)}
+              priceWithDiscount={sellingPrice}
+              price={listPrice || 0}
+              productTitle={item.productName}
+              onClickImage={() => {
+                EventProvider.logEvent('select_item', {
+                  item_list_id: item?.productId,
+                  item_list_name: item?.productName,
+                  wbrand: getBrandByUrl(products),
+                });
 
-                  navigation.navigate('ProductDetail', createNavigateToProductParams({
-                    productId: item.productId,
-                    colorSelected: getVariant(item.items[0]?.variations, 'ID_COR_ORIGINAL'),
-                  }));
-                  if (handleScrollToTheTop)
-                  {
-                    handleScrollToTheTop();
-                  }
-                }}
-              />
-            );
-          }}
-        />
-      </>
+                navigation.navigate('ProductDetail', createNavigateToProductParams({
+                  productId: item.productId,
+                  colorSelected: getVariant(item.items[0]?.variations, 'ID_COR_ORIGINAL'),
+                }));
+                if (handleScrollToTheTop) {
+                  handleScrollToTheTop();
+                }
+              }}
+            />
+          );
+        }}
+      />
       <Box
         flexDirection="row"
         alignSelf="center"
@@ -327,4 +309,4 @@ export const ListHorizontalProducts = ({
       </Box>
     </>
   );
-};
+}

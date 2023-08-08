@@ -10,7 +10,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
-export const WithdrawInStore = () => {
+export function WithdrawInStore() {
   const navigation = useNavigation();
   const [state, setState] = useState('UF');
   const [cep, setCep] = useState('');
@@ -74,4 +74,4 @@ export const WithdrawInStore = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

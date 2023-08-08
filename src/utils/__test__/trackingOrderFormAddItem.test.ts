@@ -61,24 +61,22 @@ describe('trackingOrderFormAddItem', () => {
       wbrand: productMock?.additionalInfo.brandName,
     });
 
-    EventProvider.sendTrackEvent(
-      'adicionou-produto-ao-carrinho', {
-        id: ditoIdMock,
-        action: 'adicionou-produto-ao-carrinho',
-        data: {
-          marca: productMock?.additionalInfo?.brandName || '',
-          id_produto: idMock,
-          nome_produto: productMock?.name || '',
-          nome_categoria: Object.entries(productMock.productCategories)
-            .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
-            .join(', '),
-          tamanho: productMock.skuName.split(' - ')[1],
-          cor: productMock.skuName.split(' - ')[0],
-          preco_produto: (productMock.sellingPrice || 0) / 100,
-          origem: 'app',
-        },
+    EventProvider.sendTrackEvent('adicionou-produto-ao-carrinho', {
+      id: ditoIdMock,
+      action: 'adicionou-produto-ao-carrinho',
+      data: {
+        marca: productMock?.additionalInfo?.brandName || '',
+        id_produto: idMock,
+        nome_produto: productMock?.name || '',
+        nome_categoria: Object.entries(productMock.productCategories)
+          .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
+          .join(', '),
+        tamanho: productMock.skuName.split(' - ')[1],
+        cor: productMock.skuName.split(' - ')[0],
+        preco_produto: (productMock.sellingPrice || 0) / 100,
+        origem: 'app',
       },
-    );
+    });
     expect(logEventSpy).toHaveBeenCalledTimes(2);
     expect(trackEventSpy).toHaveBeenCalled();
   });

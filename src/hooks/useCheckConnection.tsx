@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import NetInfo, { useNetInfo } from '@react-native-community/netinfo';
-import {
-  Typography, Box, Button,
-} from '@usereservaapp/reserva-ui';
 import IconComponent from '../components/IconComponent/IconComponent';
 import ModalCheckUserConnection from '../modules/Register/component/ModalCheckUserConnection';
 import useAuthModalStore from '../zustand/useAuthModalStore';
+import { Box } from '../components/Box/Box';
+import { Typography } from '../components/Typography/Typography';
+import { Button } from '../components/Button';
 
 interface IuseCheckConnection {
   refetch?: () => void
@@ -43,7 +43,7 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
     checkConnectivity();
   }, [netInfo]);
 
-  const ModalWithoutInternet = () => {
+  function ModalWithoutInternet() {
     if (!showScreen) {
       return (
         <></>
@@ -51,9 +51,9 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
     }
 
     return <ModalCheckUserConnection />;
-  };
+  }
 
-  const WithoutInternet = () => {
+  function WithoutInternet() {
     if (!showScreen) {
       return (
         <></>
@@ -94,7 +94,7 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
         </Box>
       </Box>
     );
-  };
+  }
 
   return {
     showScreen,

@@ -49,7 +49,7 @@ interface ListProductsProps {
   handleScrollToTheTop?: () => void;
 }
 
-export const ListVerticalProducts = ({
+export function ListVerticalProducts({
   cleanFilter,
   products,
   horizontal,
@@ -58,7 +58,7 @@ export const ListVerticalProducts = ({
   loadMoreProducts,
   totalProducts,
   handleScrollToTheTop,
-}: ListProductsProps) => {
+}: ListProductsProps) {
   const { getBoolean } = useRemoteConfig();
 
   const navigation = useNavigation();
@@ -237,135 +237,133 @@ export const ListVerticalProducts = ({
       )}
 
       {products && products.length > 0 && (
-        <>
-          <FlatList
-            horizontal={horizontal}
-            data={products}
-            bounces={false}
-            testID="com.usereserva:id/list_vertical_flat_list"
-            keyExtractor={(item, index) => `${item.productId} ${index}`}
-            numColumns={horizontal ? 1 : 2}
-            ListEmptyComponent={() => (
-              <Box height="100%">
-                <Typography
-                  textAlign="center"
-                  fontFamily="nunitoRegular"
-                  fontSize={16}
-                >
-                  Produtos não encontrados
-                </Typography>
-              </Box>
-            )}
-            onEndReached={async () => {
-              if (totalProducts) {
-                if (products?.length < totalProducts) {
-                  setIsLoadingMore(true);
-                  if (totalProducts > products?.length) {
-                    await loadMoreProducts(products?.length);
-                  }
-                  setIsLoadingMore(false);
-                } else {
-                  setIsLoadingMore(false);
+        <FlatList
+          horizontal={horizontal}
+          data={products}
+          bounces={false}
+          testID="com.usereserva:id/list_vertical_flat_list"
+          keyExtractor={(item, index) => `${item.productId} ${index}`}
+          numColumns={horizontal ? 1 : 2}
+          ListEmptyComponent={() => (
+            <Box height="100%">
+              <Typography
+                textAlign="center"
+                fontFamily="nunitoRegular"
+                fontSize={16}
+              >
+                Produtos não encontrados
+              </Typography>
+            </Box>
+          )}
+          onEndReached={async () => {
+            if (totalProducts) {
+              if (products?.length < totalProducts) {
+                setIsLoadingMore(true);
+                if (totalProducts > products?.length) {
+                  await loadMoreProducts(products?.length);
                 }
+                setIsLoadingMore(false);
               } else {
                 setIsLoadingMore(false);
               }
-            }}
-            ListFooterComponent={() => {
-              if (!(isLoadingMore || isLoading)) return null;
-              return (
-                <Box
-                  width="100%"
-                  height={80}
-                  color="verdeSucesso"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <LottieView
-                    source={loadingSpinner}
-                    style={{
-                      width: 40,
-                    }}
-                    autoPlay
-                    loop
-                  />
-                </Box>
-              );
-            }}
-            onEndReachedThreshold={0.5}
-            ListHeaderComponent={listHeader}
-            renderItem={({ item, index }) => {
-              const {
-                listPrice,
-                sellingPrice,
-                installmentsNumber,
-                cashPaymentPrice,
-                installmentPrice,
-              } = getItemPrice(item.items[0]);
+            } else {
+              setIsLoadingMore(false);
+            }
+          }}
+          ListFooterComponent={() => {
+            if (!(isLoadingMore || isLoading)) return null;
+            return (
+              <Box
+                width="100%"
+                height={80}
+                color="verdeSucesso"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <LottieView
+                  source={loadingSpinner}
+                  style={{
+                    width: 40,
+                  }}
+                  autoPlay
+                  loop
+                />
+              </Box>
+            );
+          }}
+          onEndReachedThreshold={0.5}
+          ListHeaderComponent={listHeader}
+          renderItem={({ item, index }) => {
+            const {
+              listPrice,
+              sellingPrice,
+              installmentsNumber,
+              cashPaymentPrice,
+              installmentPrice,
+            } = getItemPrice(item.items[0]);
 
-              // prime
-              const prime = getPrime(item, promo);
+            // prime
+            const prime = getPrime(item, promo);
 
-              const product = item.items[0];
-              const colors = showThumbColors
-                ? (product?.variations || [])
-                  .filter(({ name, values }) => !!(name === 'VALOR_HEX_ORIGINAL' && values?.length))
-                  .map(({ values }) => values![0]!)
-                : [];
+            const product = item.items[0];
+            const colors = showThumbColors
+              ? (product?.variations || [])
+                .filter(({ name, values }) => !!(name === 'VALOR_HEX_ORIGINAL' && values?.length))
+                .map(({ values }) => values![0]!)
+              : [];
 
-              return (
-                <ProductItem
-                  item={item}
-                  index={index}
-                  horizontal={horizontal}
-                  prime={showPrimePrice ? prime : null}
-                  loadingFavorite={
+            return (
+              <ProductItem
+                item={item}
+                index={index}
+                horizontal={horizontal}
+                prime={showPrimePrice ? prime : null}
+                loadingFavorite={
                     !!loadingFavorite.find((x) => x === item?.items[0]?.itemId)
                   }
-                  showThumbColors={showThumbColors}
-                  colors={colors || []}
-                  isFavorited={!!favorites.find((x) => x.sku === item.items[0]?.itemId)}
-                  onClickFavorite={(isFavorite) => {
-                    handleOnFavorite(isFavorite, item);
-                  }}
-                  imageSource={item?.items[0]?.images[0]?.imageUrl}
-                  installmentsNumber={installmentsNumber?.NumberOfInstallments || 1}
-                  installmentsPrice={installmentPrice?.Value || cashPaymentPrice || 0}
-                  currency="R$"
-                  discountTag={getPercent(sellingPrice, listPrice)}
-                  saleOff={getSaleOff(item)}
-                  priceWithDiscount={sellingPrice}
-                  price={listPrice || 0}
-                  productTitle={item.productName}
-                  testID={`com.usereserva:id/productcard_vertical_${slugify(item.productId)}`}
-                  onClickImage={() => {
-                    EventProvider.logEvent('page_view', {
-                      wbrand: defaultBrand.picapau,
-                    });
-                    EventProvider.logEvent('select_item', {
-                      item_list_id: item?.productId,
-                      item_list_name: item?.productName,
-                      wbrand: getBrandByUrl(products),
-                    });
+                showThumbColors={showThumbColors}
+                colors={colors || []}
+                isFavorited={!!favorites.find((x) => x.sku === item.items[0]?.itemId)}
+                onClickFavorite={(isFavorite) => {
+                  handleOnFavorite(isFavorite, item);
+                }}
+                imageSource={item?.items[0]?.images[0]?.imageUrl}
+                installmentsNumber={installmentsNumber?.NumberOfInstallments || 1}
+                installmentsPrice={installmentPrice?.Value || cashPaymentPrice || 0}
+                currency="R$"
+                discountTag={getPercent(sellingPrice, listPrice)}
+                saleOff={getSaleOff(item)}
+                priceWithDiscount={sellingPrice}
+                price={listPrice || 0}
+                productTitle={item.productName}
+                testID={`com.usereserva:id/productcard_vertical_${slugify(item.productId)}`}
+                onClickImage={() => {
+                  EventProvider.logEvent('page_view', {
+                    wbrand: defaultBrand.picapau,
+                  });
+                  EventProvider.logEvent('select_item', {
+                    item_list_id: item?.productId,
+                    item_list_name: item?.productName,
+                    wbrand: getBrandByUrl(products),
+                  });
 
-                    navigation.navigate(
-                      'ProductDetail',
-                      createNavigateToProductParams({ skuId: item?.items[0]?.itemId }),
-                    );
+                  navigation.navigate(
+                    'ProductDetail',
+                    createNavigateToProductParams({ skuId: item?.items[0]?.itemId }),
+                  );
 
-                    if (handleScrollToTheTop) {
-                      handleScrollToTheTop();
-                    }
-                  }}
-                />
-              );
-            }}
-          />
-        </>
+                  if (handleScrollToTheTop) {
+                    handleScrollToTheTop();
+                  }
+                }}
+              />
+            );
+          }}
+        />
       )}
     </>
   );
-};
+}
 
 interface ProductItemInterface extends ProductVerticalListCardProps {
   item: any;

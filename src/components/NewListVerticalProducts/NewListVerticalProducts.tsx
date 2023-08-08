@@ -1,17 +1,16 @@
-import {
-  Box, Typography,
-} from '@usereservaapp/reserva-ui';
+import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useMemo } from 'react';
 import { ActivityIndicator, FlatList } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import type { ProductListOutput } from '../../base/graphql/generated';
-import { defaultBrand } from '../../utils/defaultWBrand';
-import EventProvider from '../../utils/EventProvider';
-import { ProductVerticalListCard } from '../ProductVerticalListCard';
-import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { COLORS } from '../../base/styles/colors';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
+import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { useWishlistActions } from '../../hooks/useWishlistActions';
+import EventProvider from '../../utils/EventProvider';
+import { defaultBrand } from '../../utils/defaultWBrand';
+import { Box } from '../Box/Box';
+import { ProductVerticalListCard } from '../ProductVerticalListCard';
+import { Typography } from '../Typography/Typography';
 
 interface ListProductsProps {
   data: ProductListOutput[];
@@ -69,6 +68,7 @@ function NewListVerticalProducts({
             wbrand: item.brand,
           });
 
+          // @ts-ignore
           navigation.navigate('ProductDetail', { skuId: item.skuId });
         }}
         colors={showThumbColors ? (item.colors || []) : []}
@@ -98,6 +98,32 @@ function NewListVerticalProducts({
     showThumbColors,
   ]);
 
+  const Empty = useMemo(() => (
+    <Box height="100%">
+      <Typography textAlign="center" fontFamily="nunitoRegular" fontSize={16}>
+        Produtos não encontrados
+      </Typography>
+    </Box>
+  ), []);
+
+  const Footer = useMemo(() => {
+    if (!loading) {
+      return null;
+    }
+
+    return (
+      <Box
+        width="100%"
+        height={30}
+        color="verdeSucesso"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <ActivityIndicator size="small" color={COLORS.BLACK} />
+      </Box>
+    );
+  }, [loading]);
+
   return (
     <FlatList
       style={{ marginBottom: 180 }}
@@ -106,31 +132,11 @@ function NewListVerticalProducts({
       testID="com.usereserva:id/list_vertical_flat_list"
       keyExtractor={(item) => `${item.skuId}-${item.productName}`}
       numColumns={2}
-      ListEmptyComponent={() => (
-        <Box height="100%">
-          <Typography textAlign="center" fontFamily="nunitoRegular" fontSize={16}>
-            Produtos não encontrados
-          </Typography>
-        </Box>
-      )}
+      ListEmptyComponent={Empty}
       onEndReached={() => {
         if (data.length < total) onFetchMore();
       }}
-      ListFooterComponent={() => {
-        if (!loading) return null;
-
-        return (
-          <Box
-            width="100%"
-            height={30}
-            color="verdeSucesso"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <ActivityIndicator size="small" color={COLORS.BLACK} />
-          </Box>
-        );
-      }}
+      ListFooterComponent={Footer}
       onEndReachedThreshold={0.5}
       renderItem={({ item }) => onRenderItem(item)}
     />

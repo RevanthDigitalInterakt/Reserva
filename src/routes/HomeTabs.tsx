@@ -14,43 +14,43 @@ import { TabBar } from './TabBar';
 
 const Tab = createBottomTabNavigator();
 
-export const HomeTabs = () => (
-  <SafeAreaView
-    style={{ backgroundColor: theme.colors.white }}
-    flex={1}
-    testID="com.usereserva:id/home_tabs_buttons"
-  >
-    <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        initialParams={{ label: 'Início' }}
-      />
-      <Tab.Screen
-        name="Offers"
-        component={ProductCatalog}
-        initialParams={{
-          safeArea: false,
-          label: 'Promoções',
-        }}
-      />
-      <Tab.Screen
-        name="WishList"
-        component={WishList}
-        initialParams={{ label: 'Favoritos' }}
-
-      />
-      <Tab.Screen
-        name="Profile"
-        component={MenuProfile}
-        initialParams={{ label: 'Perfil' }}
-
-      />
-      <Tab.Screen
-        name="Call"
-        component={CallCenter}
-        initialParams={{ label: 'Central' }}
-      />
-    </Tab.Navigator>
-  </SafeAreaView>
-);
+export function HomeTabs() {
+  return (
+    <SafeAreaView
+      style={{ backgroundColor: theme.colors.white }}
+      flex={1}
+      testID="com.usereserva:id/home_tabs_buttons"
+    >
+      <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          initialParams={{ label: 'Início' }}
+        />
+        <Tab.Screen
+          name="Offers"
+          component={ProductCatalog}
+          initialParams={{
+            safeArea: false,
+            label: 'Promoções',
+          }}
+        />
+        <Tab.Screen
+          name="WishList"
+          component={WishList}
+          initialParams={{ label: 'Favoritos' }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={MenuProfile}
+          initialParams={{ label: 'Perfil' }}
+        />
+        <Tab.Screen
+          name="Call"
+          component={CallCenter}
+          initialParams={{ label: 'Central' }}
+        />
+      </Tab.Navigator>
+    </SafeAreaView>
+  );
+}

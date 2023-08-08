@@ -5,15 +5,14 @@ import { Animated, Dimensions, ImageBackground } from 'react-native';
 import Modal from 'react-native-modal';
 import Share from 'react-native-share';
 import
-  {
-    Box, Button, Icon, theme, Typography,
-  } from '@usereservaapp/reserva-ui';
+{
+  Box, Button, Icon, theme, Typography,
+} from '@usereservaapp/reserva-ui';
 
 import images from '../../../base/styles/icons';
 import testProps from '../../../utils/testProps';
 
-interface IData
-{
+interface IData {
   coupon: string;
   colorButton: string;
   titleButton: string;
@@ -23,8 +22,7 @@ interface IData
   colorBar: string;
   titleBar: string;
 }
-interface DiscoutCodeModalProps
-{
+interface DiscoutCodeModalProps {
   data: IData;
   isVisible: boolean;
   onClose: () => void;
@@ -36,8 +34,7 @@ const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
   data,
   isVisible,
   onClose,
-}) =>
-{
+}) => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
 
   const toastOpacity = useRef(new Animated.Value(0)).current;
@@ -45,13 +42,11 @@ const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
   const modalWidth = screenWidth - 20 * 2;
   const modalHeight = modalWidth - 45;
 
-  const closeModal = () =>
-  {
+  const closeModal = () => {
     setIsVisibleModal(false);
   };
 
-  const onClickCopy = () =>
-  {
+  const onClickCopy = () => {
     Clipboard.setString(data.coupon);
 
     Animated.sequence([
@@ -68,8 +63,7 @@ const DiscoutCodeModal: React.FC<DiscoutCodeModalProps> = ({
       }),
     ]).start(() => { });
   };
-  const onClickShare = () =>
-  {
+  const onClickShare = () => {
     Share.open({
       title: 'Compartilhar',
       message: data.shareMessage,

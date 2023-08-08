@@ -21,8 +21,10 @@ export function ShippingBar({ totalOrder, loading }: IShippingBar) {
 
   useInitialShippingBar(totalOrder, loading);
 
-  const isFreeShipping = useMemo(() => freeShippingValue === 0 || isPrime,
-    [freeShippingValue, isPrime]);
+  const isFreeShipping = useMemo(
+    () => freeShippingValue === 0 || isPrime,
+    [freeShippingValue, isPrime],
+  );
 
   return loadingBar ? (
     <Box mt="micro">

@@ -9,7 +9,7 @@ import { Box, Typography, Button } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { TopBarDefault } from '../Menu/components/TopBarDefault';
 
-const CallCenter = () => {
+function CallCenter() {
   const navigation = useNavigation();
 
   return (
@@ -75,6 +75,6 @@ const CallCenter = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}
 
 export default CallCenter;

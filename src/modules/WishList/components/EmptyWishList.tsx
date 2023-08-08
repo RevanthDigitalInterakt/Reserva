@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import IconComponent from '../../../components/IconComponent/IconComponent';
 
-export const EmptyWishList = () => {
+export function EmptyWishList() {
   const navigation = useNavigation();
 
   return (
@@ -34,4 +34,4 @@ export const EmptyWishList = () => {
       </Box>
     </ScrollView>
   );
-};
+}

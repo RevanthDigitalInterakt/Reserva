@@ -16,7 +16,7 @@ interface ConfigContextProviderProps {
   children?: ReactNode;
 }
 
-const ConfigContextProvider = ({ children }: ConfigContextProviderProps) => {
+function ConfigContextProvider({ children }: ConfigContextProviderProps) {
   const [offersPage, setOffersPage] = useState('#61dafb');
 
   const changeOffersPage = (value: string) => {
@@ -33,7 +33,7 @@ const ConfigContextProvider = ({ children }: ConfigContextProviderProps) => {
       {children}
     </ConfigContext.Provider>
   );
-};
+}
 
 export default ConfigContextProvider;
 

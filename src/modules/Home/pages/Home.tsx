@@ -41,7 +41,7 @@ import { durationToTimeString } from '../../../utils/durationToTimeString';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export const HomeScreen = () => {
+export function HomeScreen() {
   const { setOffersPage } = useConfigContext();
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { showModalSignUpComplete } = useAuthModalStore(['showModalSignUpComplete']);
@@ -310,4 +310,4 @@ export const HomeScreen = () => {
       {showModalSignUpComplete && <ModalSignUpComplete />}
     </Box>
   );
-};
+}

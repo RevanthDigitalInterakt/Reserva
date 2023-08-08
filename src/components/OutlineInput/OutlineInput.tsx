@@ -1,16 +1,13 @@
+import LottieView from 'lottie-react-native';
 import React, { useState } from 'react';
 import type { KeyboardTypeOptions } from 'react-native';
 import type { TextInputMaskOptionProp, TextInputMaskTypeProp } from 'react-native-masked-text';
-import LottieView from 'lottie-react-native';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
-import { Box, theme } from '@usereservaapp/reserva-ui';
-import {
-  Input,
-  InputMask,
-  type InputProps,
-} from '@usereservaapp/reserva-ui/src/components/TextField/TextField.styles';
 import { Button } from '../Button';
-import IconComponent from '../IconComponent/IconComponent';
+import { theme } from '../../base/usereservappLegacy/theme';
+import { Box } from '../Box/Box';
+import { Input, InputMask, type InputProps } from '../TextField/TextField.styles';
+import { loadingSpinner } from '../../../assets/animations';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
 
 interface OutlineInputProps extends InputProps {
   iconName?: string,
@@ -21,7 +18,6 @@ interface OutlineInputProps extends InputProps {
   onPressIcon?: (text: string) => void;
 }
 
-// TODO update revisar ICON linha 81
 export function OutlineInput({
   iconName,
   onChangeText,
@@ -38,9 +34,11 @@ export function OutlineInput({
     height: 32,
     style: { paddingVertical: 2 },
     alignItems: 'baseline',
-    onChangeText: (text: string) => {
-      setText(text);
-      onChangeText && onChangeText(text);
+    onChangeText: (value: string) => {
+      setText(value);
+      if (onChangeText) {
+        onChangeText(value);
+      }
     },
     fontFamily: 'nunitoRegular',
     fontSize: 13,
@@ -68,7 +66,6 @@ export function OutlineInput({
         )
         : <Input {...{ ...inputDefaultProps, ...inputProps }} />}
 
-      {/* TODO update */}
       {iconName && (
         <Box borderLeftColor="preto" borderLeftWidth="hairline" p="nano">
           {loading
@@ -86,11 +83,12 @@ export function OutlineInput({
             : (
               <Button
                 onPress={() => {
-                  onPressIcon && onPressIcon(text);
+                  if (onPressIcon) {
+                    onPressIcon(text);
+                  }
                 }}
                 variant="icone"
-                icon={<IconComponent icon={iconName} size={16} />}
-
+                icon={<IconLegacy name={iconName} size={16} />}
               />
             )}
         </Box>

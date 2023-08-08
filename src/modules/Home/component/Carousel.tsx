@@ -16,7 +16,7 @@ interface DefaultCarrouselProps {
   carrousel: CarouselType;
 }
 
-const DefaultCarrousel = ({ carrousel }: DefaultCarrouselProps) => {
+function DefaultCarrousel({ carrousel }: DefaultCarrouselProps) {
   const $carousel = useRef<ICarouselInstance>();
   const [currIndex, setCurrIndex] = useState(0);
 
@@ -118,6 +118,6 @@ const DefaultCarrousel = ({ carrousel }: DefaultCarrouselProps) => {
   }
 
   return null;
-};
+}
 
 export default DefaultCarrousel;

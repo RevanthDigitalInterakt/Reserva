@@ -46,7 +46,7 @@ function EditPasswordSuccessful() {
   );
 }
 
-export const EditPassword = () => {
+export function EditPassword() {
   const formRef = useRef<any>(null);
   const [showNewPassword, setShowNewPassword] = useState(true);
   const [showCurrentPassword, setShowCurrentPassword] = useState(true);
@@ -256,4 +256,4 @@ export const EditPassword = () => {
       )}
     </SafeAreaView>
   );
-};
+}

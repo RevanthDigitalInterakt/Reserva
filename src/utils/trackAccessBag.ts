@@ -8,18 +8,15 @@ export const trackAccessBag = async (
   price: number,
   brands: string,
   profile: IBagStore['clientProfileData'],
-) =>
-{
-  try
-  {
+) => {
+  try {
     const id = profile?.email
       ? await getAsyncStorageItem('@Dito:userRef')
       : await AsyncStorage.getItem('@Dito:anonymousID');
 
     if (!quantity) return;
 
-    EventProvider.sendTrackEvent(
-      'acessou-carrinho', {
+    EventProvider.sendTrackEvent('acessou-carrinho', {
       id,
       action: 'acessou-carrinho',
       data: {
@@ -28,10 +25,8 @@ export const trackAccessBag = async (
         marca: brands,
         origem: 'app',
       },
-    },
-    );
-  } catch (e)
-  {
+    });
+  } catch (e) {
     EventProvider.captureException(e);
   }
 };

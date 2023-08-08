@@ -12,14 +12,14 @@ interface IPros {
   price: number;
 }
 
-const ProductPriceRow = ({
+function ProductPriceRow({
   installmentsNumber,
   currency,
   installmentsPrice,
   discountTag,
   priceWithDiscount,
   price,
-}: IPros) => {
+}: IPros) {
   const finalPrice = useMemo(() => (
     discountTag && priceWithDiscount ? priceWithDiscount : price
   ), [discountTag, priceWithDiscount, price]);
@@ -53,6 +53,6 @@ const ProductPriceRow = ({
       </Text>
     </View>
   );
-};
+}
 
 export default ProductPriceRow;

@@ -24,13 +24,13 @@ interface RegisterPhoneNumberContainerProps {
   navigateToNumberRegisteredSuccessfully: () => void;
 }
 
-export const RegisterPhoneNumberContainer = ({
+export function RegisterPhoneNumberContainer({
   profile,
   isChangeNumber,
   confirmPhone,
   navigateBack,
   navigateToNumberRegisteredSuccessfully,
-}: RegisterPhoneNumberContainerProps) => {
+}: RegisterPhoneNumberContainerProps) {
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
   const [openConfirmCodeSection, setOpenConfirmCodeSection] = useState(false);
@@ -245,4 +245,4 @@ export const RegisterPhoneNumberContainer = ({
       />
     </>
   );
-};
+}

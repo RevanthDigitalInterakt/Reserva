@@ -12,18 +12,16 @@ describe('trackingOrderFormAddItem', () => {
   const ditoIdMock = '13292922780';
 
   it('should call event', () => {
-    EventProvider.sendTrackEvent(
-      'acessou-carrinho', {
-        id: ditoIdMock,
-        action: 'acessou-carrinho',
-        data: {
-          quantidade: quantityMock,
-          total: priceMock,
-          marca: brandsMock,
-          origem: 'app',
-        },
+    EventProvider.sendTrackEvent('acessou-carrinho', {
+      id: ditoIdMock,
+      action: 'acessou-carrinho',
+      data: {
+        quantidade: quantityMock,
+        total: priceMock,
+        marca: brandsMock,
+        origem: 'app',
       },
-    );
+    });
     expect(trackEventSpy).toHaveBeenCalled();
   });
 

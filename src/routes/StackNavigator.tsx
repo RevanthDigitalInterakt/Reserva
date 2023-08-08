@@ -163,53 +163,55 @@ const flows: Flow[] = [
 
 export const MainStack = createStackNavigator();
 
-export const MainStackScreen = () => (
-  <MainStack.Navigator
-    detachInactiveScreens
-    screenOptions={{ headerShown: false }}
-  >
-    <MainStack.Screen name="HomeTabs" component={HomeTabs} />
+export function MainStackScreen() {
+  return (
+    <MainStack.Navigator
+      detachInactiveScreens
+      screenOptions={{ headerShown: false }}
+    >
+      <MainStack.Screen name="HomeTabs" component={HomeTabs} />
 
-    {flows.map((flow: Flow) => (
+      {flows.map((flow: Flow) => (
+        <MainStack.Screen
+          key={`${flow.name}`}
+          name={flow.name}
+          component={flow.component}
+          initialParams={flow.initialParams}
+        />
+      ))}
+      <MainStack.Screen name="SearchMenu" component={SearchABTest} />
       <MainStack.Screen
-        key={`${flow.name}`}
-        name={flow.name}
-        component={flow.component}
-        initialParams={flow.initialParams}
+        name="ChangeRegionalization"
+        component={ChangeRegionalization}
       />
-    ))}
-    <MainStack.Screen name="SearchMenu" component={SearchABTest} />
-    <MainStack.Screen
-      name="ChangeRegionalization"
-      component={ChangeRegionalization}
-    />
-    <MainStack.Screen name="CEPList" component={CEPList} />
-    <MainStack.Screen name="RonRedirectToBag" component={RonRedirectToBag} />
-    <MainStack.Screen name="AsyncDeepLink" component={AsyncDeepLinkScreenLoading} />
+      <MainStack.Screen name="CEPList" component={CEPList} />
+      <MainStack.Screen name="RonRedirectToBag" component={RonRedirectToBag} />
+      <MainStack.Screen name="AsyncDeepLink" component={AsyncDeepLinkScreenLoading} />
 
-    <MainStack.Screen
-      name="BagScreen"
-      component={BagABTest}
-      initialParams={{ isProfileComplete: false }}
-    />
+      <MainStack.Screen
+        name="BagScreen"
+        component={BagABTest}
+        initialParams={{ isProfileComplete: false }}
+      />
 
-    <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
-    <MainStack.Screen name="Checkout" component={Checkout} />
-    <MainStack.Screen name="WithdrawInStore" component={WithdrawInStore} />
-    <MainStack.Screen name="MapScreen" component={MapScreen} />
-    <MainStack.Screen name="Cashback" component={Cashback} />
-    <MainStack.Screen name="Credits" component={Credits} />
-    <MainStack.Screen name="EditProfile" component={EditProfile} />
-    <MainStack.Screen name="EditPassword" component={EditPassword} />
+      <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
+      <MainStack.Screen name="Checkout" component={Checkout} />
+      <MainStack.Screen name="WithdrawInStore" component={WithdrawInStore} />
+      <MainStack.Screen name="MapScreen" component={MapScreen} />
+      <MainStack.Screen name="Cashback" component={Cashback} />
+      <MainStack.Screen name="Credits" component={Credits} />
+      <MainStack.Screen name="EditProfile" component={EditProfile} />
+      <MainStack.Screen name="EditPassword" component={EditPassword} />
 
-    <MainStack.Screen
-      name="AccountDeletedSuccessfully"
-      component={AccountDeletedSuccessfully}
-    />
+      <MainStack.Screen
+        name="AccountDeletedSuccessfully"
+        component={AccountDeletedSuccessfully}
+      />
 
-    <MainStack.Screen name="CallCenter" component={CallCenter} />
-    <MainStack.Screen name="WebviewZendesk" component={WebviewZendesk} />
+      <MainStack.Screen name="CallCenter" component={CallCenter} />
+      <MainStack.Screen name="WebviewZendesk" component={WebviewZendesk} />
 
-    <MainStack.Screen name="PrimeLP" component={PrimeLP} />
-  </MainStack.Navigator>
-);
+      <MainStack.Screen name="PrimeLP" component={PrimeLP} />
+    </MainStack.Navigator>
+  );
+}

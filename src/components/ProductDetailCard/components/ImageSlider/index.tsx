@@ -1,25 +1,25 @@
-/* eslint-disable react/no-array-index-key */
 import React, {
   useCallback, useRef, useState,
 } from 'react';
 import {
   ScrollView,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
+  type NativeSyntheticEvent,
+  type NativeScrollEvent,
 } from 'react-native';
-import { Box, Icon } from '@usereservaapp/reserva-ui';
 import { Button } from '../../../Button';
 import ImageComponent from '../../../ImageComponent/ImageComponent';
 import type { ImageSliderProps } from './types';
+import { Box } from '../../../Box/Box';
+import { IconLegacy } from '../../../IconLegacy/IconLegacy';
 
-export const ImageSlider = ({
+export function ImageSlider({
   images,
   width = 360,
   height = 374,
   onGoBack,
   onGoNext,
   imageIndexActual,
-}: ImageSliderProps) => {
+}: ImageSliderProps) {
   const [actualImage, setActualImage] = useState(0);
 
   const scrollRef = useRef<ScrollView>(null);
@@ -80,11 +80,11 @@ export const ImageSlider = ({
           onPress={() => {
             goBack();
           }}
-          icon={<Icon name="ChevronLeft" color="neutroFrio2" size={23} />}
+          icon={<IconLegacy name="ChevronLeft" color="neutroFrio2" size={23} />}
         />
       </Box>
       )}
-      {actualImage < images?.length - 1 && (
+      {actualImage < (images?.length || 0) - 1 && (
       <Box
         position="absolute"
         style={{ elevation: 3 }}
@@ -98,7 +98,7 @@ export const ImageSlider = ({
           onPress={() => {
             goNext();
           }}
-          icon={<Icon name="ChevronRight" color="neutroFrio2" size={23} />}
+          icon={<IconLegacy name="ChevronRight" color="neutroFrio2" size={23} />}
         />
       </Box>
       )}
@@ -125,4 +125,4 @@ export const ImageSlider = ({
       </ScrollView>
     </Box>
   );
-};
+}

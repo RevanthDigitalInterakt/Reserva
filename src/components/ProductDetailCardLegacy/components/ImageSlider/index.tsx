@@ -1,25 +1,25 @@
-/* eslint-disable react/no-array-index-key */
 import React, { createRef, useCallback, useState } from 'react';
 import {
   ScrollView,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
+  type NativeSyntheticEvent,
+  type NativeScrollEvent,
 } from 'react-native';
-import { Box, Icon } from '@usereservaapp/reserva-ui';
 import { Button } from '../../../Button';
 import type { ImageSliderProps } from './types';
 import ImageComponent from '../../../ImageComponent/ImageComponent';
+import { Box } from '../../../Box/Box';
+import { IconLegacy } from '../../../IconLegacy/IconLegacy';
 
 const scrollref = createRef<ScrollView>();
 
-export const ImageSlider = ({
+export function ImageSlider({
   images,
   width = 360,
   height = 374,
   onGoBack,
   onGoNext,
   imageIndexActual,
-}: ImageSliderProps) => {
+}: ImageSliderProps) {
   const [actualImage, setActualImage] = useState(0);
 
   imageIndexActual?.(actualImage);
@@ -78,11 +78,11 @@ export const ImageSlider = ({
             onPress={() => {
               goBack();
             }}
-            icon={<Icon name="ChevronLeft" color="neutroFrio2" size={23} />}
+            icon={<IconLegacy name="ChevronLeft" color="neutroFrio2" size={23} />}
           />
         </Box>
       )}
-      {actualImage < images?.length - 1 && (
+      {actualImage < (images?.length || 0) - 1 && (
         <Box
           position="absolute"
           style={{ elevation: 3 }}
@@ -96,7 +96,7 @@ export const ImageSlider = ({
             onPress={() => {
               goNext();
             }}
-            icon={<Icon name="ChevronRight" color="neutroFrio2" size={23} />}
+            icon={<IconLegacy name="ChevronRight" color="neutroFrio2" size={23} />}
           />
         </Box>
       )}
@@ -109,10 +109,10 @@ export const ImageSlider = ({
         ref={scrollref}
         showsHorizontalScrollIndicator={false}
       >
-        {images?.map((image, index) => (
-          <Box key={`product-card-${index}`} alignItems="center" width={width} height={height}>
+        {images?.map((image) => (
+          <Box key={`product-card-${image}`} alignItems="center" width={width} height={height}>
             <ImageComponent
-              key={index}
+              key={image}
               source={{ uri: image }}
               height={height}
               width={width}
@@ -123,4 +123,4 @@ export const ImageSlider = ({
       </ScrollView>
     </Box>
   );
-};
+}

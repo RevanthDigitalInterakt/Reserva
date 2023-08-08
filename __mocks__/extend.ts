@@ -62,8 +62,7 @@ jest.mock('@react-navigation/native', () => ({
 
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
-jest.mock('react-native-reanimated', () =>
-{
+jest.mock('react-native-reanimated', () => {
   // eslint-disable-next-line global-require
   const Reanimated = require('react-native-reanimated/mock');
   Reanimated.default.call = () => { };

@@ -5,16 +5,13 @@ import { defaultBrand } from './defaultWBrand';
 import { getBrands } from './getBrands';
 import type { OrderFormQuery } from '../base/graphql/generated';
 
-export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderFormQuery['orderForm']) =>
-{
-  try
-  {
+export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderFormQuery['orderForm']) => {
+  try {
     const product = orderForm?.items.find(
       (item) => item.id === id,
     );
 
-    if (!product)
-    {
+    if (!product) {
       return;
     }
 
@@ -36,8 +33,7 @@ export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderForm
       ? await getAsyncStorageItem('@Dito:userRef')
       : await AsyncStorage.getItem('@Dito:anonymousID');
 
-    EventProvider.sendTrackEvent(
-      'adicionou-produto-ao-carrinho', {
+    EventProvider.sendTrackEvent('adicionou-produto-ao-carrinho', {
       id: ditoId,
       action: 'adicionou-produto-ao-carrinho',
       data: {
@@ -52,10 +48,8 @@ export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderForm
         preco_produto: (product.sellingPrice || 0) / 100, // convertPrice
         origem: 'app',
       },
-    },
-    );
-  } catch (e)
-  {
+    });
+  } catch (e) {
     EventProvider.captureException(e);
   }
 };

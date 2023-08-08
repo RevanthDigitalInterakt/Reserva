@@ -19,7 +19,7 @@ import configDeviceSizes from '../../../../utils/configDeviceSizes';
 
 const BoxAnimation = createAnimatableComponent(Box);
 
-export type TFilterType = string|null|number|IFacet;
+export type TFilterType = string | null | number | IFacet;
 
 export interface IFilterModal {
   onClose: () => void;

@@ -25,7 +25,7 @@ interface IInputOption {
   style?: StyleProp<TextStyle>;
 }
 
-const InputOption = ({
+function InputOption({
   label,
   placeholder,
   maskType,
@@ -44,30 +44,32 @@ const InputOption = ({
   isLoading = false,
   style,
   ...rest
-}: IInputOption) => (
-  <Box mt="xxxs">
-    {isLoading ? <ActivityIndicator />
-      : (
-        <TextField
-          {...rest}
-          label={value ? label : undefined}
-          textAlignVertical={textAlignVertical}
-          height={height}
-          maskType={maskType}
-          maskOptions={maskOptions}
-          onChangeText={onChangeText}
-          placeholder={placeholder}
-          value={value}
-          editable={editable}
-          maxLength={maxLength}
-          autoCapitalize={autoCapitalize}
-          style={style}
-          touched={touched}
-          onTouchStart={onTouchStart}
-          error={error && touched ? `${error}` : ''}
-        />
-      )}
-  </Box>
-);
+}: IInputOption) {
+  return (
+    <Box mt="xxxs">
+      {isLoading ? <ActivityIndicator />
+        : (
+          <TextField
+            {...rest}
+            label={value ? label : undefined}
+            textAlignVertical={textAlignVertical}
+            height={height}
+            maskType={maskType}
+            maskOptions={maskOptions}
+            onChangeText={onChangeText}
+            placeholder={placeholder}
+            value={value}
+            editable={editable}
+            maxLength={maxLength}
+            autoCapitalize={autoCapitalize}
+            style={style}
+            touched={touched}
+            onTouchStart={onTouchStart}
+            error={error && touched ? `${error}` : ''}
+          />
+        )}
+    </Box>
+  );
+}
 
 export default InputOption;

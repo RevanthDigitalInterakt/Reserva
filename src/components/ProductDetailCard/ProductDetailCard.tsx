@@ -1,16 +1,16 @@
-import React from 'react';
 import LottieView from 'lottie-react-native';
-import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
-
+import React from 'react';
+import { Box } from '../Box/Box';
 import { Button } from '../Button';
-import { ImageSlider } from './components/ImageSlider';
-import { DiscountLabel } from '../ProductVerticalListCard';
 import IconComponent from '../IconComponent/IconComponent';
-
+import { IconLegacy } from '../IconLegacy/IconLegacy';
+import { DiscountLabel } from '../ProductVerticalListCard';
+import { Typography } from '../Typography/Typography';
+import { ImageSlider } from './components/ImageSlider';
 import type { ProductDetailCardProps } from './types';
+import { loadingSpinner } from '../../../assets/animations';
 
-export const ProductDetailCard = ({
+export function ProductDetailCard({
   images,
   discountTag,
   saleOff,
@@ -27,10 +27,11 @@ export const ProductDetailCard = ({
   imageIndexActual,
   avaibleUnits,
   testID,
-}: ProductDetailCardProps) => (
-  <Box alignItems="center" justifyContent="center">
-    <Box>
-      {!!discountTag && (
+}: ProductDetailCardProps) {
+  return (
+    <Box alignItems="center" justifyContent="center">
+      <Box>
+        {!!discountTag && (
         <Box
           position="absolute"
           style={{ elevation: 3 }}
@@ -45,8 +46,8 @@ export const ProductDetailCard = ({
             isDetail
           />
         </Box>
-      )}
-      {saleOff && (
+        )}
+        {saleOff && (
         <Box style={{ elevation: 3 }} position="absolute" top={discountTag ? 80 : 0} left={0} zIndex={1}>
           <IconComponent
             icon="saleOff"
@@ -54,36 +55,36 @@ export const ProductDetailCard = ({
             height={80}
           />
         </Box>
-      )}
+        )}
 
-      <Box>
-        <ImageSlider
-          images={images}
-          width={imagesWidth}
-          height={imagesHeight}
-          imageIndexActual={imageIndexActual}
-          onGoBack={(back) => {
-            if (onGoBackImage) {
-              onGoBackImage(back);
-            }
-          }}
-          onGoNext={(back) => {
-            if (onGoNextImage) {
-              onGoNextImage(back);
-            }
-          }}
-        />
+        <Box>
+          <ImageSlider
+            images={images}
+            width={imagesWidth}
+            height={imagesHeight}
+            imageIndexActual={imageIndexActual}
+            onGoBack={(back) => {
+              if (onGoBackImage) {
+                onGoBackImage(back);
+              }
+            }}
+            onGoNext={(back) => {
+              if (onGoNextImage) {
+                onGoNextImage(back);
+              }
+            }}
+          />
 
-        <Box
-          position="absolute"
-          top="2%"
-          right="4%"
-        >
           <Box
-            alignSelf="flex-start"
-            paddingTop="quarck"
+            position="absolute"
+            top="2%"
+            right="4%"
           >
-            {
+            <Box
+              alignSelf="flex-start"
+              paddingTop="quarck"
+            >
+              {
                 loadingFavorite
                   ? (
                     <Box
@@ -117,7 +118,7 @@ export const ProductDetailCard = ({
                         }
                       }}
                       icon={(
-                        <Icon
+                        <IconLegacy
                           name={isFavorited ? 'HeartRaised' : 'Heart'}
                           size={20}
                           color="preto"
@@ -126,6 +127,26 @@ export const ProductDetailCard = ({
                     />
                   )
 }
+              <Button
+                backgroundColor="rgba(255, 255, 255, 0.4)"
+                borderRadius={50}
+                alignItems="center"
+                justifyContent="center"
+                width={36}
+                height={36}
+                mt="nano"
+                variant="icone"
+                testID={`${testID}_share`}
+                onPress={onClickShare}
+                icon={<IconLegacy name="Share" size={16} color="preto" />}
+              />
+            </Box>
+          </Box>
+          <Box
+            position="absolute"
+            bottom="3%"
+            right="4%"
+          >
             <Button
               backgroundColor="rgba(255, 255, 255, 0.4)"
               borderRadius={50}
@@ -133,59 +154,40 @@ export const ProductDetailCard = ({
               justifyContent="center"
               width={36}
               height={36}
-              mt="nano"
               variant="icone"
-              testID={`${testID}_share`}
-              onPress={onClickShare}
-              icon={<Icon name="Share" size={16} color="preto" />}
+              onPress={setModalZoom}
+              testID={`${testID}_zoom`}
+              icon={<IconLegacy name="Expand" size={18} color="preto" />}
             />
           </Box>
         </Box>
-        <Box
-          position="absolute"
-          bottom="3%"
-          right="4%"
-        >
-          <Button
-            backgroundColor="rgba(255, 255, 255, 0.4)"
-            borderRadius={50}
-            alignItems="center"
-            justifyContent="center"
-            width={36}
-            height={36}
-            variant="icone"
-            onPress={setModalZoom}
-            testID={`${testID}_zoom`}
-            icon={<Icon name="Expand" size={18} color="preto" />}
-          />
-        </Box>
       </Box>
-    </Box>
 
-    {avaibleUnits && avaibleUnits !== 0 && avaibleUnits <= 5
+      {avaibleUnits && avaibleUnits !== 0 && avaibleUnits <= 5
         && (
         <Box width="100%" paddingY="quarck" bg="vermelhoAlerta" display="flex" justifyContent="center" alignItems="center">
           <Typography color="white" fontWeight="SemiBold" fontFamily="nunitoRegular">ÚLTIMAS UNIDADES</Typography>
         </Box>
         )}
 
-    <Box width="100%" paddingX="xxxs" marginTop="xxxs">
-      <Box
-        justifyContent="space-between"
-        flexDirection="row"
-        alignItems="center"
-        mb="xxxs"
-      >
-        <Box flex={1}>
-          <Typography
-            fontFamily="reservaSerifRegular"
-            fontSize={24}
-            textAlign="left"
-          >
-            {title}
-          </Typography>
+      <Box width="100%" paddingX="xxxs" marginTop="xxxs">
+        <Box
+          justifyContent="space-between"
+          flexDirection="row"
+          alignItems="center"
+          mb="xxxs"
+        >
+          <Box flex={1}>
+            <Typography
+              fontFamily="reservaSerifRegular"
+              fontSize={24}
+              textAlign="left"
+            >
+              {title}
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Box>
-  </Box>
-);
+  );
+}

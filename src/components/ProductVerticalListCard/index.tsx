@@ -1,23 +1,18 @@
-import {
-  Box,
-  Button,
-  Icon,
-  Typography,
-} from '@usereservaapp/reserva-ui';
-import {
-  loadingSpinner,
-} from '@usereservaapp/reserva-ui/src/assets/animations';
 import LottieView from 'lottie-react-native';
 import React from 'react';
-
 import { Text, View } from 'react-native';
 import configDeviceSizes from '../../utils/configDeviceSizes';
 import { decimalPart, integerPart } from '../../utils/numberUtils';
+import type { IGetPrimeReturn } from '../../zustand/usePrimeConfig/usePrimeConfig';
 import ImageComponent from '../ImageComponent/ImageComponent';
 import ProductPricePrimeRow from '../ProductPricePrimeLabelRow/ProductPricePrimeRow';
 import ProductPriceRow from '../ProductPriceRow/ProductPriceRow';
 import ProductThumbColorsRow from '../ProductThumbColorsRow/ProductThumbColorsRow';
-import type { IGetPrimeReturn } from '../../zustand/usePrimeConfig/usePrimeConfig';
+import { Box } from '../Box/Box';
+import { Typography } from '../Typography/Typography';
+import { loadingSpinner } from '../../../assets/animations';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
+import { Button } from '../Button';
 
 export interface ProductVerticalListCardProps {
   imageWidth?: number
@@ -38,7 +33,7 @@ export interface ProductVerticalListCardProps {
   isFavorited?: boolean
   onClickFavorite?: (favoriteState: boolean) => void
   onClickImage?: () => void
-  prime: IGetPrimeReturn | null
+  prime?: IGetPrimeReturn | null
   testID?: string;
 }
 
@@ -49,66 +44,68 @@ export interface DiscountLabelProps {
   isDetail?: boolean
 }
 
-export const DiscountLabel = ({
+export function DiscountLabel({
   discountTag,
   width,
   height,
   isDetail,
-}: DiscountLabelProps) => (
-  <Box
-    alignItems="center"
-    justifyContent="space-between"
-    position="absolute"
-    bg="vermelhoRSV"
-    width={width || configDeviceSizes.DEVICE_WIDTH * 0.1215}
-    height={height || configDeviceSizes.DEVICE_WIDTH * 0.1215}
-    py="quarck"
-  >
+}: DiscountLabelProps) {
+  return (
     <Box
-      flexDirection="row"
+      alignItems="center"
+      justifyContent="space-between"
       position="absolute"
-      alignItems="flex-start"
-      justifyContent="center"
-      left={5}
-      top={3}
+      bg="vermelhoRSV"
+      width={width || configDeviceSizes.DEVICE_WIDTH * 0.1215}
+      height={height || configDeviceSizes.DEVICE_WIDTH * 0.1215}
+      py="quarck"
     >
-      <Typography
-        fontFamily="reservaDisplayRegular"
-        fontSize={isDetail ? 36 : configDeviceSizes.DEVICE_WIDTH * 0.055}
-        color="white"
+      <Box
+        flexDirection="row"
+        position="absolute"
+        alignItems="flex-start"
+        justifyContent="center"
+        left={5}
+        top={3}
       >
-        {discountTag}
-      </Typography>
-      <Typography
-        fontFamily="reservaDisplayRegular"
-        fontSize={isDetail ? 20 : 11}
-        color="white"
-        textAlign="center"
-      >
-        %
-      </Typography>
-    </Box>
+        <Typography
+          fontFamily="reservaDisplayRegular"
+          fontSize={isDetail ? 36 : configDeviceSizes.DEVICE_WIDTH * 0.055}
+          color="white"
+        >
+          {discountTag}
+        </Typography>
+        <Typography
+          fontFamily="reservaDisplayRegular"
+          fontSize={isDetail ? 20 : 11}
+          color="white"
+          textAlign="center"
+        >
+          %
+        </Typography>
+      </Box>
 
-    <Box
-      flexDirection="row"
-      position="absolute"
-      justifyContent="center"
-      left={5}
-      bottom={isDetail ? -2 : -2}
-    >
-      <Typography
-        fontFamily="reservaDisplayRegular"
-        fontSize={isDetail ? 32 : configDeviceSizes.DEVICE_WIDTH * 0.045}
-        color="vermelhoAlerta"
-        textAlign="center"
+      <Box
+        flexDirection="row"
+        position="absolute"
+        justifyContent="center"
+        left={5}
+        bottom={isDetail ? -2 : -2}
       >
-        OFF
-      </Typography>
+        <Typography
+          fontFamily="reservaDisplayRegular"
+          fontSize={isDetail ? 32 : configDeviceSizes.DEVICE_WIDTH * 0.045}
+          color="vermelhoAlerta"
+          textAlign="center"
+        >
+          OFF
+        </Typography>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+}
 
-export const ProductVerticalListCard = ({
+export function ProductVerticalListCard({
   currency,
   imageSource,
   installmentsNumber,
@@ -129,54 +126,55 @@ export const ProductVerticalListCard = ({
   showThumbColors,
   prime,
   testID,
-}: ProductVerticalListCardProps) => (
-  <View>
-    <Box height="100%">
-      <Box position="absolute" zIndex={5} right={10} top={8}>
-        {loadingFavorite
-          ? (
-            <LottieView
-              source={loadingSpinner}
-              autoPlay
-              loop
-              style={{
-                width: 15,
-                height: 15,
-              }}
-            />
-          )
-          : (
-            <Button
-              width={30}
-              height={30}
-              hitSlop={{
-                top: 20, left: 20, bottom: 20, right: 20,
-              }}
-              variant="icone"
-              testID={`${testID}_favorite`}
-              onPress={() => {
-                if (onClickFavorite) {
-                  onClickFavorite(!isFavorited);
-                }
-              }}
-              icon={(
-                <Icon
-                  name={isFavorited ? 'HeartRaised' : 'Heart'}
-                  size={18}
-                  color="preto"
-                />
+}: ProductVerticalListCardProps) {
+  return (
+    <View>
+      <Box height="100%">
+        <Box position="absolute" zIndex={5} right={10} top={8}>
+          {loadingFavorite
+            ? (
+              <LottieView
+                source={loadingSpinner}
+                autoPlay
+                loop
+                style={{
+                  width: 15,
+                  height: 15,
+                }}
+              />
+            )
+            : (
+              <Button
+                width={30}
+                height={30}
+                hitSlop={{
+                  top: 20, left: 20, bottom: 20, right: 20,
+                }}
+                variant="icone"
+                testID={`${testID}_favorite`}
+                onPress={() => {
+                  if (onClickFavorite) {
+                    onClickFavorite(!isFavorited);
+                  }
+                }}
+                icon={(
+                  <IconLegacy
+                    name={isFavorited ? 'HeartRaised' : 'Heart'}
+                    size={18}
+                    color="preto"
+                  />
               )}
-            />
-          )}
-      </Box>
-
-      {discountTag ? (
-        <Box top={0} left={0} zIndex={1}>
-          <DiscountLabel discountTag={discountTag} />
+              />
+            )}
         </Box>
-      ) : <></>}
 
-      {saleOff && (
+        {discountTag ? (
+          <Box top={0} left={0} zIndex={1}>
+            <DiscountLabel discountTag={discountTag} />
+          </Box>
+        ) : <></>}
+
+        {saleOff && (
         <Box position="absolute" top={discountTag ? 50 : 0} left={0} zIndex={1}>
           <ImageComponent
             source={{ uri: saleOff }}
@@ -187,98 +185,98 @@ export const ProductVerticalListCard = ({
             resizeMode="cover"
           />
         </Box>
-      )}
+        )}
 
-      <Button
-        onPress={() => {
-          if (onClickImage) {
-            onClickImage();
-          }
-        }}
-        testID={testID}
-      >
-        <ImageComponent
-          source={{ uri: imageSource }}
-          height={small ? 160 : 248}
-          width={imageWidth || configDeviceSizes.DEVICE_WIDTH * 0.45}
-        />
-      </Button>
+        <Button
+          onPress={() => {
+            if (onClickImage) {
+              onClickImage();
+            }
+          }}
+          testID={testID}
+        >
+          <ImageComponent
+            source={{ uri: imageSource }}
+            height={small ? 160 : 248}
+            width={imageWidth || configDeviceSizes.DEVICE_WIDTH * 0.45}
+          />
+        </Button>
 
-      {!!showThumbColors && (
+        {!!showThumbColors && (
         <ProductThumbColorsRow
           identifier={`${productTitle}-${imageSource}-${price}`}
           colors={colors || []}
           limit={colorsLimit}
         />
-      )}
+        )}
 
-      <Box marginTop="micro" width={configDeviceSizes.DEVICE_WIDTH * 0.45}>
-        <Text
-          style={{ fontSize: 12, fontFamily: 'ReservaSans-Bold' }}
-        >
-          {productTitle}
-        </Text>
-
-        <Box>
-          {/* TODO create ProductCardLabelDiscount */}
-          {discountTag && priceWithDiscount && (
-          <Box
-            flexDirection="row"
-            alignItems="flex-end"
-            mt="nano"
+        <Box marginTop="micro" width={configDeviceSizes.DEVICE_WIDTH * 0.45}>
+          <Text
+            style={{ fontSize: 12, fontFamily: 'ReservaSans-Bold' }}
           >
-            <Typography
-              fontFamily="reservaSansRegular"
-              fontSize="9px"
-              color="neutroFrio2"
+            {productTitle}
+          </Text>
+
+          <Box>
+            {/* TODO create ProductCardLabelDiscount */}
+            {discountTag && priceWithDiscount && (
+            <Box
+              flexDirection="row"
+              alignItems="flex-end"
+              mt="nano"
             >
-              De
-            </Typography>
-            <Typography
-              fontFamily="reservaSansRegular"
-              fontSize="9px"
-              color="preto"
-            >
-              {` ${currency || 'R$'} `}
-            </Typography>
-            <Typography
-              fontFamily="reservaSansRegular"
-              fontSize="9px"
-              color="preto"
-              style={{
-                textDecorationLine: 'line-through',
-              }}
-            >
-              {`${integerPart(price)},`}
-            </Typography>
-            <Typography
-              fontFamily="reservaSansRegular"
-              fontSize="5px"
-              color="preto"
-              style={{
-                textDecorationLine: 'line-through',
-              }}
-            >
-              {`${decimalPart(price)}`}
-            </Typography>
+              <Typography
+                fontFamily="reservaSansRegular"
+                fontSize="9px"
+                color="neutroFrio2"
+              >
+                De
+              </Typography>
+              <Typography
+                fontFamily="reservaSansRegular"
+                fontSize="9px"
+                color="preto"
+              >
+                {` ${currency || 'R$'} `}
+              </Typography>
+              <Typography
+                fontFamily="reservaSansRegular"
+                fontSize="9px"
+                color="preto"
+                style={{
+                  textDecorationLine: 'line-through',
+                }}
+              >
+                {`${integerPart(price)},`}
+              </Typography>
+              <Typography
+                fontFamily="reservaSansRegular"
+                fontSize="5px"
+                color="preto"
+                style={{
+                  textDecorationLine: 'line-through',
+                }}
+              >
+                {`${decimalPart(price)}`}
+              </Typography>
+            </Box>
+            )}
           </Box>
-          )}
-        </Box>
 
-        <View style={{ marginTop: 8 }} />
+          <View style={{ marginTop: 8 }} />
 
-        <ProductPriceRow
-          installmentsNumber={installmentsNumber}
-          currency={currency}
-          installmentsPrice={installmentsPrice}
-          discountTag={discountTag}
-          priceWithDiscount={priceWithDiscount}
-          price={price}
-        />
+          <ProductPriceRow
+            installmentsNumber={installmentsNumber}
+            currency={currency}
+            installmentsPrice={installmentsPrice}
+            discountTag={discountTag}
+            priceWithDiscount={priceWithDiscount}
+            price={price}
+          />
 
-        <View style={{ marginTop: 6 }} />
+          <View style={{ marginTop: 6 }} />
 
-        {!!prime
+          {!!prime
         && (
         <ProductPricePrimeRow
           installmentsNumber={prime.primeInstallments.number}
@@ -289,7 +287,8 @@ export const ProductVerticalListCard = ({
           price={prime.primePrice}
         />
         )}
+        </Box>
       </Box>
-    </Box>
-  </View>
-);
+    </View>
+  );
+}

@@ -1,5 +1,4 @@
 import { ReactElement } from 'react';
-import { theme } from '@usereservaapp/reserva-ui';
 import type { TouchableOpacityProps } from 'react-native';
 import {
   WidthProps,
@@ -14,7 +13,9 @@ import {
   BorderRadiusProps,
   BackgroundColorProps,
 } from 'styled-system';
-import type { SvgIconProps } from '@usereservaapp/reserva-ui/src/components/Icon/SvgIcon';
+
+import type { theme } from '../../base/usereservappLegacy/theme';
+import type { SvgIconProps } from '../IconLegacy/SvgIcon';
 
 export type VariantStyles =
 | 'none'

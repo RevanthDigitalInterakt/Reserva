@@ -28,7 +28,7 @@ export enum BalanceType {
   FUTURE = 'future',
 }
 
-export const MyWalletContainer = ({ navigateBack }: MyWalletContainerProps) => {
+export function MyWalletContainer({ navigateBack }: MyWalletContainerProps) {
   const [balance, setBalance] = useState<number>(0);
   const [operationFilter, setOperationFilter] = useState<FilterOptions>(FilterOptions.ALL);
   const [
@@ -180,4 +180,4 @@ export const MyWalletContainer = ({ navigateBack }: MyWalletContainerProps) => {
       />
     </>
   );
-};
+}

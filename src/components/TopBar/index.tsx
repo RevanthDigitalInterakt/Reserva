@@ -1,17 +1,18 @@
 import React from 'react';
+import ProgressBar from 'react-native-progress/Bar';
 import type {
   ColorProps,
   LayoutProps,
   ShadowProps,
   SpaceProps,
 } from 'styled-system';
-import ProgressBar from 'react-native-progress/Bar';
-import {
-  Button, Box, Icon, theme,
-} from '@usereservaapp/reserva-ui';
-import testProps from '../../utils/testProps';
+import { theme } from '../../base/usereservappLegacy/theme';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
+import testProps from '../../utils/testProps';
+import { Box } from '../Box/Box';
+import { Button } from '../Button';
 import IconComponent from '../IconComponent/IconComponent';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
 
 export type IconTopBar = {
   name: string;
@@ -36,14 +37,14 @@ export interface TopBarProps
   LayoutProps<typeof theme>,
   ColorProps<typeof theme> {}
 
-export const TopBar = ({
+export function TopBar({
   showLogo = true,
   leftButton,
   rightButton1,
   rightButton2,
   loading = false,
   ...props
-}: TopBarProps) => {
+}: TopBarProps) {
   const { isPrime, primeActive } = usePrimeInfo();
 
   return (
@@ -91,7 +92,7 @@ export const TopBar = ({
           >
             {isPrime && primeActive
               ? <IconComponent icon="logoPrime" />
-              : <Icon name="Logo" color="vermelhoAlerta" size={24} />}
+              : <IconLegacy name="Logo" color="vermelhoAlerta" size={24} />}
           </Box>
         ) : (
           <Box
@@ -167,4 +168,4 @@ export const TopBar = ({
       )}
     </Box>
   );
-};
+}

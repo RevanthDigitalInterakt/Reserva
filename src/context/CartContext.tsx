@@ -47,15 +47,13 @@ import { getAsyncStorageItem, setAsyncStorageItem } from '../hooks/useAsyncStora
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { defaultBrand } from '../utils/defaultWBrand';
 
-interface ClientPreferencesData
-{
+interface ClientPreferencesData {
   attachmentId: string;
   locale: string;
   optinNewsLetter: boolean;
 }
 
-export interface ClientProfileData
-{
+export interface ClientProfileData {
   attachmentId: string;
   email: string;
   firstName: string;
@@ -71,8 +69,7 @@ export interface ClientProfileData
   isCorporate: boolean;
 }
 
-interface MarketingData
-{
+interface MarketingData {
   utmSource: any;
   utmMedium: any;
   utmCampaign: any;
@@ -82,34 +79,29 @@ interface MarketingData
   coupon: any;
   marketingTags: string[];
 }
-interface Message
-{
+interface Message {
   code: any;
   status: string;
   text: string;
 }
 
-interface Seller
-{
+interface Seller {
   id: string;
   name: string;
   logo: string;
 }
-interface SelectableGifts
-{
+interface SelectableGifts {
   availableGifts: IOrderFormItem[];
   availableQuantity: number;
   id: string;
 }
-interface Totalizers
-{
+interface Totalizers {
   id: string;
   name: string;
   value: number;
 }
 
-interface Address
-{
+interface Address {
   addressType: string;
   receiverName: string;
   addressId: string;
@@ -126,8 +118,7 @@ interface Address
   reference: any;
 }
 
-interface AvailableAddresses
-{
+interface AvailableAddresses {
   addressType: string;
   receiverName: string;
   addressId: string;
@@ -142,8 +133,7 @@ interface AvailableAddresses
   reference: any;
 }
 
-interface DeliveryIds
-{
+interface DeliveryIds {
   courierId: string;
   warehouseId: string;
   dockId: string;
@@ -151,8 +141,7 @@ interface DeliveryIds
   quantity: number;
 }
 
-interface Slas
-{
+interface Slas {
   id: string;
   name: string;
   deliveryIds: [DeliveryIds];
@@ -166,8 +155,7 @@ interface Slas
   pickupPointId: string;
   deliveryChannel: string;
 }
-interface LogisticsInfo
-{
+interface LogisticsInfo {
   itemIndex: number;
   selectedSla: string;
   selectedDeliveryChannel: string;
@@ -176,15 +164,13 @@ interface LogisticsInfo
   deliveryChannel: string;
 }
 
-interface BusinessHours
-{
+interface BusinessHours {
   DayOfWeek: number;
   OpeningTime: string;
   ClosingTime: string;
 }
 
-export interface PickupPoints
-{
+export interface PickupPoints {
   friendlyName: string;
   address: Address;
   additionalInfo: string;
@@ -192,16 +178,14 @@ export interface PickupPoints
   businessHours: BusinessHours[];
 }
 
-export interface items
-{
+export interface items {
   items: {
     distance?: number;
     pickupPoint: PickupPoints;
   }[];
 }
 
-interface ShippingData
-{
+interface ShippingData {
   attachmentId: string;
   address: Address;
   selectedAddresses: Address[];
@@ -210,13 +194,11 @@ interface ShippingData
   pickupPoints: PickupPoints[];
 }
 
-interface TemplateOptions
-{
+interface TemplateOptions {
   toggleCorporate: boolean;
 }
 
-interface CurrencyFormatInfo
-{
+interface CurrencyFormatInfo {
   currencyDecimalDigits: number;
   currencyDecimalSeparator: string;
   currencyGroupSeparator: string;
@@ -224,8 +206,7 @@ interface CurrencyFormatInfo
   startsWithCurrencySymbol: boolean;
 }
 
-interface StorePreferencesData
-{
+interface StorePreferencesData {
   countryCode: string;
   checkToSavePersonDataByDefault: boolean;
   templateOptions: TemplateOptions;
@@ -236,8 +217,7 @@ interface StorePreferencesData
   currencyFormatInfo: CurrencyFormatInfo;
 }
 
-export interface OrderForm
-{
+export interface OrderForm {
   canEditData: boolean;
   clientPreferencesData: ClientPreferencesData;
   clientProfileData: ClientProfileData;
@@ -258,8 +238,7 @@ export interface OrderForm
   userType: any;
   value: number;
 }
-export interface IOrderFormItem
-{
+export interface IOrderFormItem {
   unique: string;
   id: string;
   productId: string;
@@ -302,8 +281,7 @@ export interface IOrderFormItem
   manufacturerCode: any;
   priceDefinition: PriceDefinition;
 }
-interface AdditionalInfo
-{
+interface AdditionalInfo {
   dimension: any;
   brandName: string;
   brandId: string;
@@ -312,8 +290,7 @@ interface AdditionalInfo
   offeringTypeId: any;
 }
 
-interface PrioceTag
-{
+interface PrioceTag {
   name: string;
   value: number;
   rawValue: number;
@@ -321,15 +298,13 @@ interface PrioceTag
   identifier: string;
 }
 
-interface PriceDefinition
-{
+interface PriceDefinition {
   calculatedSellingPrice: number;
   total: number;
   sellingPrices: { value: number; quantity: number }[];
 }
 
-export interface PackageAttachment
-{
+export interface PackageAttachment {
   packages: {
     items: {
       itemIndex: number;
@@ -363,8 +338,7 @@ export interface PackageAttachment
   }[];
 }
 
-export interface IOrder
-{
+export interface IOrder {
   orderId: string;
   creationDate: string;
   clientName: string;
@@ -404,8 +378,7 @@ export interface IOrder
   deliveryDates: null;
 }
 
-export interface IOrderId
-{
+export interface IOrderId {
   orderId: string;
   sequence: string;
   marketplaceOrderId: string;
@@ -486,8 +459,7 @@ export interface IOrderId
   cancellationData: null;
 }
 
-export interface IAddItemDTO
-{
+export interface IAddItemDTO {
   quantity: number,
   itemId: string,
   seller: string,
@@ -504,8 +476,7 @@ export type TAddItemResponse = {
   message?: undefined;
 } | undefined;
 
-interface CartContextProps
-{
+interface CartContextProps {
   loading: boolean;
   topBarLoading: boolean;
   orderForm: OrderForm | undefined;
@@ -525,10 +496,10 @@ interface CartContextProps
     seller: string,
     qty: number
   ) => Promise<
-    | {
-      ok: boolean;
-    }
-    | undefined
+  | {
+    ok: boolean;
+  }
+  | undefined
   >;
   resetUserCheckout: () => Promise<boolean | undefined>;
   addCoupon: (coupon: string) => Promise<boolean | undefined>;
@@ -571,20 +542,18 @@ interface CartContextProps
   ) => void;
   toggleGiftWrapping: (
     flag: boolean, orderFormId: string, item: IOrderFormItem, index: number, cookie?: string) => (
-      Promise<void>
-    );
+    Promise<void>
+  );
   refreshOrderFormData: (orderFormId: string) => void;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
 
-interface CartContextProviderProps
-{
+interface CartContextProviderProps {
   children?: ReactNode;
 }
 
-const CartContextProvider = ({ children }: CartContextProviderProps) =>
-{
+function CartContextProvider({ children }: CartContextProviderProps) {
   const [orderForm, setOrderForm] = useState<OrderForm>();
   const [loading, setLoading] = useState<boolean>(false);
   const [sellerCode, setSellerCode] = useState<string>('');
@@ -594,10 +563,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
 
   const { actions } = useBagStore(['actions']);
 
-  useEffect(() =>
-  {
-    if (orderForm?.orderFormId && orderForm?.items)
-    {
+  useEffect(() => {
+    if (orderForm?.orderFormId && orderForm?.items) {
       setAsyncStorageItem('orderFormId', orderForm?.orderFormId)
         .then(actions.REFETCH_ORDER_FORM);
     }
@@ -615,19 +582,16 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
 
-  const _requestOrderForm = async () =>
-  {
+  const _requestOrderForm = async () => {
     const { data } = await CreateCart();
 
     setOrderForm(data);
   };
 
-  const _requestRestoreCart = async (orderFormId: string): Promise<OrderForm> =>
-  {
+  const _requestRestoreCart = async (orderFormId: string): Promise<OrderForm> => {
     const { data } = await RestoreCart(orderFormId);
 
-    if (orderFormId)
-    {
+    if (orderFormId) {
       setAsyncStorageItem('orderFormId', orderFormId);
     }
 
@@ -636,11 +600,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
     return data;
   };
 
-  const _selectedCouponSeller = async (sellerCouponCode: string) =>
-  {
+  const _selectedCouponSeller = async (sellerCouponCode: string) => {
     setLoading(true);
-    try
-    {
+    try {
       if (!orderForm?.orderFormId) return false;
 
       const { data } = await orderFormAddSellerCoupon({
@@ -650,38 +612,30 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
         },
       });
 
-      if (data?.orderFormAddSellerCoupon)
-      {
+      if (data?.orderFormAddSellerCoupon) {
         setSellerCode(sellerCouponCode);
-        if (data.orderFormAddSellerCoupon.marketingData)
-        {
+        if (data.orderFormAddSellerCoupon.marketingData) {
           setSellerName(splitSellerName(data.orderFormAddSellerCoupon.marketingData.marketingTags[2] || ''));
         }
         return true;
       }
 
       return false;
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
-    } finally
-    {
+    } finally {
       setLoading(false);
     }
     return false;
   };
 
-  const orderform = async () =>
-  {
+  const orderform = async () => {
     setLoading(true);
-    try
-    {
+    try {
       await _requestOrderForm();
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
-    } finally
-    {
+    } finally {
       setLoading(false);
     }
   };
@@ -691,34 +645,27 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
     selectableGiftsId: string,
     id: string,
     seller: string,
-  ) =>
-  {
+  ) => {
     setTopBarLoading(true);
-    try
-    {
+    try {
       const data = await SetGiftSize(
         orderFormId,
         selectableGiftsId,
         id,
         seller,
       );
-      if (data)
-      {
+      if (data) {
         await _requestOrderForm();
       }
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
-    } finally
-    {
+    } finally {
       setTopBarLoading(false);
     }
   };
 
-  const verifyEmail = async (email: string) =>
-  {
-    try
-    {
+  const verifyEmail = async (email: string) => {
+    try {
       const { data } = await checkIfUserExist({
         variables: {
           email,
@@ -726,8 +673,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
       });
 
       return data?.checkIfUserExists || false;
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
       return false;
     }
@@ -735,19 +681,16 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
 
   const convertPrice = (value: number) => value / 100;
 
-  const addItem = async (dto: IAddItemDTO): Promise<TAddItemResponse> =>
-  {
+  const addItem = async (dto: IAddItemDTO): Promise<TAddItemResponse> => {
     const {
       quantity, itemId, seller, index = -1, isUpdate = false, hasBundleItems = false,
     } = dto;
 
-    if (orderForm?.orderFormId)
-    {
+    if (orderForm?.orderFormId) {
       setAsyncStorageItem('orderFormId', orderForm.orderFormId);
     }
 
-    try
-    {
+    try {
       const isUpdateItem = hasBundleItems && isUpdate && index >= 0;
 
       const { data } = isUpdateItem
@@ -768,8 +711,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
       const idx = data.items.findIndex(({ id }: any) => id === itemId);
       const product = data.items[idx];
 
-      if (product.availability !== 'available')
-      {
+      if (product.availability !== 'available') {
         const productRemoved = await removeUnavailableProduct(
           product.id,
           idx,
@@ -800,8 +742,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
         ? await getAsyncStorageItem('@Dito:userRef')
         : await AsyncStorage.getItem('@Dito:anonymousID');
 
-      EventProvider.sendTrackEvent(
-        'adicionou-produto-ao-carrinho', {
+      EventProvider.sendTrackEvent('adicionou-produto-ao-carrinho', {
         id: ditoId,
         action: 'adicionou-produto-ao-carrinho',
         data: {
@@ -816,11 +757,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
           preco_produto: convertPrice(product.sellingPrice || 0),
           origem: 'app',
         },
-      },
-      );
+      });
       return { ok: !(product.quantity < quantity) };
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
@@ -830,10 +769,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
     index: number,
     seller: string,
     qty: number,
-  ) =>
-  {
-    try
-    {
+  ) => {
+    try {
       const productRemoved = orderForm?.items.find(
         (item: any) => item.id === itemId,
       );
@@ -853,8 +790,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
       });
 
       return { ok: true };
-    } catch (err)
-    {
+    } catch (err) {
       EventProvider.captureException(err);
     }
   };
@@ -863,10 +799,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
     itemId: string,
     index: number,
     seller: string,
-  ) =>
-  {
-    try
-    {
+  ) => {
+    try {
       const { data } = await RemoveItemFromCart(
         orderForm?.orderFormId,
         itemId,
@@ -876,54 +810,43 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
       );
 
       return !!data;
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
 
-  const resetUserCheckout = async () =>
-  {
-    try
-    {
+  const resetUserCheckout = async () => {
+    try {
       const { data } = await ResetUserCheckout(orderForm?.orderFormId);
       return !!data;
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
 
-  const refreshOrderFormData = async (orderFormId: string) =>
-  {
+  const refreshOrderFormData = async (orderFormId: string) => {
     await orderFormRefreshData({
       variables: {
         input: { orderFormId },
       },
     });
   };
-  const identifyCustomer = async () =>
-  {
-    try
-    {
-      if (orderForm?.orderFormId)
-      {
+  const identifyCustomer = async () => {
+    try {
+      if (orderForm?.orderFormId) {
         await refreshOrderFormData(orderForm?.orderFormId);
 
         const { data } = await RestoreData(orderForm?.orderFormId);
 
         setOrderForm(data);
       }
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
 
-  const addCustomer = async (customer: any) =>
-  {
-    try
-    {
+  const addCustomer = async (customer: any) => {
+    try {
       const data = await AddCustomerToOrder(orderForm?.orderFormId, {
         ...customer,
         email: orderForm?.clientProfileData.email,
@@ -937,16 +860,13 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
       setOrderForm(data);
 
       return !!data;
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
 
-  const addShippingData = async (address: Partial<Address>) =>
-  {
-    try
-    {
+  const addShippingData = async (address: Partial<Address>) => {
+    try {
       const data = await AddAddressToCart(orderForm?.orderFormId, {
         selectedAddresses: [
           {
@@ -960,8 +880,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
       setOrderForm(data);
 
       return !!data;
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
@@ -969,10 +888,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
   const addShippingOrPickupInfo = async (
     logisticsInfo: any[],
     selectedAddresses: any[],
-  ) =>
-  {
-    try
-    {
+  ) => {
+    try {
       const data = await AddAddressToCart(orderForm?.orderFormId, {
         selectedAddresses,
         logisticsInfo,
@@ -982,16 +899,13 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
       setOrderForm(data);
 
       return !!data;
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
 
-  const addCoupon = async (coupon: string) =>
-  {
-    try
-    {
+  const addCoupon = async (coupon: string) => {
+    try {
       const { data } = await addToCoupon(orderForm?.orderFormId, coupon);
       setOrderForm(data);
 
@@ -1001,34 +915,27 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
         .find((t: string) => t.includes(coupon));
 
       return !!isCouponInValid;
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
 
-  const removeCoupon = async (coupon: string) =>
-  {
+  const removeCoupon = async (coupon: string) => {
     setLoading(true);
-    try
-    {
+    try {
       const { data } = await removeCouponToOder(orderForm?.orderFormId, coupon);
       setOrderForm(data);
       return !!data;
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
-    } finally
-    {
+    } finally {
       setLoading(false);
     }
   };
 
-  const removeSellerCoupon = async (coupon: string) =>
-  {
+  const removeSellerCoupon = async (coupon: string) => {
     setTopBarLoading(true);
-    try
-    {
+    try {
       const { data } = await removeSellerCouponToOder(orderForm?.orderFormId, {
         ...orderForm?.marketingData,
         marketingTags: [''],
@@ -1037,87 +944,66 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
       setSellerName('');
       setOrderForm(data);
       return !!data;
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
-    } finally
-    {
+    } finally {
       setTopBarLoading(false);
     }
   };
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     orderform();
   }, []);
 
-  const sendUserEmail = async (email: string) =>
-  {
-    try
-    {
+  const sendUserEmail = async (email: string) => {
+    try {
       const { data } = await SendUserEmail(email);
       return !!data;
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
 
-  const convertZipCode = async (postalCode: string) =>
-  {
-    try
-    {
+  const convertZipCode = async (postalCode: string) => {
+    try {
       const { data } = await ConvertZipCode(postalCode);
       return data;
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
-  const tracking = async (cookie: string, order: string) =>
-  {
-    try
-    {
+  const tracking = async (cookie: string, order: string) => {
+    try {
       const { data } = await Tracking(cookie, order);
       return data;
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
 
-  const pickupPoint = async (longitude: string, latitude: string) =>
-  {
-    try
-    {
+  const pickupPoint = async (longitude: string, latitude: string) => {
+    try {
       const { data } = await PickupPoint(longitude, latitude);
       return data;
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
 
-  const orders = async (page: string) =>
-  {
-    try
-    {
+  const orders = async (page: string) => {
+    try {
       const { data } = await Orders(page);
       return data || [];
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
 
-  const orderDetail = async (orderId: string) =>
-  {
-    try
-    {
+  const orderDetail = async (orderId: string) => {
+    try {
       const { data } = await OrderDetail(orderId);
       return data || [];
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
@@ -1126,14 +1012,11 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
     page: string,
     email: string,
     cookie: string,
-  ) =>
-  {
-    try
-    {
+  ) => {
+    try {
       const { data } = await SearchNewOrders(page, email, cookie);
       return data || [];
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
@@ -1142,45 +1025,36 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
     page: string,
     email: string,
     cookie: string,
-  ) =>
-  {
-    try
-    {
+  ) => {
+    try {
       const { data } = await SearchNewOrderDetail(page, email, cookie);
       return data || [];
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   };
 
-  const updateOrderForm = async (): Promise<OrderForm | void> =>
-  {
-    if (orderForm)
-    {
+  const updateOrderForm = async (): Promise<OrderForm | void> => {
+    if (orderForm) {
       const { data } = await RestoreData(orderForm?.orderFormId);
       setOrderForm(data);
       return data;
     }
   };
 
-  const applyCouponOnPressed = async (sellerCouponCode?: string): Promise<void> =>
-  {
-    if (!sellerCouponCode)
-    {
+  const applyCouponOnPressed = async (sellerCouponCode?: string): Promise<void> => {
+    if (!sellerCouponCode) {
       setHasErrorApplyCoupon(true);
       return;
     }
 
-    if (!orderForm?.orderFormId)
-    {
+    if (!orderForm?.orderFormId) {
       setTopBarLoading(false);
       return;
     }
 
     setTopBarLoading(true);
-    try
-    {
+    try {
       const { data } = await orderFormAddSellerCoupon({
         variables: {
           coupon: sellerCouponCode,
@@ -1188,52 +1062,42 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
         },
       });
 
-      if (!data?.orderFormAddSellerCoupon)
-      {
+      if (!data?.orderFormAddSellerCoupon) {
         setHasErrorApplyCoupon(true);
         return;
       }
       setSellerCode(sellerCouponCode);
-      if (data.orderFormAddSellerCoupon.marketingData)
-      {
+      if (data.orderFormAddSellerCoupon.marketingData) {
         setSellerName(splitSellerName(data.orderFormAddSellerCoupon.marketingData.marketingTags[2] || ''));
       }
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
       setHasErrorApplyCoupon(true);
-    } finally
-    {
+    } finally {
       setTopBarLoading(false);
     }
   };
 
-  const restoreCart = async (orderFormId: string) =>
-  {
+  const restoreCart = async (orderFormId: string) => {
     setLoading(true);
-    try
-    {
+    try {
       const data = await _requestRestoreCart(orderFormId);
 
       const sellerCodeData = data?.marketingData?.marketingTags?.filter(
         (item) => item.startsWith('code_CodigoVendedor='),
       )[0];
 
-      if (sellerCodeData)
-      {
+      if (sellerCodeData) {
         const sellerId = sellerCodeData?.split('=')[1] as unknown as string | undefined;
-        if (sellerId)
-        {
+        if (sellerId) {
           await _selectedCouponSeller(sellerId);
         }
       }
 
       setOrderForm(data);
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
-    } finally
-    {
+    } finally {
       setLoading(false);
     }
   };
@@ -1244,14 +1108,11 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
     item: IOrderFormItem,
     index: number,
     cookie?: string,
-  ) =>
-  {
-    try
-    {
+  ) => {
+    try {
       setTopBarLoading(true);
 
-      if (flag)
-      {
+      if (flag) {
         const offeringId = item.offerings.filter((offering) => offering?.type === 'Embalagem pra Presente')[0].id;
 
         if (!offeringId) return;
@@ -1281,11 +1142,9 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
       );
 
       await _requestRestoreCart(orderFormId);
-    } catch (err)
-    {
+    } catch (err) {
       EventProvider.captureException(err);
-    } finally
-    {
+    } finally {
       setTopBarLoading(false);
     }
   };
@@ -1330,16 +1189,14 @@ const CartContextProvider = ({ children }: CartContextProviderProps) =>
       {children}
     </CartContext.Provider>
   );
-};
+}
 
 export default CartContextProvider;
 
 // hooks
-export const useCart = () =>
-{
+export const useCart = () => {
   const cartContext = useContext(CartContext);
-  if (!cartContext)
-  {
+  if (!cartContext) {
     throw new Error('use Auth must be used within a AuthContextProvider');
   }
 

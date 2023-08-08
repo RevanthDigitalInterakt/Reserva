@@ -14,7 +14,7 @@ interface CreditsContainerProps {
   navigateBack: () => void;
 }
 
-export const CreditsContainer = ({ navigateBack }: CreditsContainerProps) => {
+export function CreditsContainer({ navigateBack }: CreditsContainerProps) {
   const [creditsBalance, setCreditsBalance] = useState<number>(0);
   const [isLoyal, setIsLoyal] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -72,4 +72,4 @@ export const CreditsContainer = ({ navigateBack }: CreditsContainerProps) => {
       )}
     </>
   );
-};
+}

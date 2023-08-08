@@ -6,22 +6,24 @@ import Menu from '../pages/Menu';
 
 const RootStack = createStackNavigator();
 
-export const AppRouting = () => (
-  <RootStack.Navigator
-    initialRouteName="Main"
-    mode="modal"
-    screenOptions={{ headerShown: false }}
-  >
-    <RootStack.Screen
-      name="Main"
-      component={MainStackScreen}
-      options={{ headerShown: false }}
-    />
+export function AppRouting() {
+  return (
+    <RootStack.Navigator
+      initialRouteName="Main"
+      mode="modal"
+      screenOptions={{ headerShown: false }}
+    >
+      <RootStack.Screen
+        name="Main"
+        component={MainStackScreen}
+        options={{ headerShown: false }}
+      />
 
-    <RootStack.Screen
-      name="Menu"
-      options={horizontalAnimationBackwards}
-      component={Menu}
-    />
-  </RootStack.Navigator>
-);
+      <RootStack.Screen
+        name="Menu"
+        options={horizontalAnimationBackwards}
+        component={Menu}
+      />
+    </RootStack.Navigator>
+  );
+}

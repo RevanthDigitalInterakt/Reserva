@@ -1,6 +1,3 @@
-import {
-  Box, Button, Divider, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import React, { useCallback, useEffect } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
@@ -9,12 +6,17 @@ import { ListHorizontalProducts } from './ListHorizontalProducts';
 import EventProvider from '../../utils/EventProvider';
 import useRecommendation from '../../zustand/useRecommendation/useRecommendation';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
+import { Box } from '../Box/Box';
+import { Button } from '../Button';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
+import { Typography } from '../Typography/Typography';
+import { Divider } from '../Divider/Divider';
 
 interface IProductRecommendation {
   handleScrollToTheTop?: () => void;
 }
 
-export const ProductRecommendation = ({ handleScrollToTheTop }: IProductRecommendation) => {
+export function ProductRecommendation({ handleScrollToTheTop }: IProductRecommendation) {
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const BoxAnimated = createAnimatableComponent(Box);
 
@@ -74,7 +76,7 @@ export const ProductRecommendation = ({ handleScrollToTheTop }: IProductRecommen
       >
         <BoxAnimated flexDirection="row" alignItems="flex-start">
           <Box marginRight="micro">
-            <Icon name="Handbag" size={20} />
+            <IconLegacy name="Handbag" size={20} />
           </Box>
 
           <Box flex={1}>
@@ -84,7 +86,7 @@ export const ProductRecommendation = ({ handleScrollToTheTop }: IProductRecommen
           </Box>
 
           <Box marginRight="md">
-            <Icon
+            <IconLegacy
               name="ArrowDown"
               // @ts-ignore
               style={
@@ -118,4 +120,4 @@ export const ProductRecommendation = ({ handleScrollToTheTop }: IProductRecommen
       <Divider variant="fullWidth" my="xs" />
     </Box>
   );
-};
+}

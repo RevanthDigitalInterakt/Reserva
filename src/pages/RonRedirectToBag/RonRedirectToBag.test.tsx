@@ -5,18 +5,17 @@ import { ThemeProvider } from 'styled-components/native';
 import type { DocumentNode } from 'graphql';
 import AsyncStorageMock from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 import
-  {
-    cleanup,
-    render,
-    waitFor,
-  } from '@testing-library/react-native';
+{
+  cleanup,
+  render,
+  waitFor,
+} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RonRedirectToBag from './RonRedirectToBag';
 import { CartContext } from '../../context/CartContext';
 import { RonRedirectDocument, RonRedirectQuery, RonRedirectTypeEnum } from '../../base/graphql/generated';
 
-interface IApolloMock<T>
-{
+interface IApolloMock<T> {
   request: {
     query: DocumentNode;
     variables: object;
@@ -105,28 +104,26 @@ jest.mock('../../zustand/useApolloFetchPolicyStore', () => ({
 
 AsyncStorageMock.setItem = jest.fn();
 
-describe('RonRedirectToBag', () =>
-{
-  beforeEach(() =>
-  {
+describe('RonRedirectToBag', () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  afterEach(() =>
-  {
+  afterEach(() => {
     jest.clearAllTimers();
   });
 
-  it('renders without error and match snapshot', () =>
-  {
-    const MockedCartContext = ({ children }) => (
-      <CartContext.Provider value={{
-        orderform: jest.fn().mockResolvedValue({ orderFormId: '128adb08596442708ee89e2a0f561321' }),
-      }}
-      >
-        {children}
-      </CartContext.Provider>
-    );
+  it('renders without error and match snapshot', () => {
+    function MockedCartContext({ children }) {
+      return (
+        <CartContext.Provider value={{
+          orderform: jest.fn().mockResolvedValue({ orderFormId: '128adb08596442708ee89e2a0f561321' }),
+        }}
+        >
+          {children}
+        </CartContext.Provider>
+      );
+    }
 
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
@@ -150,17 +147,18 @@ describe('RonRedirectToBag', () =>
     cleanup();
   });
 
-  it('must load a ron with orderform code and setItem', async () =>
-  {
-    const MockedCartContext = ({ children }) => (
-      <CartContext.Provider value={{
-        orderform: jest.fn().mockResolvedValue({ orderFormId: '128adb08596442708ee89e2a0f561321' }),
-        restoreCart: jest.fn().mockResolvedValue({}),
-      }}
-      >
-        {children}
-      </CartContext.Provider>
-    );
+  it('must load a ron with orderform code and setItem', async () => {
+    function MockedCartContext({ children }) {
+      return (
+        <CartContext.Provider value={{
+          orderform: jest.fn().mockResolvedValue({ orderFormId: '128adb08596442708ee89e2a0f561321' }),
+          restoreCart: jest.fn().mockResolvedValue({}),
+        }}
+        >
+          {children}
+        </CartContext.Provider>
+      );
+    }
 
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
@@ -190,17 +188,18 @@ describe('RonRedirectToBag', () =>
     cleanup();
   });
 
-  it('must load a ron with redirect home', async () =>
-  {
-    const MockedCartContext = ({ children }) => (
-      <CartContext.Provider value={{
-        orderform: jest.fn().mockResolvedValue({ orderFormId: '' }),
-        restoreCart: jest.fn().mockResolvedValue({}),
-      }}
-      >
-        {children}
-      </CartContext.Provider>
-    );
+  it('must load a ron with redirect home', async () => {
+    function MockedCartContext({ children }) {
+      return (
+        <CartContext.Provider value={{
+          orderform: jest.fn().mockResolvedValue({ orderFormId: '' }),
+          restoreCart: jest.fn().mockResolvedValue({}),
+        }}
+        >
+          {children}
+        </CartContext.Provider>
+      );
+    }
 
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
@@ -223,17 +222,18 @@ describe('RonRedirectToBag', () =>
     expect(replaceFn).toHaveBeenCalledWith('Home');
   });
 
-  it('must load a ron with product url', async () =>
-  {
-    const MockedCartContext = ({ children }) => (
-      <CartContext.Provider value={{
-        orderform: jest.fn().mockResolvedValue({ orderFormId: '128adb08596442708ee89e2a0f561321' }),
-        restoreCart: jest.fn().mockResolvedValue({}),
-      }}
-      >
-        {children}
-      </CartContext.Provider>
-    );
+  it('must load a ron with product url', async () => {
+    function MockedCartContext({ children }) {
+      return (
+        <CartContext.Provider value={{
+          orderform: jest.fn().mockResolvedValue({ orderFormId: '128adb08596442708ee89e2a0f561321' }),
+          restoreCart: jest.fn().mockResolvedValue({}),
+        }}
+        >
+          {children}
+        </CartContext.Provider>
+      );
+    }
 
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
@@ -254,25 +254,24 @@ describe('RonRedirectToBag', () =>
 
     render(ComponentForSnapShot);
 
-    await waitFor(() => expect(replaceFn).toHaveBeenCalledWith(
-      'AsyncDeepLink', {
+    await waitFor(() => expect(replaceFn).toHaveBeenCalledWith('AsyncDeepLink', {
       reducerKey: 'PRODUCT',
       skuId: '425418',
-    },
-    ));
+    }));
   });
 
-  it('must load a ron with catalog url', async () =>
-  {
-    const MockedCartContext = ({ children }) => (
-      <CartContext.Provider value={{
-        orderform: jest.fn().mockResolvedValue({ orderFormId: '128adb08596442708ee89e2a0f561321' }),
-        restoreCart: jest.fn().mockResolvedValue({}),
-      }}
-      >
-        {children}
-      </CartContext.Provider>
-    );
+  it('must load a ron with catalog url', async () => {
+    function MockedCartContext({ children }) {
+      return (
+        <CartContext.Provider value={{
+          orderform: jest.fn().mockResolvedValue({ orderFormId: '128adb08596442708ee89e2a0f561321' }),
+          restoreCart: jest.fn().mockResolvedValue({}),
+        }}
+        >
+          {children}
+        </CartContext.Provider>
+      );
+    }
 
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
@@ -293,11 +292,9 @@ describe('RonRedirectToBag', () =>
 
     render(ComponentForSnapShot);
 
-    await waitFor(() => expect(replaceFn).toHaveBeenCalledWith(
-      'AsyncDeepLink', {
+    await waitFor(() => expect(replaceFn).toHaveBeenCalledWith('AsyncDeepLink', {
       reducerKey: 'CATALOG',
       params: '123',
-    },
-    ));
+    }));
   });
 });

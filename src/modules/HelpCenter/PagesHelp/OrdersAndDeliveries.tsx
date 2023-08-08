@@ -7,7 +7,7 @@ import {
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
-export const OrdersAndDeliveries = () => {
+export function OrdersAndDeliveries() {
   useEffect(() => {}, []);
 
   const data = [
@@ -125,4 +125,4 @@ export const OrdersAndDeliveries = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

@@ -16,7 +16,7 @@ import testProps from '../../../utils/testProps';
 
 type Props = StackScreenProps<RootStackParamList, 'HelpCenter'>;
 
-export const HelpCenter = ({ route }: Props) => {
+export function HelpCenter({ route }: Props) {
   const navigation = useNavigation();
 
   const [, setSearch] = useState('');
@@ -90,4 +90,4 @@ export const HelpCenter = ({ route }: Props) => {
       </Box>
     </SafeAreaView>
   );
-};
+}

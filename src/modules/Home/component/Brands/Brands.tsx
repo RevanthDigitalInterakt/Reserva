@@ -15,7 +15,7 @@ import testProps from '../../../../utils/testProps';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 import { BrandContainer, brandShadowContainer, styles } from './styles/styles';
 
-const BrandsComponent = (): JSX.Element => {
+function BrandsComponent(): JSX.Element {
   const [brands, setBrands] = useState<IBrandCarouselItem[]>([]);
   const { width } = useWindowDimensions();
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
@@ -102,6 +102,6 @@ const BrandsComponent = (): JSX.Element => {
     />
 
   );
-};
+}
 
 export default BrandsComponent;

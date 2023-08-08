@@ -6,7 +6,9 @@ import { styles } from './PrimeFAQ.styles';
 import { usePrimeFaqQuery } from '../../../../base/graphql/generated';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 
-const Divider = () => <View style={styles.divider} />;
+function Divider() {
+  return <View style={styles.divider} />;
+}
 
 function PrimeFAQ() {
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore([

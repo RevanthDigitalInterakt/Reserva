@@ -10,7 +10,7 @@ type OnPressType = {
   name: string;
 };
 
-export const TabBar = ({ state, navigation }: BottomTabBarProps<{}>) => {
+export function TabBar({ state, navigation }: BottomTabBarProps<{}>) {
   const onPress = ({ key, name }: OnPressType, isFocused: Boolean) => {
     const event = navigation.emit({
       type: 'tabPress',
@@ -44,4 +44,4 @@ export const TabBar = ({ state, navigation }: BottomTabBarProps<{}>) => {
       </BottomBar>
     </Box>
   );
-};
+}

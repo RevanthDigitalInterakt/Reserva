@@ -1,7 +1,6 @@
 import { ApolloProvider } from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
-import { theme } from '@usereservaapp/reserva-ui';
 import React, { useCallback, useEffect, useState } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import 'react-native-gesture-handler';
@@ -28,6 +27,7 @@ import { useRemoteConfig } from './hooks/useRemoteConfig';
 import useApolloClientHook from './hooks/useApolloClientHook';
 import { useApolloFetchPolicyStore } from './zustand/useApolloFetchPolicyStore';
 import { navigationRef } from './utils/navigationRef';
+import { theme } from './base/usereservappLegacy/theme';
 
 const DefaultTheme = {
   colors: {

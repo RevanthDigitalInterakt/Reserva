@@ -7,7 +7,7 @@ import {
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
-export const FrequentDoubts = () => {
+export function FrequentDoubts() {
   useEffect(() => { }, []);
 
   const data = [
@@ -165,4 +165,4 @@ export const FrequentDoubts = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

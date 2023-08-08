@@ -6,11 +6,11 @@ import { PriceCustom } from '../PriceCustom';
 import type { IPropsShippingMessage } from './types';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 
-export const IfRenderShippingMessage = ({
+export function IfRenderShippingMessage({
   sumPriceShipping,
   sumPrice,
   freeShippingValue,
-}: IPropsShippingMessage) => {
+}: IPropsShippingMessage) {
   const { isPrime } = usePrimeInfo();
 
   if (isPrime) {
@@ -58,4 +58,4 @@ export const IfRenderShippingMessage = ({
       </Typography>
     </Box>
   );
-};
+}

@@ -1,7 +1,7 @@
+import { fireEvent, render, screen } from '@testing-library/react-native';
 import React from 'react';
-import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
-import { render, screen, fireEvent } from '@testing-library/react-native';
+import { theme } from '../../../base/usereservappLegacy/theme';
 import { SelectBoxNormal } from '../SelectBoxNormal';
 
 const onPressFn = jest.fn();

@@ -1,28 +1,27 @@
-import React from 'react';
-import Modal from 'react-native-modal';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
-
-import testProps from '../../utils/testProps';
-import EventProvider from '../../utils/EventProvider';
+import React from 'react';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
+import Modal from 'react-native-modal';
+import IconLogoPrime from '../../../assets/icons/IconLogoPrime';
 import { useAuthentication } from '../../hooks/useAuthentication';
+import EventProvider from '../../utils/EventProvider';
+import testProps from '../../utils/testProps';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
-
+import { Box } from '../Box/Box';
 import { Button } from '../Button';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
+import { Typography } from '../Typography/Typography';
 import UnderlineInput from '../UnderlineInput';
 import { FooterModalPrime } from './components/FooterModal';
-
 import * as Styles from './styles';
 import type { IParamsComponent } from './types';
 import { isValidEmail, isValidPassword } from './utils';
-import IconLogoPrime from '../../../assets/icons/IconLogoPrime';
 
-export const ModalSignIn: React.FC<IParamsComponent> = ({
+export function ModalSignIn({
   onClose,
   isVisible,
   onModalHide,
-}) => {
+}: IParamsComponent) {
   const { navigate } = useNavigation();
   const { profile } = useAuthStore(['profile']);
 
@@ -57,7 +56,7 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
             onPress={onClose}
             {...testProps('com.usereserva:id/modal_sign_in_close')}
           >
-            <Icon name="Close" size={14} />
+            <IconLegacy name="Close" size={14} />
           </TouchableOpacity>
         </Box>
 
@@ -201,4 +200,4 @@ export const ModalSignIn: React.FC<IParamsComponent> = ({
       </Box>
     </Modal>
   );
-};
+}

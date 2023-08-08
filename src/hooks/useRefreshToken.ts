@@ -8,9 +8,7 @@ import { navigateUsingRef } from '../utils/navigationRef';
 
 type TAppState = 'active' | 'background' | 'inactive' | 'unknown' | 'extension';
 
-export const handleCheckAppState = async (
-  appState: React.MutableRefObject<AppStateStatus>, nextAppState: TAppState,
-) => !!(
+export const handleCheckAppState = async (appState: React.MutableRefObject<AppStateStatus>, nextAppState: TAppState) => !!(
   appState.current.match(/inactive|background/)
     && nextAppState === 'active'
 );

@@ -41,7 +41,7 @@ interface IStore {
   mapPermission?: boolean;
 }
 
-const Store = ({ storeDetail, data, mapPermission }: IStore) => {
+function Store({ storeDetail, data, mapPermission }: IStore) {
   const [showModalStore, setShowModalStore] = useState(false);
   const [pickupPoints, setPickupPoints] = useState([]);
   const dayOfWeek = [
@@ -264,5 +264,5 @@ ${data.pickupStoreInfo.address.neighborhood} - ${data.pickupStoreInfo.address.ci
       )}
     </Box>
   );
-};
+}
 export default Store;

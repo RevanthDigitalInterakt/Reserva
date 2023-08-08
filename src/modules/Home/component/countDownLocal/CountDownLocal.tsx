@@ -271,71 +271,73 @@ interface IcheckTheRules {
   rulesData?: ICountDownClockLocal;
   goToPromotion?: () => void;
 }
-const CheckTheRules = ({
+function CheckTheRules({
   isVisible,
   setIsVisible,
   rulesData,
   goToPromotion,
-}: IcheckTheRules) => (
-  <Modal
-    avoidKeyboard
-    onBackdropPress={() => setIsVisible(false)}
-    isVisible={isVisible}
-  >
-    <Box
-      bg="white"
-      minHeight={184}
-      alignItems="center"
-      justifyContent="center"
-      px={34}
-      py={45}
-      testID="com.usereserva:id/check_The_rules_container"
+}: IcheckTheRules) {
+  return (
+    <Modal
+      avoidKeyboard
+      onBackdropPress={() => setIsVisible(false)}
+      isVisible={isVisible}
     >
-      <Box position="absolute" top={16} right={20} zIndex={4}>
-        <Button
-          testID="com.usereserva:id/count_down_local_button_close"
-          onPress={() => setIsVisible(false)}
-          variant="icone"
-          icon={<Icon size={17} name="Close" />}
-        />
-      </Box>
-      <Box>
-        <Typography
-          textAlign="center"
-          fontFamily="reservaSerifBold"
-          fontSize={34}
-          testID="com.usereserva:id/check_The_rules_titleModal"
-        >
-          {rulesData?.titleModal}
-        </Typography>
-      </Box>
-      <Box mt={8}>
-        <Typography
-            // textAlign={'center'}
-          lineHeight={23}
-          fontFamily="reservaSansRegular"
-          fontSize={18}
-        >
-          {rulesData?.descriptionModal}
-        </Typography>
-      </Box>
-      <Box width="100%" mt={38} mb={5}>
-        <Button
-          variant="primarioEstreito"
-          width="100%"
-          height={50}
-          onPress={goToPromotion}
-          testID="com.usereserva:id/check_the_rules_button"
-        >
+      <Box
+        bg="white"
+        minHeight={184}
+        alignItems="center"
+        justifyContent="center"
+        px={34}
+        py={45}
+        testID="com.usereserva:id/check_The_rules_container"
+      >
+        <Box position="absolute" top={16} right={20} zIndex={4}>
+          <Button
+            testID="com.usereserva:id/count_down_local_button_close"
+            onPress={() => setIsVisible(false)}
+            variant="icone"
+            icon={<Icon size={17} name="Close" />}
+          />
+        </Box>
+        <Box>
           <Typography
-            color="white"
-            fontFamily="nunitoExtraBold"
-            fontSize={13}
+            textAlign="center"
+            fontFamily="reservaSerifBold"
+            fontSize={34}
+            testID="com.usereserva:id/check_The_rules_titleModal"
           >
-            IR PARA A PROMO
+            {rulesData?.titleModal}
           </Typography>
-        </Button>
+        </Box>
+        <Box mt={8}>
+          <Typography
+            // textAlign={'center'}
+            lineHeight={23}
+            fontFamily="reservaSansRegular"
+            fontSize={18}
+          >
+            {rulesData?.descriptionModal}
+          </Typography>
+        </Box>
+        <Box width="100%" mt={38} mb={5}>
+          <Button
+            variant="primarioEstreito"
+            width="100%"
+            height={50}
+            onPress={goToPromotion}
+            testID="com.usereserva:id/check_the_rules_button"
+          >
+            <Typography
+              color="white"
+              fontFamily="nunitoExtraBold"
+              fontSize={13}
+            >
+              IR PARA A PROMO
+            </Typography>
+          </Button>
+        </Box>
       </Box>
-    </Box>
-  </Modal>
-);
+    </Modal>
+  );
+}

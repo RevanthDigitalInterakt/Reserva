@@ -24,7 +24,7 @@ interface IReceiveHome {
   loading: boolean;
 }
 
-const ReceiveHome = ({
+function ReceiveHome({
   typeOfDelivery,
   selectedDelivery,
   addresses,
@@ -32,7 +32,7 @@ const ReceiveHome = ({
   onDeliveryChosen,
   onAddressChosen,
   shippingValue,
-}: IReceiveHome) => {
+}: IReceiveHome) {
   const { profile } = useAuthStore(['profile']);
   const [selectedId, setSelectedId] = useState('');
   const [deleteModal, setDeleteModal] = useState(false);
@@ -244,6 +244,6 @@ const ReceiveHome = ({
         : null}
     </>
   );
-};
+}
 
 export default ReceiveHome;

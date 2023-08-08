@@ -33,29 +33,23 @@ jest.mock('../../../../zustand/useAuth/useAuthStore', () => ({
   useAuthStore: () => ({ profile: mockProfile }),
 }));
 
-AsyncStorageMock.getItem = jest.fn((key) =>
-{
-  if (key === '@RNAuth:RSAKey')
-  {
+AsyncStorageMock.getItem = jest.fn((key) => {
+  if (key === '@RNAuth:RSAKey') {
     return Promise.resolve('rsaKey123');
   }
 
   return Promise.resolve('');
 });
 
-describe('AddressList - controller', () =>
-{
-  beforeEach(() =>
-  {
+describe('AddressList - controller', () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  afterEach(() =>
-  {
+  afterEach(() => {
     jest.clearAllTimers();
   });
-  it('should successfully call doDeleteAddress', async () =>
-  {
+  it('should successfully call doDeleteAddress', async () => {
     const mocks = [
       {
         request: {
@@ -74,15 +68,17 @@ describe('AddressList - controller', () =>
       },
     ];
 
-    const MockedCartContext = ({ children }: { children: React.ReactNode }) => (
-      <CartContext.Provider value={{
-        refreshOrderFormData: jest.fn().mockResolvedValue({ orderFormId: '50e2a3c1631046feabb90e13f55e66cb' }),
-        identifyCustomer: jest.fn().mockResolvedValue(true),
-      }}
-      >
-        {children}
-      </CartContext.Provider>
-    );
+    function MockedCartContext({ children }: { children: React.ReactNode }) {
+      return (
+        <CartContext.Provider value={{
+          refreshOrderFormData: jest.fn().mockResolvedValue({ orderFormId: '50e2a3c1631046feabb90e13f55e66cb' }),
+          identifyCustomer: jest.fn().mockResolvedValue(true),
+        }}
+        >
+          {children}
+        </CartContext.Provider>
+      );
+    }
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <MockedProvider mocks={mocks}>
@@ -94,16 +90,14 @@ describe('AddressList - controller', () =>
 
     const { result } = renderHook(() => useController(), { wrapper });
 
-    await act(async () =>
-    {
+    await act(async () => {
       await result.current.openModalDeleteAddress('nuuzjm6dd2k');
       await result.current.doDeleteAddress();
     });
 
     expect(result.current.profileData).toEqual(mockProfile);
   });
-  it('should error call doDeleteAddress', async () =>
-  {
+  it('should error call doDeleteAddress', async () => {
     const mocks = [
       {
         request: {
@@ -134,8 +128,7 @@ describe('AddressList - controller', () =>
 
     const { result } = renderHook(() => useController(), { wrapper });
 
-    await act(async () =>
-    {
+    await act(async () => {
       await result.current.openModalDeleteAddress('');
       await result.current.doDeleteAddress();
     });

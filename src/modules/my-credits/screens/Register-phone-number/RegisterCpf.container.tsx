@@ -10,11 +10,11 @@ interface RegisterCpfContainerProps {
   navigateToVerifyNumber: () => void;
 }
 
-export const RegisterCpfContainer = ({
+export function RegisterCpfContainer({
   profile,
   navigateBack,
   navigateToVerifyNumber,
-}: RegisterCpfContainerProps) => {
+}: RegisterCpfContainerProps) {
   const [cpf, setCpf] = useState<string>('');
   const [cpfInvalid, setCpfInvalid] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -104,4 +104,4 @@ export const RegisterCpfContainer = ({
       />
     </>
   );
-};
+}

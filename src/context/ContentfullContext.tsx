@@ -18,7 +18,7 @@ interface ContentfullContextProviderProps {
   children?: ReactNode;
 }
 
-const ContentfullContextProvider = ({ children }: ContentfullContextProviderProps) => {
+function ContentfullContextProvider({ children }: ContentfullContextProviderProps) {
   const [isTesting, setIsTesting] = useState<boolean>(CONTENTFUL_TESTING);
 
   const toggleIsTesting = async (value: boolean) => {
@@ -30,7 +30,7 @@ const ContentfullContextProvider = ({ children }: ContentfullContextProviderProp
       {children}
     </ContentfullContext.Provider>
   );
-};
+}
 
 export default ContentfullContextProvider;
 

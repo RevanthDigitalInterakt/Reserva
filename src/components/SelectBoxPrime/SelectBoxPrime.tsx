@@ -1,12 +1,9 @@
 import React from 'react';
 import { ImageBackground, TouchableOpacity, View } from 'react-native';
-import {
-  Typography,
-  integerPart,
-  decimalPart,
-} from '@usereservaapp/reserva-ui';
 import { styles } from './SelectBoxPrime.styles';
 import testProps from '../../utils/testProps';
+import { Typography } from '../Typography/Typography';
+import { decimalPart, integerPart } from '../../utils/numberUtils';
 
 const redBadgeImage = require('./assets/redBadge.png');
 

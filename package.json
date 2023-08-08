@@ -50,7 +50,6 @@
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/stack": "^6.3.17",
     "@sentry/react-native": "5.8.0",
-    "@usereservaapp/reserva-ui": "0.58.0",
     "axios": "1.4.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.9",
@@ -183,7 +182,7 @@
       "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/?!((jest-)?@react-native|react-native|@usereservaapp/reserva-ui|react-native-modal|react-native-progress|react-native-animatable|lottie-react-native)"
+      "node_modules/?!((jest-)?@react-native|react-native|react-native-modal|react-native-progress|react-native-animatable|lottie-react-native)"
     ],
     "automock": false,
     "moduleFileExtensions": [

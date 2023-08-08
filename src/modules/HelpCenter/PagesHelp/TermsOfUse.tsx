@@ -7,7 +7,7 @@ import {
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
-export const TermsOfUse = () => {
+export function TermsOfUse() {
   useEffect(() => {}, []);
 
   const data = [
@@ -43,4 +43,4 @@ export const TermsOfUse = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

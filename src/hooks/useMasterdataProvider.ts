@@ -15,8 +15,7 @@ export default function useMasterdataProvider() {
   // TODO: Replace with useQuery
   const client = useRestAPI(Config.API_MASTERDATA_PROVIDER_URL!);
 
-  const onCheckChristmasModalVisibility = useCallback(async (
-  ): Promise<IResponseCouponShowModal> => {
+  const onCheckChristmasModalVisibility = useCallback(async (): Promise<IResponseCouponShowModal> => {
     try {
       const { data } = await client.get<IResponseCouponShowModal>(`coupon/show-modal?version=${Date.now()}`);
 

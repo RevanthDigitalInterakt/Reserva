@@ -14,14 +14,14 @@ interface IProps {
 
 const defaultCurrency = 'R$';
 
-const ProductPricePrimeRow = ({
+function ProductPricePrimeRow({
   installmentsNumber,
   currency = defaultCurrency,
   installmentsPrice,
   discountTag,
   priceWithDiscount,
   price,
-}: IProps) => {
+}: IProps) {
   const finalPrice = useMemo(() => (
     discountTag && priceWithDiscount ? priceWithDiscount : price
   ), [discountTag, priceWithDiscount, price]);
@@ -56,6 +56,6 @@ const ProductPricePrimeRow = ({
 
     </View>
   );
-};
+}
 
 export default ProductPricePrimeRow;

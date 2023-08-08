@@ -11,7 +11,7 @@ import type { IEditAddress } from '../../interface';
 import useController from '../controller/useController';
 import testProps from '../../../../utils/testProps';
 
-const AddressList = () => {
+function AddressList() {
   const controller = useController();
 
   const renderModal = React.useMemo(() => {
@@ -147,6 +147,6 @@ const AddressList = () => {
       </SafeAreaView>
     </>
   );
-};
+}
 
 export default AddressList;

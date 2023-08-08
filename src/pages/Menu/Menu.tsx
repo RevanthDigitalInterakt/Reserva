@@ -3,9 +3,9 @@ import React, {
 } from 'react';
 import { BackHandler, Linking, ScrollView } from 'react-native';
 import
-  {
-    Box, Divider, theme, Typography,
-  } from '@usereservaapp/reserva-ui';
+{
+  Box, Divider, theme, Typography,
+} from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackActions, useLinkTo, useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -27,8 +27,7 @@ import MenuBreadcrumb from './components/MenuBreadcrumb';
 
 export type MenuProps = StackScreenProps<RootStackParamList, 'Menu'>;
 
-function Menu()
-{
+function Menu() {
   const navigation = useNavigation();
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [openedIndex, setOpenedIndex] = useState<number>();
@@ -46,50 +45,42 @@ function Menu()
 
   const regionalizationActive = useMemo(() => getBoolean('regionalization'), [getBoolean]);
 
-  const trackEventAccessedDepartmentDito = useCallback(async (openedCategories: string) =>
-  {
+  const trackEventAccessedDepartmentDito = useCallback(async (openedCategories: string) => {
     if (!openedCategories) return;
 
     const id = await getDitoUserID(profile?.email);
 
-    EventProvider.sendTrackEvent(
-      'acessou-departamento', {
+    EventProvider.sendTrackEvent('acessou-departamento', {
       id,
       action: 'acessou-departamento',
       data: {
         nome_departamento: openedCategories,
         origem: 'app',
       },
-    },
-    );
+    });
   }, [profile?.email]);
 
-  const getTestEnvironment = useCallback(async () =>
-  {
+  const getTestEnvironment = useCallback(async () => {
     const res = await AsyncStorage.getItem('isTesting');
     setIsTesting(res === 'true');
   }, []);
 
-  const navigateFromMenu = useCallback((routeName: string) =>
-  {
+  const navigateFromMenu = useCallback((routeName: string) => {
     navigation.navigate(routeName, { comeFrom: 'Menu' });
   }, [navigation]);
 
   const onSelectMenuItem = useCallback((
     index: number,
     selectedItem: Omit<MenuCategoryItemOutput, '__typename'>,
-  ) =>
-  {
+  ) => {
     trackEventAccessedDepartmentDito(selectedItem.name);
 
-    if (selectedItem.type === MenuItemTypeEnum.ParentCategory)
-    {
+    if (selectedItem.type === MenuItemTypeEnum.ParentCategory) {
       setOpenedIndex(openedIndex === index ? undefined : index);
       return;
     }
 
-    BackHandler.addEventListener('hardwareBackPress', () =>
-    {
+    BackHandler.addEventListener('hardwareBackPress', () => {
       navigation.dispatch(StackActions.popToTop());
       navigation.navigate('Menu');
 
@@ -99,8 +90,7 @@ function Menu()
     if (
       selectedItem.type === MenuItemTypeEnum.Category
       || selectedItem.type === MenuItemTypeEnum.Collection
-    )
-    {
+    ) {
       navigation.navigate('ProductCatalog', {
         facetInput: selectedItem.facets,
         referenceId: selectedItem.referenceId,
@@ -112,14 +102,12 @@ function Menu()
       return;
     }
 
-    if (selectedItem.type === MenuItemTypeEnum.Deeplink && selectedItem.deeplinkUrl)
-    {
+    if (selectedItem.type === MenuItemTypeEnum.Deeplink && selectedItem.deeplinkUrl) {
       linkTo(selectedItem.deeplinkUrl);
     }
   }, [linkTo, navigation, openedIndex, trackEventAccessedDepartmentDito]);
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     getTestEnvironment();
   }, [getTestEnvironment]);
 
@@ -163,10 +151,8 @@ function Menu()
               <FixedMenuItem
                 iconName="Profile"
                 testID="com.usereserva:id/menu_button_account"
-                onPress={() =>
-                {
-                  if (profile?.email)
-                  {
+                onPress={() => {
+                  if (profile?.email) {
                     navigation.navigate('Profile');
                     return;
                   }

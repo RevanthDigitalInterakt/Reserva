@@ -13,8 +13,8 @@ import BirthDateIcon from './Icons/BirthDateIcon';
 import PhoneNumberIcon from './Icons/PhoneNumberIcon';
 import UserProfilePictureComponent from '../UserProfilePicture/UserProfilePictureComponent';
 import { FormEditProfileInitialValues } from './static/formEditProfile.initialValues';
-//TODO update
-//import ChangeFileModal, { IFile } from '../ModalChangeFile/ChangeFileModal';
+// TODO update
+// import ChangeFileModal, { IFile } from '../ModalChangeFile/ChangeFileModal';
 import type { TModalStateKeys } from '../../interfaces/editProfile';
 import TesterAreaViewComponent from '../TesterAreaView/TesterAreaViewComponent';
 import NewsLetterComponent from '../Newsletter/NewsLetterComponent';
@@ -22,17 +22,17 @@ import DeleteAccountComponent from '../DeleteAccount/DeleteAccountComponent';
 import SubmitingContentComponent from '../SubmitingContent/SubmitingContentComponent';
 import EditProfileSchema from './yup/schema/editProfile.schema';
 import
-  {
-    formatAndSearcFieldValue,
-    formatDate,
-  } from '../../../../utils/GenericFormats';
+{
+  formatAndSearcFieldValue,
+  formatDate,
+} from '../../../../utils/GenericFormats';
 import { genderEngToPt, TGenderEngKeys } from './static/GenderTranslate';
 import
-  {
-    generateCustonFieldsToPayloadUserData,
-    generatePayloadToUploadUserData,
-    IUserDataUpload,
-  } from '../../../../utils/updateUserData';
+{
+  generateCustonFieldsToPayloadUserData,
+  generatePayloadToUploadUserData,
+  IUserDataUpload,
+} from '../../../../utils/updateUserData';
 import { FirebaseService } from '../../../../shared/services/FirebaseService';
 import type { IFormEditProfileSchema } from './interfaces/formEditProfile';
 import EventProvider from '../../../../utils/EventProvider';
@@ -40,8 +40,7 @@ import { useProfileLazyQuery, useProfileUpdateMutation } from '../../../../base/
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 
-interface IFormEditProfileComponentProps
-{
+interface IFormEditProfileComponentProps {
   isRegister: boolean;
   handleModal: (key: TModalStateKeys) => void;
   showChangeFileModal: boolean;
@@ -53,8 +52,7 @@ function FormEditProfileComponent({
   handleModal,
   showChangeFileModal,
   handleToogleLoading,
-}: IFormEditProfileComponentProps): JSX.Element
-{
+}: IFormEditProfileComponentProps): JSX.Element {
   const [isUserTest, setIsUserTest] = useState<boolean>(false);
   const { deleteFS, createFS } = new FirebaseService();
   const navigation = useNavigation();
@@ -71,65 +69,58 @@ function FormEditProfileComponent({
     fetchPolicy: 'no-cache',
   });
 
-  const handleSubmitForm = useCallback(
-    async (formValues: IFormEditProfileSchema): Promise<void> =>
-    {
-      handleToogleLoading(true);
+  const handleSubmitForm = useCallback(async (formValues: IFormEditProfileSchema): Promise<void> => {
+    handleToogleLoading(true);
 
-      const userDateUpload: IUserDataUpload = generatePayloadToUploadUserData(formValues);
-      let imageRef = formValues.profileImage.initialFilePath || 'null';
+    const userDateUpload: IUserDataUpload = generatePayloadToUploadUserData(formValues);
+    let imageRef = formValues.profileImage.initialFilePath || 'null';
 
-      const isUpdateProfileImage = typeof formValues.profileImage.uri !== 'undefined' && formValues.profileImage.uri !== formValues.profileImage.initialFilePath;
+    const isUpdateProfileImage = typeof formValues.profileImage.uri !== 'undefined' && formValues.profileImage.uri !== formValues.profileImage.initialFilePath;
 
-      if (isUpdateProfileImage)
-      {
-        imageRef = await createFS({
-          uri: formValues.profileImage.uri,
-        });
-
-        if (formValues.profileImage.initialFilePath)
-        {
-          await deleteFS(`${formValues.profileImage.initialFilePath}`);
-        }
-      }
-
-      const userAcceptTerms = await AsyncStorage.getItem('@user:accepted');
-
-      const customFields = generateCustonFieldsToPayloadUserData({
-        userAcceptTerms: userAcceptTerms ? JSON.parse(userAcceptTerms) : false,
-        profileImage: imageRef,
-        subscribed: formValues.newsLetter,
+    if (isUpdateProfileImage) {
+      imageRef = await createFS({
+        uri: formValues.profileImage.uri,
       });
 
-      await updateUserdata({
-        variables: {
-          input: {
-            ...userDateUpload,
-            customFields,
-          },
+      if (formValues.profileImage.initialFilePath) {
+        await deleteFS(`${formValues.profileImage.initialFilePath}`);
+      }
+    }
+
+    const userAcceptTerms = await AsyncStorage.getItem('@user:accepted');
+
+    const customFields = generateCustonFieldsToPayloadUserData({
+      userAcceptTerms: userAcceptTerms ? JSON.parse(userAcceptTerms) : false,
+      profileImage: imageRef,
+      subscribed: formValues.newsLetter,
+    });
+
+    await updateUserdata({
+      variables: {
+        input: {
+          ...userDateUpload,
+          customFields,
         },
-      });
+      },
+    });
 
-      await onGetProfile();
+    await onGetProfile();
 
-      if (isRegister)
-      {
-        navigation.navigate('BagScreen', { isProfileComplete: true });
+    if (isRegister) {
+      navigation.navigate('BagScreen', { isProfileComplete: true });
 
-        return;
-      }
+      return;
+    }
 
-      handleToogleLoading(false);
+    handleToogleLoading(false);
 
-      navigation.goBack();
-    }, [],
-  );
+    navigation.goBack();
+  }, []);
 
   const editProfileForm = useFormik<IFormEditProfileSchema>({
     initialValues: FormEditProfileInitialValues,
     validationSchema: EditProfileSchema,
-    onSubmit: async (values: IFormEditProfileSchema) =>
-    {
+    onSubmit: async (values: IFormEditProfileSchema) => {
       await handleSubmitForm(values);
     },
   });
@@ -138,16 +129,14 @@ function FormEditProfileComponent({
     <T extends unknown>(
       field: keyof IFormEditProfileSchema,
       value: T,
-    ): void =>
-    {
+    ): void => {
       editProfileForm.setFieldValue(field, value);
     },
     [editProfileForm],
   );
 
   const handleChangeProfileImage = useCallback(
-    (file: IFile, resetInitialFilePath: boolean = false): void =>
-    {
+    (file: IFile, resetInitialFilePath: boolean = false): void => {
       editProfileForm.setFieldValue('profileImage', {
         ...file,
         initialFilePath: resetInitialFilePath
@@ -157,17 +146,14 @@ function FormEditProfileComponent({
     [editProfileForm],
   );
 
-  const getIsTesterUser = useCallback(async (userEmail: string) =>
-  {
+  const getIsTesterUser = useCallback(async (userEmail: string) => {
     const emails = getObject('EMAIL_TESTERS');
 
     setIsUserTest(emails.includes(userEmail));
   }, [getObject]);
 
-  const handleUserDataInitializer = useCallback(async () =>
-  {
-    try
-    {
+  const handleUserDataInitializer = useCallback(async () => {
+    try {
       const { data, loading } = await getProfileUserData();
       if (!data) return;
 
@@ -185,8 +171,7 @@ function FormEditProfileComponent({
         },
       } = data;
 
-      if (!loading)
-      {
+      if (!loading) {
         await getIsTesterUser(email || '');
 
         // Pega o path da imagem no firebase - user/profile/joao.jpg | undefined
@@ -220,17 +205,14 @@ function FormEditProfileComponent({
 
         handleToogleLoading(false);
       }
-    } catch (error)
-    {
+    } catch (error) {
       EventProvider.captureException(error);
     }
   }, []);
 
-  const handleDeleteProfileImage = useCallback(async () =>
-  {
+  const handleDeleteProfileImage = useCallback(async () => {
     const isValidInitialFilePath = typeof editProfileForm.values.profileImage.initialFilePath === 'string' && editProfileForm.values.profileImage.initialFilePath.length;
-    if (isValidInitialFilePath)
-    {
+    if (isValidInitialFilePath) {
       await deleteFS(`${editProfileForm.values.profileImage.initialFilePath}`);
     }
 
@@ -244,10 +226,8 @@ function FormEditProfileComponent({
     handleModal('changeFileModal');
   }, [editProfileForm, handleChangeProfileImage]);
 
-  useEffect(() =>
-  {
-    (async () =>
-    {
+  useEffect(() => {
+    (async () => {
       await handleUserDataInitializer();
     })();
   }, []);
@@ -255,8 +235,8 @@ function FormEditProfileComponent({
   return (
     <>
       {
-        //TODO update
-      /*  
+        // TODO update
+      /*
     <ChangeFileModal
         show={showChangeFileModal}
         handleDeleteProfileImage={handleDeleteProfileImage}

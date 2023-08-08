@@ -2,9 +2,9 @@ import React from 'react';
 import AsyncStorageMock from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import
-  {
-    fireEvent, render, screen, act,
-  } from '@testing-library/react-native';
+{
+  fireEvent, render, screen, act,
+} from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
 import { theme } from '@usereservaapp/reserva-ui';
 import { MockedProvider } from '@apollo/client/testing';
@@ -39,15 +39,12 @@ jest.mock('../../../../zustand/useApolloFetchPolicyStore', () => ({
   }),
 }));
 
-AsyncStorageMock.getItem = jest.fn((key) =>
-{
-  if (key === '@RNAuth:RSAKey')
-  {
+AsyncStorageMock.getItem = jest.fn((key) => {
+  if (key === '@RNAuth:RSAKey') {
     return Promise.resolve('rsaKey123');
   }
 
-  if (key === '@Dito:userRef')
-  {
+  if (key === '@Dito:userRef') {
     return Promise.resolve('65e82407d5d594262e1d2686e1e2db37b948f768');
   }
 
@@ -58,10 +55,8 @@ AsyncStorageMock.getItem = jest.fn((key) =>
   return Promise.resolve('');
 });
 
-describe('userOrdered', () =>
-{
-  it('render and snapshot', async () =>
-  {
+describe('userOrdered', () => {
+  it('render and snapshot', async () => {
     const Wrapper = (
       <ThemeProvider theme={theme}>
         <MockedProvider mocks={[]}>
@@ -74,8 +69,7 @@ describe('userOrdered', () =>
 
     render(Wrapper);
 
-    await act(async () =>
-    {
+    await act(async () => {
       await screen.rerender(Wrapper);
     });
 
@@ -84,8 +78,7 @@ describe('userOrdered', () =>
     expect(AsyncStorage.getItem).toHaveBeenNthCalledWith(1, 'isTesting');
   });
 
-  it('WHEN trackEventOrderedDito success should return ordered event payload', async () =>
-  {
+  it('WHEN trackEventOrderedDito success should return ordered event payload', async () => {
     const logEventSpy = jest.spyOn(EventProvider, 'sendTrackEvent');
 
     const Wrapper = (
@@ -100,15 +93,13 @@ describe('userOrdered', () =>
 
     render(Wrapper);
 
-    await act(async () =>
-    {
+    await act(async () => {
       await screen.rerender(Wrapper);
     });
 
     const webviewInstance = screen.getByTestId('com.usereserva:id/web_view_checkout');
 
-    await act(async () =>
-    {
+    await act(async () => {
       await fireEvent(webviewInstance, 'onNavigationStateChange', { url: '/checkout/orderPlaced' });
     });
 

@@ -1,14 +1,14 @@
 import
-  {
-    Box, Icon, Typography,
-  } from '@usereservaapp/reserva-ui';
+{
+  Box, Icon, Typography,
+} from '@usereservaapp/reserva-ui';
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import
-  {
-    ActivityIndicator,
-    Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity,
-  } from 'react-native';
+{
+  ActivityIndicator,
+  Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity,
+} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import images from '../../../base/styles/icons';
@@ -17,10 +17,10 @@ import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../../../components/UnderlineInput';
 import { platformType } from '../../../utils/platformType';
 import
-  {
-    SignUpDocumentTypeEnum,
-    useSignUpMutation, useSignUpVerificationCodeMutation,
-  } from '../../../base/graphql/generated';
+{
+  SignUpDocumentTypeEnum,
+  useSignUpMutation, useSignUpVerificationCodeMutation,
+} from '../../../base/graphql/generated';
 import isValidCPF from '../../../utils/CPFValidator';
 import useAuthModalStore from '../../../zustand/useAuthModalStore';
 import { removeNonNumbers } from '../../../utils/removeNonNumbers';
@@ -33,8 +33,7 @@ import CodeInput from '../../../components/CodeInput/CodeInput';
 import { getCopiedValue } from '../../../utils/CopyToClipboard';
 import { useCheckConnection } from '../../../hooks/useCheckConnection';
 
-export interface PasswordCheckProps
-{
+export interface PasswordCheckProps {
   text: string;
   checked: boolean;
 }
@@ -42,8 +41,7 @@ export interface PasswordCheckProps
 export const PasswordCheck: React.FC<PasswordCheckProps> = ({
   text,
   checked,
-}) =>
-{
+}) => {
   const color = checked ? 'verdeSucesso' : 'neutroFrio2';
   return (
     <Box flexDirection="row" alignItems="center" width="50%" mt={15}>
@@ -61,8 +59,7 @@ export interface ConfirmAccessCodeProps
 export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   navigation,
   route,
-}) =>
-{
+}) => {
   const {
     setModalSignUpComplete,
     showModalCheckConnection,
@@ -85,12 +82,10 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   });
   const { ModalWithoutInternet } = useCheckConnection({});
 
-  const trackEventSignUpDito = useCallback(async (emailDito: string, cpfDito: string) =>
-  {
+  const trackEventSignUpDito = useCallback(async (emailDito: string, cpfDito: string) => {
     const id = await AsyncStorage.getItem('@Dito:anonymousID');
 
-    EventProvider.sendTrackEvent(
-      'fez-cadastro', {
+    EventProvider.sendTrackEvent('fez-cadastro', {
       id,
       action: 'fez-cadastro',
       data: {
@@ -98,12 +93,10 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         cpf: cpfDito,
         origem: 'app',
       },
-    },
-    );
+    });
   }, []);
 
-  const pasteCode = useCallback(async () =>
-  {
+  const pasteCode = useCallback(async () => {
     const payload = await getCopiedValue();
     setCode(payload);
   }, []);
@@ -134,8 +127,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
 
   const { handleDitoRegister } = useInitialDito();
 
-  const handleSignUp = useCallback(async () =>
-  {
+  const handleSignUp = useCallback(async () => {
     const variables = {
       input: {
         email,
@@ -150,19 +142,15 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     if (isLoading) return;
 
     setIsLoading(true);
-    try
-    {
+    try {
       const response = await signUp({ variables });
 
       trackEventSignUpDito(email, removeNonNumbers(cpf));
 
-      if (response?.data?.signUp?.token && response?.data?.signUp?.authCookie)
-      {
-        try
-        {
+      if (response?.data?.signUp?.token && response?.data?.signUp?.authCookie) {
+        try {
           await onSignIn(email, passwords.confirm, true);
-        } catch (err)
-        {
+        } catch (err) {
           EventProvider.captureException(err);
         }
 
@@ -172,16 +160,14 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         setModalSignUpComplete(true);
         navigation.navigate('Home');
       }
-    } catch (e)
-    {
+    } catch (e) {
       setPasswords({
         confirm: '',
         first: '',
       });
       setCode('');
       EventProvider.captureException(e);
-    } finally
-    {
+    } finally {
       setIsLoading(false);
     }
   }, [
@@ -198,15 +184,12 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     trackEventSignUpDito,
   ]);
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     setPasswordChecker(passwordCheckHandler());
   }, [passwords]);
 
-  const resendCode = useCallback(async () =>
-  {
-    try
-    {
+  const resendCode = useCallback(async () => {
+    try {
       setIsLoading(true);
 
       const response = await signUpVerificationCode({
@@ -217,34 +200,27 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         },
       });
 
-      if (response?.data?.signUpVerificationCode?.cookies)
-      {
+      if (response?.data?.signUpVerificationCode?.cookies) {
         setRequestCookie(response?.data?.signUpVerificationCode?.cookies);
       }
-    } catch (err)
-    {
+    } catch (err) {
       setIsLoading(false);
       EventProvider.captureException(err);
-    } finally
-    {
+    } finally {
       setIsLoading(false);
     }
   }, [email, signUpVerificationCode]);
 
-  useEffect(() =>
-  {
-    if (error)
-    {
+  useEffect(() => {
+    if (error) {
       setShowError(true);
     }
   }, [data, error]);
 
-  const verifyCPF = useCallback((value: string) =>
-  {
+  const verifyCPF = useCallback((value: string) => {
     const newValue = removeNonNumbers(value);
 
-    if (!isValidCPF(newValue))
-    {
+    if (!isValidCPF(newValue)) {
       setCPFMessageError('CPF inválido. Tente novamente.');
       return;
     }
@@ -252,10 +228,8 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     setCPFMessageError('');
   }, []);
 
-  const applyCpfMask = useCallback((value: string) =>
-  {
-    if (value.length <= 14)
-    {
+  const applyCpfMask = useCallback((value: string) => {
+    if (value.length <= 14) {
       const payload = cpfMask(value);
       setCpf(payload);
     }
@@ -278,8 +252,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
 
             <HeaderBanner
               imageHeader={images.headerLogin}
-              onClickGoBack={() =>
-              {
+              onClickGoBack={() => {
                 navigation.goBack();
               }}
             />

@@ -6,47 +6,49 @@ interface NumberRegisteredSuccessfullyViewProps {
   navigateToCashbackInStore: () => void;
 }
 
-export const NumberRegisteredSuccessfullyView = ({
+export function NumberRegisteredSuccessfullyView({
   navigateToCashbackInStore,
-}: NumberRegisteredSuccessfullyViewProps) => (
-  <SafeAreaView>
-    <ScrollView>
-      <Box mx="xxs" mt="xxs">
-        <Box mb="nano">
-          <Typography
-            fontFamily="reservaSerifMedium"
-            fontSize={28}
-          >
-            Obrigado!
-          </Typography>
-        </Box>
+}: NumberRegisteredSuccessfullyViewProps) {
+  return (
+    <SafeAreaView>
+      <ScrollView>
+        <Box mx="xxs" mt="xxs">
+          <Box mb="nano">
+            <Typography
+              fontFamily="reservaSerifMedium"
+              fontSize={28}
+            >
+              Obrigado!
+            </Typography>
+          </Box>
 
-        <Box mb="xxs" mr={22}>
-          <Typography
-            fontFamily="nunitoRegular"
-            fontSize={14}
-            style={{ lineHeight: 19 }}
-          >
-            Seu número foi confirmado com sucesso. Aproveite o benefício!
-          </Typography>
-        </Box>
+          <Box mb="xxs" mr={22}>
+            <Typography
+              fontFamily="nunitoRegular"
+              fontSize={14}
+              style={{ lineHeight: 19 }}
+            >
+              Seu número foi confirmado com sucesso. Aproveite o benefício!
+            </Typography>
+          </Box>
 
-        <Button
-          onPress={navigateToCashbackInStore}
-          height={50}
-          inline
-          bg="verdeSucesso"
-        >
-          <Typography
-            color="white"
-            fontFamily="nunitoSemiBold"
-            fontSize={13}
-            style={{ lineHeight: 24, letterSpacing: 1.6 }}
+          <Button
+            onPress={navigateToCashbackInStore}
+            height={50}
+            inline
+            bg="verdeSucesso"
           >
-            CONTINUAR
-          </Typography>
-        </Button>
-      </Box>
-    </ScrollView>
-  </SafeAreaView>
-);
+            <Typography
+              color="white"
+              fontFamily="nunitoSemiBold"
+              fontSize={13}
+              style={{ lineHeight: 24, letterSpacing: 1.6 }}
+            >
+              CONTINUAR
+            </Typography>
+          </Button>
+        </Box>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}

@@ -3,8 +3,7 @@ import * as Sentry from '@sentry/react-native';
 import type { Cookies } from '@react-native-cookies/cookies';
 import EventProvider from '../utils/EventProvider';
 
-export interface IAsyncStorageKeys
-{
+export interface IAsyncStorageKeys {
   '@RNOrder:RonItems': string[];
   '@RNSession:Ron': boolean;
   '@DitoNotification:Ref': string;
@@ -24,17 +23,13 @@ type TStorageKey = keyof IAsyncStorageKeys;
 
 export async function getAsyncStorageItem<K extends TStorageKey>(
   key: K,
-): Promise<IAsyncStorageKeys[K] | null>
-{
-  try
-  {
+): Promise<IAsyncStorageKeys[K] | null> {
+  try {
     const res = await AsyncStorage.getItem(key);
 
     return res ? JSON.parse(res) : null;
-  } catch (err)
-  {
-    Sentry.withScope((scope) =>
-    {
+  } catch (err) {
+    Sentry.withScope((scope) => {
       scope.setExtra('key', key);
       EventProvider.captureException(err);
     });
@@ -46,17 +41,13 @@ export async function getAsyncStorageItem<K extends TStorageKey>(
 export async function setAsyncStorageItem<K extends TStorageKey>(
   key: K,
   val: IAsyncStorageKeys[K],
-): Promise<boolean>
-{
-  try
-  {
+): Promise<boolean> {
+  try {
     await AsyncStorage.setItem(key, JSON.stringify(val));
 
     return true;
-  } catch (err)
-  {
-    Sentry.withScope((scope) =>
-    {
+  } catch (err) {
+    Sentry.withScope((scope) => {
       scope.setExtra('key', key);
       scope.setExtra('value', val);
       EventProvider.captureException(err);
@@ -68,17 +59,13 @@ export async function setAsyncStorageItem<K extends TStorageKey>(
 
 export async function removeAsyncStorageItem<K extends TStorageKey>(
   key: K,
-): Promise<boolean>
-{
-  try
-  {
+): Promise<boolean> {
+  try {
     await AsyncStorage.removeItem(key);
 
     return true;
-  } catch (err)
-  {
-    Sentry.withScope((scope) =>
-    {
+  } catch (err) {
+    Sentry.withScope((scope) => {
       scope.setExtra('key', key);
       EventProvider.captureException(err);
     });
@@ -87,8 +74,7 @@ export async function removeAsyncStorageItem<K extends TStorageKey>(
   }
 }
 
-export default function useAsyncStorageProvider()
-{
+export default function useAsyncStorageProvider() {
   return {
     getItem: getAsyncStorageItem,
     setItem: setAsyncStorageItem,

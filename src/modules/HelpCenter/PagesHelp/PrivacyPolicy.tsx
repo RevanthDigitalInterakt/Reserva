@@ -307,7 +307,7 @@ const dataRightOfHolders: RightOfHoldersProps[] = [
 
 type Props = StackScreenProps<RootStackParamList, 'HelpCenter'>;
 
-export const PrivacyPolicy = ({ route }: Props) => {
+export function PrivacyPolicy({ route }: Props) {
   const navigation = useNavigation();
 
   const navigateGoBack = () => {
@@ -1041,4 +1041,4 @@ export const PrivacyPolicy = ({ route }: Props) => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

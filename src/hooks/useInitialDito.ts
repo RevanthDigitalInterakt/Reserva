@@ -13,36 +13,29 @@ import convertSha1 from '../utils/Dito/src/sha1';
 import useAsyncStorageProvider from './useAsyncStorageProvider';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
 
-interface IHandleRegisterUser
-{
+interface IHandleRegisterUser {
   userProfileData: ProfileVars;
   deviceToken: string;
 }
 
-interface IHandleRegisterToken
-{
+interface IHandleRegisterToken {
   id: string;
   deviceToken: string;
 }
 
-export default function useInitialDito()
-{
+export default function useInitialDito() {
   const { setItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
 
-  const trackEventHomeDito = async ({ id }: Pick<IHandleRegisterToken, 'id'>) =>
-  {
-    EventProvider.sendTrackEvent(
-      'acessou-home', {
+  const trackEventHomeDito = async ({ id }: Pick<IHandleRegisterToken, 'id'>) => {
+    EventProvider.sendTrackEvent('acessou-home', {
       id,
       action: 'acessou-home',
       data: { origem: 'app', dispositivo: Platform.OS },
-    },
-    );
+    });
   };
 
-  const handleRegisterTokenDito = useCallback(async ({ id, deviceToken }: IHandleRegisterToken) =>
-  {
+  const handleRegisterTokenDito = useCallback(async ({ id, deviceToken }: IHandleRegisterToken) => {
     await createMobileToken({
       id,
       token: deviceToken,
@@ -50,43 +43,40 @@ export default function useInitialDito()
     });
   }, []);
 
-  const handleRegisterUser = useCallback(
-    async ({ deviceToken }: IHandleRegisterUser) =>
-    {
-      const syncAnonymousToUser = await AsyncStorage.getItem('@Dito:anonymousID');
+  const handleRegisterUser = useCallback(async ({ deviceToken }: IHandleRegisterUser) => {
+    const syncAnonymousToUser = await AsyncStorage.getItem('@Dito:anonymousID');
 
-      if (syncAnonymousToUser)
-      {
-        await sendUpdateUserDataToDito({
-          id: syncAnonymousToUser,
-          user: {
-            email: profile?.email,
-            gender: profile?.gender || '',
-            birthday: profile?.birthDate,
-            cpf: profile?.document || '',
-            data: { dispositivo: Platform.OS },
-          },
-        });
-        await handleRegisterTokenDito({ id: syncAnonymousToUser, deviceToken });
-      }
-
-      await setItem('@Dito:userRef', profile?.document || '');
-      await sendUserDataToDito({
-        id: profile?.document || '',
+    if (syncAnonymousToUser) {
+      await sendUpdateUserDataToDito({
+        id: syncAnonymousToUser,
         user: {
-          name: profile?.firstName || '',
           email: profile?.email,
           gender: profile?.gender || '',
           birthday: profile?.birthDate,
           cpf: profile?.document || '',
-          data: {
-            dispositivo: Platform.OS,
-          },
+          data: { dispositivo: Platform.OS },
         },
       });
-      await handleRegisterTokenDito({ id: profile?.document || '', deviceToken });
-      await trackEventHomeDito({ id: profile?.document || '' });
-    }, [
+      await handleRegisterTokenDito({ id: syncAnonymousToUser, deviceToken });
+    }
+
+    await setItem('@Dito:userRef', profile?.document || '');
+    await sendUserDataToDito({
+      id: profile?.document || '',
+      user: {
+        name: profile?.firstName || '',
+        email: profile?.email,
+        gender: profile?.gender || '',
+        birthday: profile?.birthDate,
+        cpf: profile?.document || '',
+        data: {
+          dispositivo: Platform.OS,
+        },
+      },
+    });
+    await handleRegisterTokenDito({ id: profile?.document || '', deviceToken });
+    await trackEventHomeDito({ id: profile?.document || '' });
+  }, [
     handleRegisterTokenDito,
     profile?.birthDate,
     profile?.document,
@@ -94,17 +84,13 @@ export default function useInitialDito()
     profile?.firstName,
     profile?.gender,
     setItem,
-  ],
-  );
+  ]);
 
-  const handleRegisterAnonymous = useCallback(async ({ deviceToken }: Pick<IHandleRegisterToken, 'deviceToken'>) =>
-  {
-    try
-    {
+  const handleRegisterAnonymous = useCallback(async ({ deviceToken }: Pick<IHandleRegisterToken, 'deviceToken'>) => {
+    try {
       let id = await AsyncStorage.getItem('@Dito:anonymousID');
 
-      if (!id)
-      {
+      if (!id) {
         const uniqueIdDito = uuid.v4();
         const uniqueIdDitoFormatted = `${uniqueIdDito}@usereserva.com`;
         id = convertSha1(uniqueIdDitoFormatted);
@@ -121,20 +107,15 @@ export default function useInitialDito()
       }
 
       await trackEventHomeDito({ id: id || '' });
-    } catch (e)
-    {
+    } catch (e) {
       EventProvider.captureException(e);
     }
   }, [handleRegisterTokenDito]);
 
-  const handleRegister = useCallback(async () =>
-  {
-    try
-    {
-      if (Platform.OS === 'ios')
-      {
-        if (!messaging().isDeviceRegisteredForRemoteMessages)
-        {
+  const handleRegister = useCallback(async () => {
+    try {
+      if (Platform.OS === 'ios') {
+        if (!messaging().isDeviceRegisteredForRemoteMessages) {
           await messaging().registerDeviceForRemoteMessages();
         }
       }
@@ -153,8 +134,7 @@ export default function useInitialDito()
         },
         deviceToken,
       });
-    } catch (e)
-    {
+    } catch (e) {
       // TODO verificar possibilidade de tratar futuramente
       EventProvider.captureException(e);
     }

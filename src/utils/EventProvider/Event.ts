@@ -144,7 +144,7 @@ export namespace EventsOptions {
   export type ProductShare = Pick<EventValues, | 'product_id'>;
   export type ProductViewRecommended = Pick<EventValues, | 'show'>;
   export type ProductFindMyZipcode = Pick<EventValues, | 'product_id'>;
-  export type ProductCheckDeliveryTime = Pick<EventValues, | 'product_id'| 'success'>;
+  export type ProductCheckDeliveryTime = Pick<EventValues, | 'product_id' | 'success'>;
   export type ProductSubscribeNewsletter = Pick<EventValues, | 'product_id' | 'success'>;
   export type ProductViewAbout = Pick<EventValues, | 'product_id' | 'show'>;
   export type PressAddToCartPrimeLP = Pick<EventValues, | 'position'>;

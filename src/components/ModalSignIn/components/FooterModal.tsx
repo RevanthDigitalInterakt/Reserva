@@ -1,8 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import AnimatedLottieView from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 
 import { View } from 'react-native';
 import testProps from '../../../utils/testProps';
@@ -14,6 +12,10 @@ import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicy
 
 import * as Styles from '../styles';
 import { usePrimeInfo } from '../../../hooks/usePrimeInfo';
+import { Typography } from '../../Typography/Typography';
+import { Box } from '../../Box/Box';
+import { Button } from '../../Button';
+import { loadingSpinner } from '../../../../assets/animations';
 
 interface PropsComponent {
   onClose: () => void;
@@ -63,111 +65,106 @@ export function FooterModalPrime({
   const renderContentText = useCallback(() => {
     if (!profile) {
       return (
-        <>
+        <Typography
+          fontFamily="reservaSansRegular"
+          color="neutroFrio2"
+          fontSize={14}
+          style={{ marginBottom: 24 }}
+        >
+          Por apenas
+          {' '}
           <Typography
-            fontFamily="reservaSansRegular"
-            color="neutroFrio2"
             fontSize={14}
-            style={{ marginBottom: 24 }}
+            color="fullBlack"
+            fontFamily="reservaSansBold"
           >
-            Por apenas
+            {primeInformation?.installmentQty}
+            x R$
             {' '}
-            <Typography
-              fontSize={14}
-              color="fullBlack"
-              fontFamily="reservaSansBold"
-            >
-              {primeInformation?.installmentQty}
-              x R$
-              {' '}
-              {primeInformation?.installmentPrice}
-            </Typography>
-            , assinantes
-            {' '}
-            <Typography
-              fontSize={14}
-              fontFamily="reservaSerifBlack"
-              color="fullBlack"
-            >
-              Prime
-            </Typography>
-            {' '}
-            têm acesso a vantagens como descontos exclusivos e frete grátis em
-            compras acima de
-            {' '}
-            <Typography
-              fontSize={14}
-              color="fullBlack"
-              fontFamily="reservaSansBold"
-            >
-              R$
-              {' '}
-              {primeInformation?.discountFrom}
-            </Typography>
-            , toque no botão abaixo e comece agora mesmo a comprar!
+            {primeInformation?.installmentPrice}
           </Typography>
-        </>
+          , assinantes
+          {' '}
+          <Typography
+            fontSize={14}
+            fontFamily="reservaSerifBlack"
+            color="fullBlack"
+          >
+            Prime
+          </Typography>
+          {' '}
+          têm acesso a vantagens como descontos exclusivos e frete grátis em
+          compras acima de
+          {' '}
+          <Typography
+            fontSize={14}
+            color="fullBlack"
+            fontFamily="reservaSansBold"
+          >
+            R$
+            {' '}
+            {primeInformation?.discountFrom}
+          </Typography>
+          , toque no botão abaixo e comece agora mesmo a comprar!
+        </Typography>
       );
     }
 
     return (
-      <>
-        <Typography
-          fontFamily="reservaSansRegular"
-          style={Styles.objectStyles.modalText}
-        >
-          Olá!
-          {' '}
-          <View>
+      <Typography
+        fontFamily="reservaSansRegular"
+        style={Styles.objectStyles.modalText}
+      >
+        Olá!
+        {' '}
+        <View>
 
-            <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>{profile?.firstName}</Typography>
-          </View>
-          {' '}
-          você ainda não é cliente
-          {' '}
-          <View>
-            <Typography fontFamily="reservaDisplayRegular" style={Styles.objectStyles.highlightedText}>Prime</Typography>
-          </View>
-          ,
-          mas não se preocupe, basta tocar no botão
+          <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>{profile?.firstName}</Typography>
+        </View>
+        {' '}
+        você ainda não é cliente
+        {' '}
+        <View>
+          <Typography fontFamily="reservaDisplayRegular" style={Styles.objectStyles.highlightedText}>Prime</Typography>
+        </View>
+        ,
+        mas não se preocupe, basta tocar no botão
 
-          abaixo
-          e adicionar em sua sacola a assinatura
+        abaixo
+        e adicionar em sua sacola a assinatura
 
-          pelo valor de
-          {' '}
-          <View>
-            <Typography fontFamily="reservaSansBold" numberOfLines={1} style={Styles.objectStyles.highlightedText}>
-              {primeInformation?.installmentQty}
-              x de R$
-              {' '}
-              {primeInformation?.installmentPrice}
-            </Typography>
-          </View>
-          .
-          {'\n\n'}
+        pelo valor de
+        {' '}
+        <View>
+          <Typography fontFamily="reservaSansBold" numberOfLines={1} style={Styles.objectStyles.highlightedText}>
+            {primeInformation?.installmentQty}
+            x de R$
+            {' '}
+            {primeInformation?.installmentPrice}
+          </Typography>
+        </View>
+        .
+        {'\n\n'}
 
-          Ao aderir ao
-          {' '}
-          <View>
-            <Typography fontFamily="reservaDisplayRegular" style={Styles.objectStyles.highlightedText}>Prime</Typography>
-          </View>
-          {' '}
-          você pode aproveitar
+        Ao aderir ao
+        {' '}
+        <View>
+          <Typography fontFamily="reservaDisplayRegular" style={Styles.objectStyles.highlightedText}>Prime</Typography>
+        </View>
+        {' '}
+        você pode aproveitar
 
-          todos os benefícios da sua assinatura em
+        todos os benefícios da sua assinatura em
 
-          compras acima de
-          {' '}
-          <View>
-            <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>
-              {primeInformation && `R$${primeInformation?.discountFrom}`}
-            </Typography>
-          </View>
-          !
-        </Typography>
-
-      </>
+        compras acima de
+        {' '}
+        <View>
+          <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>
+            {primeInformation && `R$${primeInformation?.discountFrom}`}
+          </Typography>
+        </View>
+        !
+      </Typography>
     );
   }, [profile, primeInformation]);
 

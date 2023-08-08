@@ -39,8 +39,8 @@ interface IExtensionsInArray {
 
 const ISCATEGORY = ['/reserva', '/unbrand', '/mini', '/reversa/'] as const;
 const REGEX = {
-  pathnName: new RegExp(/\|/g),
-  searchRegExp: new RegExp(/\//g),
+  pathnName: /\|/g,
+  searchRegExp: /\//g,
 };
 
 const CustomBlocks = {
@@ -94,7 +94,8 @@ const getContentFullUrl = async (
 };
 
 export const catalogService = async (
-  pathName: string, fullUrl: string,
+  pathName: string,
+  fullUrl: string,
 ): Promise<IFallBackRoute> => {
   const newPathName = pathName.replace(REGEX.pathnName, '/');
 
@@ -130,7 +131,7 @@ export const catalogService = async (
 
     const category = await deeplinkService.getCategory(newPathName);
 
-    if (!category) return createRouteFallbackPlatform(newPathName);
+    if (!category) return await createRouteFallbackPlatform(newPathName);
 
     let treePath: string = `${category.route.pageContext.id}/flex-layout.row#colecoes-custom/flex-layout.col#colecoes-custom/search-result-layout.customQuery#colecoes-custom`;
 
@@ -171,7 +172,7 @@ export const catalogService = async (
     const listContent: ListContent | undefined = dataListContent.listContent[0];
 
     if (!listContent?.contentJSON) {
-      return createRouteFallbackPlatform(newPathName);
+      return await createRouteFallbackPlatform(newPathName);
     }
 
     const {

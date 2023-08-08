@@ -61,7 +61,6 @@ export const LoginScreen: FC<Props> = ({
     try {
       if (comeFrom === 'Checkout') {
         verifyUserEmail();
-        return;
       }
     } catch (error) {
       EventProvider.captureException(error);

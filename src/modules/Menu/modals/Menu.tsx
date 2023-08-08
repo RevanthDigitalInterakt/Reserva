@@ -1,25 +1,25 @@
 import { useLazyQuery } from '@apollo/client';
 import
-  {
-    Box,
-    Button,
-    Divider,
-    Icon,
-    theme,
-    Typography,
-  } from '@usereservaapp/reserva-ui';
+{
+  Box,
+  Button,
+  Divider,
+  Icon,
+  theme,
+  Typography,
+} from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useEffect, useState, useCallback } from 'react';
 import
-  {
-    BackHandler,
-    Linking,
-    ScrollView,
-    TouchableOpacity,
-  } from 'react-native';
+{
+  BackHandler,
+  Linking,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -34,21 +34,18 @@ import { defaultBrand } from '../../../utils/defaultWBrand';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
-interface IBreadCrumbs
-{
+interface IBreadCrumbs {
   title: string;
 }
 
-interface IMenuSubItem
-{
+interface IMenuSubItem {
   title: string;
   onPress?: Function;
   highlight?: boolean;
   testID: string;
 }
 
-interface IMenuItem
-{
+interface IMenuItem {
   title: string;
   subItemList: Subcategory;
   opened?: boolean;
@@ -57,8 +54,7 @@ interface IMenuItem
   highlight?: boolean;
 }
 
-const Breadcrumbs: React.FC<IBreadCrumbs> = ({ title }) =>
-{
+const Breadcrumbs: React.FC<IBreadCrumbs> = ({ title }) => {
   const navigation = useNavigation();
   return (
     <Button
@@ -87,17 +83,13 @@ const Breadcrumbs: React.FC<IBreadCrumbs> = ({ title }) =>
 
 const MenuSubItem: React.FC<IMenuSubItem> = ({
   title, onPress, highlight, testID,
-}) =>
-{
+}) => {
   const navigation = useNavigation();
   const [clickMenu, setClickMenu] = useState<boolean>(false);
 
-  useEffect(() =>
-  {
-    if (clickMenu)
-    {
-      BackHandler.addEventListener('hardwareBackPress', () =>
-      {
+  useEffect(() => {
+    if (clickMenu) {
+      BackHandler.addEventListener('hardwareBackPress', () => {
         navigation.dispatch(StackActions.popToTop());
 
         navigation.navigate('Menu');
@@ -107,8 +99,7 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({
     }
   }, [clickMenu]);
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     setClickMenu(false);
     EventProvider.logEvent('page_view', {
       wbrand: defaultBrand.picapau,
@@ -117,8 +108,7 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({
 
   return (
     <TouchableOpacity
-      onPress={() =>
-      {
+      onPress={() => {
         onPress && onPress();
 
         setClickMenu(true);
@@ -150,8 +140,7 @@ const MenuItem: React.FC<IMenuItem> = ({
   index: indexProp,
   subItemList,
   highlight,
-}) =>
-{
+}) => {
   const navigation = useNavigation();
 
   return (
@@ -197,19 +186,14 @@ const MenuItem: React.FC<IMenuItem> = ({
                 highlight={item.highlight}
                 title={item.name}
                 testID={`submenu_button_${slugify(item.name)}`}
-                onPress={() =>
-                {
+                onPress={() => {
                   const facetInput: any[] = [];
                   const [subType, subcategories] = item?.referenceId?.split(':') || [undefined, undefined];
 
-                  if (subType === 'category')
-                  {
-                    if (subcategories)
-                    {
-                      subcategories.split('|').forEach((sub) =>
-                      {
-                        if (sub !== '')
-                        {
+                  if (subType === 'category') {
+                    if (subcategories) {
+                      subcategories.split('|').forEach((sub) => {
+                        if (sub !== '') {
                           facetInput.push({
                             key: 'c',
                             value: sub,
@@ -217,8 +201,7 @@ const MenuItem: React.FC<IMenuItem> = ({
                         }
                       });
                     }
-                  } else
-                  {
+                  } else {
                     facetInput.push({
                       key: 'productClusterIds',
                       value: subcategories,
@@ -251,22 +234,21 @@ export const FixedMenuItem: React.FC<{
 }> = ({
   iconName, title, onPress, disabled, underline, testID,
 }) => (
-    <TouchableOpacity onPress={onPress} disabled={disabled} {...testProps(testID)}>
-      <Box
-        justifyContent="flex-start"
-        alignItems="center"
-        marginY="micro"
-        flexDirection="row"
-        marginX="xxxs"
-      >
-        <Icon name={iconName} color="preto" size={18} />
-        <Box marginX="micro">{title}</Box>
-      </Box>
-    </TouchableOpacity>
-  );
+  <TouchableOpacity onPress={onPress} disabled={disabled} {...testProps(testID)}>
+    <Box
+      justifyContent="flex-start"
+      alignItems="center"
+      marginY="micro"
+      flexDirection="row"
+      marginX="xxxs"
+    >
+      <Icon name={iconName} color="preto" size={18} />
+      <Box marginX="micro">{title}</Box>
+    </Box>
+  </TouchableOpacity>
+);
 
-export interface Subcategory
-{
+export interface Subcategory {
   items: {
     name: string;
     referenceId: string;
@@ -274,8 +256,7 @@ export interface Subcategory
   }[];
 }
 
-export interface Category
-{
+export interface Category {
   name: string;
   children: Subcategory[];
   opened: boolean;
@@ -285,8 +266,7 @@ export interface Category
 
 export type MenuProps = StackScreenProps<RootStackParamList, 'Menu'>;
 
-export const Menu = ({ route }: MenuProps) =>
-{
+export function Menu({ route }: MenuProps) {
   const indexOpened = route?.params?.indexMenuOpened;
   const navigation = useNavigation();
   const [isTesting, setIsTesting] = useState<boolean>(false);
@@ -307,10 +287,8 @@ export const Menu = ({ route }: MenuProps) =>
     context: { clientName: 'contentful' },
   });
 
-  useEffect(() =>
-  {
-    getCategories().then((response) =>
-    {
+  useEffect(() => {
+    getCategories().then((response) => {
       setCategoriesData({
         loading: false,
         data: response.data,
@@ -318,8 +296,7 @@ export const Menu = ({ route }: MenuProps) =>
     });
   }, []);
 
-  const getIsScreenRegionalizationActive = async () =>
-  {
+  const getIsScreenRegionalizationActive = async () => {
     const cashback_in_store = await RemoteConfigService.getValue<boolean>(
       'FEATURE_REGIONALIZATION',
     );
@@ -327,26 +304,22 @@ export const Menu = ({ route }: MenuProps) =>
     setScreenRegionalizationActive(cashback_in_store);
   };
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     getIsScreenRegionalizationActive();
   }, []);
 
   const categoryItems = data?.appMenuCollection.items[0].itemsCollection.items || [];
 
-  const getCep = async () =>
-  {
+  const getCep = async () => {
     const value = await AsyncStorage.getItem('RegionalSearch:cep');
     setCep(value);
   };
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     getCep();
   }, []);
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     setCategories(
       categoryItems.map((item: any, index: number) => ({
         ...item,
@@ -360,12 +333,9 @@ export const Menu = ({ route }: MenuProps) =>
     setResetGoBackButton(true);
   }, [data]);
 
-  useEffect(() =>
-  {
-    if (resetGoBackButton)
-    {
-      BackHandler.addEventListener('hardwareBackPress', () =>
-      {
+  useEffect(() => {
+    if (resetGoBackButton) {
+      BackHandler.addEventListener('hardwareBackPress', () => {
         navigation.goBack();
 
         return true;
@@ -373,28 +343,24 @@ export const Menu = ({ route }: MenuProps) =>
     }
   }, [resetGoBackButton]);
 
-  const trackEventAccessedDepartmentDito = useCallback(async (openedCategories: string) =>
-  {
+  const trackEventAccessedDepartmentDito = useCallback(async (openedCategories: string) => {
     const id = profile?.email
       ? await getItem('@Dito:userRef')
       : await AsyncStorage.getItem('@Dito:anonymousID');
 
     if (!openedCategories) return;
 
-    EventProvider.sendTrackEvent(
-      'acessou-departamento', {
+    EventProvider.sendTrackEvent('acessou-departamento', {
       id,
       action: 'acessou-departamento',
       data: {
         nome_departamento: openedCategories,
         origem: 'app',
       },
-    },
-    );
+    });
   }, [getItem, profile?.email]);
 
-  const openMenuItem = useCallback((index: number) =>
-  {
+  const openMenuItem = useCallback((index: number) => {
     const updatedCategories = categories.map((item, i) => ({
       ...item,
       opened: index === i && !item?.opened,
@@ -407,28 +373,23 @@ export const Menu = ({ route }: MenuProps) =>
     trackEventAccessedDepartmentDito(openedCategories);
   }, [categories, trackEventAccessedDepartmentDito]);
 
-  const getTestEnvironment = async () =>
-  {
+  const getTestEnvironment = async () => {
     const res = await AsyncStorage.getItem('isTesting');
 
-    if (res === 'true')
-    {
+    if (res === 'true') {
       setIsTesting(true);
-    } else
-    {
+    } else {
       setIsTesting(false);
     }
   };
 
-  const navigateFromMenu = (route: string) =>
-  {
+  const navigateFromMenu = (route: string) => {
     navigation.navigate(route, {
       comeFrom: 'Menu',
     });
   };
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     getTestEnvironment();
   }, []);
 
@@ -472,8 +433,7 @@ export const Menu = ({ route }: MenuProps) =>
                       {`${cep != null ? cep : 'Inserir'} ou alterar CEP`}
                     </Typography>
                   )}
-                  onPress={() =>
-                  {
+                  onPress={() => {
                     navigation.navigate('ChangeRegionalization');
                   }}
                 />
@@ -491,8 +451,7 @@ export const Menu = ({ route }: MenuProps) =>
                   >
                     {profile?.email ? (
                       <Typography
-                        onPress={() =>
-                        {
+                        onPress={() => {
                           navigation.navigate('Profile');
                         }}
                       >
@@ -502,8 +461,7 @@ export const Menu = ({ route }: MenuProps) =>
                       </Typography>
                     ) : (
                       <Typography
-                        onPress={() =>
-                        {
+                        onPress={() => {
                           navigation.navigate('Login', { comeFrom: 'Profile' });
                         }}
                       >
@@ -526,8 +484,7 @@ export const Menu = ({ route }: MenuProps) =>
                     Favoritos
                   </Typography>
                 )}
-                onPress={() =>
-                {
+                onPress={() => {
                   navigation.navigate('WishList');
                 }}
               />
@@ -544,8 +501,7 @@ export const Menu = ({ route }: MenuProps) =>
                     Central de Ajuda
                   </Typography>
                 )}
-                onPress={() =>
-                {
+                onPress={() => {
                   navigateFromMenu('HelpCenter');
                 }}
               />
@@ -562,8 +518,7 @@ export const Menu = ({ route }: MenuProps) =>
                     Lojas
                   </Typography>
                 )}
-                onPress={() =>
-                {
+                onPress={() => {
                   Linking.openURL('https://whts.co/reserva');
                 }}
               />
@@ -580,8 +535,7 @@ export const Menu = ({ route }: MenuProps) =>
                     Política de Privacidade
                   </Typography>
                 )}
-                onPress={() =>
-                {
+                onPress={() => {
                   navigateFromMenu('PrivacyPolicy');
                 }}
               />
@@ -603,4 +557,4 @@ export const Menu = ({ route }: MenuProps) =>
       </Box>
     </SafeAreaView>
   );
-};
+}

@@ -9,12 +9,12 @@ import configDeviceSizes from '../../../utils/configDeviceSizes';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import ImageComponent from '../../../components/ImageComponent/ImageComponent';
 
-const Card = ({
+function Card({
   image,
   reference,
   reservaMini,
   orderBy,
-}: CarrouselCard) => {
+}: CarrouselCard) {
   const navigation = useNavigation();
 
   const handleNavigation = () => {
@@ -74,6 +74,6 @@ const Card = ({
       </Button>
     </Box>
   );
-};
+}
 
 export default Card;

@@ -1,12 +1,9 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import {
-  Typography,
-  decimalPart,
-  integerPart,
-} from '@usereservaapp/reserva-ui';
-import { styles } from './SelectBoxNormal.styles';
+import { decimalPart, integerPart } from '../../utils/numberUtils';
 import testProps from '../../utils/testProps';
+import { Typography } from '../Typography/Typography';
+import { styles } from './SelectBoxNormal.styles';
 
 export interface SelectBoxNormalProps {
   onPress: (option: string) => void;

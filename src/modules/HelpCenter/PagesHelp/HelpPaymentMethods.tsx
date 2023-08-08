@@ -7,7 +7,7 @@ import {
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
-export const HelpPaymentMethods = () => {
+export function HelpPaymentMethods() {
   useEffect(() => { }, []);
 
   const data = [
@@ -84,4 +84,4 @@ export const HelpPaymentMethods = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

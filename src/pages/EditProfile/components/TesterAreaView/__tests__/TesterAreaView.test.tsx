@@ -45,77 +45,62 @@ const TestingComponent = (
 );
 
 // TODO check test broken
-describe.skip('ChangeFileModal', () =>
-{
-  beforeEach(async () =>
-  {
+describe.skip('ChangeFileModal', () => {
+  beforeEach(async () => {
     render(TestingComponent);
   });
 
-  it('renders without error and match snapshot', async () =>
-  {
+  it('renders without error and match snapshot', async () => {
     expect(screen.toJSON()).toMatchSnapshot();
   });
 
   // describe('OneSignal Token tests', () => {
-  it('check pressable handle copy one signal token', async () =>
-  {
-    await act(async () =>
-    {
+  it('check pressable handle copy one signal token', async () => {
+    await act(async () => {
       await fireEvent.press(screen.getByTestId(TestsIds.buttons.oneSignal));
     });
 
     expect(Clipboard.setString).toHaveBeenCalledTimes(1);
   });
 
-  it('check oneSignal token when pressable handle copy oneSignal token', async () =>
-  {
-    await act(async () =>
-    {
+  it('check oneSignal token when pressable handle copy oneSignal token', async () => {
+    await act(async () => {
       await fireEvent.press(screen.getByTestId(TestsIds.buttons.oneSignal));
     });
 
     expect(Clipboard.setString).toHaveBeenCalledWith(oneSignalToken);
   });
 
-  it('check render oneSignal token text', async () =>
-  {
+  it('check render oneSignal token text', async () => {
     expect(screen.getByTestId(TestsIds.texts.oneSignal).children[0]).toBe(oneSignalToken);
   });
   // });
 
   // describe('OrderFormId tests', () => {
-  it.skip('check pressable handle copy orderFormId', async () =>
-  {
-    await act(async () =>
-    {
+  it.skip('check pressable handle copy orderFormId', async () => {
+    await act(async () => {
       await fireEvent.press(screen.getByTestId(TestsIds.buttons.oderFormId));
     });
 
     expect(Clipboard.setString).toHaveBeenCalledTimes(1);
   });
 
-  it('check orderFormId when pressable handle copy orderFormId', async () =>
-  {
-    await act(async () =>
-    {
+  it('check orderFormId when pressable handle copy orderFormId', async () => {
+    await act(async () => {
       await fireEvent.press(screen.getByTestId(TestsIds.buttons.oderFormId));
     });
 
     expect(Clipboard.setString).toHaveBeenCalledWith(orderFormId);
   });
 
-  it('check render orderFormId text', async () =>
-  {
+  it('check render orderFormId text', async () => {
     expect(screen.getByTestId(TestsIds.texts.orderFormId).children[0]).toBe(orderFormId);
   });
   // });
 
   // describe('Teste user toogle', () => {
-  it('check pressable handle toogle user test', async () =>
-  {
-    await act(async () =>
-    {
+  it('check pressable handle toogle user test', async () => {
+    await act(async () => {
       await fireEvent.press(screen.getByTestId(TestsIds.buttons.userTester));
     });
 
@@ -124,10 +109,8 @@ describe.skip('ChangeFileModal', () =>
   // });
 
   // describe('Test onboardingView toogle', () => {
-  it('check pressable handle toogle user test', async () =>
-  {
-    await act(async () =>
-    {
+  it('check pressable handle toogle user test', async () => {
+    await act(async () => {
       await fireEvent.press(screen.getByTestId(TestsIds.buttons.onboardView));
     });
 

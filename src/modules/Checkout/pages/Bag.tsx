@@ -70,7 +70,7 @@ const PRIME_SKU_ID = 348009;
 
 type Props = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
-const WithAvoidingView = ({ children }: { children: React.ReactNode }) => {
+function WithAvoidingView({ children }: { children: React.ReactNode }) {
   if (Platform.OS === platformType.IOS) {
     return (
       <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
@@ -80,9 +80,9 @@ const WithAvoidingView = ({ children }: { children: React.ReactNode }) => {
   }
 
   return <>{children}</>;
-};
+}
 
-export const BagScreen = ({ route }: Props) => {
+export function BagScreen({ route }: Props) {
   const authStore = useAuthStore(['profile']);
 
   const navigation = useNavigation();
@@ -1583,4 +1583,4 @@ export const BagScreen = ({ route }: Props) => {
       <ToastProvider />
     </SafeAreaView>
   );
-};
+}

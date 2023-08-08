@@ -1,7 +1,7 @@
-import { theme } from '@usereservaapp/reserva-ui';
 import React from 'react';
-import Toast, { BaseToast, BaseToastProps, ToastShowParams } from 'react-native-toast-message';
+import Toast, { BaseToast, type BaseToastProps, type ToastShowParams } from 'react-native-toast-message';
 import configDeviceSizes from '../configDeviceSizes';
+import { theme } from '../../base/usereservappLegacy/theme';
 
 const TOAST_WIDTH = configDeviceSizes.DEVICE_WIDTH * 0.85;
 
@@ -47,8 +47,8 @@ const toastConfig = {
   ),
 };
 
-const ToastProvider: React.FC = () => (
-  <Toast config={toastConfig} />
-);
+function ToastProvider() {
+  return <Toast config={toastConfig} />;
+}
 
 export default ToastProvider;

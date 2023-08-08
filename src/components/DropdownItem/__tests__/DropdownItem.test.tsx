@@ -1,10 +1,10 @@
 import React from 'react';
-import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 import {
   fireEvent, render, screen, waitFor,
 } from '@testing-library/react-native';
 import DropdownItem from '../DropdownItem';
+import { theme } from '../../../base/usereservappLegacy/theme';
 
 const TestingComponent = (
   <ThemeProvider theme={theme}>

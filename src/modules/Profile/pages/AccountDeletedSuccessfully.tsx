@@ -7,7 +7,7 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { getApolloClient } from '../../../utils/getApolloClient';
 
-export const AccountDeletedSuccessfully = () => {
+export function AccountDeletedSuccessfully() {
   const navigation = useNavigation();
   const { onSignOut } = useAuthStore(['onSignOut']);
 
@@ -69,4 +69,4 @@ export const AccountDeletedSuccessfully = () => {
       </Box>
     </SafeAreaView>
   );
-};
+}

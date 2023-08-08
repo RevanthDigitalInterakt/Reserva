@@ -7,7 +7,7 @@ import {
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
-export const Exchanges = () => {
+export function Exchanges() {
   useEffect(() => {}, []);
 
   const data = [
@@ -72,4 +72,4 @@ export const Exchanges = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

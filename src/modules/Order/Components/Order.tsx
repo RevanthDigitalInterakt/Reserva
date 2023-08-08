@@ -57,7 +57,7 @@ interface IOrder {
   data: IOrderData;
 }
 
-const Order = ({ data }: IOrder) => {
+function Order({ data }: IOrder) {
   const navigation = useNavigation();
 
   const order = useMemo(() => ({
@@ -138,6 +138,6 @@ const Order = ({ data }: IOrder) => {
       </Box>
     </TouchableOpacity>
   );
-};
+}
 
 export default Order;

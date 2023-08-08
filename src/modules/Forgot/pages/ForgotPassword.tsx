@@ -4,9 +4,9 @@ import * as React from 'react';
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import
-  {
-    Typography, Box, TextField, Button,
-  } from '@usereservaapp/reserva-ui';
+{
+  Typography, Box, TextField, Button,
+} from '@usereservaapp/reserva-ui';
 
 import type { StackScreenProps } from '@react-navigation/stack';
 import images from '../../../base/styles/icons';
@@ -16,8 +16,7 @@ import type { RootStackParamList } from '../../../routes/StackNavigator';
 export interface ForgotPasswordProps
   extends StackScreenProps<RootStackParamList, 'ForgotPassword'> { }
 
-export const ForgotPassword: React.FC<ForgotPasswordProps> = () =>
-{
+export const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState<string>('');
   return (
@@ -44,8 +43,7 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = () =>
             title="CONTINUAR"
             width={258}
             variant="primarioEstreitoOutline"
-            onPress={() =>
-            {
+            onPress={() => {
               AsyncStorage.setItem('recoveryEmail', email);
               navigation.navigate('ForgotAccessCode');
             }}

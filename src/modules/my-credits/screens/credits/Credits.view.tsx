@@ -6,8 +6,8 @@ export interface CreditsViewProps {
   creditsBalance?: number;
 }
 
-export const CreditsView = ({ creditsBalance }: CreditsViewProps) => (
-  <>
+export function CreditsView({ creditsBalance }: CreditsViewProps) {
+  return (
     <Box mx="xxs" mt="sm">
       <Box mb="nano">
         <Typography variant="tituloSessoes">Meus créditos</Typography>
@@ -44,5 +44,5 @@ export const CreditsView = ({ creditsBalance }: CreditsViewProps) => (
         </Box>
       </Box>
     </Box>
-  </>
-);
+  );
+}

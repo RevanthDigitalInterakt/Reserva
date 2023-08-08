@@ -15,8 +15,7 @@ export type GetSetOptions = {
   isJSON?: boolean;
 };
 
-export enum StorageServiceKeys
-{
+export enum StorageServiceKeys {
   /**
    * Chave para armazenar o token do usuário
    */
@@ -31,8 +30,7 @@ export enum StorageServiceKeys
   COOKIE = 'cookie',
 }
 
-export class StorageService
-{
+export class StorageService {
   /**
    * Retorna o token de instalação único do usuário no app
    *
@@ -48,23 +46,17 @@ export class StorageService
    * ```
    *
    */
-  static async getInstallationToken(): Promise<string>
-  {
-    return new Promise((resolve, reject) =>
-    {
+  static async getInstallationToken(): Promise<string> {
+    return new Promise((resolve, reject) => {
       AsyncStorage.getItem(StorageServiceKeys.INSTALLATION_TOKEN)
-        .then((value) =>
-        {
-          if (value)
-          {
+        .then((value) => {
+          if (value) {
             resolve(value);
-          } else
-          {
+          } else {
             reject(new Error('No installation token'));
           }
         })
-        .catch((error) =>
-        {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -85,22 +77,18 @@ export class StorageService
    * ```
    *
    */
-  static async setInstallationToken(): Promise<boolean>
-  {
-    return new Promise((resolve, reject) =>
-    {
+  static async setInstallationToken(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
       const installationToken = uuid.v4() as string;
 
       AsyncStorage.setItem(
         StorageServiceKeys.INSTALLATION_TOKEN,
         installationToken,
       )
-        .then(() =>
-        {
+        .then(() => {
           resolve(true);
         })
-        .catch((error) =>
-        {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -126,23 +114,17 @@ export class StorageService
    * ```
    *
    */
-  static async getItem<T>({ key, isJSON }: GetSetOptions): Promise<T>
-  {
-    return new Promise((resolve, reject) =>
-    {
+  static async getItem<T>({ key, isJSON }: GetSetOptions): Promise<T> {
+    return new Promise((resolve, reject) => {
       AsyncStorage.getItem(key)
-        .then((value) =>
-        {
-          if (value)
-          {
+        .then((value) => {
+          if (value) {
             resolve(isJSON ? JSON.parse(value) : value);
-          } else
-          {
+          } else {
             reject(new Error(`No data found for key: ${key}`));
           }
         })
-        .catch((error) =>
-        {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -174,23 +156,17 @@ export class StorageService
     key,
     value,
     isJSON,
-  }: GetSetOptions): Promise<boolean>
-  {
-    return new Promise((resolve, reject) =>
-    {
-      if (value)
-      {
+  }: GetSetOptions): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      if (value) {
         AsyncStorage.setItem(key, isJSON ? JSON.stringify(value) : value)
-          .then(() =>
-          {
+          .then(() => {
             resolve(true);
           })
-          .catch((error) =>
-          {
+          .catch((error) => {
             reject(error);
           });
-      } else
-      {
+      } else {
         reject(new Error('Value is required'));
       }
     });
@@ -218,19 +194,14 @@ export class StorageService
    * ```
    *
    */
-  static async multiGet<T>(options: GetSetOptions[]): Promise<T>
-  {
+  static async multiGet<T>(options: GetSetOptions[]): Promise<T> {
     const promises = options.map((option: GetSetOptions) => AsyncStorage.getItem(option.key));
-    const processResult = (result: any) =>
-    {
+    const processResult = (result: any) => {
       const resultObj: any = {};
-      result.map((value: string, i: number) =>
-      {
-        if (options[i].isJSON)
-        {
+      result.map((value: string, i: number) => {
+        if (options[i].isJSON) {
           resultObj[options[i].key] = JSON.parse(value);
-        } else
-        {
+        } else {
           resultObj[options[i].key] = value;
         }
         return true;
@@ -239,8 +210,7 @@ export class StorageService
     };
 
     return Promise.all(promises).then(
-      (result) =>
-      {
+      (result) => {
         const value = processResult(result);
         return Promise.resolve(value);
       },
