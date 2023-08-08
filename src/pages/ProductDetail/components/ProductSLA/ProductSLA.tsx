@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  Box, Button, Divider, OutlineInput, Typography,
+  Box, Button, Divider, Typography,
 } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import * as Sentry from '@sentry/react-native';
@@ -8,6 +8,7 @@ import { useProductDeliveryTimeLazyQuery } from '../../../../base/graphql/genera
 import { removeNonNumbers } from '../../../../utils/removeNonNumbers';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import EventProvider from '../../../../utils/EventProvider';
+import { OutlineInput } from '../../../../components/OutlineInput/OutlineInput';
 
 function ProductSLA() {
   const { selectedSize, productDetail, initialCep } = useProductDetailStore([

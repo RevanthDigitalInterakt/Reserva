@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Box, OutlineInput, Typography } from '@usereservaapp/reserva-ui';
+import { Box, Typography } from '@usereservaapp/reserva-ui';
 import * as Yup from 'yup';
 import { Keyboard } from 'react-native';
 import * as Sentry from '@sentry/react-native';
@@ -7,6 +7,7 @@ import Tooltip from './Tooltip';
 import { useSubscribeNewsletterMutation } from '../../../../base/graphql/generated';
 import EventProvider from '../../../../utils/EventProvider';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+import { OutlineInput } from '../../../../components/OutlineInput/OutlineInput';
 
 function FormNewsletter() {
   const { productDetail } = useProductDetailStore(['productDetail']);
