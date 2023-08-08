@@ -58,7 +58,7 @@
     "formik": "^2.4.2",
     "graphql": "^16.7.1",
     "jest-fetch-mock": "3.0.3",
-    "lottie-react-native": "^6.0.1",
+    "lottie-react-native": "^5.1.6",
     "qs-stringify": "^1.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
