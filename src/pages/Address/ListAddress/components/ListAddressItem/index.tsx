@@ -40,7 +40,7 @@ export default function ListAddressItem({
       </View>
       {item.selected && (
         <View style={styles.listItemActionsContainer}>
-          <TouchableOpacity style={styles.listItemActionButton} onPress={onNavigate}>
+          <TouchableOpacity style={styles.listItemActionButton} onPress={() => onNavigate(item.id)}>
             <IconEdit />
           </TouchableOpacity>
           <TouchableOpacity style={styles.listItemActionButton}>

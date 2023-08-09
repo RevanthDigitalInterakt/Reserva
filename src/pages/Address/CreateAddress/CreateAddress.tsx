@@ -43,6 +43,7 @@ import { COLORS } from '../../../base/styles/colors';
 import { postalCodeMask } from '../../../utils/postalCodeMask';
 import testProps from '../../../utils/testProps';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 const createAddressSchema = Yup.object().shape({
   addressSurname: addressSurnameSchema,
@@ -59,7 +60,7 @@ const createAddressSchema = Yup.object().shape({
 type TCreateAddressProps = StackScreenProps<RootStackParamList, 'CreateAddress'>;
 
 export default function CreateAddress(
-  { navigation }: TCreateAddressProps,
+  { navigation, route }: TCreateAddressProps,
 ): JSX.Element {
   const inputSurnameRef = useRef<TextInput>(null);
   const inputFullnameRef = useRef<TextInput>(null);
@@ -72,11 +73,16 @@ export default function CreateAddress(
   const [loading, setLoading] = useState(false);
   const [isMainAddress, setIsMainAddress] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
   const switchMainAddress = () => setIsMainAddress(!isMainAddress);
 
   const [profileAddress] = useProfileAddressMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
+
+  const { profile } = useAuthStore(['profile']);
+
+  const addressData = profile?.addresses.find((x) => x?.id === route.params?.id);
 
   const checkPostalCode = useCallback<TCheckPostalCodeFn>(async (value, setFieldValue) => {
     if (value.length < 8) return;
@@ -118,6 +124,29 @@ export default function CreateAddress(
     setLoading(true);
 
     try {
+      if (route.params?.id) {
+        await profileAddress(
+          {
+            variables: {
+              input: {
+                addressId: route.params?.id,
+                city,
+                country: 'Brasil',
+                neighborhood,
+                number: addressNumber,
+                postalCode,
+                receiverName: fullname,
+                state: addressState,
+                street,
+                addressName: addressSurname,
+                complement,
+                mainAddress: isMainAddress,
+              },
+            },
+          },
+        );
+        return;
+      }
       await profileAddress(
         {
           variables: {
@@ -137,14 +166,14 @@ export default function CreateAddress(
           },
         },
       );
-
-      navigation.goBack();
     } catch (error) {
       ExceptionProvider.captureException(error);
     } finally {
       setLoading(false);
     }
-  }, [profileAddress, isMainAddress, navigation]);
+
+    navigation.goBack();
+  }, [route.params?.id, profileAddress, isMainAddress, navigation]);
 
   const modalController = useCallback((actionType?: string) => {
     if (actionType && actionType === 'cancel') {
@@ -187,15 +216,15 @@ export default function CreateAddress(
 
         <Formik
           initialValues={{
-            addressSurname: '',
-            fullname: '',
-            postalCode: '',
-            street: '',
-            neighborhood: '',
-            addressNumber: '',
-            complement: '',
-            addressState: '',
-            city: '',
+            addressSurname: addressData?.addressName || '',
+            fullname: addressData?.receiverName || '',
+            postalCode: addressData?.postalCode || '',
+            street: addressData?.street || '',
+            neighborhood: addressData?.neighborhood || '',
+            addressNumber: addressData?.number || '',
+            complement: addressData?.complement || '',
+            addressState: addressData?.state || '',
+            city: addressData?.city || '',
           }}
           onSubmit={(values) => handleCreateAddress(values)}
           validationSchema={createAddressSchema}
