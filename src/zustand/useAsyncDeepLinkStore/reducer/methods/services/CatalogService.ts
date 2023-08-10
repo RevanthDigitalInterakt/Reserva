@@ -1,14 +1,14 @@
 import { Linking, Platform } from 'react-native';
-import { deeplinkService } from '../../../../../../services/deeplinkService';
-import { platformType } from '../../../../../../utils/platformType';
-import type { IListContentQuery, ListContent } from '../../../../../../graphql/facets/facetsQuery';
-import { listContentQuery } from '../../../../../../graphql/facets/facetsQuery';
-import type { IFallBackRoute } from '../../../../types/asyncDeepLinkStore';
-import type { IDeepLinkQuery, IDeepLinkRoute } from '../../../../../../graphql/DeepLink/DeepLinkQuery';
-import { DeeplinkPathDocument } from '../../../../../../base/graphql/generated';
-import DeepLinkPathModule from '../../../../../../NativeModules/DeepLinkPathModule';
-import { getApolloClient } from '../../../../../../utils/getApolloClient';
-import { ExceptionProvider } from '../../../../../../base/providers/ExceptionProvider';
+import { deeplinkService } from '../../../../../services/deeplinkService';
+import { platformType } from '../../../../../utils/platformType';
+import type { IListContentQuery, ListContent } from '../../../../../graphql/facets/facetsQuery';
+import { listContentQuery } from '../../../../../graphql/facets/facetsQuery';
+import type { IFallBackRoute } from '../../../types/asyncDeepLinkStore';
+import type { IDeepLinkQuery, IDeepLinkRoute } from '../../../../../graphql/DeepLink/DeepLinkQuery';
+import { DeeplinkPathDocument } from '../../../../../base/graphql/generated';
+import DeepLinkPathModule from '../../../../../NativeModules/DeepLinkPathModule';
+import { getApolloClient } from '../../../../../utils/getApolloClient';
+import { ExceptionProvider } from '../../../../../base/providers/ExceptionProvider';
 
 interface IExtensionsInArray {
   after: string[];

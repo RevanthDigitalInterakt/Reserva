@@ -1,5 +1,5 @@
 import reducer from '../asyncDeepLinkReducer';
-import * as CatalogService from '../methods/services/Catalog/CatalogService';
+import * as CatalogService from '../methods/services/CatalogService';
 
 const spy = jest.spyOn(CatalogService, 'catalogService');
 
