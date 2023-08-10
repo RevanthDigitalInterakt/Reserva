@@ -8,7 +8,7 @@ interface IDatadogComponentProvider {
 }
 
 function DatadogComponentProvider({ children }: IDatadogComponentProvider) {
-  if (Config.DATADOG_CLIENT_TOKEN) {
+  if (Config.DATADOG_CLIENT_TOKEN && !__DEV__) {
     return (
       <DatadogProvider configuration={datadogConfig}>
         {children}
