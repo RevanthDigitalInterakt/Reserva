@@ -82,7 +82,7 @@ export default function CreateAddress(
 
   const { profile } = useAuthStore(['profile']);
 
-  const addressData = profile?.addresses.find((x) => x?.id === route.params?.id);
+  const addressData = profile?.addresses.find((address) => address?.id === route.params?.id);
 
   const checkPostalCode = useCallback<TCheckPostalCodeFn>(async (value, setFieldValue) => {
     if (value.length < 8) return;
@@ -109,48 +109,28 @@ export default function CreateAddress(
   }, []);
 
   const handleCreateAddress = useCallback(async (addressValues: ICreateAddress) => {
-    const {
-      addressNumber,
-      addressState,
-      addressSurname,
-      city,
-      complement,
-      fullname,
-      neighborhood,
-      postalCode,
-      street,
-    } = addressValues;
-
-    setLoading(true);
-
     try {
-      if (route.params?.id) {
-        await profileAddress(
-          {
-            variables: {
-              input: {
-                addressId: route.params?.id,
-                city,
-                country: 'Brasil',
-                neighborhood,
-                number: addressNumber,
-                postalCode,
-                receiverName: fullname,
-                state: addressState,
-                street,
-                addressName: addressSurname,
-                complement,
-                mainAddress: isMainAddress,
-              },
-            },
-          },
-        );
-        return;
-      }
+      const {
+        addressNumber,
+        addressState,
+        addressSurname,
+        city,
+        complement,
+        fullname,
+        neighborhood,
+        postalCode,
+        street,
+      } = addressValues;
+
+      if (loading) return;
+
+      setLoading(true);
+
       await profileAddress(
         {
           variables: {
             input: {
+              ...(route.params?.id ? { addressId: route.params?.id } : {}),
               city,
               country: 'Brasil',
               neighborhood,
@@ -170,10 +150,9 @@ export default function CreateAddress(
       ExceptionProvider.captureException(error);
     } finally {
       setLoading(false);
+      navigation.goBack();
     }
-
-    navigation.goBack();
-  }, [route.params?.id, profileAddress, isMainAddress, navigation]);
+  }, [loading, route.params?.id, profileAddress, isMainAddress, navigation]);
 
   const modalController = useCallback((actionType?: string) => {
     if (actionType && actionType === 'cancel') {
