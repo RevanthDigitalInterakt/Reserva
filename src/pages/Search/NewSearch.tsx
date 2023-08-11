@@ -2,17 +2,17 @@ import React, { useEffect } from 'react';
 import SearchInitialPage from './components/SearchInitialPage';
 import SearchSuggestionsPage from './components/SearchSuggestionsPage';
 import SearchResults from './components/SearchResultsPage';
-import useSearchStore, { SearchStatusEnum } from '../../zustand/useSearchStore';
+import useSearchStore, { SearchStatusEnum, SearchType } from '../../zustand/useSearchStore';
 import SearchWrapper from './components/SearchWrapper';
 
 function NewSearch() {
   const { status, initialized, onInit } = useSearchStore(['status', 'onInit', 'initialized']);
 
   useEffect(() => {
-    onInit();
+    onInit(SearchType.SEARCH);
 
     return () => {
-      onInit();
+      onInit(SearchType.SEARCH);
     };
   }, [onInit]);
 
