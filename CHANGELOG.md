@@ -8,6 +8,7 @@
 - [14784 - Integração filtros da busca com API Gateway](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14784)
 - [14797 - Integrar no app - PDC](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14797)
 - [15832 - Implementar Datadog](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=15832)
+- [15868 - Implementação Deeplink Meta](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Siren%20Team%20Downstream/Product%20Backlog/?workitem=15868)
 
 ---
 
