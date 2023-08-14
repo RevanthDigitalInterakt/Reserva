@@ -51,6 +51,8 @@ type EventValues = {
   success: number;
   favorite: number;
   position: 'top' | 'bottom';
+  page: string;
+  loading_time: number;
 };
 
 export namespace EventsOptions {
@@ -150,6 +152,7 @@ export namespace EventsOptions {
   export type PressAddToCartPrimeLP = Pick<EventValues, | 'position'>;
   export type ViewCart = Pick<EventValues, | 'currency' | 'items' | 'value'>;
   export type PressHeaderSearch = Pick<EventValues, 'open'>;
+  export type PageLoadTime = Pick<EventValues, | 'page' | 'loading_time'>;
 }
 
 export type EventOptionsFn =
@@ -296,7 +299,12 @@ export type EventOptionsFn =
   | {
     type: 'view_cart',
     payload: EventsOptions.ViewCart
-  } | {
+  }
+  | {
     type: 'header_search_click',
     payload: EventsOptions.PressHeaderSearch;
+  }
+  | {
+    type: 'page_load_time',
+    payload: EventsOptions.PageLoadTime
   };
