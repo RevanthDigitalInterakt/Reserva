@@ -11,6 +11,7 @@ import styles from './ModalConfirmDelete.styles';
 import type { IModalConfirmDelete } from './interface/IModalConfirmDelete';
 
 import IconClose from '../../../../../../assets/icons/IconClose';
+import testProps from '../../../../../utils/testProps';
 
 export default function ModalConfirmDelete({
   showModal,
@@ -19,7 +20,7 @@ export default function ModalConfirmDelete({
   addressID,
 }: IModalConfirmDelete): JSX.Element {
   return (
-    <Modal transparent visible={showModal}>
+    <Modal transparent visible={showModal} testID="com.usereserva:id/modal_delete">
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <View style={styles.modalCloseButton}>
@@ -41,6 +42,7 @@ export default function ModalConfirmDelete({
 
             <View style={styles.modalButtonsContainer}>
               <TouchableOpacity
+                {...testProps('com.usereserva:id/com.usereserva:id/delete_address_button')}
                 style={styles.modalButton}
                 onPress={() => onDeleteAddress(addressID)}
               >
