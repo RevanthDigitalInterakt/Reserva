@@ -11,7 +11,15 @@ import testProps from '../../../../utils/testProps';
 
 const { width } = Dimensions.get('window');
 
-class NumberCard extends React.Component {
+interface NumberCardProps {
+  number: string;
+  previousNumber: string;
+  size: number;
+  perspective: number;
+  clockBackgroundColor: string;
+  colorDivider: string;
+}
+class NumberCard extends React.Component<NumberCardProps> {
   constructor(props) {
     super(props);
     this.rotateFront = new Animated.Value(0);

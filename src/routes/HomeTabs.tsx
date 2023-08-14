@@ -6,11 +6,11 @@ import { theme } from '@usereservaapp/reserva-ui';
 
 import CallCenter from '../modules/CallCenter';
 import { HomeScreen } from '../modules/Home/pages/Home';
-import { ProductCatalog } from '../modules/ProductCatalog/pages/productCatalog/ProductCatalog';
 import { MenuProfile } from '../modules/Profile/pages/MenuProfile';
 import { WishList } from '../modules/WishList/pages/WishList';
 
 import { TabBar } from './TabBar';
+import { ProductCatalogABTest } from '../modules/ProductCatalog/pages/productCatalog/ProductCatalogABTest';
 
 const Tab = createBottomTabNavigator();
 
@@ -28,7 +28,7 @@ export const HomeTabs = () => (
       />
       <Tab.Screen
         name="Offers"
-        component={ProductCatalog}
+        component={ProductCatalogABTest}
         initialParams={{
           safeArea: false,
           label: 'Promoções',

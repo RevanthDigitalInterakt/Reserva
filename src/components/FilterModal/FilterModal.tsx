@@ -13,7 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import configDeviceSizes from '../../utils/configDeviceSizes';
 import useSearchStore from '../../zustand/useSearchStore';
 import FilterCategories from './components/FilterCategories';
-import { SearchFacetOutput, useSearchFacetsLazyQuery } from '../../base/graphql/generated';
+import { SearchFacetOutput, SearchProductFacetInput, useSearchFacetsLazyQuery } from '../../base/graphql/generated';
 import FilterColors from './components/FilterColors';
 import FilterSizes from './components/FilterSizes';
 import FilterPrices from './components/FilterPrices';
@@ -27,9 +27,10 @@ function getFacetValue(values: Set<{ value: string; hex?: string; }>) {
 export interface IFilterModal {
   onClose: () => void;
   visible: boolean;
+  defaultFacets?: SearchProductFacetInput[];
 }
 
-function FilterModal({ onClose, visible }: IFilterModal) {
+function FilterModal({ onClose, visible, defaultFacets }: IFilterModal) {
   const { parameters, onSearch, filters } = useSearchStore(['parameters', 'onSearch', 'filters']);
 
   const [selectedCategories, setSelectedCategories] = useState(getFacetValue(filters.categories));
@@ -48,7 +49,7 @@ function FilterModal({ onClose, visible }: IFilterModal) {
     try {
       const { data } = await doLoadFacetsData({
         variables: {
-          input: { q: parameters.q, facets: [] },
+          input: { q: parameters.q, facets: defaultFacets || [] },
         },
       });
 
@@ -58,14 +59,14 @@ function FilterModal({ onClose, visible }: IFilterModal) {
     } catch (err) {
       ExceptionProvider.captureException(err);
     }
-  }, [doLoadFacetsData, parameters]);
+  }, [defaultFacets, doLoadFacetsData, parameters.q]);
 
   const onClearFilters = useCallback(() => {
     onSearch(
       {
         page: 1,
         priceRange: undefined,
-        facets: [],
+        facets: defaultFacets || [],
       },
       {
         categories: new Set(),
@@ -74,7 +75,7 @@ function FilterModal({ onClose, visible }: IFilterModal) {
         price: undefined,
       },
     );
-  }, [onSearch]);
+  }, [defaultFacets, onSearch]);
 
   const onApplyFilters = useCallback(() => {
     try {
@@ -91,7 +92,11 @@ function FilterModal({ onClose, visible }: IFilterModal) {
         {
           page: 1,
           priceRange,
-          facets: [...categories, ...colors, ...sizes].map(({ key, value }) => ({ key, value })),
+          facets: [
+            ...(defaultFacets || []),
+            ...categories,
+            ...colors,
+            ...sizes].map(({ key, value }) => ({ key, value })),
         },
         {
           categories: new Set(categories),
@@ -99,7 +104,7 @@ function FilterModal({ onClose, visible }: IFilterModal) {
           colors: new Set(colors),
           price: priceRange,
         },
-      );
+      ).then(() => onClose());
     } catch (err) {
       Alert.alert(
         '',
@@ -109,14 +114,14 @@ function FilterModal({ onClose, visible }: IFilterModal) {
         }],
       );
     }
-  }, [
+  }, [facets,
+    selectedPriceRange,
     onSearch,
+    defaultFacets,
     selectedCategories,
     selectedColors,
     selectedSizes,
-    selectedPriceRange,
-    facets,
-  ]);
+    onClose]);
 
   useEffect(() => {
     onGetFacetsData();

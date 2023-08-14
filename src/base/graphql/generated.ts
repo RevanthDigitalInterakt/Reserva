@@ -17,6 +17,22 @@ export type Scalars = {
   Float: number;
 };
 
+export type BannerCategoryImageOutput = {
+  __typename?: 'BannerCategoryImageOutput';
+  height: Scalars['Int'];
+  url: Scalars['String'];
+};
+
+export type BannerCategoryInput = {
+  category: Scalars['String'];
+};
+
+export type BannerCategoryOutput = {
+  __typename?: 'BannerCategoryOutput';
+  image: BannerCategoryImageOutput;
+  name?: Maybe<Scalars['String']>;
+};
+
 export type CashbackExpirationInfoOutput = {
   __typename?: 'CashbackExpirationInfoOutput';
   cashbackToExpire: Array<CashbackExpirationItemOutput>;
@@ -88,6 +104,13 @@ export type CheckDeliveryTimeByProductInput = {
 export type CheckEmailInput = {
   email: Scalars['String'];
 };
+
+export enum ClockScreenEnum {
+  All = 'ALL',
+  Category = 'CATEGORY',
+  Home = 'HOME',
+  Offers = 'OFFERS'
+}
 
 export type ConfigCountdownClockOutput = {
   __typename?: 'ConfigCountdownClockOutput';
@@ -185,6 +208,27 @@ export type ContentfulProductItemOutput = {
   __typename?: 'ContentfulProductItemOutput';
   productId: Scalars['ID'];
   productName: Scalars['String'];
+};
+
+export type CountdownCategoryInput = {
+  categoryReference?: InputMaybe<Scalars['String']>;
+  selectClockScreen: ClockScreenEnum;
+};
+
+export type CountdownClockCategoryOutput = {
+  __typename?: 'CountdownClockCategoryOutput';
+  backgroundColor: Scalars['String'];
+  bannerColor: Scalars['String'];
+  buttonColor: Scalars['String'];
+  descriptionModal?: Maybe<Scalars['String']>;
+  reference: Scalars['String'];
+  remainingTime: Scalars['String'];
+  selectClockScreen: ClockScreenEnum;
+  subtitle: Scalars['String'];
+  textColor: Scalars['String'];
+  title: Scalars['String'];
+  titleButton: Scalars['String'];
+  titleModal: Scalars['String'];
 };
 
 export type DeeplinkOutput = {
@@ -1150,6 +1194,7 @@ export type ProfileUpdateInput = {
 export type Query = {
   __typename?: 'Query';
   appMenu: Array<MenuCategoryOutput>;
+  bannerCategory: Array<BannerCategoryOutput>;
   cashback: CashbackOutput;
   cep?: Maybe<CepOutput>;
   checkIfUserExists: Scalars['Boolean'];
@@ -1160,6 +1205,7 @@ export type Query = {
   contentfulCategory: ContentfulCategoryDetailOutput;
   contentfulCollections: Array<ContentfulCollectionOutput>;
   contentfulProducts: Array<ContentfulProductItemOutput>;
+  countdown?: Maybe<CountdownClockCategoryOutput>;
   deeplinkPath?: Maybe<DeeplinkOutput>;
   landingPagePrime: PrimeDetailOutput;
   mktinStatus: Scalars['Boolean'];
@@ -1183,6 +1229,11 @@ export type Query = {
   updateInApp?: Maybe<UpdateInAppOutput>;
   wishlist: Array<Scalars['String']>;
   wishlistCheckProduct: WishlistCheckOutput;
+};
+
+
+export type QueryBannerCategoryArgs = {
+  input: BannerCategoryInput;
 };
 
 
@@ -1218,6 +1269,11 @@ export type QueryContentfulCollectionsArgs = {
 
 export type QueryContentfulProductsArgs = {
   q: Scalars['String'];
+};
+
+
+export type QueryCountdownArgs = {
+  input: CountdownCategoryInput;
 };
 
 
@@ -1354,8 +1410,8 @@ export type SearchFacetRangeOutput = {
 };
 
 export type SearchFacetsInput = {
-  facets: Array<SearchProductFacetInput>;
-  q: Scalars['String'];
+  facets?: InputMaybe<Array<SearchProductFacetInput>>;
+  q?: InputMaybe<Scalars['String']>;
 };
 
 export type SearchNewsOutput = {
@@ -1381,6 +1437,7 @@ export type SearchOutput = {
   __typename?: 'SearchOutput';
   count: Scalars['Int'];
   items: Array<ProductListOutput>;
+  redirect?: Maybe<Scalars['String']>;
 };
 
 export type SearchProductFacetInput = {
@@ -1394,7 +1451,7 @@ export type SearchProductInput = {
   page: Scalars['Int'];
   perPage?: InputMaybe<Scalars['Int']>;
   priceRange?: InputMaybe<SearchProductPriceRangeInput>;
-  q: Scalars['String'];
+  q?: InputMaybe<Scalars['String']>;
 };
 
 export type SearchProductPriceRangeInput = {
@@ -1715,6 +1772,13 @@ export type AppMenuQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AppMenuQuery = { __typename?: 'Query', appMenu: Array<{ __typename?: 'MenuCategoryOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, children: Array<{ __typename?: 'MenuCategoryItemOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> }> }> };
 
+export type BannerCategoryQueryVariables = Exact<{
+  input: BannerCategoryInput;
+}>;
+
+
+export type BannerCategoryQuery = { __typename?: 'Query', bannerCategory: Array<{ __typename?: 'BannerCategoryOutput', image: { __typename?: 'BannerCategoryImageOutput', url: string } }> };
+
 export type CashbackQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1738,6 +1802,13 @@ export type ConfigShippingBarQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ConfigShippingBarQuery = { __typename?: 'Query', config?: { __typename?: 'ConfigOutput', shippingBar?: { __typename?: 'ConfigShippingBarOutput', freeShippingValue?: number | null, isFreeShipping?: boolean | null } | null } | null };
+
+export type CountdownQueryVariables = Exact<{
+  input: CountdownCategoryInput;
+}>;
+
+
+export type CountdownQuery = { __typename?: 'Query', countdown?: { __typename?: 'CountdownClockCategoryOutput', textColor: string, bannerColor: string, buttonColor: string, backgroundColor: string, selectClockScreen: ClockScreenEnum, title: string, subtitle: string, titleButton: string, titleModal: string, remainingTime: string, reference: string, descriptionModal?: string | null } | null };
 
 export type DeeplinkPathQueryVariables = Exact<{
   path: Scalars['String'];
@@ -3049,6 +3120,46 @@ export type AppMenuQueryResult = Apollo.QueryResult<AppMenuQuery, AppMenuQueryVa
 export function refetchAppMenuQuery(variables?: AppMenuQueryVariables) {
       return { query: AppMenuDocument, variables: variables }
     }
+export const BannerCategoryDocument = gql`
+    query bannerCategory($input: BannerCategoryInput!) {
+  bannerCategory(input: $input) {
+    image {
+      url
+    }
+  }
+}
+    `;
+
+/**
+ * __useBannerCategoryQuery__
+ *
+ * To run a query within a React component, call `useBannerCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBannerCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBannerCategoryQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useBannerCategoryQuery(baseOptions: Apollo.QueryHookOptions<BannerCategoryQuery, BannerCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BannerCategoryQuery, BannerCategoryQueryVariables>(BannerCategoryDocument, options);
+      }
+export function useBannerCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BannerCategoryQuery, BannerCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BannerCategoryQuery, BannerCategoryQueryVariables>(BannerCategoryDocument, options);
+        }
+export type BannerCategoryQueryHookResult = ReturnType<typeof useBannerCategoryQuery>;
+export type BannerCategoryLazyQueryHookResult = ReturnType<typeof useBannerCategoryLazyQuery>;
+export type BannerCategoryQueryResult = Apollo.QueryResult<BannerCategoryQuery, BannerCategoryQueryVariables>;
+export function refetchBannerCategoryQuery(variables: BannerCategoryQueryVariables) {
+      return { query: BannerCategoryDocument, variables: variables }
+    }
 export const CashbackDocument = gql`
     query cashback {
   cashback {
@@ -3213,6 +3324,55 @@ export type ConfigShippingBarLazyQueryHookResult = ReturnType<typeof useConfigSh
 export type ConfigShippingBarQueryResult = Apollo.QueryResult<ConfigShippingBarQuery, ConfigShippingBarQueryVariables>;
 export function refetchConfigShippingBarQuery(variables?: ConfigShippingBarQueryVariables) {
       return { query: ConfigShippingBarDocument, variables: variables }
+    }
+export const CountdownDocument = gql`
+    query countdown($input: CountdownCategoryInput!) {
+  countdown(input: $input) {
+    textColor
+    bannerColor
+    buttonColor
+    backgroundColor
+    selectClockScreen
+    title
+    subtitle
+    titleButton
+    titleModal
+    remainingTime
+    reference
+    descriptionModal
+  }
+}
+    `;
+
+/**
+ * __useCountdownQuery__
+ *
+ * To run a query within a React component, call `useCountdownQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountdownQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountdownQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCountdownQuery(baseOptions: Apollo.QueryHookOptions<CountdownQuery, CountdownQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountdownQuery, CountdownQueryVariables>(CountdownDocument, options);
+      }
+export function useCountdownLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountdownQuery, CountdownQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountdownQuery, CountdownQueryVariables>(CountdownDocument, options);
+        }
+export type CountdownQueryHookResult = ReturnType<typeof useCountdownQuery>;
+export type CountdownLazyQueryHookResult = ReturnType<typeof useCountdownLazyQuery>;
+export type CountdownQueryResult = Apollo.QueryResult<CountdownQuery, CountdownQueryVariables>;
+export function refetchCountdownQuery(variables: CountdownQueryVariables) {
+      return { query: CountdownDocument, variables: variables }
     }
 export const DeeplinkPathDocument = gql`
     query deeplinkPath($path: String!) {

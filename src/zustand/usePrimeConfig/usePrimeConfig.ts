@@ -55,13 +55,13 @@ export const hasPrimeConditions = (
     return false;
   }
 
-  if (!product || !promo.percentualDiscountValue) {
+  if (!product || !promo?.percentualDiscountValue) {
     return false;
   }
 
-  const categories = promo.categories.map((c) => String(c.id));
+  const categories = promo?.categories.map((c) => String(c.id));
 
-  const categoriesHasPrime = promo.categoriesAreInclusive
+  const categoriesHasPrime = promo?.categoriesAreInclusive
     ? categories.includes(String(product.categoryId))
     : !categories.includes(String(product.categoryId));
 
@@ -69,9 +69,9 @@ export const hasPrimeConditions = (
     return false;
   }
 
-  const brands = promo.brands.map((c) => String(c.id));
+  const brands = promo?.brands.map((c) => String(c.id));
 
-  const brandsHasPrime = promo.brandsAreInclusive
+  const brandsHasPrime = promo?.brandsAreInclusive
     ? brands.includes(String(product.brandId))
     : !brands.includes(String(product.brandId));
 
@@ -79,7 +79,7 @@ export const hasPrimeConditions = (
     return false;
   }
 
-  const collections = promo.collections.map((c) => String(c.id));
+  const collections = promo?.collections.map((c) => String(c.id));
 
   const productCollections = product?.productClusters?.map((c) => String(c.id));
 
@@ -88,7 +88,7 @@ export const hasPrimeConditions = (
     false,
   );
 
-  const collectionsHasPrime = promo.collectionsIsInclusive
+  const collectionsHasPrime = promo?.collectionsIsInclusive
     ? hasAnyCollectionInCluster
     : !hasAnyCollectionInCluster;
 
@@ -103,11 +103,11 @@ export const hasPrimeConditions = (
   });
 
   const sellersPrime = sellers.reduce((acc, cur) => {
-    const seller = promo.idSeller.includes(cur);
+    const seller = promo?.idSeller.includes(cur);
     return acc || seller;
   }, false);
 
-  const sellerIsPrime = promo.idSellerIsInclusive
+  const sellerIsPrime = promo?.idSellerIsInclusive
     ? sellersPrime
     : !sellersPrime;
 
