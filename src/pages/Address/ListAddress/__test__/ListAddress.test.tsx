@@ -82,13 +82,13 @@ describe('List Address', () => {
     expect(mockedNavigate).toHaveBeenCalledWith('CreateAddress');
   });
 
-  it('should render modal confirm delete', () => {
+  it('should render confirm delete address modal', () => {
     const { getByTestId } = render(<ModalConfirmDelete showModal onCloseModal={() => {}} onDeleteAddress={() => {}} addressID="abcdefg" />);
 
     expect(getByTestId('com.usereserva:id/modal_delete')).toHaveProp('visible', true);
   });
 
-  it('should press button delete in modal', async () => {
+  it('should press delete confirmation button on modal', async () => {
     const { getByTestId } = render(<ModalConfirmDelete showModal onCloseModal={() => {}} onDeleteAddress={() => {}} addressID="abcdefg" />);
 
     const deleteButton = getByTestId('com.usereserva:id/com.usereserva:id/delete_address_button');
