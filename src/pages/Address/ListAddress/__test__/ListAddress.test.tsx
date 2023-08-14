@@ -8,9 +8,11 @@ import {
   render,
   screen,
   act,
+  waitFor,
 } from '@testing-library/react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import ListAddress from '../ListAddress';
+import ModalConfirmDelete from '../components/ModalConfirmDelete';
 import CartContextProvider from '../../../../context/CartContext';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
 
@@ -49,34 +51,56 @@ describe('List Address', () => {
 
     expect(screen.toJSON()).toMatchSnapshot();
   });
-});
 
-it('should go back to address list when topBarBackButton is pressed', async () => {
-  render(Component);
+  it('should go back to address list when topBarBackButton is pressed', async () => {
+    render(Component);
 
-  const topBarBackButton = screen.getAllByTestId('com.usereserva:id/top_bar_button_go_back');
+    const topBarBackButton = screen.getAllByTestId('com.usereserva:id/top_bar_button_go_back');
 
-  await act(async () => {
-    await topBarBackButton.forEach((button) => fireEvent.press(button));
+    await act(async () => {
+      await topBarBackButton.forEach((button) => fireEvent.press(button));
+    });
+
+    expect(mockGoBackFn).toBeCalled();
   });
 
-  expect(mockGoBackFn).toBeCalled();
-});
+  it('should render message empty list', () => {
+    const { getByTestId } = render(Component);
 
-it('should render message empty list', () => {
-  const { getByTestId } = render(Component);
-
-  expect(getByTestId('com.usereserva:id/empty_list_message'));
-});
-
-it('should navigate to create address when button new address is pressed', async () => {
-  render(Component);
-
-  const actionButtonNewAddress = screen.getByTestId('com.usereserva:id/action_button_navigate_create_address');
-
-  await act(async () => {
-    await fireEvent.press(actionButtonNewAddress);
+    expect(getByTestId('com.usereserva:id/empty_list_message'));
   });
 
-  expect(mockedNavigate).toHaveBeenCalledWith('CreateAddress');
+  it('should navigate to create address when button new address is pressed', async () => {
+    render(Component);
+
+    const actionButtonNewAddress = screen.getByTestId('com.usereserva:id/action_button_navigate_create_address');
+
+    await act(async () => {
+      await fireEvent.press(actionButtonNewAddress);
+    });
+
+    expect(mockedNavigate).toHaveBeenCalledWith('CreateAddress');
+  });
+
+  it('should render confirm delete address modal', () => {
+    const { getByTestId } = render(<ModalConfirmDelete showModal onCloseModal={() => {}} onDeleteAddress={() => {}} addressID="abcdefg" />);
+
+    expect(getByTestId('com.usereserva:id/modal_delete')).toHaveProp('visible', true);
+  });
+
+  it('should press delete confirmation button on modal', async () => {
+    const { getByTestId } = render(<ModalConfirmDelete showModal onCloseModal={() => {}} onDeleteAddress={() => {}} addressID="abcdefg" />);
+
+    const deleteButton = getByTestId('com.usereserva:id/com.usereserva:id/delete_address_button');
+
+    await waitFor(() => {
+      expect(deleteButton).toBeTruthy();
+    });
+
+    await act(async () => {
+      await fireEvent.press(getByTestId('com.usereserva:id/com.usereserva:id/delete_address_button'));
+    });
+
+    fireEvent.press(deleteButton);
+  });
 });

@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import {
+  View, Text, TouchableOpacity,
+} from 'react-native';
 
 import styles from './ListAddressItem.styles';
 import IconPlace from '../../../../../../assets/icons/IconPlace';
@@ -11,6 +13,7 @@ export default function ListAddressItem({
   item,
   animationListController,
   onNavigate,
+  onShowModalConfirmDelete,
 }: IListAddressItem): JSX.Element {
   return (
     <TouchableOpacity
@@ -20,22 +23,20 @@ export default function ListAddressItem({
       <View style={styles.listItemContent}>
         <View style={styles.listItemRow}>
           {!item.selected && (
-            <IconPlace />
+          <IconPlace />
           )}
-
           <View style={{ marginLeft: !item.selected ? 20 : 0 }}>
             <Text style={styles.listItemTitle}>{item.addressName}</Text>
           </View>
         </View>
-
         {item.selected && (
-          <View style={styles.listItemBody}>
-            <Text style={styles.listItemSubtitle}>{item.receiverName}</Text>
-            <Text style={styles.listItemSubtitle}>{`${item.street}, ${item.number}, ${item.complement}`}</Text>
-            <Text style={styles.listItemSubtitle}>
-              {`${item.neighborhood}, ${item.city} - ${item.state}`}
-            </Text>
-          </View>
+        <View style={styles.listItemBody}>
+          <Text style={styles.listItemSubtitle}>{item.receiverName}</Text>
+          <Text style={styles.listItemSubtitle}>{`${item.street}, ${item.number}, ${item.complement}`}</Text>
+          <Text style={styles.listItemSubtitle}>
+            {`${item.neighborhood}, ${item.city} - ${item.state}`}
+          </Text>
+        </View>
         )}
       </View>
       {item.selected && (
@@ -43,7 +44,10 @@ export default function ListAddressItem({
           <TouchableOpacity style={styles.listItemActionButton} onPress={() => onNavigate(item.id)}>
             <IconEdit />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.listItemActionButton}>
+          <TouchableOpacity
+            style={styles.listItemActionButton}
+            onPress={() => onShowModalConfirmDelete(item.id)}
+          >
             <IconDelete />
           </TouchableOpacity>
         </View>

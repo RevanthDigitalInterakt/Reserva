@@ -52,6 +52,46 @@ const style = StyleSheet.create({
   listItemBody: {
     marginTop: 20,
   },
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    alignSelf: 'stretch',
+  },
+
+  modalBody: {
+    backgroundColor: 'white',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  modalText: {
+    fontSize: 14,
+  },
+  modalButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  modalButton: {
+    backgroundColor: COLORS.ACTION_BUTTON_COLOR,
+    padding: 20,
+    width: '45%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalButtonText: {
+    color: 'white',
+    fontSize: 14,
+  },
+  closeButton: {
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default style;
