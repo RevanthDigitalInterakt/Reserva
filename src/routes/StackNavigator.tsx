@@ -100,7 +100,9 @@ export type RootStackParamList = {
   ForgotNewPassword: { email: string; code: string };
   ForgotEmailSuccess: {} | undefined;
 
-  CreateAddress: {} | undefined;
+  CreateAddress: {
+    id: string;
+  } | undefined;
 
   NewAddress: {
     executeCallback: (payload: any) => Promise<void>;

@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.0.12
+
+- [SRN-15155 Meus Endereços - Editar Endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15156)
+
+---
+
 ### 2.0.11
 
 - [SRN-15136 Meus Endereços - Criar Endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15136)
