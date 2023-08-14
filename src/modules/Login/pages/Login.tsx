@@ -15,6 +15,7 @@ import testProps from '../../../utils/testProps';
 import { useAuthentication } from '../../../hooks/useAuthentication';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -36,6 +37,7 @@ export const LoginScreen: FC<Props> = ({
   } = useAuthentication({});
 
   const { onSignOut } = useAuthStore(['onSignOut']);
+  const { onFinishLoad, onStartLoad } = usePageLoadingStore(['onFinishLoad', 'onStartLoad']);
 
   useEffect(() => {
     if (comeFrom === 'Profile') {
@@ -80,6 +82,14 @@ export const LoginScreen: FC<Props> = ({
   useEffect(() => {
     ClientDelivery();
   }, []);
+
+  useEffect(() => {
+    if (loadingSignIn) {
+      onStartLoad('Login');
+    } else {
+      onFinishLoad();
+    }
+  }, [loadingSignIn]);
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
@@ -162,14 +172,14 @@ export const LoginScreen: FC<Props> = ({
                 </TouchableOpacity>
               </Box>
               {loginCredentials.hasError && (
-              <Typography
-                color="vermelhoAlerta"
-                fontFamily="nunitoRegular"
-                fontSize={13}
-                {...testProps('com.usereserva:id/login-error')}
-              >
-                {loginCredentials.showMessageError}
-              </Typography>
+                <Typography
+                  color="vermelhoAlerta"
+                  fontFamily="nunitoRegular"
+                  fontSize={13}
+                  {...testProps('com.usereserva:id/login-error')}
+                >
+                  {loginCredentials.showMessageError}
+                </Typography>
               )}
             </Box>
           </Box>
@@ -193,7 +203,7 @@ export const LoginScreen: FC<Props> = ({
             alignItems="center"
           >
             <Box
-              borderWidth={1}
+              style={{ borderWidth: 1 }}
               marginLeft="xxs"
               marginRight="nano"
               flex={1}
@@ -203,7 +213,7 @@ export const LoginScreen: FC<Props> = ({
               Ainda não possui uma conta?
             </Typography>
             <Box
-              borderWidth={1}
+              style={{ borderWidth: 1 }}
               marginLeft="nano"
               marginRight="xxs"
               flex={1}

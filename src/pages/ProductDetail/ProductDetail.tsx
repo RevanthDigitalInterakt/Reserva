@@ -23,6 +23,7 @@ import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
 import { getProductCategories } from '../../utils/getProductCategories';
 import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
+import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -41,6 +42,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
     notifyOnNetworkStatusChange: true,
     context: { clientName: 'gateway' },
   });
+
+  const { onFinishLoad, onStartLoad } = usePageLoadingStore(['onFinishLoad', 'onStartLoad']);
 
   const trackEventDitoAccessProduct = useCallback(async ({ product }: ProductQuery) => {
     try {
@@ -114,6 +117,14 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
     onInitialLoad(route.params);
   }, [resetProduct, onInitialLoad, route.params]);
+
+  useEffect(() => {
+    if (loading) {
+      onStartLoad('ProductDetail');
+    } else {
+      onFinishLoad();
+    }
+  }, [loading]);
 
   return (
     <ProductDetailWrapper loading={loading}>

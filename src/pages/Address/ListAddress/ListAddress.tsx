@@ -28,6 +28,7 @@ import type { RootStackParamList } from '../../../routes/StackNavigator';
 import type { IAddressData } from './interface/IAddressData';
 import testProps from '../../../utils/testProps';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 type TAddressListProps = StackScreenProps<RootStackParamList, 'AddressList'>;
 
@@ -41,6 +42,7 @@ export default function ListAddress({
   const animationValue = useRef(new Animated.Value(0)).current;
 
   const { profile, onGetProfile } = useAuthStore(['profile', 'onGetProfile']);
+  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
 
   const [showContent, setShowContent] = useState(false);
   const [addressData, setAddressData] = useState<IAddressData[]>([]);
@@ -99,6 +101,7 @@ export default function ListAddress({
       ExceptionProvider.captureException(e);
     } finally {
       setLoading(false);
+      onFinishLoad();
     }
   }, [onGetProfile]);
 

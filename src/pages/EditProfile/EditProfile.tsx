@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -19,10 +19,12 @@ import type {
 } from './interfaces/editProfile';
 import ReviewYourDataComponent from './components/ReviewYourData/ReviewYourDataComponent';
 import FormEditProfileComponent from './components/FormEditProfile/FormEditProfileComponent';
+import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 function EditProfileRefactor({ route }: TEditProfileProps) {
   const navigation = useNavigation();
   const [isLoading, setLoading] = useState<boolean>(true);
+  const { onFinishLoad, onStartLoad } = usePageLoadingStore(['onFinishLoad', 'onStartLoad']);
 
   const [modalsState, setModalsState] = useState<IModalStateSchema>({
     testingModal: {
@@ -56,6 +58,14 @@ function EditProfileRefactor({ route }: TEditProfileProps) {
   const handleToogleLoading = useCallback((newLoadingValue: boolean = false): void => {
     setLoading(newLoadingValue);
   }, []);
+
+  useEffect(() => {
+    if (isLoading) {
+      onStartLoad('EditProfile');
+    } else {
+      onFinishLoad();
+    }
+  }, [isLoading]);
 
   return (
     <SafeAreaView style={Styles.safeArea}>

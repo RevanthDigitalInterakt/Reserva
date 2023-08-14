@@ -38,6 +38,7 @@ import useAuthModalStore from '../../../zustand/useAuthModalStore';
 import ModalSignUpComplete from '../component/ModalSignUpComplete';
 import { durationToTimeString } from '../../../utils/durationToTimeString';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -88,6 +89,7 @@ export const HomeScreen = () => {
     initial: countDownClockGlobal?.formattedValue,
   });
 
+  const { onFinishLoad, onStartLoad } = usePageLoadingStore(['onFinishLoad', 'onStartLoad']);
   const requestHome = useCallback(async () => {
     try {
       const { data: dataHome } = await getHome({
@@ -204,6 +206,7 @@ export const HomeScreen = () => {
   }, [getFetchPolicyPerKey, getcountdownClock, showClockHome]);
 
   const initialRequest = useCallback(async () => {
+    onStartLoad('Home');
     await allSettled([
       requestHome(),
       requestConfig(),
@@ -216,7 +219,7 @@ export const HomeScreen = () => {
   }, [requestConfig, requestCountdownClock, requestHome]);
 
   useEffect(() => {
-    initialRequest();
+    initialRequest().finally(() => onFinishLoad());
   }, [initialRequest]);
 
   useEffect(() => {

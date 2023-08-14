@@ -20,6 +20,7 @@ import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
+import { usePageLoadingStore } from '../../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 export default function BagFooter() {
   const {
@@ -44,6 +45,7 @@ export default function BagFooter() {
   const { restoreCart } = useCart();
   const { profile } = useAuthStore(['profile']);
   const { primeActive } = usePrimeInfo();
+  const { onFinishLoad, onStartLoad } = usePageLoadingStore(['onFinishLoad', 'onStartLoad']);
 
   const { changeStateIsVisibleModalPrimeRemoved } = usePrimeStore([
     'changeStateIsVisibleModalPrimeRemoved',
@@ -153,6 +155,7 @@ export default function BagFooter() {
       await restoreCart(orderFormId);
 
       if (!primeRemovedFromCart) {
+        onStartLoad('DeliveryScreen');
         navigation.navigate('DeliveryScreen', {});
       }
     } catch (error) {
@@ -162,6 +165,7 @@ export default function BagFooter() {
         {},
         { message: 'Error [handleNavigateToDelivery]' },
       );
+      onFinishLoad();
     } finally {
       setNavigateToDeliveryDisable(false);
     }

@@ -28,6 +28,7 @@ import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 import { trackAccessBag } from '../../utils/trackAccessBag';
 import { getBrands } from '../../utils/getBrands';
 import { trackViewCart } from '../../utils/trackViewCart';
+import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -64,6 +65,8 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   ]);
 
   useInitialBag();
+
+  const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
 
   const handleNavigateToOffers = useCallback(() => {
     navigation.navigate('Offers');
@@ -194,6 +197,7 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
           changeStateIsVisibleModalPrimeRemoved(false);
 
           if (items.length) {
+            onStartLoad('DeliveryScreen');
             navigation.navigate('DeliveryScreen', { comeFrom: 'Checkout' });
             return;
           }

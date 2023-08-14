@@ -24,6 +24,7 @@ import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { Avatar } from '../../../components/Avatar/AvatarComponent';
 import { useAuthentication } from '../../../hooks/useAuthentication';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 export function MenuProfile() {
   const navigation = useNavigation();
@@ -36,6 +37,8 @@ export function MenuProfile() {
   const [, setScreenCashbackInStoreActive] = useState<boolean>(false);
 
   const { profile, ...authStore } = useAuthStore(['profile', 'initialized']);
+
+  const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
 
   const { handleLogout } = useAuthentication({});
 
@@ -231,7 +234,10 @@ export function MenuProfile() {
                   title="Meus endereços"
                   descr="Consulte e adicione seus endereços"
                   icon="Pin"
-                  onPress={() => navigation.navigate('AddressList')}
+                  onPress={() => {
+                    onStartLoad('AddressList');
+                    navigation.navigate('AddressList');
+                  }}
                 />
               </Box>
 

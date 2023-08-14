@@ -8,6 +8,7 @@ import type { IAddress, IEditAddress, IProfileData } from '../../interface';
 import { useProfileAddressRemoveMutation } from '../../../../base/graphql/generated';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
+import { usePageLoadingStore } from '../../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 interface IUseController {
   goBack: () => void;
@@ -43,7 +44,7 @@ const useController = (): IUseController => {
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
   const goBack = () => navigation.goBack();
-
+  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
   const requestAddressList = useCallback(async () => {
     try {
       setLoadingStatusBar(true);
@@ -53,6 +54,7 @@ const useController = (): IUseController => {
       ExceptionProvider.captureException(e);
     } finally {
       setLoadingStatusBar(false);
+      onFinishLoad();
     }
   }, []);
 
