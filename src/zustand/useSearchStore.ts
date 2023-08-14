@@ -8,11 +8,20 @@ import { SearchDocument, SearchFacetItemOutput, SearchOrderByEnum } from '../bas
 import { getApolloClient } from '../utils/getApolloClient';
 import { trackEventSearchDito } from '../utils/trackEventSearchDito';
 import EventProvider from '../utils/EventProvider';
+import { getBrandByUrl } from '../utils/getBrandByURL';
+import { trackEventAccessedCategoryDito } from '../utils/trackEventAccessedCategoryDito';
+import { getCollectionFacetsValue } from '../utils/getCollectionFacetsValue';
 
 export enum SearchStatusEnum {
   INITIAL,
   SUGGESTIONS,
   RESULT,
+}
+
+export enum SearchType {
+  CATALOG,
+  SEARCH,
+  DEFAULT,
 }
 
 const RESULT_PER_PAGE = 12;
@@ -21,6 +30,7 @@ const initialData = {
   initialized: false,
   loading: false,
   status: SearchStatusEnum.INITIAL,
+  searchType: SearchType.DEFAULT,
   resultCount: 0,
   result: [],
   filters: {
@@ -49,12 +59,13 @@ interface ISearchStoreFilters {
 interface ISearchStore {
   initialized: boolean,
   loading: boolean;
+  searchType: SearchType;
   status: SearchStatusEnum;
   filters: ISearchStoreFilters;
   parameters: Required<SearchProductInput>;
   resultCount: number;
   result: ProductListOutput[];
-  onInit: () => void,
+  onInit: (searchType: SearchType) => void,
   setStatus: (status: SearchStatusEnum) => void;
   setQ: (s: string) => void;
   onSearch: (input: Partial<Omit<SearchProductInput, 'perPage'>>, filters?: ISearchStoreFilters) => Promise<void>;
@@ -65,6 +76,7 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
   initialized: false,
   loading: false,
   status: SearchStatusEnum.INITIAL,
+  searchType: SearchType.DEFAULT,
   resultCount: 0,
   filters: {
     categories: new Set<SearchFacetItemOutput>(),
@@ -81,7 +93,11 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
     priceRange: null,
   },
   result: [],
-  onInit: () => set(() => ({ ...initialData, initialized: true })),
+  onInit: (searchType) => set(() => ({
+    ...initialData,
+    searchType,
+    initialized: true,
+  })),
   setStatus: (status) => set(() => ({ status })),
   setQ: (q) => {
     const newParameters = { ...getState().parameters, q };
@@ -111,8 +127,20 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
         variables: { input: newParameters },
       });
 
-      trackEventSearchDito(newParameters.q, data.search.count);
-      EventProvider.logEvent('view_search_results', { search_term: newParameters.q });
+      const { searchType } = getState();
+
+      if (searchType === SearchType.SEARCH) {
+        trackEventSearchDito(newParameters.q, data.search.count);
+        EventProvider.logEvent('view_search_results', { search_term: newParameters.q });
+      }
+
+      if (searchType === SearchType.CATALOG) {
+        trackEventAccessedCategoryDito(getCollectionFacetsValue(newParameters.facets));
+        EventProvider.logEvent('product_list_view', {
+          content_type: 'product_group',
+          wbrand: getBrandByUrl({ categoryTree: [{ href: data.search.items[0]?.category || '' }] }),
+        });
+      }
 
       set(() => ({
         loading: false,

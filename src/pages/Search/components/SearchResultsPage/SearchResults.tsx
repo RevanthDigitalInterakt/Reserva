@@ -38,6 +38,7 @@ function SearchResults() {
         data={result}
         total={resultCount}
         loading={loading}
+        marginBottom={180}
         onFetchMore={doFetchMore}
       />
     </View>

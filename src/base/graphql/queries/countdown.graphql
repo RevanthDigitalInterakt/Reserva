@@ -1,0 +1,16 @@
+query countdown($input: CountdownCategoryInput!) {
+  countdown(input: $input) {
+    textColor
+    bannerColor
+    buttonColor
+    backgroundColor
+    selectClockScreen
+    title
+    subtitle
+    titleButton
+    titleModal
+    remainingTime
+    reference
+    descriptionModal
+  }
+}

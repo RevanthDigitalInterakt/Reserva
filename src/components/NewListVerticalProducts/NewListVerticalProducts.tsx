@@ -17,6 +17,8 @@ interface ListProductsProps {
   data: ProductListOutput[];
   total: number;
   loading: boolean;
+  marginBottom?: number;
+  headerComponent?: JSX.Element[]
   onFetchMore: () => void;
 }
 
@@ -24,6 +26,8 @@ function NewListVerticalProducts({
   data,
   total,
   loading,
+  marginBottom,
+  headerComponent,
   onFetchMore,
 }: ListProductsProps) {
   const navigation = useNavigation();
@@ -100,12 +104,13 @@ function NewListVerticalProducts({
 
   return (
     <FlatList
-      style={{ marginBottom: 180 }}
+      style={{ marginBottom }}
       data={data}
       bounces={false}
       testID="com.usereserva:id/list_vertical_flat_list"
       keyExtractor={(item) => `${item.skuId}-${item.productName}`}
       numColumns={2}
+      ListHeaderComponent={headerComponent}
       ListEmptyComponent={() => (
         <Box height="100%">
           <Typography textAlign="center" fontFamily="nunitoRegular" fontSize={16}>

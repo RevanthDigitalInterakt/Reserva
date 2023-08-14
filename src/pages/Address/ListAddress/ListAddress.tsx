@@ -95,8 +95,10 @@ export default function ListAddress({
     setAddressData([...arr]);
   }, [addressData, toggleListItem]);
 
-  const onGoToEditAddress = useCallback(() => {
-    navigate('CreateAddress');
+  const onGoToEditAddress = useCallback((id: string) => {
+    navigate('CreateAddress', {
+      id,
+    });
   }, [navigate]);
 
   useEffect(() => {

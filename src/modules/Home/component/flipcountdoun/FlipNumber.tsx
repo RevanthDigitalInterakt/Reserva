@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import testProps from '../../../../utils/testProps';
 
 import NumberCard from './NumberCard';
 
 interface IFlipNumber {
-  number: any;
+  number: string;
   unit: 'hours' | 'minutes' | 'seconds';
   size: number;
   perspective: number;
@@ -22,24 +22,19 @@ function FlipNumber({
   colorDivider = '#1f1f1f',
   testID,
 }: IFlipNumber) {
-  number = parseInt(number) + 1;
-  let previousNumber;
-  previousNumber = number - 1;
-  if (unit !== 'hours') {
-    previousNumber = previousNumber === -1 ? 0 : previousNumber;
-  } else {
-    previousNumber = previousNumber === -1 ? 0 : previousNumber;
-  }
-  number = number < 10 ? `0${number}` : number;
-  previousNumber = previousNumber < 10 ? `0${previousNumber}` : previousNumber;
+  const {
+    previousNumber,
+    nextNumber,
+  } = useMemo(() => ({
+    previousNumber: number.toString().padStart(2, '0'),
+    nextNumber: (Number(number) + 1).toString().padStart(2, '0'),
+  }), [number]);
 
-  const numberSplit = number.toString();
-  const previousNumberSplit = previousNumber.toString();
   return (
     <View style={style.wrapper} {...testProps(`com.usereserva:id/${testID}`)}>
       <NumberCard
-        number={numberSplit}
-        previousNumber={previousNumberSplit}
+        number={nextNumber}
+        previousNumber={previousNumber}
         size={size}
         perspective={perspective}
         clockBackgroundColor={clockBackgroundColor}
