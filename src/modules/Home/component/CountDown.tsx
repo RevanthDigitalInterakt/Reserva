@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useState, Dispatch, SetStateAction,
+  useEffect, useState, type Dispatch, type SetStateAction,
 } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -8,9 +8,7 @@ import {
   PixelRatio,
   Platform,
 } from 'react-native';
-import {
-  Box, Typography, Button, Icon,
-} from '@usereservaapp/reserva-ui';
+
 import Modal from 'react-native-modal';
 import FlipNumber from './flipcountdoun/FlipNumber';
 import { useCountDown } from '../../../context/ChronometerContext';
@@ -19,10 +17,13 @@ import EventProvider from '../../../utils/EventProvider';
 import { platformType } from '../../../utils/platformType';
 import testProps from '../../../utils/testProps';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 
 export interface CountDownProps {
   countDown?: ICountDownClock;
-  loadingCountDownBanner?: boolean;
 }
 const deviceWidth = Dimensions.get('window').width;
 
@@ -295,7 +296,7 @@ function CheckTheRules({
             testID="com.usereserva:id/countDownLocal_checkTheRules_button_close"
             onPress={() => setIsVisible(false)}
             variant="icone"
-            icon={<Icon size={17} name="Close" />}
+            icon={<IconLegacy size={17} name="Close" />}
           />
         </Box>
         <Box>
@@ -310,7 +311,6 @@ function CheckTheRules({
         </Box>
         <Box mt={8}>
           <Typography
-            // textAlign={'center'}
             lineHeight={23}
             fontFamily="reservaSansRegular"
             fontSize={18}

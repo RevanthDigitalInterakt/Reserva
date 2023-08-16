@@ -1,17 +1,6 @@
 import { useLazyQuery } from '@apollo/client';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
-import {
-  Alert,
-  Box,
-  Button,
-  Divider,
-  Icon,
-  RadioButtons,
-  TextField,
-  Typography,
-} from '@usereservaapp/reserva-ui';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import LottieView from 'lottie-react-native';
 import React, {
   useCallback, useEffect, useRef, useState,
@@ -31,7 +20,7 @@ import analytics from '@react-native-firebase/analytics';
 import { instance2 } from '../../../config/vtexConfig';
 import ToastProvider, { showToast } from '../../../utils/Toast';
 import Sentry from '../../../config/sentryConfig';
-import { IOrderFormItem, OrderForm, useCart } from '../../../context/CartContext';
+import { type IOrderFormItem, type OrderForm, useCart } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { Attachment, RemoveItemFromCart } from '../../../services/vtexService';
@@ -61,6 +50,15 @@ import { ProductHorizontalListCard } from '../../../components/ProductHorizontal
 import ProductListItemPrime from '../../../pages/Bag/components/ProductListItem/ProductListItemPrime';
 import { handleCopyTextToClipboard } from '../../../utils/CopyToClipboard';
 import { useIsTester } from '../../../hooks/useIsTester';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { loadingSpinner } from '../../../../assets/animations';
+import { Alert } from '../../../components/Alert/Alert';
+import { RadioButtons } from '../../../components/RadioButtons/RadioButtons';
+import { Divider } from '../../../components/Divider/Divider';
+import { TextField } from '../../../components/TextField/TextField';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -802,7 +800,7 @@ export function BagScreen({ route }: Props) {
                       </Typography>
                     </Box>
                     <Button testID="com.usereserva:id/close_bag_button" flex={1} onPress={() => setNoProduct('')}>
-                      <Icon name="Close" size={15} color="preto" ml="xxxs" />
+                      <IconLegacy name="Close" size={15} color="preto" ml="xxxs" />
                     </Button>
                   </Box>
                 </Animatable.View>
@@ -1024,7 +1022,7 @@ export function BagScreen({ route }: Props) {
                                     Ver mais
                                   </Typography>
 
-                                  <Icon
+                                  <IconLegacy
                                     style={
                                       showMoreSizes
                                         ? {
@@ -1309,7 +1307,7 @@ export function BagScreen({ route }: Props) {
                     alignItems="center"
                   >
                     <Box marginRight="micro">
-                      <Icon name="Tag" size={20} color="preto" />
+                      <IconLegacy name="Tag" size={20} color="preto" />
                     </Box>
                     <Box flex={1}>
                       <Typography variant="subtituloSessoes">

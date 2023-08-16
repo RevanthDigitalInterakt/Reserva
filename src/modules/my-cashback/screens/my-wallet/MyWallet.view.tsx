@@ -1,6 +1,3 @@
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -8,6 +5,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import { PriceCustom } from '../../../Checkout/components/PriceCustom';
 import { BalanceType, FilterOptions } from './MyWallet.container';
 import type { CashbackQuery } from '../../../../base/graphql/generated';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Button } from '../../../../components/Button';
 
 export interface MyWalletViewProps {
   balanceVisible: boolean;
@@ -126,7 +127,7 @@ export function MyWalletView({
               </Box>
             )}
             <TouchableOpacity onPress={handleToggleBalanceVisibility}>
-              <Icon name={balanceVisible ? 'EyeOff' : 'EyeOpen'} size={32} color="white" />
+              <IconLegacy name={balanceVisible ? 'EyeOff' : 'EyeOpen'} size={32} color="white" />
             </TouchableOpacity>
           </Box>
         </Box>
@@ -139,7 +140,7 @@ export function MyWalletView({
           style={[{ padding: 20, marginRight: 10 }, styles.card]}
           onTouchStart={() => changeSelectedBalance(BalanceType.FUTURE)}
         >
-          <Icon name="MoneyGreen" mr="nano" size={32} color={selectedBalance === BalanceType.FUTURE ? 'white' : '#323232'} />
+          <IconLegacy name="MoneyGreen" mr="nano" size={32} color={selectedBalance === BalanceType.FUTURE ? 'white' : '#323232'} />
           <Typography
             fontFamily="nunitoBold"
             fontSize={12}
@@ -156,7 +157,7 @@ export function MyWalletView({
           style={[{ padding: 20 }, styles.card]}
           onTouchStart={() => changeSelectedBalance(BalanceType.EXPIRE)}
         >
-          <Icon name="MoneyRed" mr="nano" size={32} color={selectedBalance === BalanceType.EXPIRE ? 'white' : '#323232'} />
+          <IconLegacy name="MoneyRed" mr="nano" size={32} color={selectedBalance === BalanceType.EXPIRE ? 'white' : '#323232'} />
           <Typography
             fontFamily="nunitoBold"
             fontSize={12}
@@ -191,12 +192,12 @@ export function MyWalletView({
             <Box style={{ flex: 1 }}>
               <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
                 Valor
-            </Typography>
+              </Typography>
             </Box>
             <Box style={{ flex: 1 }}>
               <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
                 Válido até
-            </Typography>
+              </Typography>
             </Box>
           </Box>
           {(userExpireBalance?.cashbackToExpire || []).map((operation) => (
@@ -210,15 +211,15 @@ export function MyWalletView({
             >
               <Box style={{ flex: 1 }}>
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
-                R$
-                {' '}
-                {(Number(operation.expireCashbackAmount))}
-              </Typography>
+                  R$
+                  {' '}
+                  {(Number(operation.expireCashbackAmount))}
+                </Typography>
               </Box>
               <Box style={{ flex: 1 }}>
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
-                {formatDate(operation.expireAt)}
-              </Typography>
+                  {formatDate(operation.expireAt)}
+                </Typography>
               </Box>
             </Box>
           ))}
@@ -234,7 +235,7 @@ export function MyWalletView({
           fontFamily="reservaSansBold"
           sizeInterger={42}
           sizeDecimal={24}
-          num={convertCentsToReal(totalPending) || 0}
+          num={convertCentsToReal(totalPending || 0)}
           color="preto"
         />
         <Box>
@@ -248,17 +249,17 @@ export function MyWalletView({
             <Box style={{ flex: 1 }}>
               <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
                 Valor
-            </Typography>
+              </Typography>
             </Box>
             <Box style={{ flex: 1 }}>
               <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
                 Creditado em
-            </Typography>
+              </Typography>
             </Box>
             <Box style={{ flex: 1 }}>
               <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
                 Disponível em
-            </Typography>
+              </Typography>
             </Box>
           </Box>
           { userOperationsFiltered && userOperationsFiltered.map((operation: any) => (
@@ -272,20 +273,20 @@ export function MyWalletView({
             >
               <Box style={{ flex: 1 }}>
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
-                R$
-                {' '}
-                {convertCentsToReal(operation?.cashbackAmountInCents)}
-              </Typography>
+                  R$
+                  {' '}
+                  {convertCentsToReal(operation?.cashbackAmountInCents)}
+                </Typography>
               </Box>
               <Box style={{ flex: 1 }}>
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
-                {formatDate(operation?.createdAt)}
-              </Typography>
+                  {formatDate(operation?.createdAt)}
+                </Typography>
               </Box>
               <Box style={{ flex: 1 }}>
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
-                {formatDate(operation?.settlementDate)}
-              </Typography>
+                  {formatDate(operation?.settlementDate)}
+                </Typography>
               </Box>
             </Box>
           ))}
@@ -305,7 +306,7 @@ export function MyWalletView({
             <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.ALL)}>
               <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
                 Tudo
-            </Typography>
+              </Typography>
             </TouchableOpacity>
           </Box>
           <Box style={[styles.tab, {
@@ -315,7 +316,7 @@ export function MyWalletView({
             <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.CREDIT)}>
               <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
                 Entrada
-            </Typography>
+              </Typography>
             </TouchableOpacity>
           </Box>
           <Box style={[styles.tab, {
@@ -325,7 +326,7 @@ export function MyWalletView({
             <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.DEBIT)}>
               <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
                 Saída
-            </Typography>
+              </Typography>
             </TouchableOpacity>
           </Box>
         </Box>
@@ -355,17 +356,17 @@ export function MyWalletView({
             <Box style={{ flex: 1 }}>
               <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
                 Tipo
-            </Typography>
+              </Typography>
             </Box>
             <Box style={{ flex: 1 }}>
               <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
                 Cashback
-            </Typography>
+              </Typography>
             </Box>
             <Box style={{ flex: 1 }}>
               <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
                 Data
-            </Typography>
+              </Typography>
             </Box>
           </Box>
           { userOperationsFiltered && userOperationsFiltered.map((operation: any) => (
@@ -379,14 +380,14 @@ export function MyWalletView({
             >
               <Box style={{ flex: 1 }}>
                 {operation.cashbackAmountInCents > 0 && operationFilter !== FilterOptions.DEBIT ? (
-                <Typography fontFamily="nunitoRegular" fontSize={14} color="#38A238">
-                  Crédito
-                </Typography>
-              ) : (
-                <Typography fontFamily="nunitoRegular" fontSize={14} color="#D71921">
-                  Débito
-                </Typography>
-              )}
+                  <Typography fontFamily="nunitoRegular" fontSize={14} color="#38A238">
+                    Crédito
+                  </Typography>
+                ) : (
+                  <Typography fontFamily="nunitoRegular" fontSize={14} color="#D71921">
+                    Débito
+                  </Typography>
+                )}
               </Box>
               <Box style={{ flex: 1 }}>
                 { operationFilter === FilterOptions.ALL && (
@@ -398,22 +399,22 @@ export function MyWalletView({
                     {operation?.appliedBalanceInCents > 0 && ` - ${operation.appliedBalanceInCents}`}
                   </Typography>
                 </Box>
-              )}
+                )}
                 { operationFilter === FilterOptions.CREDIT && (
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
                   {operation?.cashbackAmountInCents > 0 && `+ R$ ${operation.cashbackAmountInCents}`}
                 </Typography>
-              )}
+                )}
                 { operationFilter === FilterOptions.DEBIT && (
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
                   {operation?.appliedBalanceInCents > 0 && ` - R$ ${operation.appliedBalanceInCents}`}
                 </Typography>
-              )}
+                )}
               </Box>
               <Box style={{ flex: 1 }}>
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
-                {formatDate(operation.createdAt)}
-              </Typography>
+                  {formatDate(operation.createdAt)}
+                </Typography>
               </Box>
             </Box>
           ))}

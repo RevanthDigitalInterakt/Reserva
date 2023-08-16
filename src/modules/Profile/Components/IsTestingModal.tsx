@@ -1,8 +1,9 @@
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { type Dispatch, type SetStateAction } from 'react';
 import Modal from 'react-native-modal';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../components/Typography/Typography';
 
 interface IIsTestingModalProps {
   isVisible: boolean;
@@ -15,7 +16,6 @@ function IsTestingModal({ isVisible, setIsVisible }: IIsTestingModalProps) {
       onBackdropPress={() => setIsVisible(false)}
       isVisible={isVisible}
     >
-      {/* <ScrollView bounces={false}> */}
       <Box
         bg="white"
         minHeight={184}
@@ -28,7 +28,7 @@ function IsTestingModal({ isVisible, setIsVisible }: IIsTestingModalProps) {
           <Button
             onPress={() => setIsVisible(false)}
             variant="icone"
-            icon={<Icon size={17} name="Close" />}
+            icon={<IconLegacy size={17} name="Close" />}
           />
         </Box>
         <Box mb="micro">
@@ -69,7 +69,6 @@ function IsTestingModal({ isVisible, setIsVisible }: IIsTestingModalProps) {
           </Button>
         </Box>
       </Box>
-      {/* </ScrollView> */}
     </Modal>
   );
 }

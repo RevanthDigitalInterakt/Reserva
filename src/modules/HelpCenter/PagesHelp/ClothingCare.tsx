@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-
 import { Dimensions, SafeAreaView, ScrollView } from 'react-native';
-import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
 
+import { Box } from '../../../components/Box/Box';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../components/Typography/Typography';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 const windowWidth = Dimensions.get('window').width;
-const windowheight = Dimensions.get('window').height;
 const SIZE_ICONS_CARDS = 20;
 
-export const ClothingCare: React.FC<{}> = () => {
+export const ClothingCare = () => {
   useEffect(() => {}, []);
 
   return (
@@ -42,7 +42,7 @@ export const ClothingCare: React.FC<{}> = () => {
 
             <Box mb="nano">
               <Box
-                backgroundColor="#000000"
+                backgroundColor="fullBlack"
                 alignItems="center"
                 justifyContent="center"
                 width={windowWidth - 20}
@@ -67,7 +67,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     mt="nano"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="NotWash"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -84,7 +84,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="Temp40"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -101,7 +101,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="Temp60"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -118,7 +118,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="Temp90"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -135,7 +135,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="NormalCycleWash"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -152,7 +152,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ShortCycleWashing"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -169,7 +169,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ManualWash"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -194,7 +194,7 @@ export const ClothingCare: React.FC<{}> = () => {
 
             <Box mb="nano">
               <Box
-                backgroundColor="#000000"
+                backgroundColor="fullBlack"
                 alignItems="center"
                 justifyContent="center"
                 width={windowWidth - 20}
@@ -219,7 +219,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     mt="nano"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="MachineDry"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -236,7 +236,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="AverageTemp"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -253,7 +253,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ModerateTemp"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -270,7 +270,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="NotMachineDry"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -287,7 +287,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DryngOnTheShadowLinen"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -304,7 +304,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DryOnTheLine"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -321,7 +321,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DryVerticallyDoNotTwist"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -339,7 +339,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     flexWrap="wrap"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DryVerticallyDoNotTwistShadow"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -356,7 +356,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DryHorizontallyToTheShadow"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -374,7 +374,7 @@ export const ClothingCare: React.FC<{}> = () => {
 
             <Box mb="nano">
               <Box
-                backgroundColor="#000000"
+                backgroundColor="fullBlack"
                 alignItems="center"
                 justifyContent="center"
                 width={windowWidth - 20}
@@ -399,7 +399,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="Iron"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -416,7 +416,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="HighTemperature200"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -433,7 +433,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="HighTemperature150"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -450,7 +450,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="HighTemperature110"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -467,7 +467,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DoNotIron"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -481,11 +481,9 @@ export const ClothingCare: React.FC<{}> = () => {
               </Box>
             </Box>
 
-            {/* {} */}
-
             <Box mb="nano">
               <Box
-                backgroundColor="#000000"
+                backgroundColor="fullBlack"
                 alignItems="center"
                 justifyContent="center"
                 width={windowWidth - 20}
@@ -510,7 +508,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     mt="nano"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="Bleach"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -524,7 +522,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ShouldNotBetargeted"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -542,7 +540,7 @@ export const ClothingCare: React.FC<{}> = () => {
 
             <Box mb="md">
               <Box
-                backgroundColor="#000000"
+                backgroundColor="fullBlack"
                 alignItems="center"
                 justifyContent="center"
                 width={windowWidth - 20}
@@ -567,7 +565,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DryClean"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -584,7 +582,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DoNotDryClean"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -601,7 +599,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="AllSolvents"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -618,7 +616,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ProfessionalCleaningPNormal"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -635,7 +633,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ProfessionalCleaningPGentle"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -652,7 +650,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ProfessionalCleaningFNormal"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -669,7 +667,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ProfessionalCleaningFGentle"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -686,7 +684,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ProfessionalCNormalWetCleaning"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -703,7 +701,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ProfessionalWetCleaningSoft"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -721,7 +719,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     flexWrap="wrap"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ProfessionalWetCleaningVerySoft"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"

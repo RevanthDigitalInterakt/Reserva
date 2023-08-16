@@ -1,6 +1,5 @@
 import { Platform } from 'react-native';
 import * as Sentry from '@sentry/react-native';
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import React, { useCallback, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
@@ -20,6 +19,9 @@ import { getBrands } from '../../../../utils/getBrands';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Button } from '../../../../components/Button';
 
 export default function BagFooter() {
   const {

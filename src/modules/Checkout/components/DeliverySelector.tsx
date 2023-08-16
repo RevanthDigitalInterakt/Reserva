@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
-import {
-  Typography, Box,
-} from '@usereservaapp/reserva-ui';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
 
 export interface Delivery {
-  id?: string;
   name?: string;
   price?: number;
   shippingEstimate?: string;
@@ -24,8 +22,9 @@ function DeliverySelector({
   disabled,
 }: IDeliverySelector) {
   const {
-    name, price, shippingEstimate, id,
+    name, price, shippingEstimate,
   } = deliveryData;
+
   return (
     <TouchableOpacity disabled={disabled} onPress={select}>
       <Box

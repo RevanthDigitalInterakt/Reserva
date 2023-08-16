@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import {
   Linking,
@@ -7,9 +7,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {
-  Typography, Box, Button, Icon,
-} from '@usereservaapp/reserva-ui';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../components/Typography/Typography';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 type ItemContactProps = {
@@ -27,9 +28,13 @@ function ItemContact({ number, type }: ItemContactProps) {
               `whatsapp://send?text=Olá quero comprar!&phone=${number}`,
             );
             break;
+
           case 'phone':
             Linking.openURL(`tel:${number}`);
             break;
+
+          default:
+            return null;
         }
       }}
     >
@@ -42,9 +47,9 @@ function ItemContact({ number, type }: ItemContactProps) {
         mb="xxs"
       >
         <Box flexDirection="row">
-          <Icon
-            name={type == 'wp' ? 'WhatsappBg' : 'PhoneBg'}
-            color={type == 'wp' ? 'verdeSucesso' : 'neutroFrio2'}
+          <IconLegacy
+            name={type === 'wp' ? 'WhatsappBg' : 'PhoneBg'}
+            color={type === 'wp' ? 'verdeSucesso' : 'neutroFrio2'}
             mr="nano"
             size={20}
           />

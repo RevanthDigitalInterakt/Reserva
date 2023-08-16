@@ -7,19 +7,17 @@ import
 {
   Linking, Platform, SafeAreaView, ScrollView,
 } from 'react-native';
-import
-{
-  Box,
-  Button,
-  Icon,
-  Stepper,
-  Typography,
-} from '@usereservaapp/reserva-ui';
-import { IOrderId, useCart } from '../../../context/CartContext';
+
+import { type IOrderId, useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import OrderDetailComponent from '../Components/OrderDetailComponent';
 import { platformType } from '../../../utils/platformType';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Stepper } from '../../../components/Stepper/Stepper';
+import { Button } from '../../../components/Button';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 
 const OrderList: React.FC<any> = ({ route }) => {
   const { order } = route.params;
@@ -177,7 +175,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                             </Typography>
                           </Box>
                           <Button ml="xxxs" onPress={() => handleCopiedText()}>
-                            <Icon name="Copy" size={20} color="neutroFrio2" />
+                            <IconLegacy name="Copy" size={20} color="neutroFrio2" />
                           </Button>
                         </Box>
                         {
@@ -227,7 +225,7 @@ const OrderList: React.FC<any> = ({ route }) => {
           <Box flexDirection="row" alignItems="center">
             {orderDetails.paymentData.transactions[0].payments[0]
               .paymentSystem === 'Cartão de crédito' && (
-              <Icon name="Card" size={20} mr="nano" />
+              <IconLegacy name="Card" size={20} mr="nano" />
             )}
 
             <Typography fontSize={12} fontFamily="nunitoRegular">

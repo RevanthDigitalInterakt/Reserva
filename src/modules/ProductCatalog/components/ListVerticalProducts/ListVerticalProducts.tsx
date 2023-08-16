@@ -1,18 +1,13 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import {
-  Box,
-  Button,
-  Typography,
-} from '@usereservaapp/reserva-ui';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import LottieView from 'lottie-react-native';
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { FlatList } from 'react-native';
 import images from '../../../../base/styles/icons';
-import { ProductVerticalListCard, ProductVerticalListCardProps } from '../../../../components/ProductVerticalListCard';
+import { ProductVerticalListCard, type ProductVerticalListCardProps } from '../../../../components/ProductVerticalListCard';
 import type { ProductQL } from '../../../../graphql/products/productSearch';
 import wishListQueries from '../../../../graphql/wishlist/wishList';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
@@ -27,13 +22,17 @@ import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPol
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 import {
-  IGetPrimeReturn,
+  type IGetPrimeReturn,
   getPrime, usePrimeConfig,
 } from '../../../../zustand/usePrimeConfig/usePrimeConfig';
 import { getProductColor } from '../../../../utils/getProductColor';
 import { getProductSize } from '../../../../utils/getProductSize';
 import { getCategoriesByHref } from '../../../../utils/getCategoriesByHref';
 import { getDitoUserID } from '../../../../utils/Dito/src/utils/getDitoUserID';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Button } from '../../../../components/Button';
+import { loadingSpinner } from '../../../../../assets/animations';
 
 interface ListProductsProps {
   cleanFilter: () => void;

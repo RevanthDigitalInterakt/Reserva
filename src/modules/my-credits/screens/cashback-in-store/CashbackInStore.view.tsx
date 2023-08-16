@@ -1,9 +1,3 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  Typography,
-} from '@usereservaapp/reserva-ui';
 import React, { useEffect } from 'react';
 import { ImageBackground } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
@@ -17,6 +11,10 @@ import {
   profileQuery,
 } from '../../../../graphql/profile/profileQuery';
 import IconComponent from '../../../../components/IconComponent/IconComponent';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Button } from '../../../../components/Button';
+import { Checkbox } from '../../../../components/Checkbox/Checkbox';
 
 export interface CashbackInStoreViewProps {
   token?: string;

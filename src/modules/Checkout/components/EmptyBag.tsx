@@ -1,12 +1,11 @@
 import React from 'react';
 
-import {
-  Typography, Box, Button,
-} from '@usereservaapp/reserva-ui';
-
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import testProps from '../../../utils/testProps';
 import IconComponent from '../../../components/IconComponent/IconComponent';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
 
 interface IEmptyBag {
   onPress?: () => void;

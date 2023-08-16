@@ -1,15 +1,14 @@
 import React, { useCallback, useState } from 'react';
-import {
-  Box,
-  Button,
-  Divider,
-  Icon,
-  TextField,
-  Typography,
-} from '@usereservaapp/reserva-ui';
+
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { Divider } from '../../../../components/Divider/Divider';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { TextField } from '../../../../components/TextField/TextField';
+import { Typography } from '../../../../components/Typography/Typography';
 import { CouponBadge } from '../../../../modules/Checkout/components/CouponBadge';
-import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom';
+import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 
 export default function CouponComponent() {
   const {
@@ -57,7 +56,7 @@ export default function CouponComponent() {
         alignItems="center"
       >
         <Box marginRight="micro">
-          <Icon name="Tag" size={20} color="preto" />
+          <IconLegacy name="Tag" size={20} color="preto" />
         </Box>
         <Box flex={1}>
           <Typography variant="subtituloSessoes">

@@ -1,16 +1,19 @@
-import {
-  Box, Button, Icon, RadioButtons, Typography,
-} from '@usereservaapp/reserva-ui';
-import { Platform, ScrollView } from 'react-native';
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
+import { Platform, ScrollView } from 'react-native';
 import { createAnimatableComponent } from 'react-native-animatable';
+
+import type { Maybe, OrderformSelectableGiftOptionOutput } from '../../../../base/graphql/generated';
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
+import { RadioButtons } from '../../../../components/RadioButtons/RadioButtons';
+import { Typography } from '../../../../components/Typography/Typography';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import { platformType } from '../../../../utils/platformType';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
-import type { Maybe, OrderformSelectableGiftOptionOutput } from '../../../../base/graphql/generated';
-import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
-import configDeviceSizes from '../../../../utils/configDeviceSizes';
 
 const BoxAnimation = createAnimatableComponent(Box);
 
@@ -228,7 +231,7 @@ export default function SelectableGifts() {
                   Ver mais
                 </Typography>
 
-                <Icon
+                <IconLegacy
                   style={
                     showMoreSizes
                       ? { transform: [{ rotate: '-90deg' }] }

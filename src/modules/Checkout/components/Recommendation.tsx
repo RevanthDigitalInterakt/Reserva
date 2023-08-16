@@ -1,16 +1,18 @@
-import {
-  Box, Button, Divider, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import React, { useCallback, useEffect } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
-import { ListHorizontalProducts } from './ListHorizontalProducts';
-import EventProvider from '../../../utils/EventProvider';
-import { getBrandByUrl } from '../../../utils/getBrandByURL';
-import useRecommendation from '../../../zustand/useRecommendation/useRecommendation';
 import { useProductRecommendationsLazyQuery } from '../../../base/graphql/generated';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { Divider } from '../../../components/Divider/Divider';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../components/Typography/Typography';
+import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import { getBrandByUrl } from '../../../utils/getBrandByURL';
 import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
+import useRecommendation from '../../../zustand/useRecommendation/useRecommendation';
+import { ListHorizontalProducts } from './ListHorizontalProducts';
 
 export function Recommendation() {
   const {
@@ -77,7 +79,7 @@ export function Recommendation() {
             marginBottom="xxs"
           >
             <Box marginRight="micro">
-              <Icon name="Handbag" size={20} />
+              <IconLegacy name="Handbag" size={20} />
             </Box>
 
             <Box flex={1}>
@@ -86,7 +88,7 @@ export function Recommendation() {
               </Typography>
             </Box>
             <Box marginRight="md">
-              <Icon
+              <IconLegacy
                 name="ArrowDown"
                 color="preto"
                 size="20"

@@ -1,13 +1,4 @@
 import { useLazyQuery } from '@apollo/client';
-import
-{
-  Box,
-  Button,
-  Divider,
-  Icon,
-  theme,
-  Typography,
-} from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -33,6 +24,12 @@ import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { Button } from '../../../components/Button';
+import { Box } from '../../../components/Box/Box';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../components/Typography/Typography';
+import { Divider } from '../../../components/Divider/Divider';
+import { theme } from '../../../base/usereservappLegacy/theme';
 
 interface IBreadCrumbs {
   title: string;
@@ -70,7 +67,7 @@ const Breadcrumbs: React.FC<IBreadCrumbs> = ({ title }) => {
         alignItems="center"
         flexDirection="row"
       >
-        <Icon name="MenuArrowBack" color="preto" size={22} />
+        <IconLegacy name="MenuArrowBack" color="preto" size={22} />
         <Box paddingX="micro">
           <Typography fontSize={12} fontFamily="nunitoRegular">
             Pagina Inicial
@@ -109,7 +106,9 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({
   return (
     <TouchableOpacity
       onPress={() => {
-        onPress && onPress();
+        if (onPress) {
+          onPress();
+        }
 
         setClickMenu(true);
       }}
@@ -146,7 +145,11 @@ const MenuItem: React.FC<IMenuItem> = ({
   return (
     <Box>
       <TouchableOpacity
-        onPress={() => onPress(indexProp)}
+        onPress={() => {
+          if (onPress) {
+            onPress(indexProp);
+          }
+        }}
         {...testProps(`com.usereserva:id/menu_button_${slugify(title)}`)}
       >
         <Box
@@ -163,7 +166,7 @@ const MenuItem: React.FC<IMenuItem> = ({
             {title.toUpperCase()}
           </Typography>
           <Box>
-            <Icon
+            <IconLegacy
               style={{ transform: [{ rotate: opened ? '90deg' : '0deg' }] }}
               name="ChevronRight"
               color="preto"
@@ -228,11 +231,10 @@ export const FixedMenuItem: React.FC<{
   iconName: string;
   title: JSX.Element;
   onPress?: Function;
-  underline?: boolean;
   disabled?: boolean;
   testID: string;
 }> = ({
-  iconName, title, onPress, disabled, underline, testID,
+  iconName, title, onPress, disabled, testID,
 }) => (
   <TouchableOpacity onPress={onPress} disabled={disabled} {...testProps(testID)}>
     <Box
@@ -242,7 +244,7 @@ export const FixedMenuItem: React.FC<{
       flexDirection="row"
       marginX="xxxs"
     >
-      <Icon name={iconName} color="preto" size={18} />
+      <IconLegacy name={iconName} color="preto" size={18} />
       <Box marginX="micro">{title}</Box>
     </Box>
   </TouchableOpacity>
@@ -308,7 +310,7 @@ export function Menu({ route }: MenuProps) {
     getIsScreenRegionalizationActive();
   }, []);
 
-  const categoryItems = data?.appMenuCollection.items[0].itemsCollection.items || [];
+  const categoryItems = data?.appMenuCollection?.items[0]?.itemsCollection?.items || [];
 
   const getCep = async () => {
     const value = await AsyncStorage.getItem('RegionalSearch:cep');

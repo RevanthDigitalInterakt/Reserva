@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react';
 import { TouchableOpacity } from 'react-native';
-import {
-  theme, Typography, Box, Button, Icon,
-} from '@usereservaapp/reserva-ui';
 import testProps from '../../../utils/testProps';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { theme } from '../../../base/usereservappLegacy/theme';
+import { Button } from '../../../components/Button';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 
 export interface Address {
   id?: string;
@@ -130,29 +132,29 @@ function AddressSelector({
                   onPress={edit}
                   pb="quarck"
                   hitSlop={{
-                        top: 10, left: 10, bottom: 30, right: 10,
-                      }}
+                    top: 10, left: 10, bottom: 30, right: 10,
+                  }}
                 >
                   <Typography
-                        fontFamily="nunitoRegular"
-                        fontSize={13}
-                        lineHeight={16}
-                        style={{ textDecorationLine: 'underline' }}
-                      >
-                        editar
-                      </Typography>
+                    fontFamily="nunitoRegular"
+                    fontSize={13}
+                    lineHeight={16}
+                    style={{ textDecorationLine: 'underline' }}
+                  >
+                    editar
+                  </Typography>
                 </Button>
 
                 <Button
                   hitSlop={{
-                        top: 10,
-                        left: -10,
-                        bottom: 30,
-                        right: 10,
-                      }}
+                    top: 10,
+                    left: -10,
+                    bottom: 30,
+                    right: 10,
+                  }}
                   onPress={deleteAddress}
                 >
-                  <Icon ml="xxs" name="Trash" color="preto" size={15} />
+                  <IconLegacy ml="xxs" name="Trash" color="preto" size={15} />
                 </Button>
               </Box>
               )}

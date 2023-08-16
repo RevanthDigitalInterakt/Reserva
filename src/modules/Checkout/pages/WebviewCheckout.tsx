@@ -1,5 +1,3 @@
-import { Box, Button } from '@usereservaapp/reserva-ui';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, {
@@ -8,22 +6,25 @@ import React, {
 import {
   Dimensions, Linking, Platform, View,
 } from 'react-native';
-import * as StoreReview from 'react-native-store-review';
-import { WebView } from 'react-native-webview';
 import Config from 'react-native-config';
+import * as StoreReview from 'react-native-store-review';
 import { URL } from 'react-native-url-polyfill';
+import { WebView } from 'react-native-webview';
+import { loadingSpinner } from '../../../../assets/animations';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { useCart, type OrderForm } from '../../../context/CartContext';
+import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
+import { GetPurchaseData } from '../../../services/vtexService';
+import EventProvider from '../../../utils/EventProvider';
+import { urlRon } from '../../../utils/LinkingUtils/static/deepLinkMethods';
+import { adaptOrderFormItemsTrack } from '../../../utils/adaptOrderFormItemsTrack';
+import { getAFContent, sumQuantity } from '../../../utils/checkoutInitiatedEvents';
+import { defaultBrand } from '../../../utils/defaultWBrand';
+import { getBrands } from '../../../utils/getBrands';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
-import EventProvider from '../../../utils/EventProvider';
-import { adaptOrderFormItemsTrack } from '../../../utils/adaptOrderFormItemsTrack';
-import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
-import { OrderForm, useCart } from '../../../context/CartContext';
-import { GetPurchaseData } from '../../../services/vtexService';
-import { urlRon } from '../../../utils/LinkingUtils/static/deepLinkMethods';
-import { getAFContent, sumQuantity } from '../../../utils/checkoutInitiatedEvents';
-import { getBrands } from '../../../utils/getBrands';
-import { defaultBrand } from '../../../utils/defaultWBrand';
-import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 
 const FINAL_URL_TO_REDIRECT_CHECKOUT = 'https://lojausereservaqa.myvtex.com/' as const;
 const URL_CHECKOUT_QA = 'https://lojausereservaqa.myvtex.com/checkout' as const;

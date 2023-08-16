@@ -1,10 +1,9 @@
-import {
-  Typography, Box,
-} from '@usereservaapp/reserva-ui';
 import React from 'react';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import OrderProduct from './OrderProduct';
 import type { IOrderId } from '../../../context/CartContext';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
 
 export type IOrderData = {
   orderId: string;

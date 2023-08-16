@@ -2,17 +2,19 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import type { StackScreenProps } from '@react-navigation/stack';
 import LottieView from 'lottie-react-native';
-import { TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
+import { ImageBackground, ScrollView, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box, Typography, Icon } from '@usereservaapp/reserva-ui';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 
+import { loadingSpinner } from '../../../../assets/animations';
 import images from '../../../base/styles/icons';
+import { Box } from '../../../components/Box/Box';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../components/Typography/Typography';
 import type { ProfileVars } from '../../../graphql/profile/profileQuery';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
-import { StorageService, StorageServiceKeys } from '../../../shared/services/StorageService';
 import { CashbackService } from '../../../shared/services/CashbackService';
+import { StorageService, StorageServiceKeys } from '../../../shared/services/StorageService';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { ModalSuccess } from '../components/ModalSuccess';
 import { ModalTermsAndConditions } from '../components/ModalTermsAndConditions';
@@ -212,7 +214,7 @@ export const Cashback: React.FC<Props> = ({ navigation, route }) => {
                     justifyContent="center"
                   >
                     {acceptConditions && (
-                      <Icon
+                      <IconLegacy
                         name="Check"
                         size={14}
                         color="white"

@@ -16,32 +16,23 @@ import
   ScrollView, Dimensions, BackHandler, Keyboard, Platform,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import
-{
-  Box,
-  Button,
-  Divider,
-  SearchBar,
-  Typography,
-  Picker,
-} from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FilterModal } from '../../ProductCatalog/modals/FilterModal/FilterModal';
 
 import
 {
   configCollection,
-  ConfigCollection,
+  type ConfigCollection,
 } from '../../../graphql/homePage/HomeQuery';
 import
 {
   OrderByEnum,
   productSearch,
-  ProductSearchData,
+  type ProductSearchData,
 } from '../../../graphql/products/productSearch';
 import
 {
-  SearchSuggestionsVars,
+  type SearchSuggestionsVars,
   searchSuggestionsAndProductSearch,
 } from '../../../graphql/products/searchSuggestions';
 
@@ -63,6 +54,12 @@ import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import IconComponent from '../../../components/IconComponent/IconComponent';
 import { usePrimeInfo } from '../../../hooks/usePrimeInfo';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { Divider } from '../../../components/Divider/Divider';
+import { SearchBar } from '../../../components/SearchBar/SearchBar';
+import { Typography } from '../../../components/Typography/Typography';
+import { Picker } from '../../../components/Picker/Picker';
 
 const deviceHeight = Dimensions.get('window').height;
 

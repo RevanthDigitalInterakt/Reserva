@@ -1,13 +1,13 @@
 import React from 'react';
-
 import { useNavigation } from '@react-navigation/native';
 
-import { Box, Button } from '@usereservaapp/reserva-ui';
 import type { CarrouselCard } from '../../../graphql/homePage/HomeQuery';
 import EventProvider from '../../../utils/EventProvider';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import ImageComponent from '../../../components/ImageComponent/ImageComponent';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
 
 function Card({
   image,

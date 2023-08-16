@@ -6,7 +6,7 @@ import { TopBar } from '../../../components/TopBar';
 
 export const TopBarBackButton: React.FC<{
   showShadow?: Boolean;
-  loading: Boolean;
+  loading?: Boolean;
   backButtonPress?: () => void;
 }> = ({ showShadow = true, backButtonPress, loading = false }) => {
   const navigation = useNavigation();

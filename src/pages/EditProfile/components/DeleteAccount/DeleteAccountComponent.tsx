@@ -1,10 +1,12 @@
-import React, { useCallback, useState } from 'react';
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
-import ModalDeleteAccount from '../../../../modules/Profile/Components/ModalDeleteAccount';
+import React, { useCallback, useState } from 'react';
+
 import { useRemoveUserMutationMutation } from '../../../../base/graphql/generated';
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../components/Typography/Typography';
+import ModalDeleteAccount from '../../../../modules/Profile/Components/ModalDeleteAccount';
 import EventProvider from '../../../../utils/EventProvider';
 
 interface IDeleteAccountProps {
@@ -44,7 +46,7 @@ function DeleteAccountComponent({ userId }: IDeleteAccountProps): JSX.Element {
           testID="com.usereserva:id/deleteaccount_button_remove"
         >
           <>
-            <Icon
+            <IconLegacy
               name="Trash"
               color="vermelhoAlerta"
               size={24}

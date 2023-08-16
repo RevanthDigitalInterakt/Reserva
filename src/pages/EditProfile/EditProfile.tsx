@@ -6,7 +6,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Box } from '@usereservaapp/reserva-ui';
+
 import IsTestingModal from '../../modules/Profile/Components/IsTestingModal';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
 import { KEYBOARD_VERTICAL_OFFSET_VALUE } from './static/editProfile.defaultValues';
@@ -19,6 +19,7 @@ import type {
 } from './interfaces/editProfile';
 import ReviewYourDataComponent from './components/ReviewYourData/ReviewYourDataComponent';
 import FormEditProfileComponent from './components/FormEditProfile/FormEditProfileComponent';
+import { Box } from '../../components/Box/Box';
 
 function EditProfileRefactor({ route }: TEditProfileProps) {
   const navigation = useNavigation();

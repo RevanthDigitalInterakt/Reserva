@@ -1,15 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
 import type { StackScreenProps } from '@react-navigation/stack';
-import
-{
-  Box,
-  Button,
-  Icon,
-  Picker,
-  SearchBar,
-  theme,
-  Typography,
-} from '@usereservaapp/reserva-ui';
 import { intervalToDuration } from 'date-fns';
 import React, {
   useCallback, useEffect, useState,
@@ -19,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
 import { useConfigContext } from '../../../../context/ConfigContext';
-import { countdownClockQuery, ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
+import { countdownClockQuery, type ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
 import { facetsQuery } from '../../../../graphql/facets/facetsQuery';
 import
 {
@@ -37,7 +27,7 @@ import { referenceIdResolver } from '../../../../utils/referenceIdResolver';
 import allSettled from '../../../../utils/allSettled';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import EventProvider from '../../../../utils/EventProvider';
-import { generateFacets, IFacet } from '../../../../utils/generateFacets';
+import { generateFacets, type IFacet } from '../../../../utils/generateFacets';
 import { getBrandByUrl } from '../../../../utils/getBrandByURL';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 import type { IFacetInput } from '../../../../zustand/useAsyncDeepLinkStore/types/asyncDeepLinkStore';
@@ -48,12 +38,19 @@ import { TopBarDefault } from '../../../Menu/components/TopBarDefault';
 import { TopBarDefaultBackButton } from '../../../Menu/components/TopBarDefaultBackButton';
 import { EmptyProductCatalog } from '../../components/EmptyProductCatalog/EmptyProductCatalog';
 import { ListVerticalProducts } from '../../components/ListVerticalProducts/ListVerticalProducts';
-import { FilterModal, TFilterType } from '../../modals/FilterModal/FilterModal';
+import { FilterModal, type TFilterType } from '../../modals/FilterModal/FilterModal';
 import testProps from '../../../../utils/testProps';
 import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { getCollectionFacetsValue } from '../../../../utils/getCollectionFacetsValue';
 import { durationToTimeString } from '../../../../utils/durationToTimeString';
+import { theme } from '../../../../base/usereservappLegacy/theme';
+import { Box } from '../../../../components/Box/Box';
+import { SearchBar } from '../../../../components/SearchBar/SearchBar';
+import { Picker } from '../../../../components/Picker/Picker';
+import { Button } from '../../../../components/Button';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../components/Typography/Typography';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -695,7 +692,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                   onPress={onClickWhatsappButton}
                 >
                   <Box flexDirection="row">
-                    <Icon name="Whatsapp" size={16} color="preto" />
+                    <IconLegacy name="Whatsapp" size={16} color="preto" />
                     <Box marginX="nano">
                       <Typography
                         color="preto"

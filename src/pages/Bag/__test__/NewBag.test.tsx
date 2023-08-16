@@ -4,11 +4,10 @@ import type { DocumentNode } from 'graphql';
 import {
   act, fireEvent, render, screen,
 } from '@testing-library/react-native';
-import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import {
-  OrderFormQuery,
+  type OrderFormQuery,
   OrderFormDocument,
 } from '../../../base/graphql/generated';
 import { orderFormMock } from '../components/ProductList/__mocks__/productListMock';
@@ -19,6 +18,7 @@ import * as useBagStore from '../../../zustand/useBagStore/useBagStore';
 import CartContextProvider from '../../../context/CartContext';
 import { mockCurrentOrderForm } from './__mocks__/mockCurrentOrderForm';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
+import { theme } from '../../../base/usereservappLegacy/theme';
 
 type TNavigation = StackScreenProps<RootStackParamList, 'BagScreen'>['navigation'];
 

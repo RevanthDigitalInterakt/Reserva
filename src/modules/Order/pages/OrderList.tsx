@@ -1,16 +1,18 @@
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { BackHandler, FlatList, SafeAreaView } from 'react-native';
-import { IOrder, useCart } from '../../../context/CartContext';
+import { type IOrder, useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Order from '../Components/Order';
 import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { loadingSpinner } from '../../../../assets/animations';
+import { Button } from '../../../components/Button';
 
 function OrderList() {
   const { searchNewOrders } = useCart();

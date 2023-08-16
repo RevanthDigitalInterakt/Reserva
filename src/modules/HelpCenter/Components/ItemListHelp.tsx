@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
-import {
-  Typography, Box, Divider,
-} from '@usereservaapp/reserva-ui';
+
 import testProps from '../../../utils/testProps';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Divider } from '../../../components/Divider/Divider';
 
 interface ItemListHelpProps {
   title: string,

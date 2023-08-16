@@ -2,7 +2,6 @@ import React, {
   useCallback, useMemo, useRef, useState,
 } from 'react';
 import { Pressable, View } from 'react-native';
-import { Box } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import Carousel from 'react-native-reanimated-carousel';
 import type { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescript/types';
@@ -11,6 +10,7 @@ import CarrouselScrollIndicator from './CarouselScrollIndicator';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
 import testProps from '../../../utils/testProps';
 import ImageComponent from '../../../components/ImageComponent/ImageComponent';
+import { Box } from '../../../components/Box/Box';
 
 interface DefaultCarrouselProps {
   carrousel: CarouselType;

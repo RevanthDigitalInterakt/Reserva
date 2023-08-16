@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-
 import { SafeAreaView, ScrollView } from 'react-native';
-import {
-  Typography, Box, ExpansePanel, Divider,
-} from '@usereservaapp/reserva-ui';
 
+import { Box } from '../../../components/Box/Box';
+import { Divider } from '../../../components/Divider/Divider';
+import { ExpansePanel } from '../../../components/ExpansePanel/ExpansePanel';
+import { Typography } from '../../../components/Typography/Typography';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 export function HelpPaymentMethods() {
@@ -75,7 +75,7 @@ export function HelpPaymentMethods() {
           </Box>
 
           {data.map((item, key) => (
-            <Box key={key}>
+            <Box key={item.title}>
               <ExpansePanel information={{ ...item }} />
               <Divider mt="xxxs" variant="fullWidth" />
             </Box>

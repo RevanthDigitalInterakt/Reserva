@@ -1,6 +1,6 @@
-import { Typography } from '@usereservaapp/reserva-ui';
 import React from 'react';
 import { View } from 'react-native';
+import { Typography } from '../../../../components/Typography/Typography';
 
 interface IProps {
   title: string;

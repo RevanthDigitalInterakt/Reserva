@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import {
-  Typography,
-  Box,
-  Button,
-  Icon,
-  Divider,
-} from '@usereservaapp/reserva-ui';
 import Modal from 'react-native-modal';
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { platformType } from '../../../utils/platformType';
 import IconComponent from '../../../components/IconComponent/IconComponent';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { Divider } from '../../../components/Divider/Divider';
 
 interface IStore {
   storeDetail: any[];
@@ -180,7 +178,7 @@ ${data.pickupStoreInfo.address.neighborhood} - ${data.pickupStoreInfo.address.ci
                   }}
                   onPress={() => setShowModalStore(false)}
                   variant="icone"
-                  icon={<Icon size={12} name="Close" />}
+                  icon={<IconLegacy size={12} name="Close" />}
                 />
               </Box>
               <Box mt="xxs" mb="micro">

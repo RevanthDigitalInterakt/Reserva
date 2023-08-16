@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -8,6 +7,9 @@ import { instance } from '../../../config/vtexConfig';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
 import { TopBarBackButtonWithoutLogo } from '../../Menu/components/TopBarBackButtonWithoutLogo';
 import Sentry from '../../../config/sentryConfig';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
 
 export interface CepsInfo {
   cep: string,
@@ -119,7 +121,7 @@ export function CEPList({ ...props }) {
         contentContainerStyle={{
         }}
         keyExtractor={(_, index) => index.toString()}
-        renderItem={({ item, index }) => (
+        renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => selectCep(item.cep)}
             containerStyle={{

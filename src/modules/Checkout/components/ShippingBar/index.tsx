@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
-import { Box, ProgressBar } from '@usereservaapp/reserva-ui';
 import { useShippingBarStore, useInitialShippingBar } from '../../../../zustand/useShippingBarStore';
 import { IfRenderShippingMessage } from './shippingMessage';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
+import { Box } from '../../../../components/Box/Box';
+import { ProgressBar } from '../../../../components/ProgressBar/ProgressBar';
 
 export interface IShippingBar {
   totalOrder: number;

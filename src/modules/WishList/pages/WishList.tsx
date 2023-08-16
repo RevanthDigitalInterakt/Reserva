@@ -1,27 +1,26 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import { ApolloError, useLazyQuery, useMutation } from '@apollo/client';
 import { useFocusEffect } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
-import { FlatList, Alert } from 'react-native';
-import {
-  Box,
-  Picker,
-  Typography,
-} from '@usereservaapp/reserva-ui';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Alert, FlatList } from 'react-native';
+
+import { Box } from '../../../components/Box/Box';
+import { ModalBag } from '../../../components/ModalBag/ModalBag';
+import { Picker } from '../../../components/Picker/Picker';
+import { ProductHorizontalListCard } from '../../../components/ProductHorizontalListCard/ProductHorizontalListCard';
+import { Typography } from '../../../components/Typography/Typography';
 import { useCart } from '../../../context/CartContext';
 import wishListQueries from '../../../graphql/wishlist/wishList';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
+import EventProvider from '../../../utils/EventProvider';
+import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
+import { defaultBrand } from '../../../utils/defaultWBrand';
+import { getBrandByUrl } from '../../../utils/getBrandByURL';
+import { slugify } from '../../../utils/slugify';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { Skeleton } from '../../Checkout/components/Skeleton';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { EmptyWishList } from '../components/EmptyWishList';
-import { slugify } from '../../../utils/slugify';
-import EventProvider from '../../../utils/EventProvider';
-import { getBrandByUrl } from '../../../utils/getBrandByURL';
-import { defaultBrand } from '../../../utils/defaultWBrand';
-import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
-import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
-import { ProductHorizontalListCard } from '../../../components/ProductHorizontalListCard/ProductHorizontalListCard';
-import { ModalBag } from '../../../components/ModalBag/ModalBag';
 
 interface IData {
   loading: boolean;

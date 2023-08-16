@@ -5,14 +5,12 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-  theme,
-} from '@usereservaapp/reserva-ui';
 import { platformType } from '../../../../utils/platformType';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { TextField } from '../../../../components/TextField/TextField';
+import { theme } from '../../../../base/usereservappLegacy/theme';
+import { Button } from '../../../../components/Button';
 
 export interface RegisterCpfViewProps {
   valueCpf: string;
@@ -45,7 +43,7 @@ export function RegisterCpfView({
                   fontFamily="reservaSerifMedium"
                   fontSize={28}
                 >
-                Insira seu CPF e ative a sua carteira
+                  Insira seu CPF e ative a sua carteira
                 </Typography>
               </Box>
 
@@ -55,8 +53,8 @@ export function RegisterCpfView({
                   fontSize={14}
                   style={{ lineHeight: 19 }}
                 >
-                O cashback e sua carteira Reserva precisam ficar atrelada a um
-                número de CPF para você ter direito a todos os benefícios.
+                  O cashback e sua carteira Reserva precisam ficar atrelada a um
+                  número de CPF para você ter direito a todos os benefícios.
                 </Typography>
               </Box>
             </Box>
@@ -94,7 +92,7 @@ export function RegisterCpfView({
                   fontSize={13}
                   style={{ lineHeight: 24, letterSpacing: 1.6 }}
                 >
-                CADASTRAR
+                  CADASTRAR
                 </Typography>
               </Button>
             </Box>

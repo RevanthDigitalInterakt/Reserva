@@ -1,10 +1,10 @@
 import React from 'react';
-import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 import { fireEvent, render } from '@testing-library/react-native';
 import { act } from 'react-test-renderer';
 import DeleteProductModal from '..';
 import * as useBagStore from '../../../../../zustand/useBagStore/useBagStore';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 
 const CLOSE_MODAL_DELETE_PRODUCT_MOCK = jest.fn();
 const UPDATE_PRODUCT_COUNT_MOCK = jest.fn();

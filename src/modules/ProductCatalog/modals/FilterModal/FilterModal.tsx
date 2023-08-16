@@ -1,28 +1,24 @@
-import React, { useState } from 'react';
-import { Platform, ScrollView, Dimensions } from 'react-native';
-import {
-  Box,
-  Button,
-  Divider,
-  Icon,
-  Range,
-  theme,
-  Typography,
-  RadioButtonsFilter,
-  SelectColorFilter,
-  CheckboxListFilter,
-} from '@usereservaapp/reserva-ui';
-import Modal from 'react-native-modal';
-
-import { SafeAreaView } from 'react-native-safe-area-context';
+/* eslint-disable @typescript-eslint/no-use-before-define */
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, Platform, ScrollView } from 'react-native';
 import { createAnimatableComponent } from 'react-native-animatable';
+import Modal from 'react-native-modal';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { theme } from '../../../../base/usereservappLegacy/theme';
+import { Box, type BoxProps } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { Divider } from '../../../../components/Divider/Divider';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../components/Typography/Typography';
 import {
   HexToColorsEnum,
 } from '../../../../graphql/product/colorsToHexEnum';
 import type { IFacet } from '../../../../utils/generateFacets';
+import { getInitialFilterPriceValues } from './helpers/getInitialFilterPriceValues';
 import { getMaxPrice } from './helpers/getMaxPrice';
 import { getMinPrice } from './helpers/getMinPrice';
-import { getInitialFilterPriceValues } from './helpers/getInitialFilterPriceValues';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
@@ -80,7 +76,7 @@ export const TitleFilter: React.FC<{
           Ver mais
         </Typography>
 
-        <Icon
+        <IconLegacy
           style={
               showMore
                 ? { transform: [{ rotate: '-90deg' }] }
@@ -295,7 +291,6 @@ export function FilterModal({
                     setSelectedSize(size);
                   }}
                   optionsList={showSizes ? sizes : sizes.slice(0, 6)}
-                // defaultSelectedItem={"M"}
                 />
               </BoxAnimation>
 
@@ -400,3 +395,336 @@ export function FilterModal({
     </Box>
   );
 }
+
+interface RadioButtonsFilterProps {
+  optionsList: any[];
+  disbledOptions: string[];
+  defaultSelectedItem: any;
+  color?: keyof typeof theme.colors;
+  onSelectedChange: (item: any) => void;
+  size: number | string;
+  fontSize: string | number;
+}
+
+export const RadioButtonsFilter = ({
+  optionsList,
+  disbledOptions,
+  defaultSelectedItem,
+  color = 'preto',
+  onSelectedChange,
+  size = '34px',
+  fontSize = '10px',
+  ...props
+}: RadioButtonsFilterProps) => {
+  const [selectedItems, setSelectedItem] = useState<any[]>([defaultSelectedItem]);
+
+  if (!optionsList || optionsList.length == 0) return null;
+
+  useEffect(() => {
+    orderSizes(optionsList.map((x) => x.value));
+  }, []);
+
+  useEffect(() => {
+    onSelectedChange(selectedItems);
+  }, [selectedItems]);
+
+  const orderSizes = (sizes: string[]) => sizes.sort((itemA, itemB) => {
+    if (parseInt(itemA) > 0) return itemA > itemB ? -1 : 1;
+
+    if (itemA.charAt(0) === itemB.charAt(0)) {
+      if (itemA.length > itemB.length) return -1;
+      if (itemA.length < itemB.length) return 1;
+      return 0;
+    }
+    return itemA < itemB ? -1 : 1;
+  });
+
+  return (
+    <Box alignItems="flex-start" flexWrap="wrap" flexDirection="row" {...props}>
+      {optionsList.map(({ key, value }: any, index: number) => {
+        const isSelected = !!selectedItems.includes(value);
+        return (
+          <Box
+            key={`option-${key}`}
+            height={size}
+            width={size}
+            alignSelf="flex-start"
+            bg={isSelected ? color : 'white'}
+            alignItems="center"
+            marginRight={index < optionsList.length ? 'micro' : null}
+            marginBottom={index < optionsList.length ? 'nano' : null}
+            borderRadius="pico"
+            borderWidth="hairline"
+            borderColor="divider"
+          >
+            <Button
+              disabled={disbledOptions?.includes(`${value}`)}
+              height={size}
+              onPress={() => {
+                if (isSelected) {
+                  setSelectedItem(orderSizes(selectedItems.filter((x) => x !== value)));
+                } else {
+                  setSelectedItem(orderSizes([...selectedItems, value]));
+                }
+              }}
+            >
+              <Typography
+                color={isSelected ? 'white' : color}
+                fontFamily="nunitoBold"
+                fontSize={fontSize}
+              >
+                {value}
+              </Typography>
+            </Button>
+          </Box>
+        );
+      })}
+    </Box>
+  );
+};
+
+interface SelectColorFilterProps extends ColorProps<typeof theme> {
+  listColors: any[];
+  disabledColors?: any[];
+  selectedColors?: any[];
+  onPress: (item: any) => void;
+  size?: number;
+}
+
+export const SelectColorFilter = ({
+  listColors,
+  selectedColors,
+  disabledColors,
+  onPress,
+  size = 25,
+}: SelectColorFilterProps) => {
+  const renderOptions = () => {
+    const listItems = listColors.map(({ value }) => (
+      <Box key={`filter-options-${value}`}>
+        <Button disabled={disabledColors?.includes(value)} onPress={() => onPress(value)}>
+          <Box
+            height={size + 5}
+            width={size + 5}
+            bg={
+                selectedColors?.includes(value) || selectedColors === value
+                  ? 'white'
+                  : null
+              }
+            borderRadius="infinity"
+            borderWidth={
+                selectedColors?.includes(value) || selectedColors === value
+                  ? 'hairline'
+                  : null
+              }
+            borderColor={
+                selectedColors?.includes(value) || selectedColors === value
+                  ? 'neutroFrio2'
+                  : null
+              }
+            justifyContent="center"
+            alignItems="center"
+            marginLeft="nano"
+            marginRight="nano"
+            marginTop="nano"
+            marginBottom="nano"
+          >
+            <Box
+              height={size}
+              width={size}
+              borderRadius="infinity"
+              bg={value}
+            />
+          </Box>
+        </Button>
+      </Box>
+    ));
+    return listItems;
+  };
+
+  return (
+    <Box flexWrap="wrap" flexDirection="row">
+      {renderOptions()}
+    </Box>
+  );
+};
+
+export interface CheckboxFilterProps extends BoxProps {
+  optionName: string;
+  checked?: boolean;
+  color?: keyof typeof theme.colors;
+  selectedColor?: keyof typeof theme.colors;
+  onCheck?: () => void;
+  fontSize?: number;
+  fontFamily?: keyof typeof theme.fonts;
+}
+
+export const CheckboxFilter = ({
+  checked,
+  optionName,
+  onCheck,
+  fontSize = '12px',
+  fontFamily = 'nunitoRegular',
+  color = 'dropDownBorderColor',
+  selectedColor = 'preto',
+  width = '50%',
+  alignItems = 'center',
+  ...props
+}: CheckboxFilterProps) => (
+  <Box flexDirection="row" width={width} alignItems={alignItems} {...props}>
+    <Button
+      hitSlop={{
+        top: 10, left: 10, bottom: 10, right: 10,
+      }}
+      onPress={() => {
+        if (onCheck) {
+          onCheck();
+        }
+      }}
+    >
+      <IconLegacy
+        name={checked ? 'CheckboxChecked' : 'CheckboxUnchecked'}
+        color={
+            color ? (selectedColor && checked ? selectedColor : color) : 'preto'
+          }
+        size={15}
+      />
+    </Button>
+    <Box ml="nano">
+      <Typography
+        fontSize={fontSize}
+        fontFamily={fontFamily}
+        variant="botaoFiltrarEOrdenarProdutos"
+      >
+        {optionName}
+      </Typography>
+    </Box>
+  </Box>
+);
+
+export interface CheckboxListFilterProps {
+  optionsList: any[];
+  selectedList: any[];
+  color?: keyof typeof theme.colors;
+  selectedColor?: keyof typeof theme.colors;
+  onCheckChange: (cheboxList: string[]) => void;
+}
+
+export const CheckboxListFilter = ({
+  optionsList,
+  selectedList,
+  onCheckChange,
+  color,
+  selectedColor,
+}: CheckboxListFilterProps) => {
+  const isChecked = (option: any) => selectedList.filter(
+    ({ value }) => value === option.value,
+  ).length > 0;
+
+  return (
+    <Box flexDirection="row" flexWrap="wrap">
+      {optionsList.map(({ key, value }: any, index) => (
+        <CheckboxFilter
+          key={`option-${key}-${value}`}
+          paddingY="nano"
+          optionName={value.charAt(0).toUpperCase() + value.slice(1)}
+          checked={isChecked({ key, value: value.toLowerCase() })}
+          color={color || 'preto'}
+          selectedColor={selectedColor || 'preto'}
+          onCheck={() => {
+            if (isChecked({ key, value: value.toLowerCase() })) {
+              onCheckChange(selectedList.filter(({ value: val }: any) => val !== value));
+            } else onCheckChange([...selectedList, { key, value }]);
+          }}
+        />
+      ))}
+    </Box>
+  );
+};
+
+interface RangeProps {
+  width: number
+  min: number
+  max: number
+  value: number[]
+  prefix?: string,
+  colorMarker: keyof typeof theme.colors,
+  colorLine: keyof typeof theme.colors,
+  colorText: keyof typeof theme.colors,
+  onValuesChange?: Function,
+}
+
+export const Range = ({
+  width = 150,
+  min = 0,
+  max = 0,
+  prefix,
+  value = [0, 0],
+  colorMarker = 'preto',
+  colorLine = 'preto',
+  colorText = 'preto',
+  onValuesChange,
+}: RangeProps) => {
+  const [sliderValue, setSliderValue] = React.useState(value);
+
+  return (
+    <Box flexDirection="column">
+      <MultiSlider
+        selectedStyle={{
+          backgroundColor: theme.colors[colorLine],
+          height: 3,
+          marginTop: -1.5,
+        }}
+        unselectedStyle={{
+          backgroundColor: theme.colors[colorLine],
+          height: 1,
+        }}
+        values={sliderValue}
+        sliderLength={width}
+        onValuesChange={(values) => {
+          setSliderValue(values);
+        }}
+        onValuesChangeFinish={(values) => {
+          if (typeof onValuesChange === 'function') {
+            onValuesChange(values);
+          }
+        }}
+        min={min}
+        max={max}
+        step={1}
+        allowOverlap
+        snapped
+        isMarkersSeparated
+        customMarkerLeft={() => <RangeMarker bg={colorMarker} />}
+        customMarkerRight={() => <RangeMarker bg={colorMarker} />}
+      />
+      <Box width={width} mt={-12} flexDirection="row" justifyContent="space-between">
+        <Box alignSelf="flex-start">
+          <Typography fontFamily="nunitoSemiBold" fontSize={14} color={colorText}>
+            {prefix}
+            {sliderValue[0]}
+          </Typography>
+        </Box>
+
+        {sliderValue[1] !== undefined && (
+          <Box alignSelf="flex-end">
+            <Typography fontFamily="nunitoSemiBold" fontSize={14} color={colorText}>
+              {prefix}
+              {sliderValue[1]}
+            </Typography>
+          </Box>
+        )}
+      </Box>
+    </Box>
+  );
+};
+
+interface RangeMarkerProps extends BoxProps {}
+
+export const RangeMarker = (props: RangeMarkerProps) => (
+  <Button hitSlop={{
+    top: 30, left: 30, bottom: 30, right: 30,
+  }}
+  >
+    <Box borderRadius="infinity" width={20} height={20} {...props} />
+  </Button>
+);

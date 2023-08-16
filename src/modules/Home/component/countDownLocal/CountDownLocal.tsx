@@ -1,10 +1,7 @@
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import React, {
-  Dispatch,
-  SetStateAction, useEffect,
+  type Dispatch,
+  type SetStateAction, useEffect,
   useState,
 } from 'react';
 import {
@@ -18,6 +15,10 @@ import FlipNumber from '../flipcountdoun/FlipNumber';
 import { useChronometerLocal } from './useChronometerLocal';
 import { platformType } from '../../../../utils/platformType';
 import testProps from '../../../../utils/testProps';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Button } from '../../../../components/Button';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 
 const deviceWidth = Dimensions.get('window').width;
 
@@ -297,7 +298,7 @@ function CheckTheRules({
             testID="com.usereserva:id/count_down_local_button_close"
             onPress={() => setIsVisible(false)}
             variant="icone"
-            icon={<Icon size={17} name="Close" />}
+            icon={<IconLegacy size={17} name="Close" />}
           />
         </Box>
         <Box>

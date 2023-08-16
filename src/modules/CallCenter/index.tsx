@@ -5,9 +5,11 @@ import {
   Linking,
 } from 'react-native';
 
-import { Box, Typography, Button } from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { TopBarDefault } from '../Menu/components/TopBarDefault';
+import { Box } from '../../components/Box/Box';
+import { Typography } from '../../components/Typography/Typography';
+import { Button } from '../../components/Button';
 
 function CallCenter() {
   const navigation = useNavigation();

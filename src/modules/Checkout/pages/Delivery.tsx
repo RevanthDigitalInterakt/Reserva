@@ -1,4 +1,3 @@
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import { useFocusEffect } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -21,6 +20,9 @@ import {
   useProfileAddressMutation,
 } from '../../../base/graphql/generated';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 

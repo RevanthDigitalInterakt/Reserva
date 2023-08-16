@@ -10,11 +10,13 @@ import {
   layout,
   space,
 } from 'styled-system';
+import type { StyleProp, ViewStyle } from 'react-native';
 import * as SvgIconList from './Svg';
 import { theme } from '../../base/usereservappLegacy/theme';
 
 interface DefaultIconProps {
   name: string
+  style?: StyleProp<ViewStyle>
 }
 
 interface SvgIconProps

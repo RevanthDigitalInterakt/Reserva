@@ -4,8 +4,8 @@ import {
   Animated, Easing, View, Dimensions,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { Box } from '@usereservaapp/reserva-ui';
 import testProps from '../../../utils/testProps';
+import { Box } from '../../../components/Box/Box';
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 

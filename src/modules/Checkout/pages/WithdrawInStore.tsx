@@ -1,14 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import {
-  Typography,
-  Box,
-  Button,
-  TextField,
-} from '@usereservaapp/reserva-ui';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { TextField } from '../../../components/TextField/TextField';
+import { Button } from '../../../components/Button';
 
 export function WithdrawInStore() {
   const navigation = useNavigation();

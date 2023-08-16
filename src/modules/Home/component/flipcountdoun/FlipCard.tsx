@@ -2,9 +2,9 @@ import React from 'react';
 import {
   Animated, View, Text, StyleSheet, Platform,
 } from 'react-native';
-import { theme } from '@usereservaapp/reserva-ui';
 import { platformType } from '../../../../utils/platformType';
 import testProps from '../../../../utils/testProps';
+import { theme } from '../../../../base/usereservappLegacy/theme';
 
 interface IFlipCard {
   setRef: any;

@@ -2,9 +2,6 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
-import {
-  Typography, Box, Button,
-} from '@usereservaapp/reserva-ui';
 import images from '../../../base/styles/icons';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import UnderlineInput from '../../../components/UnderlineInput';
@@ -12,6 +9,9 @@ import HeaderBanner from '../componet/HeaderBanner';
 import testProps from '../../../utils/testProps';
 import { useRecoverPasswordVerificationCodeMutation } from '../../../base/graphql/generated';
 import EventProvider from '../../../utils/EventProvider';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
 
 export interface ForgotEmailProps
   extends StackScreenProps<RootStackParamList, 'ForgotEmail'> {}

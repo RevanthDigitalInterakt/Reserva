@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Box, Typography } from '@usereservaapp/reserva-ui';
-
 import { PriceCustom } from '../PriceCustom';
 import type { IPropsShippingMessage } from './types';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
 
 export function IfRenderShippingMessage({
   sumPriceShipping,

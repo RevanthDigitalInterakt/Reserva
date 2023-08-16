@@ -1,6 +1,8 @@
 import React from 'react';
-import { Box, Divider, Typography } from '@usereservaapp/reserva-ui';
 import { PriceCustom } from '../../../Checkout/components/PriceCustom';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Divider } from '../../../../components/Divider/Divider';
 
 export interface CreditsViewProps {
   creditsBalance?: number;

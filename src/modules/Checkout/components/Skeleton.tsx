@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
-import type { BoxProps } from '@usereservaapp/reserva-ui';
+import type { BoxProps } from '../../../components/Box/Box';
 
 interface SkeletonProps extends BoxProps {
   testID?: string;

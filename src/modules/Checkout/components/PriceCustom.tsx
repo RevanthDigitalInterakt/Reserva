@@ -1,9 +1,7 @@
 import * as React from 'react';
-import {
-  Typography,
-  Box,
-  theme,
-} from '@usereservaapp/reserva-ui';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import type { theme } from '../../../base/usereservappLegacy/theme';
 
 export interface IpriceCustom {
   num: number;
@@ -24,14 +22,22 @@ export const PriceCustom: React.FC<IpriceCustom> = ({
       <Box>
         {negative
           ? (
-            <Typography color={color} fontFamily={fontFamily} fontSize={sizeInterger}>
+            <Typography
+              color={color}
+              fontFamily={fontFamily}
+              fontSize={sizeInterger}
+            >
               - R$
               {integerPart(num)}
               ,
             </Typography>
           )
           : (
-            <Typography color={color} fontFamily={fontFamily} fontSize={sizeInterger}>
+            <Typography
+              color={color}
+              fontFamily={fontFamily}
+              fontSize={sizeInterger}
+            >
               R$
               {integerPart(num)}
               ,
@@ -40,7 +46,14 @@ export const PriceCustom: React.FC<IpriceCustom> = ({
 
       </Box>
       <Box alignSelf="flex-start">
-        <Typography color={color} fontFamily={fontFamily} fontSize={sizeDecimal}>{decimalPart(num)}</Typography>
+        <Typography
+          color={color}
+          fontFamily={fontFamily}
+          fontSize={sizeDecimal}
+        >
+          {decimalPart(num)}
+
+        </Typography>
       </Box>
     </Box>
   );

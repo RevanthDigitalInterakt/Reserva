@@ -6,11 +6,11 @@ import
   fireEvent, render, screen, act,
 } from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@usereservaapp/reserva-ui';
 import { MockedProvider } from '@apollo/client/testing';
 import CartContextProvider from '../../../../context/CartContext';
 import Checkout from '../WebviewCheckout';
 import EventProvider from '../../../../utils/EventProvider';
+import { theme } from '../../../../base/usereservappLegacy/theme';
 
 jest.spyOn(Date, 'now').mockImplementation(() => 1621556195000);
 

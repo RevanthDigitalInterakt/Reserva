@@ -1,16 +1,18 @@
-import React from 'react';
-
-import {
-  SafeAreaView, ScrollView, Linking, Dimensions, TouchableOpacity,
-} from 'react-native';
-import {
-  Typography, Box,
-} from '@usereservaapp/reserva-ui';
-
-import type { StackScreenProps } from '@react-navigation/stack';
+/* eslint-disable max-len */
 import { useNavigation } from '@react-navigation/native';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import type { StackScreenProps } from '@react-navigation/stack';
+import React from 'react';
+import {
+  Dimensions,
+  Linking,
+  SafeAreaView, ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 interface DataExplanationProps {
   origin: string;
@@ -312,7 +314,9 @@ export function PrivacyPolicy({ route }: Props) {
 
   const navigateGoBack = () => {
     navigation.goBack();
-    route?.params?.comeFrom === 'Menu' && navigation.navigate('Menu');
+    if (route?.params?.comeFrom === 'Menu') {
+      navigation.navigate('Menu');
+    }
   };
 
   return (

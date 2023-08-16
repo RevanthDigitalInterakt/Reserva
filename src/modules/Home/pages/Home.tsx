@@ -1,6 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
 import { useFocusEffect } from '@react-navigation/native';
-import { Box } from '@usereservaapp/reserva-ui';
 import { intervalToDuration } from 'date-fns';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
@@ -12,9 +11,9 @@ import { SafeAreaView, ScrollView } from 'react-native';
 import DeepLinkPathModule from '../../../NativeModules/DeepLinkPathModule';
 import { useCountDown } from '../../../context/ChronometerContext';
 import { useConfigContext } from '../../../context/ConfigContext';
-import { ICountDownClock, countdownClockQuery } from '../../../graphql/countDownClock/countdownClockQuery';
+import { type ICountDownClock, countdownClockQuery } from '../../../graphql/countDownClock/countdownClockQuery';
 import {
-  Carousel,
+  type Carousel,
   configCollection, homeQuery,
 } from '../../../graphql/homePage/HomeQuery';
 import { useChronometer } from '../../../hooks/useChronometer';
@@ -37,6 +36,7 @@ import { CountDownLocal } from '../component/countDownLocal/CountDownLocal';
 import useAuthModalStore from '../../../zustand/useAuthModalStore';
 import ModalSignUpComplete from '../component/ModalSignUpComplete';
 import { durationToTimeString } from '../../../utils/durationToTimeString';
+import { Box } from '../../../components/Box/Box';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);

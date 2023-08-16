@@ -1,9 +1,9 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@usereservaapp/reserva-ui';
 
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { ModalClientIsPrime } from '../ModalClientIsPrime';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 
 const onBackDropPressMock = jest.fn();
 

@@ -1,9 +1,13 @@
-import { Box, TextField } from '@usereservaapp/reserva-ui';
 import React from 'react';
 import {
-  ActivityIndicator, GestureResponderEvent, StyleProp, TextStyle,
+  ActivityIndicator,
+  type GestureResponderEvent,
+  type StyleProp,
+  type TextStyle,
 } from 'react-native';
 import type { TextInputMaskOptionProp, TextInputMaskTypeProp } from 'react-native-masked-text';
+import { Box } from '../../../components/Box/Box';
+import { TextField } from '../../../components/TextField/TextField';
 
 interface IInputOption {
   label?: string;

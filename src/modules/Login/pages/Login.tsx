@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, FC } from 'react';
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
+import React, { useCallback, useEffect } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
 import {
   Alert,
@@ -15,13 +14,16 @@ import EventProvider from '../../../utils/EventProvider';
 import testProps from '../../../utils/testProps';
 import { useAuthentication } from '../../../hooks/useAuthentication';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
-export const LoginScreen: FC<Props> = ({
+export const LoginScreen = ({
   route,
   navigation,
-}) => {
+}: Props) => {
   const { comeFrom, previousPage } = route.params || {};
 
   const {

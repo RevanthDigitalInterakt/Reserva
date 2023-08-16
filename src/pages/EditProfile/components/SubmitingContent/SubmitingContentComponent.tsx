@@ -1,8 +1,9 @@
 import React from 'react';
-import { Box, Button } from '@usereservaapp/reserva-ui';
 import { Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { platformType } from '../../../../utils/platformType';
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
 
 interface ISubmitingContentComponent {
   isRegister: boolean

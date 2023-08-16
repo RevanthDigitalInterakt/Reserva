@@ -1,5 +1,4 @@
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@usereservaapp/reserva-ui';
 import React from 'react';
 import {
   act, fireEvent, render, screen,
@@ -7,6 +6,7 @@ import {
 import { MockedProvider } from '@apollo/client/testing';
 import NewsLetterComponent from '../NewsLetterComponent';
 import subscribeNewsLetter from '../../../../../graphql/profile/newsLetter';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 
 const NewsLetterParams = {
   value: false,

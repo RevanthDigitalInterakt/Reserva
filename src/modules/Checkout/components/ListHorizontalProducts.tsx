@@ -1,15 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import
-{
-  Box, Button, ProductVerticalListCardProps, Typography,
-} from '@usereservaapp/reserva-ui';
+
 import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
 import { Animated, Dimensions } from 'react-native';
 import images from '../../../base/styles/icons';
-import { ProductVerticalListCard } from '../../../components/ProductVerticalListCard';
+import { ProductVerticalListCard, type ProductVerticalListCardProps } from '../../../components/ProductVerticalListCard';
 import type { ProductQL } from '../../../graphql/products/productSearch';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import EventProvider from '../../../utils/EventProvider';
@@ -18,6 +15,9 @@ import { getBrandByUrl } from '../../../utils/getBrandByURL';
 import { getItemPrice } from '../../../utils/getItemPrice';
 import { getPercent } from '../../../utils/getPercent';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
 
 interface ProductItemInterface extends ProductVerticalListCardProps {
   item: any,

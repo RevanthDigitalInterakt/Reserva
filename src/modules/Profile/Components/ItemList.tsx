@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
-import {
-  Box, Divider, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
+
+import { Box } from '../../../components/Box/Box';
+import { Divider } from '../../../components/Divider/Divider';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../components/Typography/Typography';
 import { slugify } from '../../../utils/slugify';
 import testProps from '../../../utils/testProps';
 
@@ -27,7 +29,7 @@ function ItemList({
         <Box mb="micro" mt="micro" flexDirection="row" alignItems="center" justifyContent="space-between">
           <Box flexDirection="row" alignItems="center">
             <Box pr="micro" justifyContent="flex-start">
-              {icon !== undefined && <Icon name={icon} size={20} />}
+              {icon !== undefined && <IconLegacy name={icon} size={20} />}
             </Box>
 
             <Box>
@@ -42,7 +44,7 @@ function ItemList({
           <Box alignItems="center" justifyContent="center">
             {arrowDown && (
             <Box alignItems="center" justifyContent="center">
-              <Icon name={dropdownActive ? 'ArrowUp' : 'ArrowDown'} color="vermelhoAlerta" size={18} />
+              <IconLegacy name={dropdownActive ? 'ArrowUp' : 'ArrowDown'} color="vermelhoAlerta" size={18} />
             </Box>
             )}
           </Box>

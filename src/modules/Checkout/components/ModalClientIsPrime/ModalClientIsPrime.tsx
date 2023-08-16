@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 import Modal from 'react-native-modal';
-import { Typography } from '@usereservaapp/reserva-ui';
 import { Text, View } from 'react-native';
 import { Button } from '../../../../components/Button';
 import { styles } from './ModalClienteIsPrime.Styles';
 import IconLogoPrime from '../../../../../assets/icons/IconLogoPrime';
 import testProps from '../../../../utils/testProps';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
+import { Typography } from '../../../../components/Typography/Typography';
 
 interface IProps {
   isVisible: boolean;

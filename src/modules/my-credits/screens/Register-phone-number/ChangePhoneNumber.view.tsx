@@ -1,7 +1,9 @@
 import React from 'react';
 import { ScrollView, SafeAreaView } from 'react-native';
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import type { ProfileVars } from '../../../../graphql/profile/profileQuery';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Button } from '../../../../components/Button';
 
 export interface ChangePhoneNumberViewProps {
   profile: ProfileVars;

@@ -1,7 +1,6 @@
 import React, {
   useCallback, useEffect, useState,
 } from 'react';
-import { Box, TextField } from '@usereservaapp/reserva-ui';
 import { useFormik } from 'formik';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -39,6 +38,8 @@ import EventProvider from '../../../../utils/EventProvider';
 import { useProfileLazyQuery, useProfileUpdateMutation } from '../../../../base/graphql/generated';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
+import { Box } from '../../../../components/Box/Box';
+import { TextField } from '../../../../components/TextField/TextField';
 
 interface IFormEditProfileComponentProps {
   isRegister: boolean;

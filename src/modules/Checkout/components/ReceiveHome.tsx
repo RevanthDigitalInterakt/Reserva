@@ -1,17 +1,20 @@
-import React, {
-  useState, useEffect, useRef,
-} from 'react';
-import { Typography, Box, Alert } from '@usereservaapp/reserva-ui';
-import { FlatList } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import DeliverySelector from './DeliverySelector';
-import { useCart } from '../../../context/CartContext';
-import formatString from '../../../utils/formatString';
-import AddressSelector from '../../Address/Components/AddressSelector';
+import React, {
+  useEffect, useRef,
+  useState,
+} from 'react';
+import { FlatList } from 'react-native-gesture-handler';
 import {
   useProfileAddressRemoveMutation,
 } from '../../../base/graphql/generated';
+import { Alert } from '../../../components/Alert/Alert';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { useCart } from '../../../context/CartContext';
+import formatString from '../../../utils/formatString';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import AddressSelector from '../../Address/Components/AddressSelector';
+import DeliverySelector from './DeliverySelector';
 
 interface IReceiveHome {
   typeOfDelivery: any[];
@@ -56,7 +59,9 @@ function ReceiveHome({
     <>
       <Alert
         onModalHide={() => {
-          modalRef.current && setSuccessModal(true);
+          if (modalRef.current) {
+            setSuccessModal(true);
+          }
         }}
         isVisible={deleteModal}
         title="Excluir endereço"

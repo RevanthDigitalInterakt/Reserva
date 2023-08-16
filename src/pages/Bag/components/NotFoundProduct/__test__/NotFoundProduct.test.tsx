@@ -1,9 +1,9 @@
 import React from 'react';
-import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import NotFoundProduct from '..';
 import * as useBagStore from '../../../../../zustand/useBagStore/useBagStore';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 
 const mockClearProductNotFound = jest.fn();
 

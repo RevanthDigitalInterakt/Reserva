@@ -1,11 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Linking, SafeAreaView, ScrollView } from 'react-native';
-import { Typography, Box, Button } from '@usereservaapp/reserva-ui';
-import { TopBarDefault } from '../../Menu/components/TopBarDefault';
-import testProps from '../../../utils/testProps';
 
-export const ContactUs: React.FC<{}> = () => {
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { Typography } from '../../../components/Typography/Typography';
+import testProps from '../../../utils/testProps';
+import { TopBarDefault } from '../../Menu/components/TopBarDefault';
+
+export const ContactUs = () => {
   const navigation = useNavigation();
 
   return (

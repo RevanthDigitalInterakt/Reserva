@@ -1,10 +1,10 @@
 import React from 'react';
-import {
-  Typography, Box, Button,
-} from '@usereservaapp/reserva-ui';
 import { ScrollView } from 'react-native';
 import testProps from '../../../../utils/testProps';
 import IconComponent from '../../../../components/IconComponent/IconComponent';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Button } from '../../../../components/Button';
 
 interface IEmptyBag {
   onPress?: () => void;
@@ -16,7 +16,12 @@ export function EmptyProductCatalog({ onPress }: IEmptyBag) {
       contentContainerStyle={{ flexGrow: 1 }}
       {...testProps('com.usereserva:id/empty_catalog_container')}
     >
-      <Box flex={1} alignItems="center" paddingTop={140} paddingX={25}>
+      <Box
+        flex={1}
+        alignItems="center"
+        paddingTop={140}
+        paddingX={25}
+      >
         <IconComponent height={120} width={120} icon="emptyProductCatalog" />
         <Box mx={37} mt="xxxs">
           <Typography fontFamily="reservaSerifBlack" fontSize={44}>

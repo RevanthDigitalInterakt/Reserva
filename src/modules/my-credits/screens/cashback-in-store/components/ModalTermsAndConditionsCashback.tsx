@@ -1,9 +1,10 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
 import Modal from 'react-native-modal';
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
+import { Box } from '../../../../../components/Box/Box';
+import { Button } from '../../../../../components/Button';
+import { IconLegacy } from '../../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../../components/Typography/Typography';
 
 interface IModal {
   isVisible: boolean;
@@ -23,7 +24,7 @@ export function ModalTermsAndConditionsCashback({
           <Button
             onPress={setIsVisible}
             variant="icone"
-            icon={<Icon size={12} name="Close" />}
+            icon={<IconLegacy size={12} name="Close" />}
           />
         </Box>
         <Box>

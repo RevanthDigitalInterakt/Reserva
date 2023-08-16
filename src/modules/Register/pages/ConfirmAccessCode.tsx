@@ -1,7 +1,3 @@
-import
-{
-  Box, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import
@@ -32,6 +28,9 @@ import ModalCheckUserConnection from '../component/ModalCheckUserConnection';
 import CodeInput from '../../../components/CodeInput/CodeInput';
 import { getCopiedValue } from '../../../utils/CopyToClipboard';
 import { useCheckConnection } from '../../../hooks/useCheckConnection';
+import { Box } from '../../../components/Box/Box';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../components/Typography/Typography';
 
 export interface PasswordCheckProps {
   text: string;
@@ -46,7 +45,7 @@ export const PasswordCheck: React.FC<PasswordCheckProps> = ({
   return (
     <Box flexDirection="row" alignItems="center" width="50%" mt={15}>
       <Box mt="nano" mr={2}>
-        <Icon name="Check" size={16} color={color} />
+        <IconLegacy name="Check" size={16} color={color} />
       </Box>
       <Typography color={color}>{text}</Typography>
     </Box>

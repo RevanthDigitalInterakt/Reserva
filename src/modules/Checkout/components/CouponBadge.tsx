@@ -1,10 +1,8 @@
 import * as React from 'react';
-import {
-  Typography,
-  Box,
-  Button,
-  Icon,
-} from '@usereservaapp/reserva-ui';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 
 export interface ICouponBadge {
   value: string;
@@ -33,7 +31,7 @@ export const CouponBadge: React.FC<ICouponBadge> = ({ value, onPress, testID }) 
       onPress={onPress}
       marginLeft="micro"
       variant="icone"
-      icon={<Icon name="Close" size={10} />}
+      icon={<IconLegacy name="Close" size={10} />}
       testID={testID}
 
     />

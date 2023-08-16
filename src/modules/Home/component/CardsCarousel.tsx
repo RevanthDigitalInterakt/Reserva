@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import { Box } from '@usereservaapp/reserva-ui';
 import {
   Animated, StyleSheet,
   View,
@@ -8,6 +7,7 @@ import type { Carousel } from '../../../graphql/homePage/HomeQuery';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
 import Card from './Card';
 import testProps from '../../../utils/testProps';
+import { Box } from '../../../components/Box/Box';
 
 interface CardsCarrouselProps {
   carrousel: Carousel;

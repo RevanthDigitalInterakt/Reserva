@@ -36,6 +36,8 @@ export interface TextProps
   ColorProps<typeof theme> {
   fontFamily?: keyof typeof theme.fonts;
   variant?: TextVariantsTypes;
+  letterSpacing?: number;
+  lineHeight?: number;
 }
 
 export const textVariants = variant<TextProps, TextVariantsTypes, 'variant'>({

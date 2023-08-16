@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
-import { Alert } from '@usereservaapp/reserva-ui';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import EventProvider from '../../../../utils/EventProvider';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
+import { Alert } from '../../../../components/Alert/Alert';
 
 export default function DeleteProductModal() {
   const { deleteProductModal, loadingModal, actions } = useBagStore([
@@ -30,8 +30,6 @@ export default function DeleteProductModal() {
   }, [deleteProductModal, actions]);
 
   return (
-    // TODO: Remover todas props obrigatorias do component Alert
-    // @ts-ignore
     <Alert
       isVisible={deleteProductModal.show}
       title="Excluir produto"

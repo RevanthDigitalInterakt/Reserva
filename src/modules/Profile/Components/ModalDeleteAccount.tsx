@@ -1,6 +1,9 @@
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { type Dispatch, type SetStateAction } from 'react';
 import Modal from 'react-native-modal';
+
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { Typography } from '../../../components/Typography/Typography';
 
 interface IModalDeleteAccount {
   isVisible: boolean;
@@ -19,7 +22,13 @@ function ModalDeleteAccount({
       isVisible={isVisible}
       testID="com.usereserva:id/modaldeleteaccount_container"
     >
-      <Box bg="white" borderRadius={8} minHeight={184} px={24} mx="3%">
+      <Box
+        bg="white"
+        borderRadius={8}
+        minHeight={184}
+        px={24}
+        mx="3%"
+      >
         <Box mt="xxxs" mb="quarck">
           <Typography
             color="preto"

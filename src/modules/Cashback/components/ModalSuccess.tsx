@@ -1,9 +1,9 @@
-import React, { Dispatch, SetStateAction } from 'react';
-
+import React, { type Dispatch, type SetStateAction } from 'react';
 import Modal from 'react-native-modal';
-import {
-  Box, Button, Typography, Icon,
-} from '@usereservaapp/reserva-ui';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { Typography } from '../../../components/Typography/Typography';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 
 interface IModalSucess {
   isVisible: boolean;
@@ -29,7 +29,7 @@ export function ModalSuccess({ isVisible, setIsVisible }: IModalSucess) {
           <Button
             onPress={() => setIsVisible(false)}
             variant="icone"
-            icon={<Icon size={12} name="Close" />}
+            icon={<IconLegacy size={12} name="Close" />}
           />
         </Box>
         <Box mt="xxxs">

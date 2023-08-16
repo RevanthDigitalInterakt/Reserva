@@ -1,9 +1,9 @@
 import React from 'react';
-import { theme } from '@usereservaapp/reserva-ui';
 import { render } from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
 
 import LoadingModal from '..';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 
 describe('LoadingModal component', () => {
   it('should render correctly with the loading spinner animation ', () => {

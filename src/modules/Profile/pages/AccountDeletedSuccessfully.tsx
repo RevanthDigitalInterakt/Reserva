@@ -1,11 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import React, { useCallback, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
+
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { Typography } from '../../../components/Typography/Typography';
+import { getApolloClient } from '../../../utils/getApolloClient';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import useDitoStore from '../../../zustand/useDitoStore';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
-import { getApolloClient } from '../../../utils/getApolloClient';
 
 export function AccountDeletedSuccessfully() {
   const navigation = useNavigation();

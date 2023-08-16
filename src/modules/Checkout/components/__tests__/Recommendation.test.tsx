@@ -3,15 +3,15 @@ import {
   act,
   render, screen,
 } from '@testing-library/react-native';
-import { theme } from '@usereservaapp/reserva-ui';
 import type { DocumentNode } from 'graphql';
 import React from 'react';
 import { ThemeProvider } from 'styled-components/native';
 import { renderHook } from '@testing-library/react-hooks';
-import { ProductRecommendationsQuery, ProductRecommendationsDocument } from '../../../../base/graphql/generated';
+import { type ProductRecommendationsQuery, ProductRecommendationsDocument } from '../../../../base/graphql/generated';
 import { Recommendation } from '../Recommendation';
 import { gatewayProductsListMock } from '../../../../zustand/useRecommendation/mocks/productsList';
 import useRecommendation from '../../../../zustand/useRecommendation/useRecommendation';
+import { theme } from '../../../../base/usereservappLegacy/theme';
 
 interface IApolloMock<T> {
   request: {

@@ -1,5 +1,4 @@
 import { useNavigation } from '@react-navigation/native';
-import { Box } from '@usereservaapp/reserva-ui';
 import React, { useCallback } from 'react';
 import { TouchableOpacity } from 'react-native';
 import ImageComponent from '../../../components/ImageComponent/ImageComponent';
@@ -7,6 +6,7 @@ import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import testProps from '../../../utils/testProps';
 import { COLORS } from '../../../base/styles/colors';
+import { Box } from '../../../components/Box/Box';
 
 export interface BannerProps {
   reference: string;

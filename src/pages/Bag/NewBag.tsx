@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import { Box, Typography } from '@usereservaapp/reserva-ui';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { bagStyles } from './styles/bagStyles';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
@@ -22,6 +21,8 @@ import LoadingModal from './components/LoadingModal';
 import DeleteProductModal from './components/DeleteProduct';
 import BagProductList from './components/ProductList';
 import SelectableGifts from './components/SelectableGifts';
+import { Box } from '../../components/Box/Box';
+import { Typography } from '../../components/Typography/Typography';
 import { useIsTester } from '../../hooks/useIsTester';
 import { ModalClientIsPrime } from '../../modules/Checkout/components/ModalClientIsPrime/ModalClientIsPrime';
 import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
