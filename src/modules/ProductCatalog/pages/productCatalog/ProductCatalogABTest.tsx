@@ -8,7 +8,7 @@ import { ProductCatalog } from './ProductCatalog';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
-export const ProductCatalogABTest: React.FC<Props> = (props) => {
+export const ProductCatalogABTest = (props: Props) => {
   const { getBoolean } = useRemoteConfig();
   const isTester = useIsTester();
   const showNewProductCatalog = useMemo(() => (

@@ -5,7 +5,7 @@ import { TopBar } from '../../../components/TopBar';
 
 export const TopBarCheckoutCompleted: React.FC<{
   showShadow?: Boolean;
-  loading: Boolean;
+  loading?: Boolean;
 }> = ({ showShadow = true, loading = false }) => (
   <TopBar
     loading={loading}

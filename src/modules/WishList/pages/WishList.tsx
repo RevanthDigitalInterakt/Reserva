@@ -30,7 +30,7 @@ interface IData {
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>;
 
-export const WishList: React.FC<Props> = ({ navigation }) => {
+export const WishList = ({ navigation }: Props) => {
   const [sorterVisible, setSorterVisible] = useState(false);
 
   const [wishIds, setWishIds] = useState<any[]>([]);
