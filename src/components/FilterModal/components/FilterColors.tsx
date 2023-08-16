@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { createAnimatableComponent } from 'react-native-animatable';
-import { Box, SelectColorFilter } from '@usereservaapp/reserva-ui';
 import TitleFilter from './TitleFilter';
 import type { SearchFacetColorItemOutput } from '../../../base/graphql/generated';
+import { SelectColorFilter } from '../../../modules/ProductCatalog/modals/FilterModal/FilterModal';
+import { Box } from '../../Box/Box';
 
 const BoxAnimation = createAnimatableComponent(Box);
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Typography } from '../Typography';
 import { Box } from '../Box/Box';
+import { Typography } from '../Typography/Typography';
 
 interface BadgeProps {
   count: number

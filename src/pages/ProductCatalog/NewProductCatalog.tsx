@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
-import { Box } from '@usereservaapp/reserva-ui';
 import NewListVerticalProducts from '../../components/NewListVerticalProducts/NewListVerticalProducts';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { generateFacets } from '../../utils/generateFacets';
@@ -13,12 +12,13 @@ import Banner from './components/Banner/Banner';
 import { ClockScreenEnum } from '../../base/graphql/generated';
 import ProductNotFound from '../Search/components/ProductNotFound/ProductNotFound';
 import { CatalogSkeleton } from './components/CatalogSkeleton/CatalogSkeleton';
+import { Box } from '../../components/Box/Box';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
 const defaultReference = 'collection:2407';
 
-function NewProductCatalog({ navigation, route }: Props) {
+function NewProductCatalog({ route }: Props) {
   const {
     doFetchMore,
     loading,

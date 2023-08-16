@@ -1,9 +1,6 @@
 import React, {
-  Dispatch, SetStateAction, useCallback, useEffect, useState,
+  Dispatch, type SetStateAction, useCallback, useEffect, useState,
 } from 'react';
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import {
   PixelRatio, Platform,
 } from 'react-native';
@@ -17,7 +14,11 @@ import type { ICountDownClock } from '../../../../graphql/homePage/HomeQuery';
 import { useNewChronometer } from '../../../../hooks/useNewChronometer';
 import FlipNumber from '../../../../modules/Home/component/flipcountdoun/FlipNumber';
 import testProps from '../../../../utils/testProps';
-import { ClockScreenEnum, CountdownClockCategoryOutput, useCountdownLazyQuery } from '../../../../base/graphql/generated';
+import { ClockScreenEnum, type CountdownClockCategoryOutput, useCountdownLazyQuery } from '../../../../base/graphql/generated';
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../components/Typography/Typography';
 
 const SCALE = configDeviceSizes.DEVICE_WIDTH / 320;
 
@@ -52,7 +53,7 @@ const CheckTheRules = ({
           {...testProps('com.usereserva:id/count_down_local_button_close')}
           onPress={() => setIsVisible(false)}
           variant="icone"
-          icon={<Icon size={17} name="Close" />}
+          icon={<IconLegacy size={17} name="Close" />}
         />
       </Box>
       <Box>

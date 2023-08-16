@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { createAnimatableComponent } from 'react-native-animatable';
-import { Box } from '@usereservaapp/reserva-ui';
 import TitleFilter from './TitleFilter';
 import type { SearchFacetItemOutput } from '../../../base/graphql/generated';
 import RadioButtonsFilter from '../../RadioButtonsFilter';
+import { Box } from '../../Box/Box';
 
 const BoxAnimation = createAnimatableComponent(Box);
 

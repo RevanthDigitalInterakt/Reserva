@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { createAnimatableComponent } from 'react-native-animatable';
-import { Box, CheckboxListFilter } from '@usereservaapp/reserva-ui';
 import TitleFilter from './TitleFilter';
 import type { SearchFacetItemOutput } from '../../../base/graphql/generated';
+import { Box } from '../../Box/Box';
+import { CheckboxListFilter } from '../../../modules/ProductCatalog/modals/FilterModal/FilterModal';
 
 const BoxAnimation = createAnimatableComponent(Box);
 

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { createAnimatableComponent } from 'react-native-animatable';
-import { Box, Range } from '@usereservaapp/reserva-ui';
 import TitleFilter from './TitleFilter';
 import type { SearchFacetRangeOutput } from '../../../base/graphql/generated';
 
 import configDeviceSizes from '../../../utils/configDeviceSizes';
+import { Range } from '../../../modules/ProductCatalog/modals/FilterModal/FilterModal';
+import { Box } from '../../Box/Box';
 
 const BoxAnimation = createAnimatableComponent(Box);
 

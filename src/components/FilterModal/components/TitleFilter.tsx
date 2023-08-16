@@ -1,8 +1,9 @@
 import React from 'react';
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import { createAnimatableComponent } from 'react-native-animatable';
+import { Box } from '../../Box/Box';
+import { Typography } from '../../Typography/Typography';
+import { Button } from '../../Button';
+import { IconLegacy } from '../../IconLegacy/IconLegacy';
 
 const BoxAnimation = createAnimatableComponent(Box);
 
@@ -51,7 +52,7 @@ function TitleFilter({
               Ver mais
             </Typography>
 
-            <Icon
+            <IconLegacy
               style={
                 showMore
                   ? { transform: [{ rotate: '-90deg' }] }
