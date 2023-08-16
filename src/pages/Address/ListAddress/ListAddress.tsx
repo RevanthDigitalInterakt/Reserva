@@ -24,11 +24,13 @@ import { toggleAnimation } from './animations/toggleAnimation';
 import styles from './ListAddress.styles';
 
 import ListAddressItem from './components/ListAddressItem';
+import ModalConfirmDelete from './components/ModalConfirmDelete';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import type { IAddressData } from './interface/IAddressData';
 import testProps from '../../../utils/testProps';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
+import { useProfileAddressRemoveMutation } from '../../../base/graphql/generated';
 
 type TAddressListProps = StackScreenProps<RootStackParamList, 'AddressList'>;
 
@@ -47,6 +49,8 @@ export default function ListAddress({
   const [showContent, setShowContent] = useState(false);
   const [addressData, setAddressData] = useState<IAddressData[]>([]);
   const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [addressID, setAddressID] = useState('');
 
   const toggleListItem = useCallback(() => {
     Animated.timing(animationValue, {
@@ -58,6 +62,22 @@ export default function ListAddress({
     LayoutAnimation.configureNext(toggleAnimation);
     setShowContent(!showContent);
   }, [animationValue, showContent]);
+
+  const modalController = useCallback((idAddress?: string) => {
+    if (idAddress) {
+      setAddressID(idAddress);
+      setModalVisible(!modalVisible);
+
+      return;
+    }
+
+    setModalVisible(!modalVisible);
+  }, [modalVisible]);
+
+  const [removeAddress] = useProfileAddressRemoveMutation({
+    context: { clientName: 'gateway' },
+    fetchPolicy: 'no-cache',
+  });
 
   const dropdownController = useCallback((itemId: string) => {
     toggleListItem();
@@ -105,6 +125,19 @@ export default function ListAddress({
     }
   }, [onGetProfile]);
 
+  const onDeleteAddress = useCallback(async (id: string) => {
+    try {
+      setLoading(true);
+      await removeAddress({ variables: { input: { addressId: id } } });
+    } catch (err) {
+      ExceptionProvider.captureException(err);
+    } finally {
+      setLoading(false);
+      modalController();
+      requestAddressList();
+    }
+  }, [removeAddress, requestAddressList, modalController]);
+
   useEffect(() => {
     const unsubscribe = addListener('focus', async () => {
       await requestAddressList();
@@ -140,6 +173,7 @@ export default function ListAddress({
             item={item}
             animationListController={dropdownController}
             onNavigate={onGoToEditAddress}
+            onShowModalConfirmDelete={modalController}
           />
         )}
         contentContainerStyle={styles.listContainer}
@@ -164,6 +198,15 @@ export default function ListAddress({
           </Text>
         </TouchableOpacity>
       </View>
+
+      {modalVisible && (
+      <ModalConfirmDelete
+        showModal={modalVisible}
+        onCloseModal={modalController}
+        onDeleteAddress={onDeleteAddress}
+        addressID={addressID}
+      />
+      )}
     </SafeAreaView>
   );
 }

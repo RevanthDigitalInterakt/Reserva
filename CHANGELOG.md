@@ -4,6 +4,7 @@
 
 - [SRN-15155 Meus Endereços - Editar Endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15156)
 - [SRN-10270 Evento de acompanhamento do tempo de carregamento da página](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10270)
+- [SRN-15170 Meus Endereços - Remover endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15170)
 
 ---
 
