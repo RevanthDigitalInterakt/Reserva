@@ -1,6 +1,5 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@usereservaapp/reserva-ui';
 import {
   fireEvent,
   render,
@@ -8,6 +7,7 @@ import {
 } from '@testing-library/react-native';
 import PrimeSubscribe from '../PrimeSubscribe';
 import { mockPrimeData, addToCartMock } from '../../../../../../__mocks__/PrimeLP.mock';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 
 jest.mock('../../../../../zustand/useApolloFetchPolicyStore', () => ({
   useApolloFetchPolicyStore: () => ({

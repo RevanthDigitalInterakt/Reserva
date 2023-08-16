@@ -1,14 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import {
-  Box, Button, Divider, Typography,
-} from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import * as Sentry from '@sentry/react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+
 import { useProductDeliveryTimeLazyQuery } from '../../../../base/graphql/generated';
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { Divider } from '../../../../components/Divider/Divider';
+import { OutlineInput } from '../../../../components/OutlineInput/OutlineInput';
+import { Typography } from '../../../../components/Typography/Typography';
+import EventProvider from '../../../../utils/EventProvider';
 import { removeNonNumbers } from '../../../../utils/removeNonNumbers';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
-import EventProvider from '../../../../utils/EventProvider';
-import { OutlineInput } from '../../../../components/OutlineInput/OutlineInput';
 
 function ProductSLA() {
   const { selectedSize, productDetail, initialCep } = useProductDetailStore([

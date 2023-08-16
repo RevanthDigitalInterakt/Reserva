@@ -1,14 +1,21 @@
 import React, { useCallback, useState } from 'react';
 import { Modal, FlatList } from 'react-native';
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
+
 import images from '../../../../base/styles/icons';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import EventProvider from '../../../../utils/EventProvider';
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../components/Typography/Typography';
 
-const SizesGuidesCarrousel: React.FC<ISizesGuidesCarrousel> = ({ images, onClose }) => {
+interface ISizesGuidesCarrousel {
+  images: any[],
+  onClose: () => void
+}
+
+const SizesGuidesCarrousel = ({ images, onClose }: ISizesGuidesCarrousel) => {
   const IMAGES_PROPORTION = 1.7;
   const CARD_WIDTH = configDeviceSizes.DEVICE_WIDTH * 0.92;
   const CARD_HEIGHT = CARD_WIDTH * IMAGES_PROPORTION;
@@ -17,9 +24,9 @@ const SizesGuidesCarrousel: React.FC<ISizesGuidesCarrousel> = ({ images, onClose
   const [actualPosition, setActualPosition] = useState(0);
 
   const onViewRef = React.useRef(({ viewableItems }: any) => {
-    !!viewableItems
-      && !!viewableItems[0]
-      && setActualPosition(viewableItems[0].index);
+    if (!!viewableItems && !!viewableItems[0]) {
+      setActualPosition(viewableItems[0].index);
+    }
   });
 
   return (
@@ -158,7 +165,7 @@ export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree, productId })
         onPress={onShow}
       >
         <Box flexDirection="row" alignItems="center">
-          <Icon name="Ruler" size={35} />
+          <IconLegacy name="Ruler" size={35} />
           <Typography fontFamily="nunitoRegular" fontSize={11}>
             Guia de medidas
           </Typography>
@@ -195,8 +202,3 @@ export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree, productId })
     </Box>
   );
 };
-
-interface ISizesGuidesCarrousel {
-  images: any[],
-  onClose: () => void
-}

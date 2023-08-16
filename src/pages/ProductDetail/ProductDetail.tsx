@@ -1,28 +1,29 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import type { StackScreenProps } from '@react-navigation/stack';
+import * as Sentry from '@sentry/react-native';
 import React, { useCallback, useEffect } from 'react';
 import { Alert, View } from 'react-native';
-import type { StackScreenProps } from '@react-navigation/stack';
-import { Box } from '@usereservaapp/reserva-ui';
-import * as Sentry from '@sentry/react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { RootStackParamList } from '../../routes/StackNavigator';
-import ProductDetailWrapper from './components/ProductDetailWrapper';
-import FormNewsletter from './components/FormNewsletter';
-import ProductSLA from './components/ProductSLA';
-import ProductAbout from './components/ProductAbout';
-import ProductSummary from './components/ProductSummary';
-import ProductAssinaturaSimples from './components/ProductAssinaturaSimples';
-import ProductSelectors from './components/ProductSelectors';
+
+import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
 import { ProductQuery, ProductResultActionEnum, useProductLazyQuery } from '../../base/graphql/generated';
-import { getProductLoadType } from './utils/getProductLoadType';
-import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
+import { Box } from '../../components/Box/Box';
+import { ProductRecommendation } from '../../components/ProductRecommendation/ProductRecommendation';
+import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
+import type { RootStackParamList } from '../../routes/StackNavigator';
 import EventProvider from '../../utils/EventProvider';
 import type { IProductDetailRouteParams } from '../../utils/createNavigateToProductParams';
-import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
-import { ProductRecommendation } from '../../components/ProductRecommendation/ProductRecommendation';
-import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
-import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
 import { getProductCategories } from '../../utils/getProductCategories';
-import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
+import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
+import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
+import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
+import FormNewsletter from './components/FormNewsletter';
+import ProductAbout from './components/ProductAbout';
+import ProductAssinaturaSimples from './components/ProductAssinaturaSimples';
+import ProductDetailWrapper from './components/ProductDetailWrapper';
+import ProductSLA from './components/ProductSLA';
+import ProductSelectors from './components/ProductSelectors';
+import ProductSummary from './components/ProductSummary';
+import { getProductLoadType } from './utils/getProductLoadType';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 

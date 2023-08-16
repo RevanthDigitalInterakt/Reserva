@@ -96,7 +96,7 @@ const DiscoutCodeModal = ({
               testID="com.usereserva:id/discout_code_modal_button"
               onPress={onClose}
               variant="icone"
-              icon={<Icon name="Close" size={8} color="white" />}
+              icon={<IconLegacy name="Close" size={8} color="white" />}
               hitSlop={{
                 top: 30, right: 30, bottom: 30, left: 30,
               }}

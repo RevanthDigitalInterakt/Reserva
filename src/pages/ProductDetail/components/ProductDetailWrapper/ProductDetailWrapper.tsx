@@ -1,9 +1,9 @@
 import React from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Box } from '@usereservaapp/reserva-ui';
 import { platformType } from '../../../../utils/platformType';
 import { TopBarDefaultBackButton } from '../../../../modules/Menu/components/TopBarDefaultBackButton';
+import { Box } from '../../../../components/Box/Box';
 
 interface IProductDetailWrapper {
   children: React.ReactNode;

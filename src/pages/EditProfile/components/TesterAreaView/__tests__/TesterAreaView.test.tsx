@@ -1,5 +1,4 @@
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@usereservaapp/reserva-ui';
 import React from 'react';
 import
 {

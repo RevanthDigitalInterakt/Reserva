@@ -1,17 +1,19 @@
-import React, { useCallback, useEffect } from 'react';
-import {
-  Box, Button, Divider, Typography,
-} from '@usereservaapp/reserva-ui';
-import { ActivityIndicator, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect } from 'react';
+import { ActivityIndicator, Keyboard } from 'react-native';
+
+import DeepLinkPathModule from '../../../../NativeModules/DeepLinkPathModule';
 import {
   useCheckSearchRedirectLazyQuery, useSearchAutocompleteSuggestionsLazyQuery,
 } from '../../../../base/graphql/generated';
-import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 import { COLORS } from '../../../../base/styles/colors';
-import useSearchStore from '../../../../zustand/useSearchStore';
-import DeepLinkPathModule from '../../../../NativeModules/DeepLinkPathModule';
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { Divider } from '../../../../components/Divider/Divider';
+import { Typography } from '../../../../components/Typography/Typography';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
+import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
+import useSearchStore from '../../../../zustand/useSearchStore';
 
 function SearchSuggestionsPage() {
   const navigation = useNavigation();

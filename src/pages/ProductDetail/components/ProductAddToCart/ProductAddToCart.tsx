@@ -1,9 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Alert, View } from 'react-native';
 import * as Sentry from '@sentry/react-native';
-import { Button } from '@usereservaapp/reserva-ui';
 import LottieView from 'lottie-react-native';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import { styles } from '../ProductSelectors/ProductSelectors.styles';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import { useCart } from '../../../../context/CartContext';
@@ -12,6 +10,8 @@ import { useProductDetailStore } from '../../../../zustand/useProductDetail/useP
 import { ModalBag } from '../../../../components/ModalBag/ModalBag';
 import testProps from '../../../../utils/testProps';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
+import { Button } from '../../../../components/Button';
+import { loadingSpinner } from '../../../../../assets/animations';
 
 function ProductAddToCart() {
   const { getString } = useRemoteConfig();

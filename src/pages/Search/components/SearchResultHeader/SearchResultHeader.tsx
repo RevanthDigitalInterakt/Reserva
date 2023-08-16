@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Box, Picker, Typography } from '@usereservaapp/reserva-ui';
+
+import type { SearchOrderByEnum } from '../../../../base/graphql/generated';
+import { Box } from '../../../../components/Box/Box';
 import { Button } from '../../../../components/Button';
+import { Picker } from '../../../../components/Picker/Picker';
+import { Typography } from '../../../../components/Typography/Typography';
 import useSearchStore from '../../../../zustand/useSearchStore';
 import FilterModal from '../FilterModal';
 import { orderByTypes } from './SearchResultHeader.helper';
-import type { SearchOrderByEnum } from '../../../../base/graphql/generated';
 
 const SHOW_FILTER_BUTTON = false;
 

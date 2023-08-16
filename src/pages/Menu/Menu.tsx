@@ -2,10 +2,6 @@ import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { BackHandler, Linking, ScrollView } from 'react-native';
-import
-{
-  Box, Divider, theme, Typography,
-} from '@usereservaapp/reserva-ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackActions, useLinkTo, useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -17,13 +13,17 @@ import { TopBarMenu } from '../../modules/Menu/components/TopBarMenu';
 import testProps from '../../utils/testProps';
 import EventProvider from '../../utils/EventProvider';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
-import { MenuCategoryItemOutput, MenuItemTypeEnum, useAppMenuQuery } from '../../base/graphql/generated';
+import { type MenuCategoryItemOutput, MenuItemTypeEnum, useAppMenuQuery } from '../../base/graphql/generated';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import MenuItem from './components/MenuItem';
 import FixedMenuItem from './components/MenuFixedItem';
 import { getDitoUserID } from '../../utils/Dito/src/utils/getDitoUserID';
 import MenuBreadcrumb from './components/MenuBreadcrumb';
+import { Box } from '../../components/Box/Box';
+import { Divider } from '../../components/Divider/Divider';
+import { Typography } from '../../components/Typography/Typography';
+import { theme } from '../../base/usereservappLegacy/theme';
 
 export type MenuProps = StackScreenProps<RootStackParamList, 'Menu'>;
 

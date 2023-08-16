@@ -1,6 +1,5 @@
 import React from 'react';
 import { MockedProvider } from '@apollo/client/testing';
-import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 import type { DocumentNode } from 'graphql';
 import AsyncStorageMock from '@react-native-async-storage/async-storage/jest/async-storage-mock';
@@ -13,7 +12,8 @@ import
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RonRedirectToBag from './RonRedirectToBag';
 import { CartContext } from '../../context/CartContext';
-import { RonRedirectDocument, RonRedirectQuery, RonRedirectTypeEnum } from '../../base/graphql/generated';
+import { RonRedirectDocument, type RonRedirectQuery, RonRedirectTypeEnum } from '../../base/graphql/generated';
+import { theme } from '../../base/usereservappLegacy/theme';
 
 interface IApolloMock<T> {
   request: {

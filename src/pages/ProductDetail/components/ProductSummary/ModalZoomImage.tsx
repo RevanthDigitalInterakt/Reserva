@@ -1,8 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import
-{
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import React, { useEffect, useState } from 'react';
 import
 {
@@ -12,10 +8,15 @@ import
   View,
 } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
+
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import testProps from '../../../../utils/testProps';
 import IconComponent from '../../../../components/IconComponent/IconComponent';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Button } from '../../../../components/Button';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 
 export interface ModalBagProps {
   isVisible: boolean;
@@ -300,7 +301,7 @@ export function ModalZoomImage({
                   setIsVisibleZoom(false);
                 }}
                 variant="icone"
-                icon={<Icon size={13} name="Close" color="fullBlack" />}
+                icon={<IconLegacy size={13} name="Close" color="fullBlack" />}
                 hitSlop={{
                   top: 15, bottom: 15, left: 15, right: 15,
                 }}

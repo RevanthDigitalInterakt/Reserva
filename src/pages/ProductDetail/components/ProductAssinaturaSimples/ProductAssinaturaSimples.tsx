@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import {
-  Box, Divider, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import { TouchableOpacity } from 'react-native';
 import testProps from '../../../../utils/testProps';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { ModalAssinaturaTerms } from './ModalAssinaturaTerms';
+import { Box } from '../../../../components/Box/Box';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Divider } from '../../../../components/Divider/Divider';
 
 function ProductAssinaturaSimples() {
   const { productDetail, assinaturaSimples } = useProductDetailStore(['productDetail', 'assinaturaSimples']);
@@ -21,7 +22,7 @@ function ProductAssinaturaSimples() {
       borderRadius="xxxs"
       mr="micro"
     >
-      <Icon name="Check" size={18} color="white" mt="nano" ml="quarck" />
+      <IconLegacy name="Check" size={18} color="white" mt="nano" ml="quarck" />
     </Box>
   ), []);
 
@@ -166,7 +167,7 @@ function ProductAssinaturaSimples() {
             justifyContent="center"
           >
             {assinaturaSimples.accepted && (
-              <Icon name="Check" size={14} color="white" mt="nano" ml="quarck" />
+              <IconLegacy name="Check" size={14} color="white" mt="nano" ml="quarck" />
             )}
           </Box>
         </TouchableOpacity>

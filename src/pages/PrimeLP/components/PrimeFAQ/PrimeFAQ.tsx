@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
-import { Typography } from '@usereservaapp/reserva-ui';
 import { View } from 'react-native';
 import DropdownItem from '../../../../components/DropdownItem/DropdownItem';
 import { styles } from './PrimeFAQ.styles';
 import { usePrimeFaqQuery } from '../../../../base/graphql/generated';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
+import { Typography } from '../../../../components/Typography/Typography';
 
 function Divider() {
   return <View style={styles.divider} />;

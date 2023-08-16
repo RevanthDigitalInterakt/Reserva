@@ -1,7 +1,9 @@
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import * as React from 'react';
+
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../components/Typography/Typography';
 
 interface IMenuBreadcrumb {
   title: string;
@@ -23,7 +25,7 @@ function MenuBreadcrumb({ title, onPress }: IMenuBreadcrumb) {
         alignItems="center"
         flexDirection="row"
       >
-        <Icon name="MenuArrowBack" color="preto" size={22} />
+        <IconLegacy name="MenuArrowBack" color="preto" size={22} />
 
         <Box paddingX="micro">
           <Typography fontSize={12} fontFamily="nunitoRegular">

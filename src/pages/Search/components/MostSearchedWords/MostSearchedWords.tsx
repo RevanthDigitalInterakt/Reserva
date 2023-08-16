@@ -1,6 +1,9 @@
 import React from 'react';
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
+
 import { useMostSearchedWordsQuery } from '../../../../base/graphql/generated';
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { Typography } from '../../../../components/Typography/Typography';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 
 interface IMostSearchedWords {

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native';
-import { theme } from '@usereservaapp/reserva-ui';
 
 import CallCenter from '../modules/CallCenter';
 import { HomeScreen } from '../modules/Home/pages/Home';
@@ -11,6 +10,7 @@ import { MenuProfile } from '../modules/Profile/pages/MenuProfile';
 import { WishList } from '../modules/WishList/pages/WishList';
 
 import { TabBar } from './TabBar';
+import { theme } from '../base/usereservappLegacy/theme';
 
 const Tab = createBottomTabNavigator();
 
