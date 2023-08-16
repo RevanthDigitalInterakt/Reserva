@@ -12,6 +12,7 @@ import sendUpdateUserDataToDito from '../utils/Dito/src/utils/sendUpdateUserData
 import convertSha1 from '../utils/Dito/src/sha1';
 import useAsyncStorageProvider from './useAsyncStorageProvider';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 interface IHandleRegisterUser {
   userProfileData: ProfileVars;
@@ -108,7 +109,7 @@ export default function useInitialDito() {
 
       await trackEventHomeDito({ id: id || '' });
     } catch (e) {
-      EventProvider.captureException(e);
+      ExceptionProvider.captureException(e);
     }
   }, [handleRegisterTokenDito]);
 
@@ -136,7 +137,7 @@ export default function useInitialDito() {
       });
     } catch (e) {
       // TODO verificar possibilidade de tratar futuramente
-      EventProvider.captureException(e);
+      ExceptionProvider.captureException(e);
     }
   }, [
     handleRegisterUser,

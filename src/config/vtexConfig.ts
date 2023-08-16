@@ -10,8 +10,6 @@ const urlBase2 = Config.URL_BASE2;
 
 const urlUser = Config.URL_USER;
 
-const urlDeleteUser = Config.URL_DELETE_USER;
-
 const sendEmail = Config.URL_SEND_EMAIL;
 
 const url = urlBase;
@@ -59,11 +57,6 @@ const instance5 = axios.create({
   },
 });
 
-const instance6 = axios.create({
-  baseURL: urlDeleteUser,
-  timeout: 30000,
-});
-
 const instance7 = axios.create({
   baseURL: urlBase,
   timeout: 30000,
@@ -75,7 +68,6 @@ instance2.interceptors.request.use((config) => applyCookieHeader(config));
 instance3.interceptors.request.use((config) => applyCookieHeader(config));
 instance4.interceptors.request.use((config) => applyCookieHeader(config));
 instance5.interceptors.request.use((config) => applyCookieHeader(config));
-instance6.interceptors.request.use((config) => applyCookieHeader(config));
 instance7.interceptors.request.use((config) => applyCookieHeader(config));
 
 export {
@@ -86,6 +78,5 @@ export {
   instance3,
   instance4,
   instance5,
-  instance6,
   instance7,
 };

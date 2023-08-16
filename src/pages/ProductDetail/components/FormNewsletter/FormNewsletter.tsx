@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/react-native';
 import React, { useCallback, useState } from 'react';
 import { Keyboard } from 'react-native';
 import * as Yup from 'yup';
@@ -10,6 +9,7 @@ import { Typography } from '../../../../components/Typography/Typography';
 import EventProvider from '../../../../utils/EventProvider';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import Tooltip from './Tooltip';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 function FormNewsletter() {
   const { productDetail } = useProductDetailStore(['productDetail']);
@@ -57,10 +57,7 @@ function FormNewsletter() {
       setSuccess(true);
       setEmail('');
     } catch (err) {
-      Sentry.withScope((scope) => {
-        scope.setExtra('email', email);
-        Sentry.captureException(err);
-      });
+      ExceptionProvider.captureException(err, { email });
 
       setValidationError(err.message);
 

@@ -1,21 +1,21 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import AnimatedLottieView from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import AnimatedLottieView from 'lottie-react-native';
+import React, { useCallback, useMemo, useState } from 'react';
 import { View } from 'react-native';
-import testProps from '../../../utils/testProps';
-import EventProvider from '../../../utils/EventProvider';
-import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
-import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
-import { useLandingPagePrimeQuery } from '../../../base/graphql/generated';
-import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
 
-import * as Styles from '../styles';
+import { loadingSpinner } from '../../../../assets/animations';
+import { useLandingPagePrimeQuery } from '../../../base/graphql/generated';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { usePrimeInfo } from '../../../hooks/usePrimeInfo';
-import { Typography } from '../../Typography/Typography';
+import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import EventProvider from '../../../utils/EventProvider';
+import testProps from '../../../utils/testProps';
+import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { Box } from '../../Box/Box';
 import { Button } from '../../Button';
-import { loadingSpinner } from '../../../../assets/animations';
+import { Typography } from '../../Typography/Typography';
+import * as Styles from '../styles';
 
 interface PropsComponent {
   onClose: () => void;
@@ -48,7 +48,7 @@ export function FooterModalPrime({
 
       onClose();
     } catch (e) {
-      EventProvider.captureException(e);
+      ExceptionProvider.captureException(e);
     } finally {
       setLoadingAddCartPrime(false);
     }

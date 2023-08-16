@@ -7,13 +7,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useLandingPagePrimeQuery } from '../../base/graphql/generated';
 import { ModalBag } from '../../components/ModalBag/ModalBag';
+import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
+import testProps from '../../utils/testProps';
 import { ModalWelcomePrime } from '../../components/ModalWelcomePrime';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 import { TopBarDefaultBackButton } from '../../modules/Menu/components/TopBarDefaultBackButton';
 import type { RootStackParamList } from '../../routes/StackNavigator';
-import EventProvider from '../../utils/EventProvider';
-import testProps from '../../utils/testProps';
-import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 import PrimeBenefits from './components/PrimeBenefits';
 import PrimeFAQ from './components/PrimeFAQ/PrimeFAQ';
@@ -21,6 +20,7 @@ import PrimeHero from './components/PrimeHero';
 import PrimeIntro from './components/PrimeIntro';
 import PrimeSubscribe from './components/PrimeSubscribe';
 import { Box } from '../../components/Box/Box';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 type IPrimeLP = StackScreenProps<RootStackParamList, 'PrimeLP'>;
 
@@ -77,7 +77,7 @@ function PrimeLP({ navigation }: IPrimeLP) {
 
       handleOnModalHideSignIn();
     } catch (e) {
-      EventProvider.captureException(e);
+      ExceptionProvider.captureException(e);
     } finally {
       setLoadingAddCartPrime(false);
     }

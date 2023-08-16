@@ -4,25 +4,26 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert, SafeAreaView, ScrollView,
 } from 'react-native';
-import { checkMultiple, PERMISSIONS, request } from 'react-native-permissions';
-import type { RootStackParamList } from '../../../routes/StackNavigator';
-import { useCart } from '../../../context/CartContext';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import ReceiveHome from '../components/ReceiveHome';
-import Store from '../components/Store';
-import Sentry from '../../../config/sentryConfig';
-import EventProvider from '../../../utils/EventProvider';
-import configDeviceSizes from '../../../utils/configDeviceSizes';
-import { getBrands } from '../../../utils/getBrands';
-import { isValidMinimalProfileData } from '../../../utils/clientProfileData';
-import { defaultBrand } from '../../../utils/defaultWBrand';
+import { PERMISSIONS, checkMultiple, request } from 'react-native-permissions';
+
 import {
   useProfileAddressMutation,
 } from '../../../base/graphql/generated';
-import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { Box } from '../../../components/Box/Box';
-import { Typography } from '../../../components/Typography/Typography';
 import { Button } from '../../../components/Button';
+import { Typography } from '../../../components/Typography/Typography';
+import { useCart } from '../../../context/CartContext';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
+import EventProvider from '../../../utils/EventProvider';
+import { isValidMinimalProfileData } from '../../../utils/clientProfileData';
+import configDeviceSizes from '../../../utils/configDeviceSizes';
+import { defaultBrand } from '../../../utils/defaultWBrand';
+import { getBrands } from '../../../utils/getBrands';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import ReceiveHome from '../components/ReceiveHome';
+import Store from '../components/Store';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 
@@ -51,10 +52,6 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   const [profileAddress] = useProfileAddressMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
-
-  useEffect(() => {
-    Sentry.configureScope((scope) => scope.setTransactionName('DeliveryScreen'));
-  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -198,7 +195,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                   wbrand: getBrands(items),
                 });
               } catch (e) {
-                EventProvider.captureException(e);
+                ExceptionProvider.captureException(e);
               }
             }
 
@@ -248,7 +245,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                 wbrand: getBrands(items),
               });
             } catch (e) {
-              EventProvider.captureException(e);
+              ExceptionProvider.captureException(e);
             }
           }
 

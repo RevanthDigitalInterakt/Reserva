@@ -1,17 +1,12 @@
 mutation profileAddress($input: UpsertProfileAddressInput!) {
   profileAddress(input: $input) {
     id
+    addressName
     receiverName
-    number
-    city
     complement
-    postalCode
-    state
-    street
     neighborhood
     country
-    reference
-    addressName
-    addressType
+    state
+    number
   }
 }

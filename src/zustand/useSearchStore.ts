@@ -2,16 +2,26 @@ import { create } from 'zustand';
 import { Keyboard } from 'react-native';
 import { createZustandStoreWithSelectors } from '../utils/createZustandStoreWithSelectors';
 import type {
-  ProductListOutput, SearchProductInput, SearchQuery, SearchQueryVariables,
+  ProductListOutput, SearchFacetColorItemOutput, SearchProductInput, SearchQuery, SearchQueryVariables,
 } from '../base/graphql/generated';
-import { SearchDocument, SearchOrderByEnum } from '../base/graphql/generated';
+import { SearchDocument, SearchFacetItemOutput, SearchOrderByEnum } from '../base/graphql/generated';
 import { getApolloClient } from '../utils/getApolloClient';
 import { trackEventSearchDito } from '../utils/trackEventSearchDito';
+import EventProvider from '../utils/EventProvider';
+import { getBrandByUrl } from '../utils/getBrandByURL';
+import { trackEventAccessedCategoryDito } from '../utils/trackEventAccessedCategoryDito';
+import { getCollectionFacetsValue } from '../utils/getCollectionFacetsValue';
 
 export enum SearchStatusEnum {
   INITIAL,
   SUGGESTIONS,
   RESULT,
+}
+
+export enum SearchType {
+  CATALOG,
+  SEARCH,
+  DEFAULT,
 }
 
 const RESULT_PER_PAGE = 12;
@@ -20,8 +30,15 @@ const initialData = {
   initialized: false,
   loading: false,
   status: SearchStatusEnum.INITIAL,
+  searchType: SearchType.DEFAULT,
   resultCount: 0,
   result: [],
+  filters: {
+    categories: new Set<SearchFacetItemOutput>(),
+    colors: new Set<SearchFacetColorItemOutput>(),
+    sizes: new Set<SearchFacetItemOutput>(),
+    price: undefined,
+  },
   parameters: {
     facets: [],
     page: 1,
@@ -32,17 +49,26 @@ const initialData = {
   },
 };
 
+interface ISearchStoreFilters {
+  categories: Set<SearchFacetItemOutput>;
+  colors: Set<SearchFacetColorItemOutput>;
+  sizes: Set<SearchFacetItemOutput>;
+  price?: { from: number; to: number }
+}
+
 interface ISearchStore {
   initialized: boolean,
   loading: boolean;
+  searchType: SearchType;
   status: SearchStatusEnum;
+  filters: ISearchStoreFilters;
   parameters: Required<SearchProductInput>;
   resultCount: number;
   result: ProductListOutput[];
-  onInit: () => void,
+  onInit: (searchType: SearchType) => void,
   setStatus: (status: SearchStatusEnum) => void;
   setQ: (s: string) => void;
-  onSearch: (input: Partial<Omit<SearchProductInput, 'perPage'>>) => Promise<void>;
+  onSearch: (input: Partial<Omit<SearchProductInput, 'perPage'>>, filters?: ISearchStoreFilters) => Promise<void>;
   doFetchMore: () => void;
 }
 
@@ -50,7 +76,14 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
   initialized: false,
   loading: false,
   status: SearchStatusEnum.INITIAL,
+  searchType: SearchType.DEFAULT,
   resultCount: 0,
+  filters: {
+    categories: new Set<SearchFacetItemOutput>(),
+    colors: new Set<SearchFacetColorItemOutput>(),
+    sizes: new Set<SearchFacetItemOutput>(),
+    price: undefined,
+  },
   parameters: {
     q: '',
     page: 1,
@@ -60,13 +93,17 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
     priceRange: null,
   },
   result: [],
-  onInit: () => set(() => ({ ...initialData, initialized: true })),
+  onInit: (searchType) => set(() => ({
+    ...initialData,
+    searchType,
+    initialized: true,
+  })),
   setStatus: (status) => set(() => ({ status })),
   setQ: (q) => {
     const newParameters = { ...getState().parameters, q };
     set(() => ({ parameters: newParameters }));
   },
-  onSearch: async (parameters) => {
+  onSearch: async (parameters, filters) => {
     try {
       const client = getApolloClient();
 
@@ -90,10 +127,24 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
         variables: { input: newParameters },
       });
 
-      trackEventSearchDito(newParameters.q, data.search.count);
+      const { searchType } = getState();
+
+      if (searchType === SearchType.SEARCH) {
+        trackEventSearchDito(newParameters.q, data.search.count);
+        EventProvider.logEvent('view_search_results', { search_term: newParameters.q });
+      }
+
+      if (searchType === SearchType.CATALOG) {
+        trackEventAccessedCategoryDito(getCollectionFacetsValue(newParameters.facets));
+        EventProvider.logEvent('product_list_view', {
+          content_type: 'product_group',
+          wbrand: getBrandByUrl({ categoryTree: [{ href: data.search.items[0]?.category || '' }] }),
+        });
+      }
 
       set(() => ({
         loading: false,
+        ...(filters ? { filters } : {}),
         result: data.search.items,
         resultCount: data.search.count,
       }));
@@ -119,8 +170,6 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
           input: newParameters,
         },
       });
-
-      trackEventSearchDito(newParameters.q, data.search.count);
 
       set(() => ({
         loading: false,

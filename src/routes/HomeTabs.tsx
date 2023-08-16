@@ -5,52 +5,52 @@ import { SafeAreaView } from 'react-native';
 
 import CallCenter from '../modules/CallCenter';
 import { HomeScreen } from '../modules/Home/pages/Home';
-import { ProductCatalog } from '../modules/ProductCatalog/pages/productCatalog/ProductCatalog';
 import { MenuProfile } from '../modules/Profile/pages/MenuProfile';
 import { WishList } from '../modules/WishList/pages/WishList';
 
 import { TabBar } from './TabBar';
+import { ProductCatalogABTest } from '../modules/ProductCatalog/pages/productCatalog/ProductCatalogABTest';
 import { theme } from '../base/usereservappLegacy/theme';
 
 const Tab = createBottomTabNavigator();
 
-export function HomeTabs() {
-  return (
-    <SafeAreaView
-      style={{ backgroundColor: theme.colors.white }}
-      flex={1}
-      testID="com.usereserva:id/home_tabs_buttons"
-    >
-      <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          initialParams={{ label: 'Início' }}
-        />
-        <Tab.Screen
-          name="Offers"
-          component={ProductCatalog}
-          initialParams={{
-            safeArea: false,
-            label: 'Promoções',
-          }}
-        />
-        <Tab.Screen
-          name="WishList"
-          component={WishList}
-          initialParams={{ label: 'Favoritos' }}
-        />
-        <Tab.Screen
-          name="Profile"
-          component={MenuProfile}
-          initialParams={{ label: 'Perfil' }}
-        />
-        <Tab.Screen
-          name="Call"
-          component={CallCenter}
-          initialParams={{ label: 'Central' }}
-        />
-      </Tab.Navigator>
-    </SafeAreaView>
-  );
-}
+export const HomeTabs = () => (
+  <SafeAreaView
+    style={{ backgroundColor: theme.colors.white }}
+    flex={1}
+    testID="com.usereserva:id/home_tabs_buttons"
+  >
+    <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        initialParams={{ label: 'Início' }}
+      />
+      <Tab.Screen
+        name="Offers"
+        component={ProductCatalogABTest}
+        initialParams={{
+          safeArea: false,
+          label: 'Promoções',
+        }}
+      />
+      <Tab.Screen
+        name="WishList"
+        component={WishList}
+        initialParams={{ label: 'Favoritos' }}
+
+      />
+      <Tab.Screen
+        name="Profile"
+        component={MenuProfile}
+        initialParams={{ label: 'Perfil' }}
+
+      />
+      <Tab.Screen
+        name="Call"
+        component={CallCenter}
+        initialParams={{ label: 'Central' }}
+      />
+    </Tab.Navigator>
+  </SafeAreaView>
+);

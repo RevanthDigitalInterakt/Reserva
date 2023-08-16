@@ -9,7 +9,7 @@ import {
   CashbackQuery,
 } from '../../../../base/graphql/generated';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
-import Sentry from '../../../../config/sentryConfig';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 interface MyWalletContainerProps {
   navigateBack: () => void;
@@ -87,10 +87,8 @@ export function MyWalletContainer({ navigateBack }: MyWalletContainerProps) {
       setUserOperations(operations);
       setUserExpireBalance(expiration);
     } catch (error) {
-      Sentry.withScope((scope) => {
-        scope.setExtra('currentProfileDocument', profile?.document);
-        Sentry.captureException(error);
-      });
+      ExceptionProvider.captureException(error, { currentProfileDocument: profile?.document });
+
       Alert.alert(
         'Ops!',
         'Ocorreu um erro ao carregar o saldo de cashback.',

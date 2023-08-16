@@ -33,6 +33,7 @@ import { Box } from '../../../../components/Box/Box';
 import { Typography } from '../../../../components/Typography/Typography';
 import { Button } from '../../../../components/Button';
 import { loadingSpinner } from '../../../../../assets/animations';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 interface ListProductsProps {
   cleanFilter: () => void;
@@ -90,7 +91,7 @@ export function ListVerticalProducts({
           id_produto: item.items[0].itemId,
           cor: getProductColor(item.items[0].variations),
           tamanho: getProductSize(item.items[0].variations),
-          nome_categoria: getCategoriesByHref(item.categoryTree[3].href),
+          categorias_produto: getCategoriesByHref(item.categoryTree[3].href),
           nome_produto: item.productName,
           marca: getCategoriesByHref(item.categoryTree[0].href).toUpperCase(),
           preco_produto: item.priceRange.sellingPrice.lowPrice,
@@ -98,7 +99,7 @@ export function ListVerticalProducts({
         },
       });
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [profile?.email]);
 

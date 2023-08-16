@@ -1,23 +1,23 @@
 import { act } from '@testing-library/react-native';
+import type { StateCreator } from 'zustand';
 
 const { create: actualCreate } = jest.requireActual('zustand');
 
-// a variable to hold reset functions for all stores declared in the app
 const storeResetFns = new Set();
 
-// when creating a store, we get its initial state, create a reset function and add it in the set
-export const create = (createState: any) => {
+const createInternalFn = <S>(createState: StateCreator<S>) => {
   const store = actualCreate(createState);
   const initialState = store.getState();
-  storeResetFns.add(() => {
-    store.setState(initialState, true);
-  });
+  storeResetFns.add(() => store.setState(initialState, true));
   return store;
 };
 
-// Reset all stores after each test run
-beforeEach(async () => {
-  await act(async () => storeResetFns.forEach(async (resetFn: any) => {
+export const create = <S>(createState: StateCreator<S>) => (typeof createState === 'function'
+  ? createInternalFn(createState)
+  : createInternalFn);
+
+beforeEach(() => {
+  act(() => storeResetFns.forEach((resetFn: any) => {
     resetFn();
   }));
 });

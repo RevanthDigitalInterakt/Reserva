@@ -1,4 +1,4 @@
-import EventProvider from './EventProvider';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 const splitSellerName = (sellerName: string): string => {
   try {
@@ -6,7 +6,7 @@ const splitSellerName = (sellerName: string): string => {
     const sellerFirstName = sellerNameValue ? sellerNameValue.split(' ')[0] : '';
     return sellerFirstName || '';
   } catch (error) {
-    EventProvider.captureException(error);
+    ExceptionProvider.captureException(error);
     return sellerName;
   }
 };

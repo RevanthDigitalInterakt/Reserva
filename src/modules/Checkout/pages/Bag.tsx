@@ -1,4 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
+import analytics from '@react-native-firebase/analytics';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import LottieView from 'lottie-react-native';
@@ -14,51 +15,51 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
-import Modal from 'react-native-modal';
 import appsFlyer from 'react-native-appsflyer';
-import analytics from '@react-native-firebase/analytics';
+import Modal from 'react-native-modal';
+
+import { loadingSpinner } from '../../../../assets/animations';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import { Alert } from '../../../components/Alert/Alert';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { Divider } from '../../../components/Divider/Divider';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import ImageComponent from '../../../components/ImageComponent/ImageComponent';
+import { ProductHorizontalListCard } from '../../../components/ProductHorizontalListCard/ProductHorizontalListCard';
+import { RadioButtons } from '../../../components/RadioButtons/RadioButtons';
+import { TextField } from '../../../components/TextField/TextField';
+import { Typography } from '../../../components/Typography/Typography';
 import { instance2 } from '../../../config/vtexConfig';
-import ToastProvider, { showToast } from '../../../utils/Toast';
-import Sentry from '../../../config/sentryConfig';
-import { type IOrderFormItem, type OrderForm, useCart } from '../../../context/CartContext';
+import { useCart, type IOrderFormItem, type OrderForm } from '../../../context/CartContext';
 import { profileQuery } from '../../../graphql/profile/profileQuery';
+import { useIsTester } from '../../../hooks/useIsTester';
+import ProductListItemPrime from '../../../pages/Bag/components/ProductListItem/ProductListItemPrime';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { Attachment, RemoveItemFromCart } from '../../../services/vtexService';
-import { ProductUtils } from '../../../utils/productUtils';
+import { handleCopyTextToClipboard } from '../../../utils/CopyToClipboard';
 import EventProvider from '../../../utils/EventProvider';
+import ToastProvider, { showToast } from '../../../utils/Toast';
+import {
+  getAFContent,
+  getAFContentId, getAFContentType, getQuantity, sumQuantity,
+} from '../../../utils/checkoutInitiatedEvents';
+import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
+import { defaultBrand } from '../../../utils/defaultWBrand';
+import { getBrands } from '../../../utils/getBrands';
+import { getPercent } from '../../../utils/getPercent';
+import { platformType } from '../../../utils/platformType';
+import { ProductUtils } from '../../../utils/productUtils';
 import { slugify } from '../../../utils/slugify';
+import testProps from '../../../utils/testProps';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { CouponBadge } from '../components/CouponBadge';
 import { EmptyBag } from '../components/EmptyBag';
 import { PriceCustom } from '../components/PriceCustom';
 import { Recommendation } from '../components/Recommendation';
 import { ShippingBar } from '../components/ShippingBar';
 import { Skeleton } from '../components/Skeleton';
-import { platformType } from '../../../utils/platformType';
-import { getPercent } from '../../../utils/getPercent';
-import {
-  getAFContent,
-  getAFContentId, getAFContentType, getQuantity, sumQuantity,
-} from '../../../utils/checkoutInitiatedEvents';
-import testProps from '../../../utils/testProps';
-import { getBrands } from '../../../utils/getBrands';
-import { defaultBrand } from '../../../utils/defaultWBrand';
-import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
-import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
-import ImageComponent from '../../../components/ImageComponent/ImageComponent';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import { ProductHorizontalListCard } from '../../../components/ProductHorizontalListCard/ProductHorizontalListCard';
-import ProductListItemPrime from '../../../pages/Bag/components/ProductListItem/ProductListItemPrime';
-import { handleCopyTextToClipboard } from '../../../utils/CopyToClipboard';
-import { useIsTester } from '../../../hooks/useIsTester';
-import { Box } from '../../../components/Box/Box';
-import { Typography } from '../../../components/Typography/Typography';
-import { Button } from '../../../components/Button';
-import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
-import { loadingSpinner } from '../../../../assets/animations';
-import { Alert } from '../../../components/Alert/Alert';
-import { RadioButtons } from '../../../components/RadioButtons/RadioButtons';
-import { Divider } from '../../../components/Divider/Divider';
-import { TextField } from '../../../components/TextField/TextField';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -154,10 +155,6 @@ export function BagScreen({ route }: Props) {
 
   const showMoreGiftSize = giftSizeList && giftSizeList.length > 5;
 
-  useEffect(() => {
-    Sentry.configureScope((scope) => scope.setTransactionName('BagScreen'));
-  }, []);
-
   const hasSellerCoupon = useCallback(
     (): boolean => sellerCoupon.length > 0,
     [sellerCoupon],
@@ -245,7 +242,7 @@ export function BagScreen({ route }: Props) {
   // Updating ClientProfileData in orderForm
   const updateClientProfileData = async (profile: any) => {
     if (profile) {
-      const addCustomerData = await addCustomer({
+      await addCustomer({
         firstName: profile?.firstName,
         lastName: profile?.lastName,
         document: profile?.document,
@@ -426,12 +423,7 @@ export function BagScreen({ route }: Props) {
       setDiscountCoupon('');
       orderform();
     } catch (error) {
-      Sentry.addBreadcrumb({
-        message: 'Erro ao inserir o cupom de desconto',
-        data: {
-          error,
-        },
-      });
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -496,7 +488,7 @@ export function BagScreen({ route }: Props) {
           quantity: getAFContent(arr),
         });
       } catch (error) {
-        EventProvider.captureException(error);
+        ExceptionProvider.captureException(error);
       }
 
       if (!authStore?.profile?.email) {
@@ -512,12 +504,7 @@ export function BagScreen({ route }: Props) {
             .then(() => setLoadingGoDelivery(false))
             .then(() => navigation.navigate('DeliveryScreen', {}));
         } catch (error) {
-          Sentry.addBreadcrumb({
-            message: 'Erro na chamada para tela de entrega',
-            data: {
-              error,
-            },
-          });
+          ExceptionProvider.captureException(error);
         }
       }
     }

@@ -11,9 +11,9 @@ import { Typography } from '../../../components/Typography/Typography';
 import UnderlineInput from '../../../components/UnderlineInput';
 import { useCart } from '../../../context/CartContext';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
-import EventProvider from '../../../utils/EventProvider';
 import { validateEmail } from '../../../utils/validateEmail';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 export interface RegisterEmailProps
   extends StackScreenProps<RootStackParamList, 'RegisterEmail'> {}
@@ -59,7 +59,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
         );
       }
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [email]);
 
@@ -78,7 +78,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
         );
       }
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [email]);
 

@@ -51,6 +51,7 @@ import { Picker } from '../../../../components/Picker/Picker';
 import { Button } from '../../../../components/Button';
 import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../../components/Typography/Typography';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -496,7 +497,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         wbrand: getBrandByUrl(response.data.productSearch),
       });
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [collectionIdByCategories,
     collectionIdByContentful,

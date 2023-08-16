@@ -1,5 +1,4 @@
 import { Platform } from 'react-native';
-import * as Sentry from '@sentry/react-native';
 import React, { useCallback, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
@@ -22,6 +21,7 @@ import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
 import { Box } from '../../../../components/Box/Box';
 import { Typography } from '../../../../components/Typography/Typography';
 import { Button } from '../../../../components/Button';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 export default function BagFooter() {
   const {
@@ -94,7 +94,7 @@ export default function BagFooter() {
         quantity: getAFContent(items),
       });
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [appTotalizers, items]);
 
@@ -158,12 +158,12 @@ export default function BagFooter() {
         navigation.navigate('DeliveryScreen', {});
       }
     } catch (error) {
-      Sentry.withScope((scope) => {
-        scope.setExtra('orderFormId', orderFormId);
-        scope.setExtra('items', items);
-        scope.addBreadcrumb({ message: 'Error [handleNavigateToDelivery]' });
-        Sentry.captureException(error);
-      });
+      ExceptionProvider.captureException(
+        error,
+        { orderFormId, items },
+        {},
+        { message: 'Error [handleNavigateToDelivery]' },
+      );
     } finally {
       setNavigateToDeliveryDisable(false);
     }

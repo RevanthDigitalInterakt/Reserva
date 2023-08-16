@@ -2,9 +2,10 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 import Modal from 'react-native-modal';
+
 import IconLogoPrime from '../../../assets/icons/IconLogoPrime';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { useAuthentication } from '../../hooks/useAuthentication';
-import EventProvider from '../../utils/EventProvider';
 import testProps from '../../utils/testProps';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import { Box } from '../Box/Box';
@@ -91,11 +92,7 @@ export function ModalSignIn({
                       });
                       setEmailIsValid(isValidEmail(text));
                     } catch (error) {
-                      EventProvider.sentry.captureException(error, {
-                        extra: {
-                          writtenEmail: text,
-                        },
-                      });
+                      ExceptionProvider.captureException(error, { writtenEmail: text });
                     }
                   }}
                 />

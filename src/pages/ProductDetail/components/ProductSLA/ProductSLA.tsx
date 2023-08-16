@@ -1,5 +1,4 @@
 import { useNavigation } from '@react-navigation/native';
-import * as Sentry from '@sentry/react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useProductDeliveryTimeLazyQuery } from '../../../../base/graphql/generated';
@@ -8,9 +7,10 @@ import { Button } from '../../../../components/Button';
 import { Divider } from '../../../../components/Divider/Divider';
 import { OutlineInput } from '../../../../components/OutlineInput/OutlineInput';
 import { Typography } from '../../../../components/Typography/Typography';
-import EventProvider from '../../../../utils/EventProvider';
 import { removeNonNumbers } from '../../../../utils/removeNonNumbers';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+import EventProvider from '../../../../utils/EventProvider';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 function ProductSLA() {
   const { selectedSize, productDetail, initialCep } = useProductDetailStore([
@@ -54,10 +54,7 @@ function ProductSLA() {
         success: 1,
       });
     } catch (err) {
-      Sentry.withScope((scope) => {
-        scope.setExtra('selectedSize', selectedSize);
-        Sentry.captureException(err);
-      });
+      ExceptionProvider.captureException(err, { selectedSize });
 
       EventProvider.logEvent('product_check_delivery_time', {
         product_id: productDetail?.productId || '',

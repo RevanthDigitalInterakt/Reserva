@@ -3,11 +3,11 @@ import {
   useState, useEffect, useCallback,
 } from 'react';
 import { BackHandler } from 'react-native';
-import EventProvider from '../../../../utils/EventProvider';
 import formatString from '../../../../utils/formatString';
 import type { IAddress, IEditAddress, IProfileData } from '../../interface';
 import { useProfileAddressRemoveMutation } from '../../../../base/graphql/generated';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 interface IUseController {
   goBack: () => void;
@@ -50,7 +50,7 @@ const useController = (): IUseController => {
 
       await onGetProfile();
     } catch (e) {
-      EventProvider.captureException(e);
+      ExceptionProvider.captureException(e);
     } finally {
       setLoadingStatusBar(false);
     }
@@ -134,7 +134,7 @@ const useController = (): IUseController => {
   };
 
   const navigateToNewAddress = useCallback(
-    () => navigation.navigate('NewAddress'),
+    () => navigation.navigate('CreateAddress'),
     [navigation],
   );
 

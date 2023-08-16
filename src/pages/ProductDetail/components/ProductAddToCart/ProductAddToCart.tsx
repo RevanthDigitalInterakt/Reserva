@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Alert, View } from 'react-native';
-import * as Sentry from '@sentry/react-native';
 import LottieView from 'lottie-react-native';
 import { styles } from '../ProductSelectors/ProductSelectors.styles';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
@@ -12,6 +11,7 @@ import testProps from '../../../../utils/testProps';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import { Button } from '../../../../components/Button';
 import { loadingSpinner } from '../../../../../assets/animations';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 function ProductAddToCart() {
   const { getString } = useRemoteConfig();
@@ -63,7 +63,7 @@ function ProductAddToCart() {
       setShowAnimationBag(true);
       addTagsUponCartUpdate();
     } catch (err) {
-      Sentry.captureException(err);
+      ExceptionProvider.captureException(err);
       Alert.alert('Ocorreu um erro', err.message);
     } finally {
       setLoading(false);

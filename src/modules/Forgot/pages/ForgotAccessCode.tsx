@@ -13,10 +13,10 @@ import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../components/Typography/Typography';
 import UnderlineInput from '../../../components/UnderlineInput';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
-import EventProvider from '../../../utils/EventProvider';
 import { platformType } from '../../../utils/platformType';
 import testProps from '../../../utils/testProps';
 import HeaderBanner from '../componet/HeaderBanner';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 export interface ForgotAccessCodeProps
   extends StackScreenProps<RootStackParamList, 'ForgotAccessCode'> { }
@@ -81,7 +81,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
       }
     } catch (err) {
       setShowError(true);
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [code, cookies, email, navigation, passwords.confirm, recoveryPasswordReset]);
 

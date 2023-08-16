@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { COLORS } from '../../../../base/styles/colors';
 import useSearchStore from '../../../../zustand/useSearchStore';
@@ -13,7 +13,10 @@ function SearchResults() {
     resultCount,
     loading,
     doFetchMore,
-  } = useSearchStore(['loading', 'result', 'resultCount', 'doFetchMore']);
+    parameters,
+  } = useSearchStore(['loading', 'result', 'resultCount', 'doFetchMore', 'parameters']);
+
+  const hasFilters = useMemo(() => !!parameters.facets.length, [parameters.facets]);
 
   if (loading && !result.length) {
     return (
@@ -23,7 +26,7 @@ function SearchResults() {
     );
   }
 
-  if (!result.length) {
+  if (!result.length && !hasFilters) {
     return <ProductNotFound />;
   }
 
@@ -35,6 +38,7 @@ function SearchResults() {
         data={result}
         total={resultCount}
         loading={loading}
+        marginBottom={180}
         onFetchMore={doFetchMore}
       />
     </View>

@@ -1,6 +1,7 @@
 import OneSignal from 'react-native-onesignal';
 import EventProvider from '.';
 import type { EventValueOptions } from './misc';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 describe('Event Provider', () => {
   it('Should be able to transform analytics object into AppsFlyer object', () => {
@@ -29,9 +30,9 @@ describe('Event Provider', () => {
   });
 
   it('Should be able to call captureException method', () => {
-    const captureExceptionSpy = jest.spyOn(EventProvider, 'captureException');
+    const captureExceptionSpy = jest.spyOn(ExceptionProvider, 'captureException');
 
-    EventProvider.captureException(new Error('Somenthing exception'));
+    ExceptionProvider.captureException(new Error('Somenthing exception'));
 
     expect(captureExceptionSpy).toHaveBeenCalled();
   });

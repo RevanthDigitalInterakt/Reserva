@@ -8,6 +8,7 @@ import { useAuthStore } from '../zustand/useAuth/useAuthStore';
 import useDitoStore from '../zustand/useDitoStore';
 import { getApolloClient } from '../utils/getApolloClient';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 const initialLoginCredentials = {
   username: '',
@@ -60,7 +61,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
         navigation?.navigate('Home');
       }
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
       validateCredentials();
     } finally {
       setLoadingSignIn(false);
@@ -92,7 +93,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       useDitoStore.persist.clearStorage();
       await getApolloClient().clearStore();
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     } finally {
       actions.RESET_ORDER_FORM();
       onSignOut();

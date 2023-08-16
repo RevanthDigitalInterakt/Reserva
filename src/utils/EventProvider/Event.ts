@@ -1,4 +1,4 @@
-type Items = {
+export type Items = {
   price: number;
   item_id: string;
   quantity: number;
@@ -148,6 +148,8 @@ export namespace EventsOptions {
   export type ProductSubscribeNewsletter = Pick<EventValues, | 'product_id' | 'success'>;
   export type ProductViewAbout = Pick<EventValues, | 'product_id' | 'show'>;
   export type PressAddToCartPrimeLP = Pick<EventValues, | 'position'>;
+  export type ViewCart = Pick<EventValues, | 'currency' | 'items' | 'value'>;
+  export type PressHeaderSearch = Pick<EventValues, 'open'>;
 }
 
 export type EventOptionsFn =
@@ -290,4 +292,11 @@ export type EventOptionsFn =
   | {
     type: 'prime_press_add_to_cart_lp',
     payload: EventsOptions.PressAddToCartPrimeLP;
+  }
+  | {
+    type: 'view_cart',
+    payload: EventsOptions.ViewCart
+  } | {
+    type: 'header_search_click',
+    payload: EventsOptions.PressHeaderSearch;
   };

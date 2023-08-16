@@ -7,7 +7,7 @@ import {
   instance5,
   instance7,
 } from '../config/vtexConfig';
-import EventProvider from '../utils/EventProvider';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 const vtexConfig = instance;
 const vtexConfig2 = instance2;
@@ -88,7 +88,7 @@ const RestoreCart = async (orderFormId: string | undefined) => {
 
     return response;
   } catch (error) {
-    EventProvider.captureException(error);
+    ExceptionProvider.captureException(error);
 
     return null;
   }
@@ -137,7 +137,7 @@ const GetPurchaseData = async (orderGroup: any) => {
     );
     return response;
   } catch (err) {
-    EventProvider.captureException(err);
+    ExceptionProvider.captureException(err);
   }
   // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)
   // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo
@@ -156,7 +156,7 @@ const AddCustomerToOrder = async (
 
     return data;
   } catch (err) {
-    EventProvider.captureException(err);
+    ExceptionProvider.captureException(err);
   }
 };
 
@@ -165,7 +165,7 @@ const CepVerifyPostalCode = async (cep: string) => {
     const { data } = await postalCode.get(cep);
     return data;
   } catch (err) {
-    EventProvider.captureException(err);
+    ExceptionProvider.captureException(err);
     return { errors: err } as CepResponse;
   }
 };

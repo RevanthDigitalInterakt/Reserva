@@ -15,9 +15,9 @@ import { defaultBrand } from '../../utils/defaultWBrand';
 import { RonRedirectTypeEnum, useRonRedirectLazyQuery } from '../../base/graphql/generated';
 import { urlHandler } from '../../config/linking';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
-import Sentry from '../../config/sentryConfig';
 import { COLORS } from '../../base/styles/colors';
 import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 interface IWiduResponse {
   destinyLink: string;
@@ -45,10 +45,7 @@ export async function getOrderFormIdByRon(ronCode: string): Promise<string> {
 
     return orderFormId;
   } catch (err) {
-    Sentry.withScope((scope) => {
-      scope.setExtra('ron', ronCode);
-      Sentry.captureException(err);
-    });
+    ExceptionProvider.captureException(err, { ronCode });
 
     return '';
   }

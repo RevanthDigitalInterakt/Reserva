@@ -1,11 +1,33 @@
 ## CHANGELOG
 
+### 2.0.12
+
+- [SRN-15155 Meus Endereços - Editar Endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15156)
+- [SRN-15170 Meus Endereços - Remover endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15170)
+
+---
+
+### 2.0.11
+
+- [SRN-15136 Meus Endereços - Criar Endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15136)
+- [SRN-15156 Meus Endereços - Listagem Endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15156)
+- [SRN-15169 Evento view_cart](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15169)
+- [14784 - Integração filtros da busca com API Gateway](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14784)
+- [14797 - Integrar no app - PDC](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14797)
+- [15832 - Implementar Datadog](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=15832)
+- [15868 - Implementação Deeplink Meta](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Siren%20Team%20Downstream/Product%20Backlog/?workitem=15868)
+
+---
+
 ### 2.0.10
+- [14551 - Como usuário quero ver vídeo do produto na PDP](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14551)
+- [14879 - Ajustar lógica atualização forçada](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14879)
 - [14806 - Integração nova busca](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14806)
 
 ---
 
 ### 2.0.9
+
 - [10614 - BUG - Login infinito perde o token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10614/)
 - Correção do preço divergente na Bag x PDP
 - [14769 - Direcionamento deeplink Kit Look](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14769)
@@ -15,7 +37,6 @@
 
 ### 2.0.8
 
-- [14551 - Como usuário quero ver vídeo do produto na PDP](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14551)
 - [SRN-228 - DITO - Evento adicionou produto a wishlist](https://reserva.atlassian.net/browse/SRN-228)
 - [SRN-229 - DITO - Evento Acessou o carrinho](https://reserva.atlassian.net/browse/SRN-229)
 - [15058 - Possibilidade de links no menu que não vão para a PDC](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=15058)

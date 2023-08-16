@@ -31,6 +31,7 @@ import { useCheckConnection } from '../../../hooks/useCheckConnection';
 import { Box } from '../../../components/Box/Box';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../components/Typography/Typography';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 export interface PasswordCheckProps {
   text: string;
@@ -150,7 +151,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         try {
           await onSignIn(email, passwords.confirm, true);
         } catch (err) {
-          EventProvider.captureException(err);
+          ExceptionProvider.captureException(err);
         }
 
         await onUpdateAuthData(response?.data?.signUp?.token, response?.data?.signUp?.authCookie);
@@ -165,7 +166,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         first: '',
       });
       setCode('');
-      EventProvider.captureException(e);
+      ExceptionProvider.captureException(e);
     } finally {
       setIsLoading(false);
     }
@@ -204,7 +205,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
       }
     } catch (err) {
       setIsLoading(false);
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     } finally {
       setIsLoading(false);
     }

@@ -10,7 +10,6 @@ import * as Yup from 'yup';
 import type { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Sentry from '../../../config/sentryConfig';
 import { TopBarBackButtonWithoutLogo } from '../../Menu/components/TopBarBackButtonWithoutLogo';
 import { FormikTextInput } from '../../../components/FormikTextInput/FormikTextInput';
 import { platformType } from '../../../utils/platformType';
@@ -103,10 +102,6 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
     const response = await fetch(`https://viacep.com.br/ws/${address?.uf}/${address?.city?.replace(/\s/g, '%20')}/${address?.street?.replace(/\s/g, '%20')}/json/`);
     return response.json();
   };
-
-  useEffect(() => {
-    Sentry.configureScope((scope) => scope.setTransactionName('ChangeRegionalization'));
-  }, []);
 
   useEffect(() => {
     fetch('https://brasilapi.com.br/api/ibge/uf/v1')

@@ -7,7 +7,7 @@ import { Button } from '../../../../components/Button';
 import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../../components/Typography/Typography';
 import ModalDeleteAccount from '../../../../modules/Profile/Components/ModalDeleteAccount';
-import EventProvider from '../../../../utils/EventProvider';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 interface IDeleteAccountProps {
   userId: string
@@ -33,7 +33,7 @@ function DeleteAccountComponent({ userId }: IDeleteAccountProps): JSX.Element {
         navigation.navigate('AccountDeletedSuccessfully');
       }
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [userId]);
 

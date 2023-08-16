@@ -60,6 +60,7 @@ import { Divider } from '../../../components/Divider/Divider';
 import { SearchBar } from '../../../components/SearchBar/SearchBar';
 import { Typography } from '../../../components/Typography/Typography';
 import { Picker } from '../../../components/Picker/Picker';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 const deviceHeight = Dimensions.get('window').height;
 
@@ -372,7 +373,7 @@ export const SearchScreen: React.FC<Props> = () => {
             search_term: text,
           });
         } catch (error) {
-          EventProvider.captureException(error);
+          ExceptionProvider.captureException(error);
         }
       });
     } else {
@@ -397,7 +398,7 @@ export const SearchScreen: React.FC<Props> = () => {
             search_term: text,
           });
         } catch (error) {
-          EventProvider.captureException(error);
+          ExceptionProvider.captureException(error);
         }
       });
     }

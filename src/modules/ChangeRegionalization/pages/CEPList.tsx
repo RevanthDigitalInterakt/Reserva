@@ -1,15 +1,14 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { Typography } from '../../../components/Typography/Typography';
 import { instance } from '../../../config/vtexConfig';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
 import { TopBarBackButtonWithoutLogo } from '../../Menu/components/TopBarBackButtonWithoutLogo';
-import Sentry from '../../../config/sentryConfig';
-import { Box } from '../../../components/Box/Box';
-import { Typography } from '../../../components/Typography/Typography';
-import { Button } from '../../../components/Button';
 
 export interface CepsInfo {
   cep: string,
@@ -64,18 +63,12 @@ export function CEPList({ ...props }) {
         },
       });
       const { data: response } = await instance.get(`/segments/${data.segmentToken}`);
-      const value = await AsyncStorage.setItem('RegionalSearch:cep', cep);
 
       setRegionId(response.regionId);
       setSegmentToken(data.segmentToken);
-      // setCep(cep)
       navigation.navigate('Home');
     }
   };
-
-  useEffect(() => {
-    Sentry.configureScope((scope) => scope.setTransactionName('CEPList'));
-  }, []);
 
   useEffect(() => {
     setCeps(list);

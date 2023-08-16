@@ -1,42 +1,79 @@
-import { useEffect, useCallback } from 'react';
-import { Alert, Linking } from 'react-native';
-import checkVersion from 'react-native-store-version';
-import DeviceInfo from 'react-native-device-info';
+import { useCallback, useEffect } from 'react';
+import { Alert, Linking, Platform } from 'react-native';
 import Config from 'react-native-config';
-import EventProvider from '../utils/EventProvider';
+import deviceInfoModule from 'react-native-device-info';
+import checkVersion from 'react-native-store-version';
+import semver from 'semver';
+import { useUpdateInAppLazyQuery } from '../base/graphql/generated';
 import { platformType } from '../utils/platformType';
+import { useApolloFetchPolicyStore } from '../zustand/useApolloFetchPolicyStore';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export default function useCheckAppNewVersion() {
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
+
+  const [getUpdateInApp] = useUpdateInAppLazyQuery({
+    context: { clientName: 'gateway' },
+    fetchPolicy: getFetchPolicyPerKey('updateInApp'),
+  });
+
   const goToStore = useCallback(async () => {
-    const url = (platformType.ANDROID === 'android' ? Config.ANDROID_STORE_URL : Config.IOS_STORE_URL) as string;
+    const url = (Platform.OS === platformType.ANDROID
+      ? Config.ANDROID_STORE_URL
+      : Config.IOS_STORE_URL) as string;
+
     await Linking.openURL(url);
   }, []);
 
-  useEffect(() => {
-    const init = async () => {
-      try {
-        const check = await checkVersion({
-          version: DeviceInfo.getVersion(),
-          iosStoreURL: Config.IOS_STORE_URL,
-          androidStoreURL: Config.ANDROID_STORE_URL,
-          country: 'br',
-        });
+  const onGetUpdateInApp = useCallback(async () => {
+    try {
+      const { data } = await getUpdateInApp();
 
-        if (check.result === 'new') {
-          Alert.alert(
-            `Nova versão ${check.remote}`,
-            'Está disponível a nova versão do aplicativo Reserva, clique no botão abaixo para realizar a atualização.',
-            [{
-              text: 'Atualizar',
-              onPress: goToStore,
-            }],
-          );
-        }
-      } catch (e) {
-        EventProvider.captureException(e);
+      const platform = Platform.OS;
+
+      const targetVersion = data?.updateInApp?.targetVersion ?? '1.0.0';
+      const updateType = data?.updateInApp?.updateType;
+      const updateTitle = data?.updateInApp?.updateTitle;
+      const updateDescription = data?.updateInApp?.updateDescription;
+      const onlyPlatform = data?.updateInApp?.onlyPlatform;
+      const updateAllVersions = data?.updateInApp?.updateAllVersions;
+
+      const buttons = [
+        updateType === 'FLEXIBLE' ? {
+          text: 'Atualizar depois',
+          onPress: () => { },
+        } : {},
+        {
+          text: 'Atualizar',
+          onPress: goToStore,
+        },
+      ];
+
+      const { remote, local } = await checkVersion({
+        version: deviceInfoModule.getVersion(),
+        iosStoreURL: Config.IOS_STORE_URL,
+        androidStoreURL: Config.ANDROID_STORE_URL,
+        country: 'BR',
+      });
+
+      const isMajor = semver.gt(remote, local);
+      const isTarget = semver.eq(targetVersion, local);
+
+      if (isMajor
+        && (updateAllVersions || isTarget)
+        && (onlyPlatform === platform || onlyPlatform === 'all')) {
+        Alert.alert(
+          updateTitle ?? '',
+          updateDescription ?? '',
+          buttons,
+        );
       }
-    };
+    } catch (error) {
+      ExceptionProvider.captureException(error);
+    }
+  }, [getUpdateInApp, goToStore]);
 
-    init();
-  }, [goToStore]);
+  useEffect(() => {
+    onGetUpdateInApp();
+  }, [onGetUpdateInApp]);
 }

@@ -1,11 +1,11 @@
 import Share from 'react-native-share';
-import EventProvider from './EventProvider';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export function onShare(title: string, message: string, url: string) {
   Share
     .open({ title, message, url })
     .catch((err) => {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
       return false;
     });
 }

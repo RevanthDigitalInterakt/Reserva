@@ -5,8 +5,9 @@ import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
 import { Animated, Dimensions } from 'react-native';
-import images from '../../base/styles/icons';
 
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
+import images from '../../base/styles/icons';
 import type { ProductQL } from '../../graphql/products/productSearch';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { getDitoUserID } from '../../utils/Dito/src/utils/getDitoUserID';
@@ -71,7 +72,7 @@ export function ListHorizontalProducts({
           id_produto: item.items[0].itemId,
           cor: getProductColor(item.items[0].variations),
           tamanho: getProductSize(item.items[0].variations),
-          nome_categoria: item.categoryTree ? getCategoriesByHref(item.categoryTree[3].href) : 'Reserva',
+          categorias_produto: item.categoryTree ? getCategoriesByHref(item.categoryTree[3].href) : 'Reserva',
           nome_produto: item.productName,
           marca: item.categoryTree ? getCategoriesByHref(item.categoryTree[0].href).toUpperCase() : 'Reserva',
           preco_produto: item.priceRange.sellingPrice.lowPrice,
@@ -79,7 +80,7 @@ export function ListHorizontalProducts({
         },
       });
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [profile?.email]);
 
@@ -232,17 +233,17 @@ export function ListHorizontalProducts({
 
           let countPosition = 0;
           // TODO refactor
-          while (item.items[0].sellers[countPosition].commertialOffer.Installments.length === 0) {
+          while (item?.items[0]?.sellers[countPosition]?.commertialOffer?.Installments?.length === 0) {
             countPosition++;
           }
 
           const listPrice = item?.items[0]?.sellers[countPosition]?.commertialOffer.ListPrice || 0;
           const sellingPrice = item?.items[0]?.sellers[countPosition]?.commertialOffer.Price || 0;
 
-          installments = item.items[0].sellers[countPosition].commertialOffer.Installments;
+          installments = item?.items[0]?.sellers[countPosition]?.commertialOffer?.Installments;
 
-          const installmentsNumber = installments.reduce(
-            (prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next),
+          const installmentsNumber = installments?.reduce(
+            (prev, next) => (prev?.NumberOfInstallments > next?.NumberOfInstallments ? prev : next),
             { NumberOfInstallments: 0, Value: 0 },
           );
 
@@ -258,8 +259,8 @@ export function ListHorizontalProducts({
             ? sellingPrice
             : listPrice || 0;
 
-          const installmentPrice = installments.reduce(
-            (prev, next) => (prev.NumberOfInstallments > next.NumberOfInstallments ? prev : next),
+          const installmentPrice = installments?.reduce(
+            (prev, next) => (prev?.NumberOfInstallments > next?.NumberOfInstallments ? prev : next),
             { NumberOfInstallments: 0, Value: 0 },
           );
 

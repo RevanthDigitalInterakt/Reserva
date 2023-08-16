@@ -2,9 +2,7 @@ import { Platform } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
-import * as Sentry from '@sentry/react-native';
 import OneSignal from 'react-native-onesignal';
-import type { Route } from '@react-navigation/native';
 import { initialize as initializeClarity, setCustomUserId } from 'react-native-clarity';
 import Config from 'react-native-config';
 import { env } from '../../config/env';
@@ -19,6 +17,7 @@ import type { EventOptionsOneSignalFn } from './EventOnesignal';
 import type { EventsDitoValues, EventOptionsDitoFn } from './EventDito';
 import sendDitoTrackEvent from '../Dito/src/utils/sendDitoTrackEvent';
 import { platformType } from '../platformType';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 class EventProvider {
   public static appsFlyer: typeof appsFlyer = appsFlyer;
@@ -26,8 +25,6 @@ class EventProvider {
   public static analytics = analytics();
 
   public static OneSignal = OneSignal;
-
-  public static sentry: typeof Sentry = Sentry;
 
   private static initializePushNotification() {
     /* O N E S I G N A L   S E T U P */
@@ -73,11 +70,11 @@ class EventProvider {
       if (success) return;
 
       const error = new Error('Error AppsFlyer Uninstall Token');
-      Sentry.withScope((scope) => {
-        scope.setExtra('success', success);
-        scope.setExtra('token', token);
-        Sentry.captureException(error);
-      });
+
+      ExceptionProvider.captureException(
+        error,
+        { success, token },
+      );
     });
   }
 
@@ -105,15 +102,15 @@ class EventProvider {
       },
       (_) => {},
       (error) => {
-        this.captureException(error);
+        ExceptionProvider.captureException(error);
       },
     );
     this.analytics
       .logAppOpen()
-      .catch((error) => this.sentry.captureException(error));
+      .catch((error) => ExceptionProvider.captureException(error));
 
     this.uninstallMeasurement()
-      .catch((error) => this.sentry.captureException(error));
+      .catch((error) => ExceptionProvider.captureException(error));
   }
 
   public static parseValues(values: EventValueOptions) {
@@ -142,7 +139,7 @@ class EventProvider {
     const afEventsValues = this.parseValues(eventValues);
 
     this.appsFlyer.logEvent(afEventName, afEventsValues, (_) => { }, (error) => {
-      this.captureException(error);
+      ExceptionProvider.captureException(error);
     });
   }
 
@@ -150,31 +147,6 @@ class EventProvider {
     this.analytics.logPurchase({
       ...args,
     });
-  }
-
-  public static captureException(error: any) {
-    this.sentry.captureException(error);
-  }
-
-  private static oldRouteName: string = '';
-
-  public static trackScreen(screen?: Route<string> | undefined) {
-    try {
-      if (!screen) return;
-
-      const { name: screenName, params } = screen;
-      if (screenName === this.oldRouteName) return;
-
-      this.oldRouteName = screenName;
-
-      Sentry.addBreadcrumb({
-        message: screenName,
-        category: 'navigation',
-        data: params,
-      });
-    } catch (e) {
-      this.captureException(e);
-    }
   }
 
   public static sendPushTags<Type extends EventOptionsOneSignalFn['type']>(

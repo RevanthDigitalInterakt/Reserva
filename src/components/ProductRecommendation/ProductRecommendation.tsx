@@ -1,16 +1,18 @@
 import React, { useCallback, useEffect } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
+
 import { useProductRecommendationsQuery } from '../../base/graphql/generated';
-import { ListHorizontalProducts } from './ListHorizontalProducts';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import EventProvider from '../../utils/EventProvider';
-import useRecommendation from '../../zustand/useRecommendation/useRecommendation';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
+import useRecommendation from '../../zustand/useRecommendation/useRecommendation';
 import { Box } from '../Box/Box';
 import { Button } from '../Button';
+import { Divider } from '../Divider/Divider';
 import { IconLegacy } from '../IconLegacy/IconLegacy';
 import { Typography } from '../Typography/Typography';
-import { Divider } from '../Divider/Divider';
+import { ListHorizontalProducts } from './ListHorizontalProducts';
 
 interface IProductRecommendation {
   handleScrollToTheTop?: () => void;
@@ -18,6 +20,7 @@ interface IProductRecommendation {
 
 export function ProductRecommendation({ handleScrollToTheTop }: IProductRecommendation) {
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
+  
   const BoxAnimated = createAnimatableComponent(Box);
 
   const {
@@ -47,7 +50,7 @@ export function ProductRecommendation({ handleScrollToTheTop }: IProductRecommen
 
       EventProvider.logEvent('view_item_list', { items: newItems });
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [products]);
 

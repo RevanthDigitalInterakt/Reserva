@@ -50,6 +50,10 @@ export function ProductDetailCardLegacy({
     getBoolean(isTester ? 'pdp_show_video_tester' : 'pdp_show_video')
   ), [getBoolean, isTester]);
 
+  const hasZoomButton = useMemo(() => (
+    videoActive ? showZoomButton : true
+  ), [videoActive, showZoomButton]);
+
   return (
     <Box alignItems="center" justifyContent="center">
       <Box>
@@ -172,7 +176,7 @@ export function ProductDetailCardLegacy({
             </Box>
           </Box>
 
-          {showZoomButton && (
+          {hasZoomButton && (
             <Box position="absolute" bottom="3%" right="4%">
               <Button
                 backgroundColor="rgba(255, 255, 255, 0.4)"

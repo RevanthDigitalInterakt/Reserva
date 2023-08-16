@@ -24,6 +24,7 @@ import { useAuthentication } from '../../../hooks/useAuthentication';
 import { Box } from '../../../components/Box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import { Button } from '../../../components/Button';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 export function MenuProfile() {
   const navigation = useNavigation();
@@ -51,7 +52,7 @@ export function MenuProfile() {
 
       setImageProfile(response);
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [firebaseRef]);
 

@@ -1,5 +1,5 @@
-import EventProvider from '../../../EventProvider';
 import { updateDitoUser } from '../routes/user';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 type UserData = {
   name?: string;
@@ -22,7 +22,7 @@ async function sendUpdateUserDataToDito({
   try {
     await updateDitoUser({ id, payload: user });
   } catch (e) {
-    EventProvider.sentry.captureException(e);
+    ExceptionProvider.captureException(e);
   }
 }
 export default sendUpdateUserDataToDito;

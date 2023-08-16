@@ -17,6 +17,22 @@ export type Scalars = {
   Float: number;
 };
 
+export type BannerCategoryImageOutput = {
+  __typename?: 'BannerCategoryImageOutput';
+  height: Scalars['Int'];
+  url: Scalars['String'];
+};
+
+export type BannerCategoryInput = {
+  category: Scalars['String'];
+};
+
+export type BannerCategoryOutput = {
+  __typename?: 'BannerCategoryOutput';
+  image: BannerCategoryImageOutput;
+  name?: Maybe<Scalars['String']>;
+};
+
 export type CashbackExpirationInfoOutput = {
   __typename?: 'CashbackExpirationInfoOutput';
   cashbackToExpire: Array<CashbackExpirationItemOutput>;
@@ -88,6 +104,13 @@ export type CheckDeliveryTimeByProductInput = {
 export type CheckEmailInput = {
   email: Scalars['String'];
 };
+
+export enum ClockScreenEnum {
+  All = 'ALL',
+  Category = 'CATEGORY',
+  Home = 'HOME',
+  Offers = 'OFFERS'
+}
 
 export type ConfigCountdownClockOutput = {
   __typename?: 'ConfigCountdownClockOutput';
@@ -185,6 +208,27 @@ export type ContentfulProductItemOutput = {
   __typename?: 'ContentfulProductItemOutput';
   productId: Scalars['ID'];
   productName: Scalars['String'];
+};
+
+export type CountdownCategoryInput = {
+  categoryReference?: InputMaybe<Scalars['String']>;
+  selectClockScreen: ClockScreenEnum;
+};
+
+export type CountdownClockCategoryOutput = {
+  __typename?: 'CountdownClockCategoryOutput';
+  backgroundColor: Scalars['String'];
+  bannerColor: Scalars['String'];
+  buttonColor: Scalars['String'];
+  descriptionModal?: Maybe<Scalars['String']>;
+  reference: Scalars['String'];
+  remainingTime: Scalars['String'];
+  selectClockScreen: ClockScreenEnum;
+  subtitle: Scalars['String'];
+  textColor: Scalars['String'];
+  title: Scalars['String'];
+  titleButton: Scalars['String'];
+  titleModal: Scalars['String'];
 };
 
 export type DeeplinkOutput = {
@@ -1150,6 +1194,7 @@ export type ProfileUpdateInput = {
 export type Query = {
   __typename?: 'Query';
   appMenu: Array<MenuCategoryOutput>;
+  bannerCategory: Array<BannerCategoryOutput>;
   cashback: CashbackOutput;
   cep?: Maybe<CepOutput>;
   checkIfUserExists: Scalars['Boolean'];
@@ -1160,6 +1205,7 @@ export type Query = {
   contentfulCategory: ContentfulCategoryDetailOutput;
   contentfulCollections: Array<ContentfulCollectionOutput>;
   contentfulProducts: Array<ContentfulProductItemOutput>;
+  countdown?: Maybe<CountdownClockCategoryOutput>;
   deeplinkPath?: Maybe<DeeplinkOutput>;
   landingPagePrime: PrimeDetailOutput;
   mktinStatus: Scalars['Boolean'];
@@ -1183,6 +1229,11 @@ export type Query = {
   updateInApp?: Maybe<UpdateInAppOutput>;
   wishlist: Array<Scalars['String']>;
   wishlistCheckProduct: WishlistCheckOutput;
+};
+
+
+export type QueryBannerCategoryArgs = {
+  input: BannerCategoryInput;
 };
 
 
@@ -1218,6 +1269,11 @@ export type QueryContentfulCollectionsArgs = {
 
 export type QueryContentfulProductsArgs = {
   q: Scalars['String'];
+};
+
+
+export type QueryCountdownArgs = {
+  input: CountdownCategoryInput;
 };
 
 
@@ -1324,6 +1380,14 @@ export enum RonRedirectTypeEnum {
   Pdp = 'PDP'
 }
 
+export type SearchFacetColorItemOutput = {
+  __typename?: 'SearchFacetColorItemOutput';
+  hex: Scalars['String'];
+  key: Scalars['String'];
+  name: Scalars['String'];
+  value: Scalars['String'];
+};
+
 export type SearchFacetItemOutput = {
   __typename?: 'SearchFacetItemOutput';
   key: Scalars['String'];
@@ -1334,7 +1398,7 @@ export type SearchFacetItemOutput = {
 export type SearchFacetOutput = {
   __typename?: 'SearchFacetOutput';
   categories: Array<SearchFacetItemOutput>;
-  colors: Array<SearchFacetItemOutput>;
+  colors: Array<SearchFacetColorItemOutput>;
   prices: SearchFacetRangeOutput;
   sizes: Array<SearchFacetItemOutput>;
 };
@@ -1346,8 +1410,8 @@ export type SearchFacetRangeOutput = {
 };
 
 export type SearchFacetsInput = {
-  facets: Array<SearchProductFacetInput>;
-  q: Scalars['String'];
+  facets?: InputMaybe<Array<SearchProductFacetInput>>;
+  q?: InputMaybe<Scalars['String']>;
 };
 
 export type SearchNewsOutput = {
@@ -1373,6 +1437,7 @@ export type SearchOutput = {
   __typename?: 'SearchOutput';
   count: Scalars['Int'];
   items: Array<ProductListOutput>;
+  redirect?: Maybe<Scalars['String']>;
 };
 
 export type SearchProductFacetInput = {
@@ -1386,7 +1451,7 @@ export type SearchProductInput = {
   page: Scalars['Int'];
   perPage?: InputMaybe<Scalars['Int']>;
   priceRange?: InputMaybe<SearchProductPriceRangeInput>;
-  q: Scalars['String'];
+  q?: InputMaybe<Scalars['String']>;
 };
 
 export type SearchProductPriceRangeInput = {
@@ -1483,7 +1548,6 @@ export type WishlistCheckProductInput = {
 export type WishlistRemoveProductInput = {
   productId?: InputMaybe<Scalars['String']>;
   skuId?: InputMaybe<Scalars['String']>;
-  wishlistItemId?: InputMaybe<Scalars['String']>;
 };
 
 export type AvailableGiftsFragmentFragment = { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string };
@@ -1609,7 +1673,7 @@ export type ProfileAddressMutationVariables = Exact<{
 }>;
 
 
-export type ProfileAddressMutation = { __typename?: 'Mutation', profileAddress: { __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, number?: string | null, city?: string | null, complement?: string | null, postalCode?: string | null, state?: string | null, street?: string | null, neighborhood?: string | null, country?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } };
+export type ProfileAddressMutation = { __typename?: 'Mutation', profileAddress: { __typename?: 'ProfileAddressOutput', id: string, addressName?: string | null, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null } };
 
 export type ProfileAddressRemoveMutationVariables = Exact<{
   input: RemoveProfileAddressInput;
@@ -1708,6 +1772,13 @@ export type AppMenuQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AppMenuQuery = { __typename?: 'Query', appMenu: Array<{ __typename?: 'MenuCategoryOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, children: Array<{ __typename?: 'MenuCategoryItemOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> }> }> };
 
+export type BannerCategoryQueryVariables = Exact<{
+  input: BannerCategoryInput;
+}>;
+
+
+export type BannerCategoryQuery = { __typename?: 'Query', bannerCategory: Array<{ __typename?: 'BannerCategoryOutput', image: { __typename?: 'BannerCategoryImageOutput', url: string } }> };
+
 export type CashbackQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1731,6 +1802,13 @@ export type ConfigShippingBarQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ConfigShippingBarQuery = { __typename?: 'Query', config?: { __typename?: 'ConfigOutput', shippingBar?: { __typename?: 'ConfigShippingBarOutput', freeShippingValue?: number | null, isFreeShipping?: boolean | null } | null } | null };
+
+export type CountdownQueryVariables = Exact<{
+  input: CountdownCategoryInput;
+}>;
+
+
+export type CountdownQuery = { __typename?: 'Query', countdown?: { __typename?: 'CountdownClockCategoryOutput', textColor: string, bannerColor: string, buttonColor: string, backgroundColor: string, selectClockScreen: ClockScreenEnum, title: string, subtitle: string, titleButton: string, titleModal: string, remainingTime: string, reference: string, descriptionModal?: string | null } | null };
 
 export type DeeplinkPathQueryVariables = Exact<{
   path: Scalars['String'];
@@ -1776,7 +1854,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, videoThumbnail?: string | null, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null } | null } };
+export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, videoThumbnail?: string | null, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null } | null } };
 
 export type ProductDeliveryTimeQueryVariables = Exact<{
   input: CheckDeliveryTimeByProductInput;
@@ -1821,12 +1899,17 @@ export type SearchFacetsQueryVariables = Exact<{
 }>;
 
 
-export type SearchFacetsQuery = { __typename?: 'Query', searchFacets: { __typename?: 'SearchFacetOutput', categories: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, colors: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, sizes: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, prices: { __typename?: 'SearchFacetRangeOutput', from: number, to: number } } };
+export type SearchFacetsQuery = { __typename?: 'Query', searchFacets: { __typename?: 'SearchFacetOutput', categories: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, colors: Array<{ __typename?: 'SearchFacetColorItemOutput', key: string, value: string, name: string, hex: string }>, sizes: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, prices: { __typename?: 'SearchFacetRangeOutput', from: number, to: number } } };
 
 export type SearchNewsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type SearchNewsQuery = { __typename?: 'Query', searchNews: Array<{ __typename?: 'SearchNewsOutput', image: string, referenceId: string, orderBy?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> }> };
+
+export type UpdateInAppQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UpdateInAppQuery = { __typename?: 'Query', updateInApp?: { __typename?: 'UpdateInAppOutput', updateTitle?: string | null, updateDescription?: string | null, updateAllVersions?: boolean | null, targetVersion?: string | null, onlyPlatform?: string | null, updateType?: string | null } | null };
 
 export type WishlistQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2517,18 +2600,13 @@ export const ProfileAddressDocument = gql`
     mutation profileAddress($input: UpsertProfileAddressInput!) {
   profileAddress(input: $input) {
     id
+    addressName
     receiverName
-    number
-    city
     complement
-    postalCode
-    state
-    street
     neighborhood
     country
-    reference
-    addressName
-    addressType
+    state
+    number
   }
 }
     `;
@@ -3042,6 +3120,46 @@ export type AppMenuQueryResult = Apollo.QueryResult<AppMenuQuery, AppMenuQueryVa
 export function refetchAppMenuQuery(variables?: AppMenuQueryVariables) {
       return { query: AppMenuDocument, variables: variables }
     }
+export const BannerCategoryDocument = gql`
+    query bannerCategory($input: BannerCategoryInput!) {
+  bannerCategory(input: $input) {
+    image {
+      url
+    }
+  }
+}
+    `;
+
+/**
+ * __useBannerCategoryQuery__
+ *
+ * To run a query within a React component, call `useBannerCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBannerCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBannerCategoryQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useBannerCategoryQuery(baseOptions: Apollo.QueryHookOptions<BannerCategoryQuery, BannerCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BannerCategoryQuery, BannerCategoryQueryVariables>(BannerCategoryDocument, options);
+      }
+export function useBannerCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BannerCategoryQuery, BannerCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BannerCategoryQuery, BannerCategoryQueryVariables>(BannerCategoryDocument, options);
+        }
+export type BannerCategoryQueryHookResult = ReturnType<typeof useBannerCategoryQuery>;
+export type BannerCategoryLazyQueryHookResult = ReturnType<typeof useBannerCategoryLazyQuery>;
+export type BannerCategoryQueryResult = Apollo.QueryResult<BannerCategoryQuery, BannerCategoryQueryVariables>;
+export function refetchBannerCategoryQuery(variables: BannerCategoryQueryVariables) {
+      return { query: BannerCategoryDocument, variables: variables }
+    }
 export const CashbackDocument = gql`
     query cashback {
   cashback {
@@ -3206,6 +3324,55 @@ export type ConfigShippingBarLazyQueryHookResult = ReturnType<typeof useConfigSh
 export type ConfigShippingBarQueryResult = Apollo.QueryResult<ConfigShippingBarQuery, ConfigShippingBarQueryVariables>;
 export function refetchConfigShippingBarQuery(variables?: ConfigShippingBarQueryVariables) {
       return { query: ConfigShippingBarDocument, variables: variables }
+    }
+export const CountdownDocument = gql`
+    query countdown($input: CountdownCategoryInput!) {
+  countdown(input: $input) {
+    textColor
+    bannerColor
+    buttonColor
+    backgroundColor
+    selectClockScreen
+    title
+    subtitle
+    titleButton
+    titleModal
+    remainingTime
+    reference
+    descriptionModal
+  }
+}
+    `;
+
+/**
+ * __useCountdownQuery__
+ *
+ * To run a query within a React component, call `useCountdownQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountdownQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountdownQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCountdownQuery(baseOptions: Apollo.QueryHookOptions<CountdownQuery, CountdownQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountdownQuery, CountdownQueryVariables>(CountdownDocument, options);
+      }
+export function useCountdownLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountdownQuery, CountdownQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountdownQuery, CountdownQueryVariables>(CountdownDocument, options);
+        }
+export type CountdownQueryHookResult = ReturnType<typeof useCountdownQuery>;
+export type CountdownLazyQueryHookResult = ReturnType<typeof useCountdownLazyQuery>;
+export type CountdownQueryResult = Apollo.QueryResult<CountdownQuery, CountdownQueryVariables>;
+export function refetchCountdownQuery(variables: CountdownQueryVariables) {
+      return { query: CountdownDocument, variables: variables }
     }
 export const DeeplinkPathDocument = gql`
     query deeplinkPath($path: String!) {
@@ -3883,6 +4050,7 @@ export const SearchFacetsDocument = gql`
       key
       value
       name
+      hex
     }
     sizes {
       key
@@ -3969,6 +4137,48 @@ export type SearchNewsLazyQueryHookResult = ReturnType<typeof useSearchNewsLazyQ
 export type SearchNewsQueryResult = Apollo.QueryResult<SearchNewsQuery, SearchNewsQueryVariables>;
 export function refetchSearchNewsQuery(variables?: SearchNewsQueryVariables) {
       return { query: SearchNewsDocument, variables: variables }
+    }
+export const UpdateInAppDocument = gql`
+    query updateInApp {
+  updateInApp {
+    updateTitle
+    updateDescription
+    updateAllVersions
+    targetVersion
+    onlyPlatform
+    updateType
+  }
+}
+    `;
+
+/**
+ * __useUpdateInAppQuery__
+ *
+ * To run a query within a React component, call `useUpdateInAppQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUpdateInAppQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUpdateInAppQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUpdateInAppQuery(baseOptions?: Apollo.QueryHookOptions<UpdateInAppQuery, UpdateInAppQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UpdateInAppQuery, UpdateInAppQueryVariables>(UpdateInAppDocument, options);
+      }
+export function useUpdateInAppLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UpdateInAppQuery, UpdateInAppQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UpdateInAppQuery, UpdateInAppQueryVariables>(UpdateInAppDocument, options);
+        }
+export type UpdateInAppQueryHookResult = ReturnType<typeof useUpdateInAppQuery>;
+export type UpdateInAppLazyQueryHookResult = ReturnType<typeof useUpdateInAppLazyQuery>;
+export type UpdateInAppQueryResult = Apollo.QueryResult<UpdateInAppQuery, UpdateInAppQueryVariables>;
+export function refetchUpdateInAppQuery(variables?: UpdateInAppQueryVariables) {
+      return { query: UpdateInAppDocument, variables: variables }
     }
 export const WishlistDocument = gql`
     query wishlist {

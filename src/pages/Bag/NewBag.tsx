@@ -28,6 +28,7 @@ import { ModalClientIsPrime } from '../../modules/Checkout/components/ModalClien
 import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 import { trackAccessBag } from '../../utils/trackAccessBag';
 import { getBrands } from '../../utils/getBrands';
+import { trackViewCart } from '../../utils/trackViewCart';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -110,6 +111,10 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   useEffect(() => {
     trackAccessBag(allItemsQuantity, appTotalizers.total, getBrands(items), clientProfileData);
   }, []);
+
+  useEffect(() => {
+    trackViewCart({ items, price: appTotalizers.total });
+  }, [appTotalizers.total, items]);
 
   return (
     <SafeAreaView style={bagStyles.safeArea} testID="com.usereserva:id/NewBag">

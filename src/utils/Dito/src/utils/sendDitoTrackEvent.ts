@@ -1,5 +1,5 @@
-import Sentry from '../../../../config/sentryConfig';
 import { trackEvent } from '../routes/events';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 async function sendDitoTrackEvent(
   id: string | null,
@@ -10,7 +10,7 @@ async function sendDitoTrackEvent(
       await trackEvent({ id, event });
     }
   } catch (error) {
-    Sentry.captureException(error);
+    ExceptionProvider.captureException(error);
   }
 }
 

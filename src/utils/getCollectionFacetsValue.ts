@@ -1,3 +1,5 @@
+import type { SearchProductFacetInput } from '../base/graphql/generated';
+
 export interface IFacets {
   __typename: string;
   name: string;
@@ -13,11 +15,11 @@ export interface IFacets {
   ]
 }
 
-export function getCollectionFacetsValue(facets?: IFacets[]) {
+export function getCollectionFacetsValue(facets?: IFacets[] | SearchProductFacetInput[]) {
   if (!facets?.length) return '';
 
   const collectionFacets = facets.filter(
-    ({ name }: any) => name === 'productClusterNames',
+    ({ name, key }: any) => name === 'productClusterNames' || key === 'productClusterIds',
   );
 
   const [items] = collectionFacets;

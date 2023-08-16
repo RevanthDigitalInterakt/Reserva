@@ -10,13 +10,13 @@ import images from '../../../base/styles/icons';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../../../components/UnderlineInput';
-import EventProvider from '../../../utils/EventProvider';
 import testProps from '../../../utils/testProps';
 import { useAuthentication } from '../../../hooks/useAuthentication';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { Box } from '../../../components/Box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import { Button } from '../../../components/Button';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -65,7 +65,7 @@ export const LoginScreen = ({
         verifyUserEmail();
       }
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [comeFrom, loadingSignIn, verifyUserEmail]);
 
@@ -80,10 +80,6 @@ export const LoginScreen = ({
 
   useEffect(() => {
     ClientDelivery();
-  }, []);
-
-  useEffect(() => {
-    EventProvider.sentry.configureScope((scope) => scope.setTransactionName('LoginScreen'));
   }, []);
 
   return (
@@ -124,11 +120,7 @@ export const LoginScreen = ({
                     Yup.string().required().email().isValidSync(text.trim()),
                   );
                 } catch (error) {
-                  EventProvider.sentry.captureException(error, {
-                    extra: {
-                      writtenEmail: text,
-                    },
-                  });
+                  ExceptionProvider.captureException(error, { writtenEmail: text });
                 }
               }}
             />

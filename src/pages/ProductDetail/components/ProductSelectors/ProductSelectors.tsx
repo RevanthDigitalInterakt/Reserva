@@ -1,7 +1,7 @@
-import * as Sentry from '@sentry/react-native';
 import React, {
   useCallback, useEffect, useMemo,
 } from 'react';
+
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -16,6 +16,7 @@ import { useProductDetailStore } from '../../../../zustand/useProductDetail/useP
 import ProductAddToCart from '../ProductAddToCart';
 import { SelectColor } from '../SelectColor/SelectColor';
 import { SizeGuide, SizeGuideImages } from './SizeGuide';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 function ProductSelectors() {
   const {
@@ -56,7 +57,7 @@ function ProductSelectors() {
         wbrand: `${productDetail?.categoryTree[0]?.toUpperCase()},`,
       });
     } catch (err) {
-      Sentry.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [productDetail, selectedSize]);
 

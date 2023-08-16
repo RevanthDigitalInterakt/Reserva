@@ -1,6 +1,6 @@
-import Sentry from '../../config/sentryConfig';
 import { ditoNotificationsApi } from '../Dito/src/config';
 import createMobileToken from '../Dito/src/utils/sendTokenMobile';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 const mockSuccess = {
   data: {
@@ -28,6 +28,6 @@ describe('sendUserDataToDito', () => {
       token: 'dTZwAKU3aEFWv64ExC-qda:APA91bHLXlXx8OS5jOkeaixM_c2LDYdHxNuSoC9hOTgU_b1aMspv6UnGBHgxmz59HrxPBLdOCzUpw7g5ddiXwEdbOPXj2BFfuO_VxEmiQy_mtEkW48kdi4L05r7_kd-zCcrnQlZ984Q5',
       platform: 'Android',
     });
-    expect(Sentry.captureException).toBeCalled();
+    expect(ExceptionProvider.captureException).toBeCalled();
   });
 });

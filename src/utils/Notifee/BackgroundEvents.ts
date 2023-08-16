@@ -2,9 +2,9 @@
 import messaging from '@react-native-firebase/messaging';
 import notifee, { AndroidStyle, EventType } from '@notifee/react-native';
 import { Linking, Platform } from 'react-native';
-import EventProvider from '../EventProvider';
 import { pushClicked } from '../../services/ditoService';
 import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 const onBackgroundEventPush = async () => {
   const { setItem, getItem } = useAsyncStorageProvider();
@@ -51,7 +51,7 @@ const onBackgroundEventPush = async () => {
           },
         });
       } catch (error) {
-        EventProvider.sentry.captureException(error);
+        ExceptionProvider.captureException(error);
       }
     }
   });

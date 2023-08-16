@@ -37,6 +37,7 @@ import useAuthModalStore from '../../../zustand/useAuthModalStore';
 import ModalSignUpComplete from '../component/ModalSignUpComplete';
 import { durationToTimeString } from '../../../utils/durationToTimeString';
 import { Box } from '../../../components/Box/Box';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -117,7 +118,7 @@ export function HomeScreen() {
         images,
       });
     } catch (e) {
-      EventProvider.captureException(e);
+      ExceptionProvider.captureException(e);
     }
   }, [getFetchPolicyPerKey, getHome]);
 
@@ -134,7 +135,7 @@ export function HomeScreen() {
         );
       }
     } catch (e) {
-      EventProvider.captureException(e);
+      ExceptionProvider.captureException(e);
     }
   }, [getConfig, getFetchPolicyPerKey, setOffersPage]);
 
@@ -198,7 +199,7 @@ export function HomeScreen() {
         }
       }
     } catch (e) {
-      EventProvider.captureException(e);
+      ExceptionProvider.captureException(e);
     }
   }, [getFetchPolicyPerKey, getcountdownClock, showClockHome]);
 

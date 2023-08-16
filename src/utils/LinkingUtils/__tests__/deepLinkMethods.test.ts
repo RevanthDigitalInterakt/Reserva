@@ -3,6 +3,7 @@ import {
   baseTabUrl,
   defaultInitialUrl,
   productUrl,
+  metaProductUrl,
 } from '../static/deepLinkMethods';
 import { EXPECTED_RESULT, INPUTS_LINKS } from '../../../../__mocks__/webViewLinks';
 import { removeProtocol } from '../../removeProtocol';
@@ -22,6 +23,7 @@ const URL_HOME = 'https://www.usereserva.com';
 const URL_HOME_VARIANT_1 = 'www.usereserva.com';
 const URL_HOME_VARIANT_2 = 'http://usereserva.com';
 const URL_HOME_VARIANT_3 = 'https://usereserva.io';
+const URL_META = 'usereserva://';
 
 describe('utils | LinkingUtils | executeDeepLinkcase', () => {
   test('should return default url', async () => {
@@ -146,6 +148,19 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
           expect(result).toEqual(expectedResult);
         });
       });
+    });
+  });
+
+  describe('test urlMetaProductCase', () => {
+    test('should return productUrl', async () => {
+      const expectedQueryParams = 'tenis-simples-2-0-mini0061050';
+      const expectedResult = `${metaProductUrl}${expectedQueryParams}`;
+
+      const result = await deepLinkHelper(
+        `${URL_META}product?slug=${expectedQueryParams}`,
+      );
+
+      expect(result).toEqual(expectedResult);
     });
   });
 

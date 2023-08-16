@@ -1,0 +1,52 @@
+import React, { useMemo, useState } from 'react';
+import { createAnimatableComponent } from 'react-native-animatable';
+import { Box } from '@usereservaapp/reserva-ui';
+import TitleFilter from './TitleFilter';
+import type { SearchFacetItemOutput } from '../../../base/graphql/generated';
+import RadioButtonsFilter from '../../RadioButtonsFilter';
+
+const BoxAnimation = createAnimatableComponent(Box);
+
+interface IFilterSizes {
+  data: SearchFacetItemOutput[];
+  selectedItems: Set<string>;
+  onUpdate: (item: Set<string>) => void;
+}
+
+function FilterSizes({ data, selectedItems, onUpdate }: IFilterSizes) {
+  const [showSection, setShowSection] = useState(false);
+
+  const sizes = useMemo(() => (
+    data.map((item) => ({
+      ...item,
+      value: item.value.toUpperCase(),
+    }))
+  ), [data]);
+
+  return (
+    <>
+      <TitleFilter
+        showMore={showSection}
+        setShowMore={setShowSection}
+        showSeeMoreButton={data.length > 6}
+        title="Tamanho"
+      />
+
+      <BoxAnimation animation="fadeIn" paddingY="micro" paddingX="micro">
+        <RadioButtonsFilter
+          onSelectedChange={(size: string[]) => {
+            const items = size.filter(Boolean);
+            onUpdate(new Set(items));
+          }}
+          disbledOptions={[]}
+          defaultSelectedItem={Array.from(selectedItems)}
+          size="34px"
+          fontSize="10px"
+          optionsList={showSection ? sizes : sizes.slice(0, 5)}
+        />
+      </BoxAnimation>
+    </>
+  );
+}
+
+export default FilterSizes;

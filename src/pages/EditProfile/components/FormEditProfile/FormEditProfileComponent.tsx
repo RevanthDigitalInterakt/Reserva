@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import FullNameIcon from './Icons/FullNameIcon';
 import EmailIcon from './Icons/EmailIcon';
 import CPFIcon from './Icons/CPFIcon';
-import GenderInput, { TGender } from './components/GenderInput/GenderInput';
+import GenderInput, { type TGender } from './components/GenderInput/GenderInput';
 import BirthDateIcon from './Icons/BirthDateIcon';
 import PhoneNumberIcon from './Icons/PhoneNumberIcon';
 import UserProfilePictureComponent from '../UserProfilePicture/UserProfilePictureComponent';
@@ -25,21 +25,21 @@ import
   formatAndSearcFieldValue,
   formatDate,
 } from '../../../../utils/GenericFormats';
-import { genderEngToPt, TGenderEngKeys } from './static/GenderTranslate';
+import { genderEngToPt, type TGenderEngKeys } from './static/GenderTranslate';
 import
 {
   generateCustonFieldsToPayloadUserData,
   generatePayloadToUploadUserData,
-  IUserDataUpload,
+  type IUserDataUpload,
 } from '../../../../utils/updateUserData';
 import { FirebaseService } from '../../../../shared/services/FirebaseService';
 import type { IFormEditProfileSchema } from './interfaces/formEditProfile';
-import EventProvider from '../../../../utils/EventProvider';
 import { useProfileLazyQuery, useProfileUpdateMutation } from '../../../../base/graphql/generated';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { Box } from '../../../../components/Box/Box';
 import { TextField } from '../../../../components/TextField/TextField';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 interface IFormEditProfileComponentProps {
   isRegister: boolean;
@@ -136,8 +136,9 @@ function FormEditProfileComponent({
     [editProfileForm],
   );
 
+  // TODO update
   const handleChangeProfileImage = useCallback(
-    (file: IFile, resetInitialFilePath: boolean = false): void => {
+    (file: any, resetInitialFilePath: boolean = false): void => {
       editProfileForm.setFieldValue('profileImage', {
         ...file,
         initialFilePath: resetInitialFilePath
@@ -207,7 +208,7 @@ function FormEditProfileComponent({
         handleToogleLoading(false);
       }
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, []);
 

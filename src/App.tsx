@@ -8,7 +8,6 @@ import { requestTrackingPermission } from 'react-native-tracking-transparency';
 import { ThemeProvider } from 'styled-components/native';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { linkingConfig } from './config/linking';
-import SentryConfig from './config/sentryConfig';
 import CartContextProvider from './context/CartContext';
 import ChronometerContextProvider from './context/ChronometerContext';
 import ConfigContextProvider from './context/ConfigContext';
@@ -28,6 +27,9 @@ import useApolloClientHook from './hooks/useApolloClientHook';
 import { useApolloFetchPolicyStore } from './zustand/useApolloFetchPolicyStore';
 import { navigationRef } from './utils/navigationRef';
 import { theme } from './base/usereservappLegacy/theme';
+import { ExceptionProvider } from './base/providers/ExceptionProvider';
+import sentryConfig from './config/sentryConfig';
+import DatadogComponentProvider from './components/DatadogComponentProvider';
 
 const DefaultTheme = {
   colors: {
@@ -61,10 +63,6 @@ function App() {
     setIsTesting(res === 'true');
   }, []);
 
-  const trackScreenViewOnSentry = useCallback(() => {
-    EventProvider.trackScreen(navigationRef?.current?.getCurrentRoute());
-  }, []);
-
   const getMaintenanceValue = async () => {
     const screenMaintenance = await RemoteConfigService.getValue<boolean>(
       'SCREEN_MAINTENANCE',
@@ -89,44 +87,46 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <ApolloProvider client={client}>
-        <ConfigContextProvider>
-          <StatusBarContextProvider>
-            <NavigationContainer
-              linking={linkingConfig}
-              theme={DefaultTheme}
-              onReady={() => {
-                trackScreenViewOnSentry();
-                RNBootSplash.hide();
-              }}
-              ref={navigationRef}
-              onStateChange={trackScreenViewOnSentry}
-            >
-              {isOnMaintenance ? (
-                <Maintenance isVisible />
-              ) : (
-                <CartContextProvider>
-                  <ContentfullContextProvider>
-                    <RegionalSearchContextProvider>
-                      <FirebaseContextProvider>
-                        <ChronometerContextProvider>
-                          <InitialScreen>
-                            <AppRouting />
-                          </InitialScreen>
-                        </ChronometerContextProvider>
-                      </FirebaseContextProvider>
-                    </RegionalSearchContextProvider>
-                  </ContentfullContextProvider>
-                </CartContextProvider>
-              )}
-            </NavigationContainer>
-          </StatusBarContextProvider>
-        </ConfigContextProvider>
-        <ToastProvider />
-      </ApolloProvider>
-    </ThemeProvider>
+    <DatadogComponentProvider>
+      <ThemeProvider theme={theme}>
+        <ApolloProvider client={client}>
+          <ConfigContextProvider>
+            <StatusBarContextProvider>
+              <NavigationContainer
+                linking={linkingConfig}
+                theme={DefaultTheme}
+                onReady={() => {
+                  ExceptionProvider.trackScreen();
+                  RNBootSplash.hide();
+                }}
+                ref={navigationRef}
+                onStateChange={() => ExceptionProvider.trackScreen()}
+              >
+                {isOnMaintenance ? (
+                  <Maintenance isVisible />
+                ) : (
+                  <CartContextProvider>
+                    <ContentfullContextProvider>
+                      <RegionalSearchContextProvider>
+                        <FirebaseContextProvider>
+                          <ChronometerContextProvider>
+                            <InitialScreen>
+                              <AppRouting />
+                            </InitialScreen>
+                          </ChronometerContextProvider>
+                        </FirebaseContextProvider>
+                      </RegionalSearchContextProvider>
+                    </ContentfullContextProvider>
+                  </CartContextProvider>
+                )}
+              </NavigationContainer>
+            </StatusBarContextProvider>
+          </ConfigContextProvider>
+          <ToastProvider />
+        </ApolloProvider>
+      </ThemeProvider>
+    </DatadogComponentProvider>
   );
 }
 
-export default SentryConfig.wrap(App);
+export default sentryConfig.wrap(App);

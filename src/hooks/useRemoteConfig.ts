@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import * as Sentry from '@sentry/react-native';
 import type { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 interface IUseRemoteConfigStore {
   initialized: boolean;
@@ -33,6 +33,12 @@ export interface IRemoteConfigKeys {
   show_price_prime_pdp: boolean;
   show_price_prime_pdc: boolean;
   regionalization: boolean;
+  show_new_product_catalog_tester: boolean,
+  show_new_product_catalog: boolean,
+  show_new_address: boolean;
+  show_new_address_tester: boolean;
+  show_new_address_list: boolean;
+  show_new_address_list_tester: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -64,7 +70,13 @@ export const defaults: IRemoteConfigKeys = {
   show_price_prime_pdc: false,
   pdp_show_video: false,
   pdp_show_video_tester: false,
+  show_new_product_catalog_tester: false,
+  show_new_product_catalog: false,
   regionalization: false,
+  show_new_address: false,
+  show_new_address_tester: true,
+  show_new_address_list: false,
+  show_new_address_list_tester: true,
 };
 
 const THREE_MINUTES_IN_MS = 180000;
@@ -90,10 +102,7 @@ export const useRemoteConfig = create<IUseRemoteConfigStore>((set, getState) => 
 
       return set({ initialized: true, instance: remoteConfig });
     } catch (err) {
-      Sentry.withScope((scope) => {
-        scope.addBreadcrumb({ message: 'Error useRemoteConfig()' });
-        Sentry.captureException(err);
-      });
+      ExceptionProvider.captureException(err, { message: 'Error useRemoteConfig()' });
 
       return set({ initialized: true, instance: remoteConfig });
     }

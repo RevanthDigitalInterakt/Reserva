@@ -2,12 +2,12 @@ import { HttpLink, Operation } from '@apollo/client';
 import { Config } from 'react-native-config';
 import { setContext } from '@apollo/client/link/context';
 import { v4 } from 'uuid';
-import * as Sentry from '@sentry/react-native';
 import { onError } from '@apollo/client/link/error';
 import { print } from 'graphql';
 import type { GraphQLErrors } from '@apollo/client/errors';
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { navigateUsingRef } from '../../utils/navigationRef';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 const INVALID_AUTHORIZATION_ERROR = 'invalid authorization';
 
@@ -27,15 +27,19 @@ function trackApolloError(operation: Operation, errors: GraphQLErrors, response?
     const errorMessage = `Gateway Operation Error [${operation.operationName}]`;
     const transactionId = extractOperationTransactionId(operation);
 
-    Sentry.withScope((scope) => {
-      if (transactionId) scope.setTag('transaction_id', transactionId);
-      scope.setExtra('operationName', operation.operationName);
-      scope.setExtra('variables', operation.variables);
-      scope.setExtra('query', print(operation.query));
-      scope.setExtra('response', response);
-      scope.setExtra('errors', errors);
-      Sentry.captureException(new Error(errorMessage));
-    });
+    ExceptionProvider.captureException(
+      new Error(errorMessage),
+      {
+        operationName: operation.operationName,
+        variables: operation.variables,
+        query: print(operation.query),
+        response,
+        errors,
+      },
+      {
+        transaction_id: transactionId,
+      },
+    );
   } catch (err) {
     //
   }

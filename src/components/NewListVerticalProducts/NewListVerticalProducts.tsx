@@ -16,6 +16,8 @@ interface ListProductsProps {
   data: ProductListOutput[];
   total: number;
   loading: boolean;
+  marginBottom?: number;
+  headerComponent?: React.ReactNode[]
   onFetchMore: () => void;
 }
 
@@ -23,6 +25,8 @@ function NewListVerticalProducts({
   data,
   total,
   loading,
+  marginBottom,
+  headerComponent,
   onFetchMore,
 }: ListProductsProps) {
   const navigation = useNavigation();
@@ -98,14 +102,6 @@ function NewListVerticalProducts({
     showThumbColors,
   ]);
 
-  const Empty = useMemo(() => (
-    <Box height="100%">
-      <Typography textAlign="center" fontFamily="nunitoRegular" fontSize={16}>
-        Produtos não encontrados
-      </Typography>
-    </Box>
-  ), []);
-
   const Footer = useMemo(() => {
     if (!loading) {
       return null;
@@ -126,13 +122,21 @@ function NewListVerticalProducts({
 
   return (
     <FlatList
-      style={{ marginBottom: 180 }}
+      style={{ marginBottom }}
       data={data}
       bounces={false}
       testID="com.usereserva:id/list_vertical_flat_list"
       keyExtractor={(item) => `${item.skuId}-${item.productName}`}
       numColumns={2}
-      ListEmptyComponent={Empty}
+      ListHeaderComponent={headerComponent}
+      ListEmptyComponent={() => (
+        <Box height="100%">
+          <Typography textAlign="center" fontFamily="nunitoRegular" fontSize={16}>
+            {'\n'}
+            Produtos não encontrados
+          </Typography>
+        </Box>
+      )}
       onEndReached={() => {
         if (data.length < total) onFetchMore();
       }}

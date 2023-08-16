@@ -11,6 +11,7 @@ interface ICustomMethodReturnParams {
 export const REGEX_PRODUCT_URL = {
   IS_PRODUCT_URL: /(?:\b\/p\b.?)/gm,
   REMOVE_INVALID_WORDS: /\b\/p\b/gi,
+  IS_META_PRODUCT_URL: /product\?slug/gm,
 } as const;
 
 export const REGEX_VALID_URL = /[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)/gi;
@@ -22,6 +23,8 @@ export const defaultInitialUrl = 'usereserva://home-tabs';
 export const webCatalogUrl = 'https://www.usereserva.com/catalog/';
 
 export const productUrl = 'usereserva://product?';
+
+export const metaProductUrl = 'usereserva://product?slug=';
 
 const defaultCustomMethodReturn: ICustomMethodReturnParams = {
   match: false,
@@ -78,6 +81,19 @@ const urlGoogleGclidCase = (initialUrl: string): ICustomMethodReturnParams => {
     return {
       match: true,
       strUrl: defaultInitialUrl,
+    };
+  }
+
+  return defaultCustomMethodReturn;
+};
+
+const urlMetaProductCase = (initialUrl: string): ICustomMethodReturnParams => {
+  const regex = new RegExp(REGEX_PRODUCT_URL.IS_META_PRODUCT_URL);
+
+  if (regex.test(initialUrl.toLowerCase())) {
+    return {
+      match: true,
+      strUrl: `${initialUrl}`,
     };
   }
 
@@ -229,6 +245,7 @@ const registerMethods = [
   urlRon,
   urlLandingPagePrime,
   urlProductCase,
+  urlMetaProductCase,
   colectionUseCase,
   accountWishListUseCase,
   accountUseCase,

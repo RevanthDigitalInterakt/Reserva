@@ -23,7 +23,7 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { useCart } from '../../../context/CartContext';
 import IconComponent from '../../../components/IconComponent/IconComponent';
-import EventProvider from '../../../utils/EventProvider';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'MapScreen'>;
 
@@ -60,7 +60,7 @@ export const MapScreen = ({ route }: Props) => {
         });
       }
     } catch (e) {
-      EventProvider.captureException(e);
+      ExceptionProvider.captureException(e);
     } finally {
       setLoadingMap(false);
     }

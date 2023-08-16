@@ -7,46 +7,36 @@ import { Button } from '../../../../components/Button';
 import { Picker } from '../../../../components/Picker/Picker';
 import { Typography } from '../../../../components/Typography/Typography';
 import useSearchStore from '../../../../zustand/useSearchStore';
-import FilterModal from '../FilterModal';
+import FilterModal from '../../../../components/FilterModal';
 import { orderByTypes } from './SearchResultHeader.helper';
-
-const SHOW_FILTER_BUTTON = false;
 
 function SearchResultHeader() {
   const [filterVisible, setFilterVisible] = useState(false);
   const [sortVisible, setSortVisible] = useState(false);
-  const { onSearch, parameters } = useSearchStore(['onSearch', 'parameters']);
+  const { onSearch } = useSearchStore(['onSearch', 'parameters']);
 
   return (
     <View>
       <Box paddingY="micro" flexDirection="row" justifyContent="center">
-        {!!SHOW_FILTER_BUTTON && (
-          <Box width={1 / 2}>
-            <Button
-              onPress={() => {
-                if (parameters.facets.length) {
-                  return;
-                }
+        <Box width={1 / 2}>
+          <Button
+            onPress={() => setFilterVisible(true)}
+            marginRight="nano"
+            marginLeft="micro"
+            borderRadius="nano"
+            borderColor="dropDownBorderColor"
+            borderWidth="hairline"
+            flexDirection="row"
+            inline
+            height={40}
+          >
+            <Typography color="preto" fontFamily="nunitoSemiBold" fontSize="14px">
+              Filtrar
+            </Typography>
+          </Button>
+        </Box>
 
-                setFilterVisible(true);
-              }}
-              marginRight="nano"
-              marginLeft="micro"
-              borderRadius="nano"
-              borderColor="dropDownBorderColor"
-              borderWidth="hairline"
-              flexDirection="row"
-              inline
-              height={40}
-            >
-              <Typography color="preto" fontFamily="nunitoSemiBold" fontSize="14px">
-                {parameters.facets.length ? 'Limpar Filtros' : 'Filtrar'}
-              </Typography>
-            </Button>
-          </Box>
-        )}
-
-        <Box width={SHOW_FILTER_BUTTON ? 1 / 2 : 1}>
+        <Box width={1 / 2}>
           <Button
             marginRight="micro"
             marginLeft="nano"
@@ -66,17 +56,8 @@ function SearchResultHeader() {
       </Box>
 
       <FilterModal
-        onUpdateFacets={console.log}
         visible={filterVisible}
         onClose={() => setFilterVisible(false)}
-        // setFilterRequestList={setFilterRequestList}
-        // filterList={filterList}
-        // setFilterList={setFilterList}
-        // isVisible={filterVisible}
-        // colors={colorsfilters}
-        // sizes={sizefilters}
-        // categories={categoryfilters}
-        // priceRange={priceRangefilters}
       />
 
       <Picker

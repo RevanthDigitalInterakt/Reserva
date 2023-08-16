@@ -3,7 +3,7 @@
 import React, {
   useState,
   createContext,
-  ReactNode,
+  type ReactNode,
   useContext,
   useEffect,
 } from 'react';
@@ -46,6 +46,7 @@ import { getBrands } from '../utils/getBrands';
 import { getAsyncStorageItem, setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { defaultBrand } from '../utils/defaultWBrand';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -622,7 +623,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
 
       return false;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     } finally {
       setLoading(false);
     }
@@ -634,7 +635,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
     try {
       await _requestOrderForm();
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     } finally {
       setLoading(false);
     }
@@ -658,7 +659,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
         await _requestOrderForm();
       }
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     } finally {
       setTopBarLoading(false);
     }
@@ -674,7 +675,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
 
       return data?.checkIfUserExists || false;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
       return false;
     }
   };
@@ -742,25 +743,27 @@ function CartContextProvider({ children }: CartContextProviderProps) {
         ? await getAsyncStorageItem('@Dito:userRef')
         : await AsyncStorage.getItem('@Dito:anonymousID');
 
-      EventProvider.sendTrackEvent('adicionou-produto-ao-carrinho', {
-        id: ditoId,
-        action: 'adicionou-produto-ao-carrinho',
-        data: {
-          marca: product?.additionalInfo?.brandName || '',
-          id_produto: itemId,
-          nome_produto: product?.name || '',
-          nome_categoria: Object.entries(product.productCategories)
-            .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
-            .join(', '),
-          tamanho: product.skuName.split(' - ')[1],
-          cor: product.skuName.split(' - ')[0],
-          preco_produto: convertPrice(product.sellingPrice || 0),
-          origem: 'app',
+      EventProvider.sendTrackEvent(
+        'adicionou-produto-ao-carrinho', {
+          id: ditoId,
+          action: 'adicionou-produto-ao-carrinho',
+          data: {
+            marca: product?.additionalInfo?.brandName || '',
+            id_produto: itemId,
+            nome_produto: product?.name || '',
+            categorias_produto: Object.entries(product.productCategories)
+              .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
+              .join(', '),
+            tamanho: product.skuName.split(' - ')[1],
+            cor: product.skuName.split(' - ')[0],
+            preco_produto: convertPrice(product.sellingPrice || 0),
+            origem: 'app',
+          },
         },
-      });
+      );
       return { ok: !(product.quantity < quantity) };
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -791,7 +794,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
 
       return { ok: true };
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   };
 
@@ -811,7 +814,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
 
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -820,7 +823,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       const { data } = await ResetUserCheckout(orderForm?.orderFormId);
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -841,7 +844,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
         setOrderForm(data);
       }
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -861,7 +864,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
 
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -881,7 +884,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
 
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -900,7 +903,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
 
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -916,7 +919,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
 
       return !!isCouponInValid;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -927,7 +930,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       setOrderForm(data);
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     } finally {
       setLoading(false);
     }
@@ -945,7 +948,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       setOrderForm(data);
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     } finally {
       setTopBarLoading(false);
     }
@@ -960,7 +963,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       const { data } = await SendUserEmail(email);
       return !!data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -969,7 +972,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       const { data } = await ConvertZipCode(postalCode);
       return data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
   const tracking = async (cookie: string, order: string) => {
@@ -977,7 +980,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       const { data } = await Tracking(cookie, order);
       return data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -986,7 +989,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       const { data } = await PickupPoint(longitude, latitude);
       return data;
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -995,7 +998,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       const { data } = await Orders(page);
       return data || [];
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -1004,7 +1007,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       const { data } = await OrderDetail(orderId);
       return data || [];
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -1017,7 +1020,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       const { data } = await SearchNewOrders(page, email, cookie);
       return data || [];
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -1030,7 +1033,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       const { data } = await SearchNewOrderDetail(page, email, cookie);
       return data || [];
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   };
 
@@ -1071,7 +1074,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
         setSellerName(splitSellerName(data.orderFormAddSellerCoupon.marketingData.marketingTags[2] || ''));
       }
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
       setHasErrorApplyCoupon(true);
     } finally {
       setTopBarLoading(false);
@@ -1096,7 +1099,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
 
       setOrderForm(data);
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     } finally {
       setLoading(false);
     }
@@ -1143,7 +1146,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
 
       await _requestRestoreCart(orderFormId);
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     } finally {
       setTopBarLoading(false);
     }

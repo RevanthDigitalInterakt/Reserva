@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
-import * as Sentry from '@sentry/react-native';
 import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
@@ -17,6 +16,7 @@ import { Box } from '../../../components/Box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import { Button } from '../../../components/Button';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 function EditPasswordSuccessful() {
   const navigation = useNavigation();
@@ -109,11 +109,7 @@ export function EditPassword() {
         await onUpdateAuthData(data.redefinePassword.token, data.redefinePassword.authCookie);
       }
     } catch (err) {
-      Sentry.withScope((scope) => {
-        scope.setExtra('password', password);
-        scope.setExtra('currentPassword', currentPassword);
-        Sentry.captureException(err);
-      });
+      ExceptionProvider.captureException(err, { password, currentPassword });
 
       Alert.alert('', 'Aconteceu um erro na alteração de senha.');
     }

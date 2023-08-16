@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { createAnimatableComponent } from 'react-native-animatable';
+
 import { useProductRecommendationsLazyQuery } from '../../../base/graphql/generated';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { Box } from '../../../components/Box/Box';
 import { Button } from '../../../components/Button';
 import { Divider } from '../../../components/Divider/Divider';
@@ -57,7 +59,7 @@ export function Recommendation() {
         wbrand: getBrandByUrl(products),
       });
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [products]);
 

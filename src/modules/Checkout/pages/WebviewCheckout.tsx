@@ -25,6 +25,7 @@ import { getBrands } from '../../../utils/getBrands';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { TopBarCheckoutCompleted } from '../../Menu/components/TopBarCheckoutCompleted';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 const FINAL_URL_TO_REDIRECT_CHECKOUT = 'https://lojausereservaqa.myvtex.com/' as const;
 const URL_CHECKOUT_QA = 'https://lojausereservaqa.myvtex.com/checkout' as const;
@@ -72,7 +73,7 @@ const Checkout: React.FC<{}> = () => {
         product_image: '',
       });
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, []);
 
@@ -113,26 +114,28 @@ const Checkout: React.FC<{}> = () => {
           }
 
           items.forEach((item) => {
-            EventProvider.sendTrackEvent('fez-pedido-produto', {
-              id: userDocument || '',
-              action: 'fez-pedido-produto',
-              data: {
+            EventProvider.sendTrackEvent(
+              'fez-pedido-produto', {
                 id: userDocument || '',
-                id_transacao: response?.data[0]?.orderId || '',
-                quantidade: item?.quantity,
-                marca: getBrands(items),
-                id_produto: item?.productId,
-                nome_produto: item?.name,
-                nome_categoria: item?.productCategories,
-                tamanho: item?.skuName.split('-')?.[1]?.trim(),
-                cor: item?.skuName.split('-')?.[0]?.trim(),
-                preco_produto: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,
-                origem: 'app',
+                action: 'fez-pedido-produto',
+                data: {
+                  id: userDocument || '',
+                  id_transacao: response?.data[0]?.orderId || '',
+                  quantidade: item?.quantity,
+                  marca: getBrands(items),
+                  id_produto: item?.productId,
+                  nome_produto: item?.name,
+                  categorias_produto: item?.productCategories,
+                  tamanho: item?.skuName?.split('-')?.[1]?.trim() || '',
+                  cor: item?.skuName?.split('-')?.[0]?.trim() || '',
+                  preco_produto: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,
+                  origem: 'app',
+                },
               },
-            });
+            );
           });
         } catch (e) {
-          EventProvider.captureException(e);
+          ExceptionProvider.captureException(e);
         }
       }
     }
@@ -178,7 +181,7 @@ const Checkout: React.FC<{}> = () => {
         );
       }
     } catch (err) {
-      EventProvider.captureException(err);
+      ExceptionProvider.captureException(err);
     }
   }, [orderForm]);
 
@@ -225,7 +228,7 @@ const Checkout: React.FC<{}> = () => {
         value: itemTotal,
       });
     } catch (error) {
-      EventProvider.captureException(error);
+      ExceptionProvider.captureException(error);
     }
   }, [
     getItem,
@@ -280,7 +283,7 @@ const Checkout: React.FC<{}> = () => {
 
           EventProvider.logEvent('add_payment_info_test', {});
         } catch (error) {
-          EventProvider.captureException(error);
+          ExceptionProvider.captureException(error);
         }
 
         orderform();

@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-import * as Sentry from '@sentry/react-native';
 
 import EventProvider from '../utils/EventProvider';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
 import useWishlistStore, { IWishlistProduct } from '../zustand/useWishlistStore';
 import { trackEventDitoAddWishlist } from '../utils/trackEventDitoAddWishlist';
 import { navigateUsingRef } from '../utils/navigationRef';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export function useWishlistActions() {
   const {
@@ -63,10 +63,7 @@ export function useWishlistActions() {
 
       await onFavorite(product);
     } catch (err) {
-      Sentry.withScope((scope) => {
-        scope.setExtra('product', product);
-        Sentry.captureException(err);
-      });
+      ExceptionProvider.captureException(err, { product });
     } finally {
       setLoadingSkuId(undefined);
     }
