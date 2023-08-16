@@ -8,13 +8,8 @@ import { usePageLoadingStore } from '../../usePageLoadingStore/usePageLoadingSto
 const useInitialBag = () => {
   const { orderForm } = useCart();
   const { actions, topBarLoading } = useBagStore(['actions', 'topBarLoading']);
-  const { onFinishLoad, onStartLoad } = usePageLoadingStore(['onFinishLoad', 'onStartLoad']);
+  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
 
-  if (topBarLoading) {
-    onStartLoad('BagScreen');
-  } else {
-    onFinishLoad();
-  }
   const handleInitializeBag = useCallback(async () => {
     if (!orderForm?.orderFormId) {
       ExceptionProvider.captureException(
@@ -33,6 +28,12 @@ const useInitialBag = () => {
   useEffect(() => {
     handleInitializeBag();
   }, [handleInitializeBag]);
+
+  useEffect(() => {
+    if (!topBarLoading) {
+      onFinishLoad();
+    }
+  }, [topBarLoading, onFinishLoad]);
 };
 
 export default useInitialBag;

@@ -4,16 +4,13 @@ import SearchSuggestionsPage from './components/SearchSuggestionsPage';
 import SearchResults from './components/SearchResultsPage';
 import useSearchStore, { SearchStatusEnum, SearchType } from '../../zustand/useSearchStore';
 import SearchWrapper from './components/SearchWrapper';
-import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 function NewSearch() {
   const {
     status,
     initialized,
     onInit,
-    loading,
-  } = useSearchStore(['status', 'onInit', 'initialized', 'loading']);
-  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
+  } = useSearchStore(['status', 'onInit', 'initialized']);
 
   useEffect(() => {
     onInit(SearchType.SEARCH);
@@ -22,12 +19,6 @@ function NewSearch() {
       onInit(SearchType.SEARCH);
     };
   }, [onInit]);
-
-  useEffect(() => {
-    if (!loading) {
-      onFinishLoad();
-    }
-  }, [loading]);
 
   return initialized ? (
     <SearchWrapper>

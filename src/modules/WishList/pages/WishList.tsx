@@ -42,7 +42,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const { profile } = useAuthStore(['profile']);
-  const { onFinishLoad, onStartLoad } = usePageLoadingStore(['onFinishLoad', 'onStartLoad']);
+  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
 
   const [removeFromWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST);
 
@@ -205,9 +205,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   );
 
   useEffect(() => {
-    if (loading) {
-      onStartLoad('WishList');
-    } else {
+    if (!loading) {
       onFinishLoad();
     }
   }, [loading]);

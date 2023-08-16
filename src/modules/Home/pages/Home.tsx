@@ -89,7 +89,7 @@ export const HomeScreen = () => {
     initial: countDownClockGlobal?.formattedValue,
   });
 
-  const { onFinishLoad, onStartLoad } = usePageLoadingStore(['onFinishLoad', 'onStartLoad']);
+  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
   const requestHome = useCallback(async () => {
     try {
       const { data: dataHome } = await getHome({
@@ -206,7 +206,6 @@ export const HomeScreen = () => {
   }, [getFetchPolicyPerKey, getcountdownClock, showClockHome]);
 
   const initialRequest = useCallback(async () => {
-    onStartLoad('Home');
     await allSettled([
       requestHome(),
       requestConfig(),

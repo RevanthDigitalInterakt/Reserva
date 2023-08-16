@@ -45,7 +45,7 @@ export default function BagFooter() {
   const { restoreCart } = useCart();
   const { profile } = useAuthStore(['profile']);
   const { primeActive } = usePrimeInfo();
-  const { onFinishLoad, onStartLoad } = usePageLoadingStore(['onFinishLoad', 'onStartLoad']);
+  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
 
   const { changeStateIsVisibleModalPrimeRemoved } = usePrimeStore([
     'changeStateIsVisibleModalPrimeRemoved',
@@ -155,7 +155,6 @@ export default function BagFooter() {
       await restoreCart(orderFormId);
 
       if (!primeRemovedFromCart) {
-        onStartLoad('DeliveryScreen');
         navigation.navigate('DeliveryScreen', {});
       }
     } catch (error) {

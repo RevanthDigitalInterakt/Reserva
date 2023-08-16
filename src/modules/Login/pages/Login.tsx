@@ -37,7 +37,7 @@ export const LoginScreen: FC<Props> = ({
   } = useAuthentication({});
 
   const { onSignOut } = useAuthStore(['onSignOut']);
-  const { onFinishLoad, onStartLoad } = usePageLoadingStore(['onFinishLoad', 'onStartLoad']);
+  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
 
   useEffect(() => {
     if (comeFrom === 'Profile') {
@@ -84,9 +84,7 @@ export const LoginScreen: FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (loadingSignIn) {
-      onStartLoad('Login');
-    } else {
+    if (!loadingSignIn) {
       onFinishLoad();
     }
   }, [loadingSignIn]);

@@ -52,7 +52,6 @@ type EventValues = {
   favorite: number;
   position: 'top' | 'bottom';
   page: string;
-  loading_time: number;
 };
 
 export namespace EventsOptions {
@@ -152,7 +151,7 @@ export namespace EventsOptions {
   export type PressAddToCartPrimeLP = Pick<EventValues, | 'position'>;
   export type ViewCart = Pick<EventValues, | 'currency' | 'items' | 'value'>;
   export type PressHeaderSearch = Pick<EventValues, 'open'>;
-  export type PageLoadTime = Pick<EventValues, | 'page' | 'loading_time'>;
+  export type PageLoadTime = Pick<EventValues, | 'page' | 'value'>;
 }
 
 export type EventOptionsFn =

@@ -8,6 +8,7 @@ type TRoutes =
   | 'ProductDetail'
   | 'ProductCatalog'
   | 'BagScreen'
+  | 'NewBag'
   | 'DeliveryScreen'
   | 'WishList'
   | 'OrderList'
@@ -17,8 +18,25 @@ type TRoutes =
   | 'Search'
   | 'Login';
 
+const routesArray: (TRoutes | undefined)[] = [
+  'Home',
+  'ProductDetail',
+  'ProductCatalog',
+  'BagScreen',
+  'NewBag',
+  'DeliveryScreen',
+  'WishList',
+  'OrderList',
+  'EditProfile',
+  'MyWallet',
+  'AddressList',
+  'Search',
+  'Login',
+  undefined,
+];
+
 type TState = {
-  currentRoute?: TRoutes;
+  currentRoute: string | undefined;
   startLoadingTime: number;
 };
 
@@ -28,21 +46,48 @@ const initialState: TState = {
 };
 
 export interface ILoadingStore {
-  currentRoute?: TRoutes;
+  currentRoute: string | undefined;
   startLoadingTime: number;
-  onStartLoad: (page: TRoutes) => void;
+  arrRoutes: string[] | [];
+  onStartLoad: (page: string | undefined) => void;
   onFinishLoad: () => void;
+  arrRoutesCheck: (page: TRoutes) => boolean;
 }
 
 const pageLoadingStore = create<ILoadingStore>((set, getState) => ({
   ...initialState,
-  onStartLoad: (page) => {
-    if (page === getState().currentRoute) return;
+  arrRoutes: [],
+  arrRoutesCheck: (page) => {
+    const state = getState();
+    if (!page) return false;
 
-    set(() => ({
-      currentRoute: page,
-      startLoadingTime: new Date().getTime(),
-    }));
+    const arr: string[] = state.arrRoutes;
+    const index = arr.indexOf(page);
+
+    if (index !== -1) {
+      arr.splice(index, 1);
+      return false;
+    }
+
+    arr.push(page);
+    return true;
+  },
+  onStartLoad: (page) => {
+    const state = getState();
+    if (!page) return;
+
+    const pageFind = routesArray.includes(page as TRoutes);
+
+    if (page === state.currentRoute || !pageFind) return;
+
+    const verifyArrRoutes = state.arrRoutesCheck(page as TRoutes);
+
+    if (verifyArrRoutes) {
+      set(() => ({
+        currentRoute: page,
+        startLoadingTime: new Date().getTime(),
+      }));
+    }
   },
   onFinishLoad: () => {
     const state = getState();
@@ -53,10 +98,11 @@ const pageLoadingStore = create<ILoadingStore>((set, getState) => ({
     const timeElapsed = currTime - getState().startLoadingTime;
 
     if (timeElapsed) {
+      const value = (timeElapsed / 100) / 10;
       try {
         EventProvider.logEvent('page_load_time', {
           page: state.currentRoute,
-          loading_time: timeElapsed,
+          value,
         });
       } catch (error) {
         ExceptionProvider.captureException(error);

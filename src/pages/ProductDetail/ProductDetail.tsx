@@ -43,7 +43,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
     context: { clientName: 'gateway' },
   });
 
-  const { onFinishLoad, onStartLoad } = usePageLoadingStore(['onFinishLoad', 'onStartLoad']);
+  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
 
   const trackEventDitoAccessProduct = useCallback(async ({ product }: ProductQuery) => {
     try {
@@ -119,9 +119,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   }, [resetProduct, onInitialLoad, route.params]);
 
   useEffect(() => {
-    if (loading) {
-      onStartLoad('ProductDetail');
-    } else {
+    if (!loading) {
       onFinishLoad();
     }
   }, [loading]);
