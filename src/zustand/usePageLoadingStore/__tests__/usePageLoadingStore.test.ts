@@ -1,8 +1,12 @@
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook, cleanup } from '@testing-library/react-hooks';
 import { usePageLoadingStore } from '../usePageLoadingStore';
 import EventProvider from '../../../utils/EventProvider';
 
 describe('usePageLoadingStore', () => {
+  afterEach(() => {
+    jest.clearAllTimers();
+    cleanup();
+  });
   it('should start and finish loading a page', () => {
     const { result } = renderHook(() => usePageLoadingStore(['onStartLoad', 'currentRoute', 'startLoadingTime', 'onFinishLoad']));
 
@@ -22,16 +26,17 @@ describe('usePageLoadingStore', () => {
   });
 
   it('should not update state if currentRoute is the same', () => {
-    const { result } = renderHook(() => usePageLoadingStore(['onStartLoad', 'startLoadingTime']));
+    const { result } = renderHook(() => usePageLoadingStore(['onStartLoad', 'startLoadingTime', 'arrRoutesCheck']));
 
     act(() => {
-      result.current.onStartLoad('Home');
+      result.current.onStartLoad('ProductDetail');
+      result.current.arrRoutesCheck('ProductDetail');
     });
 
     const initialStartLoadingTime = result.current.startLoadingTime;
 
     act(() => {
-      result.current.onStartLoad('Home');
+      result.current.onStartLoad('ProductDetail');
     });
 
     expect(result.current.startLoadingTime).toBe(initialStartLoadingTime);
@@ -53,7 +58,7 @@ describe('usePageLoadingStore', () => {
     const { result } = renderHook(() => usePageLoadingStore(['onStartLoad', 'onFinishLoad']));
 
     act(() => {
-      result.current.onStartLoad('Checkout');
+      result.current.onStartLoad('ProductDetail');
     });
 
     const currTime = new Date().getTime();
@@ -66,31 +71,31 @@ describe('usePageLoadingStore', () => {
     });
 
     expect(logEventSpy).toBeCalledTimes(1);
-    expect(logEventSpy).toHaveBeenCalledWith('page_load_time', { loading_time: 1200, page: 'Checkout' });
+    const elapsedTimeExpect = (1200 / 100) / 10;
+    expect(logEventSpy).toHaveBeenCalledWith('page_load_time', { value: elapsedTimeExpect, page: 'ProductDetail' });
   });
 
   it('onStartLoad should update currentRoute and startLoadingTime', () => {
-    const { result } = renderHook(() => usePageLoadingStore(['onStartLoad', 'currentRoute', 'startLoadingTime']));
+    const { result } = renderHook(() => usePageLoadingStore(['onStartLoad', 'onFinishLoad', 'currentRoute', 'startLoadingTime', 'arrRoutesCheck']));
 
     act(() => {
-      result.current.onStartLoad('ProductDetail');
+      result.current.onStartLoad('Home');
     });
 
-    expect(result.current.currentRoute).toBe('ProductDetail');
+    expect(result.current.currentRoute).toBe('Home');
     expect(result.current.startLoadingTime).not.toBe(0);
+
+    act(() => {
+      result.current.onFinishLoad();
+    });
   });
 
   it('onFinishLoad should reset state', () => {
-    const { result } = renderHook(() => usePageLoadingStore(['onStartLoad', 'startLoadingTime', 'onFinishLoad', 'currentRoute']));
+    const { result } = renderHook(() => usePageLoadingStore(['onStartLoad', 'startLoadingTime', 'onFinishLoad', 'currentRoute', 'arrRoutesCheck']));
 
     act(() => {
       result.current.onStartLoad('ProductDetail');
     });
-
-    const initialStartLoadingTime = result.current.startLoadingTime;
-
-    expect(initialStartLoadingTime).not.toBeNull();
-    expect(result.current.currentRoute).toBe('ProductDetail');
 
     act(() => {
       result.current.onFinishLoad();
