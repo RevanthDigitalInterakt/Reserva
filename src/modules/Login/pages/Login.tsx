@@ -37,7 +37,7 @@ export const LoginScreen: FC<Props> = ({
   } = useAuthentication({});
 
   const { onSignOut } = useAuthStore(['onSignOut']);
-  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   useEffect(() => {
     if (comeFrom === 'Profile') {
@@ -84,10 +84,10 @@ export const LoginScreen: FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (!loadingSignIn) {
+    if (!loadingSignIn && startLoadingTime > 0) {
       onFinishLoad();
     }
-  }, [loadingSignIn]);
+  }, [loadingSignIn, startLoadingTime, onFinishLoad]);
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>

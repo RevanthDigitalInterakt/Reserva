@@ -22,7 +22,7 @@ const OrderList = () => {
   const navigation = useNavigation();
 
   const { profile } = useAuthStore(['profile']);
-  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const fetchOrders = async () => {
     if (!profile?.email || !profile?.authCookie) return;
@@ -59,10 +59,10 @@ const OrderList = () => {
   }, []);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && startLoadingTime > 0) {
       onFinishLoad();
     }
-  }, [loading]);
+  }, [loading, onFinishLoad, startLoadingTime]);
 
   return (
     <>

@@ -26,11 +26,10 @@ describe('usePageLoadingStore', () => {
   });
 
   it('should not update state if currentRoute is the same', () => {
-    const { result } = renderHook(() => usePageLoadingStore(['onStartLoad', 'startLoadingTime', 'arrRoutesCheck']));
+    const { result } = renderHook(() => usePageLoadingStore(['onStartLoad', 'startLoadingTime']));
 
     act(() => {
       result.current.onStartLoad('ProductDetail');
-      result.current.arrRoutesCheck('ProductDetail');
     });
 
     const initialStartLoadingTime = result.current.startLoadingTime;
@@ -76,7 +75,7 @@ describe('usePageLoadingStore', () => {
   });
 
   it('onStartLoad should update currentRoute and startLoadingTime', () => {
-    const { result } = renderHook(() => usePageLoadingStore(['onStartLoad', 'onFinishLoad', 'currentRoute', 'startLoadingTime', 'arrRoutesCheck']));
+    const { result } = renderHook(() => usePageLoadingStore(['onStartLoad', 'onFinishLoad', 'currentRoute', 'startLoadingTime']));
 
     act(() => {
       result.current.onStartLoad('Home');
@@ -91,7 +90,7 @@ describe('usePageLoadingStore', () => {
   });
 
   it('onFinishLoad should reset state', () => {
-    const { result } = renderHook(() => usePageLoadingStore(['onStartLoad', 'startLoadingTime', 'onFinishLoad', 'currentRoute', 'arrRoutesCheck']));
+    const { result } = renderHook(() => usePageLoadingStore(['onStartLoad', 'startLoadingTime', 'onFinishLoad', 'currentRoute']));
 
     act(() => {
       result.current.onStartLoad('ProductDetail');

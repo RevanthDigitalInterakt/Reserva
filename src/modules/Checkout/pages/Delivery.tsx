@@ -34,7 +34,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
     identifyCustomer,
   } = useCart();
   const { profile } = useAuthStore(['profile']);
-  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const [Permission, setPermission] = useState(false);
   const [mapPermission, setMapPermission] = useState(false);
@@ -418,10 +418,10 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && startLoadingTime > 0) {
       onFinishLoad();
     }
-  }, [loading]);
+  }, [loading, startLoadingTime, onFinishLoad]);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">

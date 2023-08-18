@@ -42,7 +42,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const { profile } = useAuthStore(['profile']);
-  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const [removeFromWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST);
 
@@ -205,10 +205,10 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   );
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && startLoadingTime > 0) {
       onFinishLoad();
     }
-  }, [loading]);
+  }, [loading, startLoadingTime, onFinishLoad]);
 
   return (
     <Box style={{ backgroundColor: 'white' }} flex={1}>

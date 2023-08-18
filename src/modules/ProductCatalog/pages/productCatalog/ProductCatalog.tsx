@@ -133,7 +133,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const { getItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
 
-  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const { WithoutInternet } = useCheckConnection({});
 
@@ -523,10 +523,10 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const DynamicComponent = safeArea ? SafeAreaView : Box;
 
   useEffect(() => {
-    if (!skeletonLoading) {
+    if (!skeletonLoading && startLoadingTime > 0) {
       onFinishLoad();
     }
-  }, [skeletonLoading]);
+  }, [skeletonLoading, onFinishLoad, startLoadingTime]);
 
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>

@@ -45,7 +45,7 @@ export const MyWalletContainer = ({ navigateBack }: MyWalletContainerProps) => {
   const [selectedBalance, setSelectedBalance] = useState<BalanceType>(BalanceType.ACTIVE);
   const [balanceVisible, setBalanceVisible] = useState(true);
   const { profile } = useAuthStore(['profile']);
-  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const [getCashback, { loading }] = useCashbackLazyQuery({
     context: { clientName: 'gateway' }, fetchPolicy: 'cache-and-network',
@@ -100,10 +100,10 @@ export const MyWalletContainer = ({ navigateBack }: MyWalletContainerProps) => {
   }, [getCashback, profile]);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && startLoadingTime > 0) {
       onFinishLoad();
     }
-  }, [loading]);
+  }, [loading, startLoadingTime, onFinishLoad]);
 
   const operationsFiltered = (filter: FilterOptions): CashbackQuery['cashback']['operations'] | undefined => {
     switch (filter) {

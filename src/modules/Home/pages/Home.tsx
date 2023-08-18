@@ -89,7 +89,9 @@ export const HomeScreen = () => {
     initial: countDownClockGlobal?.formattedValue,
   });
 
-  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
+  const [isLoadCompleted, setIsLoadCompleted] = useState<boolean>(false);
+
   const requestHome = useCallback(async () => {
     try {
       const { data: dataHome } = await getHome({
@@ -218,8 +220,12 @@ export const HomeScreen = () => {
   }, [requestConfig, requestCountdownClock, requestHome]);
 
   useEffect(() => {
-    initialRequest().finally(() => onFinishLoad());
+    initialRequest().finally(() => setIsLoadCompleted(true));
   }, [initialRequest]);
+
+  useEffect(() => {
+    if (isLoadCompleted && startLoadingTime > 0) onFinishLoad();
+  }, [isLoadCompleted, onFinishLoad, startLoadingTime]);
 
   useEffect(() => {
     if (countDownClockGlobal) {

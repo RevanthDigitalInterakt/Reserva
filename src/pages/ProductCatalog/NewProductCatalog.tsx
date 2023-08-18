@@ -46,17 +46,17 @@ function NewProductCatalog({ navigation, route }: Props) {
     [referenceId, offersPage],
   );
 
-  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
   const defaultFacets = useMemo(() => generateFacets({
     ...filters,
     reference,
   }), [filters, reference]);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && startLoadingTime > 0) {
       onFinishLoad();
     }
-  }, [loading]);
+  }, [loading, startLoadingTime, onFinishLoad]);
 
   useEffect(() => {
     onInit(SearchType.CATALOG);

@@ -40,11 +40,12 @@ const useController = (): IUseController => {
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const [hasDeleteAddressError, setHasDeleteAddressError] = useState(false);
   const { profile, onGetProfile } = useAuthStore(['profile', 'onGetProfile']);
+  const [isLoadCompleted, setIsLoadCompleted] = useState<boolean>(false);
   const [profileAddressRemove] = useProfileAddressRemoveMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
   const goBack = () => navigation.goBack();
-  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
   const requestAddressList = useCallback(async () => {
     try {
       setLoadingStatusBar(true);
@@ -54,9 +55,13 @@ const useController = (): IUseController => {
       ExceptionProvider.captureException(e);
     } finally {
       setLoadingStatusBar(false);
-      onFinishLoad();
+      setIsLoadCompleted(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (isLoadCompleted && startLoadingTime > 0) onFinishLoad();
+  }, [isLoadCompleted, onFinishLoad, startLoadingTime]);
 
   const openSuccessModal = useCallback(() => {
     setIsVisibleSuccessModal(true);

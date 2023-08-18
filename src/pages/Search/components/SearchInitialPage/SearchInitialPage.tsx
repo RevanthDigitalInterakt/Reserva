@@ -7,13 +7,13 @@ import { usePageLoadingStore } from '../../../../zustand/usePageLoadingStore/use
 
 function SearchInitialPage() {
   const { onSearch, loading } = useSearchStore(['onSearch', 'loading']);
-  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && startLoadingTime > 0) {
       onFinishLoad();
     }
-  }, [loading, onFinishLoad]);
+  }, [loading, onFinishLoad, startLoadingTime]);
 
   return (
     <ScrollView>

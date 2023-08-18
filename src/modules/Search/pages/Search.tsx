@@ -117,7 +117,7 @@ export const SearchScreen: React.FC<Props> = () => {
   const { primeActive, primeLPSearchTerms } = usePrimeInfo();
 
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
-  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const [{ collectionData, loadingCollection }, setCollectionData] = useState({
     collectionData: null,
@@ -610,10 +610,10 @@ export const SearchScreen: React.FC<Props> = () => {
   }, [EventProvider, products, searchTerm]);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && startLoadingTime > 0) {
       onFinishLoad();
     }
-  }, [loading]);
+  }, [loading, onFinishLoad, startLoadingTime]);
 
   return (
     <Box backgroundColor="white" flex={1}>

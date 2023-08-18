@@ -24,7 +24,7 @@ import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLo
 function EditProfileRefactor({ route }: TEditProfileProps) {
   const navigation = useNavigation();
   const [isLoading, setLoading] = useState<boolean>(true);
-  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const [modalsState, setModalsState] = useState<IModalStateSchema>({
     testingModal: {
@@ -60,10 +60,10 @@ function EditProfileRefactor({ route }: TEditProfileProps) {
   }, []);
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && startLoadingTime > 0) {
       onFinishLoad();
     }
-  }, [isLoading]);
+  }, [isLoading, onFinishLoad, startLoadingTime]);
 
   return (
     <SafeAreaView style={Styles.safeArea}>

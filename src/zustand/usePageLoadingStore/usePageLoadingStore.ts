@@ -13,9 +13,10 @@ type TRoutes =
   | 'WishList'
   | 'OrderList'
   | 'EditProfile'
-  | 'MyWallet'
+  | 'MY_CASHBACK_MY_WALLET'
   | 'AddressList'
   | 'Search'
+  | 'Offers'
   | 'Login';
 
 const routesArray: (TRoutes | undefined)[] = [
@@ -28,7 +29,8 @@ const routesArray: (TRoutes | undefined)[] = [
   'WishList',
   'OrderList',
   'EditProfile',
-  'MyWallet',
+  'MY_CASHBACK_MY_WALLET',
+  'Offers',
   'AddressList',
   'Search',
   'Login',
@@ -48,30 +50,12 @@ const initialState: TState = {
 export interface ILoadingStore {
   currentRoute: string | undefined;
   startLoadingTime: number;
-  arrRoutes: string[] | [];
   onStartLoad: (page: string | undefined) => void;
   onFinishLoad: () => void;
-  arrRoutesCheck: (page: TRoutes) => boolean;
 }
 
 const pageLoadingStore = create<ILoadingStore>((set, getState) => ({
   ...initialState,
-  arrRoutes: [],
-  arrRoutesCheck: (page) => {
-    const state = getState();
-    if (!page) return false;
-
-    const arr: string[] = state.arrRoutes;
-    const index = arr.indexOf(page);
-
-    if (index !== -1) {
-      arr.splice(index, 1);
-      return false;
-    }
-
-    arr.push(page);
-    return true;
-  },
   onStartLoad: (page) => {
     const state = getState();
     if (!page) return;
@@ -80,25 +64,21 @@ const pageLoadingStore = create<ILoadingStore>((set, getState) => ({
 
     if (page === state.currentRoute || !pageFind) return;
 
-    const verifyArrRoutes = state.arrRoutesCheck(page as TRoutes);
-
-    if (verifyArrRoutes) {
-      set(() => ({
-        currentRoute: page,
-        startLoadingTime: new Date().getTime(),
-      }));
-    }
+    set(() => ({
+      currentRoute: page,
+      startLoadingTime: new Date().getTime(),
+    }));
   },
   onFinishLoad: () => {
     const state = getState();
-    if (!state.currentRoute) return;
+    if (!state.startLoadingTime) return;
 
     const currTime = new Date().getTime();
 
     const timeElapsed = currTime - getState().startLoadingTime;
 
-    if (timeElapsed) {
-      const value = (timeElapsed / 100) / 10;
+    if (timeElapsed && state.currentRoute) {
+      const value = timeElapsed / 1000;
       try {
         EventProvider.logEvent('page_load_time', {
           page: state.currentRoute,

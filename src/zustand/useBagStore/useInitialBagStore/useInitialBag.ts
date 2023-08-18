@@ -8,7 +8,7 @@ import { usePageLoadingStore } from '../../usePageLoadingStore/usePageLoadingSto
 const useInitialBag = () => {
   const { orderForm } = useCart();
   const { actions, topBarLoading } = useBagStore(['actions', 'topBarLoading']);
-  const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const handleInitializeBag = useCallback(async () => {
     if (!orderForm?.orderFormId) {
@@ -30,10 +30,10 @@ const useInitialBag = () => {
   }, [handleInitializeBag]);
 
   useEffect(() => {
-    if (!topBarLoading) {
+    if (!topBarLoading && startLoadingTime > 0) {
       onFinishLoad();
     }
-  }, [topBarLoading, onFinishLoad]);
+  }, [topBarLoading, onFinishLoad, startLoadingTime]);
 };
 
 export default useInitialBag;
