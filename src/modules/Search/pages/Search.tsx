@@ -274,7 +274,8 @@ export const SearchScreen: React.FC<Props> = () => {
     });
 
     setShowAllProducts(false);
-  }, [getSuggestions,
+  }, [
+    getSuggestions,
     setShowAllProducts,
     getFetchPolicyPerKey,
     debouncedSearchTerm,
@@ -750,7 +751,7 @@ export const SearchScreen: React.FC<Props> = () => {
           </>
           <>{!suggestionsFound && <ProductNotFound />}</>
         </ScrollView>
-      ) : null}
+      ) : <></>}
 
       {products && products?.length > 0 ? (
         <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
