@@ -29,6 +29,7 @@ import type { RootStackParamList } from '../../../routes/StackNavigator';
 import type { IAddressData } from './interface/IAddressData';
 import testProps from '../../../utils/testProps';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 import { useProfileAddressRemoveMutation } from '../../../base/graphql/generated';
 
 type TAddressListProps = StackScreenProps<RootStackParamList, 'AddressList'>;
@@ -43,12 +44,14 @@ export default function ListAddress({
   const animationValue = useRef(new Animated.Value(0)).current;
 
   const { profile, onGetProfile } = useAuthStore(['profile', 'onGetProfile']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const [showContent, setShowContent] = useState(false);
   const [addressData, setAddressData] = useState<IAddressData[]>([]);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [addressID, setAddressID] = useState('');
+  const [isLoadCompleted, setIsLoadCompleted] = useState<boolean>(false);
 
   const toggleListItem = useCallback(() => {
     Animated.timing(animationValue, {
@@ -119,8 +122,13 @@ export default function ListAddress({
       ExceptionProvider.captureException(e);
     } finally {
       setLoading(false);
+      setIsLoadCompleted(true);
     }
   }, [onGetProfile]);
+
+  useEffect(() => {
+    if (isLoadCompleted && startLoadingTime > 0) onFinishLoad();
+  }, [isLoadCompleted, onFinishLoad, startLoadingTime]);
 
   const onDeleteAddress = useCallback(async (id: string) => {
     try {

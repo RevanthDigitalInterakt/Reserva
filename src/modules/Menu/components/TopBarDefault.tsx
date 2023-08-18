@@ -5,6 +5,7 @@ import { platformType } from '../../../utils/platformType';
 import { TopBar } from '../../../components/TopBar';
 import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
 import EventProvider from '../../../utils/EventProvider';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 export const TopBarDefault: React.FC<{
   showShadow?: Boolean;
@@ -12,6 +13,7 @@ export const TopBarDefault: React.FC<{
 }> = ({ showShadow = true, loading = false }) => {
   const navigation = useNavigation();
   const { allItemsQuantity } = useBagStore(['allItemsQuantity']);
+  const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
 
   return (
     <TopBar
@@ -33,6 +35,7 @@ export const TopBarDefault: React.FC<{
         onPress: () => {
           EventProvider.logEvent('header_search_click', { open: 1 });
           navigation.navigate('SearchMenu');
+          onStartLoad('Search');
         },
       }}
       rightButton2={{

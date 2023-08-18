@@ -22,6 +22,7 @@ import { createNavigateToProductParams } from '../../../utils/createNavigateToPr
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { ProductHorizontalListCard } from '../../../components/ProductHorizontalListCard/ProductHorizontalListCard';
 import { ModalBag } from '../../../components/ModalBag/ModalBag';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 interface IData {
   loading: boolean;
@@ -41,6 +42,7 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const { profile } = useAuthStore(['profile']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const [removeFromWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST);
 
@@ -201,6 +203,12 @@ export const WishList: React.FC<Props> = ({ navigation }) => {
       }
     }, [profile?.authCookie]),
   );
+
+  useEffect(() => {
+    if (!loading && startLoadingTime > 0) {
+      onFinishLoad();
+    }
+  }, [loading, startLoadingTime, onFinishLoad]);
 
   return (
     <Box style={{ backgroundColor: 'white' }} flex={1}>

@@ -21,6 +21,7 @@ import {
 } from '../../../base/graphql/generated';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 type Props = StackScreenProps<RootStackParamList, 'DeliveryScreen'>;
 
@@ -33,6 +34,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
     identifyCustomer,
   } = useCart();
   const { profile } = useAuthStore(['profile']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const [Permission, setPermission] = useState(false);
   const [mapPermission, setMapPermission] = useState(false);
@@ -415,6 +417,12 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
     }
   };
 
+  useEffect(() => {
+    if (!loading && startLoadingTime > 0) {
+      onFinishLoad();
+    }
+  }, [loading, startLoadingTime, onFinishLoad]);
+
   return (
     <SafeAreaView flex={1} backgroundColor="white">
       <TopBarBackButton
@@ -432,7 +440,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
               color="preto"
               fontFamily="reservaSerifRegular"
               fontSize={28}
-              lineHeight={32}
+              style={{ lineHeight: 32 }}
             >
               Entrega
             </Typography>
@@ -444,7 +452,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                 color="preto"
                 fontFamily="nunitoRegular"
                 fontSize={15}
-                lineHeight={18}
+                style={{ lineHeight: 18 }}
               >
                 Escolha abaixo se você prefere receber o produto no conforto do
                 seu lar ou retirar em uma de nossas lojas
@@ -452,7 +460,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                   color="verdeSucesso"
                   fontFamily="nunitoRegular"
                   fontSize={15}
-                  lineHeight={18}
+                  style={{ lineHeight: 18 }}
                 >
                   {' gratuitamente.'}
                 </Typography>
@@ -478,8 +486,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                   color={!selectMethodDelivery ? 'white' : 'preto'}
                   fontFamily="nunitoRegular"
                   fontSize={11}
-                  letterSpacing={1.6}
-                  lineHeight={24}
+                  style={{ lineHeight: 24, letterSpacing: 1.6 }}
                 >
                   RECEBER EM CASA
                 </Typography>
@@ -505,8 +512,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                     color={selectMethodDelivery ? 'white' : 'preto'}
                     fontFamily="nunitoRegular"
                     fontSize={11}
-                    letterSpacing={1.6}
-                    lineHeight={14}
+                    style={{ lineHeight: 14, letterSpacing: 1.6 }}
                   >
                     RETIRAR NA LOJA
                   </Typography>
@@ -514,9 +520,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                     color="verdeSucesso"
                     fontFamily="nunitoRegular"
                     fontSize={11}
-                    style={{ textAlign: 'center' }}
-                    letterSpacing={1.6}
-                    lineHeight={14}
+                    style={{ textAlign: 'center', lineHeight: 14, letterSpacing: 1.6 }}
                   >
                     (GRÁTIS)
                   </Typography>

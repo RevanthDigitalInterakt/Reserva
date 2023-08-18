@@ -8,6 +8,7 @@ import type { IAddress, IEditAddress, IProfileData } from '../../interface';
 import { useProfileAddressRemoveMutation } from '../../../../base/graphql/generated';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
+import { usePageLoadingStore } from '../../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 interface IUseController {
   goBack: () => void;
@@ -39,11 +40,12 @@ const useController = (): IUseController => {
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const [hasDeleteAddressError, setHasDeleteAddressError] = useState(false);
   const { profile, onGetProfile } = useAuthStore(['profile', 'onGetProfile']);
+  const [isLoadCompleted, setIsLoadCompleted] = useState<boolean>(false);
   const [profileAddressRemove] = useProfileAddressRemoveMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
   const goBack = () => navigation.goBack();
-
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
   const requestAddressList = useCallback(async () => {
     try {
       setLoadingStatusBar(true);
@@ -53,8 +55,13 @@ const useController = (): IUseController => {
       ExceptionProvider.captureException(e);
     } finally {
       setLoadingStatusBar(false);
+      setIsLoadCompleted(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (isLoadCompleted && startLoadingTime > 0) onFinishLoad();
+  }, [isLoadCompleted, onFinishLoad, startLoadingTime]);
 
   const openSuccessModal = useCallback(() => {
     setIsVisibleSuccessModal(true);

@@ -11,6 +11,7 @@ import Order from '../Components/Order';
 import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 const OrderList = () => {
   const { searchNewOrders } = useCart();
@@ -21,6 +22,7 @@ const OrderList = () => {
   const navigation = useNavigation();
 
   const { profile } = useAuthStore(['profile']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const fetchOrders = async () => {
     if (!profile?.email || !profile?.authCookie) return;
@@ -56,15 +58,21 @@ const OrderList = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (!loading && startLoadingTime > 0) {
+      onFinishLoad();
+    }
+  }, [loading, onFinishLoad, startLoadingTime]);
+
   return (
     <>
-      <SafeAreaView flex={1} backgroundColor="white">
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
         <TopBarBackButton loading={loading} showShadow />
 
         {ordersList && ordersList.length > 0 && (
           <FlatList
             onEndReached={() => {
-              if (ordersList.length != totalOrders) {
+              if (ordersList.length !== totalOrders) {
                 fetchOrders();
               }
             }}
@@ -112,7 +120,7 @@ const OrderList = () => {
         )}
 
         {!loading && ordersList.length === 0 && (
-          <Box flex={1} alignItems="center" paddingTop="60%">
+          <Box flex={1} alignItems="center" style={{ paddingTop: '60%' }}>
             <Box mx={37}>
               <Typography fontFamily="reservaSerifRegular" fontSize={23}>
                 Você ainda não tem pedidos realizados :(
