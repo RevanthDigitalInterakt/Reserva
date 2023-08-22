@@ -10,7 +10,6 @@ export function AppRouting() {
   return (
     <RootStack.Navigator
       initialRouteName="Main"
-      mode="modal"
       screenOptions={{ headerShown: false }}
     >
       <RootStack.Screen
@@ -23,6 +22,7 @@ export function AppRouting() {
         name="Menu"
         options={horizontalAnimationBackwards}
         component={Menu}
+        
       />
     </RootStack.Navigator>
   );

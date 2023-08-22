@@ -13,8 +13,8 @@ import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavig
 import { EditPassword } from '../modules/Profile/pages/EditPassword';
 import {
   CEPList,
-  CepsInfo,
-  SearchBy,
+  type CepsInfo,
+  type SearchBy,
 } from '../modules/ChangeRegionalization/pages/CEPList';
 import { AccountDeletedSuccessfully } from '../modules/Profile/pages/AccountDeletedSuccessfully';
 
@@ -173,7 +173,7 @@ export function MainStackScreen() {
       detachInactiveScreens
       screenOptions={{ headerShown: false }}
     >
-      <MainStack.Screen name="HomeTabs" component={HomeTabs} />
+      <MainStack.Screen name="HomeTabs" component={HomeTabs}  />
 
       {flows.map((flow: Flow) => (
         <MainStack.Screen

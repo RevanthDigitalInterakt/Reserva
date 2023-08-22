@@ -16,11 +16,12 @@ const Tab = createBottomTabNavigator();
 
 export const HomeTabs = () => (
   <SafeAreaView
-    style={{ backgroundColor: theme.colors.white }}
-    flex={1}
+    style={{ flex: 1, backgroundColor: theme.colors.white }}
     testID="com.usereserva:id/home_tabs_buttons"
   >
-    <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
+    <Tab.Navigator
+      tabBar={(props) => <TabBar {...props} />}
+      screenOptions={{ headerShown: false }}>
       <Tab.Screen
         name="Home"
         component={HomeScreen}
