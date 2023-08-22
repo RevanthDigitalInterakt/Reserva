@@ -155,14 +155,6 @@ dependencies {
     // Responsys dependencies
     implementation 'com.google.firebase:firebase-messaging:23.2.0'
 
-    // For animated GIF support
-    implementation 'com.facebook.fresco:animated-gif:3.0.0'
-
-    // For WebP support, including animated WebP
-    implementation 'com.facebook.fresco:animated-webp:3.0.0'
-
-    // For WebP support, without animations
-    implementation 'com.facebook.fresco:webpsupport:3.0.0'
 
     //For Lottie Support
     implementation "com.airbnb.android:lottie:5.2.0"
@@ -189,7 +181,6 @@ dependencies {
     }
     
 
-    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {
