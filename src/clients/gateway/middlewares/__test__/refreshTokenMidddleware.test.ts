@@ -62,8 +62,6 @@ describe('refreshTokenMidddleware', () => {
 
     const result = await refreshTokenMiddleware(input);
 
-    console.log('result >>>', result);
-
     expect(result).toBe(false);
     expect(trackApolloError).toHaveBeenCalled();
     expect(navigateUsingRef).toHaveBeenCalled();
