@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.0.13
+
+- [10597 - Forçar o Login após expiração/ausencia de token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10597)
+
+---
+
 ### 2.0.12
 
 - [SRN-15155 Meus Endereços - Editar Endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15156)

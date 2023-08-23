@@ -41,6 +41,30 @@ export interface IAuthStore {
   onSignOut: () => Promise<void>;
 }
 
+export async function onRefreshToken() {
+  const needRefreshToken = await checkIfNeedRefreshToken();
+
+  if (!needRefreshToken) return false;
+
+  const client = getApolloClient();
+
+  const { data } = await client.mutate<RefreshTokenMutation, RefreshTokenMutationVariables>({
+    context: { clientName: 'gateway' },
+    mutation: RefreshTokenDocument,
+    fetchPolicy: 'no-cache',
+  });
+
+  if (!data?.refreshToken?.token || !data?.refreshToken?.authCookie) {
+    throw new Error('Unauthorized');
+  }
+
+  await setAsyncStorageItem('Auth:Token', data.refreshToken.token);
+  await setAsyncStorageItem('Auth:Cookie', data.refreshToken.authCookie);
+  await setAsyncStorageItem('Auth:TokenRefreshTime', createTokenExpireDate());
+
+  return true;
+}
+
 const authStore = create<IAuthStore>((set, getState) => ({
   initialized: false,
   profile: undefined,
@@ -72,27 +96,7 @@ const authStore = create<IAuthStore>((set, getState) => ({
   },
   onRefreshToken: async () => {
     try {
-      const needRefreshToken = await checkIfNeedRefreshToken();
-
-      if (!needRefreshToken) return false;
-
-      const client = getApolloClient();
-
-      const { data } = await client.mutate<RefreshTokenMutation, RefreshTokenMutationVariables>({
-        context: { clientName: 'gateway' },
-        mutation: RefreshTokenDocument,
-        fetchPolicy: 'no-cache',
-      });
-
-      if (!data?.refreshToken?.token || !data?.refreshToken?.authCookie) {
-        throw new Error('Unauthorized');
-      }
-
-      await setAsyncStorageItem('Auth:Token', data.refreshToken.token);
-      await setAsyncStorageItem('Auth:Cookie', data.refreshToken.authCookie);
-      await setAsyncStorageItem('Auth:TokenRefreshTime', createTokenExpireDate());
-
-      return true;
+      return await onRefreshToken();
     } catch (err) {
       ExceptionProvider.captureException(
         err,

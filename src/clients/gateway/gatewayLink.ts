@@ -1,4 +1,4 @@
-import { HttpLink, Operation } from '@apollo/client';
+import { HttpLink, Observable, Operation } from '@apollo/client';
 import { Config } from 'react-native-config';
 import { setContext } from '@apollo/client/link/context';
 import { v4 } from 'uuid';
@@ -6,10 +6,8 @@ import { onError } from '@apollo/client/link/error';
 import { print } from 'graphql';
 import type { GraphQLErrors } from '@apollo/client/errors';
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
-import { navigateUsingRef } from '../../utils/navigationRef';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
-
-const INVALID_AUTHORIZATION_ERROR = 'invalid authorization';
+import { refreshTokenMiddleware } from './middlewares/refreshTokenMidddleware';
 
 function extractOperationTransactionId(operation: Operation) {
   try {
@@ -22,7 +20,7 @@ function extractOperationTransactionId(operation: Operation) {
   }
 }
 
-function trackApolloError(operation: Operation, errors: GraphQLErrors, response?: unknown) {
+export function trackApolloError(operation: Operation, errors: GraphQLErrors, response?: unknown) {
   try {
     const errorMessage = `Gateway Operation Error [${operation.operationName}]`;
     const transactionId = extractOperationTransactionId(operation);
@@ -65,19 +63,28 @@ const errorLinks = onError(({
   response,
 }) => {
   if (graphQLErrors?.length) {
-    const hasAuthenticationError = graphQLErrors.some((item) => (
-      (item.message || '').toLowerCase() === INVALID_AUTHORIZATION_ERROR
-    ));
+    return new Observable((observer) => {
+      refreshTokenMiddleware({
+        graphQLErrors,
+        forward,
+        operation,
+        response,
+      }).then((retry) => {
+        if (!retry) return;
 
-    trackApolloError(operation, graphQLErrors, response);
+        const subscriber = {
+          next: observer.next.bind(observer),
+          error: observer.error.bind(observer),
+          complete: observer.complete.bind(observer),
+        };
 
-    if (hasAuthenticationError) {
-      navigateUsingRef('Login', { invalidSession: true });
-      return;
-    }
+        // Retry last failed request
+        return forward(operation).subscribe(subscriber);
+      });
+    });
   }
 
-  forward(operation);
+  return forward(operation);
 });
 
 const gatewayLink = errorLinks.concat(
