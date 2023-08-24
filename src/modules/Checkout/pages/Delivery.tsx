@@ -371,13 +371,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
   }, [orderForm]);
 
   const handlePressBackButton = () => {
-    if (comeFrom === 'Login') {
-      navigation.navigate('BagScreen', {});
-
-      return;
-    }
-
-    navigation.goBack();
+    navigation.navigate('BagScreen', { needRefreshing: true });
   };
 
   const feedbackErrorAlert = () => Alert.alert('Erro', 'Não foi possível incluir endereço\n Tente Novamente');

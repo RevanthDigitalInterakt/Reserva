@@ -39,6 +39,7 @@ export interface IBagStore {
     REFETCH_ORDER_FORM: () => Promise<void>;
     REFRESH_ORDER_FORM: () => Promise<void>;
     RESET_ORDER_FORM: () => Promise<void>;
+    CREATE_NEW_ORDER_FORM: () => Promise<void>;
     COPY_ORDERFORM: () => boolean;
     ADD_SELLER_COUPON: (coupon: string) => Promise<void>;
     ADD_DISCOUNT_COUPON: (coupon: string) => Promise<void>;

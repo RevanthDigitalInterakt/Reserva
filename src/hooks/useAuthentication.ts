@@ -53,13 +53,15 @@ export function useAuthentication({ closeModal }: IParamsHook) {
 
       Keyboard.dismiss();
 
-      await onSignIn(email, password);
+      const profile = await onSignIn(email, password);
 
       if (closeModal) {
         closeModal();
-      } else {
-        navigation?.navigate('Home');
+        return profile;
       }
+
+      navigation?.navigate('Home');
+      return profile;
     } catch (err) {
       ExceptionProvider.captureException(err);
       validateCredentials();
@@ -76,16 +78,16 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       const email = loginCredentials.username.trim().toLowerCase();
       const { password } = loginCredentials;
 
-      await doSignIn(email, password);
+      const profile = await doSignIn(email, password);
 
       EventProvider.logEvent('login', {
         custumer_email: email,
       });
 
       setIsLoadingEmail(false);
-    } else {
-      validateCredentials();
+      return profile;
     }
+    return validateCredentials();
   }, [emailIsValid, passwordIsValid, loginCredentials, doSignIn, validateCredentials]);
 
   const handleLogout = useCallback(async () => {

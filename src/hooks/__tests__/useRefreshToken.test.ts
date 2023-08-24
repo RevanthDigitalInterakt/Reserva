@@ -1,6 +1,7 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import type { AppStateStatus } from 'react-native';
 import { handleCheckAppState, useRefreshToken } from '../useRefreshToken';
+import { useRemoteConfig } from '../useRemoteConfig';
 
 const mockOnInit = jest.fn();
 const mockOnRefreshToken = jest.fn();
@@ -9,8 +10,13 @@ jest.mock('../../zustand/useAuth/useAuthStore', () => ({
   useAuthStore: () => ({ onInit: mockOnInit, onRefreshToken: mockOnRefreshToken }),
 }));
 
+jest.mock('../useRemoteConfig', () => ({
+  useRemoteConfig: () => ({ initialized: true }),
+}));
+
 describe('useRefreshToken test', () => {
   it('should call onRefreshToken and onInit when mounted', async () => {
+    renderHook(() => useRemoteConfig());
     renderHook(() => useRefreshToken());
 
     await act(async () => {

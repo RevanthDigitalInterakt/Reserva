@@ -36,6 +36,7 @@ import { useProfileLazyQuery, useProfileUpdateMutation } from '../../../../base/
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
+import { useNavigationToDelivery } from '../../../../hooks/useNavigationToDelivery';
 
 interface IFormEditProfileComponentProps {
   isRegister: boolean;
@@ -65,6 +66,8 @@ function FormEditProfileComponent({
     context: { clientName: 'gateway' },
     fetchPolicy: 'no-cache',
   });
+
+  const { handleNavigateToDelivery } = useNavigationToDelivery();
 
   const handleSubmitForm = useCallback(
     async (formValues: IFormEditProfileSchema): Promise<void> => {
@@ -102,16 +105,14 @@ function FormEditProfileComponent({
         },
       });
 
-      await onGetProfile();
+      const profileData = await onGetProfile();
 
       if (isRegister) {
-        navigation.navigate('BagScreen', { isProfileComplete: true });
-
+        handleNavigateToDelivery(profileData);
         return;
       }
 
       handleToogleLoading(false);
-
       navigation.goBack();
     }, [],
   );
