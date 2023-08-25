@@ -40,6 +40,7 @@ import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { Box } from '../../../../components/Box/Box';
 import { TextField } from '../../../../components/TextField/TextField';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
+import { useNavigationToDelivery } from '../../../../hooks/useNavigationToDelivery';
 
 interface IFormEditProfileComponentProps {
   isRegister: boolean;
@@ -70,8 +71,11 @@ function FormEditProfileComponent({
     fetchPolicy: 'no-cache',
   });
 
-  const handleSubmitForm = useCallback(async (formValues: IFormEditProfileSchema): Promise<void> => {
-    handleToogleLoading(true);
+  const { handleNavigateToDelivery } = useNavigationToDelivery();
+
+  const handleSubmitForm = useCallback(
+    async (formValues: IFormEditProfileSchema): Promise<void> => {
+      handleToogleLoading(true);
 
     const userDateUpload: IUserDataUpload = generatePayloadToUploadUserData(formValues);
     let imageRef = formValues.profileImage.initialFilePath || 'null';
@@ -105,18 +109,17 @@ function FormEditProfileComponent({
       },
     });
 
-    await onGetProfile();
+      const profileData = await onGetProfile();
 
-    if (isRegister) {
-      navigation.navigate('BagScreen', { isProfileComplete: true });
+      if (isRegister) {
+        handleNavigateToDelivery(profileData);
+        return;
+      }
 
-      return;
-    }
-
-    handleToogleLoading(false);
-
-    navigation.goBack();
-  }, []);
+      handleToogleLoading(false);
+      navigation.goBack();
+    }, [],
+  );
 
   const editProfileForm = useFormik<IFormEditProfileSchema>({
     initialValues: FormEditProfileInitialValues,

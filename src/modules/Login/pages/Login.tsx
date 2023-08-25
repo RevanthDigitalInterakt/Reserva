@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
 import {
-  Alert,
-  BackHandler, SafeAreaView, ScrollView,
+  Alert, SafeAreaView, ScrollView,
+  BackHandler,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as Yup from 'yup';
@@ -17,6 +17,9 @@ import { Box } from '../../../components/Box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import { Button } from '../../../components/Button';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import { useNavigationToDelivery } from '../../../hooks/useNavigationToDelivery';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
+import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -24,7 +27,9 @@ export const LoginScreen = ({
   route,
   navigation,
 }: Props) => {
-  const { comeFrom, previousPage } = route.params || {};
+  const { comeFrom, previousPage, invalidSession } = route.params || {};
+
+  const skipHomePage = comeFrom === 'BagScreen' ? () => { } : undefined;
 
   const {
     handleLogin,
@@ -35,9 +40,55 @@ export const LoginScreen = ({
     loginCredentials,
     setPasswordIsValid,
     setLoginCredentials,
-  } = useAuthentication({});
+  } = useAuthentication({
+    closeModal: skipHomePage,
+  });
+
+  const { actions } = useBagStore(['actions']);
 
   const { onSignOut } = useAuthStore(['onSignOut']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
+
+  const {
+    handleNavigateToDelivery,
+    setLoadingDelivery,
+    loadingDelivery,
+  } = useNavigationToDelivery();
+
+  const afterLogin = useCallback(async (profile) => {
+    if (comeFrom === 'Profile') {
+      await actions.REFETCH_ORDER_FORM();
+      BackHandler.addEventListener('hardwareBackPress', () => {
+        navigation.navigate('Home');
+        return true;
+      });
+    }
+
+    if (comeFrom === 'BagScreen') {
+      setLoadingDelivery(true);
+      return handleNavigateToDelivery(profile);
+    }
+
+    if (invalidSession) {
+      await actions.REFETCH_ORDER_FORM();
+    }
+  }, [invalidSession,
+    comeFrom,
+    actions,
+    navigation,
+    setLoadingDelivery,
+    handleNavigateToDelivery]);
+
+  const doLogin = useCallback(async () => {
+    try {
+      const profile = await handleLogin();
+      if (profile) {
+        afterLogin(profile);
+      }
+    } catch (e) {
+      ExceptionProvider.captureException(e);
+    }
+  }, [afterLogin, handleLogin]);
 
   useEffect(() => {
     if (comeFrom === 'Profile') {
@@ -82,12 +133,18 @@ export const LoginScreen = ({
     ClientDelivery();
   }, []);
 
+  useEffect(() => {
+    if (!loadingSignIn && startLoadingTime > 0) {
+      onFinishLoad();
+    }
+  }, [loadingSignIn, startLoadingTime, onFinishLoad]);
+
   return (
     <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
       <HeaderBanner
         imageHeader={images.headerLogin}
         onClickGoBack={handleNavigatePreviousPage}
-        loading={isLoadingEmail}
+        loading={isLoadingEmail || loadingDelivery}
       />
       <ScrollView
         {...testProps('com.usereserva:id/login_scrollview')}
@@ -163,14 +220,14 @@ export const LoginScreen = ({
                 </TouchableOpacity>
               </Box>
               {loginCredentials.hasError && (
-              <Typography
-                color="vermelhoAlerta"
-                fontFamily="nunitoRegular"
-                fontSize={13}
-                {...testProps('com.usereserva:id/login-error')}
-              >
-                {loginCredentials.showMessageError}
-              </Typography>
+                <Typography
+                  color="vermelhoAlerta"
+                  fontFamily="nunitoRegular"
+                  fontSize={13}
+                  {...testProps('com.usereserva:id/login-error')}
+                >
+                  {loginCredentials.showMessageError}
+                </Typography>
               )}
             </Box>
           </Box>
@@ -182,8 +239,8 @@ export const LoginScreen = ({
             title="ENTRAR"
             inline
             variant="primarioEstreitoOutline"
-            disabled={loadingSignIn || isLoadingEmail}
-            onPress={handleLogin}
+            disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
+            onPress={doLogin}
           />
 
           <Box
@@ -194,7 +251,7 @@ export const LoginScreen = ({
             alignItems="center"
           >
             <Box
-              borderWidth={1}
+              style={{ borderWidth: 1 }}
               marginLeft="xxs"
               marginRight="nano"
               flex={1}
@@ -204,7 +261,7 @@ export const LoginScreen = ({
               Ainda não possui uma conta?
             </Typography>
             <Box
-              borderWidth={1}
+              style={{ borderWidth: 1 }}
               marginLeft="nano"
               marginRight="xxs"
               flex={1}
@@ -217,7 +274,7 @@ export const LoginScreen = ({
             title="CADASTRE-SE"
             inline
             variant="primarioEstreito"
-            disabled={loadingSignIn || isLoadingEmail}
+            disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
             onPress={() => {
               navigation.navigate('RegisterEmail', {});
             }}

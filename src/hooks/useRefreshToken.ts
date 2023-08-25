@@ -5,6 +5,7 @@ import {
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
 import { RefreshTokenError } from '../zustand/useAuth/types/refreshTokenError';
 import { navigateUsingRef } from '../utils/navigationRef';
+import { useRemoteConfig } from './useRemoteConfig';
 
 type TAppState = 'active' | 'background' | 'inactive' | 'unknown' | 'extension';
 
@@ -17,6 +18,9 @@ export function useRefreshToken() {
   const {
     onInit, onRefreshToken,
   } = useAuthStore(['onInit', 'onRefreshToken']);
+
+  const { initialized } = useRemoteConfig();
+
   const [loadingRefreshToken, setLoadingRefreshToken] = useState(false);
   const appState = useRef(AppState.currentState);
 
@@ -48,14 +52,18 @@ export function useRefreshToken() {
     appState.current = nextAppState;
   }, [loadingRefreshToken, appState, onRefreshToken, setLoadingRefreshToken]);
 
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
-    handleGetUserProfile();
+    if (initialized) {
+      handleGetUserProfile();
+      AppState.addEventListener('change', handleAppStateChange);
 
-    AppState.addEventListener('change', handleAppStateChange);
-
-    return () => {
+      return () => {
       // TODO: use "remove" method returned by addEventListener when updating react-native to 0.65+
-      AppState.removeEventListener('change', handleAppStateChange);
-    };
-  }, []);
+        AppState.removeEventListener('change', handleAppStateChange);
+      };
+    }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialized]);
 }

@@ -232,7 +232,9 @@ export function MenuProfile() {
                   title="Meus endereços"
                   descr="Consulte e adicione seus endereços"
                   icon="Pin"
-                  onPress={() => navigation.navigate('AddressList')}
+                  onPress={() => {
+                    navigation.navigate('AddressList');
+                  }}
                 />
               </Box>
 

@@ -13,6 +13,7 @@ import { Box } from '../../../components/Box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import { loadingSpinner } from '../../../../assets/animations';
 import { Button } from '../../../components/Button';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 function OrderList() {
   const { searchNewOrders } = useCart();
@@ -23,6 +24,7 @@ function OrderList() {
   const navigation = useNavigation();
 
   const { profile } = useAuthStore(['profile']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const fetchOrders = async () => {
     if (!profile?.email || !profile?.authCookie) return;
@@ -58,6 +60,12 @@ function OrderList() {
     });
   }, []);
 
+  useEffect(() => {
+    if (!loading && startLoadingTime > 0) {
+      onFinishLoad();
+    }
+  }, [loading, onFinishLoad, startLoadingTime]);
+
   return (
     <SafeAreaView flex={1} backgroundColor="white">
       <TopBarBackButton loading={loading} showShadow />
@@ -65,7 +73,7 @@ function OrderList() {
       {ordersList && ordersList.length > 0 && (
       <FlatList
         onEndReached={() => {
-          if (ordersList.length != totalOrders) {
+          if (ordersList.length !== totalOrders) {
             fetchOrders();
           }
         }}

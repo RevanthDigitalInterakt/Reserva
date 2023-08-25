@@ -38,6 +38,7 @@ import ModalSignUpComplete from '../component/ModalSignUpComplete';
 import { durationToTimeString } from '../../../utils/durationToTimeString';
 import { Box } from '../../../components/Box/Box';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -87,6 +88,9 @@ export function HomeScreen() {
     countDown: true,
     initial: countDownClockGlobal?.formattedValue,
   });
+
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
+  const [isLoadCompleted, setIsLoadCompleted] = useState<boolean>(false);
 
   const requestHome = useCallback(async () => {
     try {
@@ -216,8 +220,12 @@ export function HomeScreen() {
   }, [requestConfig, requestCountdownClock, requestHome]);
 
   useEffect(() => {
-    initialRequest();
+    initialRequest().finally(() => setIsLoadCompleted(true));
   }, [initialRequest]);
+
+  useEffect(() => {
+    if (isLoadCompleted && startLoadingTime > 0) onFinishLoad();
+  }, [isLoadCompleted, onFinishLoad, startLoadingTime]);
 
   useEffect(() => {
     if (countDownClockGlobal) {

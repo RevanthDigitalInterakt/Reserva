@@ -105,4 +105,5 @@ export const onlyGaEvents = [
   'view_search_results',
   'payment_step',
   'add_payment_info_test',
+  'page_load_time',
 ];

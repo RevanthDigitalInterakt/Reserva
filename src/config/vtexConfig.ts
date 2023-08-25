@@ -63,12 +63,19 @@ const instance7 = axios.create({
   headers,
 });
 
+const instance8 = axios.create({
+  baseURL: 'https://appqa.usereserva.com',
+  timeout: 30000,
+  headers,
+});
+
 instance.interceptors.request.use((config) => applyCookieHeader(config));
 instance2.interceptors.request.use((config) => applyCookieHeader(config));
 instance3.interceptors.request.use((config) => applyCookieHeader(config));
 instance4.interceptors.request.use((config) => applyCookieHeader(config));
 instance5.interceptors.request.use((config) => applyCookieHeader(config));
 instance7.interceptors.request.use((config) => applyCookieHeader(config));
+instance8.interceptors.request.use((config) => applyCookieHeader(config));
 
 export {
   instance,

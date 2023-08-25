@@ -61,8 +61,28 @@ import { SearchBar } from '../../../components/SearchBar/SearchBar';
 import { Typography } from '../../../components/Typography/Typography';
 import { Picker } from '../../../components/Picker/Picker';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 const deviceHeight = Dimensions.get('window').height;
+
+const ProductNotFound = () => (
+  <Box
+    bg="white"
+    height={deviceHeight}
+    mt="xxl"
+    alignItems="center"
+    px="micro"
+  >
+    <Box mb="sm">
+      <IconComponent width={120} height={120} icon="searchNotFound" />
+    </Box>
+    <Box>
+      <Typography fontFamily="nunitoRegular" fontSize={13} textAlign="center">
+        Não encontramos produtos que corresponde a sua busca.
+      </Typography>
+    </Box>
+  </Box>
+);
 
 type Props = StackScreenProps<RootStackParamList, 'SearchScreen'>;
 
@@ -101,6 +121,7 @@ export const SearchScreen: React.FC<Props> = () => {
   const { primeActive, primeLPSearchTerms } = usePrimeInfo();
 
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const [{ collectionData, loadingCollection }, setCollectionData] = useState({
     collectionData: null,
@@ -199,6 +220,72 @@ export const SearchScreen: React.FC<Props> = () => {
     return null;
   };
 
+  const [
+    getSuggestions,
+    { data: suggestionsData },
+  ] = useLazyQuery(searchSuggestionsAndProductSearch, {
+    variables: {
+      salesChannel: '4',
+    },
+  });
+
+  /**
+   * @name handleCheckSearchTerm
+   * @description NewSearch for specific terms in the backend,
+   * and checks whether it should be opened in the app or browser.
+   * If it is to be opened in the browser and it is on android, it
+   * will use the DeepLinkPathModule module to open a new instance
+   * of the browser and close the current app. On IOS it will only
+   * open the link in the browser.
+   * */
+  const handleCheckSearchTerm = useCallback(async () => {
+    const term = (debouncedSearchTerm || '').toLowerCase().trim();
+
+    if (primeActive && primeLPSearchTerms.includes(term)) {
+      Keyboard.dismiss();
+      navigation.navigate('PrimeLP');
+      return;
+    }
+
+    const { data: dataSearch } = await getCheckSearchRedirect({
+      variables: { q: debouncedSearchTerm },
+      fetchPolicy: getFetchPolicyPerKey('checkSearchRedirect'),
+    });
+
+    if (dataSearch?.checkSearchRedirect) {
+      await DeepLinkPathModule.openUrlInBrowser({
+        closeCurrentAppInstance: true,
+        url: dataSearch.checkSearchRedirect,
+      });
+    }
+  }, [
+    debouncedSearchTerm,
+    primeActive,
+    primeLPSearchTerms,
+    getCheckSearchRedirect,
+    getFetchPolicyPerKey,
+    navigation,
+  ]);
+
+  const handleDebouncedSearchTerm = useCallback(async () => {
+    await handleCheckSearchTerm();
+
+    await getSuggestions({
+      variables: {
+        fullText: debouncedSearchTerm,
+      },
+      fetchPolicy: getFetchPolicyPerKey('searchSuggestionsAndProductSearch'),
+    });
+
+    setShowAllProducts(false);
+  }, [
+    getSuggestions,
+    setShowAllProducts,
+    getFetchPolicyPerKey,
+    debouncedSearchTerm,
+    handleCheckSearchTerm,
+  ]);
+
   useEffect(() => {
     setCollectionData({ collectionData: null, loadingCollection: true });
     setFeaturedData({ featuredData: null, loadingFeatured: true });
@@ -215,15 +302,6 @@ export const SearchScreen: React.FC<Props> = () => {
   }, []);
 
   // DESTAQUES
-
-  const [
-    getSuggestions,
-    { data: suggestionsData, loading: suggestionsLoading },
-  ] = useLazyQuery(searchSuggestionsAndProductSearch, {
-    variables: {
-      salesChannel: '4',
-    },
-  });
 
   const { WithoutInternet } = useCheckConnection({});
 
@@ -292,44 +370,6 @@ export const SearchScreen: React.FC<Props> = () => {
       });
     }
   }, [returnSearch]);
-
-  /**
-   * @name handleCheckSearchTerm
-   * @description NewSearch for specific terms in the backend,
-   * and checks whether it should be opened in the app or browser.
-   * If it is to be opened in the browser and it is on android, it
-   * will use the DeepLinkPathModule module to open a new instance
-   * of the browser and close the current app. On IOS it will only
-   * open the link in the browser.
-   * */
-  const handleCheckSearchTerm = useCallback(async () => {
-    const term = (debouncedSearchTerm || '').toLowerCase().trim();
-
-    if (primeActive && primeLPSearchTerms.includes(term)) {
-      Keyboard.dismiss();
-      navigation.navigate('PrimeLP');
-      return;
-    }
-
-    const { data: dataSearch } = await getCheckSearchRedirect({
-      variables: { q: debouncedSearchTerm },
-      fetchPolicy: getFetchPolicyPerKey('checkSearchRedirect'),
-    });
-
-    if (dataSearch?.checkSearchRedirect) {
-      await DeepLinkPathModule.openUrlInBrowser({
-        closeCurrentAppInstance: true,
-        url: dataSearch.checkSearchRedirect,
-      });
-    }
-  }, [
-    debouncedSearchTerm,
-    primeActive,
-    primeLPSearchTerms,
-    getCheckSearchRedirect,
-    getFetchPolicyPerKey,
-    navigation,
-  ]);
 
   const trackEventSearchDito = useCallback(async (searchedTerm: string, amountFound: number) => {
     const id = profile?.email
@@ -403,19 +443,6 @@ export const SearchScreen: React.FC<Props> = () => {
       });
     }
   };
-
-  const handleDebouncedSearchTerm = useCallback(async () => {
-    await handleCheckSearchTerm();
-
-    await getSuggestions({
-      variables: {
-        fullText: debouncedSearchTerm,
-      },
-      fetchPolicy: getFetchPolicyPerKey('searchSuggestionsAndProductSearch'),
-    });
-
-    setShowAllProducts(false);
-  }, [getSuggestions, setShowAllProducts, getFetchPolicyPerKey, debouncedSearchTerm, handleCheckSearchTerm]);
 
   const loadMoreProducts = async (offset: number, searchQuery?: string) => {
     setLoadingRefetch(true);
@@ -585,6 +612,12 @@ export const SearchScreen: React.FC<Props> = () => {
     });
   }, [EventProvider, products, searchTerm]);
 
+  useEffect(() => {
+    if (!loading && startLoadingTime > 0) {
+      onFinishLoad();
+    }
+  }, [loading, onFinishLoad, startLoadingTime]);
+
   return (
     <Box backgroundColor="white" flex={1}>
       <TopBarDefaultBackButton
@@ -674,6 +707,7 @@ export const SearchScreen: React.FC<Props> = () => {
                         loadMoreProducts={(offset) => {
                           loadMoreProducts(offset, '');
                         }}
+                        cleanFilter={() => {}}
                       />
                     </Animatable.View>
                   </>
@@ -717,7 +751,9 @@ export const SearchScreen: React.FC<Props> = () => {
           </>
           <>{!suggestionsFound && <ProductNotFound />}</>
         </ScrollView>
-      ) : products && products?.length > 0 ? (
+      ) : <></>}
+
+      {products && products?.length > 0 ? (
         <Animatable.View animation="fadeIn" style={{ marginBottom: 120 }}>
           <Box paddingY="micro" flexDirection="row" justifyContent="center">
             <Box width={1 / 2}>
@@ -741,9 +777,9 @@ export const SearchScreen: React.FC<Props> = () => {
                 <Typography
                   color="preto"
                   fontFamily="nunitoSemiBold"
-                  fontSize="14px"
+                  style={{ fontSize: 14 }}
                 >
-                  {productsQuery?.products?.length == 0
+                  {productsQuery?.products?.length === 0
                     && filterRequestList?.length > 0
                     ? 'Limpar Filtros'
                     : 'Filtrar'}
@@ -767,7 +803,7 @@ export const SearchScreen: React.FC<Props> = () => {
                 <Typography
                   color="preto"
                   fontFamily="nunitoSemiBold"
-                  fontSize="14px"
+                  style={{ fontSize: 14 }}
                 >
                   Ordenar
                 </Typography>
@@ -844,6 +880,7 @@ export const SearchScreen: React.FC<Props> = () => {
             loadMoreProducts={(offset) => {
               loadMoreProducts(offset, searchTerm);
             }}
+            cleanFilter={() => {}}
           />
         </Animatable.View>
       ) : (
@@ -852,24 +889,3 @@ export const SearchScreen: React.FC<Props> = () => {
     </Box>
   );
 };
-
-function ProductNotFound() {
-  return (
-    <Box
-      bg="white"
-      height={deviceHeight}
-      mt="xxl"
-      alignItems="center"
-      px="micro"
-    >
-      <Box mb="sm">
-        <IconComponent width={120} height={120} icon="searchNotFound" />
-      </Box>
-      <Box>
-        <Typography fontFamily="nunitoRegular" fontSize={13} textAlign="center">
-          Não encontramos produtos que corresponde a sua busca.
-        </Typography>
-      </Box>
-    </Box>
-  );
-}

@@ -52,6 +52,7 @@ import { Button } from '../../../../components/Button';
 import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../../components/Typography/Typography';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
+import { usePageLoadingStore } from '../../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -131,6 +132,8 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { getItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
+
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const { WithoutInternet } = useCheckConnection({});
 
@@ -515,6 +518,12 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
 
   const DynamicComponent = safeArea ? SafeAreaView : Box;
 
+  useEffect(() => {
+    if (!skeletonLoading && startLoadingTime > 0) {
+      onFinishLoad();
+    }
+  }, [skeletonLoading, onFinishLoad, startLoadingTime]);
+
   return (
     <DynamicComponent style={{ backgroundColor: theme.colors.white }} flex={1}>
       {safeArea ? (
@@ -569,15 +578,13 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
         <Skeleton>
           <Box bg="neutroFrio1" width="100%" height={200} />
 
-          <Box flexDirection="row" justifyContent="center" marginTop={34}>
+          <Box flexDirection="row" justifyContent="center" style={{ marginTop: 34 }}>
             <Box width="50%">
               <Box
                 bg="neutroFrio1"
                 flexGrow={1}
-                borderRadius={8}
                 height={40}
-                marginRight={8}
-                marginLeft={12}
+                style={{ borderRadius: 8, marginRight: 8, marginLeft: 12 }}
               />
             </Box>
 
@@ -585,83 +592,71 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
               <Box
                 bg="neutroFrio1"
                 flexGrow={1}
-                borderRadius={8}
                 height={40}
-                marginRight={12}
-                marginLeft={8}
+                style={{ borderRadius: 8, marginRight: 12, marginLeft: 8 }}
               />
             </Box>
           </Box>
 
-          <Box flexDirection="row" justifyContent="center" marginTop={45}>
+          <Box flexDirection="row" justifyContent="center" style={{ marginTop: 45 }}>
             <Box
               width="50%"
-              paddingRight={12}
-              paddingLeft={8}
-              marginBottom={33}
+              style={{ paddingRight: 12, paddingLeft: 8, marginBottom: 33 }}
             >
               <Box
                 bg="neutroFrio1"
                 flexGrow={1}
-                borderRadius={8}
+                style={{ borderRadius: 8 }}
                 height={250}
               />
               <Box
                 bg="neutroFrio1"
                 flexGrow={1}
-                borderRadius={8}
+                style={{ borderRadius: 8, marginTop: 8 }}
                 height={24}
-                marginTop={8}
               />
               <Box />
             </Box>
 
             <Box
               width="50%"
-              paddingRight={12}
-              paddingLeft={8}
-              marginBottom={33}
+              style={{ paddingRight: 12, paddingLeft: 8, marginBottom: 33 }}
             >
               <Box
                 bg="neutroFrio1"
                 flexGrow={1}
-                borderRadius={8}
+                style={{ borderRadius: 8 }}
                 height={250}
               />
               <Box
                 bg="neutroFrio1"
                 flexGrow={1}
-                borderRadius={8}
+                style={{ borderRadius: 8, marginTop: 8 }}
                 height={24}
-                marginTop={8}
               />
             </Box>
           </Box>
           <Box flexDirection="row" justifyContent="center">
             <Box
               width="50%"
-              paddingRight={12}
-              paddingLeft={8}
-              marginBottom={33}
+              style={{ paddingRight: 12, paddingLeft: 8, marginBottom: 33 }}
             >
               <Box
                 bg="neutroFrio1"
                 flexGrow={1}
-                borderRadius={8}
+                style={{ borderRadius: 8 }}
                 height={250}
               />
             </Box>
 
             <Box
               width="50%"
-              paddingRight={12}
-              paddingLeft={8}
-              marginBottom={33}
+              style={{ paddingRight: 12, paddingLeft: 8, marginBottom: 33 }}
             >
               <Box
                 bg="neutroFrio1"
                 flexGrow={1}
-                borderRadius={8}
+                style={{ borderRadius: 8 }}
                 height={250}
               />
             </Box>
@@ -734,7 +729,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                     <Typography
                       color="preto"
                       fontFamily="nunitoSemiBold"
-                      fontSize="14px"
+                      style={{ fontSize: 14 }}
                     >
                       {productData?.length === 0
                         && filterRequestList.length > 0
@@ -762,7 +757,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                     <Typography
                       color="preto"
                       fontFamily="nunitoSemiBold"
-                      fontSize="14px"
+                      style={{ fontSize: 14 }}
                     >
                       Ordenar
                     </Typography>
@@ -776,7 +771,7 @@ export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
                 flexDirection="row"
                 justifyContent="space-between"
               >
-                <Typography fontFamily="nunitoRegular" fontSize="13px">
+                <Typography fontFamily="nunitoRegular" style={{ fontSize: 13 }}>
                   {totalProducts}
                   {' '}
                   produtos encontrados

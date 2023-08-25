@@ -10,6 +10,7 @@ import {
 } from '../../../../base/graphql/generated';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
+import { usePageLoadingStore } from '../../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 interface MyWalletContainerProps {
   navigateBack: () => void;
@@ -44,6 +45,7 @@ export function MyWalletContainer({ navigateBack }: MyWalletContainerProps) {
   const [selectedBalance, setSelectedBalance] = useState<BalanceType>(BalanceType.ACTIVE);
   const [balanceVisible, setBalanceVisible] = useState(true);
   const { profile } = useAuthStore(['profile']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const [getCashback, { loading }] = useCashbackLazyQuery({
     context: { clientName: 'gateway' }, fetchPolicy: 'cache-and-network',
@@ -69,11 +71,11 @@ export function MyWalletContainer({ navigateBack }: MyWalletContainerProps) {
     setOperationFilter(filter);
   };
 
-  const changeSelectedBalance = (balance: BalanceType) => {
-    if (balance === BalanceType.FUTURE) {
+  const changeSelectedBalance = (balanceChange: BalanceType) => {
+    if (balanceChange === BalanceType.FUTURE) {
       setOperationFilter(FilterOptions.PENDING);
     }
-    setSelectedBalance(balance);
+    setSelectedBalance(balanceChange);
   };
 
   const getCashbackData = useCallback(async () => {
@@ -97,12 +99,18 @@ export function MyWalletContainer({ navigateBack }: MyWalletContainerProps) {
     }
   }, [getCashback, profile]);
 
+  useEffect(() => {
+    if (!loading && startLoadingTime > 0) {
+      onFinishLoad();
+    }
+  }, [loading, startLoadingTime, onFinishLoad]);
+
   const operationsFiltered = (filter: FilterOptions): CashbackQuery['cashback']['operations'] | undefined => {
     switch (filter) {
       case FilterOptions.ALL:
         return userOperations?.filter(
-          (operation) => operation.appliedBalanceInCents > 0
-          || operation.cashbackAmountInCents > 0
+          (operation) => (operation.appliedBalanceInCents > 0
+          || operation.cashbackAmountInCents > 0)
           && operation.status !== 'pending',
         );
       case FilterOptions.DEBIT:

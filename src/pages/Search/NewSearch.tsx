@@ -6,7 +6,11 @@ import useSearchStore, { SearchStatusEnum, SearchType } from '../../zustand/useS
 import SearchWrapper from './components/SearchWrapper';
 
 function NewSearch() {
-  const { status, initialized, onInit } = useSearchStore(['status', 'onInit', 'initialized']);
+  const {
+    status,
+    initialized,
+    onInit,
+  } = useSearchStore(['status', 'onInit', 'initialized']);
 
   useEffect(() => {
     onInit(SearchType.SEARCH);

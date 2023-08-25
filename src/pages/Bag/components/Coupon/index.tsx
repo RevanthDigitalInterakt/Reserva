@@ -172,6 +172,23 @@ export default function CouponComponent() {
           </Box>
         ) : null}
 
+        {appTotalizers.delivery > 0 && (
+          <Box
+            marginBottom="micro"
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography variant="precoAntigo3">Frete</Typography>
+            <PriceCustom
+              fontFamily="nunitoSemiBold"
+              sizeInterger={15}
+              sizeDecimal={11}
+              num={Math.abs(appTotalizers.delivery)}
+            />
+          </Box>
+        )}
+
         {appTotalizers.discount !== 0 && (
           <Box
             marginBottom="micro"

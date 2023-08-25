@@ -47,6 +47,7 @@ import { getAsyncStorageItem, setAsyncStorageItem } from '../hooks/useAsyncStora
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { defaultBrand } from '../utils/defaultWBrand';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
+import { useRemoteConfig } from '../hooks/useRemoteConfig';
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -478,6 +479,7 @@ export type TAddItemResponse = {
 } | undefined;
 
 interface CartContextProps {
+  setOrderFormLegacy: (value: string) => void;
   loading: boolean;
   topBarLoading: boolean;
   orderForm: OrderForm | undefined;
@@ -561,6 +563,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
   const [sellerName, setSellerName] = useState<string>('');
   const [topBarLoading, setTopBarLoading] = useState<boolean>(false);
   const [hasErrorApplyCoupon, setHasErrorApplyCoupon] = useState<boolean>(false);
+  const { initialized } = useRemoteConfig();
 
   const { actions } = useBagStore(['actions']);
 
@@ -956,7 +959,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
 
   useEffect(() => {
     orderform();
-  }, []);
+  }, [initialized]);
 
   const sendUserEmail = async (email: string) => {
     try {
@@ -1155,6 +1158,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
   return (
     <CartContext.Provider
       value={{
+        setOrderFormLegacy: setOrderForm,
         loading,
         topBarLoading,
         orderForm,
@@ -1204,6 +1208,7 @@ export const useCart = () => {
   }
 
   const {
+    setOrderFormLegacy,
     loading,
     topBarLoading,
     orderForm,
@@ -1239,6 +1244,7 @@ export const useCart = () => {
     toggleGiftWrapping,
   } = cartContext;
   return {
+    setOrderFormLegacy,
     loading,
     topBarLoading,
     orderForm,

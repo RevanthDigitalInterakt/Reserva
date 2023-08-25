@@ -11,6 +11,7 @@ import Config from 'react-native-config';
 import CookieManager from '@react-native-cookies/cookies';
 import { gatewayLink } from '../clients/gateway/gatewayLink';
 import { getAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
+import { useRemoteConfig } from '../hooks/useRemoteConfig';
 
 const directionalLinkProduction = new RetryLink().split(
   (operation) => operation.getContext().clientName === 'contentful',
@@ -39,15 +40,29 @@ const authAfterware = new ApolloLink((operation, forward) => forward(operation).
     || data?.refreshToken?.authCookie
   ) {
     let cookie;
-    if (data?.signIn?.authCookie) cookie = data?.signIn?.authCookie?.replace('VtexIdclientAutCookie_lojausereserva=', '');
-    if (data?.signUp?.authCookie) cookie = data?.signUp?.authCookie?.replace('VtexIdclientAutCookie_lojausereserva=', '');
-    if (data?.redefinePassword?.authCookie) cookie = data?.redefinePassword?.authCookie.replace('VtexIdclientAutCookie_lojausereserva=', '');
-    if (data?.refreshToken?.authCookie) cookie = data?.refreshToken?.authCookie.replace('VtexIdclientAutCookie_lojausereserva=', '');
+
+    // TODO remove after 100% migrate new webview checkout
+    const showNewWebview = useRemoteConfig.getState().getBoolean('show_new_webview_checkout');
+    const CookieAB = showNewWebview ? 'VtexIdclientAutCookie_applojausereservaqa' : 'VtexIdclientAutCookie_lojausereserva';
+
+    if (data?.signIn?.authCookie) cookie = data?.signIn?.authCookie?.replace(`${CookieAB}=`, '');
+    if (data?.signUp?.authCookie) cookie = data?.signUp?.authCookie?.replace(`${CookieAB}=`, '');
+    if (data?.redefinePassword?.authCookie) cookie = data?.redefinePassword?.authCookie.replace(`${CookieAB}=`, '');
+    if (data?.refreshToken?.authCookie) cookie = data?.refreshToken?.authCookie.replace(`${CookieAB}=`, '');
 
     const date = new Date();
     date.setDate(date.getDate() + 1);
 
     const expires = date.toISOString();
+
+    CookieManager.set(`${Config.URL_USER}`, {
+      name: 'VtexIdclientAutCookie_lojausereserva',
+      value: cookie,
+      domain: 'www.usereserva.com',
+      path: '/',
+      version: '1',
+      expires,
+    });
 
     CookieManager.set(`${Config.URL_BASE_COOKIE}`, {
       name: 'VtexIdclientAutCookie_lojausereserva',
@@ -58,10 +73,19 @@ const authAfterware = new ApolloLink((operation, forward) => forward(operation).
       expires,
     });
 
-    CookieManager.set(`${Config.URL_USER}`, {
-      name: 'VtexIdclientAutCookie_lojausereserva',
+    CookieManager.set('https://appqa.usereserva.com', {
+      name: 'VtexIdclientAutCookie_applojausereservaqa',
       value: cookie,
-      domain: 'www.usereserva.com',
+      domain: 'appqa.usereserva.com',
+      path: '/',
+      version: '1',
+      expires,
+    });
+
+    CookieManager.set('https://applojausereservaqa.myvtex.com', {
+      name: 'VtexIdclientAutCookie_applojausereservaqa',
+      value: cookie,
+      domain: 'applojausereservaqa.myvtex.com',
       path: '/',
       version: '1',
       expires,
@@ -72,9 +96,14 @@ const authAfterware = new ApolloLink((operation, forward) => forward(operation).
 
 const authLinkHeader = setContext(async (_, { headers }) => {
   const cookie = await getAsyncStorageItem('Auth:Cookie');
+  // URL_VTEX_GRAPHQL="https://lojausereserva.myvtex.com/_v/private/graphql/v1"
+
+  // TODO remove after 100% migrate new webview checkout
+  const showNewWebview = useRemoteConfig.getState().getBoolean('show_new_webview_checkout');
+  const CookieAB = showNewWebview ? 'VtexIdclientAutCookie_applojausereservaqa' : 'VtexIdclientAutCookie_lojausereserva';
 
   return {
-    headers: { ...headers, cookie },
+    headers: { ...headers, cookie, 'x-vtex-cookie': CookieAB },
   };
 });
 

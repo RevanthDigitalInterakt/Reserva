@@ -13,6 +13,7 @@ import { ClockScreenEnum } from '../../base/graphql/generated';
 import ProductNotFound from '../Search/components/ProductNotFound/ProductNotFound';
 import { CatalogSkeleton } from './components/CatalogSkeleton/CatalogSkeleton';
 import { Box } from '../../components/Box/Box';
+import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -45,10 +46,17 @@ function NewProductCatalog({ route }: Props) {
     [referenceId, offersPage],
   );
 
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
   const defaultFacets = useMemo(() => generateFacets({
     ...filters,
     reference,
   }), [filters, reference]);
+
+  useEffect(() => {
+    if (!loading && startLoadingTime > 0) {
+      onFinishLoad();
+    }
+  }, [loading, startLoadingTime, onFinishLoad]);
 
   useEffect(() => {
     onInit(SearchType.CATALOG);

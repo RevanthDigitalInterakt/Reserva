@@ -5,22 +5,23 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, FlatList } from 'react-native';
 
 import { Box } from '../../../components/Box/Box';
-import { ModalBag } from '../../../components/ModalBag/ModalBag';
 import { Picker } from '../../../components/Picker/Picker';
-import { ProductHorizontalListCard } from '../../../components/ProductHorizontalListCard/ProductHorizontalListCard';
 import { Typography } from '../../../components/Typography/Typography';
 import { useCart } from '../../../context/CartContext';
 import wishListQueries from '../../../graphql/wishlist/wishList';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
-import EventProvider from '../../../utils/EventProvider';
-import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
-import { defaultBrand } from '../../../utils/defaultWBrand';
-import { getBrandByUrl } from '../../../utils/getBrandByURL';
-import { slugify } from '../../../utils/slugify';
-import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { Skeleton } from '../../Checkout/components/Skeleton';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 import { EmptyWishList } from '../components/EmptyWishList';
+import { slugify } from '../../../utils/slugify';
+import EventProvider from '../../../utils/EventProvider';
+import { getBrandByUrl } from '../../../utils/getBrandByURL';
+import { defaultBrand } from '../../../utils/defaultWBrand';
+import { createNavigateToProductParams } from '../../../utils/createNavigateToProductParams';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { ProductHorizontalListCard } from '../../../components/ProductHorizontalListCard/ProductHorizontalListCard';
+import { ModalBag } from '../../../components/ModalBag/ModalBag';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 
 interface IData {
   loading: boolean;
@@ -40,6 +41,7 @@ export const WishList = ({ navigation }: Props) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const { profile } = useAuthStore(['profile']);
+  const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const [removeFromWishList] = useMutation(wishListQueries.REMOVE_WISH_LIST);
 
@@ -200,6 +202,12 @@ export const WishList = ({ navigation }: Props) => {
       }
     }, [profile?.authCookie]),
   );
+
+  useEffect(() => {
+    if (!loading && startLoadingTime > 0) {
+      onFinishLoad();
+    }
+  }, [loading, startLoadingTime, onFinishLoad]);
 
   return (
     <Box style={{ backgroundColor: 'white' }} flex={1}>

@@ -43,7 +43,7 @@ import {
   OrderFormUpdateItemMutation,
   OrderFormUpdateItemMutationVariables,
 } from '../../base/graphql/generated';
-import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
+import { getAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { getMessageErrorWhenUpdateItem } from './helpers/getMessageErrorWhenUpdateItem';
 import { trackingOrderFormAddItem } from '../../utils/trackingOrderFormAddItem';
 import { handleCopyTextToClipboard } from '../../utils/CopyToClipboard';
@@ -231,6 +231,44 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ error: error.message }));
       } finally {
         set(() => ({ topBarLoading: false }));
+      }
+    },
+    CREATE_NEW_ORDER_FORM: async () => {
+      try {
+        set(() => ({ initialLoad: true }));
+
+        const { data } = await getApolloClient().query<OrderFormQuery, OrderFormQueryVariables>({
+          query: OrderFormDocument,
+          fetchPolicy: 'no-cache',
+          variables: { orderFormId: '' },
+          context: { clientName: 'gateway' },
+        });
+
+        const { orderForm } = data;
+
+        if (!orderForm) {
+          throw new Error('OrderForm inválido.');
+        }
+
+        await setAsyncStorageItem('orderFormId', orderForm.orderFormId);
+
+        set(() => ({
+          orderFormId: orderForm.orderFormId,
+          messages: orderForm.messages,
+          clientProfileData: orderForm.clientProfileData,
+          items: orderForm.items,
+          selectableGift: orderForm.selectableGift,
+          marketingData: orderForm.marketingData,
+          shippingData: orderForm.shippingData,
+          appTotalizers: orderForm.appTotalizers,
+          installmentInfo: orderForm.installmentInfo,
+          allItemsQuantity: orderForm.allItemsQuantity,
+          hasPrimeSubscriptionInCart: orderForm.hasPrimeSubscriptionInCart,
+        }));
+      } catch (error) {
+        set(() => ({ error: error.message }));
+      } finally {
+        set(() => ({ initialLoad: false, initialized: true }));
       }
     },
     COPY_ORDERFORM: () => {

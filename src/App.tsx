@@ -30,6 +30,7 @@ import { theme } from './base/usereservappLegacy/theme';
 import { ExceptionProvider } from './base/providers/ExceptionProvider';
 import sentryConfig from './config/sentryConfig';
 import DatadogComponentProvider from './components/DatadogComponentProvider';
+import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
 
 const DefaultTheme = {
   colors: {
@@ -43,6 +44,7 @@ function App() {
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [isOnMaintenance, setIsOnMaintenance] = useState(false);
   const client = useApolloClientHook(isTesting);
+  const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
 
   const remoteConfigStore = useRemoteConfig();
   const { setItem } = useAsyncStorageProvider();
@@ -98,9 +100,15 @@ function App() {
                 onReady={() => {
                   ExceptionProvider.trackScreen();
                   RNBootSplash.hide();
+                  onStartLoad(navigationRef.current?.getCurrentRoute()?.name);
                 }}
                 ref={navigationRef}
-                onStateChange={() => ExceptionProvider.trackScreen()}
+                onStateChange={() => {
+                  ExceptionProvider.trackScreen();
+
+                  const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
+                  onStartLoad(currentRouteName);
+                }}
               >
                 {isOnMaintenance ? (
                   <Maintenance isVisible />

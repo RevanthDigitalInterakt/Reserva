@@ -5,7 +5,6 @@ import { WebviewZendesk } from '../modules/CallCenter/WebviewZendesk';
 import { ChangeRegionalization } from '../modules/ChangeRegionalization/pages/ChangeRegionalization';
 import { DeliveryScreen } from '../modules/Checkout/pages/Delivery';
 import { MapScreen } from '../modules/Checkout/pages/Map';
-import Checkout from '../modules/Checkout/pages/WebviewCheckout';
 import { WithdrawInStore } from '../modules/Checkout/pages/WithdrawInStore';
 import { Credits } from '../modules/Credits/pages/Credits';
 import { MyCashbackRoutes } from '../modules/my-cashback/navigation/MyCashbackNavigator';
@@ -38,6 +37,7 @@ import type { IFilters } from '../utils/generateFacets';
 import { AsyncDeepLinkScreenLoading } from '../pages/WebRedirectToCatalog/AsyncDeepLinkScreenLoading';
 import { BagABTest } from '../modules/Checkout/pages/BagABTest';
 import PrimeLP from '../pages/PrimeLP';
+import { WebviewABTest } from '../pages/WebviewCheckout/WebviewABTest';
 import { SearchABTest } from '../modules/Search/pages/SearchABTest';
 
 export type RootStackParamList = {
@@ -59,12 +59,12 @@ export type RootStackParamList = {
   Checkout: undefined;
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   LoginAlternative: {
-    comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite',
+    comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' | 'BagScreen',
     previousPage?: keyof RootStackParamList;
     invalidSession?: boolean;
   };
   Login: {
-    comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite',
+    comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' | 'BagScreen'
     previousPage?: keyof RootStackParamList;
     invalidSession?: boolean;
   };
@@ -198,14 +198,15 @@ export function MainStackScreen() {
         initialParams={{ isProfileComplete: false }}
       />
 
-      <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
-      <MainStack.Screen name="Checkout" component={Checkout} />
-      <MainStack.Screen name="WithdrawInStore" component={WithdrawInStore} />
-      <MainStack.Screen name="MapScreen" component={MapScreen} />
-      <MainStack.Screen name="Cashback" component={Cashback} />
-      <MainStack.Screen name="Credits" component={Credits} />
-      <MainStack.Screen name="EditProfile" component={EditProfile} />
-      <MainStack.Screen name="EditPassword" component={EditPassword} />
+    {/* TODO REMOVER DeliveryScreen */}
+    <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
+    <MainStack.Screen name="Checkout" component={WebviewABTest} />
+    <MainStack.Screen name="WithdrawInStore" component={WithdrawInStore} />
+    <MainStack.Screen name="MapScreen" component={MapScreen} />
+    <MainStack.Screen name="Cashback" component={Cashback} />
+    <MainStack.Screen name="Credits" component={Credits} />
+    <MainStack.Screen name="EditProfile" component={EditProfile} />
+    <MainStack.Screen name="EditPassword" component={EditPassword} />
 
       <MainStack.Screen
         name="AccountDeletedSuccessfully"
