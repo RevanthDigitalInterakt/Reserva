@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.0.13
+
+- [SRN-17015 Inserir frete na sacola](https://dev.azure.com/areco/Canal%20App%20e%20Omni/_workitems/edit/17015/)
+
+---
+
 ### 2.0.12
 
 - [SRN-15155 Meus Endereços - Editar Endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15156)
