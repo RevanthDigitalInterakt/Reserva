@@ -20,6 +20,7 @@ import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { useNavigationToDelivery } from '../../../hooks/useNavigationToDelivery';
 import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
+import { Formik } from 'formik';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -163,123 +164,135 @@ export const LoginScreen: FC<Props> = ({
               </Typography>
             </Box>
 
-            <UnderlineInput
-              testID="com.usereserva:id/login_input_email"
-              placeholder="Digite seu e-mail"
-              keyboardType="email-address"
-              isSecureText={false}
-              value={loginCredentials.username}
-              showError={loginCredentials.showUsernameError}
-              errorMsg={loginCredentials.usernameError}
-              onChangeText={(text) => {
-                try {
-                  setLoginCredentials({ ...loginCredentials, username: text });
-                  setEmailIsValid(
-                    Yup.string().required().email().isValidSync(text.trim()),
-                  );
-                } catch (error) {
-                  ExceptionProvider.captureException(error, { writtenEmail: text });
-                }
+            <Formik
+              initialValues={{
+                email: '',
+                password: '',
               }}
-            />
+              onSubmit={() => { }}
+            >
+              {() => (
+                <>
+                  <UnderlineInput
+                    testID="com.usereserva:id/login_input_email"
+                    placeholder="Digite seu e-mail"
+                    keyboardType="email-address"
+                    isSecureText={false}
+                    value={loginCredentials.username}
+                    showError={loginCredentials.showUsernameError}
+                    errorMsg={loginCredentials.usernameError}
+                    onChangeText={(text) => {
+                      try {
+                        setLoginCredentials({ ...loginCredentials, username: text });
+                        setEmailIsValid(
+                          Yup.string().required().email().isValidSync(text.trim()),
+                        );
+                      } catch (error) {
+                        ExceptionProvider.captureException(error, { writtenEmail: text });
+                      }
+                    }}
+                  />
 
-            <Box mt="md" width="100%">
-              <UnderlineInput
-                testID="com.usereserva:id/login_input_password"
-                isSecureText
-                placeholder="Digite sua senha"
-                value={loginCredentials.password}
-                showError={loginCredentials.showPasswordError}
-                onChangeText={(text) => {
-                  setLoginCredentials({
-                    ...loginCredentials,
-                    password: text,
-                  });
-                  setPasswordIsValid(
-                    Yup.string()
-                      .required()
-                      .matches(/^(?=.{8,})/) // 8 caracteres
-                      .matches(/^(?=.*[A-Z])/) // pelo menos uma maiuscula
-                      .matches(/^(?=.*[a-z])/) // pelo menos uma minuscula
-                      .matches(/^(?=.*[0-9])/) // pelo menos um nuemro
-                      .isValidSync(text),
-                  );
-                }}
-              />
-              <Box mt="micro" mb="quarck">
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('ForgotEmail', {});
-                  }}
-                >
-                  <Typography
-                    style={{ textDecorationLine: 'underline' }}
-                    {...testProps('com.usereserva:id/esqueci-minha-senha')}
+                  <Box mt="md" width="100%">
+                    <UnderlineInput
+                      testID="com.usereserva:id/login_input_password"
+                      isSecureText
+                      placeholder="Digite sua senha"
+                      value={loginCredentials.password}
+                      showError={loginCredentials.showPasswordError}
+                      onChangeText={(text) => {
+                        setLoginCredentials({
+                          ...loginCredentials,
+                          password: text,
+                        });
+                        setPasswordIsValid(
+                          Yup.string()
+                            .required()
+                            .matches(/^(?=.{8,})/) // 8 caracteres
+                            .matches(/^(?=.*[A-Z])/) // pelo menos uma maiuscula
+                            .matches(/^(?=.*[a-z])/) // pelo menos uma minuscula
+                            .matches(/^(?=.*[0-9])/) // pelo menos um nuemro
+                            .isValidSync(text),
+                        );
+                      }}
+                    />
+                    <Box mt="micro" mb="quarck">
+                      <TouchableOpacity
+                        onPress={() => {
+                          navigation.navigate('ForgotEmail', {});
+                        }}
+                      >
+                        <Typography
+                          style={{ textDecorationLine: 'underline' }}
+                          {...testProps('com.usereserva:id/esqueci-minha-senha')}
+                        >
+                          Esqueci minha senha
+                        </Typography>
+                      </TouchableOpacity>
+                    </Box>
+                    {loginCredentials.hasError && (
+                      <Typography
+                        color="vermelhoAlerta"
+                        fontFamily="nunitoRegular"
+                        fontSize={13}
+                        {...testProps('com.usereserva:id/login-error')}
+                      >
+                        {loginCredentials.showMessageError}
+                      </Typography>
+                    )}
+                  </Box>
+
+                  <Box mt="md" />
+
+                  <Button
+                    accessible={false}
+                    {...testProps('com.usereserva:id/entrar_login_button')}
+                    title="ENTRAR"
+                    inline
+                    variant="primarioEstreitoOutline"
+                    disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
+                    onPress={doLogin}
+                  />
+
+                  <Box
+                    flexDirection="row"
+                    mt="xxl"
+                    mb="xxs"
+                    justifyContent="center"
+                    alignItems="center"
                   >
-                    Esqueci minha senha
-                  </Typography>
-                </TouchableOpacity>
-              </Box>
-              {loginCredentials.hasError && (
-                <Typography
-                  color="vermelhoAlerta"
-                  fontFamily="nunitoRegular"
-                  fontSize={13}
-                  {...testProps('com.usereserva:id/login-error')}
-                >
-                  {loginCredentials.showMessageError}
-                </Typography>
+                    <Box
+                      style={{ borderWidth: 1 }}
+                      marginLeft="xxs"
+                      marginRight="nano"
+                      flex={1}
+                      borderColor="divider"
+                    />
+                    <Typography textAlign="center">
+                      Ainda não possui uma conta?
+                    </Typography>
+                    <Box
+                      style={{ borderWidth: 1 }}
+                      marginLeft="nano"
+                      marginRight="xxs"
+                      flex={1}
+                      borderColor="divider"
+                    />
+                  </Box>
+                  <Button
+                    {...testProps('com.usereserva:id/cadastre_se_buttton')}
+                    title="CADASTRE-SE"
+                    inline
+                    variant="primarioEstreito"
+                    disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
+                    onPress={() => {
+                      navigation.navigate('RegisterEmail', {});
+                    }}
+                  />
+                </>
               )}
-            </Box>
+            </Formik>
           </Box>
-
-          <Box mt="md" />
-          <Button
-            accessible={false}
-            {...testProps('com.usereserva:id/entrar_login_button')}
-            title="ENTRAR"
-            inline
-            variant="primarioEstreitoOutline"
-            disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
-            onPress={doLogin}
-          />
-
-          <Box
-            flexDirection="row"
-            mt="xxl"
-            mb="xxs"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Box
-              style={{ borderWidth: 1 }}
-              marginLeft="xxs"
-              marginRight="nano"
-              flex={1}
-              borderColor="divider"
-            />
-            <Typography textAlign="center">
-              Ainda não possui uma conta?
-            </Typography>
-            <Box
-              style={{ borderWidth: 1 }}
-              marginLeft="nano"
-              marginRight="xxs"
-              flex={1}
-              borderColor="divider"
-            />
-          </Box>
-
-          <Button
-            {...testProps('com.usereserva:id/cadastre_se_buttton')}
-            title="CADASTRE-SE"
-            inline
-            variant="primarioEstreito"
-            disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
-            onPress={() => {
-              navigation.navigate('RegisterEmail', {});
-            }}
-          />
         </Box>
       </ScrollView>
     </SafeAreaView>
