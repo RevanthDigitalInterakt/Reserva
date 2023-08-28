@@ -40,7 +40,7 @@ export interface ButtonStyleProps
   BorderColorProps<typeof theme>,
   BorderRadiusProps<typeof theme>,
   BackgroundColorProps<typeof theme>,
-  BorderWidthProps {
+  BorderWidthProps<typeof theme> {
   fontSize?: number;
   variant?: VariantStyles;
   fontFamily?: keyof typeof theme.fonts;
