@@ -41,7 +41,8 @@ function HomeCarousels() {
       {carousels.map((carousel) => (
         <View
           {...testProps('carousels_cards')}
-          key={`item-${carousel.type}-${carousel.showtime}-${carousel.items.length}`}>
+          key={`item-${carousel.type}-${carousel.showtime}-${carousel.items.length}`}
+        >
           {renderCarousel(carousel)}
         </View>
       ))}

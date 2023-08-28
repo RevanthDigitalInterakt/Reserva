@@ -39,7 +39,7 @@ jest.mock('@react-navigation/native', () => ({
 jest.mock('../../../../../zustand/useHomeStore', () => ({
   useHomeStore: () => ({
     onLoad: () => {},
-    discountBar: mockHomeConfigQuery.result.data.homeConfig.discountCodeBar
+    discountBar: mockHomeConfigQuery.result.data.homeConfig.discountCodeBar,
   }),
 }));
 

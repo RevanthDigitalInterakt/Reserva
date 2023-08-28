@@ -38,7 +38,7 @@ import { AsyncDeepLinkScreenLoading } from '../pages/WebRedirectToCatalog/AsyncD
 import { BagABTest } from '../modules/Checkout/pages/BagABTest';
 import PrimeLP from '../pages/PrimeLP';
 import { WebviewABTest } from '../pages/WebviewCheckout/WebviewABTest';
-import { SearchABTest } from '../modules/Search/pages/SearchABTest';
+import NewSearch from '../pages/Search';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -182,7 +182,7 @@ export const MainStackScreen = () => (
         initialParams={flow.initialParams}
       />
     ))}
-    <MainStack.Screen name="SearchMenu" component={SearchABTest} />
+    <MainStack.Screen name="SearchMenu" component={NewSearch} />
     <MainStack.Screen
       name="ChangeRegionalization"
       component={ChangeRegionalization}

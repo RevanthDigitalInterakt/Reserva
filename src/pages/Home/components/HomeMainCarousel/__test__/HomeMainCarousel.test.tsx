@@ -44,8 +44,8 @@ const mockedCardCarousel = {
     facets: [{ key: 'productClusterIds', value: '2772', __typename: 'ProductFacetOutput' }],
     image: {
       url: 'https://images.ctfassets.net/6jsfqc13oxv4/2PZVKTj8T4Vkf0rGIw3NsK/2a8f32e7fe4e14ceaec20157001d328f/banner-home-app-ofertas_ate60.gif', title: 'Home 2772 Ofertas Reserva', height: 1400, width: 1080, __typename: 'HomeCarouselItemImageOutput',
-    }
-  }]
+    },
+  }],
 };
 
 jest.mock('react-native-share', () => ({

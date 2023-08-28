@@ -19,7 +19,7 @@ jest.mock('@react-navigation/native', () => ({
 jest.mock('../../../../../zustand/useHomeStore', () => ({
   useHomeStore: () => ({
     onLoad: () => {},
-    carousels: mockHomeCarouselQuery.result.data.homeCarousels
+    carousels: mockHomeCarouselQuery.result.data.homeCarousels,
   }),
 }));
 

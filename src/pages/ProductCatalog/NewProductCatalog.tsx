@@ -13,7 +13,7 @@ import { ClockScreenEnum } from '../../base/graphql/generated';
 import ProductNotFound from '../Search/components/ProductNotFound/ProductNotFound';
 import { CatalogSkeleton } from './components/CatalogSkeleton/CatalogSkeleton';
 import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
-import useHomeStore from '../../zustand/useHomeStore';
+import { useHomeStore } from '../../zustand/useHomeStore';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
