@@ -1512,18 +1512,18 @@ PODS:
   - RNScreens (3.23.0):
     - React-Core
     - React-RCTImage
-  - RNSentry (5.8.0):
+  - RNSentry (5.9.1):
     - React-Core
-    - Sentry/HybridSDK (= 8.9.3)
+    - Sentry/HybridSDK (= 8.10.0)
   - RNSha256 (1.4.9):
     - React-Core
   - RNShare (9.2.3):
     - React-Core
   - RNSVG (13.10.0):
     - React-Core
-  - Sentry/HybridSDK (8.9.3):
-    - SentryPrivate (= 8.9.3)
-  - SentryPrivate (8.9.3)
+  - Sentry/HybridSDK (8.10.0):
+    - SentryPrivate (= 8.10.0)
+  - SentryPrivate (8.10.0)
   - SocketRocket (0.6.1)
   - SSZipArchive (2.2.3)
   - Yoga (1.14.0)
@@ -1978,12 +1978,12 @@ SPEC CHECKSUMS:
   RNPermissions: 05fcae8f6edcd912dd93e2cf31fd746f5304fd62
   RNReanimated: 53ca20eee770c41173703f5948cd8898aa08262c
   RNScreens: 6a8a3c6b808aa48dca1780df7b73ea524f602c63
-  RNSentry: f9e637773502a61c7b455c4ce65bc7008ce22a6e
+  RNSentry: 0a1daa8ee81e2776f977ae8c66e67c8d85587828
   RNSha256: a6bc3640a34eb41907e363828b9ec742c274298d
   RNShare: da6d90b6dc332f51f86498041d6e34211f96b630
   RNSVG: 80584470ff1ffc7994923ea135a3e5ad825546b9
-  Sentry: 97161cac725da1ecbe77d1445bf8a61c1e5667f1
-  SentryPrivate: 9a76def09fb08f9501997b8df946e8097947b94f
+  Sentry: 71cd4427146ac56eab6e70401ac7a24384c3d3b5
+  SentryPrivate: 9334613897c85a9e30f2c9d7a331af8aaa4fe71f
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: 8796b55dba14d7004f980b54bcc9833ee45b28ce

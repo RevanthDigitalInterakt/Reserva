@@ -7,7 +7,6 @@ import com.facebook.react.ReactApplication;
 import com.github.wumke.RNExitApp.RNExitAppPackage;
 import io.sentry.react.RNSentryPackage;
 import com.imagepicker.ImagePickerPackage;
-//import com.airbnb.android.react.maps.MapsPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
@@ -74,6 +73,5 @@ public class MainApplication extends Application implements ReactApplication {
       // this app.
       DefaultNewArchitectureEntryPoint.load();
     }
-    ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 }
