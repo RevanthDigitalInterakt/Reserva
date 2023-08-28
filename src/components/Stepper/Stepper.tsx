@@ -10,7 +10,7 @@ interface StepperProps {
   color?: keyof typeof theme.colors;
 }
 
-export const Stepper = ({ steps, actualStepIndex, color }: StepperProps) => {
+export function Stepper({ steps, actualStepIndex, color }: StepperProps) {
   const selectedColor = React.useMemo(() => (!color ? 'verdeSucesso' : color), [color]);
 
   return (
@@ -72,4 +72,4 @@ export const Stepper = ({ steps, actualStepIndex, color }: StepperProps) => {
       ))}
     </Box>
   );
-};
+}

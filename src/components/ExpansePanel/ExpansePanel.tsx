@@ -18,63 +18,61 @@ interface ExpansePanelProps {
   };
 }
 
-export const ExpansePanel = ({ information, style }: ExpansePanelProps) => {
+export function ExpansePanel({ information, style }: ExpansePanelProps) {
   const [showDescription, setShowDescription] = useState(false);
   return (
-    <>
-      <Box>
-        <Box alignItems="flex-start">
-          <Button
-            variant="semBorda"
-            flexDirection="row"
-            marginTop="xxxs"
-            onPress={() => setShowDescription(!showDescription)}
-          >
-            <>
-              {showDescription
+    <Box>
+      <Box alignItems="flex-start">
+        <Button
+          variant="semBorda"
+          flexDirection="row"
+          marginTop="xxxs"
+          onPress={() => setShowDescription(!showDescription)}
+        >
+          <>
+            {showDescription
+              ? (
+                <Box alignSelf={style ? 'center' : 'flex-start'} paddingRight="quarck" paddingLeft="quarck">
+                  <IconLegacy name="Subtraction" color="fullBlack" size={20} />
+                </Box>
+              )
+              : (
+                <Box alignSelf={style ? 'center' : 'flex-start'} paddingRight="nano">
+                  <IconLegacy name="Add" color="fullBlack" size={20} />
+                </Box>
+              )}
+            <Box flex={1}>
+              {style
                 ? (
-                  <Box alignSelf={style ? 'center' : 'flex-start'} paddingRight="quarck" paddingLeft="quarck">
-                    <IconLegacy name="Subtraction" color="fullBlack" size={20} />
-                  </Box>
+                  <Typography fontFamily={style.fontFamily} fontSize={style.fontSize}>
+                    {information.title}
+                  </Typography>
                 )
                 : (
-                  <Box alignSelf={style ? 'center' : 'flex-start'} paddingRight="nano">
-                    <IconLegacy name="Add" color="fullBlack" size={20} />
-                  </Box>
+                  <Typography variant="precoPromocional2">
+                    {information.title}
+                  </Typography>
                 )}
-              <Box flex={1}>
-                {style
-                  ? (
-                    <Typography fontFamily={style.fontFamily} fontSize={style.fontSize}>
-                      {information.title}
-                    </Typography>
-                  )
-                  : (
-                    <Typography variant="precoPromocional2">
-                      {information.title}
-                    </Typography>
-                  )}
-              </Box>
-            </>
-          </Button>
-        </Box>
-        {showDescription && (
-          <Box paddingX="quarck">
-            <Box marginTop="xxxs" marginBottom="xxxs">
-              {information.contentTitle && (
-                <Typography variant="precoPromocional2">
-                  {information.contentTitle}
-                </Typography>
-              )}
             </Box>
-            <Box>
-              <Typography variant="precoAntigo3">
-                {information.content}
-              </Typography>
-            </Box>
-          </Box>
-        )}
+          </>
+        </Button>
       </Box>
-    </>
+      {showDescription && (
+      <Box paddingX="quarck">
+        <Box marginTop="xxxs" marginBottom="xxxs">
+          {information.contentTitle && (
+          <Typography variant="precoPromocional2">
+            {information.contentTitle}
+          </Typography>
+          )}
+        </Box>
+        <Box>
+          <Typography variant="precoAntigo3">
+            {information.content}
+          </Typography>
+        </Box>
+      </Box>
+      )}
+    </Box>
   );
-};
+}

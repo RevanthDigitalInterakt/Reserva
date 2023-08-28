@@ -11,9 +11,9 @@ export interface IpriceCustom {
   negative?: boolean;
   color?: keyof typeof theme.colors;
 }
-export const PriceCustom: React.FC<IpriceCustom> = ({
+export function PriceCustom({
   num, fontFamily, sizeInterger, sizeDecimal, negative, color = 'preto',
-}) => {
+}: IpriceCustom) {
   const integerPart = (numInteger: number) => (numInteger <= 0 ? Math.ceil(numInteger)
     : Math.floor(numInteger));
   const decimalPart = (numDecimal: number) => (`${numDecimal?.toFixed(2)}`)?.split('.')[1];
@@ -57,4 +57,4 @@ export const PriceCustom: React.FC<IpriceCustom> = ({
       </Box>
     </Box>
   );
-};
+}

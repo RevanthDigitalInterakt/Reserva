@@ -8,7 +8,7 @@ import { Typography } from '../../../components/Typography/Typography';
 import testProps from '../../../utils/testProps';
 import { TopBarDefault } from '../../Menu/components/TopBarDefault';
 
-export const ContactUs = () => {
+export function ContactUs() {
   const navigation = useNavigation();
 
   return (
@@ -68,4 +68,4 @@ export const ContactUs = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

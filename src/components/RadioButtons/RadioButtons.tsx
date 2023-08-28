@@ -17,7 +17,7 @@ interface RadioButtonsProps {
   testID?: string;
 }
 
-export const RadioButtons = ({
+export function RadioButtons({
   selectedItem,
   optionsList,
   disbledOptions,
@@ -29,7 +29,7 @@ export const RadioButtons = ({
   fontSize = '14px',
   testID,
   ...props
-}: RadioButtonsProps) => {
+}: RadioButtonsProps) {
   if (!optionsList || optionsList.length === 0) return null;
   return (
     <Box alignItems="flex-start" flexWrap="wrap" flexDirection="row" {...props}>
@@ -85,4 +85,4 @@ export const RadioButtons = ({
       })}
     </Box>
   );
-};
+}

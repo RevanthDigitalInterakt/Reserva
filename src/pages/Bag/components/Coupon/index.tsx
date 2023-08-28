@@ -6,7 +6,7 @@ import { Divider } from '../../../../components/Divider/Divider';
 import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { TextField } from '../../../../components/TextField/TextField';
 import { Typography } from '../../../../components/Typography/Typography';
-import { CouponBadge } from '../../../../modules/Checkout/components/CouponBadge';
+import { CouponBadge } from '../CouponBadge';
 import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 

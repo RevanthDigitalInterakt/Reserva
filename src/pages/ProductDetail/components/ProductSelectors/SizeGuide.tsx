@@ -15,7 +15,7 @@ interface ISizesGuidesCarrousel {
   onClose: () => void
 }
 
-const SizesGuidesCarrousel = ({ images, onClose }: ISizesGuidesCarrousel) => {
+function SizesGuidesCarrousel({ images, onClose }: ISizesGuidesCarrousel) {
   const IMAGES_PROPORTION = 1.7;
   const CARD_WIDTH = configDeviceSizes.DEVICE_WIDTH * 0.92;
   const CARD_HEIGHT = CARD_WIDTH * IMAGES_PROPORTION;
@@ -116,7 +116,7 @@ const SizesGuidesCarrousel = ({ images, onClose }: ISizesGuidesCarrousel) => {
       )}
     </>
   );
-};
+}
 
 export const SizeGuideImages = Object.freeze({
   camisas: [images.GuideMangaCurta, images.GuideMangaLonga],

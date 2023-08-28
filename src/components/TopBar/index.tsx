@@ -1,4 +1,5 @@
 import React from 'react';
+import { SafeAreaView } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
 import type {
   ColorProps,
@@ -48,112 +49,113 @@ export function TopBar({
   const { isPrime, primeActive } = usePrimeInfo();
 
   return (
-    <Box justifyContent="flex-end" {...props}>
-      <Box
-        flex={1}
-        flexDirection="row"
-        justifyContent="flex-end"
-        paddingX="micro"
-      >
+    <SafeAreaView>
+      <Box justifyContent="flex-end" {...props}>
         <Box
-          width="25%"
-          flexDirection="row"
-          alignItems="flex-start"
-          alignSelf="center"
-        >
-          {leftButton !== undefined && (
-          <Button
-            justifyContent="flex-end"
-            hitSlop={{
-              top: 20,
-              left: 20,
-              bottom: 20,
-              right: 20,
-            }}
-            leftIcon={{
-              type: 'icon',
-              key: 'left-icon',
-              props: {
-                ...leftButton,
-              },
-            }}
-            {...testProps(leftButton.testID)}
-            onPress={leftButton.onPress}
-          />
-          )}
-        </Box>
-
-        {showLogo ? (
-          <Box
-            width="50%"
-            justifyContent="flex-start"
-            alignItems="center"
-            alignSelf="center"
-          >
-            {isPrime && primeActive
-              ? <IconComponent icon="logoPrime" />
-              : <IconLegacy name="Logo" color="vermelhoAlerta" size={24} />}
-          </Box>
-        ) : (
-          <Box
-            width="50%"
-            justifyContent="flex-start"
-            alignItems="center"
-            alignSelf="flex-start"
-          />
-        )}
-
-        <Box
-          width="25%"
+          flex={1}
           flexDirection="row"
           justifyContent="flex-end"
-          alignItems="flex-end"
-          alignSelf="center"
+          paddingX="micro"
         >
-          {rightButton1 !== undefined && (
-          <Button
-            hitSlop={{
-              top: 20,
-              left: 20,
-              bottom: 20,
-              right: 20,
-            }}
-            leftIcon={{
-              type: 'icon',
-              key: 'right-icon',
-              props: {
-                ...rightButton1,
-              },
-            }}
-            {...testProps(rightButton1.testID)}
-            onPress={rightButton1.onPress}
-            mr={rightButton2 ? 20 : 0}
-          />
+          <Box
+            width="25%"
+            flexDirection="row"
+            alignItems="flex-start"
+            alignSelf="center"
+          >
+            {leftButton !== undefined && (
+            <Button
+              justifyContent="flex-end"
+              hitSlop={{
+                top: 20,
+                left: 20,
+                bottom: 20,
+                right: 20,
+              }}
+              leftIcon={{
+                type: 'icon',
+                key: 'left-icon',
+                props: {
+                  ...leftButton,
+                },
+              }}
+              {...testProps(leftButton.testID)}
+              onPress={leftButton.onPress}
+            />
+            )}
+          </Box>
+
+          {showLogo ? (
+            <Box
+              width="50%"
+              justifyContent="flex-start"
+              alignItems="center"
+              alignSelf="center"
+            >
+              {isPrime && primeActive
+                ? <IconComponent icon="logoPrime" />
+                : <IconLegacy name="Logo" color="vermelhoAlerta" size={24} />}
+            </Box>
+          ) : (
+            <Box
+              width="50%"
+              justifyContent="flex-start"
+              alignItems="center"
+              alignSelf="flex-start"
+            />
           )}
 
-          {rightButton2 !== undefined && (
-          <Button
-            variant="icone"
-            hitSlop={{
-              top: 25,
-              left: 25,
-              bottom: 25,
-              right: 25,
-            }}
-            icon={{
-              props: {
-                ...rightButton2,
-              },
-            }}
-            {...testProps(rightButton2.testID)}
-            onPress={rightButton2.onPress}
-            badgeCount={rightButton2.badgeCount}
-          />
-          )}
+          <Box
+            width="25%"
+            flexDirection="row"
+            justifyContent="flex-end"
+            alignItems="flex-end"
+            alignSelf="center"
+          >
+            {rightButton1 !== undefined && (
+            <Button
+              hitSlop={{
+                top: 20,
+                left: 20,
+                bottom: 20,
+                right: 20,
+              }}
+              leftIcon={{
+                type: 'icon',
+                key: 'right-icon',
+                props: {
+                  ...rightButton1,
+                },
+              }}
+              {...testProps(rightButton1.testID)}
+              onPress={rightButton1.onPress}
+              mr={rightButton2 ? 20 : 0}
+            />
+            )}
+
+            {rightButton2 !== undefined && (
+            <Button
+              variant="icone"
+              hitSlop={{
+                top: 25,
+                left: 25,
+                bottom: 25,
+                right: 25,
+              }}
+              icon={{
+                props: {
+                  ...rightButton2,
+                },
+              }}
+              {...testProps(rightButton2.testID)}
+              onPress={rightButton2.onPress}
+              badgeCount={rightButton2.badgeCount}
+            />
+            )}
+          </Box>
         </Box>
-      </Box>
 
-      {loading && (
+        {loading && (
         <Box top={0} height={1} justifyContent="flex-end">
           <ProgressBar
             animated
@@ -165,7 +167,8 @@ export function TopBar({
             borderRadius={0}
           />
         </Box>
-      )}
-    </Box>
+        )}
+      </Box>
+    </SafeAreaView>
   );
 }

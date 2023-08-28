@@ -3,23 +3,21 @@
   "version": "0.0.80",
   "private": true,
   "scripts": {
-    "pod-deintegrate": "cd ios && arch -x86_64 pod deintegrate",
-    "pod-install": "cd ios && arch -x86_64 pod install",
+    "setup-ios-permissions": "react-native setup-ios-permissions && pod-install",
     "android": "react-native run-android",
     "android-release": "npx react-native run-android --variant=release",
     "ios": "react-native run-ios",
-    "mini-ios": "react-native run-ios --simulator='iPad Pro (9.7-inch)'",
     "start": "react-native start",
     "test": "jest --passWithNoTests --detectOpenHandles --forceExit --silent",
     "lint": "eslint . --ext .ts --ext .tsx --cache --fix",
-    "clean": "cd android && ./gradlew clean && cd ..",
+    "clean": "cd android && ./gradlew clean && cd .. && cd ios && pod deintegrate && pod cache clean --all && pod install && cd ..",
     "android-build-release": "cd android && ./gradlew assembleRelease",
     "android-build-aab": "cd android && ./gradlew bundleRelease",
     "codepush-android:dev": "appcenter codepush release-react -a Reserva-App/reserva-app-1 -d Staging",
     "codepush-android:prod": "appcenter codepush release-react -a Reserva-App/reserva-app-1 -d Production",
     "codepush-ios:dev": "appcenter codepush release-react -a Reserva-App/reserva-app -d Staging",
     "codepush-ios:prod": "appcenter codepush release-react -a Reserva-App/reserva-app -d Production",
-    "postinstall": "patch-package",
+    "postinstall": "patch-package && yarn setup-ios-permissions",
     "bundle:view": "visualize-bundle",
     "codegen": "graphql-codegen --config codegen.ts",
     "check-dependencies": "rnx-align-deps",
@@ -32,7 +30,6 @@
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-async-storage/async-storage": "^1.19.1",
     "@react-native-clipboard/clipboard": "^1.11.2",
-    "@react-native-community/geolocation": "^3.0.6",
     "@react-native-community/netinfo": "^9.4.1",
     "@react-native-cookies/cookies": "^6.2.1",
     "@react-native-firebase/analytics": "^18.3.0",
@@ -75,7 +72,6 @@
     "react-native-config": "^1.5.1",
     "react-native-device-info": "^10.8.0",
     "react-native-exit-app": "^2.0.0",
-    "react-native-flipper": "^0.212.0",
     "react-native-gesture-handler": "^2.12.1",
     "react-native-get-random-values": "1.9.0",
     "react-native-image-pan-zoom": "^2.1.12",
@@ -98,7 +94,6 @@
     "react-native-screens": "^3.23.0",
     "react-native-sha256": "^1.4.9",
     "react-native-share": "9.2.3",
-    "react-native-store-review": "^0.4.1",
     "react-native-store-version": "^1.4.1",
     "react-native-svg": "^13.10.0",
     "react-native-toast-message": "^2.1.6",
@@ -161,6 +156,7 @@
     "jest-mock-axios": "^4.7.2",
     "metro-react-native-babel-preset": "^0.77.0",
     "patch-package": "^8.0.0",
+    "pod-install": "^0.1.39",
     "postinstall-postinstall": "^2.1.0",
     "react-test-renderer": "18.2.0",
     "ts-node-dev": "^2.0.0",
@@ -168,8 +164,13 @@
     "typescript": "^5.1.6",
     "visualize-bundle": "^1.4.0"
   },
+  "reactNativePermissionsIOS": [
+    "MediaLibrary",
+    "PhotoLibrary",
+    "PhotoLibraryAddOnly"
+  ],
   "resolutions": {
-    "@types/react": "^17"
+    "@types/react": "^18"
   },
   "jest": {
     "preset": "react-native",
@@ -252,6 +253,6 @@
     }
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   }
 }

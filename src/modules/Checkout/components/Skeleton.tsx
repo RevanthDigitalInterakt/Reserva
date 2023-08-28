@@ -4,9 +4,10 @@ import type { BoxProps } from '../../../components/Box/Box';
 
 interface SkeletonProps extends BoxProps {
   testID?: string;
+  children: React.ReactNode;
 }
 
-export const Skeleton: React.FC<SkeletonProps> = ({ children, ...props }) => {
+export function Skeleton({ children, ...props }: SkeletonProps) {
   const skeletonOpacity = useRef(new Animated.Value(1)).current;
 
   const animationSkeletonLoading = () => {
@@ -39,4 +40,4 @@ export const Skeleton: React.FC<SkeletonProps> = ({ children, ...props }) => {
       {children}
     </Animated.View>
   );
-};
+}

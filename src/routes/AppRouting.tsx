@@ -22,7 +22,7 @@ export function AppRouting() {
         name="Menu"
         options={horizontalAnimationBackwards}
         component={Menu}
-        
+
       />
     </RootStack.Navigator>
   );

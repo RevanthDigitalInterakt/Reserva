@@ -1,14 +1,13 @@
 import React, { useCallback } from 'react';
 import Modal from 'react-native-modal';
 import { TouchableOpacity } from 'react-native';
-// TODO Update
-/* import {
-  ImageLibraryOptions,
-  ImagePickerResponse,
+import {
+  type ImageLibraryOptions,
+  type ImagePickerResponse,
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
-*/
+
 import { ChangeFileModalStyles as Styles } from './styles/changeFileModal.styles';
 import { requestCameraPermission, requestExternalWritePermission } from './helpers/permissions';
 import { Box } from '../../../../components/Box/Box';

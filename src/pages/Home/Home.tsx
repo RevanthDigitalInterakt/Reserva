@@ -1,24 +1,25 @@
-import { Box } from '@usereservaapp/reserva-ui';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import React, { useEffect } from 'react';
 import {
   FlatList, SafeAreaView,
 } from 'react-native';
-import utc from 'dayjs/plugin/utc';
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import testProps from '../../utils/testProps';
-import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
-import HomeCarousels from './components/HomeCarousels';
+
 import NewBanner from '../../components/Banner/NewBanner';
-import HomeDiscountModal from './components/HomeDiscountModal';
-import HomeCountDown from './components/HomeCountDown';
-import useAuthModalStore from '../../zustand/useAuthModalStore';
+import { Box } from '../../components/Box/Box';
+import ModalSignUpComplete from '../../components/ModalSignUpComplete';
+import WithoutInternet from '../../components/WithoutInternet';
+import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
 import EventProvider from '../../utils/EventProvider';
 import { defaultBrand } from '../../utils/defaultWBrand';
-import ModalSignUpComplete from '../../components/ModalSignUpComplete';
-import { useHomeStore } from '../../zustand/useHomeStore';
-import WithoutInternet from '../../components/WithoutInternet';
+import testProps from '../../utils/testProps';
+import useAuthModalStore from '../../zustand/useAuthModalStore';
 import { useConnectivityStore } from '../../zustand/useConnectivityStore';
+import { useHomeStore } from '../../zustand/useHomeStore';
+import HomeCarousels from './components/HomeCarousels';
+import HomeCountDown from './components/HomeCountDown';
+import HomeDiscountModal from './components/HomeDiscountModal';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);

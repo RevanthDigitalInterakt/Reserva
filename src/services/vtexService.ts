@@ -130,20 +130,6 @@ const AddAddressToCart = async (orderFormId: any, address: any) => {
   return data;
 };
 
-const GetPurchaseData = async (orderGroup: any) => {
-  try {
-    const response = await vtexConfig7.get(
-      `/checkout/pub/orders/order-group/${orderGroup}`,
-    );
-    return response;
-  } catch (err) {
-    ExceptionProvider.captureException(err);
-  }
-  // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)
-  // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo
-  // place order para varias compras.
-};
-
 const AddCustomerToOrder = async (
   orderFormId: string | undefined,
   customer: any,
@@ -286,18 +272,6 @@ const SearchNewOrderDetail = async (
   return response;
 };
 
-const Attachment = async (
-  orderFormId: string | undefined,
-  productOrderFormIndex: any,
-  attachmentName: any,
-) => {
-  const response = await vtexConfig3.post(
-    `/api/checkout/pub/orderForm/${orderFormId}/items/${productOrderFormIndex}/attachments/${attachmentName}`,
-    { content: { aceito: 'true' } },
-  );
-  return response;
-};
-
 const SetGiftSize = async (
   orderFormId?: string | undefined,
   giftId?: string | undefined,
@@ -344,7 +318,6 @@ export {
   UpdateItemToCart,
   AddItemToCart,
   AddAddressToCart,
-  GetPurchaseData,
   AddCustomerToOrder,
   RemoveItemFromCart,
   addToCoupon,
@@ -359,7 +332,6 @@ export {
   SearchNewOrders,
   SearchNewOrderDetail,
   OrderDetail,
-  Attachment,
   SetGiftSize,
   RestoreCart,
 };

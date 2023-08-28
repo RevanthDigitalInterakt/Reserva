@@ -12,8 +12,7 @@ import BirthDateIcon from './Icons/BirthDateIcon';
 import PhoneNumberIcon from './Icons/PhoneNumberIcon';
 import UserProfilePictureComponent from '../UserProfilePicture/UserProfilePictureComponent';
 import { FormEditProfileInitialValues } from './static/formEditProfile.initialValues';
-// TODO update
-// import ChangeFileModal, { IFile } from '../ModalChangeFile/ChangeFileModal';
+import ChangeFileModal, { IFile } from '../ModalChangeFile/ChangeFileModal';
 import type { TModalStateKeys } from '../../interfaces/editProfile';
 import TesterAreaViewComponent from '../TesterAreaView/TesterAreaViewComponent';
 import NewsLetterComponent from '../Newsletter/NewsLetterComponent';
@@ -73,9 +72,8 @@ function FormEditProfileComponent({
 
   const { handleNavigateToDelivery } = useNavigationToDelivery();
 
-  const handleSubmitForm = useCallback(
-    async (formValues: IFormEditProfileSchema): Promise<void> => {
-      handleToogleLoading(true);
+  const handleSubmitForm = useCallback(async (formValues: IFormEditProfileSchema): Promise<void> => {
+    handleToogleLoading(true);
 
     const userDateUpload: IUserDataUpload = generatePayloadToUploadUserData(formValues);
     let imageRef = formValues.profileImage.initialFilePath || 'null';
@@ -109,17 +107,16 @@ function FormEditProfileComponent({
       },
     });
 
-      const profileData = await onGetProfile();
+    const profileData = await onGetProfile();
 
-      if (isRegister) {
-        handleNavigateToDelivery(profileData);
-        return;
-      }
+    if (isRegister) {
+      handleNavigateToDelivery(profileData);
+      return;
+    }
 
-      handleToogleLoading(false);
-      navigation.goBack();
-    }, [],
-  );
+    handleToogleLoading(false);
+    navigation.goBack();
+  }, []);
 
   const editProfileForm = useFormik<IFormEditProfileSchema>({
     initialValues: FormEditProfileInitialValues,
@@ -139,9 +136,8 @@ function FormEditProfileComponent({
     [editProfileForm],
   );
 
-  // TODO update
   const handleChangeProfileImage = useCallback(
-    (file: any, resetInitialFilePath: boolean = false): void => {
+    (file: IFile, resetInitialFilePath: boolean = false): void => {
       editProfileForm.setFieldValue('profileImage', {
         ...file,
         initialFilePath: resetInitialFilePath
@@ -239,16 +235,13 @@ function FormEditProfileComponent({
 
   return (
     <>
-      {
-        // TODO update
-      /*
-    <ChangeFileModal
+
+      <ChangeFileModal
         show={showChangeFileModal}
         handleDeleteProfileImage={handleDeleteProfileImage}
         handleChangeFile={(file: IFile) => handleChangeProfileImage(file)}
         toggleModal={() => handleModal('changeFileModal')}
       />
-      */}
 
       {!isRegister && (
         <UserProfilePictureComponent

@@ -1,5 +1,5 @@
 import {
-  useCallback, useEffect, useMemo, useState,
+  useCallback, useEffect, useState,
 } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
@@ -14,7 +14,6 @@ import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { usePrimeInfo } from './usePrimeInfo';
 import { usePrimeStore } from '../zustand/usePrimeStore/usePrimeStore';
 import { useCart } from '../context/CartContext';
-import { useRemoteConfig } from './useRemoteConfig';
 import { usePageLoadingStore } from '../zustand/usePageLoadingStore/usePageLoadingStore';
 
 interface IUseNavigationToDeliveryReturn {
@@ -53,12 +52,6 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
   const { changeStateIsVisibleModalPrimeRemoved } = usePrimeStore([
     'changeStateIsVisibleModalPrimeRemoved',
   ]);
-
-  const { getBoolean } = useRemoteConfig();
-
-  const showNewWebviewCheckout = useMemo(() => (
-    getBoolean('show_new_webview_checkout')
-  ), [getBoolean]);
 
   useEffect(() => {
     if (needRefreshing) {
@@ -167,14 +160,10 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
       await restoreCart(orderFormId);
 
       if (!primeRemovedFromCart) {
-        if (showNewWebviewCheckout) {
-          setNavigateToDeliveryDisable(false);
-          navigation.navigate('Checkout', {
-            url: `https://appqa.usereserva.com/checkout?orderFormId=${orderFormId}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
-          });
-        } else {
-          navigation.navigate('DeliveryScreen', {});
-        }
+        setNavigateToDeliveryDisable(false);
+        navigation.navigate('Checkout', {
+          url: `https://appqa.usereserva.com/checkout?orderFormId=${orderFormId}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
+        });
       }
     } catch (error) {
       ExceptionProvider.captureException(
@@ -196,7 +185,6 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     onTrackCheckoutEvents,
     orderFormId,
     restoreCart,
-    showNewWebviewCheckout,
   ]);
 
   return {

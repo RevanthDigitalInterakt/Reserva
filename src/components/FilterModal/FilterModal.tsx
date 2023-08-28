@@ -106,7 +106,8 @@ function FilterModal({ onClose, visible, defaultFacets }: IFilterModal) {
     } catch (err) {
       Alert.alert(
         '',
-        'Ocorreu um erro ao filtrar os produtos', [{
+        'Ocorreu um erro ao filtrar os produtos',
+        [{
           onPress: onClose,
           text: 'OK',
         }],

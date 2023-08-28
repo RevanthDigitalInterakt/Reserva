@@ -13,13 +13,13 @@ interface SelectColorsProps extends ColorProps<typeof theme> {
   size?: number;
 }
 
-export const SelectColor = ({
+export function SelectColor({
   listColors,
   selectedColors,
   disabledColors,
   onPress,
   size = 25,
-}: SelectColorsProps) => {
+}: SelectColorsProps) {
   const renderOptions = () => {
     const listItems = listColors.map((item) => (
       <Box key={`color-option-${item.id}`}>
@@ -76,4 +76,4 @@ export const SelectColor = ({
       {renderOptions()}
     </Box>
   );
-};
+}

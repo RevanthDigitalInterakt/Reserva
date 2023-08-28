@@ -15,7 +15,7 @@ interface RangeProps extends BoxProps {
   showPercent: boolean;
 }
 
-export const ProgressBar = ({
+export function ProgressBar({
   label,
   value,
   max,
@@ -25,7 +25,7 @@ export const ProgressBar = ({
   colorLabel = 'progressTextColor',
   showPercent = false,
   ...props
-}: RangeProps) => {
+}: RangeProps) {
   const nextPercent = (value * 100) / max;
   const [percent, setPercent] = useState(0);
 
@@ -84,4 +84,4 @@ export const ProgressBar = ({
       />
     </Box>
   );
-};
+}

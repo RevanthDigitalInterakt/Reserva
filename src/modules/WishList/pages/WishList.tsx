@@ -31,7 +31,7 @@ interface IData {
 
 type Props = StackScreenProps<RootStackParamList, 'WishList'>;
 
-export const WishList = ({ navigation }: Props) => {
+export function WishList({ navigation }: Props) {
   const [sorterVisible, setSorterVisible] = useState(false);
 
   const [wishIds, setWishIds] = useState<any[]>([]);
@@ -358,4 +358,4 @@ export const WishList = ({ navigation }: Props) => {
       )}
     </Box>
   );
-};
+}

@@ -23,7 +23,7 @@ export interface PickerProps {
   onAndroidBackButtonPress: () => void;
 }
 
-export const Picker = ({
+export function Picker({
   isVisible,
   title = 'Picker',
   swipeDirection = true,
@@ -32,7 +32,7 @@ export const Picker = ({
   onBackDropPress,
   onClose,
   onAndroidBackButtonPress,
-}: PickerProps) => {
+}: PickerProps) {
   const androidCloseButton = () => {
     if (Platform.OS !== 'android') return;
     if (onAndroidBackButtonPress) {
@@ -158,4 +158,4 @@ export const Picker = ({
       </Box>
     </Modal>
   );
-};
+}

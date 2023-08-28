@@ -14,7 +14,7 @@ import { ImageSlider } from './components/ImageSlider';
 import type { ProductDetailCardProps } from './types';
 import { IconLegacy } from '../IconLegacy/IconLegacy';
 
-export const ProductDetailCard = ({
+export function ProductDetailCard({
   images,
   discountTag,
   saleOff,
@@ -33,7 +33,7 @@ export const ProductDetailCard = ({
   showZoomButton,
   videoThumbnail,
   testID,
-}: ProductDetailCardProps) => {
+}: ProductDetailCardProps) {
   const isTester = useIsTester();
   const { getBoolean } = useRemoteConfig();
 
@@ -226,4 +226,4 @@ export const ProductDetailCard = ({
       </Box>
     </Box>
   );
-};
+}

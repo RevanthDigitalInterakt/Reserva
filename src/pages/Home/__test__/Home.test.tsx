@@ -1,13 +1,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@usereservaapp/reserva-ui';
 import { MockedProvider } from '@apollo/client/testing';
 import Home from '../Home';
 
 import {
   mockHomeCarouselQuery, mockHomeConfigQuery, mockHomeCountdownQuery, mockHomeMediasQuery,
 } from './Home.mock';
+import { theme } from '../../../base/usereservappLegacy/theme';
 
 const Component = (
   <ThemeProvider theme={theme}>

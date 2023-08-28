@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { createAnimatableComponent } from 'react-native-animatable';
-import TitleFilter from './TitleFilter';
+
 import type { SearchFacetColorItemOutput } from '../../../base/graphql/generated';
-import { SelectColorFilter } from '../../../modules/ProductCatalog/modals/FilterModal/FilterModal';
 import { Box } from '../../Box/Box';
+import { SelectColorFilter } from '../../SelectColorFilter/SelectColorFilter';
+import TitleFilter from './TitleFilter';
 
 const BoxAnimation = createAnimatableComponent(Box);
 

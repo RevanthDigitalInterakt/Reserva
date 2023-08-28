@@ -23,10 +23,10 @@ import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
-export const LoginScreen = ({
+export function LoginScreen({
   route,
   navigation,
-}: Props) => {
+}: Props) {
   const { comeFrom, previousPage, invalidSession } = route.params || {};
 
   const skipHomePage = comeFrom === 'BagScreen' ? () => { } : undefined;
@@ -283,4 +283,4 @@ export const LoginScreen = ({
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

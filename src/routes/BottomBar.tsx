@@ -17,35 +17,35 @@ interface BottomBarButtonProps {
   accessibilityLabel?: string;
 }
 
-export const BottomBarButton = ({
+export function BottomBarButton({
   iconName,
   onPress,
   isSlected,
   label,
   testID,
   accessibilityLabel,
-}: BottomBarButtonProps) => (
-
-  <Button
-    mx="micro"
-    width={screenWidth / 5}
-    margin={0}
-    onPress={() => onPress()}
-    testID={testID}
-    accessibilityLabel={accessibilityLabel}
-  >
-    <>
-      <IconLegacy
-        name={iconName}
-        color={isSlected ? 'vermelhoAlerta' : 'preto'}
-        size={25}
-        mb={4}
-      />
-      <Typography fontSize="9px" fontFamily="nunitoRegular" color={isSlected ? 'vermelhoAlerta' : 'preto'}>{label}</Typography>
-    </>
-  </Button>
-
-);
+}: BottomBarButtonProps) {
+  return (
+    <Button
+      mx="micro"
+      width={screenWidth / 5}
+      margin={0}
+      onPress={() => onPress()}
+      testID={testID}
+      accessibilityLabel={accessibilityLabel}
+    >
+      <>
+        <IconLegacy
+          name={iconName}
+          color={isSlected ? 'vermelhoAlerta' : 'preto'}
+          size={25}
+          mb={4}
+        />
+        <Typography fontSize="9px" fontFamily="nunitoRegular" color={isSlected ? 'vermelhoAlerta' : 'preto'}>{label}</Typography>
+      </>
+    </Button>
+  );
+}
 
 interface BottomBarProps {
   children:
@@ -53,17 +53,19 @@ interface BottomBarProps {
   | React.ReactElement<BottomBarButtonProps>[];
 }
 
-export const BottomBar = ({ children }: BottomBarProps) => (
-  <Box
-    style={{ elevation: 10 }}
-    boxShadow={Platform.OS === 'ios' ? 'bottomBarShadow' : null}
-    flex={1}
-    flexDirection="row"
-    justifyContent="space-evenly"
-    alignItems="center"
-    height={57}
-    bg="white"
-  >
-    {children}
-  </Box>
-);
+export function BottomBar({ children }: BottomBarProps) {
+  return (
+    <Box
+      style={{ elevation: 10 }}
+      boxShadow={Platform.OS === 'ios' ? 'bottomBarShadow' : null}
+      flex={1}
+      flexDirection="row"
+      justifyContent="space-evenly"
+      alignItems="center"
+      height={57}
+      bg="white"
+    >
+      {children}
+    </Box>
+  );
+}

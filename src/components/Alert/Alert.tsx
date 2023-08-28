@@ -24,7 +24,7 @@ export interface AlertProps extends Partial<ModalProps> {
   onAndroidBackButtonPress?: () => void;
 }
 
-export const Alert = ({
+export function Alert({
   isVisible,
   title = 'Titulo',
   subtitle,
@@ -38,7 +38,7 @@ export const Alert = ({
   onClose,
   onAndroidBackButtonPress,
   ...props
-}: AlertProps) => {
+}: AlertProps) {
   const androidCloseButton = () => {
     if (Platform.OS !== 'android') return;
     if (onAndroidBackButtonPress) {
@@ -140,4 +140,4 @@ export const Alert = ({
       </Modal>
     </Box>
   );
-};
+}

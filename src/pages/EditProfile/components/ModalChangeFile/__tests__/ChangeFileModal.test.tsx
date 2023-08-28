@@ -6,9 +6,9 @@ import {
 } from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
 
-// TODO Update
-// import { launchCamera } from 'react-native-image-picker';
+import { launchCamera } from 'react-native-image-picker';
 import ChangeFileModal from '../ChangeFileModal';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 
 const launchImageLibraryMockResponse = {
   didCancel: false,
@@ -77,8 +77,8 @@ describe('ChangeFileModal', () => {
       type: 'image/jpeg',
       uri: 'foo://example.com:8042/over/there?name=ferret#nose',
     });
-    // TODO Update
-    // expect(launchCamera).toHaveBeenCalledTimes(1);
+
+    expect(launchCamera).toHaveBeenCalledTimes(1);
     expect(onToggleModal).toHaveBeenCalledTimes(2);
   });
 });

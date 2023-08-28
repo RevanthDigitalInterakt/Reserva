@@ -5,7 +5,6 @@ import { theme } from '../../base/usereservappLegacy/theme';
 import { Box } from '../Box/Box';
 import { Typography } from '../Typography/Typography';
 
-
 type Colors = keyof typeof theme.colors;
 export interface ToggleProps {
   label?: string;
@@ -17,7 +16,7 @@ export interface ToggleProps {
   testID?: string;
 }
 
-export const Toggle = ({
+export function Toggle({
   label,
   color = 'vermelhoAlerta',
   thumbColor = 'vermelhoAlerta',
@@ -25,7 +24,7 @@ export const Toggle = ({
   onValueChange,
   testID,
   ...props
-}: ToggleProps) => {
+}: ToggleProps) {
   const trackColorAttr = theme.colors[color];
   const thumbColorAttr = theme.colors[thumbColor];
 
@@ -46,4 +45,4 @@ export const Toggle = ({
       </TouchableWithoutFeedback>
     </Box>
   );
-};
+}

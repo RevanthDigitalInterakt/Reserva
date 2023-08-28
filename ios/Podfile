@@ -9,18 +9,8 @@ platform :ios, min_ios_version_supported
 
 prepare_react_native_project!
 
-# If you are using a `react-native-flipper` your iOS build will fail when `NO_FLIPPER=1` is set.
-# because `react-native-flipper` depends on (FlipperKit,...) that will be excluded
-#
-# To fix this you can also exclude `react-native-flipper` using a `react-native.config.js`
-# ```js
-# module.exports = {
-#   dependencies: {
-#     ...(process.env.NO_FLIPPER ? { 'react-native-flipper': { platforms: { ios: null } } } : {}),
-# ```
-flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
-
 use_frameworks! :linkage => :static
+$RNFirebaseAsStaticFramework = true 
 
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
@@ -34,7 +24,6 @@ target 'reserva' do
   pod 'Firebase', :modular_headers => true
   pod 'FirebaseCore', :modular_headers => true
   pod 'GoogleUtilities', :modular_headers => true
-  $RNFirebaseAsStaticFramework = true 
 
   # Flags change depending on the env values.
   flags = get_default_flags()
@@ -44,12 +33,6 @@ target 'reserva' do
     # Hermes is now enabled by default. Disable by setting this flag to false.
     :hermes_enabled => flags[:hermes_enabled],
     :fabric_enabled => flags[:fabric_enabled],
-    # Enables Flipper.
-    #
-    # Note that if you have use_frameworks! enabled, Flipper will not work and
-    # you should disable the next line.
-    #:flipper_configuration => flipper_config,
-    # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
@@ -64,10 +47,10 @@ target 'reserva' do
 
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
 
-  #TODO update
-  #pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
   pod 'react-native-appsflyer', :path => '../node_modules/react-native-appsflyer'
+
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
 
   pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"
@@ -94,6 +77,7 @@ target 'reserva' do
       target.build_configurations.each do |config|
         config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'
+        target.build_settings(config.name)['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
       end
     end
   end

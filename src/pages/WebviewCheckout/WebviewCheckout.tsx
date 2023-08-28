@@ -2,31 +2,32 @@ import React, {
   useCallback, useEffect, useState,
 } from 'react';
 import { Linking, Platform, View } from 'react-native';
-import { WebView, WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
+import {
+  WebView,
+  type WebViewMessageEvent,
+  type WebViewNavigation,
+} from 'react-native-webview';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
 import EventProvider from '../../utils/EventProvider';
 import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { Button } from '../../components/Button';
-import { useCart } from '../../context/CartContext';
 import useAsyncStorageProvider, { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { urlRon } from '../../utils/LinkingUtils/static/deepLinkMethods';
 import { defaultBrand } from '../../utils/defaultWBrand';
 
-const WebviewCheckout = () => {
+function WebviewCheckout() {
   const navigation = useNavigation();
   const route = useRoute();
   const { actions } = useBagStore(['actions']);
-  const { setOrderFormLegacy } = useCart();
   const [loading, setLoading] = useState(false);
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
   const { getItem } = useAsyncStorageProvider();
 
   const pressAfterPurchaseCompleted = useCallback(async () => {
     setLoading(true);
-    setOrderFormLegacy('');
     const cookie = await getAsyncStorageItem('Auth:Cookie');
     try {
       await actions.CREATE_NEW_ORDER_FORM();
@@ -37,7 +38,7 @@ const WebviewCheckout = () => {
       setLoading(false);
       navigation.navigate('Home');
     }
-  }, [actions, navigation, setOrderFormLegacy]);
+  }, [actions, navigation]);
 
   const goBackToBagScreen = useCallback(() => {
     if (purchaseCompleted) {
@@ -107,25 +108,23 @@ const WebviewCheckout = () => {
 
           /* ---- Event fez-pedido-produto ---- */
           dataPurchaseCompleted.orderFormItems.forEach((item) => {
-            EventProvider.sendTrackEvent(
-              'fez-pedido-produto', {
+            EventProvider.sendTrackEvent('fez-pedido-produto', {
+              id: userRefDito,
+              action: 'fez-pedido-produto',
+              data: {
                 id: userRefDito,
-                action: 'fez-pedido-produto',
-                data: {
-                  id: userRefDito,
-                  id_transacao: dataPurchaseCompleted.orderId,
-                  quantidade: item.quantity,
-                  marca: dataPurchaseCompleted.wbrand,
-                  id_produto: item.productId,
-                  nome_produto: item.name,
-                  categorias_produto: item.productCategories,
-                  tamanho: item?.skuName?.split('-')?.[1]?.trim() || '',
-                  cor: item?.skuName?.split('-')?.[0]?.trim() || '',
-                  preco_produto: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,
-                  origem: 'app',
-                },
+                id_transacao: dataPurchaseCompleted.orderId,
+                quantidade: item.quantity,
+                marca: dataPurchaseCompleted.wbrand,
+                id_produto: item.productId,
+                nome_produto: item.name,
+                categorias_produto: item.productCategories,
+                tamanho: item?.skuName?.split('-')?.[1]?.trim() || '',
+                cor: item?.skuName?.split('-')?.[0]?.trim() || '',
+                preco_produto: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,
+                origem: 'app',
               },
-            );
+            });
           });
 
           /* ---- Event sendLastOrderData ---- */
@@ -187,23 +186,21 @@ const WebviewCheckout = () => {
           }
 
           /* ---- Event fez-pedido ---- */
-          EventProvider.sendTrackEvent(
-            'fez-pedido', {
+          EventProvider.sendTrackEvent('fez-pedido', {
+            id: userRefDito,
+            action: 'fez-pedido',
+            data: {
+              quantidade_produtos: dataPurchaseCompleted.totalQuantity,
+              id_transacao: dataPurchaseCompleted?.orderId || '',
+              metodo_pagamento: dataPurchaseCompleted.paymentSystemName,
+              subtotal: dataPurchaseCompleted.itemSubtotal,
+              total: dataPurchaseCompleted.itemTotal,
+              total_frete: dataPurchaseCompleted.itemShippingTotal,
+              origem: 'app',
+              dispositivo: Platform.OS,
               id: userRefDito,
-              action: 'fez-pedido',
-              data: {
-                quantidade_produtos: dataPurchaseCompleted.totalQuantity,
-                id_transacao: dataPurchaseCompleted?.orderId || '',
-                metodo_pagamento: dataPurchaseCompleted.paymentSystemName,
-                subtotal: dataPurchaseCompleted.itemSubtotal,
-                total: dataPurchaseCompleted.itemTotal,
-                total_frete: dataPurchaseCompleted.itemShippingTotal,
-                origem: 'app',
-                dispositivo: Platform.OS,
-                id: userRefDito,
-              },
             },
-          );
+          });
 
           /* ---- Event logPurchase ---- */
           EventProvider.logPurchase({
@@ -280,6 +277,6 @@ const WebviewCheckout = () => {
 
     </>
   );
-};
+}
 
 export default WebviewCheckout;

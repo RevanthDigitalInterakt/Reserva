@@ -21,7 +21,8 @@ export function HomeTabs() {
     >
       <Tab.Navigator
         tabBar={(props) => <TabBar {...props} />}
-        screenOptions={{ headerShown: false }}>
+        screenOptions={{ headerShown: false }}
+      >
         <Tab.Screen
           name="Home"
           component={Home}
@@ -39,13 +40,11 @@ export function HomeTabs() {
           name="WishList"
           component={WishList}
           initialParams={{ label: 'Favoritos' }}
-
         />
         <Tab.Screen
           name="Profile"
           component={MenuProfile}
           initialParams={{ label: 'Perfil' }}
-
         />
         <Tab.Screen
           name="Call"

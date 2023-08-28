@@ -4,34 +4,34 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { createZustandStoreWithSelectors } from '../utils/createZustandStoreWithSelectors';
 
 type TCacheKeys = 'appMenu'
-| 'banner'
-| 'brandsCarousel'
-| 'checkSearchRedirect'
-| 'config'
-| 'countdownClock'
-| 'facets'
-| 'getWishlist'
-| 'home'
-| 'homeCarousels'
-| 'homeMedias'
-| 'homeCountdown'
-| 'homeConfig'
-| 'landingPagePrime'
-| 'mktinStatus'
-| 'primeFAQ'
-| 'productDetail'
-| 'productFeaturedData'
-| 'productRecommendations'
-| 'productSearch'
-| 'profile'
-| 'searchSuggestionsAndProductSearch'
-| 'sellerInfo'
-| 'updateInApp'
-| 'mostSearchedWords'
-| 'searchNews'
-| 'search'
-| 'searchFacets'
-| 'searchAutocompleteSuggestions';
+  | 'banner'
+  | 'brandsCarousel'
+  | 'checkSearchRedirect'
+  | 'config'
+  | 'countdownClock'
+  | 'facets'
+  | 'getWishlist'
+  | 'home'
+  | 'homeCarousels'
+  | 'homeMedias'
+  | 'homeCountdown'
+  | 'homeConfig'
+  | 'landingPagePrime'
+  | 'mktinStatus'
+  | 'primeFAQ'
+  | 'productDetail'
+  | 'productFeaturedData'
+  | 'productRecommendations'
+  | 'productSearch'
+  | 'profile'
+  | 'searchSuggestionsAndProductSearch'
+  | 'sellerInfo'
+  | 'updateInApp'
+  | 'mostSearchedWords'
+  | 'searchNews'
+  | 'search'
+  | 'searchFacets'
+  | 'searchAutocompleteSuggestions';
 
 const ONE_MINUTE = 1000 * 60;
 const TWO_MINUTES = ONE_MINUTE * 2;
@@ -151,13 +151,14 @@ export const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
       });
     },
   }),
-  {
-    name: 'apollo-fetch-policy-storage',
-    storage: createJSONStorage(() => AsyncStorage),
-    onRehydrateStorage: () => (state) => {
-      state?.setInitialized();
+    {
+      name: 'apollo-fetch-policy-storage',
+      storage: createJSONStorage(() => AsyncStorage),
+      onRehydrateStorage: () => (state) => {
+        state?.setInitialized();
+      },
     },
-  }),
+  ),
 );
 
 export const useApolloFetchPolicyStore = createZustandStoreWithSelectors(apolloFetchPolicyStore);

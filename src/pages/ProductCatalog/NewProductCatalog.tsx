@@ -87,30 +87,28 @@ function NewProductCatalog({ route }: Props) {
     }
 
     return (
-      <>
-        <NewListVerticalProducts
-          data={result}
-          loading={loading}
-          headerComponent={(
-            <>
-              <NewCountdown
-                reference={reference}
-                selectClockScreen={ClockScreenEnum.Category}
-              />
-              <Banner
-                setLoading={setLoadingMedias}
-                reference={reference}
-              />
-              <ProductCatalogHeader
-                defaultFacets={defaultFacets}
-              />
-            </>
+      <NewListVerticalProducts
+        data={result}
+        loading={loading}
+        headerComponent={(
+          <>
+            <NewCountdown
+              reference={reference}
+              selectClockScreen={ClockScreenEnum.Category}
+            />
+            <Banner
+              setLoading={setLoadingMedias}
+              reference={reference}
+            />
+            <ProductCatalogHeader
+              defaultFacets={defaultFacets}
+            />
+          </>
         )}
-          marginBottom={0}
-          onFetchMore={doFetchMore}
-          total={resultCount}
-        />
-      </>
+        marginBottom={0}
+        onFetchMore={doFetchMore}
+        total={resultCount}
+      />
     );
   }, [
     loadingMedias,

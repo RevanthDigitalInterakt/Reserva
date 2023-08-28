@@ -34,7 +34,6 @@ export interface IRemoteConfigKeys {
   show_new_address_tester: boolean;
   show_new_address_list: boolean;
   show_new_address_list_tester: boolean;
-  show_new_webview_checkout: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -68,7 +67,6 @@ export const defaults: IRemoteConfigKeys = {
   show_new_address_tester: true,
   show_new_address_list: false,
   show_new_address_list_tester: true,
-  show_new_webview_checkout: false,
 };
 
 const THREE_MINUTES_IN_MS = 180000;

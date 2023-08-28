@@ -20,7 +20,7 @@ interface IProductRecommendation {
 
 export function ProductRecommendation({ handleScrollToTheTop }: IProductRecommendation) {
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
-  
+
   const BoxAnimated = createAnimatableComponent(Box);
 
   const {

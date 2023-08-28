@@ -23,7 +23,7 @@ import { Picker } from '../../../components/Picker/Picker';
 
 type Props = StackScreenProps<RootStackParamList, 'ChangeRegionalization'>;
 
-export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
+export function ChangeRegionalization({ route }:Props) {
   const [cepInputText, setCepInputText] = useState('');
   const [isCepAddress, setIsCepAddress] = useState<boolean | undefined>(false);
   const [isCepProductDetail, setIsCepProductDetail] = useState<boolean | undefined>(false);
@@ -151,16 +151,16 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
               validateOnBlur
               validateOnChange
               onSubmit={
-              async (values) => {
-                const data = await fetchCepInfo(values.cep);
-                navigate.navigate('CEPList', {
-                  list: [data],
-                  searchTerm: cepInputText,
-                  isCepAddress: isCepAddress || false,
-                  isCepProductDetail: isCepProductDetail || false,
-                });
+                async (values) => {
+                  const data = await fetchCepInfo(values.cep);
+                  navigate.navigate('CEPList', {
+                    list: [data],
+                    searchTerm: cepInputText,
+                    isCepAddress: isCepAddress || false,
+                    isCepProductDetail: isCepProductDetail || false,
+                  });
+                }
               }
-            }
             >
               {({ values }) => (
                 <Box
@@ -408,4 +408,4 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

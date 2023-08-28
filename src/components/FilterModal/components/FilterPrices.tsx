@@ -4,8 +4,8 @@ import TitleFilter from './TitleFilter';
 import type { SearchFacetRangeOutput } from '../../../base/graphql/generated';
 
 import configDeviceSizes from '../../../utils/configDeviceSizes';
-import { Range } from '../../../modules/ProductCatalog/modals/FilterModal/FilterModal';
 import { Box } from '../../Box/Box';
+import { Range } from '../../Range/Range';
 
 const BoxAnimation = createAnimatableComponent(Box);
 

@@ -1,17 +1,17 @@
+import { useNavigation } from '@react-navigation/native';
 import React, {
   useCallback, useMemo, useRef, useState,
 } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import type { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescript/types';
-import Carousel from 'react-native-reanimated-carousel';
 import { Pressable, View } from 'react-native';
-import { Box } from '@usereservaapp/reserva-ui';
+import Carousel from 'react-native-reanimated-carousel';
+import type { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescript/types';
 import type { HomeCarouselItemOutput, HomeCarouselOutput } from '../../../../base/graphql/generated';
 import NewBanner from '../../../../components/Banner/NewBanner';
-import CarrouselScrollIndicator from '../../../../modules/Home/component/CarouselScrollIndicator';
-import testProps from '../../../../utils/testProps';
-import configDeviceSizes from '../../../../utils/configDeviceSizes';
+import { Box } from '../../../../components/Box/Box';
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
+import CarrouselScrollIndicator from '../../../../modules/Home/component/CarouselScrollIndicator';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
+import testProps from '../../../../utils/testProps';
 
 interface IHomeMainCarousel {
   data: HomeCarouselOutput;

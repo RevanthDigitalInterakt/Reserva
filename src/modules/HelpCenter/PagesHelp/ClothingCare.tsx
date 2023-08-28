@@ -9,7 +9,7 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 const windowWidth = Dimensions.get('window').width;
 const SIZE_ICONS_CARDS = 20;
 
-export const ClothingCare = () => {
+export function ClothingCare() {
   useEffect(() => {}, []);
 
   return (
@@ -740,4 +740,4 @@ export const ClothingCare = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}
