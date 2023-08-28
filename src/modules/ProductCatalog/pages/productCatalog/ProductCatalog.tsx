@@ -17,7 +17,6 @@ import { Linking } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
-import { useConfigContext } from '../../../../context/ConfigContext';
 import { countdownClockQuery, ICountDownClock } from '../../../../graphql/countDownClock/countdownClockQuery';
 import { facetsQuery } from '../../../../graphql/facets/facetsQuery';
 import {
@@ -53,6 +52,7 @@ import { getCollectionFacetsValue } from '../../../../utils/getCollectionFacetsV
 import { durationToTimeString } from '../../../../utils/durationToTimeString';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 import { usePageLoadingStore } from '../../../../zustand/usePageLoadingStore/usePageLoadingStore';
+import useHomeStore from '../../../../zustand/useHomeStore';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -101,7 +101,7 @@ const DEFAULT_NEXT_PAGINATION = {
 const defaultCategory = 'collection:2407';
 
 export const ProductCatalog: React.FC<Props> = ({ route, navigation }) => {
-  const { offersPage: collectionIdByContentful } = useConfigContext();
+  const { offersPage: collectionIdByContentful } = useHomeStore(['offersPage']);
 
   const {
     safeArea, search, referenceId, filters, comeFrom, indexMenuOpened,

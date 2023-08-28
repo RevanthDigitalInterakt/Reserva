@@ -11,16 +11,13 @@ import remoteConfig from '@react-native-firebase/remote-config';
 import { linkingConfig } from './config/linking';
 import CartContextProvider from './context/CartContext';
 import ChronometerContextProvider from './context/ChronometerContext';
-import ConfigContextProvider from './context/ConfigContext';
 import ContentfullContextProvider from './context/ContentfullContext';
 import { FirebaseContextProvider } from './context/FirebaseContext';
 import RegionalSearchContextProvider from './context/RegionalSearchContext';
 import StatusBarContextProvider from './context/StatusBarContext';
 import useAsyncStorageProvider from './hooks/useAsyncStorageProvider';
 import InitialScreen from './InitialScreen';
-import { Maintenance } from './modules/Home/pages/Maintenance';
 import { AppRouting } from './routes/AppRouting';
-import { RemoteConfigService } from './shared/services/RemoteConfigService';
 import EventProvider from './utils/EventProvider';
 import ToastProvider from './utils/Toast';
 import { useRemoteConfig } from './hooks/useRemoteConfig';
@@ -31,6 +28,7 @@ import { ExceptionProvider } from './base/providers/ExceptionProvider';
 import sentryConfig from './config/sentryConfig';
 import DatadogComponentProvider from './components/DatadogComponentProvider';
 import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
+import { useConnectivityStore } from './zustand/useConnectivityStore';
 
 const DefaultTheme = {
   colors: {
@@ -38,11 +36,11 @@ const DefaultTheme = {
   },
 };
 
-const App = () => {
+function App() {
   useApolloFetchPolicyStore(['initialized']);
 
+  const { onListenEvents: onListenConnectivityEvents } = useConnectivityStore(['onListenEvents']);
   const [isTesting, setIsTesting] = useState<boolean>(false);
-  const [isOnMaintenance, setIsOnMaintenance] = useState(false);
   const client = useApolloClientHook(isTesting);
   const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
 
@@ -56,6 +54,7 @@ const App = () => {
   useEffect(() => {
     firstLaunchedData();
 
+    onListenConnectivityEvents();
     remoteConfigStore.fetchInitialData(remoteConfig());
   }, []);
 
@@ -64,13 +63,6 @@ const App = () => {
 
     setIsTesting(res === 'true');
   }, []);
-
-  const getMaintenanceValue = async () => {
-    const screenMaintenance = await RemoteConfigService.getValue<boolean>(
-      'SCREEN_MAINTENANCE',
-    );
-    setIsOnMaintenance(screenMaintenance);
-  };
 
   useEffect(() => {
     getTestEnvironment();
@@ -82,59 +74,49 @@ const App = () => {
     })();
 
     EventProvider.initializeModules();
-
-    setTimeout(() => {
-      getMaintenanceValue();
-    }, 1000);
   }, []);
 
   return (
     <DatadogComponentProvider>
       <ThemeProvider theme={theme}>
         <ApolloProvider client={client}>
-          <ConfigContextProvider>
-            <StatusBarContextProvider>
-              <NavigationContainer
-                linking={linkingConfig}
-                theme={DefaultTheme}
-                onReady={() => {
-                  ExceptionProvider.trackScreen();
-                  RNBootSplash.hide();
-                  onStartLoad(navigationRef.current?.getCurrentRoute()?.name);
-                }}
-                ref={navigationRef}
-                onStateChange={() => {
-                  ExceptionProvider.trackScreen();
+          <StatusBarContextProvider>
+            <NavigationContainer
+              linking={linkingConfig}
+              theme={DefaultTheme}
+              onReady={() => {
+                ExceptionProvider.trackScreen();
+                RNBootSplash.hide();
+                onStartLoad(navigationRef.current?.getCurrentRoute()?.name);
+              }}
+              ref={navigationRef}
+              onStateChange={() => {
+                ExceptionProvider.trackScreen();
 
-                  const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
-                  onStartLoad(currentRouteName);
-                }}
-              >
-                {isOnMaintenance ? (
-                  <Maintenance isVisible />
-                ) : (
-                  <CartContextProvider>
-                    <ContentfullContextProvider>
-                      <RegionalSearchContextProvider>
-                        <FirebaseContextProvider>
-                          <ChronometerContextProvider>
-                            <InitialScreen>
-                              <AppRouting />
-                            </InitialScreen>
-                          </ChronometerContextProvider>
-                        </FirebaseContextProvider>
-                      </RegionalSearchContextProvider>
-                    </ContentfullContextProvider>
-                  </CartContextProvider>
-                )}
-              </NavigationContainer>
-            </StatusBarContextProvider>
-          </ConfigContextProvider>
+                const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
+                onStartLoad(currentRouteName);
+              }}
+            >
+              <CartContextProvider>
+                <ContentfullContextProvider>
+                  <RegionalSearchContextProvider>
+                    <FirebaseContextProvider>
+                      <ChronometerContextProvider>
+                        <InitialScreen>
+                          <AppRouting />
+                        </InitialScreen>
+                      </ChronometerContextProvider>
+                    </FirebaseContextProvider>
+                  </RegionalSearchContextProvider>
+                </ContentfullContextProvider>
+              </CartContextProvider>
+            </NavigationContainer>
+          </StatusBarContextProvider>
           <ToastProvider />
         </ApolloProvider>
       </ThemeProvider>
     </DatadogComponentProvider>
   );
-};
+}
 
 export default sentryConfig.wrap(App);

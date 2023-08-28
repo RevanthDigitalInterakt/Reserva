@@ -2,7 +2,9 @@
 
 ### 2.0.13
 
-- [SRN-17015 Inserir frete na sacola](https://dev.azure.com/areco/Canal%20App%20e%20Omni/_workitems/edit/17015/)
+- [17015 - Inserir frete na sacola](https://dev.azure.com/areco/Canal%20App%20e%20Omni/_workitems/edit/17015/)
+- [16233 - Teste A/B home refatorada](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16233)
+- [16232 - Refatoração home](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16232)
 
 ---
 

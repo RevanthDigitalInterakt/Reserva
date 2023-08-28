@@ -18,7 +18,6 @@ export interface IRemoteConfigKeys {
   show_new_bag_tester: boolean;
   show_new_search: boolean;
   show_new_search_tester: boolean;
-  show_campaign_boyfriend: boolean;
   show_pdc_thumb_color: boolean;
   primelp_terms_search: string;
   pdp_button_add_bag: string;
@@ -55,7 +54,6 @@ export const defaults: IRemoteConfigKeys = {
   show_new_bag_tester: true,
   show_new_search: false,
   show_new_search_tester: false,
-  show_campaign_boyfriend: false,
   pdp_button_add_bag: '#11AB6B',
   sale_off_tag: false,
   show_pdc_thumb_color: false,

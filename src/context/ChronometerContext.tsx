@@ -31,12 +31,7 @@ const ChronometerContextProvider = ({
   const [time, setTime] = useState<Time>();
 
   return (
-    <ChronometerContext.Provider
-      value={{
-        time,
-        setTime,
-      }}
-    >
+    <ChronometerContext.Provider value={{ time, setTime }}>
       {children}
     </ChronometerContext.Provider>
   );
@@ -47,8 +42,6 @@ export default ChronometerContextProvider;
 export const useCountDown = () => {
   const chronometerContext = useContext(ChronometerContext);
   const { time, setTime } = chronometerContext;
-  return {
-    time,
-    setTime,
-  };
+
+  return { time, setTime };
 };

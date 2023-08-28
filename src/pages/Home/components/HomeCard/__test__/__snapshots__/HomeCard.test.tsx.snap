@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PrimeLP should match to snapshot 1`] = `
+<View
+  accessibilityLabel="com.usereserva:id/card_container_category:1689"
+  style={
+    Array [
+      Object {},
+    ]
+  }
+  testID="com.usereserva:id/card_container_category:1689"
+>
+  <View
+    alignItems="center"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+        },
+      ]
+    }
+  >
+    <View
+      accessibilityLabel="com.usereserva:id/card_button_category:1689"
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "opacity": 1,
+        }
+      }
+      testID="com.usereserva:id/card_button_category:1689"
+    >
+      <Image
+        height={280}
+        resizeMode="contain"
+        source={
+          Object {
+            "uri": "https://image.com",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "height": 0,
+              "width": 621.5,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
