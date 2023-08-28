@@ -1,10 +1,10 @@
-import { ProductCatalogABTest } from '../../modules/ProductCatalog/pages/productCatalog/ProductCatalogABTest';
 import ProductDetail from '../../pages/ProductDetail';
 import type { Flow } from '../types/flow.type';
+import NewProductCatalog from '../../pages/ProductCatalog';
 
 export const ProductFlow: Flow[] = [
   {
-    component: ProductCatalogABTest,
+    component: NewProductCatalog,
     name: 'ProductCatalog',
     initialParams: {
       safeArea: true,

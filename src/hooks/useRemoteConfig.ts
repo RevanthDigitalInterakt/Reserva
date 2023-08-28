@@ -16,9 +16,6 @@ export interface IRemoteConfigKeys {
   pdp_show_video_tester: boolean;
   show_new_bag: boolean;
   show_new_bag_tester: boolean;
-  show_new_search: boolean;
-  show_new_search_tester: boolean;
-  show_campaign_boyfriend: boolean;
   show_pdc_thumb_color: boolean;
   primelp_terms_search: string;
   pdp_button_add_bag: string;
@@ -33,8 +30,6 @@ export interface IRemoteConfigKeys {
   show_price_prime_pdp: boolean;
   show_price_prime_pdc: boolean;
   regionalization: boolean;
-  show_new_product_catalog_tester: boolean,
-  show_new_product_catalog: boolean,
   show_new_address: boolean;
   show_new_address_tester: boolean;
   show_new_address_list: boolean;
@@ -53,9 +48,6 @@ type TRemoteConfigStringArrayKeys = KeysMatching<IRemoteConfigKeys, string[]>;
 export const defaults: IRemoteConfigKeys = {
   show_new_bag: false,
   show_new_bag_tester: true,
-  show_new_search: false,
-  show_new_search_tester: false,
-  show_campaign_boyfriend: false,
   pdp_button_add_bag: '#11AB6B',
   sale_off_tag: false,
   show_pdc_thumb_color: false,
@@ -71,8 +63,6 @@ export const defaults: IRemoteConfigKeys = {
   show_price_prime_pdc: false,
   pdp_show_video: false,
   pdp_show_video_tester: false,
-  show_new_product_catalog_tester: false,
-  show_new_product_catalog: false,
   regionalization: false,
   show_new_address: false,
   show_new_address_tester: true,

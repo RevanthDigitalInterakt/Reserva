@@ -1,0 +1,1182 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomeCarousel should match to snapshot 1`] = `
+<View>
+  <View
+    accessibilityLabel="com.usereserva:id/carousels_cards"
+    testID="com.usereserva:id/carousels_cards"
+  >
+    <View
+      accessibilityLabel="com.usereserva:id/default_carrousel_container"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+      testID="com.usereserva:id/default_carrousel_container"
+    >
+      <View
+        collapsable={false}
+        onGestureHandlerEvent={[Function]}
+        onGestureHandlerStateChange={[Function]}
+        onTouchEnd={[Function]}
+        onTouchStart={[Function]}
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Object {
+              "height": 972,
+              "width": 750,
+            },
+            Object {
+              "backgroundColor": "rgba(0, 0, 255, 0)",
+              "position": "relative",
+            },
+            Object {
+              "flexDirection": "row",
+            },
+          ]
+        }
+        testID="com.usereserva:id/default_carrousel_content"
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "height": 972,
+                "position": "absolute",
+                "width": 750,
+              },
+              Object {
+                "transform": Array [
+                  Object {
+                    "translateX": undefined,
+                  },
+                ],
+              },
+            ]
+          }
+        />
+        <View
+          style={
+            Array [
+              Object {
+                "height": 972,
+                "position": "absolute",
+                "width": 750,
+              },
+              Object {
+                "transform": Array [
+                  Object {
+                    "translateX": undefined,
+                  },
+                ],
+              },
+            ]
+          }
+        />
+        <View
+          style={
+            Array [
+              Object {
+                "height": 972,
+                "position": "absolute",
+                "width": 750,
+              },
+              Object {
+                "transform": Array [
+                  Object {
+                    "translateX": undefined,
+                  },
+                ],
+              },
+            ]
+          }
+        />
+      </View>
+      <View
+        bottom={10}
+        flexDirection="row"
+        position="absolute"
+        style={
+          Array [
+            Object {
+              "bottom": 10,
+              "flexDirection": "row",
+              "position": "absolute",
+              "zIndex": 3,
+            },
+          ]
+        }
+        testID="com.usereserva:id/carrousel_scroll_indicator_container"
+        zIndex={3}
+      >
+        <View
+          backgroundColor="neutroFrio2"
+          flex={1}
+          height={2}
+          marginLeft="quarck"
+          marginRight="quarck"
+          onLayout={[Function]}
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#8A8C8E",
+                "flexBasis": 0,
+                "flexGrow": 1,
+                "flexShrink": 1,
+                "height": 2,
+                "marginLeft": 4,
+                "marginRight": 4,
+              },
+              Object {
+                "overflow": "hidden",
+              },
+            ]
+          }
+        >
+          <View
+            accessibilityLabel="com.usereserva:id/carrousel_scroll_indicator_animated_view"
+            style={
+              Object {
+                "backgroundColor": "#D8D9DA",
+                "height": "100%",
+                "left": 0,
+                "position": "absolute",
+                "top": 0,
+                "transform": Array [
+                  Object {
+                    "translateX": -10000,
+                  },
+                ],
+                "width": "100%",
+              }
+            }
+            testID="com.usereserva:id/carrousel_scroll_indicator_animated_view"
+          />
+        </View>
+        <View
+          backgroundColor="neutroFrio2"
+          flex={1}
+          height={2}
+          marginLeft={null}
+          marginRight="quarck"
+          onLayout={[Function]}
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#8A8C8E",
+                "flexBasis": 0,
+                "flexGrow": 1,
+                "flexShrink": 1,
+                "height": 2,
+                "marginRight": 4,
+              },
+              Object {
+                "overflow": "hidden",
+              },
+            ]
+          }
+        />
+        <View
+          backgroundColor="neutroFrio2"
+          flex={1}
+          height={2}
+          marginLeft={null}
+          marginRight="quarck"
+          onLayout={[Function]}
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#8A8C8E",
+                "flexBasis": 0,
+                "flexGrow": 1,
+                "flexShrink": 1,
+                "height": 2,
+                "marginRight": 4,
+              },
+              Object {
+                "overflow": "hidden",
+              },
+            ]
+          }
+        />
+      </View>
+    </View>
+  </View>
+  <View
+    accessibilityLabel="com.usereserva:id/carousels_cards"
+    testID="com.usereserva:id/carousels_cards"
+  >
+    <RCTScrollView
+      accessibilityLabel="com.usereserva:id/brands_flatList"
+      contentContainerStyle={
+        Object {
+          "paddingHorizontal": 10,
+          "paddingVertical": 2,
+        }
+      }
+      data={
+        Array [
+          Object {
+            "__typename": "HomeCarouselItemOutput",
+            "facets": Array [
+              Object {
+                "__typename": "ProductFacetOutput",
+                "key": "productClusterIds",
+                "value": "2875",
+              },
+            ],
+            "image": Object {
+              "__typename": "HomeCarouselItemImageOutput",
+              "height": null,
+              "title": "",
+              "url": "https://images.ctfassets.net/6jsfqc13oxv4/2KV8eKVsr4frv5Wcd0oYPr/bbb405ea436cf621a9ed5993a3a9d726/AF_RESERVA_LOGO_PREFERENCIAL_VERSAO_COR_POSITIVA.png",
+              "width": null,
+            },
+            "linkMktIn": null,
+            "mkt": false,
+            "orderBy": "RELEVANCIA",
+            "reference": "collection:2875",
+            "reservaMini": false,
+          },
+          Object {
+            "__typename": "HomeCarouselItemOutput",
+            "facets": Array [
+              Object {
+                "__typename": "ProductFacetOutput",
+                "key": "productClusterIds",
+                "value": "930",
+              },
+            ],
+            "image": Object {
+              "__typename": "HomeCarouselItemImageOutput",
+              "height": null,
+              "title": "",
+              "url": "https://images.ctfassets.net/6jsfqc13oxv4/1QoMJOvYTiEXSPp5zSDtUi/cff6ae1381f71a26cce9bfe428dd9638/rsvGO-logos-02.png",
+              "width": null,
+            },
+            "linkMktIn": null,
+            "mkt": false,
+            "orderBy": "RELEVANCIA",
+            "reference": "collection:930",
+            "reservaMini": false,
+          },
+          Object {
+            "__typename": "HomeCarouselItemOutput",
+            "facets": Array [
+              Object {
+                "__typename": "ProductFacetOutput",
+                "key": "productClusterIds",
+                "value": "2605",
+              },
+            ],
+            "image": Object {
+              "__typename": "HomeCarouselItemImageOutput",
+              "height": null,
+              "title": "",
+              "url": "https://images.ctfassets.net/6jsfqc13oxv4/6sXahjVEmwE9iUsW8xGS0w/e90491227f8afab77a3d88da8f5e5ac9/AF_RESERVA_MINI_LOGO_SIMPLIFICADO_VERSAO_COR_VERMELHO_POSITIVA_RGB.png",
+              "width": null,
+            },
+            "linkMktIn": null,
+            "mkt": false,
+            "orderBy": "RELEVANCIA",
+            "reference": "collection:2605",
+            "reservaMini": false,
+          },
+          Object {
+            "__typename": "HomeCarouselItemOutput",
+            "facets": Array [
+              Object {
+                "__typename": "ProductFacetOutput",
+                "key": "productClusterIds",
+                "value": "1228",
+              },
+            ],
+            "image": Object {
+              "__typename": "HomeCarouselItemImageOutput",
+              "height": null,
+              "title": "",
+              "url": "https://images.ctfassets.net/6jsfqc13oxv4/zt55b6oFguzEyCVuxRTp1/1bc54d91b42556a00babbc0a7ce28040/Reversa.png",
+              "width": null,
+            },
+            "linkMktIn": null,
+            "mkt": false,
+            "orderBy": "RELEVANCIA",
+            "reference": "collection:1228",
+            "reservaMini": false,
+          },
+          Object {
+            "__typename": "HomeCarouselItemOutput",
+            "facets": Array [
+              Object {
+                "__typename": "ProductFacetOutput",
+                "key": "productClusterIds",
+                "value": "1587",
+              },
+            ],
+            "image": Object {
+              "__typename": "HomeCarouselItemImageOutput",
+              "height": null,
+              "title": "",
+              "url": "https://images.ctfassets.net/6jsfqc13oxv4/1YN28l3BTXvea0PzgDkiP/55d8e1fa4538beabb474aee2f786c4db/oculos_reserva.png",
+              "width": null,
+            },
+            "linkMktIn": null,
+            "mkt": false,
+            "orderBy": "RELEVANCIA",
+            "reference": "collection:1587",
+            "reservaMini": false,
+          },
+        ]
+      }
+      decelerationRate="fast"
+      disableVirtualization={false}
+      getItem={[Function]}
+      getItemCount={[Function]}
+      horizontal={true}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      onContentSizeChange={[Function]}
+      onEndReachedThreshold={2}
+      onLayout={[Function]}
+      onMomentumScrollEnd={[Function]}
+      onScroll={[Function]}
+      onScrollBeginDrag={[Function]}
+      onScrollEndDrag={[Function]}
+      removeClippedSubviews={false}
+      renderItem={[Function]}
+      scrollEnabled={true}
+      scrollEventThrottle={16}
+      showsHorizontalScrollIndicator={false}
+      snapToAlignment="start"
+      stickyHeaderIndices={Array []}
+      style={
+        Object {
+          "marginVertical": 13,
+        }
+      }
+      testID="com.usereserva:id/brands_flatList"
+      updateCellsBatchingPeriod={50}
+      viewabilityConfigCallbackPairs={Array []}
+      windowSize={21}
+    >
+      <View>
+        <View
+          onLayout={[Function]}
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+              },
+              null,
+            ]
+          }
+        >
+          <View
+            accessibilityLabel="com.usereserva:id/brands_brand_container-0"
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#ffffff",
+                "borderRadius": 10,
+                "display": "flex",
+                "elevation": 5,
+                "height": 48,
+                "justifyContent": "center",
+                "marginBottom": 10,
+                "marginRight": 10,
+                "marginTop": 10,
+                "maxHeight": 48,
+                "maxWidth": 78,
+                "opacity": 1,
+                "shadowColor": "#000",
+                "shadowOffset": Object {
+                  "height": 2,
+                  "width": 2,
+                },
+                "shadowOpacity": 0.15,
+                "shadowRadius": 4,
+                "width": 78,
+              }
+            }
+            testID="com.usereserva:id/brands_brand_container-0"
+          >
+            <Image
+              resizeMode="contain"
+              source={
+                Object {
+                  "uri": "https://images.ctfassets.net/6jsfqc13oxv4/2KV8eKVsr4frv5Wcd0oYPr/bbb405ea436cf621a9ed5993a3a9d726/AF_RESERVA_LOGO_PREFERENCIAL_VERSAO_COR_POSITIVA.png",
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "height": 0,
+                    "width": 750,
+                  },
+                  Object {
+                    "height": 20,
+                    "maxHeight": 20,
+                    "maxWidth": 60,
+                    "width": 60,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+        <View
+          onLayout={[Function]}
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+              },
+              null,
+            ]
+          }
+        >
+          <View
+            accessibilityLabel="com.usereserva:id/brands_brand_container-1"
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#ffffff",
+                "borderRadius": 10,
+                "display": "flex",
+                "elevation": 5,
+                "height": 48,
+                "justifyContent": "center",
+                "marginBottom": 10,
+                "marginRight": 10,
+                "marginTop": 10,
+                "maxHeight": 48,
+                "maxWidth": 78,
+                "opacity": 1,
+                "shadowColor": "#000",
+                "shadowOffset": Object {
+                  "height": 2,
+                  "width": 2,
+                },
+                "shadowOpacity": 0.15,
+                "shadowRadius": 4,
+                "width": 78,
+              }
+            }
+            testID="com.usereserva:id/brands_brand_container-1"
+          >
+            <Image
+              resizeMode="contain"
+              source={
+                Object {
+                  "uri": "https://images.ctfassets.net/6jsfqc13oxv4/1QoMJOvYTiEXSPp5zSDtUi/cff6ae1381f71a26cce9bfe428dd9638/rsvGO-logos-02.png",
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "height": 0,
+                    "width": 750,
+                  },
+                  Object {
+                    "height": 20,
+                    "maxHeight": 20,
+                    "maxWidth": 60,
+                    "width": 60,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+        <View
+          onLayout={[Function]}
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+              },
+              null,
+            ]
+          }
+        >
+          <View
+            accessibilityLabel="com.usereserva:id/brands_brand_container-2"
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#ffffff",
+                "borderRadius": 10,
+                "display": "flex",
+                "elevation": 5,
+                "height": 48,
+                "justifyContent": "center",
+                "marginBottom": 10,
+                "marginRight": 10,
+                "marginTop": 10,
+                "maxHeight": 48,
+                "maxWidth": 78,
+                "opacity": 1,
+                "shadowColor": "#000",
+                "shadowOffset": Object {
+                  "height": 2,
+                  "width": 2,
+                },
+                "shadowOpacity": 0.15,
+                "shadowRadius": 4,
+                "width": 78,
+              }
+            }
+            testID="com.usereserva:id/brands_brand_container-2"
+          >
+            <Image
+              resizeMode="contain"
+              source={
+                Object {
+                  "uri": "https://images.ctfassets.net/6jsfqc13oxv4/6sXahjVEmwE9iUsW8xGS0w/e90491227f8afab77a3d88da8f5e5ac9/AF_RESERVA_MINI_LOGO_SIMPLIFICADO_VERSAO_COR_VERMELHO_POSITIVA_RGB.png",
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "height": 0,
+                    "width": 750,
+                  },
+                  Object {
+                    "height": 20,
+                    "maxHeight": 20,
+                    "maxWidth": 60,
+                    "width": 60,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+        <View
+          onLayout={[Function]}
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+              },
+              null,
+            ]
+          }
+        >
+          <View
+            accessibilityLabel="com.usereserva:id/brands_brand_container-3"
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#ffffff",
+                "borderRadius": 10,
+                "display": "flex",
+                "elevation": 5,
+                "height": 48,
+                "justifyContent": "center",
+                "marginBottom": 10,
+                "marginRight": 10,
+                "marginTop": 10,
+                "maxHeight": 48,
+                "maxWidth": 78,
+                "opacity": 1,
+                "shadowColor": "#000",
+                "shadowOffset": Object {
+                  "height": 2,
+                  "width": 2,
+                },
+                "shadowOpacity": 0.15,
+                "shadowRadius": 4,
+                "width": 78,
+              }
+            }
+            testID="com.usereserva:id/brands_brand_container-3"
+          >
+            <Image
+              resizeMode="contain"
+              source={
+                Object {
+                  "uri": "https://images.ctfassets.net/6jsfqc13oxv4/zt55b6oFguzEyCVuxRTp1/1bc54d91b42556a00babbc0a7ce28040/Reversa.png",
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "height": 0,
+                    "width": 750,
+                  },
+                  Object {
+                    "height": 20,
+                    "maxHeight": 20,
+                    "maxWidth": 60,
+                    "width": 60,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+        <View
+          onLayout={[Function]}
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+              },
+              null,
+            ]
+          }
+        >
+          <View
+            accessibilityLabel="com.usereserva:id/brands_brand_container-4"
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#ffffff",
+                "borderRadius": 10,
+                "display": "flex",
+                "elevation": 5,
+                "height": 48,
+                "justifyContent": "center",
+                "marginBottom": 10,
+                "marginRight": 10,
+                "marginTop": 10,
+                "maxHeight": 48,
+                "maxWidth": 78,
+                "opacity": 1,
+                "shadowColor": "#000",
+                "shadowOffset": Object {
+                  "height": 2,
+                  "width": 2,
+                },
+                "shadowOpacity": 0.15,
+                "shadowRadius": 4,
+                "width": 78,
+              }
+            }
+            testID="com.usereserva:id/brands_brand_container-4"
+          >
+            <Image
+              resizeMode="contain"
+              source={
+                Object {
+                  "uri": "https://images.ctfassets.net/6jsfqc13oxv4/1YN28l3BTXvea0PzgDkiP/55d8e1fa4538beabb474aee2f786c4db/oculos_reserva.png",
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "height": 0,
+                    "width": 750,
+                  },
+                  Object {
+                    "height": 20,
+                    "maxHeight": 20,
+                    "maxWidth": 60,
+                    "width": 60,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+    </RCTScrollView>
+  </View>
+  <View
+    accessibilityLabel="com.usereserva:id/carousels_cards"
+    testID="com.usereserva:id/carousels_cards"
+  >
+    <View
+      accessibilityLabel="com.usereserva:id/cards_carrousel_container"
+      style={
+        Array [
+          Object {},
+        ]
+      }
+      testID="com.usereserva:id/cards_carrousel_container"
+    >
+      <RCTScrollView
+        accessibilityLabel="com.usereserva:id/cards_carrousel_animated_flat_list"
+        bounces={false}
+        contentContainerStyle={
+          Object {
+            "paddingLeft": 4,
+            "paddingRight": 4,
+          }
+        }
+        data={
+          Array [
+            Object {
+              "__typename": "HomeCarouselItemOutput",
+              "facets": Array [
+                Object {
+                  "__typename": "ProductFacetOutput",
+                  "key": "productClusterIds",
+                  "value": "2231",
+                },
+              ],
+              "image": Object {
+                "__typename": "HomeCarouselItemImageOutput",
+                "height": 898,
+                "title": "[Card] Liqui Reserva Camisas 2023",
+                "url": "https://images.ctfassets.net/6jsfqc13oxv4/4ezAqZI6EBjBKlHbjC1nRR/e5a1c423c52ad2bd705f06b5336be55f/banner-card_app-camisas.jpg",
+                "width": 1114,
+              },
+              "linkMktIn": null,
+              "mkt": false,
+              "orderBy": "RELEVANCIA",
+              "reference": "collection:2231",
+              "reservaMini": false,
+            },
+            Object {
+              "__typename": "HomeCarouselItemOutput",
+              "facets": Array [
+                Object {
+                  "__typename": "ProductFacetOutput",
+                  "key": "productClusterIds",
+                  "value": "2234",
+                },
+              ],
+              "image": Object {
+                "__typename": "HomeCarouselItemImageOutput",
+                "height": 898,
+                "title": "[Card] Liqui Reserva Calças 2023",
+                "url": "https://images.ctfassets.net/6jsfqc13oxv4/2cg232VjWWBOuB0mKL8lB6/999a65cb9f5c55090e44a9c35c20d0b6/banner-card_app-calcas.jpg",
+                "width": 1114,
+              },
+              "linkMktIn": null,
+              "mkt": false,
+              "orderBy": "RELEVANCIA",
+              "reference": "collection:2234",
+              "reservaMini": false,
+            },
+            Object {
+              "__typename": "HomeCarouselItemOutput",
+              "facets": Array [
+                Object {
+                  "__typename": "ProductFacetOutput",
+                  "key": "productClusterIds",
+                  "value": "2232",
+                },
+              ],
+              "image": Object {
+                "__typename": "HomeCarouselItemImageOutput",
+                "height": 898,
+                "title": "[Card] Liqui Reserva Polos 2023",
+                "url": "https://images.ctfassets.net/6jsfqc13oxv4/28yQznd8Yw0jugpXqSteow/65a161d411d1920a303a5d5c7a65e424/banner-card_app-polos.jpg",
+                "width": 1114,
+              },
+              "linkMktIn": null,
+              "mkt": false,
+              "orderBy": "RELEVANCIA",
+              "reference": "collection:2232",
+              "reservaMini": false,
+            },
+          ]
+        }
+        decelerationRate="fast"
+        disableVirtualization={false}
+        getItem={[Function]}
+        getItemCount={[Function]}
+        horizontal={true}
+        initialNumToRender={10}
+        keyExtractor={[Function]}
+        maxToRenderPerBatch={10}
+        onContentSizeChange={[Function]}
+        onEndReachedThreshold={2}
+        onLayout={[Function]}
+        onMomentumScrollEnd={[Function]}
+        onScroll={[Function]}
+        onScrollBeginDrag={[Function]}
+        onScrollEndDrag={[Function]}
+        removeClippedSubviews={false}
+        renderItem={[Function]}
+        scrollEventThrottle={16}
+        showsHorizontalScrollIndicator={false}
+        snapToAlignment="start"
+        snapToOffsets={
+          Array [
+            -48,
+            589.5,
+            1227,
+          ]
+        }
+        stickyHeaderIndices={Array []}
+        style={Object {}}
+        testID="com.usereserva:id/cards_carrousel_animated_flat_list"
+        updateCellsBatchingPeriod={50}
+        viewabilityConfigCallbackPairs={Array []}
+        windowSize={21}
+      >
+        <View>
+          <View
+            onLayout={[Function]}
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              accessibilityLabel="com.usereserva:id/card_container_collection:2231"
+              style={
+                Array [
+                  Object {},
+                ]
+              }
+              testID="com.usereserva:id/card_container_collection:2231"
+            >
+              <View
+                alignItems="center"
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                    },
+                  ]
+                }
+              >
+                <View
+                  accessibilityLabel="com.usereserva:id/card_button_collection:2231"
+                  accessible={true}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                      "opacity": 1,
+                    }
+                  }
+                  testID="com.usereserva:id/card_button_collection:2231"
+                >
+                  <Image
+                    height={280}
+                    resizeMode="contain"
+                    source={
+                      Object {
+                        "uri": "https://images.ctfassets.net/6jsfqc13oxv4/4ezAqZI6EBjBKlHbjC1nRR/e5a1c423c52ad2bd705f06b5336be55f/banner-card_app-camisas.jpg",
+                      }
+                    }
+                    style={
+                      Array [
+                        Object {
+                          "height": 0,
+                          "width": 621.5,
+                        },
+                        undefined,
+                      ]
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            onLayout={[Function]}
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              accessibilityLabel="com.usereserva:id/card_container_collection:2234"
+              style={
+                Array [
+                  Object {},
+                ]
+              }
+              testID="com.usereserva:id/card_container_collection:2234"
+            >
+              <View
+                alignItems="center"
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                    },
+                  ]
+                }
+              >
+                <View
+                  accessibilityLabel="com.usereserva:id/card_button_collection:2234"
+                  accessible={true}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                      "opacity": 1,
+                    }
+                  }
+                  testID="com.usereserva:id/card_button_collection:2234"
+                >
+                  <Image
+                    height={280}
+                    resizeMode="contain"
+                    source={
+                      Object {
+                        "uri": "https://images.ctfassets.net/6jsfqc13oxv4/2cg232VjWWBOuB0mKL8lB6/999a65cb9f5c55090e44a9c35c20d0b6/banner-card_app-calcas.jpg",
+                      }
+                    }
+                    style={
+                      Array [
+                        Object {
+                          "height": 0,
+                          "width": 621.5,
+                        },
+                        undefined,
+                      ]
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            onLayout={[Function]}
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              accessibilityLabel="com.usereserva:id/card_container_collection:2232"
+              style={
+                Array [
+                  Object {},
+                ]
+              }
+              testID="com.usereserva:id/card_container_collection:2232"
+            >
+              <View
+                alignItems="center"
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                    },
+                  ]
+                }
+              >
+                <View
+                  accessibilityLabel="com.usereserva:id/card_button_collection:2232"
+                  accessible={true}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                      "opacity": 1,
+                    }
+                  }
+                  testID="com.usereserva:id/card_button_collection:2232"
+                >
+                  <Image
+                    height={280}
+                    resizeMode="contain"
+                    source={
+                      Object {
+                        "uri": "https://images.ctfassets.net/6jsfqc13oxv4/28yQznd8Yw0jugpXqSteow/65a161d411d1920a303a5d5c7a65e424/banner-card_app-polos.jpg",
+                      }
+                    }
+                    style={
+                      Array [
+                        Object {
+                          "height": 0,
+                          "width": 621.5,
+                        },
+                        undefined,
+                      ]
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+      <View
+        alignSelf="center"
+        flexDirection="row"
+        height={24}
+        style={
+          Array [
+            Object {
+              "alignSelf": "center",
+              "flexDirection": "row",
+              "height": 24,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="com.usereserva:id/cards_carrousel_animated_view"
+          style={
+            Object {
+              "alignSelf": "center",
+              "backgroundColor": "#6F6F6F",
+              "borderRadius": 7,
+              "height": 7,
+              "position": "absolute",
+              "transform": Array [
+                Object {
+                  "translateX": 6,
+                },
+              ],
+              "width": 7,
+              "zIndex": 2,
+            }
+          }
+          testID="com.usereserva:id/cards_carrousel_animated_view"
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "justifyContent": "center",
+              "width": 19,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "borderColor": "#6F6F6F",
+                "borderRadius": 7,
+                "borderWidth": 1,
+                "height": 7,
+                "width": 7,
+              }
+            }
+          />
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "justifyContent": "center",
+              "width": 19,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "borderColor": "#6F6F6F",
+                "borderRadius": 7,
+                "borderWidth": 1,
+                "height": 7,
+                "width": 7,
+              }
+            }
+          />
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "justifyContent": "center",
+              "width": 19,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "borderColor": "#6F6F6F",
+                "borderRadius": 7,
+                "borderWidth": 1,
+                "height": 7,
+                "width": 7,
+              }
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

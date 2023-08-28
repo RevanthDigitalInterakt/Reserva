@@ -1,0 +1,781 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomeDiscountModal should match to snapshot 1`] = `
+Array [
+  <View
+    backgroundColor="#38A238"
+    flexDirection="row"
+    height={37}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "#38A238",
+          "flexDirection": "row",
+          "height": 37,
+          "width": "100%",
+        },
+      ]
+    }
+    testID="com.usereserva:id/discount_code_modal_container"
+    width="100%"
+  >
+    <View
+      alignItems="center"
+      flex={1}
+      justifyContent="center"
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "flexBasis": 0,
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "justifyContent": "center",
+          },
+        ]
+      }
+    >
+      <View
+        alignItems="center"
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "justifyContent": "center",
+              "opacity": 1,
+            }
+          }
+        >
+          <Text
+            color="white"
+            fontFamily="reservaSansRegular"
+            fontSize={13}
+            style={
+              Array [
+                Object {
+                  "color": "#FFF",
+                  "fontFamily": "ReservaSans-Regular",
+                  "fontSize": 13,
+                },
+              ]
+            }
+            testID="com.usereserva:id/discout_code_modal_title"
+          >
+            Ganhe R$50 na sua Primeira Compra
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      alignItems="center"
+      justifyContent="center"
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "justifyContent": "center",
+            "width": 28,
+          },
+        ]
+      }
+      width={28}
+    >
+      <View
+        alignItems="center"
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          hitSlop={
+            Object {
+              "bottom": 30,
+              "left": 30,
+              "right": 30,
+              "top": 30,
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "justifyContent": "center",
+              "opacity": 1,
+            }
+          }
+          testID="com.usereserva:id/discout_code_modal_button"
+        >
+          <View
+            flexGrow={0}
+            justifyContent="flex-end"
+            style={
+              Array [
+                Object {
+                  "flexGrow": 0,
+                  "justifyContent": "flex-end",
+                },
+              ]
+            }
+          >
+            <View
+              flexGrow={0}
+              justifyContent="center"
+              position="absolute"
+              right={-5}
+              style={
+                Array [
+                  Object {
+                    "flexGrow": 0,
+                    "justifyContent": "center",
+                    "position": "absolute",
+                    "right": -5,
+                    "top": -5,
+                    "zIndex": 1,
+                  },
+                ]
+              }
+              top={-5}
+              zIndex={1}
+            />
+            <RNSVGSvgView
+              bbHeight={8}
+              bbWidth={8}
+              color={4294967295}
+              focusable={false}
+              size={8}
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  Array [
+                    Object {
+                      "color": "#FFF",
+                      "height": 8,
+                      "width": 8,
+                    },
+                  ],
+                  Object {
+                    "flex": 0,
+                    "height": 8,
+                    "width": 8,
+                  },
+                ]
+              }
+              tintColor={4294967295}
+            >
+              <RNSVGGroup>
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight="100%"
+                  bbWidth="100%"
+                  focusable={false}
+                  height="100%"
+                  meetOrSlice={0}
+                  minX={0}
+                  minY={0}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      Array [
+                        Object {
+                          "height": "100%",
+                          "width": "100%",
+                        },
+                      ],
+                      Object {
+                        "flex": 0,
+                        "height": "100%",
+                        "width": "100%",
+                      },
+                    ]
+                  }
+                  vbHeight={8.24}
+                  vbWidth={8.242}
+                  width="100%"
+                >
+                  <RNSVGGroup>
+                    <RNSVGPath
+                      d="M5.098 4.12l2.944-2.944A.69.69 0 007.066.2L4.122 3.144 1.178.2a.69.69 0 10-.976.976L3.146 4.12.202 7.064a.69.69 0 00.976.976l2.944-2.944L7.066 8.04a.69.69 0 00.976-.976z"
+                      fill={4294967295}
+                      propList={
+                        Array [
+                          "fill",
+                        ]
+                      }
+                    />
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>,
+  <Modal
+    animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
+    hardwareAccelerated={false}
+    hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
+    onModalHide={[Function]}
+    onModalWillHide={[Function]}
+    onModalWillShow={[Function]}
+    onRequestClose={[Function]}
+    panResponderThreshold={4}
+    scrollHorizontal={false}
+    scrollOffset={0}
+    scrollOffsetMax={0}
+    scrollTo={null}
+    supportedOrientations={
+      Array [
+        "portrait",
+        "landscape",
+      ]
+    }
+    swipeThreshold={100}
+    testID="com.usereserva:id/discount_code_modal_second_container"
+    transparent={true}
+    visible={false}
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      forwardedRef={[Function]}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#AFAFAF",
+          "bottom": 0,
+          "height": 1334,
+          "left": 0,
+          "opacity": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+          "width": 750,
+        }
+      }
+    />
+    <View
+      onLayout={[Function]}
+      pointerEvents="box-none"
+      style={
+        Array [
+          Array [
+            Object {
+              "margin": 37.5,
+              "transform": Array [
+                Object {
+                  "translateY": 0,
+                },
+              ],
+            },
+            Object {
+              "flex": 1,
+              "justifyContent": "center",
+            },
+            undefined,
+            Object {
+              "margin": 0,
+            },
+          ],
+          Object {
+            "paddingBottom": 0,
+          },
+        ]
+      }
+    >
+      <View
+        deviceHeight={null}
+        deviceWidth={null}
+        forwardedRef={[Function]}
+        hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
+        onModalHide={[Function]}
+        onModalWillHide={[Function]}
+        onModalWillShow={[Function]}
+        panResponderThreshold={4}
+        pointerEvents="box-none"
+        scrollHorizontal={false}
+        scrollOffset={0}
+        scrollOffsetMax={0}
+        scrollTo={null}
+        style={
+          Object {
+            "flex": 1,
+            "justifyContent": "center",
+            "margin": 37.5,
+            "transform": Array [
+              Object {
+                "translateY": 0,
+              },
+            ],
+          }
+        }
+        supportedOrientations={
+          Array [
+            "portrait",
+            "landscape",
+          ]
+        }
+        swipeThreshold={100}
+      >
+        <View
+          accessibilityIgnoresInvertColors={true}
+          style={
+            Object {
+              "paddingBottom": 15,
+              "paddingHorizontal": 20,
+              "width": 710,
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "commons": Object {
+                  "GuideBermuda": [Circular],
+                  "GuideCalca": [Circular],
+                  "GuideCamiseta": [Circular],
+                  "GuideHoodie": [Circular],
+                  "GuideJaqueta": [Circular],
+                  "GuideMangaCurta": [Circular],
+                  "GuideMangaLonga": [Circular],
+                  "GuidePolo": [Circular],
+                  "GuideShort": [Circular],
+                  "GuideSueter": [Circular],
+                  "GuideSungaCueca": [Circular],
+                  "QrcodeBackground": [Circular],
+                  "americanExpress": [Circular],
+                  "arrowInstruction": [Circular],
+                  "bagEmpty": [Circular],
+                  "bannerCatalog": [Circular],
+                  "bannerLogin": [Circular],
+                  "bannerOffer": [Circular],
+                  "cardFront": [Circular],
+                  "cardVerso": [Circular],
+                  "clothingCare1": [Circular],
+                  "clothingCareBleach": [Circular],
+                  "clothingCareDrying": [Circular],
+                  "clothingCarePass": [Circular],
+                  "clothingCareProfessionalWashing": [Circular],
+                  "clothingCareWash": [Circular],
+                  "cupomModalBackground": [Circular],
+                  "dividerReserva": [Circular],
+                  "elo": [Circular],
+                  "emptyProductCatalog": [Circular],
+                  "facebook": [Circular],
+                  "foraDoAr": [Circular],
+                  "headerLogin": [Circular],
+                  "homeMock1": [Circular],
+                  "homeMock2": [Circular],
+                  "homeMock3": [Circular],
+                  "homeMock4": [Circular],
+                  "imageCashback": [Circular],
+                  "imageNotFound": [Circular],
+                  "instagram": [Circular],
+                  "localReserva": [Circular],
+                  "logoQRCode": [Circular],
+                  "mastercard": [Circular],
+                  "noStoresFound": [Circular],
+                  "noWishList": [Circular],
+                  "pinYou": [Circular],
+                  "purchaseConfirmation": [Circular],
+                  "raceImageBackground": [Circular],
+                  "saleOff": [Circular],
+                  "searchNotFound": [Circular],
+                  "selectRectangle": [Circular],
+                  "shirt1": [Circular],
+                  "shirt2": [Circular],
+                  "shirt3": [Circular],
+                  "shirt4": [Circular],
+                  "topBannerMock1": [Circular],
+                  "twitter": [Circular],
+                  "update": [Circular],
+                  "visa": [Circular],
+                  "whatsapp": [Circular],
+                  "withoutInternet": [Circular],
+                  "zoomHand": [Circular],
+                },
+                "default": Object {
+                  "GuideBermuda": [Circular],
+                  "GuideCalca": [Circular],
+                  "GuideCamiseta": [Circular],
+                  "GuideHoodie": [Circular],
+                  "GuideJaqueta": [Circular],
+                  "GuideMangaCurta": [Circular],
+                  "GuideMangaLonga": [Circular],
+                  "GuidePolo": [Circular],
+                  "GuideShort": [Circular],
+                  "GuideSueter": [Circular],
+                  "GuideSungaCueca": [Circular],
+                  "QrcodeBackground": [Circular],
+                  "americanExpress": [Circular],
+                  "arrowInstruction": [Circular],
+                  "bagEmpty": [Circular],
+                  "bannerCatalog": [Circular],
+                  "bannerLogin": [Circular],
+                  "bannerOffer": [Circular],
+                  "cardFront": [Circular],
+                  "cardVerso": [Circular],
+                  "chevronRight": [Function],
+                  "clothingCare1": [Circular],
+                  "clothingCareBleach": [Circular],
+                  "clothingCareDrying": [Circular],
+                  "clothingCarePass": [Circular],
+                  "clothingCareProfessionalWashing": [Circular],
+                  "clothingCareWash": [Circular],
+                  "cupomModalBackground": [Circular],
+                  "dividerReserva": [Circular],
+                  "elo": [Circular],
+                  "emptyProductCatalog": [Circular],
+                  "facebook": [Circular],
+                  "foraDoAr": [Circular],
+                  "headerLogin": [Circular],
+                  "homeMock1": [Circular],
+                  "homeMock2": [Circular],
+                  "homeMock3": [Circular],
+                  "homeMock4": [Circular],
+                  "imageCashback": [Circular],
+                  "imageNotFound": [Circular],
+                  "instagram": [Circular],
+                  "localReserva": [Circular],
+                  "logoPrime": [Function],
+                  "logoQRCode": [Circular],
+                  "mastercard": [Circular],
+                  "noStoresFound": [Circular],
+                  "noWishList": [Circular],
+                  "pinYou": [Circular],
+                  "purchaseConfirmation": [Circular],
+                  "raceImageBackground": [Circular],
+                  "saleOff": [Circular],
+                  "searchNotFound": [Circular],
+                  "selectRectangle": [Circular],
+                  "shirt1": [Circular],
+                  "shirt2": [Circular],
+                  "shirt3": [Circular],
+                  "shirt4": [Circular],
+                  "topBannerMock1": [Circular],
+                  "twitter": [Circular],
+                  "update": [Circular],
+                  "visa": [Circular],
+                  "whatsapp": [Circular],
+                  "withoutInternet": [Circular],
+                  "zoomHand": [Circular],
+                },
+                "svgs": Object {
+                  "chevronRight": [Function],
+                  "logoPrime": [Function],
+                },
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                },
+                Object {
+                  "height": undefined,
+                  "width": 710,
+                },
+                undefined,
+              ]
+            }
+          />
+          <View
+            position="absolute"
+            right={13}
+            style={
+              Array [
+                Object {
+                  "position": "absolute",
+                  "right": 13,
+                  "top": 13,
+                },
+              ]
+            }
+            top={13}
+          >
+            <View
+              alignItems="center"
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                  },
+                ]
+              }
+            >
+              <View
+                accessible={true}
+                focusable={true}
+                hitSlop={
+                  Object {
+                    "bottom": 30,
+                    "left": 30,
+                    "right": 30,
+                    "top": 30,
+                  }
+                }
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                    "opacity": 1,
+                  }
+                }
+                testID="com.usereserva:id/discout_code_modal_button_close_modal"
+              >
+                <View
+                  flexGrow={0}
+                  justifyContent="flex-end"
+                  style={
+                    Array [
+                      Object {
+                        "flexGrow": 0,
+                        "justifyContent": "flex-end",
+                      },
+                    ]
+                  }
+                >
+                  <View
+                    flexGrow={0}
+                    justifyContent="center"
+                    position="absolute"
+                    right={-5}
+                    style={
+                      Array [
+                        Object {
+                          "flexGrow": 0,
+                          "justifyContent": "center",
+                          "position": "absolute",
+                          "right": -5,
+                          "top": -5,
+                          "zIndex": 1,
+                        },
+                      ]
+                    }
+                    top={-5}
+                    zIndex={1}
+                  />
+                  <RNSVGSvgView
+                    bbHeight={8}
+                    bbWidth={8}
+                    color="preto"
+                    focusable={false}
+                    size={8}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        Array [
+                          Object {
+                            "color": "#333333",
+                            "height": 8,
+                            "width": 8,
+                          },
+                        ],
+                        Object {
+                          "flex": 0,
+                          "height": 8,
+                          "width": 8,
+                        },
+                      ]
+                    }
+                  >
+                    <RNSVGGroup>
+                      <RNSVGSvgView
+                        align="xMidYMid"
+                        bbHeight="100%"
+                        bbWidth="100%"
+                        focusable={false}
+                        height="100%"
+                        meetOrSlice={0}
+                        minX={0}
+                        minY={0}
+                        style={
+                          Array [
+                            Object {
+                              "backgroundColor": "transparent",
+                              "borderWidth": 0,
+                            },
+                            Array [
+                              Object {
+                                "height": "100%",
+                                "width": "100%",
+                              },
+                            ],
+                            Object {
+                              "flex": 0,
+                              "height": "100%",
+                              "width": "100%",
+                            },
+                          ]
+                        }
+                        vbHeight={8.24}
+                        vbWidth={8.242}
+                        width="100%"
+                      >
+                        <RNSVGGroup>
+                          <RNSVGPath
+                            d="M5.098 4.12l2.944-2.944A.69.69 0 007.066.2L4.122 3.144 1.178.2a.69.69 0 10-.976.976L3.146 4.12.202 7.064a.69.69 0 00.976.976l2.944-2.944L7.066 8.04a.69.69 0 00.976-.976z"
+                            fill={4281545523}
+                            propList={
+                              Array [
+                                "fill",
+                              ]
+                            }
+                          />
+                        </RNSVGGroup>
+                      </RNSVGSvgView>
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            mt={25}
+            style={
+              Array [
+                Object {
+                  "marginTop": 25,
+                },
+              ]
+            }
+          >
+            <View
+              mx={15}
+              style={
+                Array [
+                  Object {
+                    "marginLeft": 15,
+                    "marginRight": 15,
+                  },
+                ]
+              }
+            >
+              <Text
+                fontFamily="reservaSerifRegular"
+                fontSize={18}
+                lineHeight={25}
+                style={
+                  Array [
+                    Object {
+                      "fontFamily": "ReservaSerif-Regular",
+                      "fontSize": 18,
+                      "lineHeight": 25,
+                      "textAlign": "center",
+                    },
+                  ]
+                }
+                testID="com.usereserva:id/discout_code_modal_title_modal"
+                textAlign="center"
+              >
+                *Válido nas compras acima de R$199. Desconto aplicado automaticamente no carrinho. Não cumulativo com outras promoções. Não cumulativo nas camisetas com desconto.
+              </Text>
+            </View>
+            <View
+              backgroundColor="backgroundMenuOpened"
+              borderRadius={2}
+              mt={15.2}
+              px={7.5}
+              py={10.5}
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#F1F1F1",
+                    "borderRadius": 2,
+                    "marginTop": 15.2,
+                    "paddingBottom": 10.5,
+                    "paddingLeft": 7.5,
+                    "paddingRight": 7.5,
+                    "paddingTop": 10.5,
+                  },
+                ]
+              }
+            >
+              <Text
+                color="neutroFrio2"
+                fontFamily="nunitoRegular"
+                fontSize={13}
+                lineHeight={18}
+                style={
+                  Array [
+                    Object {
+                      "color": "#8A8C8E",
+                      "fontFamily": "Nunito-Regular",
+                      "fontSize": 13,
+                      "lineHeight": 18,
+                      "textAlign": "center",
+                    },
+                  ]
+                }
+                testID="com.usereserva:id/discout_code_modal_description_modal"
+                textAlign="center"
+              >
+                Use o cupom RSVAPP50
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </Modal>,
+]
+`;

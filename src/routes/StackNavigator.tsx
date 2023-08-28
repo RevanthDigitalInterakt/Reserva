@@ -2,23 +2,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import CallCenter from '../modules/CallCenter';
 import { WebviewZendesk } from '../modules/CallCenter/WebviewZendesk';
-import { ChangeRegionalization } from '../modules/ChangeRegionalization/pages/ChangeRegionalization';
-import { DeliveryScreen } from '../modules/Checkout/pages/Delivery';
-import { MapScreen } from '../modules/Checkout/pages/Map';
-import { WithdrawInStore } from '../modules/Checkout/pages/WithdrawInStore';
-import { Credits } from '../modules/Credits/pages/Credits';
-import { MyCashbackRoutes } from '../modules/my-cashback/navigation/MyCashbackNavigator';
-import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavigator';
-import { EditPassword } from '../modules/Profile/pages/EditPassword';
+import { Cashback } from '../modules/Cashback/pages/Cashback';
 import {
   CEPList,
   type CepsInfo,
   type SearchBy,
 } from '../modules/ChangeRegionalization/pages/CEPList';
+import { ChangeRegionalization } from '../modules/ChangeRegionalization/pages/ChangeRegionalization';
+import { DeliveryScreen } from '../modules/Checkout/pages/Delivery';
+import { MapScreen } from '../modules/Checkout/pages/Map';
+import { WithdrawInStore } from '../modules/Checkout/pages/WithdrawInStore';
+import { Credits } from '../modules/Credits/pages/Credits';
 import { AccountDeletedSuccessfully } from '../modules/Profile/pages/AccountDeletedSuccessfully';
-
-// TODO refactor Dependency cycle
-import { Cashback } from '../modules/Cashback/pages/Cashback';
+import { EditPassword } from '../modules/Profile/pages/EditPassword';
+import { MyCashbackRoutes } from '../modules/my-cashback/navigation/MyCashbackNavigator';
+import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavigator';
 import {
   AddressFlow,
   ForgotFlow,
@@ -29,16 +27,16 @@ import {
   RegisterFlow,
 } from './flows';
 
+import { BagABTest } from '../modules/Checkout/pages/BagABTest';
+import EditProfile from '../pages/EditProfile/EditProfile';
+import PrimeLP from '../pages/PrimeLP';
+import RonRedirectToBag from '../pages/RonRedirectToBag';
+import NewSearch from '../pages/Search';
+import { AsyncDeepLinkScreenLoading } from '../pages/WebRedirectToCatalog/AsyncDeepLinkScreenLoading';
+import { WebviewABTest } from '../pages/WebviewCheckout/WebviewABTest';
+import type { IFilters } from '../utils/generateFacets';
 import { HomeTabs } from './HomeTabs';
 import type { Flow } from './types/flow.type';
-import RonRedirectToBag from '../pages/RonRedirectToBag';
-import EditProfile from '../pages/EditProfile/EditProfile';
-import type { IFilters } from '../utils/generateFacets';
-import { AsyncDeepLinkScreenLoading } from '../pages/WebRedirectToCatalog/AsyncDeepLinkScreenLoading';
-import { BagABTest } from '../modules/Checkout/pages/BagABTest';
-import PrimeLP from '../pages/PrimeLP';
-import { WebviewABTest } from '../pages/WebviewCheckout/WebviewABTest';
-import { SearchABTest } from '../modules/Search/pages/SearchABTest';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -173,7 +171,7 @@ export function MainStackScreen() {
       detachInactiveScreens
       screenOptions={{ headerShown: false }}
     >
-      <MainStack.Screen name="HomeTabs" component={HomeTabs}  />
+      <MainStack.Screen name="HomeTabs" component={HomeTabs} />
 
       {flows.map((flow: Flow) => (
         <MainStack.Screen
@@ -183,7 +181,13 @@ export function MainStackScreen() {
           initialParams={flow.initialParams}
         />
       ))}
-      <MainStack.Screen name="SearchMenu" component={SearchABTest} />
+      <MainStack.Screen
+        name="ChangeRegionalization"
+        component={ChangeRegionalization}
+      />
+
+      <MainStack.Screen name="SearchMenu" component={NewSearch} />
+
       <MainStack.Screen
         name="ChangeRegionalization"
         component={ChangeRegionalization}
@@ -198,15 +202,15 @@ export function MainStackScreen() {
         initialParams={{ isProfileComplete: false }}
       />
 
-    {/* TODO REMOVER DeliveryScreen */}
-    <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
-    <MainStack.Screen name="Checkout" component={WebviewABTest} />
-    <MainStack.Screen name="WithdrawInStore" component={WithdrawInStore} />
-    <MainStack.Screen name="MapScreen" component={MapScreen} />
-    <MainStack.Screen name="Cashback" component={Cashback} />
-    <MainStack.Screen name="Credits" component={Credits} />
-    <MainStack.Screen name="EditProfile" component={EditProfile} />
-    <MainStack.Screen name="EditPassword" component={EditPassword} />
+      {/* TODO REMOVER DeliveryScreen */}
+      <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
+      <MainStack.Screen name="Checkout" component={WebviewABTest} />
+      <MainStack.Screen name="WithdrawInStore" component={WithdrawInStore} />
+      <MainStack.Screen name="MapScreen" component={MapScreen} />
+      <MainStack.Screen name="Cashback" component={Cashback} />
+      <MainStack.Screen name="Credits" component={Credits} />
+      <MainStack.Screen name="EditProfile" component={EditProfile} />
+      <MainStack.Screen name="EditPassword" component={EditPassword} />
 
       <MainStack.Screen
         name="AccountDeletedSuccessfully"

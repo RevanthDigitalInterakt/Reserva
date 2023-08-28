@@ -134,5 +134,7 @@ export const apolloClientTesting = new ApolloClient({
 
 export const apolloClientProduction = new ApolloClient({
   link: linkProduction,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    resultCaching: true,
+  }),
 });

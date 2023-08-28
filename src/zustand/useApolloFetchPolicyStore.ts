@@ -12,6 +12,10 @@ type TCacheKeys = 'appMenu'
 | 'facets'
 | 'getWishlist'
 | 'home'
+| 'homeCarousels'
+| 'homeMedias'
+| 'homeCountdown'
+| 'homeConfig'
 | 'landingPagePrime'
 | 'mktinStatus'
 | 'primeFAQ'
@@ -48,6 +52,10 @@ const expireTimes: { [key in TCacheKeys]: number } = {
   getWishlist: ONE_MINUTE / 2,
   facets: ONE_MINUTE,
   home: TWO_MINUTES,
+  homeCarousels: FIVE_MINUTES,
+  homeMedias: FIVE_MINUTES,
+  homeCountdown: ONE_MINUTE,
+  homeConfig: FIVE_MINUTES,
   landingPagePrime: TEN_MINUTES,
   mktinStatus: TEN_MINUTES,
   primeFAQ: SIX_HOURS,
@@ -74,7 +82,7 @@ interface IApolloFetchPolicyStore {
   updateLastFetchedTime: (key: TCacheKeys) => void;
 }
 
-const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
+export const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
   persist((set, getState) => ({
     initialized: false,
     setInitialized: () => set({ ...getState(), initialized: true }),
@@ -88,6 +96,10 @@ const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
       getWishlist: 0,
       facets: 0,
       home: 0,
+      homeCarousels: 0,
+      homeMedias: 0,
+      homeCountdown: 0,
+      homeConfig: 0,
       landingPagePrime: 0,
       mktinStatus: 0,
       primeFAQ: 0,

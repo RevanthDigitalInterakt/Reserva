@@ -4,7 +4,6 @@ import NewListVerticalProducts from '../../components/NewListVerticalProducts/Ne
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { generateFacets } from '../../utils/generateFacets';
 import ProductCatalogHeader from './components/ProductCatalogHeader/ProductCatalogHeader';
-import { useConfigContext } from '../../context/ConfigContext';
 import useSearchStore, { SearchType } from '../../zustand/useSearchStore';
 import { TopBarDefaultBackButton } from '../../modules/Menu/components/TopBarDefaultBackButton';
 import NewCountdown from './components/NewCountdown/NewCountdown';
@@ -14,6 +13,7 @@ import ProductNotFound from '../Search/components/ProductNotFound/ProductNotFoun
 import { CatalogSkeleton } from './components/CatalogSkeleton/CatalogSkeleton';
 import { Box } from '../../components/Box/Box';
 import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
+import { useHomeStore } from '../../zustand/useHomeStore';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -40,7 +40,8 @@ function NewProductCatalog({ route }: Props) {
 
   const [loadingMedias, setLoadingMedias] = useState(false);
   const { referenceId, filters } = route.params;
-  const { offersPage } = useConfigContext();
+  const { offersPage } = useHomeStore(['offersPage']);
+
   const reference = useMemo(
     () => referenceId || offersPage || defaultReference,
     [referenceId, offersPage],
@@ -87,7 +88,6 @@ function NewProductCatalog({ route }: Props) {
 
     return (
       <>
-
         <NewListVerticalProducts
           data={result}
           loading={loading}
