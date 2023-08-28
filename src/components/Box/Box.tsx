@@ -1,39 +1,25 @@
+import React from 'react';
 import styled from 'styled-components/native';
 import { View } from 'react-native';
 import {
-  border,
   borderColor,
   minHeight,
   minWidth,
   margin,
   padding,
   position,
-  borderRadius,
   height,
-  borderWidth,
   flexbox,
   color,
   shadow,
   space,
   variant,
   width,
-  type BorderProps,
-  type BorderColorProps,
-  type BorderRadiusProps,
-  type BorderWidthProps,
-  type ColorProps,
-  type DisplayProps,
-  type FlexboxProps,
-  type HeightProps,
-  type MinHeightProps,
-  type MinWidthProps,
-  type PositionProps,
-  type ShadowProps,
-  type SizeProps,
-  type SpaceProps,
-  type WidthProps,
+  border,
 } from 'styled-system';
-import type { theme } from '../../base/usereservappLegacy/theme';
+
+import type { BoxProps } from './types';
+import { theme } from '../../base/usereservappLegacy/theme';
 
 type BoxVariantsType = 'container';
 
@@ -48,27 +34,9 @@ const boxVariant = variant<BoxProps, BoxVariantsType, 'variant'>({
   },
 });
 
-export interface BoxProps
-  extends FlexboxProps<typeof theme>,
-  SpaceProps<typeof theme>,
-  PositionProps<typeof theme>,
-  ColorProps<typeof theme>,
-  BorderProps<typeof theme>,
-  BorderColorProps<typeof theme>,
-  BorderWidthProps<typeof theme>,
-  SizeProps<typeof theme>,
-  WidthProps<typeof theme>,
-  HeightProps<typeof theme>,
-  MinHeightProps<typeof theme>,
-  MinWidthProps<typeof theme>,
-  ShadowProps<typeof theme>,
-  BorderRadiusProps<typeof theme>,
-  DisplayProps<typeof theme> {
-  variant?: BoxVariantsType
-  boxShadow?: keyof typeof theme.shadows | null
-}
-
-export const Box = styled(View) <BoxProps>`
+export const BoxStyle = styled(View) <BoxProps>`
+  ${borderColor}
+  ${border}
   ${color}
   ${space}
   ${margin}
@@ -79,10 +47,18 @@ export const Box = styled(View) <BoxProps>`
   ${minWidth}
   ${flexbox}
   ${position}
-  ${borderColor}
-  ${borderRadius}
-  ${borderWidth}
-  ${border}
-  ${boxVariant}
   ${shadow}
+  ${boxVariant}
 `;
+
+export function Box({ children, ...props }: BoxProps) {
+  return (
+    <BoxStyle
+      {...props}
+      borderRadius={theme.radii[props.borderRadius as keyof typeof theme.radii]}
+      borderWidth={theme.borderWidths[props.borderWidth as keyof typeof theme.borderWidths]}
+    >
+      {children}
+    </BoxStyle>
+  );
+}
