@@ -165,7 +165,6 @@
     "visualize-bundle": "^1.4.0"
   },
   "reactNativePermissionsIOS": [
-    "MediaLibrary",
     "PhotoLibrary",
     "PhotoLibraryAddOnly"
   ],
