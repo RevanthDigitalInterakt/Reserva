@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import NetInfo, { useNetInfo } from '@react-native-community/netinfo';
 import {
   Typography, Box, Button,
@@ -13,8 +13,8 @@ interface IuseCheckConnection {
 
 export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
   const { setModalCheckConnection } = useAuthModalStore(['setModalCheckConnection']);
+  const [showScreen, setShowScreen] = useState(false);
 
-  const [showScreen, setShowScreen] = React.useState<boolean>(false);
   const netInfo = useNetInfo();
 
   const checkConnectivity = () => {
@@ -59,6 +59,7 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
         <></>
       );
     }
+
     return (
       <Box
         bg="white"
@@ -70,19 +71,19 @@ export const useCheckConnection = ({ refetch }: IuseCheckConnection) => {
         <Box marginRight="micro">
           <IconComponent icon="withoutInternet" />
         </Box>
+
         <Box mt="xxxs" mb="nano">
-          <Typography
-            fontFamily="nunitoBold"
-            fontSize={16}
-          >
+          <Typography fontFamily="nunitoBold" fontSize={16}>
             Sem comunicação com a Internet
           </Typography>
         </Box>
+
         <Box>
           <Typography fontFamily="nunitoRegular" fontSize={13}>
             Por favor, verifique a sua conexão para continuar navegando.
           </Typography>
         </Box>
+
         <Box mt="md" width="100%">
           <Button
             onPress={() => tryAgain()}

@@ -3,11 +3,28 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import { Box, Button } from '@usereservaapp/reserva-ui';
-import type { CarrouselCard } from '../../../graphql/homePage/HomeQuery';
+import type { CarrouselCard, IQueryFilters } from '../../../graphql/homePage/HomeQuery';
 import EventProvider from '../../../utils/EventProvider';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import ImageComponent from '../../../components/ImageComponent/ImageComponent';
+
+export interface IHomeCard {
+  image: {
+    fileName?: string;
+    size?: number;
+    title?: string;
+    url: string;
+    width?: number;
+    height?: number;
+  };
+  reservaMini: boolean;
+  name: string;
+  description: string;
+  reference: string;
+  orderBy: string;
+  filters?: IQueryFilters
+}
 
 const Card = ({
   image,

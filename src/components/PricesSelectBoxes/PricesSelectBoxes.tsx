@@ -6,6 +6,7 @@ import { Typography } from '@usereservaapp/reserva-ui';
 
 import testProps from '../../utils/testProps';
 import { useCart } from '../../context/CartContext';
+import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import type { ProductSizeOutput } from '../../base/graphql/generated';
 import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
@@ -17,7 +18,6 @@ import { SelectBoxPrime } from '../SelectBoxPrime/SelectBoxPrime';
 import { SelectBoxNormal } from '../SelectBoxNormal/SelectBoxNormal';
 
 import { styles } from './PricesSelectBoxes.styles';
-import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 
 interface IPropsPriceSelectBoxes {
   selectedSize: ProductSizeOutput | null;
@@ -45,7 +45,6 @@ function PricesSelectBoxes({ selectedSize }: IPropsPriceSelectBoxes) {
 
   const { orderForm } = useCart();
   const { profile } = useAuthStore(['profile']);
-
   const hasDiscount = selectedSize?.hasDiscount;
 
   const selectNormalPrice = useCallback(() => {
@@ -136,6 +135,7 @@ function PricesSelectBoxes({ selectedSize }: IPropsPriceSelectBoxes) {
       <SelectBoxNormal
         installmentsNumber={selectedSize?.installment.number ?? 1}
         installmentsPrice={selectedSize?.installment.value ?? 0}
+        installmentsEqualPrime={selectedSize?.installmentEqualPrime}
         isChecked={isNormalPriceSelected}
         onPress={handleSelectBoxesPress}
         price={
@@ -164,8 +164,7 @@ function PricesSelectBoxes({ selectedSize }: IPropsPriceSelectBoxes) {
         </Typography>
       ) : (
         <SelectBoxPrime
-          installmentsNumber={selectedSize?.prime?.installment?.number ?? 1}
-          installmentsPrice={selectedSize?.prime?.installment?.value ?? 0}
+          installment={selectedSize?.prime?.installment}
           isChecked={isPrimePriceSelected}
           onPress={handleSelectBoxesPress}
           savedValue={savedValueProduct()}

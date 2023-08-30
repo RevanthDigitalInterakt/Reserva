@@ -26,6 +26,7 @@ const mockRestoreCart = jest.fn((_orderFormId: string) => Promise.resolve({}));
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: mockedFn }),
+  useRoute: () => ({ params: { needRefresh: false } }),
 }));
 
 jest.mock('../../../../../hooks/usePrimeInfo', () => ({

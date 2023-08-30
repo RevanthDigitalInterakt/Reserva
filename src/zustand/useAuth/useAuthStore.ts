@@ -168,6 +168,8 @@ const authStore = create<IAuthStore>((set, getState) => ({
       set({
         ...getState(), initialized: true, profile, isAnonymousUser: false,
       });
+
+      return profile;
     } catch (err) {
       ExceptionProvider.captureException(err, { email, password });
 

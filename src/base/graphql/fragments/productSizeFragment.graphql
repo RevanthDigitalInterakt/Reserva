@@ -19,5 +19,9 @@ fragment productSizeFragment on ProductSizeOutput {
             number
         }
     }
+    installmentEqualPrime {
+        value
+        number
+    }
     disabled
 }

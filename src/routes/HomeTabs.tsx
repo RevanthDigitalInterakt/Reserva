@@ -5,12 +5,12 @@ import { SafeAreaView } from 'react-native';
 import { theme } from '@usereservaapp/reserva-ui';
 
 import CallCenter from '../modules/CallCenter';
-import { HomeScreen } from '../modules/Home/pages/Home';
 import { MenuProfile } from '../modules/Profile/pages/MenuProfile';
 import { WishList } from '../modules/WishList/pages/WishList';
 
 import { TabBar } from './TabBar';
-import { ProductCatalogABTest } from '../modules/ProductCatalog/pages/productCatalog/ProductCatalogABTest';
+import Home from '../pages/Home';
+import NewProductCatalog from '../pages/ProductCatalog';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,12 +23,12 @@ export const HomeTabs = () => (
     <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={Home}
         initialParams={{ label: 'Início' }}
       />
       <Tab.Screen
         name="Offers"
-        component={ProductCatalogABTest}
+        component={NewProductCatalog}
         initialParams={{
           safeArea: false,
           label: 'Promoções',

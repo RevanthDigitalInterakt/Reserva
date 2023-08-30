@@ -59,6 +59,7 @@ function NewListVerticalProducts({
         productTitle={item.productName}
         priceWithDiscount={item.currentPrice}
         price={item.listPrice}
+        installmentsEqualPrime={item.installmentEqualPrime}
         currency="R$"
         showThumbColors={showThumbColors}
         imageSource={item.image}

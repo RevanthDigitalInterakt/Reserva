@@ -59,12 +59,12 @@ export interface IQueryFilters {
 
 export interface CarrouselCard {
   image: {
-    fileName: string;
-    size: any;
-    title: any;
-    url: any;
-    width: any;
-    height: any;
+    fileName?: string;
+    size?: number;
+    title?: string;
+    url: string;
+    width?: number;
+    height?: number;
   };
   reservaMini: boolean;
   name: string;

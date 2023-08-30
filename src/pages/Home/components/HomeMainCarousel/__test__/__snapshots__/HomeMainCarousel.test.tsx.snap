@@ -1,0 +1,203 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomeMainCarousel should match to snapshot 1`] = `
+<View
+  accessibilityLabel="com.usereserva:id/default_carrousel_container"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+  testID="com.usereserva:id/default_carrousel_container"
+>
+  <View
+    collapsable={false}
+    onGestureHandlerEvent={[Function]}
+    onGestureHandlerStateChange={[Function]}
+    onTouchEnd={[Function]}
+    onTouchStart={[Function]}
+    style={
+      Array [
+        Object {
+          "overflow": "hidden",
+        },
+        Object {
+          "height": 972,
+          "width": 750,
+        },
+        Object {
+          "backgroundColor": "rgba(0, 0, 255, 0)",
+          "position": "relative",
+        },
+        Object {
+          "flexDirection": "row",
+        },
+      ]
+    }
+    testID="com.usereserva:id/default_carrousel_content"
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "height": 972,
+            "position": "absolute",
+            "width": 750,
+          },
+          Object {
+            "transform": Array [
+              Object {
+                "translateX": undefined,
+              },
+            ],
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "height": 972,
+            "position": "absolute",
+            "width": 750,
+          },
+          Object {
+            "transform": Array [
+              Object {
+                "translateX": undefined,
+              },
+            ],
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "height": 972,
+            "position": "absolute",
+            "width": 750,
+          },
+          Object {
+            "transform": Array [
+              Object {
+                "translateX": undefined,
+              },
+            ],
+          },
+        ]
+      }
+    />
+  </View>
+  <View
+    bottom={10}
+    flexDirection="row"
+    position="absolute"
+    style={
+      Array [
+        Object {
+          "bottom": 10,
+          "flexDirection": "row",
+          "position": "absolute",
+          "zIndex": 3,
+        },
+      ]
+    }
+    testID="com.usereserva:id/carrousel_scroll_indicator_container"
+    zIndex={3}
+  >
+    <View
+      backgroundColor="neutroFrio2"
+      flex={1}
+      height={2}
+      marginLeft="quarck"
+      marginRight="quarck"
+      onLayout={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "#8A8C8E",
+            "flexBasis": 0,
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "height": 2,
+            "marginLeft": 4,
+            "marginRight": 4,
+          },
+          Object {
+            "overflow": "hidden",
+          },
+        ]
+      }
+    >
+      <View
+        accessibilityLabel="com.usereserva:id/carrousel_scroll_indicator_animated_view"
+        style={
+          Object {
+            "backgroundColor": "#D8D9DA",
+            "height": "100%",
+            "left": 0,
+            "position": "absolute",
+            "top": 0,
+            "transform": Array [
+              Object {
+                "translateX": -10000,
+              },
+            ],
+            "width": "100%",
+          }
+        }
+        testID="com.usereserva:id/carrousel_scroll_indicator_animated_view"
+      />
+    </View>
+    <View
+      backgroundColor="neutroFrio2"
+      flex={1}
+      height={2}
+      marginLeft={null}
+      marginRight="quarck"
+      onLayout={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "#8A8C8E",
+            "flexBasis": 0,
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "height": 2,
+            "marginRight": 4,
+          },
+          Object {
+            "overflow": "hidden",
+          },
+        ]
+      }
+    />
+    <View
+      backgroundColor="neutroFrio2"
+      flex={1}
+      height={2}
+      marginLeft={null}
+      marginRight="quarck"
+      onLayout={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "#8A8C8E",
+            "flexBasis": 0,
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "height": 2,
+            "marginRight": 4,
+          },
+          Object {
+            "overflow": "hidden",
+          },
+        ]
+      }
+    />
+  </View>
+</View>
+`;

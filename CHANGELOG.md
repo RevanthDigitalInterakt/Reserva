@@ -3,6 +3,11 @@
 ### 2.0.13
 
 - [10597 - Forçar o Login após expiração/ausencia de token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10597)
+- [17015 - Inserir frete na sacola](https://dev.azure.com/areco/Canal%20App%20e%20Omni/_workitems/edit/17015/)
+- [16233 - Teste A/B home refatorada](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16233)
+- [16232 - Refatoração home](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16232)
+- Remover páginas legadas do código (PDC e Search)
+- [16406 - Parcelamento Prime - Teste A/B/C [App]](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16406)
 
 ---
 
@@ -11,6 +16,7 @@
 - [SRN-15155 Meus Endereços - Editar Endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15156)
 - [SRN-10270 Evento de acompanhamento do tempo de carregamento da página](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10270)
 - [SRN-15170 Meus Endereços - Remover endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15170)
+- [16560 - Integração app com novo checkout](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16560/)
 
 ---
 

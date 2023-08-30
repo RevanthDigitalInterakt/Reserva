@@ -6,12 +6,23 @@ const smallDevices = Dimensions.get('screen').width <= 375;
 export const styles = StyleSheet.create({
   checkBoxContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
     borderWidth: 1,
     borderColor: COLORS.RED,
     backgroundColor: COLORS.SELECT_BOX_BACKGROUND,
+  },
+  minHeight: {
+    minHeight: 72,
+  },
+  between: {
+    justifyContent: 'space-between',
+  },
+  start: {
+    justifyContent: 'flex-start',
+  },
+  ml: {
+    marginLeft: 16,
   },
   imageBackgroundBadge: {
     width: smallDevices ? 135 : 160,
@@ -66,14 +77,26 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     paddingVertical: 10,
+    marginLeft: 16,
+  },
+  priceDataEconomy: {
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingVertical: 10,
+    marginLeft: 6,
   },
   separator: {
     alignSelf: 'center',
     width: 1,
     height: 30,
     backgroundColor: COLORS.LIGHT_GRAY,
+    marginHorizontal: 15,
+  },
+  mt: {
     marginTop: 30,
-    marginHorizontal: smallDevices ? 15 : 0,
+  },
+  mDefault: {
+    margin: 0,
   },
   bePrimeBadge: {
     backgroundColor: COLORS.RED,

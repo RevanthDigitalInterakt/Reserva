@@ -1,0 +1,18 @@
+query homeMedias {
+  homeMedias {
+    id
+    mkt
+    linkMktIn
+    reservaMini
+    orderBy
+    reference
+    facets {
+      key
+      value
+    }
+    image {
+      url
+      title
+    }
+  }
+}

@@ -1,23 +1,21 @@
 import React, { useMemo } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import testProps from '../../../../utils/testProps';
 
 import NumberCard from './NumberCard';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
 
 interface IFlipNumber {
   number: string;
-  unit: 'hours' | 'minutes' | 'seconds';
-  size: number;
-  perspective: number;
+  size?: number;
   clockBackgroundColor: string;
   testID: string;
   colorDivider: string;
 }
+
 function FlipNumber({
   number,
-  unit,
   size,
-  perspective,
   clockBackgroundColor = '#1A1A1A',
   colorDivider = '#1f1f1f',
   testID,
@@ -31,12 +29,12 @@ function FlipNumber({
   }), [number]);
 
   return (
-    <View style={style.wrapper} {...testProps(`com.usereserva:id/${testID}`)}>
+    <View style={{ flexDirection: 'row' }} {...testProps(testID)}>
       <NumberCard
         number={nextNumber}
         previousNumber={previousNumber}
-        size={size}
-        perspective={perspective}
+        size={size || (configDeviceSizes.DEVICE_WIDTH / 8)}
+        perspective={250}
         clockBackgroundColor={clockBackgroundColor}
         colorDivider={colorDivider}
       />
@@ -45,9 +43,3 @@ function FlipNumber({
 }
 
 export default FlipNumber;
-
-const style = StyleSheet.create({
-  wrapper: {
-    flexDirection: 'row',
-  },
-});

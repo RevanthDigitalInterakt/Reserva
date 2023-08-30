@@ -154,6 +154,7 @@ export type ConfigOutput = {
   countDownClock?: Maybe<ConfigCountdownClockOutput>;
   countDownClockReservaMini?: Maybe<ConfigCountdownClockReservaOutput>;
   discountCodeBar?: Maybe<ConfigDiscountBarOutput>;
+  id: Scalars['ID'];
   name: Scalars['String'];
   offersPage?: Maybe<Scalars['String']>;
   online: Scalars['Boolean'];
@@ -252,6 +253,75 @@ export enum GetProductTypeEnum {
   ProductId = 'PRODUCT_ID',
   SkuId = 'SKU_ID',
   Slug = 'SLUG'
+}
+
+export type HomeCarouselItemImageOutput = {
+  __typename?: 'HomeCarouselItemImageOutput';
+  height?: Maybe<Scalars['Int']>;
+  title: Scalars['String'];
+  url: Scalars['String'];
+  width?: Maybe<Scalars['Int']>;
+};
+
+export type HomeCarouselItemOutput = {
+  __typename?: 'HomeCarouselItemOutput';
+  facets: Array<ProductFacetOutput>;
+  image: HomeCarouselItemImageOutput;
+  linkMktIn?: Maybe<Scalars['String']>;
+  mkt: Scalars['Boolean'];
+  orderBy: Scalars['String'];
+  reference: Scalars['String'];
+  reservaMini: Scalars['Boolean'];
+};
+
+export type HomeCarouselOutput = {
+  __typename?: 'HomeCarouselOutput';
+  id: Scalars['ID'];
+  items: Array<HomeCarouselItemOutput>;
+  showtime?: Maybe<Scalars['Int']>;
+  type: HomePageSectionTypeEnum;
+};
+
+export type HomeCountdownOutput = {
+  __typename?: 'HomeCountdownOutput';
+  countdown: Scalars['String'];
+  countdownStart?: Maybe<Scalars['String']>;
+  descriptionModal?: Maybe<Scalars['String']>;
+  facets: Array<ProductFacetOutput>;
+  formattedValue?: Maybe<Scalars['String']>;
+  reference?: Maybe<Scalars['String']>;
+  subtitle?: Maybe<Scalars['String']>;
+  theme: HomeCountdownThemeOutput;
+  title?: Maybe<Scalars['String']>;
+  titleButton?: Maybe<Scalars['String']>;
+  titleModal?: Maybe<Scalars['String']>;
+  type?: Maybe<ClockScreenEnum>;
+  watchType?: Maybe<Scalars['String']>;
+};
+
+export type HomeCountdownThemeOutput = {
+  __typename?: 'HomeCountdownThemeOutput';
+  clockBackgroundColor: Scalars['String'];
+  colorBanner: Scalars['String'];
+  colorButton: Scalars['String'];
+};
+
+export type HomeMediaOutput = {
+  __typename?: 'HomeMediaOutput';
+  facets: Array<ProductFacetOutput>;
+  id: Scalars['ID'];
+  image: HomeCarouselItemImageOutput;
+  linkMktIn?: Maybe<Scalars['String']>;
+  mkt: Scalars['Boolean'];
+  orderBy: Scalars['String'];
+  reference: Scalars['String'];
+  reservaMini: Scalars['Boolean'];
+};
+
+export enum HomePageSectionTypeEnum {
+  Brands = 'BRANDS',
+  Cards = 'CARDS',
+  Main = 'MAIN'
 }
 
 export type LoggedInOutput = {
@@ -1024,6 +1094,7 @@ export type ProductListOutput = {
   hasDiscount: Scalars['Boolean'];
   image: Scalars['String'];
   installment: ProductPriceInstallmentOutput;
+  installmentEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
   listPrice: Scalars['Float'];
   prime?: Maybe<ProductListPrimeOutput>;
   productId: Scalars['String'];
@@ -1120,6 +1191,7 @@ export type ProductSizeOutput = {
   ean: Scalars['String'];
   hasDiscount: Scalars['Boolean'];
   installment: ProductSizeInstallmentOutput;
+  installmentEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
   itemId: Scalars['ID'];
   /** Price without discount (original price) - may be null if the original price is equal to current price */
   listPrice: Scalars['Float'];
@@ -1207,6 +1279,9 @@ export type Query = {
   contentfulProducts: Array<ContentfulProductItemOutput>;
   countdown?: Maybe<CountdownClockCategoryOutput>;
   deeplinkPath?: Maybe<DeeplinkOutput>;
+  homeCarousels: Array<HomeCarouselOutput>;
+  homeCountdown?: Maybe<HomeCountdownOutput>;
+  homeMedias: Array<HomeMediaOutput>;
   landingPagePrime: PrimeDetailOutput;
   mktinStatus: Scalars['Boolean'];
   mostSearchedWords: Array<Scalars['String']>;
@@ -1455,8 +1530,8 @@ export type SearchProductInput = {
 };
 
 export type SearchProductPriceRangeInput = {
-  from: Scalars['Int'];
-  to: Scalars['Int'];
+  from: Scalars['Float'];
+  to: Scalars['Float'];
 };
 
 export type SellerInfoInput = {
@@ -1558,9 +1633,9 @@ export type OrderformItemFragmentFragment = { __typename?: 'OrderformItemOutput'
 
 export type OrderformSelectableGiftFragmentFragment = { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> };
 
-export type ProductColorFragmentFragment = { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> };
+export type ProductColorFragmentFragment = { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> };
 
-export type ProductSizeFragmentFragment = { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null };
+export type ProductSizeFragmentFragment = { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null };
 
 export type ProfileFragmentFragment = { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, isPrime: boolean, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null> };
 
@@ -1817,6 +1892,26 @@ export type DeeplinkPathQueryVariables = Exact<{
 
 export type DeeplinkPathQuery = { __typename?: 'Query', deeplinkPath?: { __typename?: 'DeeplinkOutput', path: string, referenceId?: string | null, active: boolean } | null };
 
+export type HomeCarouselsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HomeCarouselsQuery = { __typename?: 'Query', homeCarousels: Array<{ __typename?: 'HomeCarouselOutput', id: string, type: HomePageSectionTypeEnum, showtime?: number | null, items: Array<{ __typename?: 'HomeCarouselItemOutput', mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, reference: string, orderBy: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string, height?: number | null, width?: number | null } }> }> };
+
+export type HomeConfigQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HomeConfigQuery = { __typename?: 'Query', homeConfig?: { __typename?: 'ConfigOutput', id: string, offersPage?: string | null, discountCodeBar?: { __typename?: 'ConfigDiscountBarOutput', titleBar?: string | null, colorBar?: string | null, titleModal?: string | null, descriptionModal?: string | null, titleButton?: string | null, colorButton?: string | null, shareMessage?: string | null, coupon?: string | null } | null } | null };
+
+export type HomeCountdownQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HomeCountdownQuery = { __typename?: 'Query', homeCountdown?: { __typename?: 'HomeCountdownOutput', type?: ClockScreenEnum | null, title?: string | null, subtitle?: string | null, watchType?: string | null, countdown: string, countdownStart?: string | null, titleButton?: string | null, titleModal?: string | null, descriptionModal?: string | null, reference?: string | null, formattedValue?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, theme: { __typename?: 'HomeCountdownThemeOutput', colorBanner: string, colorButton: string, clockBackgroundColor: string } } | null };
+
+export type HomeMediasQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, orderBy: string, reference: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
+
 export type LandingPagePrimeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1854,7 +1949,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, videoThumbnail?: string | null, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null } | null } };
+export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, videoThumbnail?: string | null, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null } | null } };
 
 export type ProductDeliveryTimeQueryVariables = Exact<{
   input: CheckDeliveryTimeByProductInput;
@@ -1885,7 +1980,7 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'SearchOutput', count: number, items: Array<{ __typename?: 'ProductListOutput', productId: string, skuId: string, productName: string, colors?: Array<string> | null, brand: string, category?: string | null, size?: string | null, colorName?: string | null, image: string, listPrice: number, currentPrice: number, hasDiscount: boolean, discountPercentage: number, prime?: { __typename?: 'ProductListPrimeOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } }> } };
+export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'SearchOutput', count: number, items: Array<{ __typename?: 'ProductListOutput', productId: string, skuId: string, productName: string, colors?: Array<string> | null, brand: string, category?: string | null, size?: string | null, colorName?: string | null, image: string, listPrice: number, currentPrice: number, hasDiscount: boolean, discountPercentage: number, prime?: { __typename?: 'ProductListPrimeOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number }, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } };
 
 export type SearchAutocompleteSuggestionsQueryVariables = Exact<{
   q: Scalars['String'];
@@ -2097,6 +2192,10 @@ export const ProductSizeFragmentFragmentDoc = gql`
       value
       number
     }
+  }
+  installmentEqualPrime {
+    value
+    number
   }
   disabled
 }
@@ -3414,6 +3513,216 @@ export type DeeplinkPathQueryResult = Apollo.QueryResult<DeeplinkPathQuery, Deep
 export function refetchDeeplinkPathQuery(variables: DeeplinkPathQueryVariables) {
       return { query: DeeplinkPathDocument, variables: variables }
     }
+export const HomeCarouselsDocument = gql`
+    query homeCarousels {
+  homeCarousels {
+    id
+    type
+    showtime
+    items {
+      mkt
+      linkMktIn
+      reservaMini
+      reference
+      orderBy
+      facets {
+        key
+        value
+      }
+      image {
+        url
+        title
+        height
+        width
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useHomeCarouselsQuery__
+ *
+ * To run a query within a React component, call `useHomeCarouselsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeCarouselsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomeCarouselsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHomeCarouselsQuery(baseOptions?: Apollo.QueryHookOptions<HomeCarouselsQuery, HomeCarouselsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeCarouselsQuery, HomeCarouselsQueryVariables>(HomeCarouselsDocument, options);
+      }
+export function useHomeCarouselsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeCarouselsQuery, HomeCarouselsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeCarouselsQuery, HomeCarouselsQueryVariables>(HomeCarouselsDocument, options);
+        }
+export type HomeCarouselsQueryHookResult = ReturnType<typeof useHomeCarouselsQuery>;
+export type HomeCarouselsLazyQueryHookResult = ReturnType<typeof useHomeCarouselsLazyQuery>;
+export type HomeCarouselsQueryResult = Apollo.QueryResult<HomeCarouselsQuery, HomeCarouselsQueryVariables>;
+export function refetchHomeCarouselsQuery(variables?: HomeCarouselsQueryVariables) {
+      return { query: HomeCarouselsDocument, variables: variables }
+    }
+export const HomeConfigDocument = gql`
+    query homeConfig {
+  homeConfig: config {
+    id
+    offersPage
+    discountCodeBar {
+      titleBar
+      colorBar
+      titleModal
+      descriptionModal
+      titleButton
+      colorButton
+      shareMessage
+      coupon
+    }
+  }
+}
+    `;
+
+/**
+ * __useHomeConfigQuery__
+ *
+ * To run a query within a React component, call `useHomeConfigQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeConfigQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomeConfigQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHomeConfigQuery(baseOptions?: Apollo.QueryHookOptions<HomeConfigQuery, HomeConfigQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeConfigQuery, HomeConfigQueryVariables>(HomeConfigDocument, options);
+      }
+export function useHomeConfigLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeConfigQuery, HomeConfigQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeConfigQuery, HomeConfigQueryVariables>(HomeConfigDocument, options);
+        }
+export type HomeConfigQueryHookResult = ReturnType<typeof useHomeConfigQuery>;
+export type HomeConfigLazyQueryHookResult = ReturnType<typeof useHomeConfigLazyQuery>;
+export type HomeConfigQueryResult = Apollo.QueryResult<HomeConfigQuery, HomeConfigQueryVariables>;
+export function refetchHomeConfigQuery(variables?: HomeConfigQueryVariables) {
+      return { query: HomeConfigDocument, variables: variables }
+    }
+export const HomeCountdownDocument = gql`
+    query homeCountdown {
+  homeCountdown {
+    type
+    title
+    subtitle
+    watchType
+    countdown
+    countdownStart
+    titleButton
+    titleModal
+    descriptionModal
+    reference
+    formattedValue
+    facets {
+      key
+      value
+    }
+    theme {
+      colorBanner
+      colorButton
+      clockBackgroundColor
+    }
+  }
+}
+    `;
+
+/**
+ * __useHomeCountdownQuery__
+ *
+ * To run a query within a React component, call `useHomeCountdownQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeCountdownQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomeCountdownQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHomeCountdownQuery(baseOptions?: Apollo.QueryHookOptions<HomeCountdownQuery, HomeCountdownQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeCountdownQuery, HomeCountdownQueryVariables>(HomeCountdownDocument, options);
+      }
+export function useHomeCountdownLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeCountdownQuery, HomeCountdownQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeCountdownQuery, HomeCountdownQueryVariables>(HomeCountdownDocument, options);
+        }
+export type HomeCountdownQueryHookResult = ReturnType<typeof useHomeCountdownQuery>;
+export type HomeCountdownLazyQueryHookResult = ReturnType<typeof useHomeCountdownLazyQuery>;
+export type HomeCountdownQueryResult = Apollo.QueryResult<HomeCountdownQuery, HomeCountdownQueryVariables>;
+export function refetchHomeCountdownQuery(variables?: HomeCountdownQueryVariables) {
+      return { query: HomeCountdownDocument, variables: variables }
+    }
+export const HomeMediasDocument = gql`
+    query homeMedias {
+  homeMedias {
+    id
+    mkt
+    linkMktIn
+    reservaMini
+    orderBy
+    reference
+    facets {
+      key
+      value
+    }
+    image {
+      url
+      title
+    }
+  }
+}
+    `;
+
+/**
+ * __useHomeMediasQuery__
+ *
+ * To run a query within a React component, call `useHomeMediasQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeMediasQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomeMediasQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHomeMediasQuery(baseOptions?: Apollo.QueryHookOptions<HomeMediasQuery, HomeMediasQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeMediasQuery, HomeMediasQueryVariables>(HomeMediasDocument, options);
+      }
+export function useHomeMediasLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeMediasQuery, HomeMediasQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeMediasQuery, HomeMediasQueryVariables>(HomeMediasDocument, options);
+        }
+export type HomeMediasQueryHookResult = ReturnType<typeof useHomeMediasQuery>;
+export type HomeMediasLazyQueryHookResult = ReturnType<typeof useHomeMediasLazyQuery>;
+export type HomeMediasQueryResult = Apollo.QueryResult<HomeMediasQuery, HomeMediasQueryVariables>;
+export function refetchHomeMediasQuery(variables?: HomeMediasQueryVariables) {
+      return { query: HomeMediasDocument, variables: variables }
+    }
 export const LandingPagePrimeDocument = gql`
     query landingPagePrime {
   landingPagePrime {
@@ -3964,6 +4273,10 @@ export const SearchDocument = gql`
         }
       }
       installment {
+        value
+        number
+      }
+      installmentEqualPrime {
         value
         number
       }
