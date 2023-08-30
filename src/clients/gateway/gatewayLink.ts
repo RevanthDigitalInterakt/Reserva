@@ -7,7 +7,8 @@ import { print } from 'graphql';
 import type { GraphQLErrors } from '@apollo/client/errors';
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
-import { refreshTokenMiddleware } from './middlewares/refreshTokenMidddleware';
+import { INVALID_AUTHORIZATION_ERROR, refreshTokenMiddleware } from './middlewares/refreshTokenMidddleware';
+import { navigateUsingRef } from '../../utils/navigationRef';
 
 function extractOperationTransactionId(operation: Operation) {
   try {
@@ -56,7 +57,7 @@ const transactionIdLink = setContext(async (_, { headers }) => {
   });
 });
 
-const errorLinks = onError(({
+const refreshTokenLink = onError(({
   graphQLErrors,
   forward,
   operation,
@@ -87,10 +88,34 @@ const errorLinks = onError(({
   return forward(operation);
 });
 
+const errorLinks = onError(({
+  graphQLErrors,
+  forward,
+  operation,
+  response,
+}) => {
+  if (graphQLErrors?.length) {
+    const hasAuthenticationError = graphQLErrors.some((item) => (
+      (item.message || '').toLowerCase() === INVALID_AUTHORIZATION_ERROR
+    ));
+
+    trackApolloError(operation, graphQLErrors, response);
+
+    if (hasAuthenticationError) {
+      navigateUsingRef('Login', { invalidSession: true });
+      return;
+    }
+  }
+
+  return forward(operation);
+});
+
 const gatewayLink = errorLinks.concat(
-  transactionIdLink.concat(
-    new HttpLink({ uri: Config.URL_GATEWAY_CLIENT }),
-  ),
+  refreshTokenLink.concat(
+    transactionIdLink.concat(
+      new HttpLink({ uri: Config.URL_GATEWAY_CLIENT }),
+    ),
+  )
 );
 
 export { gatewayLink };
