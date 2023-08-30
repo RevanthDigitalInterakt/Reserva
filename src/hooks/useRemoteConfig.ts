@@ -11,6 +11,8 @@ interface IUseRemoteConfigStore {
   getObject: (k: TRemoteConfigStringArrayKeys) => string[];
 }
 
+export type TTypesInstallments = 'hide_installments' | 'show_prime_installments' | 'show_prime_equal_to_regular';
+
 export interface IRemoteConfigKeys {
   pdp_show_video: boolean;
   pdp_show_video_tester: boolean;
@@ -30,6 +32,7 @@ export interface IRemoteConfigKeys {
   show_price_prime_pdp: boolean;
   show_price_prime_pdc: boolean;
   regionalization: boolean;
+  installments_prime: TTypesInstallments;
   show_new_address: boolean;
   show_new_address_tester: boolean;
   show_new_address_list: boolean;
@@ -64,6 +67,7 @@ export const defaults: IRemoteConfigKeys = {
   pdp_show_video: false,
   pdp_show_video_tester: false,
   regionalization: false,
+  installments_prime: 'show_prime_installments',
   show_new_address: false,
   show_new_address_tester: true,
   show_new_address_list: false,

@@ -163,18 +163,13 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
-              "alignItems": "baseline",
-              "flexDirection": "row",
-              "justifyContent": "flex-start",
-              "marginTop": 4,
-            },
-            Object {
-              "marginRight": 50,
-              "marginTop": 24,
-            },
-          ]
+          Object {
+            "alignItems": "baseline",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+            "marginRight": 50,
+            "marginTop": 24,
+          }
         }
       >
         <Text

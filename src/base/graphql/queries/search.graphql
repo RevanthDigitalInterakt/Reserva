@@ -26,6 +26,10 @@ query search($input: SearchProductInput!) {
         value
         number
       }
+      installmentEqualPrime {
+        value
+        number
+      }
     }
   }
 }

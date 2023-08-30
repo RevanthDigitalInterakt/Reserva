@@ -4,18 +4,16 @@ import { integerPart, decimalPart } from '../../utils/numberUtils';
 import { styles } from './ProductPriceRow.styles';
 
 interface IPros {
-  installmentsNumber: number;
+  installments?: { value: number; number: number; };
   currency?: string;
-  installmentsPrice: number
   discountTag?: number;
   priceWithDiscount?: number;
   price: number;
 }
 
 const ProductPriceRow = ({
-  installmentsNumber,
+  installments,
   currency,
-  installmentsPrice,
   discountTag,
   priceWithDiscount,
   price,
@@ -39,18 +37,22 @@ const ProductPriceRow = ({
         {`${decimalPart(finalPrice)}`}
       </Text>
 
-      <View style={styles.divider} />
+      {!!installments?.number && (
+        <>
+          <View style={styles.divider} />
 
-      <Text style={[styles.textInstallments, { fontSize: 12 }]}>
-        {installmentsNumber}
-        x
-      </Text>
-      <Text style={styles.textInstallments}>
-        {` ${currency} ${integerPart(installmentsPrice)},`}
-      </Text>
-      <Text style={styles.textInstallments}>
-        {`${decimalPart(installmentsPrice)}`}
-      </Text>
+          <Text style={[styles.textInstallments, { fontSize: 12 }]}>
+            {installments.number}
+            x
+          </Text>
+          <Text style={styles.textInstallments}>
+            {` ${currency} ${integerPart(installments.value)},`}
+          </Text>
+          <Text style={styles.textInstallments}>
+            {`${decimalPart(installments.value)}`}
+          </Text>
+        </>
+      )}
     </View>
   );
 };

@@ -12,6 +12,9 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.LIGHT_GRAY,
   },
+  minHeight: {
+    minHeight: 72,
+  },
   integerPart: {
     fontWeight: '700',
     fontSize: 24,
@@ -22,7 +25,6 @@ export const styles = StyleSheet.create({
     color: COLORS.LIGHT_GRAY,
   },
   marginText: {
-    marginTop: 24,
     marginRight: 50,
   },
   normalTextGray: {
@@ -32,6 +34,18 @@ export const styles = StyleSheet.create({
   },
   normalTextBlack: {
     color: COLORS.BLACK,
+  },
+  mtSeparator: {
+    marginTop: 30,
+  },
+  mDefaultSeparator: {
+    margin: 0,
+  },
+  mtPrice: {
+    marginTop: 24,
+  },
+  mDefaultPrice: {
+    margin: 0,
   },
   normalPrice: {
     marginHorizontal: 16,
@@ -64,6 +78,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingVertical: 10,
   },
+  ml: {
+    marginLeft: 16,
+  },
   priceContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -75,7 +92,6 @@ export const styles = StyleSheet.create({
     width: 1,
     height: 30,
     backgroundColor: COLORS.LIGHT_GRAY,
-    marginTop: 30,
     marginHorizontal: smallDevices ? 15 : 0,
   },
 });
