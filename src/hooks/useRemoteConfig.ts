@@ -38,6 +38,8 @@ export interface IRemoteConfigKeys {
   show_new_address_list: boolean;
   show_new_address_list_tester: boolean;
   show_new_webview_checkout: boolean;
+  show_new_home: boolean;
+  show_new_home_tester: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -73,9 +75,11 @@ export const defaults: IRemoteConfigKeys = {
   show_new_address_list: false,
   show_new_address_list_tester: true,
   show_new_webview_checkout: false,
+  show_new_home: false,
+  show_new_home_tester: true,
 };
 
-const THREE_MINUTES_IN_MS = 180000;
+const FIVE_MINUTES_IN_MS = 300000;
 const FIVE_SECONDS_IN_MS = 5000;
 
 export const useRemoteConfig = create<IUseRemoteConfigStore>((set, getState) => ({
@@ -90,7 +94,7 @@ export const useRemoteConfig = create<IUseRemoteConfigStore>((set, getState) => 
       await remoteConfig.setDefaults(defaults as unknown as Record<string, any>);
 
       await remoteConfig.setConfigSettings({
-        minimumFetchIntervalMillis: THREE_MINUTES_IN_MS,
+        minimumFetchIntervalMillis: FIVE_MINUTES_IN_MS,
         fetchTimeMillis: FIVE_SECONDS_IN_MS,
       });
 

@@ -7,7 +7,8 @@
 - [16233 - Teste A/B home refatorada](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16233)
 - [16232 - Refatoração home](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16232)
 - Remover páginas legadas do código (PDC e Search)
-- [16406 - Parcelamento Prime - Teste A/B/C [App]](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16406)
+- [16406 - Parcelamento Prime - Teste A/B/C](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16406)
+- [16888 - Novos bullets no caroussel de banner](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=16888)
 
 ---
 
