@@ -7,6 +7,12 @@ export type Items = {
   item_category: string;
 };
 
+export enum SignInMethod {
+  Email = "email",
+  Google = 'google',
+  Facebook = 'facebook'
+};
+
 type EventValues = {
   item_id: string;
   item_name: string;
@@ -52,6 +58,7 @@ type EventValues = {
   favorite: number;
   position: 'top' | 'bottom';
   page: string;
+  sign_in_method: SignInMethod;
 };
 
 export namespace EventsOptions {
@@ -152,6 +159,8 @@ export namespace EventsOptions {
   export type ViewCart = Pick<EventValues, | 'currency' | 'items' | 'value'>;
   export type PressHeaderSearch = Pick<EventValues, 'open'>;
   export type PageLoadTime = Pick<EventValues, | 'page' | 'value'>;
+  export type SignUp = Pick<EventValues, | 'email'>;
+  export type SignIn = Pick<EventValues, | 'sign_in_method'>;
 }
 
 export type EventOptionsFn =
@@ -306,4 +315,12 @@ export type EventOptionsFn =
   | {
     type: 'page_load_time',
     payload: EventsOptions.PageLoadTime
+  }
+  | {
+    type: 'sign_up',
+    payload: EventsOptions.SignUp
+  }
+  | {
+    type: 'sign_in',
+    payload: EventsOptions.SignIn
   };

@@ -147,6 +147,10 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
 
       trackEventSignUpDito(email, removeNonNumbers(cpf));
 
+      EventProvider.logEvent('sign_up', {
+        email,
+      });
+
       if (response?.data?.signUp?.token && response?.data?.signUp?.authCookie) {
         try {
           await onSignIn(email, passwords.confirm, true);
