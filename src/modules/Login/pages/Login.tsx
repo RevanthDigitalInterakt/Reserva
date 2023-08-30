@@ -1,14 +1,14 @@
 import React, {
   useCallback, useEffect, FC,
 } from 'react';
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import type { StackScreenProps } from '@react-navigation/stack';
 import {
   Alert, SafeAreaView, ScrollView,
-  BackHandler,
+  BackHandler, Text, View,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as Yup from 'yup';
+import { Formik } from 'formik';
 import images from '../../../base/styles/icons';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
@@ -20,7 +20,7 @@ import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { useNavigationToDelivery } from '../../../hooks/useNavigationToDelivery';
 import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
-import { Formik } from 'formik';
+import { COLORS } from '../../../base/styles/colors';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -152,17 +152,17 @@ export const LoginScreen: FC<Props> = ({
         {...testProps('com.usereserva:id/login_scrollview')}
         keyboardShouldPersistTaps="always"
       >
-        <Box px="xxs" pt="xxs" paddingBottom="xxl">
-          <Typography fontFamily="reservaSerifRegular" fontSize={22}>
+        <View style={{ margin: 20 }}>
+          <Text style={{ fontFamily: 'reservaSerifRegular', fontSize: 22 }}>
             Boas-vindas!
-          </Typography>
+          </Text>
 
-          <Box mt="xxs">
-            <Box marginBottom="xxxs">
-              <Typography variant="tituloSessao">
+          <View style={{ marginTop: 20 }}>
+            <View style={{ marginBottom: 15 }}>
+              <Text style={{ fontFamily: 'reservaSerifRegular', fontSize: 16 }}>
                 Insira seu e-mail para continuar:
-              </Typography>
-            </Box>
+              </Text>
+            </View>
 
             <Formik
               initialValues={{
@@ -193,7 +193,7 @@ export const LoginScreen: FC<Props> = ({
                     }}
                   />
 
-                  <Box mt="md" width="100%">
+                  <View style={{ marginTop: 40 }}>
                     <UnderlineInput
                       testID="com.usereserva:id/login_input_password"
                       isSecureText
@@ -216,84 +216,91 @@ export const LoginScreen: FC<Props> = ({
                         );
                       }}
                     />
-                    <Box mt="micro" mb="quarck">
+                    <View style={{ marginTop: 10 }}>
                       <TouchableOpacity
                         onPress={() => {
                           navigation.navigate('ForgotEmail', {});
                         }}
                       >
-                        <Typography
+                        <Text
                           style={{ textDecorationLine: 'underline' }}
                           {...testProps('com.usereserva:id/esqueci-minha-senha')}
                         >
                           Esqueci minha senha
-                        </Typography>
+                        </Text>
                       </TouchableOpacity>
-                    </Box>
+                    </View>
                     {loginCredentials.hasError && (
-                      <Typography
-                        color="vermelhoAlerta"
-                        fontFamily="nunitoRegular"
-                        fontSize={13}
+                      <Text
+                        style={{ fontFamily: 'Nunito-Regular', color: COLORS.INPUT_ERROR_MESSAGE }}
                         {...testProps('com.usereserva:id/login-error')}
                       >
                         {loginCredentials.showMessageError}
-                      </Typography>
+                      </Text>
                     )}
-                  </Box>
+                  </View>
 
-                  <Box mt="md" />
+                  <View style={{ marginTop: 60 }} />
 
-                  <Button
+                  <TouchableOpacity
                     accessible={false}
                     {...testProps('com.usereserva:id/entrar_login_button')}
-                    title="ENTRAR"
-                    inline
-                    variant="primarioEstreitoOutline"
+                    // variant="primarioEstreitoOutline"
                     disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
                     onPress={doLogin}
-                  />
-
-                  <Box
-                    flexDirection="row"
-                    mt="xxl"
-                    mb="xxs"
-                    justifyContent="center"
-                    alignItems="center"
+                    style={{
+                      alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.WHITE, height: 50, borderWidth: 1, borderColor: COLORS.BLACK,
+                    }}
                   >
-                    <Box
-                      style={{ borderWidth: 1 }}
-                      marginLeft="xxs"
-                      marginRight="nano"
-                      flex={1}
-                      borderColor="divider"
+                    <Text style={{ fontFamily: 'Nunito-Regular' }}>ENTRAR</Text>
+                  </TouchableOpacity>
+
+                  <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 75,
+                    marginBottom: 30,
+                  }}
+
+                  >
+                    <View style={{
+                      borderWidth: 1,
+                      marginLeft: 30,
+                      marginRight: 10,
+                      flex: 1,
+                      borderColor: COLORS.INPUT_BORDER,
+                    }}
                     />
-                    <Typography textAlign="center">
+                    <Text style={{ alignContent: 'center' }}>
                       Ainda não possui uma conta?
-                    </Typography>
-                    <Box
-                      style={{ borderWidth: 1 }}
-                      marginLeft="nano"
-                      marginRight="xxs"
-                      flex={1}
-                      borderColor="divider"
+                    </Text>
+                    <View style={{
+                      borderWidth: 1,
+                      marginLeft: 10,
+                      marginRight: 30,
+                      flex: 1,
+                      borderColor: COLORS.INPUT_BORDER,
+                    }}
                     />
-                  </Box>
-                  <Button
+                  </View>
+                  <TouchableOpacity
                     {...testProps('com.usereserva:id/cadastre_se_buttton')}
-                    title="CADASTRE-SE"
-                    inline
-                    variant="primarioEstreito"
                     disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
                     onPress={() => {
                       navigation.navigate('RegisterEmail', {});
                     }}
-                  />
+                    style={{
+                      alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.ACTION_BUTTON_COLOR, height: 50, borderWidth: 1, borderColor: COLORS.BLACK,
+                    }}
+                  >
+                    <Text style={{ fontFamily: 'ReservaSans-Medium', fontSize: 16, color: COLORS.WHITE }}>CADASTRE-SE</Text>
+                  </TouchableOpacity>
                 </>
               )}
             </Formik>
-          </Box>
-        </Box>
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
