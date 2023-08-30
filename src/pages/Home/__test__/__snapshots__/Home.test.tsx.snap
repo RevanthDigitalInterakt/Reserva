@@ -1193,7 +1193,7 @@ exports[`Home renders correctly 1`] = `
                             "top": 0,
                             "transform": Array [
                               Object {
-                                "translateX": -10000,
+                                "translateX": 5,
                               },
                             ],
                             "width": "100%",

@@ -115,7 +115,7 @@ const gatewayLink = errorLinks.concat(
     transactionIdLink.concat(
       new HttpLink({ uri: Config.URL_GATEWAY_CLIENT }),
     ),
-  )
+  ),
 );
 
 export { gatewayLink };

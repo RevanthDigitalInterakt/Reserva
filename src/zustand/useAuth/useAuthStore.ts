@@ -96,7 +96,7 @@ const authStore = create<IAuthStore>((set, getState) => ({
   },
   onRefreshToken: async () => {
     try {
-      return onRefreshToken();
+      return await onRefreshToken();
     } catch (err) {
       ExceptionProvider.captureException(
         err,
