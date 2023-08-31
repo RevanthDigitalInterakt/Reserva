@@ -31,7 +31,7 @@ exports[`HomeCarousel should match to snapshot 1`] = `
               "width": 750,
             },
             Object {
-              "backgroundColor": "rgba(0, 0, 255, 0)",
+              "backgroundColor": "rgba(0, 0, 0, 0)",
               "position": "relative",
             },
             Object {
@@ -54,7 +54,11 @@ exports[`HomeCarousel should match to snapshot 1`] = `
                   Object {
                     "translateX": undefined,
                   },
+                  Object {
+                    "scale": undefined,
+                  },
                 ],
+                "zIndex": undefined,
               },
             ]
           }
@@ -72,7 +76,11 @@ exports[`HomeCarousel should match to snapshot 1`] = `
                   Object {
                     "translateX": undefined,
                   },
+                  Object {
+                    "scale": undefined,
+                  },
                 ],
+                "zIndex": undefined,
               },
             ]
           }
@@ -90,13 +98,18 @@ exports[`HomeCarousel should match to snapshot 1`] = `
                   Object {
                     "translateX": undefined,
                   },
+                  Object {
+                    "scale": undefined,
+                  },
                 ],
+                "zIndex": undefined,
               },
             ]
           }
         />
       </View>
       <View
+        accessibilityLabel="com.usereserva:id/carrousel_scroll_indicator_container"
         bottom={10}
         flexDirection="row"
         position="absolute"

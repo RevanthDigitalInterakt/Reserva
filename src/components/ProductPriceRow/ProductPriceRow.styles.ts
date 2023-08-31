@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import configDeviceSizes from '../../utils/configDeviceSizes';
+import { COLORS } from '../../base/styles/colors';
 
 export const styles = StyleSheet.create({
   textPrice: {
@@ -7,6 +8,12 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     color: '#8A8C8E',
     letterSpacing: 0.05,
+  },
+  grey: {
+    color: COLORS.LIGHT_GRAY,
+  },
+  black: {
+    color: COLORS.BLACK,
   },
   textInstallments: {
     fontFamily: 'ReservaSans-Medium',
@@ -19,5 +26,25 @@ export const styles = StyleSheet.create({
     width: 1,
     height: 16,
     marginHorizontal: configDeviceSizes.DEVICE_WIDTH > 320 ? 6 : 4,
+  },
+  textPricePrime: {
+    fontFamily: 'ReservaSans-Medium',
+    fontSize: 12,
+    color: COLORS.RED,
+    letterSpacing: 0.05,
+  },
+  containerPrime: {
+    padding: 2,
+    backgroundColor: COLORS.RED,
+    marginLeft: 10,
+  },
+  labelPrime: {
+    fontFamily: 'ReservaDisplay-Regular',
+    color: COLORS.WHITE,
+    fontSize: 8,
+  },
+  flex: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

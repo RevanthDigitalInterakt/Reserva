@@ -53,6 +53,7 @@ exports[`SelectBoxPrime should match with the snapshot 1`] = `
         Object {
           "alignItems": "center",
           "justifyContent": "flex-end",
+          "marginLeft": 16,
           "paddingVertical": 10,
         }
       }
@@ -89,71 +90,6 @@ exports[`SelectBoxPrime should match with the snapshot 1`] = `
           Prime
         </Text>
       </Text>
-      <View
-        style={
-          Object {
-            "alignItems": "baseline",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "marginTop": 4,
-          }
-        }
-      >
-        <Text
-          fontFamily="reservaSansRegular"
-          style={
-            Array [
-              Object {
-                "fontFamily": "ReservaSans-Regular",
-              },
-              Object {
-                "color": "#A01E21",
-                "fontSize": 18,
-                "fontWeight": "400",
-              },
-            ]
-          }
-        >
-          4
-          x
-           
-        </Text>
-        <Text
-          fontFamily="reservaSansRegular"
-          style={
-            Array [
-              Object {
-                "fontFamily": "ReservaSans-Regular",
-              },
-              Object {
-                "color": "#A01E21",
-                "fontSize": 24,
-                "fontWeight": "700",
-              },
-            ]
-          }
-        >
-          R$
-           
-          64,
-        </Text>
-        <Text
-          color="vermelhoRSV"
-          fontFamily="reservaSansRegular"
-          fontWeight="bold"
-          style={
-            Array [
-              Object {
-                "color": "#A00000",
-                "fontFamily": "ReservaSans-Regular",
-                "fontWeight": "700",
-              },
-            ]
-          }
-        >
-          50
-        </Text>
-      </View>
     </View>
     <View
       style={
@@ -161,7 +97,7 @@ exports[`SelectBoxPrime should match with the snapshot 1`] = `
           "alignSelf": "center",
           "backgroundColor": "#8D8D8D",
           "height": 30,
-          "marginHorizontal": 0,
+          "marginHorizontal": 15,
           "marginTop": 30,
           "width": 1,
         }
@@ -172,6 +108,7 @@ exports[`SelectBoxPrime should match with the snapshot 1`] = `
         Object {
           "alignItems": "center",
           "justifyContent": "flex-end",
+          "marginLeft": 6,
           "paddingVertical": 10,
         }
       }

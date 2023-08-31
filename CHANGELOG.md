@@ -3,9 +3,12 @@
 ### 2.0.13
 
 - [17015 - Inserir frete na sacola](https://dev.azure.com/areco/Canal%20App%20e%20Omni/_workitems/edit/17015/)
+- [16849 - Analise de erros Sentry](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16849)
 - [16233 - Teste A/B home refatorada](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16233)
 - [16232 - Refatoração home](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16232)
 - Remover páginas legadas do código (PDC e Search)
+- [16406 - Parcelamento Prime - Teste A/B/C](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16406)
+- [16888 - Novos bullets no caroussel de banner](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=16888)
 - [16957 - Evento login](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16957)
 - [16955 - Evento signup](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16955)
 
@@ -17,6 +20,7 @@
 - [SRN-10270 Evento de acompanhamento do tempo de carregamento da página](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10270)
 - [SRN-15170 Meus Endereços - Remover endereço](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15170)
 - [16560 - Integração app com novo checkout](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16560/)
+- [14777 - Ao se logar pós sacola, direcionar o usuário para a checkout](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14777)
 
 ---
 
