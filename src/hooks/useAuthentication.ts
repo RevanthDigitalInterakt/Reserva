@@ -83,7 +83,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
 
       EventProvider.logEvent('login', {
         custumer_email: email,
-        method: Method.Email
+        method: Method.Email,
       });
 
       setIsLoadingEmail(false);
