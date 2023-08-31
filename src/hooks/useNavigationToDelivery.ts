@@ -145,7 +145,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
       await restoreCart(orderFormId);
 
       EventProvider.logEvent('complete_registration', {
-        registration_method: 'email',
+        method: 'email',
         custumer_email: profile?.email,
       });
 

@@ -30,6 +30,7 @@ import CodeInput from '../../../components/CodeInput/CodeInput';
 import { getCopiedValue } from '../../../utils/CopyToClipboard';
 import { useCheckConnection } from '../../../hooks/useCheckConnection';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import { Method } from '../../../utils/EventProvider/Event';
 
 export interface PasswordCheckProps {
   text: string;
@@ -148,7 +149,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
       trackEventSignUpDito(email, removeNonNumbers(cpf));
 
       EventProvider.logEvent('sign_up', {
-        email,
+        method: Method.Email,
       });
 
       if (response?.data?.signUp?.token && response?.data?.signUp?.authCookie) {

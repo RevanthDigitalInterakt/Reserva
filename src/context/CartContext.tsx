@@ -857,7 +857,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       });
 
       EventProvider.logEvent('complete_registration', {
-        registration_method: 'email',
+        method: 'email',
         custumer_email: String(orderForm?.clientProfileData?.email),
       });
 

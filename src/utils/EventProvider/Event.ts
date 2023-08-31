@@ -7,8 +7,8 @@ export type Items = {
   item_category: string;
 };
 
-export enum SignInMethod {
-  Email = "email",
+export enum Method {
+  Email = 'email',
   Google = 'google',
   Facebook = 'facebook'
 };
@@ -35,7 +35,7 @@ type EventValues = {
   search_ids: any;
   price: number;
   quantity: number | number[];
-  registration_method: string;
+  method: Method;
   affiliation: string;
   coupon: string;
   value: number;
@@ -58,12 +58,11 @@ type EventValues = {
   favorite: number;
   position: 'top' | 'bottom';
   page: string;
-  sign_in_method: SignInMethod;
 };
 
 export namespace EventsOptions {
   export type PageView = Pick<EventValues, 'wbrand'>;
-  export type Login = Pick<EventValues, 'custumer_email'>;
+  export type Login = Pick<EventValues, 'custumer_email' | 'method'>;
   export type Search = Pick<EventValues, 'search_term'>;
   export type ClickHere = Pick<EventValues, 'click_name'>;
   export type ViewSearchResults = Pick<EventValues, 'search_term'>;
@@ -75,7 +74,7 @@ export namespace EventsOptions {
   >;
   export type CompleteRegistration = Pick<
   EventValues,
-  'registration_method' | 'custumer_email'
+  'method' | 'custumer_email'
   >;
   export type OpenRonUrl = Pick<
   EventValues,
@@ -159,8 +158,7 @@ export namespace EventsOptions {
   export type ViewCart = Pick<EventValues, | 'currency' | 'items' | 'value'>;
   export type PressHeaderSearch = Pick<EventValues, 'open'>;
   export type PageLoadTime = Pick<EventValues, | 'page' | 'value'>;
-  export type SignUp = Pick<EventValues, | 'email'>;
-  export type SignIn = Pick<EventValues, | 'sign_in_method'>;
+  export type SignUp = Pick<EventValues, | 'method'>;
 }
 
 export type EventOptionsFn =
@@ -319,8 +317,4 @@ export type EventOptionsFn =
   | {
     type: 'sign_up',
     payload: EventsOptions.SignUp
-  }
-  | {
-    type: 'sign_in',
-    payload: EventsOptions.SignIn
   };

@@ -6,6 +6,8 @@
 - [16233 - Teste A/B home refatorada](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16233)
 - [16232 - Refatoração home](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16232)
 - Remover páginas legadas do código (PDC e Search)
+- [16957 - Evento login](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16957)
+- [16955 - Evento signup](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16955)
 
 ---
 

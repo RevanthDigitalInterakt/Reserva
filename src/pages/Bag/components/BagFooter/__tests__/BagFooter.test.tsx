@@ -192,7 +192,7 @@ describe('BagFooter Component', () => {
     });
 
     expect(EventProvider.logEvent).toHaveBeenCalledWith('complete_registration', {
-      registration_method: 'email',
+      method: 'email',
       custumer_email: 'augustoneves@frwk.com.br',
     });
     expect(mockRestoreCart).toHaveBeenCalledWith('12578e89687rieoua186');

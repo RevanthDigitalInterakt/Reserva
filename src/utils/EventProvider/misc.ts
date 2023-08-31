@@ -40,7 +40,7 @@ export type EventValuesName =
   | 'price'
   | 'quantity'
   | 'product_currency'
-  | 'registration_method'
+  | 'method'
   | 'search_term'
   | 'item_list_id'
   | 'item_list_name'
@@ -76,7 +76,7 @@ export const eventsValue: EventValueOptions = {
   item_category: 'af_content_type',
   currency: 'af_currency',
   seller: 'af_seller',
-  registration_method: 'af_registration_method',
+  method: 'af_registration_method',
   item_categories: 'af_content_type',
   custumer_email: 'af_registration_method_constumer',
   content_ids: 'af_content_id',
@@ -107,5 +107,4 @@ export const onlyGaEvents = [
   'add_payment_info_test',
   'page_load_time',
   'sign_up',
-  'sign_in',
 ];
