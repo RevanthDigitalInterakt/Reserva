@@ -5,7 +5,7 @@ import { INVALID_AUTHORIZATION_ERROR } from '../../../utils/constants';
 import { trackApolloError } from '../../../utils/trackApolloError';
 import { onRefreshToken } from '../../../../zustand/useAuth/onRefreshToken';
 
-jest.mock('../../../../zustand/useAuth/useAuthStore', () => ({
+jest.mock('../../../../zustand/useAuth/onRefreshToken', () => ({
   onRefreshToken: jest.fn(),
 }));
 
@@ -13,7 +13,7 @@ jest.mock('../../../../utils/navigationRef', () => ({
   navigateUsingRef: jest.fn(),
 }));
 
-jest.mock('../../gatewayLink', () => ({
+jest.mock('../../../utils/trackApolloError', () => ({
   trackApolloError: jest.fn(),
 }));
 
