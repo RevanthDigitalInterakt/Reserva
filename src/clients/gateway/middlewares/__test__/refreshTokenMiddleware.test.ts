@@ -1,8 +1,9 @@
 import type { ErrorResponse } from '@apollo/client/link/error';
-import { INVALID_AUTHORIZATION_ERROR, refreshTokenMiddleware } from '../refreshTokenMidddleware';
-import { trackApolloError } from '../../gatewayLink';
+import { refreshTokenMiddleware } from '../refreshTokenMiddleware';
 import { navigateUsingRef } from '../../../../utils/navigationRef';
-import { onRefreshToken } from '../../../../zustand/useAuth/useAuthStore';
+import { INVALID_AUTHORIZATION_ERROR } from '../../../utils/constants';
+import { trackApolloError } from '../../../utils/trackApolloError';
+import { onRefreshToken } from '../../../../zustand/useAuth/onRefreshToken';
 
 jest.mock('../../../../zustand/useAuth/useAuthStore', () => ({
   onRefreshToken: jest.fn(),

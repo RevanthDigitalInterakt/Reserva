@@ -2,7 +2,7 @@ import { HttpLink, Observable } from '@apollo/client';
 import { Config } from 'react-native-config';
 import { onError } from '@apollo/client/link/error';
 import { errorLinks, transactionIdLink } from './links';
-import { refreshTokenMiddleware } from './middlewares/refreshTokenMidddleware';
+import { refreshTokenMiddleware } from './middlewares/refreshTokenMiddleware';
 
 export const refreshTokenLink = onError(({
   graphQLErrors,
