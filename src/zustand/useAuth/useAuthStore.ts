@@ -5,24 +5,21 @@ import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreW
 import type {
   ProfileQuery,
   ProfileQueryVariables,
-  RefreshTokenMutation,
-  RefreshTokenMutationVariables,
   SignInMutation,
   SignInMutationVariables,
 } from '../../base/graphql/generated';
 import { createTokenExpireDate } from '../../utils/createTokenExpireDate';
 import { getAsyncStorageItem, removeAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
-import { getApolloClient } from '../../utils/getApolloClient';
 import {
   ProfileDocument,
-  RefreshTokenDocument,
   SignInDocument,
 } from '../../base/graphql/generated';
 import EventProvider from '../../utils/EventProvider';
 import { identifyCustomer } from './methods/identifyCustomer';
-import { checkIfNeedRefreshToken } from '../../utils/checkIfNeedRefreshToken';
 import { RefreshTokenError } from './types/refreshTokenError';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
+import { getApolloClient } from '../../utils/getApolloClient';
+import { onRefreshToken } from './onRefreshToken';
 
 type TProfileData = ProfileQuery['profile'];
 
@@ -30,7 +27,7 @@ export interface IAuthStore {
   initialized: boolean;
   isAnonymousUser: boolean;
   onInit: () => Promise<boolean>;
-  onRefreshToken: () => Promise<boolean>;
+  onRefreshToken: (forceRefresh?: boolean) => Promise<boolean>;
   //
   onGetProfile: (fetchPolicy?: FetchPolicy) => Promise<TProfileData>;
   profile?: TProfileData;
@@ -39,30 +36,6 @@ export interface IAuthStore {
   onUpdateAuthData: (token: string, cookie: string) => Promise<void>;
   //
   onSignOut: () => Promise<void>;
-}
-
-export async function onRefreshToken() {
-  const needRefreshToken = await checkIfNeedRefreshToken();
-
-  if (!needRefreshToken) return false;
-
-  const client = getApolloClient();
-
-  const { data } = await client.mutate<RefreshTokenMutation, RefreshTokenMutationVariables>({
-    context: { clientName: 'gateway' },
-    mutation: RefreshTokenDocument,
-    fetchPolicy: 'no-cache',
-  });
-
-  if (!data?.refreshToken?.token || !data?.refreshToken?.authCookie) {
-    throw new Error('Unauthorized');
-  }
-
-  await setAsyncStorageItem('Auth:Token', data.refreshToken.token);
-  await setAsyncStorageItem('Auth:Cookie', data.refreshToken.authCookie);
-  await setAsyncStorageItem('Auth:TokenRefreshTime', createTokenExpireDate());
-
-  return true;
 }
 
 const authStore = create<IAuthStore>((set, getState) => ({
@@ -96,7 +69,8 @@ const authStore = create<IAuthStore>((set, getState) => ({
   },
   onRefreshToken: async () => {
     try {
-      return await onRefreshToken();
+      const result = await onRefreshToken();
+      return result;
     } catch (err) {
       ExceptionProvider.captureException(
         err,

@@ -1,10 +1,9 @@
 import type { ErrorResponse } from '@apollo/client/link/error';
-import { onRefreshToken } from '../../../zustand/useAuth/useAuthStore';
-import { trackApolloError } from '../gatewayLink';
 import { navigateUsingRef } from '../../../utils/navigationRef';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
-
-export const INVALID_AUTHORIZATION_ERROR = 'invalid authorization';
+import { trackApolloError } from '../../utils/trackApolloError';
+import { INVALID_AUTHORIZATION_ERROR } from '../../utils/constants';
+import { onRefreshToken } from '../../../zustand/useAuth/onRefreshToken';
 
 export async function refreshTokenMiddleware({
   graphQLErrors,
@@ -29,7 +28,7 @@ export async function refreshTokenMiddleware({
         return false;
       }
 
-      const result = await onRefreshToken();
+      const result = await onRefreshToken(true);
 
       if (!result) return false;
 
