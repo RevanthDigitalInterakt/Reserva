@@ -361,43 +361,64 @@ exports[`Login snapshot 1`] = `
   >
     <View>
       <View
+        paddingBottom="xxl"
+        pt="xxs"
+        px="xxs"
         style={
-          Object {
-            "margin": 20,
-          }
+          Array [
+            Object {
+              "paddingBottom": 80,
+              "paddingLeft": 24,
+              "paddingRight": 24,
+              "paddingTop": 24,
+            },
+          ]
         }
       >
         <Text
+          fontFamily="reservaSerifRegular"
+          fontSize={22}
           style={
-            Object {
-              "fontFamily": "reservaSerifRegular",
-              "fontSize": 22,
-            }
+            Array [
+              Object {
+                "fontFamily": "ReservaSerif-Regular",
+                "fontSize": 22,
+              },
+            ]
           }
         >
           Boas-vindas!
         </Text>
         <View
+          mt="xxs"
           style={
-            Object {
-              "marginTop": 20,
-            }
+            Array [
+              Object {
+                "marginTop": 24,
+              },
+            ]
           }
         >
           <View
+            marginBottom="xxxs"
             style={
-              Object {
-                "marginBottom": 15,
-              }
+              Array [
+                Object {
+                  "marginBottom": 16,
+                },
+              ]
             }
           >
             <Text
               style={
-                Object {
-                  "fontFamily": "reservaSerifRegular",
-                  "fontSize": 16,
-                }
+                Array [
+                  Object {
+                    "fontFamily": "Nunito-Regular",
+                    "fontSize": 15,
+                  },
+                ]
               }
+              variant="tituloSessao"
             >
               Insira seu e-mail para continuar:
             </Text>
@@ -472,11 +493,16 @@ exports[`Login snapshot 1`] = `
             </View>
           </View>
           <View
+            mt="md"
             style={
-              Object {
-                "marginTop": 40,
-              }
+              Array [
+                Object {
+                  "marginTop": 48,
+                  "width": "100%",
+                },
+              ]
             }
+            width="100%"
           >
             <View
               style={
@@ -678,10 +704,15 @@ exports[`Login snapshot 1`] = `
               </View>
             </View>
             <View
+              mb="quarck"
+              mt="micro"
               style={
-                Object {
-                  "marginTop": 10,
-                }
+                Array [
+                  Object {
+                    "marginBottom": 4,
+                    "marginTop": 12,
+                  },
+                ]
               }
             >
               <RNGestureHandlerButton
@@ -703,9 +734,12 @@ exports[`Login snapshot 1`] = `
                   <Text
                     accessibilityLabel="com.usereserva:id/esqueci-minha-senha"
                     style={
-                      Object {
-                        "textDecorationLine": "underline",
-                      }
+                      Array [
+                        Object {},
+                        Object {
+                          "textDecorationLine": "underline",
+                        },
+                      ]
                     }
                     testID="com.usereserva:id/esqueci-minha-senha"
                   >
@@ -715,128 +749,260 @@ exports[`Login snapshot 1`] = `
               </RNGestureHandlerButton>
             </View>
           </View>
+        </View>
+        <View
+          mt="md"
+          style={
+            Array [
+              Object {
+                "marginTop": 48,
+              },
+            ]
+          }
+        />
+        <View
+          alignItems="stretch"
+          style={
+            Array [
+              Object {
+                "alignItems": "stretch",
+              },
+            ]
+          }
+        >
           <View
+            accessibilityLabel="com.usereserva:id/entrar_login_button"
+            accessible={false}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "marginTop": 60,
+                "alignItems": "center",
+                "borderColor": "#333333",
+                "borderWidth": 1,
+                "color": "#333333",
+                "fontFamily": "Nunito-Bold",
+                "fontSize": 13,
+                "justifyContent": "center",
+                "minWidth": 130,
+                "opacity": 1,
+                "paddingBottom": 16,
+                "paddingLeft": 8,
+                "paddingRight": 8,
+                "paddingTop": 16,
               }
             }
-          />
-          <RNGestureHandlerButton
-            collapsable={false}
-            onGestureEvent={[Function]}
-            onGestureHandlerEvent={[Function]}
-            onGestureHandlerStateChange={[Function]}
-            onHandlerStateChange={[Function]}
-            rippleColor={0}
             testID="com.usereserva:id/entrar_login_button"
           >
             <View
-              accessibilityLabel="com.usereserva:id/entrar_login_button"
-              accessible={false}
+              alignItems="center"
+              flexDirection="row"
+              justifyContent="center"
               style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#ffffff",
-                  "borderColor": "#000000",
-                  "borderWidth": 1,
-                  "height": 50,
-                  "justifyContent": "center",
-                  "opacity": 1,
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text
+              <View
+                justifyContent="center"
                 style={
-                  Object {
-                    "fontFamily": "Nunito-Regular",
-                  }
+                  Array [
+                    Object {
+                      "justifyContent": "center",
+                    },
+                  ]
                 }
               >
-                ENTRAR
-              </Text>
+                <Text
+                  color="preto"
+                  fontFamily="nunitoBold"
+                  fontSize={13}
+                  letterSpacing={1.6}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#333333",
+                        "fontFamily": "Nunito-Bold",
+                        "fontSize": 13,
+                        "letterSpacing": 1.6,
+                      },
+                    ]
+                  }
+                >
+                  ENTRAR
+                </Text>
+              </View>
             </View>
-          </RNGestureHandlerButton>
-          <View
-            style={
+          </View>
+        </View>
+        <View
+          alignItems="center"
+          flexDirection="row"
+          justifyContent="center"
+          mb="xxs"
+          mt="xxl"
+          style={
+            Array [
               Object {
                 "alignItems": "center",
                 "flexDirection": "row",
                 "justifyContent": "center",
-                "marginBottom": 30,
-                "marginTop": 75,
+                "marginBottom": 24,
+                "marginTop": 80,
+              },
+            ]
+          }
+        >
+          <View
+            borderColor="divider"
+            flex={1}
+            marginLeft="xxs"
+            marginRight="nano"
+            style={
+              Array [
+                Object {
+                  "borderColor": "#D8D9DA",
+                  "flexBasis": 0,
+                  "flexGrow": 1,
+                  "flexShrink": 1,
+                  "marginLeft": 24,
+                  "marginRight": 8,
+                },
+                Object {
+                  "borderWidth": 1,
+                },
+              ]
+            }
+          />
+          <Text
+            style={
+              Array [
+                Object {
+                  "textAlign": "center",
+                },
+              ]
+            }
+            textAlign="center"
+          >
+            Ainda não possui uma conta?
+          </Text>
+          <View
+            borderColor="divider"
+            flex={1}
+            marginLeft="nano"
+            marginRight="xxs"
+            style={
+              Array [
+                Object {
+                  "borderColor": "#D8D9DA",
+                  "flexBasis": 0,
+                  "flexGrow": 1,
+                  "flexShrink": 1,
+                  "marginLeft": 8,
+                  "marginRight": 24,
+                },
+                Object {
+                  "borderWidth": 1,
+                },
+              ]
+            }
+          />
+        </View>
+        <View
+          alignItems="stretch"
+          style={
+            Array [
+              Object {
+                "alignItems": "stretch",
+              },
+            ]
+          }
+        >
+          <View
+            accessibilityLabel="com.usereserva:id/cadastre_se_buttton"
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#333333",
+                "color": "#FFF",
+                "fontFamily": "Nunito-Bold",
+                "fontSize": 13,
+                "justifyContent": "center",
+                "minWidth": 130,
+                "opacity": 1,
+                "paddingBottom": 16,
+                "paddingLeft": 8,
+                "paddingRight": 8,
+                "paddingTop": 16,
               }
             }
-          >
-            <View
-              style={
-                Object {
-                  "borderColor": "#BCBCBC",
-                  "borderWidth": 1,
-                  "flex": 1,
-                  "marginLeft": 30,
-                  "marginRight": 10,
-                }
-              }
-            />
-            <Text
-              style={
-                Object {
-                  "alignContent": "center",
-                }
-              }
-            >
-              Ainda não possui uma conta?
-            </Text>
-            <View
-              style={
-                Object {
-                  "borderColor": "#BCBCBC",
-                  "borderWidth": 1,
-                  "flex": 1,
-                  "marginLeft": 10,
-                  "marginRight": 30,
-                }
-              }
-            />
-          </View>
-          <RNGestureHandlerButton
-            collapsable={false}
-            onGestureEvent={[Function]}
-            onGestureHandlerEvent={[Function]}
-            onGestureHandlerStateChange={[Function]}
-            onHandlerStateChange={[Function]}
-            rippleColor={0}
             testID="com.usereserva:id/cadastre_se_buttton"
           >
             <View
-              accessibilityLabel="com.usereserva:id/cadastre_se_buttton"
-              accessible={true}
+              alignItems="center"
+              flexDirection="row"
+              justifyContent="center"
               style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#333333",
-                  "borderColor": "#000000",
-                  "borderWidth": 1,
-                  "height": 50,
-                  "justifyContent": "center",
-                  "opacity": 1,
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text
+              <View
+                justifyContent="center"
                 style={
-                  Object {
-                    "color": "#ffffff",
-                    "fontFamily": "ReservaSans-Medium",
-                    "fontSize": 16,
-                  }
+                  Array [
+                    Object {
+                      "justifyContent": "center",
+                    },
+                  ]
                 }
               >
-                CADASTRE-SE
-              </Text>
+                <Text
+                  color="white"
+                  fontFamily="nunitoBold"
+                  fontSize={13}
+                  letterSpacing={1.6}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#FFF",
+                        "fontFamily": "Nunito-Bold",
+                        "fontSize": 13,
+                        "letterSpacing": 1.6,
+                      },
+                    ]
+                  }
+                >
+                  CADASTRE-SE
+                </Text>
+              </View>
             </View>
-          </RNGestureHandlerButton>
+          </View>
         </View>
       </View>
     </View>
