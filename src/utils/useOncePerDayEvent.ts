@@ -7,7 +7,6 @@ import { useBagStore } from '../zustand/useBagStore/useBagStore';
 export const has24HoursPassed = async (key: string) => {
   try {
     const lastEventDate = await AsyncStorage.getItem(key);
-    // const lastEventDate = '2023-08-29T19:10:58.229Z';
     if (!lastEventDate) {
       return true;
     }
