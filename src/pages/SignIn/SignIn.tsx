@@ -183,7 +183,7 @@ export default function SignIn({ route, navigation }: Props): JSX.Element {
                         onBlur={handleBlur('password')}
                         secureTextEntry={hidePassword}
                         value={values.password}
-                        style={styles.inputContent}
+                        style={[styles.inputContent, { width: '90%' }]}
                         ref={inputPasswordRef}
                         onSubmitEditing={() => handleSubmit()}
                         {...testProps('com.usereserva:id/login_input_password')}
