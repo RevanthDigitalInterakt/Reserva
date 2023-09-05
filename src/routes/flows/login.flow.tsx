@@ -1,10 +1,9 @@
-import { LoginScreen } from '../../modules/Login/pages/Login';
-import SignIn from '../../pages/SignIn/SignIn';
+import LoginABTest from '../../modules/Login/pages/LoginABTest';
 import type { Flow } from '../types/flow.type';
 
 export const LoginFlow: Flow[] = [
   {
-    component: SignIn,
+    component: LoginABTest,
     name: 'Login',
   },
 ];

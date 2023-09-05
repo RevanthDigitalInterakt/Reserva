@@ -144,6 +144,7 @@ export default function SignIn({ route, navigation }: Props): JSX.Element {
                       onBlur={handleBlur('email')}
                       value={values.email}
                       style={styles.inputContent}
+                      {...testProps('com.usereserva:id/login_input_email')}
                       onSubmitEditing={() => {
                         if (inputPasswordRef && inputPasswordRef.current) {
                           inputPasswordRef.current.focus();
@@ -185,6 +186,7 @@ export default function SignIn({ route, navigation }: Props): JSX.Element {
                         style={styles.inputContent}
                         ref={inputPasswordRef}
                         onSubmitEditing={() => handleSubmit()}
+                        {...testProps('com.usereserva:id/login_input_password')}
                       />
                       <TouchableOpacity onPress={showPasswordController}>
                         {hidePassword ? (
@@ -222,6 +224,7 @@ export default function SignIn({ route, navigation }: Props): JSX.Element {
                 <TouchableOpacity
                   {...testProps('com.usereserva:id/entrar_login_button')}
                   onPress={() => handleSubmit()}
+                  testID="com.usereserva:id/login_button_submit"
                   style={[
                     styles.actionButton,
                     {
