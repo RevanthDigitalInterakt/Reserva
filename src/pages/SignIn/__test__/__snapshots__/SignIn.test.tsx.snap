@@ -472,10 +472,15 @@ exports[`Login snapshot 1`] = `
                 returnKeyType="send"
                 secureTextEntry={true}
                 style={
-                  Object {
-                    "margin": 0,
-                    "padding": 0,
-                  }
+                  Array [
+                    Object {
+                      "margin": 0,
+                      "padding": 0,
+                    },
+                    Object {
+                      "width": "90%",
+                    },
+                  ]
                 }
                 testID="com.usereserva:id/login_input_password"
                 underlineColorAndroid="transparent"
