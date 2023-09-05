@@ -34,8 +34,6 @@ class EventProvider {
 
     OneSignal.setAppId(env.ONE_SIGINAL_APP_KEY_IOS);
 
-    OneSignal.promptForPushNotificationsWithUserResponse((_) => { });
-
     OneSignal.setNotificationWillShowInForegroundHandler((notificationReceivedEvent) => {
       notificationReceivedEvent.getNotification();
     });
@@ -128,19 +126,32 @@ class EventProvider {
       ? [Type, TPayload]
       : [Type]
   ) {
-    const eventName = args[0];
-    const eventValues = args[1] as EventValueOptions;
+    try {
+      const eventName = args[0];
+      const eventValues = args[1] as EventValueOptions;
 
-    this.analytics.logEvent(eventName, eventValues);
+      this.analytics.logEvent(eventName, eventValues);
 
-    if (onlyGaEvents.includes(eventName)) return;
+      if (onlyGaEvents.includes(eventName)) return;
 
-    const afEventName = eventsName[eventName];
-    const afEventsValues = this.parseValues(eventValues);
+      const afEventName = eventsName[eventName];
+      const afEventsValues = this.parseValues(eventValues);
 
-    this.appsFlyer.logEvent(afEventName, afEventsValues, (_) => { }, (error) => {
-      ExceptionProvider.captureException(error);
-    });
+      this.appsFlyer.logEvent(afEventName, afEventsValues, (_) => { }, (error) => {
+        ExceptionProvider.captureException(new Error('Error AppsFlyer Log Event'), {
+          eventName,
+          eventValues,
+          afEventName,
+          afEventsValues,
+          error,
+        });
+      });
+    } catch (err) {
+      ExceptionProvider.captureException(new Error('Error Log Event'), {
+        args,
+        err,
+      });
+    }
   }
 
   public static logPurchase(args: EventsOptions.Purchase) {

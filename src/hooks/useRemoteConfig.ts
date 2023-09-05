@@ -11,6 +11,8 @@ interface IUseRemoteConfigStore {
   getObject: (k: TRemoteConfigStringArrayKeys) => string[];
 }
 
+export type TTypesInstallments = 'hide_installments' | 'show_prime_installments' | 'show_prime_equal_to_regular';
+
 export interface IRemoteConfigKeys {
   pdp_show_video: boolean;
   pdp_show_video_tester: boolean;
@@ -30,6 +32,7 @@ export interface IRemoteConfigKeys {
   show_price_prime_pdp: boolean;
   show_price_prime_pdc: boolean;
   regionalization: boolean;
+  installments_prime: TTypesInstallments;
   show_new_address: boolean;
   show_new_address_tester: boolean;
   show_new_address_list: boolean;
@@ -37,6 +40,8 @@ export interface IRemoteConfigKeys {
   show_new_webview_checkout: boolean;
   show_new_login: boolean,
   show_new_login_tester: boolean,
+  show_new_home: boolean;
+  show_new_home_tester: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -66,6 +71,7 @@ export const defaults: IRemoteConfigKeys = {
   pdp_show_video: false,
   pdp_show_video_tester: false,
   regionalization: false,
+  installments_prime: 'show_prime_installments',
   show_new_address: false,
   show_new_address_tester: true,
   show_new_address_list: false,
@@ -73,9 +79,11 @@ export const defaults: IRemoteConfigKeys = {
   show_new_webview_checkout: false,
   show_new_login: false,
   show_new_login_tester: true,
+  show_new_home: false,
+  show_new_home_tester: true,
 };
 
-const THREE_MINUTES_IN_MS = 180000;
+const FIVE_MINUTES_IN_MS = 300000;
 const FIVE_SECONDS_IN_MS = 5000;
 
 export const useRemoteConfig = create<IUseRemoteConfigStore>((set, getState) => ({
@@ -90,7 +98,7 @@ export const useRemoteConfig = create<IUseRemoteConfigStore>((set, getState) => 
       await remoteConfig.setDefaults(defaults as unknown as Record<string, any>);
 
       await remoteConfig.setConfigSettings({
-        minimumFetchIntervalMillis: THREE_MINUTES_IN_MS,
+        minimumFetchIntervalMillis: FIVE_MINUTES_IN_MS,
         fetchTimeMillis: FIVE_SECONDS_IN_MS,
       });
 
