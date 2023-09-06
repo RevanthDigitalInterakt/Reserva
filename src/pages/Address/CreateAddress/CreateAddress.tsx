@@ -13,6 +13,7 @@ import {
   TextInput,
   ActivityIndicator,
 } from 'react-native';
+import cepPromise from 'cep-promise';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -36,7 +37,6 @@ import {
 
 import type { ICreateAddress } from './interface/ICreateAddress';
 import { useProfileAddressMutation } from '../../../base/graphql/generated';
-import { CepVerifyPostalCode } from '../../../services/vtexService';
 import type { TCheckPostalCodeFn } from '../components/InputForm/interface/IInputForm';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { COLORS } from '../../../base/styles/colors';
@@ -97,7 +97,7 @@ export default function CreateAddress(
         neighborhood,
         state,
         street,
-      } = await CepVerifyPostalCode(value);
+      } = await cepPromise(value);
 
       setFieldValue('city', city);
       setFieldValue('neighborhood', neighborhood);

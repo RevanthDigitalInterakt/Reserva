@@ -5,6 +5,7 @@ import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import NewCreateAddress from '../../../pages/Address/CreateAddress/CreateAddress';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { NewAddress } from './view/NewAddress';
+import { useIsTester } from '../../../hooks/useIsTester';
 
 type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
 type NewCreateAddressProps = StackScreenProps<RootStackParamList, 'CreateAddress'>;
@@ -14,13 +15,12 @@ export default function NewAddressABTest(
   newAddressProps: Props,
 ): JSX.Element {
   const { getBoolean } = useRemoteConfig();
-  // TODO SIREN activate later
-  // const isTester = useIsTester();
+  const isTester = useIsTester();
 
-  const showNewAddress = useMemo(() => getBoolean('show_new_address'), [getBoolean]);
+  const showNewAddress = useMemo(() => getBoolean(isTester ? 'show_new_address_tester' : 'show_new_address'), [getBoolean, isTester]);
 
   return (
-    showNewAddress
+    !showNewAddress
       ? <NewCreateAddress {...newCreateAddressProps} /> : <NewAddress {...newAddressProps} />
   );
 }

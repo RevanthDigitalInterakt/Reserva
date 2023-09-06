@@ -53,6 +53,7 @@
     "@types/semver": "^7.5.0",
     "@usereservaapp/reserva-ui": "0.57.0",
     "axios": "0.27.2",
+    "cep-promise": "^4.4.0",
     "date-fns": "^2.21.3",
     "dayjs": "^1.10.4",
     "dotenv": "^16.0.3",
