@@ -225,6 +225,17 @@ const WebviewCheckout = () => {
           /* ---- Event add_payment_info_test ---- */
           EventProvider.logEvent('add_payment_info_test', {});
 
+          /* ---- Event status-carrinho ---- */
+          EventProvider.sendTrackEvent('status-carrinho', {
+            id: userRefDito,
+            action: 'status-carrinho',
+            data: {
+              origem: 'app',
+              subtotal: 0,
+              status: 'não',
+            },
+          });
+
           removeAbandonedCartTags();
         } catch (e) {
           ExceptionProvider.captureException(e);

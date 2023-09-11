@@ -1,6 +1,6 @@
 ## CHANGELOG
 
-### 2.0.13
+### 2.0.14
 
 - [17015 - Inserir frete na sacola](https://dev.azure.com/areco/Canal%20App%20e%20Omni/_workitems/edit/17015/)
 - [16849 - Analise de erros Sentry](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16849)
@@ -9,6 +9,12 @@
 - Remover páginas legadas do código (PDC e Search)
 - [16406 - Parcelamento Prime - Teste A/B/C](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16406)
 - [16888 - Novos bullets no caroussel de banner](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=16888)
+- [15172 - DITO - Status Carrinho](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15172)
+
+---
+
+### 2.0.13
+
 
 ---
 
