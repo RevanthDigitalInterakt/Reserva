@@ -17,6 +17,7 @@ import {
   installmentInfo,
 } from '../__mocks__';
 import * as useAuthStore from '../../../../../zustand/useAuth/useAuthStore';
+import { Method } from '../../../../../utils/EventProvider/Event';
 
 jest.mock('../../../../../utils/EventProvider');
 jest.mock('@sentry/react-native');
@@ -192,7 +193,7 @@ describe('BagFooter Component', () => {
     });
 
     expect(EventProvider.logEvent).toHaveBeenCalledWith('complete_registration', {
-      registration_method: 'email',
+      method: Method.Email,
       custumer_email: 'augustoneves@frwk.com.br',
     });
     expect(mockRestoreCart).toHaveBeenCalledWith('12578e89687rieoua186');

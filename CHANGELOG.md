@@ -9,6 +9,8 @@
 - Remover páginas legadas do código (PDC e Search)
 - [16406 - Parcelamento Prime - Teste A/B/C](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16406)
 - [16888 - Novos bullets no caroussel de banner](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=16888)
+- [16957 - Evento login](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16957)
+- [16955 - Evento signup](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16955)
 - [15172 - DITO - Status Carrinho](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15172)
 
 ---
