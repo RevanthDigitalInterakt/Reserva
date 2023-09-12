@@ -48,6 +48,7 @@ import { getMessageErrorWhenUpdateItem } from './helpers/getMessageErrorWhenUpda
 import { trackingOrderFormAddItem } from '../../utils/trackingOrderFormAddItem';
 import { handleCopyTextToClipboard } from '../../utils/CopyToClipboard';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
+import { trackEventDitoStatusCart } from '../../utils/trackEventDitoStatusCart';
 
 const bagStore = create<IBagStore>((set, getState): IBagStore => ({
   initialized: false,
@@ -350,7 +351,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
-          items: orderForm.items,
+          items: orderForm?.items || [],
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -381,7 +382,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             sellerCoupon: '',
             sellerCouponName: '',
           },
-          items: orderForm.items,
+          items: orderForm?.items || [],
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
@@ -412,7 +413,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             ...getState().marketingData,
             coupon: '',
           },
-          items: orderForm.items,
+          items: orderForm?.items || [],
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
@@ -509,7 +510,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         }
 
         set(() => ({
-          items: orderForm?.items,
+          items: orderForm?.items || [],
           selectableGift: orderForm?.selectableGift,
           marketingData: orderForm?.marketingData,
           appTotalizers: orderForm?.appTotalizers,
@@ -522,6 +523,12 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           productNotFound: errorsMessages,
           hasPrimeSubscriptionInCart: orderForm?.hasPrimeSubscriptionInCart,
         }));
+
+        await trackEventDitoStatusCart({
+          items: orderForm?.items,
+          appTotalizers: orderForm?.appTotalizers,
+          clientProfileData: orderForm?.clientProfileData,
+        });
       } catch (error) {
         set(() => ({ error: error.message }));
       } finally {
@@ -625,7 +632,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         const { orderFormAddItem: orderForm } = data || {};
 
         set(() => ({
-          items: orderForm?.items,
+          items: orderForm?.items || [],
           selectableGift: orderForm?.selectableGift,
           marketingData: orderForm?.marketingData,
           appTotalizers: orderForm?.appTotalizers,

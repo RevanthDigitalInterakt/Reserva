@@ -14,7 +14,7 @@ import {
 } from './misc';
 import type { EventOptionsFn, EventsOptions } from './Event';
 import type { EventOptionsOneSignalFn } from './EventOnesignal';
-import type { EventsDitoValues, EventOptionsDitoFn } from './EventDito';
+import type { TEventsDitoValues, TEventOptionsDitoFn } from './EventDito';
 import sendDitoTrackEvent from '../Dito/src/utils/sendDitoTrackEvent';
 import { platformType } from '../platformType';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
@@ -171,14 +171,14 @@ class EventProvider {
     this.OneSignal.sendTags(eventValues);
   }
 
-  public static sendTrackEvent<Type extends EventOptionsDitoFn['type']>(
-    ...args: Extract<EventOptionsDitoFn, { type: Type }> extends {
+  public static sendTrackEvent<Type extends TEventOptionsDitoFn['type']>(
+    ...args: Extract<TEventOptionsDitoFn, { type: Type }> extends {
       payload: infer TPayload;
     }
       ? [Type, TPayload]
       : [Type]
   ) {
-    const { action, id, data } = args[1] as EventsDitoValues;
+    const { action, id, data } = args[1] as TEventsDitoValues;
 
     sendDitoTrackEvent(id, { action, data });
   }

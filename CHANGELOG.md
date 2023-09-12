@@ -2,12 +2,7 @@
 
 ### 2.0.14
 
-- [15156 - SRN correções novo endereço e feature flag](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15156)
-
----
-
-### 2.0.13
-
+- [10597 - Forçar o Login após expiração/ausencia de token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10597)
 - [17015 - Inserir frete na sacola](https://dev.azure.com/areco/Canal%20App%20e%20Omni/_workitems/edit/17015/)
 - [16849 - Analise de erros Sentry](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16849)
 - [16233 - Teste A/B home refatorada](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16233)
@@ -15,6 +10,16 @@
 - Remover páginas legadas do código (PDC e Search)
 - [16406 - Parcelamento Prime - Teste A/B/C](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16406)
 - [16888 - Novos bullets no caroussel de banner](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=16888)
+- [16957 - Evento login](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16957)
+- [16955 - Evento signup](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16955)
+- [15172 - DITO - Status Carrinho](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15172)
+- [15156 - SRN correções novo endereço e feature flag](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15156)
+
+---
+
+### 2.0.13
+
+
 ---
 
 ### 2.0.12

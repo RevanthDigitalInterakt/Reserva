@@ -17,5 +17,6 @@ datadogConfig.firstPartyHosts = [Config.URL_GATEWAY_CLIENT!];
 datadogConfig.serviceName = 'com.usereserva';
 datadogConfig.verbosity = SdkVerbosity.WARN;
 datadogConfig.trackBackgroundEvents = true;
+datadogConfig.trackFrustrations = true;
 
 export default datadogConfig;
