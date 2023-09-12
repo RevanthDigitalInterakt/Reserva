@@ -2,6 +2,7 @@
 
 ### 2.0.14
 
+- [10597 - Forçar o Login após expiração/ausencia de token](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/10597)
 - [17015 - Inserir frete na sacola](https://dev.azure.com/areco/Canal%20App%20e%20Omni/_workitems/edit/17015/)
 - [16849 - Analise de erros Sentry](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16849)
 - [16233 - Teste A/B home refatorada](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16233)
