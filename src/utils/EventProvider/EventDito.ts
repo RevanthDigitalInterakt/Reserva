@@ -1,9 +1,9 @@
-type DataValues = {
+type TDataValues = {
   dispositivo: string;
   origem: string;
 };
 
-type Ordered = {
+type TOrdered = {
   id_transacao: string;
   quantidade_produtos: number | number[];
   total: number;
@@ -27,26 +27,26 @@ type TProductOrderPlaced = {
   origem: string;
 };
 
-type Department = {
+type TDepartment = {
   nome_departamento: string;
 };
 
-type Category = {
+type TCategory = {
   nome_categoria: string;
 };
 
-type Searched = {
+type TSearched = {
   term: string;
   itens_encontrados: number;
   dispositivo: string;
 };
 
-type SignedUp = {
+type TSignedUp = {
   email: string;
   cpf: string;
 };
 
-type Product = {
+type TProduct = {
   marca: string;
   id_produto: string;
   id: string;
@@ -57,7 +57,7 @@ type Product = {
   preco_produto: number;
 };
 
-type AddToCart = {
+type TAddToCart = {
   marca: string;
   id_produto: string;
   nome_produto: string;
@@ -67,7 +67,7 @@ type AddToCart = {
   preco_produto: number;
 };
 
-type AddToWishlist = {
+type TAddToWishlist = {
   marca: string;
   id_produto: string;
   nome_produto: string;
@@ -77,43 +77,55 @@ type AddToWishlist = {
   preco_produto: number;
 };
 
-type AccessBag = {
+type TAccessBag = {
   quantidade: number;
   total: number;
 };
 
-export type EventsDitoValues = {
+export type TStatusCart = {
+  status: string;
+  marca?: string;
+  id_produto?: string[];
+  nome_produto?: string[];
+  nome_categoria?: string[];
+  subtotal: number;
+  origem: string;
+};
+
+export type TEventsDitoValues = {
   id: string | null;
   action: string;
   data:
-  DataValues |
-  Ordered |
-  Department |
-  Category |
-  Searched |
-  SignedUp |
-  Product |
-  AddToCart |
+  TDataValues |
+  TOrdered |
+  TDepartment |
+  TCategory |
+  TSearched |
+  TSignedUp |
+  TProduct |
+  TAddToCart |
   TProductOrderPlaced |
-  AddToWishlist |
-  AccessBag;
+  TAddToWishlist |
+  TAccessBag |
+  TStatusCart;
 };
 
 export namespace EventsOptions {
-  export type SendAccessedHome = Pick<EventsDitoValues, | 'id' | 'action' | 'data' > & {};
-  export type OrderedEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
-  export type SendAccessedDepartment = Pick<EventsDitoValues, | 'id' | 'action' | 'data' > & {};
-  export type SendAccessedCategory = Pick<EventsDitoValues, | 'id' | 'action' | 'data' > & {};
-  export type SearchedEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
-  export type SignedUpEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
-  export type ProductOrderPlacedEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
-  export type AccessProduct = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
-  export type AddToCartEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
-  export type AddToWishlistEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
-  export type AccessBagEvent = Pick<EventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type SendAccessedHome = Pick<TEventsDitoValues, | 'id' | 'action' | 'data' > & {};
+  export type OrderedEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type SendAccessedDepartment = Pick<TEventsDitoValues, | 'id' | 'action' | 'data' > & {};
+  export type SendAccessedCategory = Pick<TEventsDitoValues, | 'id' | 'action' | 'data' > & {};
+  export type SearchedEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type SignedUpEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type ProductOrderPlacedEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type AccessProduct = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type AddToCartEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type AddToWishlistEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type AccessBagEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type StatusCartEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
 }
 // Os nomes dos eventos DEVEM ser enviados para a Dito em letras minúsculas
-export type EventOptionsDitoFn =
+export type TEventOptionsDitoFn =
     | {
       type: 'acessou-home';
       payload: EventsOptions.SendAccessedHome;
@@ -157,4 +169,8 @@ export type EventOptionsDitoFn =
     | {
       type: 'acessou-carrinho';
       payload: EventsOptions.AccessBagEvent;
+    }
+    | {
+      type: 'status-carrinho';
+      payload: EventsOptions.StatusCartEvent;
     };
