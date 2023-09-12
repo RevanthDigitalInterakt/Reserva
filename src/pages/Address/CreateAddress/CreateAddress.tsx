@@ -13,7 +13,6 @@ import {
   TextInput,
   ActivityIndicator,
 } from 'react-native';
-import cepPromise from 'cep-promise';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import type { StackScreenProps } from '@react-navigation/stack';
@@ -36,7 +35,7 @@ import {
 } from '../utils/inputValidations';
 
 import type { ICreateAddress } from './interface/ICreateAddress';
-import { useProfileAddressMutation } from '../../../base/graphql/generated';
+import { useCepLazyQuery, useProfileAddressMutation } from '../../../base/graphql/generated';
 import type { TCheckPostalCodeFn } from '../components/InputForm/interface/IInputForm';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { COLORS } from '../../../base/styles/colors';
@@ -62,6 +61,11 @@ type TCreateAddressProps = StackScreenProps<RootStackParamList, 'CreateAddress'>
 export default function CreateAddress(
   { navigation, route }: TCreateAddressProps,
 ): JSX.Element {
+  const { profile } = useAuthStore(['profile']);
+
+  const mainAddress = profile?.customFields?.find((item) => item?.cacheId === 'mainAddressId')?.value;
+  const addressData = profile?.addresses.find((address) => address?.id === route.params?.id);
+
   const inputSurnameRef = useRef<TextInput>(null);
   const inputFullnameRef = useRef<TextInput>(null);
   const inputCEPRef = useRef<TextInput>(null);
@@ -71,7 +75,7 @@ export default function CreateAddress(
   const inputComplementRef = useRef<TextInput>(null);
 
   const [loading, setLoading] = useState(false);
-  const [isMainAddress, setIsMainAddress] = useState(false);
+  const [isMainAddress, setIsMainAddress] = useState(mainAddress === route.params?.id || false);
   const [modalVisible, setModalVisible] = useState(false);
 
   const switchMainAddress = () => setIsMainAddress(!isMainAddress);
@@ -80,9 +84,10 @@ export default function CreateAddress(
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
 
-  const { profile } = useAuthStore(['profile']);
-
-  const addressData = profile?.addresses.find((address) => address?.id === route.params?.id);
+  const [getCep] = useCepLazyQuery({
+    context: { clientName: 'gateway' },
+    fetchPolicy: 'no-cache',
+  });
 
   const checkPostalCode = useCallback<TCheckPostalCodeFn>(async (value, setFieldValue) => {
     if (value.length < 8) return;
@@ -93,20 +98,23 @@ export default function CreateAddress(
 
     try {
       const {
-        city,
-        neighborhood,
-        state,
-        street,
-      } = await cepPromise(value);
+        data,
+      } = await getCep({
+        variables: {
+          input: {
+            cep: value,
+          },
+        },
+      });
 
-      setFieldValue('city', city);
-      setFieldValue('neighborhood', neighborhood);
-      setFieldValue('addressState', state);
-      setFieldValue('street', street);
+      setFieldValue('city', data?.cep?.city);
+      setFieldValue('neighborhood', data?.cep?.neighborhood);
+      setFieldValue('addressState', data?.cep?.state);
+      setFieldValue('street', data?.cep?.street);
     } catch (error) {
       ExceptionProvider.captureException(error);
     }
-  }, []);
+  }, [getCep]);
 
   const handleCreateAddress = useCallback(async (addressValues: ICreateAddress) => {
     try {
@@ -348,7 +356,7 @@ export default function CreateAddress(
                   inputRef={inputComplementRef}
                   nextInputRef={inputComplementRef}
                   inputName="addressState"
-                  isEditable={false}
+                  isEditable={values.postalCode !== '' && values.addressState === ''}
                   textInputType="default"
                   inputID={testProps('com.usereserva:id/create_address_input_address_state')}
                   touched={touched.addressState}
@@ -365,7 +373,7 @@ export default function CreateAddress(
                   inputRef={inputComplementRef}
                   nextInputRef={inputComplementRef}
                   inputName="city"
-                  isEditable={false}
+                  isEditable={values.postalCode !== '' && values.city === ''}
                   textInputType="default"
                   inputID={testProps('com.usereserva:id/create_address_input_city')}
                   touched={touched.city}

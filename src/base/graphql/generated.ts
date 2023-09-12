@@ -1,5 +1,3 @@
-// @ts-nocheck
-/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -59,7 +57,7 @@ export type CashbackOperationOutput = {
   externalOrderAmountInCents: Scalars['Float'];
   externalOrderId: Scalars['String'];
   requestedCashback: Scalars['Boolean'];
-  settlementDate: Scalars['String'];
+  settlementDate?: Maybe<Scalars['String']>;
   status: Scalars['String'];
   type: Scalars['String'];
 };
@@ -254,6 +252,12 @@ export enum GetProductTypeEnum {
   SkuId = 'SKU_ID',
   Slug = 'SLUG'
 }
+
+export type HealthcheckOutput = {
+  __typename?: 'HealthcheckOutput';
+  status: Scalars['Boolean'];
+  version: Scalars['String'];
+};
 
 export type HomeCarouselItemImageOutput = {
   __typename?: 'HomeCarouselItemImageOutput';
@@ -1047,6 +1051,7 @@ export type ProductItemOutput = {
   images: Array<Scalars['String']>;
   itemId?: Maybe<Scalars['String']>;
   sellers: Array<ProductItemSellerOutput>;
+  skuName?: Maybe<Scalars['String']>;
   variations: Array<ProductItemVariationOutput>;
 };
 
@@ -1101,6 +1106,7 @@ export type ProductListOutput = {
   productName: Scalars['String'];
   size?: Maybe<Scalars['String']>;
   skuId: Scalars['String'];
+  skuName: Scalars['String'];
 };
 
 export type ProductListPrimeOutput = {
@@ -1198,6 +1204,7 @@ export type ProductSizeOutput = {
   prime?: Maybe<PrimeInfoOutput>;
   seller: Scalars['String'];
   size: Scalars['String'];
+  skuName: Scalars['String'];
 };
 
 export type ProfileAddressOutput = {
@@ -1279,6 +1286,7 @@ export type Query = {
   contentfulProducts: Array<ContentfulProductItemOutput>;
   countdown?: Maybe<CountdownClockCategoryOutput>;
   deeplinkPath?: Maybe<DeeplinkOutput>;
+  healthcheck: HealthcheckOutput;
   homeCarousels: Array<HomeCarouselOutput>;
   homeCountdown?: Maybe<HomeCountdownOutput>;
   homeMedias: Array<HomeMediaOutput>;
@@ -1857,7 +1865,14 @@ export type BannerCategoryQuery = { __typename?: 'Query', bannerCategory: Array<
 export type CashbackQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CashbackQuery = { __typename?: 'Query', cashback: { __typename?: 'CashbackOutput', wallet: { __typename?: 'CashbackWalletOutput', balanceInCents: number }, expiration: { __typename?: 'CashbackExpirationInfoOutput', totalExpireBalanceInCents: string, cashbackToExpire: Array<{ __typename?: 'CashbackExpirationItemOutput', expireAt: string, expireCashbackAmount: string }> }, operations: Array<{ __typename?: 'CashbackOperationOutput', status: string, cashbackAmountInCents: number, appliedBalanceInCents: number, settlementDate: string, createdAt: string }> } };
+export type CashbackQuery = { __typename?: 'Query', cashback: { __typename?: 'CashbackOutput', wallet: { __typename?: 'CashbackWalletOutput', balanceInCents: number }, expiration: { __typename?: 'CashbackExpirationInfoOutput', totalExpireBalanceInCents: string, cashbackToExpire: Array<{ __typename?: 'CashbackExpirationItemOutput', expireAt: string, expireCashbackAmount: string }> }, operations: Array<{ __typename?: 'CashbackOperationOutput', status: string, cashbackAmountInCents: number, appliedBalanceInCents: number, settlementDate?: string | null, createdAt: string }> } };
+
+export type CepQueryVariables = Exact<{
+  input: CepInput;
+}>;
+
+
+export type CepQuery = { __typename?: 'Query', cep?: { __typename?: 'CepOutput', postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, neighborhood?: string | null, reference?: string | null, geoCoordinates?: number | null } | null };
 
 export type CheckIfUserExistsQueryVariables = Exact<{
   email: Scalars['String'];
@@ -3311,6 +3326,51 @@ export type CashbackLazyQueryHookResult = ReturnType<typeof useCashbackLazyQuery
 export type CashbackQueryResult = Apollo.QueryResult<CashbackQuery, CashbackQueryVariables>;
 export function refetchCashbackQuery(variables?: CashbackQueryVariables) {
       return { query: CashbackDocument, variables: variables }
+    }
+export const CepDocument = gql`
+    query Cep($input: CepInput!) {
+  cep(input: $input) {
+    postalCode
+    city
+    state
+    country
+    street
+    neighborhood
+    reference
+    geoCoordinates
+  }
+}
+    `;
+
+/**
+ * __useCepQuery__
+ *
+ * To run a query within a React component, call `useCepQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCepQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCepQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCepQuery(baseOptions: Apollo.QueryHookOptions<CepQuery, CepQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CepQuery, CepQueryVariables>(CepDocument, options);
+      }
+export function useCepLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CepQuery, CepQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CepQuery, CepQueryVariables>(CepDocument, options);
+        }
+export type CepQueryHookResult = ReturnType<typeof useCepQuery>;
+export type CepLazyQueryHookResult = ReturnType<typeof useCepLazyQuery>;
+export type CepQueryResult = Apollo.QueryResult<CepQuery, CepQueryVariables>;
+export function refetchCepQuery(variables: CepQueryVariables) {
+      return { query: CepDocument, variables: variables }
     }
 export const CheckIfUserExistsDocument = gql`
     query checkIfUserExists($email: String!) {

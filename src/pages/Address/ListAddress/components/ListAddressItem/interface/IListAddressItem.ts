@@ -5,4 +5,5 @@ export interface IListAddressItem {
   animationListController(listItemId: string): void;
   onNavigate(id: string): void;
   onShowModalConfirmDelete(value: string): void;
+  mainAddress: string | null | undefined;
 }
