@@ -14,7 +14,7 @@ import {
 } from './misc';
 import type { EventOptionsFn, EventsOptions } from './Event';
 import type { EventOptionsOneSignalFn } from './EventOnesignal';
-import type { EventsDitoValues, EventOptionsDitoFn } from './EventDito';
+import type { TEventsDitoValues, TEventOptionsDitoFn } from './EventDito';
 import sendDitoTrackEvent from '../Dito/src/utils/sendDitoTrackEvent';
 import { platformType } from '../platformType';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
@@ -33,8 +33,6 @@ class EventProvider {
     }
 
     OneSignal.setAppId(env.ONE_SIGINAL_APP_KEY_IOS);
-
-    OneSignal.promptForPushNotificationsWithUserResponse((_) => { });
 
     OneSignal.setNotificationWillShowInForegroundHandler((notificationReceivedEvent) => {
       notificationReceivedEvent.getNotification();
@@ -128,19 +126,32 @@ class EventProvider {
       ? [Type, TPayload]
       : [Type]
   ) {
-    const eventName = args[0];
-    const eventValues = args[1] as EventValueOptions;
+    try {
+      const eventName = args[0];
+      const eventValues = args[1] as EventValueOptions;
 
-    this.analytics.logEvent(eventName, eventValues);
+      this.analytics.logEvent(eventName, eventValues);
 
-    if (onlyGaEvents.includes(eventName)) return;
+      if (onlyGaEvents.includes(eventName)) return;
 
-    const afEventName = eventsName[eventName];
-    const afEventsValues = this.parseValues(eventValues);
+      const afEventName = eventsName[eventName];
+      const afEventsValues = this.parseValues(eventValues);
 
-    this.appsFlyer.logEvent(afEventName, afEventsValues, (_) => { }, (error) => {
-      ExceptionProvider.captureException(error);
-    });
+      this.appsFlyer.logEvent(afEventName, afEventsValues, (_) => { }, (error) => {
+        ExceptionProvider.captureException(new Error('Error AppsFlyer Log Event'), {
+          eventName,
+          eventValues,
+          afEventName,
+          afEventsValues,
+          error,
+        });
+      });
+    } catch (err) {
+      ExceptionProvider.captureException(new Error('Error Log Event'), {
+        args,
+        err,
+      });
+    }
   }
 
   public static logPurchase(args: EventsOptions.Purchase) {
@@ -160,14 +171,14 @@ class EventProvider {
     this.OneSignal.sendTags(eventValues);
   }
 
-  public static sendTrackEvent<Type extends EventOptionsDitoFn['type']>(
-    ...args: Extract<EventOptionsDitoFn, { type: Type }> extends {
+  public static sendTrackEvent<Type extends TEventOptionsDitoFn['type']>(
+    ...args: Extract<TEventOptionsDitoFn, { type: Type }> extends {
       payload: infer TPayload;
     }
       ? [Type, TPayload]
       : [Type]
   ) {
-    const { action, id, data } = args[1] as EventsDitoValues;
+    const { action, id, data } = args[1] as TEventsDitoValues;
 
     sendDitoTrackEvent(id, { action, data });
   }
