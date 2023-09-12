@@ -46,6 +46,7 @@ import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { defaultBrand } from '../utils/defaultWBrand';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { useRemoteConfig } from '../hooks/useRemoteConfig';
+import { Method } from '../utils/EventProvider/Event';
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -857,7 +858,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       });
 
       EventProvider.logEvent('complete_registration', {
-        method: 'email',
+        method: Method.Email,
         custumer_email: String(orderForm?.clientProfileData?.email),
       });
 
