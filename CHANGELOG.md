@@ -16,6 +16,7 @@
 - [16957 - Evento login](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16957)
 - [16955 - Evento signup](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16955)
 - [15172 - DITO - Status Carrinho](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15172)
+- [15156 - SRN correções novo endereço e feature flag](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15156)
 - [17657 - Ao favoritar um item, o mesmo não aparece na lista de favoritos](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=17657)
 - [16956 - Ajuste evento add_to_wishlist](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=16956)
 
