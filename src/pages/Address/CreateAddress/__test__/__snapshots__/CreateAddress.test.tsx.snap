@@ -473,6 +473,7 @@ exports[`Create Address snapshot 1`] = `
                   "borderColor": "#333333",
                   "borderRadius": 5,
                   "borderWidth": 1,
+                  "padding": 15,
                 },
               ]
             }
@@ -524,6 +525,7 @@ exports[`Create Address snapshot 1`] = `
                   "fontSize": 14,
                   "fontWeight": "bold",
                   "marginHorizontal": 10,
+                  "padding": 0,
                 }
               }
               testID="com.usereserva:id/create_address_input_surname"
@@ -548,6 +550,7 @@ exports[`Create Address snapshot 1`] = `
                   "borderColor": "#333333",
                   "borderRadius": 5,
                   "borderWidth": 1,
+                  "padding": 15,
                 },
               ]
             }
@@ -599,6 +602,7 @@ exports[`Create Address snapshot 1`] = `
                   "fontSize": 14,
                   "fontWeight": "bold",
                   "marginHorizontal": 10,
+                  "padding": 0,
                 }
               }
               testID="com.usereserva:id/create_address_input_fullname"
@@ -623,6 +627,7 @@ exports[`Create Address snapshot 1`] = `
                   "borderColor": "#333333",
                   "borderRadius": 5,
                   "borderWidth": 1,
+                  "padding": 15,
                 },
               ]
             }
@@ -674,6 +679,7 @@ exports[`Create Address snapshot 1`] = `
                   "fontSize": 14,
                   "fontWeight": "bold",
                   "marginHorizontal": 10,
+                  "padding": 0,
                 }
               }
               testID="com.usereserva:id/create_address_input_postal_code"
@@ -698,6 +704,7 @@ exports[`Create Address snapshot 1`] = `
                   "borderColor": "#333333",
                   "borderRadius": 5,
                   "borderWidth": 1,
+                  "padding": 15,
                 },
               ]
             }
@@ -749,6 +756,7 @@ exports[`Create Address snapshot 1`] = `
                   "fontSize": 14,
                   "fontWeight": "bold",
                   "marginHorizontal": 10,
+                  "padding": 0,
                 }
               }
               testID="com.usereserva:id/create_address_input_street"
@@ -773,6 +781,7 @@ exports[`Create Address snapshot 1`] = `
                   "borderColor": "#333333",
                   "borderRadius": 5,
                   "borderWidth": 1,
+                  "padding": 15,
                 },
               ]
             }
@@ -824,6 +833,7 @@ exports[`Create Address snapshot 1`] = `
                   "fontSize": 14,
                   "fontWeight": "bold",
                   "marginHorizontal": 10,
+                  "padding": 0,
                 }
               }
               testID="com.usereserva:id/create_address_input_neighborhood"
@@ -848,6 +858,7 @@ exports[`Create Address snapshot 1`] = `
                   "borderColor": "#333333",
                   "borderRadius": 5,
                   "borderWidth": 1,
+                  "padding": 15,
                 },
               ]
             }
@@ -899,6 +910,7 @@ exports[`Create Address snapshot 1`] = `
                   "fontSize": 14,
                   "fontWeight": "bold",
                   "marginHorizontal": 10,
+                  "padding": 0,
                 }
               }
               testID="com.usereserva:id/create_address_input_address_number"
@@ -923,6 +935,7 @@ exports[`Create Address snapshot 1`] = `
                   "borderColor": "#333333",
                   "borderRadius": 5,
                   "borderWidth": 1,
+                  "padding": 15,
                 },
               ]
             }
@@ -974,6 +987,7 @@ exports[`Create Address snapshot 1`] = `
                   "fontSize": 14,
                   "fontWeight": "bold",
                   "marginHorizontal": 10,
+                  "padding": 0,
                 }
               }
               testID="com.usereserva:id/create_address_input_complement"
@@ -998,6 +1012,7 @@ exports[`Create Address snapshot 1`] = `
                   "borderColor": "#333333",
                   "borderRadius": 5,
                   "borderWidth": 1,
+                  "padding": 15,
                 },
               ]
             }
@@ -1049,6 +1064,7 @@ exports[`Create Address snapshot 1`] = `
                   "fontSize": 14,
                   "fontWeight": "bold",
                   "marginHorizontal": 10,
+                  "padding": 0,
                 }
               }
               testID="com.usereserva:id/create_address_input_address_state"
@@ -1073,6 +1089,7 @@ exports[`Create Address snapshot 1`] = `
                   "borderColor": "#333333",
                   "borderRadius": 5,
                   "borderWidth": 1,
+                  "padding": 15,
                 },
               ]
             }
@@ -1124,6 +1141,7 @@ exports[`Create Address snapshot 1`] = `
                   "fontSize": 14,
                   "fontWeight": "bold",
                   "marginHorizontal": 10,
+                  "padding": 0,
                 }
               }
               testID="com.usereserva:id/create_address_input_city"
