@@ -17,7 +17,7 @@
 ---
 
 ### 2.0.13
-
+- [16560 - Manter a integridade dos eventos da antiga webview](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15983/)
 
 ---
 

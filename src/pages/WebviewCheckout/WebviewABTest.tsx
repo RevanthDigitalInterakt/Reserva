@@ -7,7 +7,7 @@ export const WebviewABTest = () => {
   const { getBoolean } = useRemoteConfig();
 
   const showNewWebviewCheckout = useMemo(() => (
-    getBoolean('show_new_webview_checkout')
+    getBoolean('show_new_webview_checkout_v2')
   ), [getBoolean]);
 
   return (
