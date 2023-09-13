@@ -92,6 +92,21 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  listItemBodyContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  tagMainAddressContainer: {
+    backgroundColor: COLORS.SUCCESS,
+    paddingHorizontal: 5,
+    paddingVertical: 3,
+    borderRadius: 5,
+    marginLeft: 100,
+  },
+  tagMainAddressLabel: {
+    fontFamily: 'ReservaSans-Regular',
+    color: COLORS.WHITE,
+  },
 });
 
 export default style;

@@ -1,7 +1,7 @@
-import { create } from 'zustand';
 import type { FetchPolicy } from '@apollo/client';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
+import AsyncStorage from '@react-native-community/async-storage';
+import { create } from 'zustand';
+
 import type {
   ProfileQuery,
   ProfileQueryVariables,
@@ -10,20 +10,20 @@ import type {
   SignInMutation,
   SignInMutationVariables,
 } from '../../base/graphql/generated';
-import { createTokenExpireDate } from '../../utils/createTokenExpireDate';
-import { getAsyncStorageItem, removeAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
-import { getApolloClient } from '../../utils/getApolloClient';
-import
-{
+import {
   ProfileDocument,
   RefreshTokenDocument,
   SignInDocument,
 } from '../../base/graphql/generated';
-import EventProvider from '../../utils/EventProvider';
-import { identifyCustomer } from './methods/identifyCustomer';
-import { checkIfNeedRefreshToken } from '../../utils/checkIfNeedRefreshToken';
-import { RefreshTokenError } from './types/refreshTokenError';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
+import { getAsyncStorageItem, removeAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
+import EventProvider from '../../utils/EventProvider';
+import { checkIfNeedRefreshToken } from '../../utils/checkIfNeedRefreshToken';
+import { createTokenExpireDate } from '../../utils/createTokenExpireDate';
+import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
+import { getApolloClient } from '../../utils/getApolloClient';
+import { identifyCustomer } from './methods/identifyCustomer';
+import { RefreshTokenError } from './types/refreshTokenError';
 
 type TProfileData = ProfileQuery['profile'];
 
@@ -36,7 +36,7 @@ export interface IAuthStore {
   onGetProfile: (fetchPolicy?: FetchPolicy) => Promise<TProfileData>;
   profile?: TProfileData;
   //
-  onSignIn: (email: string, password: string, isNewUser?: boolean) => Promise<void>;
+  onSignIn: (email: string, password: string, isNewUser?: boolean) => Promise<ProfileQuery>;
   onUpdateAuthData: (token: string, cookie: string) => Promise<void>;
   //
   onSignOut: () => Promise<void>;
@@ -51,7 +51,7 @@ const authStore = create<IAuthStore>((set, getState) => ({
       const state = getState();
       const token = await getAsyncStorageItem('Auth:Token');
 
-      // If toke do not exists, user's not logged in. No need to request a profile
+      // If token do not exists, user's not logged in. No need to request a profile
       if (!token) {
         set({ ...state, initialized: true });
 

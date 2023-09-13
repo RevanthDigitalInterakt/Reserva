@@ -4,6 +4,7 @@ query search($input: SearchProductInput!) {
     items {
       productId
       skuId
+      skuName
       productName
       colors
       brand
@@ -23,6 +24,10 @@ query search($input: SearchProductInput!) {
         }
       }
       installment {
+        value
+        number
+      }
+      installmentEqualPrime {
         value
         number
       }

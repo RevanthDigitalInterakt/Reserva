@@ -124,6 +124,7 @@ function NewProductCatalog({ route }: Props) {
   return (
     <Box flex={1} backgroundColor="white" height={800}>
       <TopBarDefaultBackButton loading={loading} />
+
       {renderList}
     </Box>
   );

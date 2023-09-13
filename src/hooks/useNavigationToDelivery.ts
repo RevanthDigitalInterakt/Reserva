@@ -15,6 +15,7 @@ import { usePrimeInfo } from './usePrimeInfo';
 import { usePrimeStore } from '../zustand/usePrimeStore/usePrimeStore';
 import { useCart } from '../context/CartContext';
 import { usePageLoadingStore } from '../zustand/usePageLoadingStore/usePageLoadingStore';
+import { Method } from '../utils/EventProvider/Event';
 
 interface IUseNavigationToDeliveryReturn {
   handleNavigateToDelivery: (value: any) => void;
@@ -138,7 +139,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
       await restoreCart(orderFormId);
 
       EventProvider.logEvent('complete_registration', {
-        registration_method: 'email',
+        method: Method.Email,
         custumer_email: profile?.email,
       });
 

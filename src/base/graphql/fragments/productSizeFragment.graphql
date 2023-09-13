@@ -1,5 +1,6 @@
 fragment productSizeFragment on ProductSizeOutput {
     itemId
+    skuName
     size
     ean
     seller
@@ -18,6 +19,10 @@ fragment productSizeFragment on ProductSizeOutput {
             value
             number
         }
+    }
+    installmentEqualPrime {
+        value
+        number
     }
     disabled
 }

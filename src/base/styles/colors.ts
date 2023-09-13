@@ -1,4 +1,5 @@
 export const COLORS = {
+  PRIMARY: '#e4022b',
   BLACK: '#000000',
   GRAY: '#848484',
   DARK_GRAY: '#767676',
@@ -20,4 +21,5 @@ export const COLORS = {
   SWITCH_BACKGROUND_COLOR_IOS: '#3e3e3e',
   MODAL_BACKGROUND_COLOR: 'rgba(0, 0, 0, 0.6)',
   ACTION_BUTTON_COLOR: '#333333',
+  SUCCESS: '#31955F',
 };

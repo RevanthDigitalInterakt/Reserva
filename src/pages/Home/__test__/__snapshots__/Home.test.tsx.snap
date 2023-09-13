@@ -1076,7 +1076,7 @@ exports[`Home renders correctly 1`] = `
                           "width": 750,
                         },
                         Object {
-                          "backgroundColor": "rgba(0, 0, 255, 0)",
+                          "backgroundColor": "rgba(0, 0, 0, 0)",
                           "position": "relative",
                         },
                         Object {
@@ -1099,7 +1099,11 @@ exports[`Home renders correctly 1`] = `
                               Object {
                                 "translateX": undefined,
                               },
+                              Object {
+                                "scale": undefined,
+                              },
                             ],
+                            "zIndex": undefined,
                           },
                         ]
                       }
@@ -1117,7 +1121,11 @@ exports[`Home renders correctly 1`] = `
                               Object {
                                 "translateX": undefined,
                               },
+                              Object {
+                                "scale": undefined,
+                              },
                             ],
+                            "zIndex": undefined,
                           },
                         ]
                       }
@@ -1135,13 +1143,18 @@ exports[`Home renders correctly 1`] = `
                               Object {
                                 "translateX": undefined,
                               },
+                              Object {
+                                "scale": undefined,
+                              },
                             ],
+                            "zIndex": undefined,
                           },
                         ]
                       }
                     />
                   </View>
                   <View
+                    accessibilityLabel="com.usereserva:id/carrousel_scroll_indicator_container"
                     bottom={10}
                     flexDirection="row"
                     position="absolute"
@@ -1193,7 +1206,7 @@ exports[`Home renders correctly 1`] = `
                             "top": 0,
                             "transform": Array [
                               Object {
-                                "translateX": -10000,
+                                "translateX": 5,
                               },
                             ],
                             "width": "100%",

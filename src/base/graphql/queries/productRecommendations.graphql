@@ -15,6 +15,7 @@ query productRecommendations {
     items {
       images
       itemId
+      skuName
       variations {
         originalName
         name

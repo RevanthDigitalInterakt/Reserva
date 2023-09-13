@@ -32,6 +32,7 @@ import { Box } from '../../../components/Box/Box';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../components/Typography/Typography';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import { Method } from '../../../utils/EventProvider/Event';
 
 export interface PasswordCheckProps {
   text: string;
@@ -146,6 +147,10 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
       const response = await signUp({ variables });
 
       trackEventSignUpDito(email, removeNonNumbers(cpf));
+
+      EventProvider.logEvent('sign_up', {
+        method: Method.Email,
+      });
 
       if (response?.data?.signUp?.token && response?.data?.signUp?.authCookie) {
         try {

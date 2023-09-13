@@ -23,7 +23,7 @@ describe('Event Provider', () => {
     const logEventSpy = jest.spyOn(EventProvider, 'logEvent');
 
     EventProvider.logEvent('complete_registration', {
-      registration_method: 'email',
+      method: 'email',
     } as EventValueOptions);
 
     expect(logEventSpy).toHaveBeenCalled();

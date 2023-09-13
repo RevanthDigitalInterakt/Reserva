@@ -4,10 +4,12 @@ import React, {
 } from 'react';
 import { View } from 'react-native';
 
-import type { ProductSizeOutput } from '../../base/graphql/generated';
-import { useCart } from '../../context/CartContext';
 import testProps from '../../utils/testProps';
+import { useCart } from '../../context/CartContext';
+import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
+import type { ProductSizeOutput } from '../../base/graphql/generated';
+
 import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 
 import { ModalBag } from '../ModalBag/ModalBag';
@@ -16,7 +18,6 @@ import { ModalWelcomePrime } from '../ModalWelcomePrime';
 import { SelectBoxNormal } from '../SelectBoxNormal/SelectBoxNormal';
 import { SelectBoxPrime } from '../SelectBoxPrime/SelectBoxPrime';
 
-import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 import { Typography } from '../Typography/Typography';
 import { styles } from './PricesSelectBoxes.styles';
 
@@ -46,7 +47,6 @@ function PricesSelectBoxes({ selectedSize }: IPropsPriceSelectBoxes) {
 
   const { orderForm } = useCart();
   const { profile } = useAuthStore(['profile']);
-
   const hasDiscount = selectedSize?.hasDiscount;
 
   const selectNormalPrice = useCallback(() => {
@@ -137,6 +137,7 @@ function PricesSelectBoxes({ selectedSize }: IPropsPriceSelectBoxes) {
       <SelectBoxNormal
         installmentsNumber={selectedSize?.installment.number ?? 1}
         installmentsPrice={selectedSize?.installment.value ?? 0}
+        installmentsEqualPrime={selectedSize?.installmentEqualPrime}
         isChecked={isNormalPriceSelected}
         onPress={handleSelectBoxesPress}
         price={
@@ -165,8 +166,7 @@ function PricesSelectBoxes({ selectedSize }: IPropsPriceSelectBoxes) {
         </Typography>
       ) : (
         <SelectBoxPrime
-          installmentsNumber={selectedSize?.prime?.installment?.number ?? 1}
-          installmentsPrice={selectedSize?.prime?.installment?.value ?? 0}
+          installment={selectedSize?.prime?.installment}
           isChecked={isPrimePriceSelected}
           onPress={handleSelectBoxesPress}
           savedValue={savedValueProduct()}

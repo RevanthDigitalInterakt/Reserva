@@ -130,6 +130,20 @@ const AddAddressToCart = async (orderFormId: any, address: any) => {
   return data;
 };
 
+const GetPurchaseData = async (orderGroup: any) => {
+  try {
+    const response = await vtexConfig7.get(
+      `/checkout/pub/orders/order-group/${orderGroup}`,
+    );
+    return response;
+  } catch (err) {
+    ExceptionProvider.captureException(err);
+  }
+  // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)
+  // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo
+  // place order para varias compras.
+};
+
 const AddCustomerToOrder = async (
   orderFormId: string | undefined,
   customer: any,
@@ -318,6 +332,7 @@ export {
   UpdateItemToCart,
   AddItemToCart,
   AddAddressToCart,
+  GetPurchaseData,
   AddCustomerToOrder,
   RemoveItemFromCart,
   addToCoupon,

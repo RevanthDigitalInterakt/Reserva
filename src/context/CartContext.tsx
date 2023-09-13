@@ -47,6 +47,7 @@ import { getAsyncStorageItem, setAsyncStorageItem } from '../hooks/useAsyncStora
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { defaultBrand } from '../utils/defaultWBrand';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
+import { Method } from '../utils/EventProvider/Event';
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -812,7 +813,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       });
 
       EventProvider.logEvent('complete_registration', {
-        registration_method: 'email',
+        method: Method.Email,
         custumer_email: String(orderForm?.clientProfileData?.email),
       });
 

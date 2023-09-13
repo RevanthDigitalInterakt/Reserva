@@ -79,6 +79,7 @@ export function ListHorizontalProducts({
 
   const handleOnFavorite = async (favorite: boolean, item: any) => {
     const skuId = item.items[0].itemId;
+
     setLoadingFavorite([...loadingFavorite, skuId]);
     const { productId } = item;
 
@@ -98,7 +99,7 @@ export function ListHorizontalProducts({
     } else {
       navigation.navigate('Login', { comeFrom: 'Menu' });
     }
-    setLoadingFavorite([...loadingFavorite.filter((x) => x != skuId)]);
+    setLoadingFavorite([...loadingFavorite.filter((x) => x !== skuId)]);
   };
 
   const getVariant = (

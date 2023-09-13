@@ -52,6 +52,7 @@ export default function ListAddress({
   const [modalVisible, setModalVisible] = useState(false);
   const [addressID, setAddressID] = useState('');
   const [isLoadCompleted, setIsLoadCompleted] = useState<boolean>(false);
+  const [mainAddress, setMainAddress] = useState<string | null | undefined>();
 
   const toggleListItem = useCallback(() => {
     Animated.timing(animationValue, {
@@ -104,14 +105,34 @@ export default function ListAddress({
     });
   }, [navigate]);
 
-  useEffect(() => {
-    const newArr = profile?.addresses.map((element) => ({
+  const getAddresses = useCallback(() => {
+    const mainAddressProfile = profile?.customFields?.find((item) => item?.cacheId === 'mainAddressId')?.value;
+
+    setMainAddress(mainAddressProfile);
+
+    const arr = profile?.addresses.slice().sort((itemA, itemB) => {
+      if (itemA?.id === mainAddressProfile) {
+        return 1;
+      }
+
+      if (itemB?.id === mainAddressProfile) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+    const newArr = arr?.map((element) => ({
       ...element,
       selected: false,
     })) as IAddressData[];
 
     setAddressData(newArr);
-  }, [profile?.addresses]);
+  }, [profile?.addresses, profile?.customFields]);
+
+  useEffect(() => {
+    getAddresses();
+  }, [getAddresses]);
 
   const requestAddressList = useCallback(async () => {
     try {
@@ -175,6 +196,7 @@ export default function ListAddress({
         data={addressData}
         renderItem={({ item }) => (
           <ListAddressItem
+            mainAddress={mainAddress}
             item={item}
             animationListController={dropdownController}
             onNavigate={onGoToEditAddress}

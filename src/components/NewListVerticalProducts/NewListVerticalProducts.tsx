@@ -58,6 +58,7 @@ function NewListVerticalProducts({
         productTitle={item.productName}
         priceWithDiscount={item.currentPrice}
         price={item.listPrice}
+        installmentsEqualPrime={item.installmentEqualPrime}
         currency="R$"
         showThumbColors={showThumbColors}
         imageSource={item.image}
@@ -87,6 +88,7 @@ function NewListVerticalProducts({
             size: item.size,
             colorName: item.colorName,
             lowPrice: item.currentPrice,
+            skuName: item.skuName,
           });
         }}
         discountTag={item.discountPercentage ? item.discountPercentage : undefined}

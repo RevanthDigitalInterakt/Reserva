@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import { Box } from '../../../../components/Box/Box';
 import { Button } from '../../../../components/Button';
-import { Divider } from '../../../../components/Divider/Divider';
 import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../../components/Typography/Typography';
 import EventProvider from '../../../../utils/EventProvider';
@@ -84,7 +83,6 @@ function ProductAbout() {
         </>
       )}
 
-      <Divider variant="fullWidth" my="xs" />
     </Box>
   );
 }

@@ -40,7 +40,13 @@ function CarrouselScrollIndicator({
   }, [actualPosition]);
 
   return (
-    <Box position="absolute" zIndex={3} bottom={10} flexDirection="row" testID="com.usereserva:id/carrousel_scroll_indicator_container">
+    <Box
+      position="absolute"
+      zIndex={3}
+      bottom={10}
+      flexDirection="row"
+      {...testProps('carrousel_scroll_indicator_container')}
+    >
       {[...Array(carouselLength)].map((_, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <React.Fragment key={`carousel-${index}`}>
@@ -59,7 +65,7 @@ function CarrouselScrollIndicator({
           >
             {index === actualPosition && (
               <Animated.View
-                {...testProps('com.usereserva:id/carrousel_scroll_indicator_animated_view')}
+                {...testProps('carrousel_scroll_indicator_animated_view')}
                 style={{
                   backgroundColor: theme.colors.neutroFrio1,
                   position: 'absolute',

@@ -3,15 +3,20 @@ import React, {
   useCallback, useMemo, useRef, useState,
 } from 'react';
 import { Pressable, View } from 'react-native';
-import Carousel from 'react-native-reanimated-carousel';
-import type { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescript/types';
+import { useSharedValue } from 'react-native-reanimated';
+import Carousel, { type ICarouselInstance } from 'react-native-reanimated-carousel';
+
 import type { HomeCarouselItemOutput, HomeCarouselOutput } from '../../../../base/graphql/generated';
-import NewBanner from '../../../../components/Banner/NewBanner';
+import { COLORS } from '../../../../base/styles/colors';
 import { Box } from '../../../../components/Box/Box';
+import CarouselPaginationItem from '../../../../components/CarouselPaginationItem';
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
+import { useIsTester } from '../../../../hooks/useIsTester';
+import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import CarrouselScrollIndicator from '../../../../modules/Home/component/CarouselScrollIndicator';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import testProps from '../../../../utils/testProps';
+import { styles } from './HomeMainCarousel.styles';
 
 interface IHomeMainCarousel {
   data: HomeCarouselOutput;
@@ -19,12 +24,18 @@ interface IHomeMainCarousel {
 
 function HomeMainCarousel({ data }: IHomeMainCarousel) {
   const navigation = useNavigation();
+  const progressValue = useSharedValue<number>(0);
+  const { getBoolean } = useRemoteConfig();
+  const isTester = useIsTester();
 
   const [currIndex, setCurrIndex] = useState(0);
-
   const $carousel = useRef<ICarouselInstance>();
 
   const slideDelay = useMemo(() => (data.showtime || 10) * 1000, [data.showtime]);
+
+  const showNewBullets = useMemo(() => (
+    getBoolean(isTester ? 'show_new_home_tester' : 'show_new_home')
+  ), [getBoolean, isTester]);
 
   const carouselHeight = useMemo(() => {
     const [item] = data.items;
@@ -45,20 +56,6 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
     });
   }, [navigation]);
 
-  if (data.items.length === 1) {
-    const [item] = data.items;
-
-    return (
-      <NewBanner
-        image={item!.image.url}
-        reference={item!.reference}
-        facets={item!.facets}
-        reservaMini={item!.reservaMini}
-        orderBy={item!.orderBy}
-      />
-    );
-  }
-
   return (
     <View style={{ flex: 1 }} {...testProps('default_carrousel_container')}>
       <Carousel
@@ -69,9 +66,18 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
         ref={(carousel) => {
           if (carousel) $carousel.current = carousel;
         }}
+        mode="parallax"
+        modeConfig={{
+          parallaxScrollingScale: 1,
+          parallaxScrollingOffset: 50,
+        }}
+        enabled={data.items.length > 1}
+        onProgressChange={(_, absoluteProgress) => {
+          progressValue.value = absoluteProgress;
+        }}
         panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
         data={data.items}
-        style={{ backgroundColor: 'rgba(0, 0, 255, 0)', position: 'relative' }}
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0)', position: 'relative' }}
         onSnapToItem={setCurrIndex}
         renderItem={({ item }) => (
           <Box alignItems="flex-start">
@@ -92,12 +98,26 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
         )}
       />
 
-      <CarrouselScrollIndicator
-        carouselLength={data.items.length}
-        actualPosition={currIndex}
-        slideDelay={slideDelay}
-        onFinishAnimation={() => $carousel.current?.next()}
-      />
+      {showNewBullets ? (
+        <View style={[styles.bulletsWrapper, { width: data.items.length * 17.5 }]}>
+          {data.items.map((item, i) => (
+            <CarouselPaginationItem
+              backgroundColor={COLORS.PRIMARY}
+              animValue={progressValue}
+              index={i}
+              key={`home-main-carousel-${item.image.url}`}
+              length={data.items.length}
+            />
+          ))}
+        </View>
+      ) : (
+        <CarrouselScrollIndicator
+          carouselLength={data.items.length}
+          actualPosition={currIndex}
+          slideDelay={slideDelay}
+          onFinishAnimation={() => $carousel.current?.next()}
+        />
+      )}
     </View>
   );
 }

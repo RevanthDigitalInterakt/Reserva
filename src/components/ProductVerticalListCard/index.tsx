@@ -1,18 +1,21 @@
 import LottieView from 'lottie-react-native';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Text, View } from 'react-native';
+
+import { loadingSpinner } from '../../../assets/animations';
+import type { Maybe, ProductSizeInstallmentOutput } from '../../base/graphql/generated';
+import { useRemoteConfig, type TTypesInstallments } from '../../hooks/useRemoteConfig';
 import configDeviceSizes from '../../utils/configDeviceSizes';
 import { decimalPart, integerPart } from '../../utils/numberUtils';
 import type { IGetPrimeReturn } from '../../zustand/usePrimeConfig/usePrimeConfig';
+import { Box } from '../Box/Box';
+import { Button } from '../Button';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
 import ImageComponent from '../ImageComponent/ImageComponent';
 import ProductPricePrimeRow from '../ProductPricePrimeLabelRow/ProductPricePrimeRow';
 import ProductPriceRow from '../ProductPriceRow/ProductPriceRow';
 import ProductThumbColorsRow from '../ProductThumbColorsRow/ProductThumbColorsRow';
-import { Box } from '../Box/Box';
 import { Typography } from '../Typography/Typography';
-import { loadingSpinner } from '../../../assets/animations';
-import { IconLegacy } from '../IconLegacy/IconLegacy';
-import { Button } from '../Button';
 
 export interface ProductVerticalListCardProps {
   imageWidth?: number
@@ -33,8 +36,9 @@ export interface ProductVerticalListCardProps {
   isFavorited?: boolean
   onClickFavorite?: (favoriteState: boolean) => void
   onClickImage?: () => void
-  prime?: IGetPrimeReturn | null
+  prime: IGetPrimeReturn | null
   testID?: string;
+  installmentsEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
 }
 
 export interface DiscountLabelProps {
@@ -44,68 +48,66 @@ export interface DiscountLabelProps {
   isDetail?: boolean
 }
 
-export function DiscountLabel({
+export const DiscountLabel = ({
   discountTag,
   width,
   height,
   isDetail,
-}: DiscountLabelProps) {
-  return (
+}: DiscountLabelProps) => (
+  <Box
+    alignItems="center"
+    justifyContent="space-between"
+    position="absolute"
+    bg="vermelhoRSV"
+    width={width || configDeviceSizes.DEVICE_WIDTH * 0.1215}
+    height={height || configDeviceSizes.DEVICE_WIDTH * 0.1215}
+    py="quarck"
+  >
     <Box
-      alignItems="center"
-      justifyContent="space-between"
+      flexDirection="row"
       position="absolute"
-      bg="vermelhoRSV"
-      width={width || configDeviceSizes.DEVICE_WIDTH * 0.1215}
-      height={height || configDeviceSizes.DEVICE_WIDTH * 0.1215}
-      py="quarck"
+      alignItems="flex-start"
+      justifyContent="center"
+      left={5}
+      top={3}
     >
-      <Box
-        flexDirection="row"
-        position="absolute"
-        alignItems="flex-start"
-        justifyContent="center"
-        left={5}
-        top={3}
+      <Typography
+        fontFamily="reservaDisplayRegular"
+        fontSize={isDetail ? 36 : configDeviceSizes.DEVICE_WIDTH * 0.055}
+        color="white"
       >
-        <Typography
-          fontFamily="reservaDisplayRegular"
-          fontSize={isDetail ? 36 : configDeviceSizes.DEVICE_WIDTH * 0.055}
-          color="white"
-        >
-          {discountTag}
-        </Typography>
-        <Typography
-          fontFamily="reservaDisplayRegular"
-          fontSize={isDetail ? 20 : 11}
-          color="white"
-          textAlign="center"
-        >
-          %
-        </Typography>
-      </Box>
-
-      <Box
-        flexDirection="row"
-        position="absolute"
-        justifyContent="center"
-        left={5}
-        bottom={isDetail ? -2 : -2}
+        {discountTag}
+      </Typography>
+      <Typography
+        fontFamily="reservaDisplayRegular"
+        fontSize={isDetail ? 20 : 11}
+        color="white"
+        textAlign="center"
       >
-        <Typography
-          fontFamily="reservaDisplayRegular"
-          fontSize={isDetail ? 32 : configDeviceSizes.DEVICE_WIDTH * 0.045}
-          color="vermelhoAlerta"
-          textAlign="center"
-        >
-          OFF
-        </Typography>
-      </Box>
+        %
+      </Typography>
     </Box>
-  );
-}
 
-export function ProductVerticalListCard({
+    <Box
+      flexDirection="row"
+      position="absolute"
+      justifyContent="center"
+      left={5}
+      bottom={isDetail ? -2 : -2}
+    >
+      <Typography
+        fontFamily="reservaDisplayRegular"
+        fontSize={isDetail ? 32 : configDeviceSizes.DEVICE_WIDTH * 0.045}
+        color="vermelhoAlerta"
+        textAlign="center"
+      >
+        OFF
+      </Typography>
+    </Box>
+  </Box>
+);
+
+export const ProductVerticalListCard = ({
   currency,
   imageSource,
   installmentsNumber,
@@ -124,48 +126,76 @@ export function ProductVerticalListCard({
   colors,
   colorsLimit,
   showThumbColors,
+  installmentsEqualPrime,
   prime,
   testID,
-}: ProductVerticalListCardProps) {
+}: ProductVerticalListCardProps) => {
+  const { getString } = useRemoteConfig();
+
+  const typeInstallments: TTypesInstallments = useMemo(() => (
+    getString('installments_prime')
+  ), [getString]) as TTypesInstallments;
+
+  const isHideInstallment = useMemo(() => (
+    typeInstallments === 'hide_installments'
+  ), [typeInstallments]);
+
+  const regularInstallment = useMemo(() => {
+    if (isHideInstallment) return undefined;
+
+    if (
+      typeInstallments === 'show_prime_equal_to_regular'
+      && installmentsEqualPrime
+    ) {
+      return {
+        number: installmentsEqualPrime.number,
+        value: installmentsEqualPrime.value,
+      };
+    }
+
+    return {
+      number: installmentsNumber,
+      value: installmentsPrice,
+    };
+  }, [isHideInstallment]);
+
   return (
     <View>
       <Box height="100%">
         <Box position="absolute" zIndex={5} right={10} top={8}>
-          {loadingFavorite
-            ? (
-              <LottieView
-                source={loadingSpinner}
-                autoPlay
-                loop
-                style={{
-                  width: 15,
-                  height: 15,
-                }}
-              />
-            )
-            : (
-              <Button
-                width={30}
-                height={30}
-                hitSlop={{
-                  top: 20, left: 20, bottom: 20, right: 20,
-                }}
-                variant="icone"
-                testID={`${testID}_favorite`}
-                onPress={() => {
-                  if (onClickFavorite) {
-                    onClickFavorite(!isFavorited);
-                  }
-                }}
-                icon={(
-                  <IconLegacy
-                    name={isFavorited ? 'HeartRaised' : 'Heart'}
-                    size={18}
-                    color="preto"
-                  />
-              )}
-              />
+          {loadingFavorite ? (
+            <LottieView
+              source={loadingSpinner}
+              autoPlay
+              loop
+              style={{
+                width: 15,
+                height: 15,
+              }}
+            />
+          ) : (
+            <Button
+              width={30}
+              height={30}
+              hitSlop={{
+                top: 20, left: 20, bottom: 20, right: 20,
+              }}
+              variant="icone"
+              testID={`${testID}_favorite`}
+              onPress={() => {
+                if (onClickFavorite) {
+                  onClickFavorite(!isFavorited);
+                }
+              }}
+              icon={(
+                <IconLegacy
+                  name={isFavorited ? 'HeartRaised' : 'Heart'}
+                  size={18}
+                  color="preto"
+                />
             )}
+            />
+          )}
         </Box>
 
         {discountTag ? (
@@ -227,22 +257,22 @@ export function ProductVerticalListCard({
             >
               <Typography
                 fontFamily="reservaSansRegular"
-                fontSize="9px"
+                fontSize={9}
                 color="neutroFrio2"
               >
                 De
               </Typography>
               <Typography
                 fontFamily="reservaSansRegular"
-                fontSize="9px"
-                color="preto"
+                fontSize={9}
+                color="neutroFrio2"
               >
                 {` ${currency || 'R$'} `}
               </Typography>
               <Typography
                 fontFamily="reservaSansRegular"
-                fontSize="9px"
-                color="preto"
+                fontSize={9}
+                color="neutroFrio2"
                 style={{
                   textDecorationLine: 'line-through',
                 }}
@@ -251,7 +281,7 @@ export function ProductVerticalListCard({
               </Typography>
               <Typography
                 fontFamily="reservaSansRegular"
-                fontSize="5px"
+                fontSize={5}
                 color="preto"
                 style={{
                   textDecorationLine: 'line-through',
@@ -266,9 +296,8 @@ export function ProductVerticalListCard({
           <View style={{ marginTop: 8 }} />
 
           <ProductPriceRow
-            installmentsNumber={installmentsNumber}
+            installments={regularInstallment}
             currency={currency}
-            installmentsPrice={installmentsPrice}
             discountTag={discountTag}
             priceWithDiscount={priceWithDiscount}
             price={price}
@@ -276,19 +305,17 @@ export function ProductVerticalListCard({
 
           <View style={{ marginTop: 6 }} />
 
-          {!!prime
-        && (
-        <ProductPricePrimeRow
-          installmentsNumber={prime.primeInstallments.number}
-          currency={currency}
-          installmentsPrice={prime.primeInstallments.value}
-          discountTag={discountTag}
-          priceWithDiscount={priceWithDiscount}
-          price={prime.primePrice}
-        />
-        )}
+          {!!prime && (
+            <ProductPricePrimeRow
+              installments={isHideInstallment ? undefined : prime.primeInstallments}
+              currency={currency}
+              discountTag={discountTag}
+              priceWithDiscount={priceWithDiscount}
+              price={prime.primePrice}
+            />
+          )}
         </Box>
       </Box>
     </View>
   );
-}
+};

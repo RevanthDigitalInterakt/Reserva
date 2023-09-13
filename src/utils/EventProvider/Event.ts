@@ -7,6 +7,12 @@ export type Items = {
   item_category: string;
 };
 
+export enum Method {
+  Email = 'email',
+  Google = 'google',
+  Facebook = 'facebook'
+};
+
 type EventValues = {
   item_id: string;
   item_name: string;
@@ -29,7 +35,7 @@ type EventValues = {
   search_ids: any;
   price: number;
   quantity: number | number[];
-  registration_method: string;
+  method: Method;
   affiliation: string;
   coupon: string;
   value: number;
@@ -56,7 +62,7 @@ type EventValues = {
 
 export namespace EventsOptions {
   export type PageView = Pick<EventValues, 'wbrand'>;
-  export type Login = Pick<EventValues, 'custumer_email'>;
+  export type Login = Pick<EventValues, 'custumer_email' | 'method'>;
   export type Search = Pick<EventValues, 'search_term'>;
   export type ClickHere = Pick<EventValues, 'click_name'>;
   export type ViewSearchResults = Pick<EventValues, 'search_term'>;
@@ -68,7 +74,7 @@ export namespace EventsOptions {
   >;
   export type CompleteRegistration = Pick<
   EventValues,
-  'registration_method' | 'custumer_email'
+  'method' | 'custumer_email'
   >;
   export type OpenRonUrl = Pick<
   EventValues,
@@ -141,7 +147,7 @@ export namespace EventsOptions {
   export type ProductSlideImages = Pick<EventValues, | 'product_id' | 'index'>;
   export type ProductViewSizeGuide = Pick<EventValues, | 'product_id' | 'show'>;
   export type ProductZoom = Pick<EventValues, | 'product_id' | 'index'>;
-  export type ProductWishlist = Pick<EventValues, | 'product_id' | 'favorite'>;
+  export type ProductWishlist = Pick<EventValues, | 'currency' | 'value' | 'items'>;
   export type ProductShare = Pick<EventValues, | 'product_id'>;
   export type ProductViewRecommended = Pick<EventValues, | 'show'>;
   export type ProductFindMyZipcode = Pick<EventValues, | 'product_id'>;
@@ -152,6 +158,7 @@ export namespace EventsOptions {
   export type ViewCart = Pick<EventValues, | 'currency' | 'items' | 'value'>;
   export type PressHeaderSearch = Pick<EventValues, 'open'>;
   export type PageLoadTime = Pick<EventValues, | 'page' | 'value'>;
+  export type SignUp = Pick<EventValues, | 'method'>;
 }
 
 export type EventOptionsFn =
@@ -264,7 +271,7 @@ export type EventOptionsFn =
     payload: EventsOptions.ProductZoom;
   }
   | {
-    type: 'product_wishlist';
+    type: 'add_wishlist';
     payload: EventsOptions.ProductWishlist;
   }
   | {
@@ -306,4 +313,8 @@ export type EventOptionsFn =
   | {
     type: 'page_load_time',
     payload: EventsOptions.PageLoadTime
+  }
+  | {
+    type: 'sign_up',
+    payload: EventsOptions.SignUp
   };

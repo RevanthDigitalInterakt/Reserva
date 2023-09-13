@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { integerPart, decimalPart } from '../../utils/numberUtils';
 import { styles } from './ProductPricePrimeRow.styles';
 
 interface IProps {
-  installmentsNumber: number;
+  installments?: { value: number; number: number; };
   currency?: string;
-  installmentsPrice: number
   discountTag?: number;
   priceWithDiscount?: number;
   price: number;
@@ -14,48 +13,66 @@ interface IProps {
 
 const defaultCurrency = 'R$';
 
-function ProductPricePrimeRow({
-  installmentsNumber,
+const ProductPricePrimeRow = ({
+  installments,
   currency = defaultCurrency,
-  installmentsPrice,
   discountTag,
   priceWithDiscount,
   price,
-}: IProps) {
+}: IProps) => {
   const finalPrice = useMemo(() => (
     discountTag && priceWithDiscount ? priceWithDiscount : price
   ), [discountTag, priceWithDiscount, price]);
 
+  const container = StyleSheet.flatten([
+    styles.wrapper,
+    installments ? styles.start : styles.between,
+  ]);
+
+  const flag = StyleSheet.flatten([
+    styles.containerPrime,
+    installments && styles.ml,
+  ]);
+
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+    <View style={container}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Text style={styles.textPrice}>
           {`${currency} `}
         </Text>
+
         <Text style={styles.textPrice}>
           {`${integerPart(finalPrice)},`}
         </Text>
+
         <Text style={styles.textPrice}>
           {`${decimalPart(finalPrice)}`}
         </Text>
-        <View style={styles.divider} />
-        <Text style={[styles.textInstallments, { fontSize: 12 }]}>
-          {installmentsNumber}
-          x
-        </Text>
-        <Text style={styles.textInstallments}>
-          {` ${currency} ${integerPart(installmentsPrice)},`}
-        </Text>
-        <Text style={styles.textInstallments}>
-          {`${decimalPart(installmentsPrice)}`}
-        </Text>
-      </View>
-      <View style={styles.containerPrime}>
-        <Text style={styles.labelPrime}>Prime</Text>
-      </View>
 
+        {installments && (
+          <>
+            <View style={styles.divider} />
+            <Text style={[styles.textInstallments, { fontSize: 12 }]}>
+              {installments.number}
+              x
+            </Text>
+
+            <Text style={styles.textInstallments}>
+              {` ${currency} ${integerPart(installments.value)},`}
+            </Text>
+
+            <Text style={styles.textInstallments}>
+              {`${decimalPart(installments.value)}`}
+            </Text>
+          </>
+        )}
+
+        <View style={[flag, { marginLeft: 5 }]}>
+          <Text style={styles.labelPrime}>Prime</Text>
+        </View>
+      </View>
     </View>
   );
-}
+};
 
 export default ProductPricePrimeRow;
