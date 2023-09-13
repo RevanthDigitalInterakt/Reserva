@@ -8,11 +8,16 @@
 - [16233 - Teste A/B home refatorada](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16233)
 - [16232 - Refatoração home](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16232)
 - Remover páginas legadas do código (PDC e Search)
+- [17015 - Inserir frete na sacola](https://dev.azure.com/areco/Canal%20App%20e%20Omni/_workitems/edit/17015/)
+- [17657 - Ao favoritar um item, o mesmo não aparece na lista de favoritos](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/17657)
+- [16956 - Ajuste evento add_to_wishlist](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16956)
 - [16406 - Parcelamento Prime - Teste A/B/C](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16406)
 - [16888 - Novos bullets no caroussel de banner](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=16888)
 - [16957 - Evento login](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16957)
 - [16955 - Evento signup](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16955)
 - [15172 - DITO - Status Carrinho](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15172)
+- [17657 - Ao favoritar um item, o mesmo não aparece na lista de favoritos](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=17657)
+- [16956 - Ajuste evento add_to_wishlist](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=16956)
 
 ---
 

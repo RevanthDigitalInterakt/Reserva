@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import {
-  Box, Button, Divider, Icon, Typography,
+  Box, Button, Icon, Typography,
 } from '@usereservaapp/reserva-ui';
 import ProductDescription from './ProductDescription';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
@@ -81,7 +81,6 @@ function ProductAbout() {
         </>
       )}
 
-      <Divider variant="fullWidth" my="xs" />
     </Box>
   );
 }

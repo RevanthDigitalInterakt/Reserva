@@ -1,19 +1,5 @@
 import { gql } from '@apollo/client';
 
-const GET_WISH_LIST = gql`
-  query ViewList($shopperId: String!, $from: Int, $to: Int) {
-    viewList(shopperId: $shopperId, name: "wishlist", from: $from, to: $to)
-      @context(provider: "vtex.wish-list") {
-      data {
-        id
-        productId
-        sku
-        title
-      }
-    }
-  }
-`;
-
 const ADD_WISH_LIST = gql`
   mutation AddToList($productId: String!, $shopperId: String!, $sku: String) {
     addToList(
@@ -21,13 +7,6 @@ const ADD_WISH_LIST = gql`
       shopperId: $shopperId
       name: "wishlist"
     ) @context(provider: "vtex.wish-list")
-  }
-`;
-
-const REMOVE_WISH_LIST = gql`
-  mutation RemoveFromList($id: ID!, $shopperId: String!) {
-    removeFromList(id: $id, shopperId: $shopperId, name: "wishlist")
-      @context(provider: "vtex.wish-list")
   }
 `;
 
@@ -44,7 +23,7 @@ const CHECK_LIST = gql`
 
 const GET_PRODUCT_BY_IDENTIFIER = gql`
   query ProductByIdentifier($idArray: [ID!]) {
-    productsByIdentifier(field: id, values: $idArray)
+    productsByIdentifier(field: sku, values: $idArray)
       @context(provider: "vtex.search-graphql") {
       productId
       productName
@@ -96,9 +75,7 @@ const GET_PRODUCT_BY_IDENTIFIER = gql`
 `;
 
 export default {
-  GET_WISH_LIST,
   ADD_WISH_LIST,
   CHECK_LIST,
-  REMOVE_WISH_LIST,
   GET_PRODUCT_BY_IDENTIFIER,
 };

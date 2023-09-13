@@ -147,11 +147,11 @@ export namespace EventsOptions {
   export type ProductSlideImages = Pick<EventValues, | 'product_id' | 'index'>;
   export type ProductViewSizeGuide = Pick<EventValues, | 'product_id' | 'show'>;
   export type ProductZoom = Pick<EventValues, | 'product_id' | 'index'>;
-  export type ProductWishlist = Pick<EventValues, | 'product_id' | 'favorite'>;
+  export type ProductWishlist = Pick<EventValues, | 'currency' | 'value' | 'items'>;
   export type ProductShare = Pick<EventValues, | 'product_id'>;
   export type ProductViewRecommended = Pick<EventValues, | 'show'>;
   export type ProductFindMyZipcode = Pick<EventValues, | 'product_id'>;
-  export type ProductCheckDeliveryTime = Pick<EventValues, | 'product_id'| 'success'>;
+  export type ProductCheckDeliveryTime = Pick<EventValues, | 'product_id' | 'success'>;
   export type ProductSubscribeNewsletter = Pick<EventValues, | 'product_id' | 'success'>;
   export type ProductViewAbout = Pick<EventValues, | 'product_id' | 'show'>;
   export type PressAddToCartPrimeLP = Pick<EventValues, | 'position'>;
@@ -271,7 +271,7 @@ export type EventOptionsFn =
     payload: EventsOptions.ProductZoom;
   }
   | {
-    type: 'product_wishlist';
+    type: 'add_wishlist';
     payload: EventsOptions.ProductWishlist;
   }
   | {
