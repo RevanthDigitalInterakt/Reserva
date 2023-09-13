@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
-import IconComponent from '../../../components/IconComponent/IconComponent';
+import IconComponent from '../../components/IconComponent/IconComponent';
 
 export const EmptyWishList = () => {
   const navigation = useNavigation();

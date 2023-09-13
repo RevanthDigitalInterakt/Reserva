@@ -58,7 +58,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
   const { getBoolean } = useRemoteConfig();
 
   const showNewWebviewCheckout = useMemo(() => (
-    getBoolean('show_new_webview_checkout')
+    getBoolean('show_new_webview_checkout_v2')
   ), [getBoolean]);
 
   useEffect(() => {

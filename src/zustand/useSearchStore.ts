@@ -2,7 +2,11 @@ import { create } from 'zustand';
 import { Keyboard } from 'react-native';
 import { createZustandStoreWithSelectors } from '../utils/createZustandStoreWithSelectors';
 import type {
-  ProductListOutput, SearchFacetColorItemOutput, SearchProductInput, SearchQuery, SearchQueryVariables,
+  ProductListOutput,
+  SearchFacetColorItemOutput,
+  SearchProductInput,
+  SearchQuery,
+  SearchQueryVariables,
 } from '../base/graphql/generated';
 import { SearchDocument, SearchFacetItemOutput, SearchOrderByEnum } from '../base/graphql/generated';
 import { getApolloClient } from '../utils/getApolloClient';

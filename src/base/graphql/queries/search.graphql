@@ -4,6 +4,7 @@ query search($input: SearchProductInput!) {
     items {
       productId
       skuId
+      skuName
       productName
       colors
       brand
