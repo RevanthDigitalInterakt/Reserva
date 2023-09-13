@@ -1,16 +1,15 @@
 import React from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { SafeAreaView } from 'react-native';
 import { theme } from '@usereservaapp/reserva-ui';
+import { SafeAreaView } from 'react-native';
 
 import CallCenter from '../modules/CallCenter';
 import { MenuProfile } from '../modules/Profile/pages/MenuProfile';
-import { WishList } from '../modules/WishList/pages/WishList';
-
-import { TabBar } from './TabBar';
 import Home from '../pages/Home';
 import NewProductCatalog from '../pages/ProductCatalog';
+import { TabBar } from './TabBar';
+import WishList from '../pages/WishList/WishList';
 
 const Tab = createBottomTabNavigator();
 
@@ -38,7 +37,6 @@ export const HomeTabs = () => (
         name="WishList"
         component={WishList}
         initialParams={{ label: 'Favoritos' }}
-
       />
       <Tab.Screen
         name="Profile"

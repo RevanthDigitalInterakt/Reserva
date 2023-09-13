@@ -103,14 +103,14 @@ function ProductSummary() {
         onClickFavorite={() => {
           onToggleFavorite({
             productName: productDetail.productName,
-            productId: productDetail?.productId,
+            productId: selectedSize?.itemId || '',
             size: selectedSize?.size,
             lowPrice: selectedSize?.currentPrice || 0,
             colorName: selectedColor?.colorName,
             skuId: selectedSize?.itemId || '',
+            skuName: selectedSize?.skuName || '',
             category: '',
             brand: '',
-            // category: prod
           });
         }}
         imagesHeight={3 * (configDeviceSizes.DEVICE_WIDTH / 2)}

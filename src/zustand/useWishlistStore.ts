@@ -16,6 +16,7 @@ import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export interface IWishlistProduct {
   skuId: string;
+  skuName: string;
   productId: string;
   colorName?: string | null;
   size?: string | null;
@@ -28,7 +29,9 @@ export interface IWishlistProduct {
 interface IWishlistStore {
   initialized: boolean;
   favorites: string[];
+  loading: boolean;
   onLoadFavorites: () => Promise<void>;
+  refreshFavorites: () => Promise<string[] | []>;
   onFavorite: (product: IWishlistProduct) => Promise<boolean>;
   onUnfavorite: (product: IWishlistProduct) => Promise<boolean>;
 }
@@ -36,7 +39,10 @@ interface IWishlistStore {
 const useWishlistStore = create<IWishlistStore>((set, getState) => ({
   initialized: false,
   favorites: [],
+  loading: false,
   onLoadFavorites: async () => {
+    set(() => ({ loading: true }));
+
     try {
       if (getState().initialized) return;
 
@@ -50,10 +56,34 @@ const useWishlistStore = create<IWishlistStore>((set, getState) => ({
 
       set(() => ({ favorites: data.wishlist || [], initialized: true }));
     } catch (err) {
-      //
+      ExceptionProvider.captureException(err);
+    } finally {
+      set(() => ({ loading: false }));
     }
   },
-  onFavorite: async (product) => {
+  refreshFavorites: async () => {
+    set(() => ({ loading: true }));
+    try {
+      const client = await getApolloClient();
+
+      const { data } = await client.query<WishlistQuery, WishlistQueryVariables>({
+        query: WishlistDocument,
+        context: { clientName: 'gateway' },
+        fetchPolicy: 'no-cache',
+      });
+
+      set(() => ({ favorites: data.wishlist || [] }));
+      return data.wishlist || [];
+    } catch (err) {
+      ExceptionProvider.captureException(err);
+      return [];
+    } finally {
+      set(() => ({ loading: false }));
+    }
+  },
+  onFavorite: async (product: IWishlistProduct) => {
+    set(() => ({ loading: true }));
+
     try {
       const client = await getApolloClient();
 
@@ -78,9 +108,12 @@ const useWishlistStore = create<IWishlistStore>((set, getState) => ({
       ExceptionProvider.captureException(err, { product });
 
       return false;
+    } finally {
+      set(() => ({ loading: false }));
     }
   },
   onUnfavorite: async (product) => {
+    set(() => ({ loading: true }));
     try {
       const client = await getApolloClient();
 
@@ -105,6 +138,8 @@ const useWishlistStore = create<IWishlistStore>((set, getState) => ({
       ExceptionProvider.captureException(err, { product });
 
       return false;
+    } finally {
+      set(() => ({ loading: false }));
     }
   },
 }));

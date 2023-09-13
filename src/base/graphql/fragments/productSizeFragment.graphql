@@ -1,5 +1,6 @@
 fragment productSizeFragment on ProductSizeOutput {
     itemId
+    skuName
     size
     ean
     seller
