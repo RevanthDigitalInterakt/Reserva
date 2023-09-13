@@ -1,11 +1,13 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { COLORS } from '../../../../base/styles/colors';
+import { platformType } from '../../../../utils/platformType';
 
 const styles = StyleSheet.create({
   inputContainer: {
     borderWidth: 1,
     borderRadius: 5,
     borderColor: COLORS.TEXT_INPUT_CONTAINER,
+    padding: Platform.OS === platformType.IOS ? 15 : 10,
   },
 
   inputText: {
@@ -14,6 +16,7 @@ const styles = StyleSheet.create({
     color: COLORS.TEXT_INPUT,
     fontWeight: 'bold',
     fontSize: 14,
+    padding: 0,
   },
 
   borderErrorActive: {
