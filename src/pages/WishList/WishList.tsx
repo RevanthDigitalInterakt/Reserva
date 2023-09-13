@@ -1,8 +1,4 @@
 import { useLazyQuery } from '@apollo/client';
-import {
-  Box,
-  Typography,
-} from '@usereservaapp/reserva-ui';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, FlatList } from 'react-native';
 
@@ -26,6 +22,8 @@ import useWishlistStore from '../../zustand/useWishlistStore';
 import { EmptyWishList } from './EmptyWishList';
 import SkeletonWishList from './SkeletonWishList';
 import { mapProductToFavoriteItem } from './adaptWishList';
+import { Box } from '../../components/Box/Box';
+import { Typography } from '../../components/Typography/Typography';
 
 const WishList = () => {
   const navigation = useNavigation();

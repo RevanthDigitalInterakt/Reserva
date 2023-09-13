@@ -1,10 +1,10 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { has24HoursPassed, useOncePerDayEvent } from '../useOncePerDayEvent';
 import EventProvider from '../EventProvider';
 
 jest.setTimeout(10000);
-jest.mock('@react-native-community/async-storage', () => ({
+jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
 }));

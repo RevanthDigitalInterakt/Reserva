@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Typography } from '@usereservaapp/reserva-ui';
+import { Box } from '../../components/Box/Box';
+import { Typography } from '../../components/Typography/Typography';
 import { Skeleton } from '../../modules/Checkout/components/Skeleton';
 
 export default () => (
