@@ -48,66 +48,68 @@ export interface DiscountLabelProps {
   isDetail?: boolean
 }
 
-export const DiscountLabel = ({
+export function DiscountLabel({
   discountTag,
   width,
   height,
   isDetail,
-}: DiscountLabelProps) => (
-  <Box
-    alignItems="center"
-    justifyContent="space-between"
-    position="absolute"
-    bg="vermelhoRSV"
-    width={width || configDeviceSizes.DEVICE_WIDTH * 0.1215}
-    height={height || configDeviceSizes.DEVICE_WIDTH * 0.1215}
-    py="quarck"
-  >
+}: DiscountLabelProps) {
+  return (
     <Box
-      flexDirection="row"
+      alignItems="center"
+      justifyContent="space-between"
       position="absolute"
-      alignItems="flex-start"
-      justifyContent="center"
-      left={5}
-      top={3}
+      bg="vermelhoRSV"
+      width={width || configDeviceSizes.DEVICE_WIDTH * 0.1215}
+      height={height || configDeviceSizes.DEVICE_WIDTH * 0.1215}
+      py="quarck"
     >
-      <Typography
-        fontFamily="reservaDisplayRegular"
-        fontSize={isDetail ? 36 : configDeviceSizes.DEVICE_WIDTH * 0.055}
-        color="white"
+      <Box
+        flexDirection="row"
+        position="absolute"
+        alignItems="flex-start"
+        justifyContent="center"
+        left={5}
+        top={3}
       >
-        {discountTag}
-      </Typography>
-      <Typography
-        fontFamily="reservaDisplayRegular"
-        fontSize={isDetail ? 20 : 11}
-        color="white"
-        textAlign="center"
-      >
-        %
-      </Typography>
-    </Box>
+        <Typography
+          fontFamily="reservaDisplayRegular"
+          fontSize={isDetail ? 36 : configDeviceSizes.DEVICE_WIDTH * 0.055}
+          color="white"
+        >
+          {discountTag}
+        </Typography>
+        <Typography
+          fontFamily="reservaDisplayRegular"
+          fontSize={isDetail ? 20 : 11}
+          color="white"
+          textAlign="center"
+        >
+          %
+        </Typography>
+      </Box>
 
-    <Box
-      flexDirection="row"
-      position="absolute"
-      justifyContent="center"
-      left={5}
-      bottom={isDetail ? -2 : -2}
-    >
-      <Typography
-        fontFamily="reservaDisplayRegular"
-        fontSize={isDetail ? 32 : configDeviceSizes.DEVICE_WIDTH * 0.045}
-        color="vermelhoAlerta"
-        textAlign="center"
+      <Box
+        flexDirection="row"
+        position="absolute"
+        justifyContent="center"
+        left={5}
+        bottom={isDetail ? -2 : -2}
       >
-        OFF
-      </Typography>
+        <Typography
+          fontFamily="reservaDisplayRegular"
+          fontSize={isDetail ? 32 : configDeviceSizes.DEVICE_WIDTH * 0.045}
+          color="vermelhoAlerta"
+          textAlign="center"
+        >
+          OFF
+        </Typography>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+}
 
-export const ProductVerticalListCard = ({
+export function ProductVerticalListCard({
   currency,
   imageSource,
   installmentsNumber,
@@ -129,7 +131,7 @@ export const ProductVerticalListCard = ({
   installmentsEqualPrime,
   prime,
   testID,
-}: ProductVerticalListCardProps) => {
+}: ProductVerticalListCardProps) {
   const { getString } = useRemoteConfig();
 
   const typeInstallments: TTypesInstallments = useMemo(() => (
@@ -198,11 +200,11 @@ export const ProductVerticalListCard = ({
           )}
         </Box>
 
-        {discountTag ? (
+        {discountTag && (
           <Box top={0} left={0} zIndex={1}>
             <DiscountLabel discountTag={discountTag} />
           </Box>
-        ) : <></>}
+        ) }
 
         {saleOff && (
         <Box position="absolute" top={discountTag ? 50 : 0} left={0} zIndex={1}>
@@ -240,9 +242,11 @@ export const ProductVerticalListCard = ({
         />
         )}
 
-        <Box marginTop="micro" width={configDeviceSizes.DEVICE_WIDTH * 0.45}>
+        <Box marginTop="nano" width={configDeviceSizes.DEVICE_WIDTH * 0.45}>
           <Text
-            style={{ fontSize: 12, fontFamily: 'ReservaSans-Bold' }}
+            style={{
+              height: 40, paddingRight: 6, fontSize: 12, fontFamily: 'ReservaSans-Bold',
+            }}
           >
             {productTitle}
           </Text>
@@ -253,25 +257,24 @@ export const ProductVerticalListCard = ({
             <Box
               flexDirection="row"
               alignItems="flex-end"
-              mt="nano"
             >
               <Typography
                 fontFamily="reservaSansRegular"
-                fontSize={9}
+                fontSize={12}
                 color="neutroFrio2"
               >
                 De
               </Typography>
               <Typography
                 fontFamily="reservaSansRegular"
-                fontSize={9}
+                fontSize={12}
                 color="neutroFrio2"
               >
                 {` ${currency || 'R$'} `}
               </Typography>
               <Typography
                 fontFamily="reservaSansRegular"
-                fontSize={9}
+                fontSize={12}
                 color="neutroFrio2"
                 style={{
                   textDecorationLine: 'line-through',
@@ -281,8 +284,8 @@ export const ProductVerticalListCard = ({
               </Typography>
               <Typography
                 fontFamily="reservaSansRegular"
-                fontSize={5}
-                color="preto"
+                fontSize={12}
+                color="neutroFrio2"
                 style={{
                   textDecorationLine: 'line-through',
                 }}
@@ -318,4 +321,4 @@ export const ProductVerticalListCard = ({
       </Box>
     </View>
   );
-};
+}

@@ -28,7 +28,7 @@ import { GetPurchaseData } from '../../services/vtexService';
  and please don't skip tests.
  Remember, this is crucial for business-level!"
  */
-const WebviewCheckout = () => {
+function WebviewCheckout() {
   const navigation = useNavigation();
   const route = useRoute();
   const { actions } = useBagStore(['actions']);
@@ -164,6 +164,6 @@ const WebviewCheckout = () => {
 
     </>
   );
-};
+}
 
 export default WebviewCheckout;
