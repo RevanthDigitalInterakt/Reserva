@@ -1,12 +1,13 @@
 import { Box } from '@usereservaapp/reserva-ui';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   FlatList, SafeAreaView, Text, TouchableOpacity, View,
 } from 'react-native';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
-import { WebView } from 'react-native-webview';
+import { WebView, WebViewMessageEvent } from 'react-native-webview';
 import Modal from 'react-native-modal';
 import testProps from '../../utils/testProps';
 import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
@@ -28,12 +29,30 @@ import { platformType } from '../../utils/platformType';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+// const injectedJavaScript = `
+// window.ReactNativeWebView.postMessage('{"type":"button-action","state":false}');
+//   `;
+
 function Home() {
   const { onLoad, medias, loaded } = useHomeStore(['onLoad', 'medias', 'loaded']);
   const { showModalSignUpComplete } = useAuthModalStore(['showModalSignUpComplete']);
   const { isConnected } = useConnectivityStore(['isConnected']);
 
   const [isRoletaVisible, setIsRoletaVisible] = useState(false);
+
+  const onHandleMessage = useCallback((ev: WebViewMessageEvent) => {
+    try {
+      if (ev?.nativeEvent?.data) {
+        const parsed = JSON.parse(ev?.nativeEvent?.data);
+
+        if (parsed?.type) {
+          setIsRoletaVisible(false);
+        }
+      }
+    } catch (err) {
+      //
+    }
+  }, []);
 
   useEffect(() => {
     if (isConnected && !loaded) {
@@ -105,22 +124,41 @@ function Home() {
 
       <Modal
         isVisible={isRoletaVisible}
+        onBackButtonPress={() => setIsRoletaVisible(false)}
+        onBackdropPress={() => setIsRoletaVisible(false)}
         style={{
           height: configDeviceSizes.DEVICE_HEIGHT * 0.9,
+          backgroundColor: 'transparent',
         }}
       >
+        <View
+          style={{
+            position: 'absolute',
+            left: (configDeviceSizes.DEVICE_WIDTH / 2) - 25,
+            top: ((configDeviceSizes.DEVICE_HEIGHT * 0.9) / 2) - 25,
+            width: 50,
+            height: 50,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <ActivityIndicator color={COLORS.RED} size="large" />
+        </View>
+
         <WebView
           source={{ uri: `https://www.usereserva.com/files/popconvert.html?${new Date().getTime()}` }}
           style={{
             width: '100%',
             height: configDeviceSizes.DEVICE_HEIGHT * 0.9,
-            backgroundColor: '#fff',
+            backgroundColor: 'transparent',
           }}
           cacheEnabled={false}
           cacheMode="LOAD_NO_CACHE"
-          onError={(l) => console.log('onError', l)}
-          onHttpError={(l) => console.log('onHttpError', l)}
-          onMessage={(l) => console.log('onMessage', l)}
+          renderLoading={() => (
+            <ActivityIndicator />
+          )}
+          // injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
+          onMessage={onHandleMessage}
         />
 
         <TouchableOpacity
