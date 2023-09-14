@@ -60,7 +60,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-native": "^0.72.3",
-    "react-native-animatable": "^1.3.3",
     "react-native-appsflyer": "6.12.1",
     "react-native-appstore-version-checker": "^3.0.0",
     "react-native-auto-height-image": "^3.2.4",
@@ -185,7 +184,7 @@
       "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/?!((jest-)?@react-native|react-native|react-native-modal|react-native-progress|react-native-animatable|lottie-react-native)"
+      "node_modules/?!((jest-)?@react-native|react-native|react-native-modal|react-native-progress|lottie-react-native)"
     ],
     "automock": false,
     "moduleFileExtensions": [

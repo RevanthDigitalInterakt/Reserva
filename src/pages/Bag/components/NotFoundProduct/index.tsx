@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { Platform } from 'react-native';
-import { View } from 'react-native-animatable';
+import { Platform, View } from 'react-native';
 
 import { Box } from '../../../../components/Box/Box';
 import { Button } from '../../../../components/Button';

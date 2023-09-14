@@ -1,12 +1,9 @@
 import React, { useMemo, useState } from 'react';
-import { createAnimatableComponent } from 'react-native-animatable';
 
 import type { SearchFacetColorItemOutput } from '../../../base/graphql/generated';
 import { Box } from '../../Box/Box';
 import { SelectColorFilter } from '../../SelectColorFilter/SelectColorFilter';
 import TitleFilter from './TitleFilter';
-
-const BoxAnimation = createAnimatableComponent(Box);
 
 interface IFilterColors {
   data: SearchFacetColorItemOutput[];
@@ -34,7 +31,7 @@ function FilterColors({ data, selectedItems, onUpdate }: IFilterColors) {
         title="Cores"
       />
 
-      <BoxAnimation animation="fadeIn" paddingX="micro">
+      <Box paddingX="micro">
         <SelectColorFilter
           disabledColors={[]}
           listColors={showSection ? colors : colors.slice(0, 6)}
@@ -52,7 +49,7 @@ function FilterColors({ data, selectedItems, onUpdate }: IFilterColors) {
           selectedColors={Array.from(selectedItems)}
           size={23}
         />
-      </BoxAnimation>
+      </Box>
     </>
   );
 }

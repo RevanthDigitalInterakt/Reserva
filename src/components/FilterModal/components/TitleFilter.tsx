@@ -1,11 +1,8 @@
 import React from 'react';
-import { createAnimatableComponent } from 'react-native-animatable';
 import { Box } from '../../Box/Box';
 import { Typography } from '../../Typography/Typography';
 import { Button } from '../../Button';
 import { IconLegacy } from '../../IconLegacy/IconLegacy';
-
-const BoxAnimation = createAnimatableComponent(Box);
 
 interface ITitleFilter {
   title: string;
@@ -42,7 +39,7 @@ function TitleFilter({
           onPress={() => setShowMore(!showMore)}
           hitSlop={{ left: 50, top: 15, bottom: 15 }}
         >
-          <BoxAnimation
+          <Box
             testID="com.usereserva:id/title_animation_filter_modal"
             flexDirection="row"
             justifyContent="space-between"
@@ -64,7 +61,7 @@ function TitleFilter({
               marginX="nano"
               size={12}
             />
-          </BoxAnimation>
+          </Box>
         </Button>
       )}
     </Box>

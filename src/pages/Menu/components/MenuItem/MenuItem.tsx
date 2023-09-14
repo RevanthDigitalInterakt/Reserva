@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { TouchableOpacity } from 'react-native';
-import * as Animatable from 'react-native-animatable';
+import { TouchableOpacity, View } from 'react-native';
 
 import type { MenuCategoryItemOutput, MenuCategoryOutput } from '../../../../base/graphql/generated';
 import { Box } from '../../../../components/Box/Box';
@@ -52,9 +51,8 @@ function MenuItem({ data, opened, onPress }: IMenuItem) {
       {opened && (
         <>
           <Divider variant="fullWidth" marginTop="micro" />
-          <Animatable.View
+          <View
             {...testProps('com.usereserva:id/animation_container')}
-            animation="fadeIn"
           >
             {data.children.map((item, index) => (
               <MenuSubItem
@@ -64,7 +62,7 @@ function MenuItem({ data, opened, onPress }: IMenuItem) {
                 onPress={onPress}
               />
             ))}
-          </Animatable.View>
+          </View>
         </>
       )}
     </Box>

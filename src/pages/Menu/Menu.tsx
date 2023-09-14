@@ -1,11 +1,12 @@
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
-import { BackHandler, Linking, ScrollView } from 'react-native';
+import {
+  BackHandler, Linking, ScrollView, View,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackActions, useLinkTo, useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
-import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { RootStackParamList } from '../../routes/StackNavigator';
@@ -127,7 +128,7 @@ function Menu() {
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
 
           {data?.appMenu?.length && (
-            <Animatable.View animation="fadeIn">
+            <View>
               {data.appMenu.map((item, index) => (
                 <MenuItem
                   key={`${item.name}-${item.type}-${item.children.length}`}
@@ -189,7 +190,7 @@ function Menu() {
                 title="Política de Privacidade"
                 onPress={() => navigateFromMenu('PrivacyPolicy')}
               />
-            </Animatable.View>
+            </View>
           )}
 
           <Box mt="xs" alignItems="center">

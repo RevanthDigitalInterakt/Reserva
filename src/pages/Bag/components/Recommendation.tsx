@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import * as Animatable from 'react-native-animatable';
-import { createAnimatableComponent } from 'react-native-animatable';
+import { View } from 'react-native';
 
 import { useProductRecommendationsLazyQuery } from '../../../base/graphql/generated';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
@@ -9,19 +8,18 @@ import { Button } from '../../../components/Button';
 import { Divider } from '../../../components/Divider/Divider';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../components/Typography/Typography';
+import { ListHorizontalProducts } from '../../../modules/Checkout/components/ListHorizontalProducts';
 import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import { getBrandByUrl } from '../../../utils/getBrandByURL';
 import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
 import useRecommendation from '../../../zustand/useRecommendation/useRecommendation';
-import { ListHorizontalProducts } from '../../../modules/Checkout/components/ListHorizontalProducts';
 
 export function Recommendation() {
   const {
     products, showSection, setProducts, setShowSection,
   } = useRecommendation();
 
-  const BoxAnimated = createAnimatableComponent(Box);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
 
   const [getProductRecommendation] = useProductRecommendationsLazyQuery({
@@ -74,7 +72,7 @@ export function Recommendation() {
           hitSlop={{ left: 50, top: 15, bottom: 15 }}
           flexDirection="row"
         >
-          <BoxAnimated
+          <Box
             flexDirection="row"
             alignItems="flex-start"
             marginY="xxs"
@@ -101,7 +99,7 @@ export function Recommendation() {
                 }
               />
             </Box>
-          </BoxAnimated>
+          </Box>
         </Button>
       </Box>
       {!!showSection && (
@@ -111,12 +109,12 @@ export function Recommendation() {
           </Box>
           <Box mt="quarck" paddingX="micro">
             {products && products?.length > 0 && (
-              <Animatable.View animation="fadeIn" style={{ marginBottom: 20 }}>
+              <View style={{ marginBottom: 20 }}>
                 <ListHorizontalProducts
                   horizontal
                   products={products}
                 />
-              </Animatable.View>
+              </View>
             )}
           </Box>
         </>

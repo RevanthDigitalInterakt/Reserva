@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import { createAnimatableComponent } from 'react-native-animatable';
 import TitleFilter from './TitleFilter';
 import type { SearchFacetRangeOutput } from '../../../base/graphql/generated';
 
 import configDeviceSizes from '../../../utils/configDeviceSizes';
 import { Box } from '../../Box/Box';
 import { Range } from '../../Range/Range';
-
-const BoxAnimation = createAnimatableComponent(Box);
 
 interface IFilterPrices {
   data: SearchFacetRangeOutput;
@@ -29,7 +26,7 @@ function FilterPrices({ data, selectedPriceRange, onUpdatePriceRange }: IFilterP
         title="Preço"
       />
 
-      <BoxAnimation animation="fadeIn" paddingX="micro" alignSelf="center">
+      <Box paddingX="micro" alignSelf="center">
         <Range
           max={data.to}
           min={data.from}
@@ -45,7 +42,7 @@ function FilterPrices({ data, selectedPriceRange, onUpdatePriceRange }: IFilterP
           value={[selectedPriceRange?.from || data.from, selectedPriceRange?.to || data.to]}
           width={configDeviceSizes.DEVICE_WIDTH - 100}
         />
-      </BoxAnimation>
+      </Box>
     </>
   );
 }

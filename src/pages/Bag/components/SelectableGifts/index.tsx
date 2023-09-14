@@ -2,7 +2,6 @@ import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { Platform, ScrollView } from 'react-native';
-import { createAnimatableComponent } from 'react-native-animatable';
 
 import type { Maybe, OrderformSelectableGiftOptionOutput } from '../../../../base/graphql/generated';
 import { Box } from '../../../../components/Box/Box';
@@ -14,8 +13,6 @@ import { Typography } from '../../../../components/Typography/Typography';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import { platformType } from '../../../../utils/platformType';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
-
-const BoxAnimation = createAnimatableComponent(Box);
 
 const fontTitlePerPlatform = (Platform.OS === platformType.ANDROID ? 0.0352 : 0.036);
 const fontTitle = configDeviceSizes.DEVICE_WIDTH * fontTitlePerPlatform;
@@ -219,7 +216,7 @@ export default function SelectableGifts() {
               onPress={() => setShowMoreSizes(!showMoreSizes)}
               hitSlop={{ left: 50, top: 15, bottom: 15 }}
             >
-              <BoxAnimation
+              <Box
                 flexDirection="row"
                 justifyContent="space-between"
                 alignItems="center"
@@ -242,7 +239,7 @@ export default function SelectableGifts() {
                   marginLeft="nano"
                   size={12}
                 />
-              </BoxAnimation>
+              </Box>
             </Button>
             )}
           </Box>

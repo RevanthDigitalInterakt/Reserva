@@ -4,14 +4,13 @@ import { StackActions, useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useEffect, useState, useCallback } from 'react';
-import
-{
+import {
   BackHandler,
   Linking,
   ScrollView,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
@@ -31,10 +30,6 @@ import { Typography } from '../../../components/Typography/Typography';
 import { Divider } from '../../../components/Divider/Divider';
 import { theme } from '../../../base/usereservappLegacy/theme';
 
-interface IBreadCrumbs {
-  title: string;
-}
-
 interface IMenuSubItem {
   title: string;
   onPress?: Function;
@@ -51,7 +46,7 @@ interface IMenuItem {
   highlight?: boolean;
 }
 
-const Breadcrumbs: React.FC<IBreadCrumbs> = ({ title }) => {
+function Breadcrumbs() {
   const navigation = useNavigation();
   return (
     <Button
@@ -76,11 +71,11 @@ const Breadcrumbs: React.FC<IBreadCrumbs> = ({ title }) => {
       </Box>
     </Button>
   );
-};
+}
 
-const MenuSubItem: React.FC<IMenuSubItem> = ({
+function MenuSubItem({
   title, onPress, highlight, testID,
-}) => {
+}: IMenuSubItem) {
   const navigation = useNavigation();
   const [clickMenu, setClickMenu] = useState<boolean>(false);
 
@@ -130,16 +125,16 @@ const MenuSubItem: React.FC<IMenuSubItem> = ({
       </Box>
     </TouchableOpacity>
   );
-};
+}
 
-const MenuItem: React.FC<IMenuItem> = ({
+function MenuItem({
   title,
   opened,
   onPress,
   index: indexProp,
   subItemList,
   highlight,
-}) => {
+}: IMenuItem) {
   const navigation = useNavigation();
 
   return (
@@ -178,9 +173,8 @@ const MenuItem: React.FC<IMenuItem> = ({
       {opened && (
         <>
           <Divider variant="fullWidth" marginTop="micro" />
-          <Animatable.View
+          <View
             {...testProps('com.usereserva:id/animation_container')}
-            animation="fadeIn"
           >
             {subItemList?.items?.map((item, index) => (
               <MenuSubItem
@@ -220,12 +214,12 @@ const MenuItem: React.FC<IMenuItem> = ({
                 }}
               />
             ))}
-          </Animatable.View>
+          </View>
         </>
       )}
     </Box>
   );
-};
+}
 
 export const FixedMenuItem: React.FC<{
   iconName: string;
@@ -401,10 +395,10 @@ export function Menu({ route }: MenuProps) {
         <TopBarMenu loading={loading} />
         <ScrollView>
           <Box paddingX="nano" paddingTop="micro" />
-          <Breadcrumbs title="Página Inicial" />
+          <Breadcrumbs />
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
           {categories && (
-            <Animatable.View animation="fadeIn">
+            <View>
               {categories.map((item, index) => (
                 <MenuItem
                   key={index}
@@ -541,7 +535,7 @@ export function Menu({ route }: MenuProps) {
                   navigateFromMenu('PrivacyPolicy');
                 }}
               />
-            </Animatable.View>
+            </View>
           )}
           <Box mt="xs" alignItems="center">
             <Typography
