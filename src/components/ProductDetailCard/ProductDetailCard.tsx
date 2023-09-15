@@ -5,8 +5,8 @@ import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations'
 
 import { Button } from '../Button';
 import { ImageSlider } from './components/ImageSlider';
-import { DiscountLabel } from '../ProductVerticalListCard';
 import IconComponent from '../IconComponent/IconComponent';
+import { FlagDiscount } from '../FlagDiscount/FlagDiscount';
 
 import type { ProductDetailCardProps } from './types';
 import { useIsTester } from '../../hooks/useIsTester';
@@ -56,10 +56,8 @@ export const ProductDetailCard = ({
             left={0}
             top={0}
           >
-            <DiscountLabel
+            <FlagDiscount
               discountTag={discountTag}
-              width={80}
-              height={80}
               isDetail
             />
           </Box>
