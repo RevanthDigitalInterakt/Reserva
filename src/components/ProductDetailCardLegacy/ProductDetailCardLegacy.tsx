@@ -65,8 +65,6 @@ export const ProductDetailCardLegacy = ({
         >
           <DiscountLabel
             discountTag={discountTag}
-            width={80}
-            height={80}
             isDetail
           />
         </Box>

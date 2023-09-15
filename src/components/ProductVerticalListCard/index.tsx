@@ -20,6 +20,7 @@ import ProductThumbColorsRow from '../ProductThumbColorsRow/ProductThumbColorsRo
 import type { IGetPrimeReturn } from '../../zustand/usePrimeConfig/usePrimeConfig';
 import type { Maybe, ProductSizeInstallmentOutput } from '../../base/graphql/generated';
 import { TTypesInstallments, useRemoteConfig } from '../../hooks/useRemoteConfig';
+import { styles } from './ProductVerticalListCard.styles';
 
 export interface ProductVerticalListCardProps {
   imageWidth?: number
@@ -47,68 +48,36 @@ export interface ProductVerticalListCardProps {
 
 export interface DiscountLabelProps {
   discountTag: number
-  width?: number
-  height?: number
   isDetail?: boolean
 }
 
 export const DiscountLabel = ({
   discountTag,
-  width,
-  height,
   isDetail,
 }: DiscountLabelProps) => (
-  <Box
-    alignItems="center"
-    justifyContent="space-between"
-    position="absolute"
-    bg="vermelhoRSV"
-    width={width || configDeviceSizes.DEVICE_WIDTH * 0.1215}
-    height={height || configDeviceSizes.DEVICE_WIDTH * 0.1215}
-    py="quarck"
+  <View style={{
+    ...styles.box,
+    marginLeft: isDetail ? 4 : 14,
+    marginTop: 4,
+  }}
   >
-    <Box
-      flexDirection="row"
-      position="absolute"
-      alignItems="flex-start"
-      justifyContent="center"
-      left={5}
-      top={3}
+    <Text style={{
+      ...styles.textPercentage,
+      fontSize: isDetail ? 20 : configDeviceSizes.DEVICE_WIDTH * 0.040,
+    }}
     >
-      <Typography
-        fontFamily="reservaDisplayRegular"
-        fontSize={isDetail ? 36 : configDeviceSizes.DEVICE_WIDTH * 0.055}
-        color="white"
-      >
-        {discountTag}
-      </Typography>
-      <Typography
-        fontFamily="reservaDisplayRegular"
-        fontSize={isDetail ? 20 : 11}
-        color="white"
-        textAlign="center"
-      >
-        %
-      </Typography>
-    </Box>
+      {discountTag}
+      %
+    </Text>
 
-    <Box
-      flexDirection="row"
-      position="absolute"
-      justifyContent="center"
-      left={5}
-      bottom={isDetail ? -2 : -2}
+    <Text style={{
+      ...styles.textOff,
+      fontSize: isDetail ? 20 : configDeviceSizes.DEVICE_WIDTH * 0.040,
+    }}
     >
-      <Typography
-        fontFamily="reservaDisplayRegular"
-        fontSize={isDetail ? 32 : configDeviceSizes.DEVICE_WIDTH * 0.045}
-        color="vermelhoAlerta"
-        textAlign="center"
-      >
-        OFF
-      </Typography>
-    </Box>
-  </Box>
+      OFF
+    </Text>
+  </View>
 );
 
 export const ProductVerticalListCard = ({

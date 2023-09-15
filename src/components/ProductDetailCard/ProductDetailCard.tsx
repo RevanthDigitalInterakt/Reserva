@@ -58,8 +58,6 @@ export const ProductDetailCard = ({
           >
             <DiscountLabel
               discountTag={discountTag}
-              width={80}
-              height={80}
               isDetail
             />
           </Box>
