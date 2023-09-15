@@ -20,7 +20,7 @@ import ProductThumbColorsRow from '../ProductThumbColorsRow/ProductThumbColorsRo
 import type { IGetPrimeReturn } from '../../zustand/usePrimeConfig/usePrimeConfig';
 import type { Maybe, ProductSizeInstallmentOutput } from '../../base/graphql/generated';
 import { TTypesInstallments, useRemoteConfig } from '../../hooks/useRemoteConfig';
-import { styles } from './ProductVerticalListCard.styles';
+import { FlagDiscount } from '../FlagDiscount/FlagDiscount';
 
 export interface ProductVerticalListCardProps {
   imageWidth?: number
@@ -45,40 +45,6 @@ export interface ProductVerticalListCardProps {
   testID?: string;
   installmentsEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
 }
-
-export interface DiscountLabelProps {
-  discountTag: number
-  isDetail?: boolean
-}
-
-export const DiscountLabel = ({
-  discountTag,
-  isDetail,
-}: DiscountLabelProps) => (
-  <View style={{
-    ...styles.box,
-    marginLeft: isDetail ? 4 : 14,
-    marginTop: 4,
-  }}
-  >
-    <Text style={{
-      ...styles.textPercentage,
-      fontSize: isDetail ? 20 : configDeviceSizes.DEVICE_WIDTH * 0.040,
-    }}
-    >
-      {discountTag}
-      %
-    </Text>
-
-    <Text style={{
-      ...styles.textOff,
-      fontSize: isDetail ? 20 : configDeviceSizes.DEVICE_WIDTH * 0.040,
-    }}
-    >
-      OFF
-    </Text>
-  </View>
-);
 
 export const ProductVerticalListCard = ({
   currency,
@@ -173,7 +139,7 @@ export const ProductVerticalListCard = ({
 
         {discountTag ? (
           <Box top={0} left={0} zIndex={1}>
-            <DiscountLabel discountTag={discountTag} />
+            <FlagDiscount discountTag={discountTag} />
           </Box>
         ) : <></>}
 

@@ -1,0 +1,33 @@
+import React from 'react';
+import { Text, View } from 'react-native';
+
+import configDeviceSizes from '../../utils/configDeviceSizes';
+
+import { styles } from './FlagDiscount.styles';
+import type { IFlagDiscount } from './FlagDiscount.types';
+
+export const FlagDiscount = ({ discountTag, isDetail }: IFlagDiscount) => (
+  <View style={{
+    ...styles.box,
+    marginLeft: isDetail ? 4 : 14,
+    marginTop: 4,
+  }}
+  >
+    <Text style={{
+      ...styles.textPercentage,
+      fontSize: isDetail ? 20 : configDeviceSizes.DEVICE_WIDTH * 0.040,
+    }}
+    >
+      {discountTag}
+      %
+    </Text>
+
+    <Text style={{
+      ...styles.textOff,
+      fontSize: isDetail ? 20 : configDeviceSizes.DEVICE_WIDTH * 0.040,
+    }}
+    >
+      OFF
+    </Text>
+  </View>
+);
