@@ -3,7 +3,7 @@ import { theme } from '@usereservaapp/reserva-ui';
 import { render } from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
 
-import { FlagDiscount } from './FlagDiscount';
+import { FlagDiscount } from '../FlagDiscount';
 
 const TestingComponent = (
   <ThemeProvider theme={theme}>
