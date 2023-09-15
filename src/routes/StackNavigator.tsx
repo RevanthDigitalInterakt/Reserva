@@ -164,6 +164,7 @@ export function MainStackScreen() {
     <MainStack.Navigator
       detachInactiveScreens
       screenOptions={{ headerShown: false }}
+
     >
       <MainStack.Screen name="HomeTabs" component={HomeTabs} />
 
