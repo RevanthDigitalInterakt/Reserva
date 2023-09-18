@@ -61,6 +61,21 @@
 		CE6827892A8D688B00D8D9DF /* ReservaSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827622A8D688B00D8D9DF /* ReservaSans-LightItalic.ttf */; };
 		CE68278A2A8D688B00D8D9DF /* ReservaSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827632A8D688B00D8D9DF /* ReservaSans-ThinItalic.ttf */; };
 		CEE33D8729C386F600C64B7A /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEE33D8629C386F500C64B7A /* BootSplash.storyboard */; };
+		D02274BCD6244F20B5A44775 /* ReservaSerif-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 03AEEA4A93DA4A778A723E9A /* ReservaSerif-Black.otf */; };
+		D18B83266419BD4B86005184 /* libPods-reserva.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E9EB54F0F7A51F8F9229632 /* libPods-reserva.a */; };
+		D3DF78B7D9834E8087CBCD0E /* Nunito-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 599B490E66534DD2893CF1BE /* Nunito-ExtraLightItalic.ttf */; };
+		D5B902B6CEDB49F5B5C8BDA7 /* ReservaDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E44E484D055421B80AE366D /* ReservaDisplay-Regular.otf */; };
+		D755E1976E754020B4824BCE /* ReservaSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55CF6EAEF1694FCDBA036576 /* ReservaSans-ThinItalic.ttf */; };
+		EDBAB143AD3744EA99A21116 /* Nunito-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1834F18EA9F747A2AA80413F /* Nunito-Black.ttf */; };
+		EEAF65DAFF6F4E00B4716EF1 /* ReservaSerif-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = D9D0BCDF1E844F2B837C226D /* ReservaSerif-Thin.otf */; };
+		FBD65EAEFF024DD5965323A9 /* ReservaSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2044CB00A59C49739156F2C3 /* ReservaSans-Black.ttf */; };
+		FC9203ADD6C142CB8CE3F139 /* Nunito-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13A3207BBFF6436B8CF571F0 /* Nunito-BoldItalic.ttf */; };
+		7A83FE4092F54146B63E15F7 /* WorkSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2435FF11651418AA4BC81EA /* WorkSans-Bold.ttf */; };
+		6A92D90292B745528AC191AE /* WorkSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D624B598DD1B4031A7C8FC64 /* WorkSans-BoldItalic.ttf */; };
+		7ABF3AE18BB6423EAEDD19DF /* WorkSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D14FA4B9E674B79B21B9B7A /* WorkSans-Italic.ttf */; };
+		FF699BA6C1F9470992473824 /* WorkSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 812C1A243A134C279FB147BE /* WorkSans-Light.ttf */; };
+		0344E6286E224F01A7373F11 /* WorkSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 20A3CDB833A044A8B419AFFD /* WorkSans-LightItalic.ttf */; };
+		1C63B5251F41449E9A899053 /* WorkSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 91F54AC13DCA4852B1DB805B /* WorkSans-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -219,6 +234,13 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F314070406CC4B9EA8D8CB7A /* ReservaSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSans-Italic.ttf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSans-Italic.ttf"; sourceTree = "<group>"; };
 		F8264ACEEAA94F20A3206E62 /* ReservaSerif-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ReservaSerif-Italic.otf"; path = "../node_modules/@usereservaapp/reserva-ui/.storybook/fonts/ReservaSerif-Italic.otf"; sourceTree = "<group>"; };
+		F8FA504C6E82CEA1926106C0 /* libPods-OneSignalNotificationServiceExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneSignalNotificationServiceExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2435FF11651418AA4BC81EA /* WorkSans-Bold.ttf */ = {isa = PBXFileReference; name = "WorkSans-Bold.ttf"; path = "../assets/fonts/WorkSans-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D624B598DD1B4031A7C8FC64 /* WorkSans-BoldItalic.ttf */ = {isa = PBXFileReference; name = "WorkSans-BoldItalic.ttf"; path = "../assets/fonts/WorkSans-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1D14FA4B9E674B79B21B9B7A /* WorkSans-Italic.ttf */ = {isa = PBXFileReference; name = "WorkSans-Italic.ttf"; path = "../assets/fonts/WorkSans-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		812C1A243A134C279FB147BE /* WorkSans-Light.ttf */ = {isa = PBXFileReference; name = "WorkSans-Light.ttf"; path = "../assets/fonts/WorkSans-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		20A3CDB833A044A8B419AFFD /* WorkSans-LightItalic.ttf */ = {isa = PBXFileReference; name = "WorkSans-LightItalic.ttf"; path = "../assets/fonts/WorkSans-LightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		91F54AC13DCA4852B1DB805B /* WorkSans-Regular.ttf */ = {isa = PBXFileReference; name = "WorkSans-Regular.ttf"; path = "../assets/fonts/WorkSans-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -458,6 +480,12 @@
 				A8B58317EE1B4D038DFAB4B3 /* ReservaSans-Regular.ttf */,
 				40955CD8E41946A69A85976B /* ReservaSans-Thin.ttf */,
 				55CF6EAEF1694FCDBA036576 /* ReservaSans-ThinItalic.ttf */,
+				B2435FF11651418AA4BC81EA /* WorkSans-Bold.ttf */,
+				D624B598DD1B4031A7C8FC64 /* WorkSans-BoldItalic.ttf */,
+				1D14FA4B9E674B79B21B9B7A /* WorkSans-Italic.ttf */,
+				812C1A243A134C279FB147BE /* WorkSans-Light.ttf */,
+				20A3CDB833A044A8B419AFFD /* WorkSans-LightItalic.ttf */,
+				91F54AC13DCA4852B1DB805B /* WorkSans-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -627,6 +655,12 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				CEE33D8729C386F600C64B7A /* BootSplash.storyboard in Resources */,
 				67D4756A2735B77D00D1346C /* GoogleService-Info.plist in Resources */,
+				7A83FE4092F54146B63E15F7 /* WorkSans-Bold.ttf in Resources */,
+				6A92D90292B745528AC191AE /* WorkSans-BoldItalic.ttf in Resources */,
+				7ABF3AE18BB6423EAEDD19DF /* WorkSans-Italic.ttf in Resources */,
+				FF699BA6C1F9470992473824 /* WorkSans-Light.ttf in Resources */,
+				0344E6286E224F01A7373F11 /* WorkSans-LightItalic.ttf in Resources */,
+				1C63B5251F41449E9A899053 /* WorkSans-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -900,7 +934,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -931,6 +965,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				INFOPLIST_FILE = reservaTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (

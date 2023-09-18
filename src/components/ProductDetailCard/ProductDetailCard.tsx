@@ -1,18 +1,17 @@
 import LottieView from 'lottie-react-native';
 import React, { useMemo } from 'react';
 
-import { loadingSpinner } from '../../../assets/animations';
 import { useIsTester } from '../../hooks/useIsTester';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { Box } from '../Box/Box';
 import { Button } from '../Button';
+import { FlagDiscount } from '../FlagDiscount/FlagDiscount';
 import IconComponent from '../IconComponent/IconComponent';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
 import { CarrouselMedias } from '../ProductDetailCardLegacy/components/CarrouselMedias';
-import { DiscountLabel } from '../ProductVerticalListCard';
 import { Typography } from '../Typography/Typography';
 import { ImageSlider } from './components/ImageSlider';
 import type { ProductDetailCardProps } from './types';
-import { IconLegacy } from '../IconLegacy/IconLegacy';
 
 export function ProductDetailCard({
   images,
@@ -57,10 +56,8 @@ export function ProductDetailCard({
             left={0}
             top={0}
           >
-            <DiscountLabel
+            <FlagDiscount
               discountTag={discountTag}
-              width={80}
-              height={80}
               isDetail
             />
           </Box>

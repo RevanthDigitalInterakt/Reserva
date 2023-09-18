@@ -10,6 +10,7 @@ import { decimalPart, integerPart } from '../../utils/numberUtils';
 import type { IGetPrimeReturn } from '../../zustand/usePrimeConfig/usePrimeConfig';
 import { Box } from '../Box/Box';
 import { Button } from '../Button';
+import { FlagDiscount } from '../FlagDiscount/FlagDiscount';
 import { IconLegacy } from '../IconLegacy/IconLegacy';
 import ImageComponent from '../ImageComponent/ImageComponent';
 import ProductPricePrimeRow from '../ProductPricePrimeLabelRow/ProductPricePrimeRow';
@@ -41,75 +42,7 @@ export interface ProductVerticalListCardProps {
   installmentsEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
 }
 
-export interface DiscountLabelProps {
-  discountTag: number
-  width?: number
-  height?: number
-  isDetail?: boolean
-}
-
-export function DiscountLabel({
-  discountTag,
-  width,
-  height,
-  isDetail,
-}: DiscountLabelProps) {
-  return (
-    <Box
-      alignItems="center"
-      justifyContent="space-between"
-      position="absolute"
-      bg="vermelhoRSV"
-      width={width || configDeviceSizes.DEVICE_WIDTH * 0.1215}
-      height={height || configDeviceSizes.DEVICE_WIDTH * 0.1215}
-      py="quarck"
-    >
-      <Box
-        flexDirection="row"
-        position="absolute"
-        alignItems="flex-start"
-        justifyContent="center"
-        left={5}
-        top={3}
-      >
-        <Typography
-          fontFamily="reservaDisplayRegular"
-          fontSize={isDetail ? 36 : configDeviceSizes.DEVICE_WIDTH * 0.055}
-          color="white"
-        >
-          {discountTag}
-        </Typography>
-        <Typography
-          fontFamily="reservaDisplayRegular"
-          fontSize={isDetail ? 20 : 11}
-          color="white"
-          textAlign="center"
-        >
-          %
-        </Typography>
-      </Box>
-
-      <Box
-        flexDirection="row"
-        position="absolute"
-        justifyContent="center"
-        left={5}
-        bottom={isDetail ? -2 : -2}
-      >
-        <Typography
-          fontFamily="reservaDisplayRegular"
-          fontSize={isDetail ? 32 : configDeviceSizes.DEVICE_WIDTH * 0.045}
-          color="vermelhoAlerta"
-          textAlign="center"
-        >
-          OFF
-        </Typography>
-      </Box>
-    </Box>
-  );
-}
-
-export function ProductVerticalListCard({
+export const ProductVerticalListCard = ({
   currency,
   imageSource,
   installmentsNumber,
@@ -202,7 +135,7 @@ export function ProductVerticalListCard({
 
         {discountTag && (
           <Box top={0} left={0} zIndex={1}>
-            <DiscountLabel discountTag={discountTag} />
+            <FlagDiscount discountTag={discountTag} />
           </Box>
         ) }
 
