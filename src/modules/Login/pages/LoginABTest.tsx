@@ -17,6 +17,6 @@ export default function LoginABTest(
   const showNewLogin = useMemo(() => getBoolean(isTester ? 'show_new_login_tester' : 'show_new_login'), [getBoolean, isTester]);
 
   return (
-    showNewLogin ? <SignIn {...loginProps} /> : <LoginScreen {...loginProps} />
+    !showNewLogin ? <SignIn {...loginProps} /> : <LoginScreen {...loginProps} />
   );
 }
