@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
 
-type TProductData = {
+export type TProductData = {
   id: string;
   productName: string;
 };

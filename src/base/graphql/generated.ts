@@ -1,5 +1,3 @@
-// @ts-nocheck
-/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -59,7 +57,7 @@ export type CashbackOperationOutput = {
   externalOrderAmountInCents: Scalars['Float'];
   externalOrderId: Scalars['String'];
   requestedCashback: Scalars['Boolean'];
-  settlementDate: Scalars['String'];
+  settlementDate?: Maybe<Scalars['String']>;
   status: Scalars['String'];
   type: Scalars['String'];
 };
@@ -87,7 +85,7 @@ export type CepOutput = {
   __typename?: 'CepOutput';
   city?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
-  geoCoordinates?: Maybe<Scalars['Int']>;
+  geoCoordinates?: Maybe<Array<Scalars['Float']>>;
   neighborhood?: Maybe<Scalars['String']>;
   postalCode?: Maybe<Scalars['String']>;
   reference?: Maybe<Scalars['String']>;
@@ -254,6 +252,12 @@ export enum GetProductTypeEnum {
   SkuId = 'SKU_ID',
   Slug = 'SLUG'
 }
+
+export type HealthcheckOutput = {
+  __typename?: 'HealthcheckOutput';
+  status: Scalars['Boolean'];
+  version: Scalars['String'];
+};
 
 export type HomeCarouselItemImageOutput = {
   __typename?: 'HomeCarouselItemImageOutput';
@@ -824,8 +828,14 @@ export type OrderformItemOutput = {
 export type OrderformMarketingDataOutput = {
   __typename?: 'OrderformMarketingDataOutput';
   coupon?: Maybe<Scalars['String']>;
+  couponApplied?: Maybe<Scalars['Boolean']>;
+  couponDescription?: Maybe<Scalars['String']>;
+  couponDiscount: Scalars['Float'];
+  itemsWithCouponDiscount: Array<OrderformItemOutput>;
   marketingTags: Array<Scalars['String']>;
   sellerCoupon?: Maybe<Scalars['String']>;
+  sellerCouponApplied?: Maybe<Scalars['Boolean']>;
+  sellerCouponDiscount: Scalars['Float'];
   sellerCouponName?: Maybe<Scalars['String']>;
   utmCampaign?: Maybe<Scalars['String']>;
   utmMedium?: Maybe<Scalars['String']>;
@@ -1047,6 +1057,7 @@ export type ProductItemOutput = {
   images: Array<Scalars['String']>;
   itemId?: Maybe<Scalars['String']>;
   sellers: Array<ProductItemSellerOutput>;
+  skuName?: Maybe<Scalars['String']>;
   variations: Array<ProductItemVariationOutput>;
 };
 
@@ -1101,6 +1112,7 @@ export type ProductListOutput = {
   productName: Scalars['String'];
   size?: Maybe<Scalars['String']>;
   skuId: Scalars['String'];
+  skuName: Scalars['String'];
 };
 
 export type ProductListPrimeOutput = {
@@ -1198,6 +1210,7 @@ export type ProductSizeOutput = {
   prime?: Maybe<PrimeInfoOutput>;
   seller: Scalars['String'];
   size: Scalars['String'];
+  skuName: Scalars['String'];
 };
 
 export type ProfileAddressOutput = {
@@ -1279,6 +1292,7 @@ export type Query = {
   contentfulProducts: Array<ContentfulProductItemOutput>;
   countdown?: Maybe<CountdownClockCategoryOutput>;
   deeplinkPath?: Maybe<DeeplinkOutput>;
+  healthcheck: HealthcheckOutput;
   homeCarousels: Array<HomeCarouselOutput>;
   homeCountdown?: Maybe<HomeCountdownOutput>;
   homeMedias: Array<HomeMediaOutput>;
@@ -1357,6 +1371,11 @@ export type QueryDeeplinkPathArgs = {
 };
 
 
+export type QueryMostSearchedWordsArgs = {
+  provider?: InputMaybe<SearchProviderInput>;
+};
+
+
 export type QueryOrderArgs = {
   input: OrderDetailIdInput;
 };
@@ -1393,6 +1412,7 @@ export type QuerySearchArgs = {
 
 
 export type QuerySearchAutocompleteSuggestionsArgs = {
+  provider?: InputMaybe<SearchProviderInput>;
   q: Scalars['String'];
 };
 
@@ -1486,6 +1506,7 @@ export type SearchFacetRangeOutput = {
 
 export type SearchFacetsInput = {
   facets?: InputMaybe<Array<SearchProductFacetInput>>;
+  provider?: InputMaybe<SearchProviderEnum>;
   q?: InputMaybe<Scalars['String']>;
 };
 
@@ -1526,12 +1547,22 @@ export type SearchProductInput = {
   page: Scalars['Int'];
   perPage?: InputMaybe<Scalars['Int']>;
   priceRange?: InputMaybe<SearchProductPriceRangeInput>;
+  provider?: InputMaybe<SearchProviderEnum>;
   q?: InputMaybe<Scalars['String']>;
 };
 
 export type SearchProductPriceRangeInput = {
   from: Scalars['Float'];
   to: Scalars['Float'];
+};
+
+export enum SearchProviderEnum {
+  Smarthint = 'SMARTHINT',
+  Vtex = 'VTEX'
+}
+
+export type SearchProviderInput = {
+  value?: InputMaybe<SearchProviderEnum>;
 };
 
 export type SellerInfoInput = {
@@ -1857,7 +1888,7 @@ export type BannerCategoryQuery = { __typename?: 'Query', bannerCategory: Array<
 export type CashbackQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CashbackQuery = { __typename?: 'Query', cashback: { __typename?: 'CashbackOutput', wallet: { __typename?: 'CashbackWalletOutput', balanceInCents: number }, expiration: { __typename?: 'CashbackExpirationInfoOutput', totalExpireBalanceInCents: string, cashbackToExpire: Array<{ __typename?: 'CashbackExpirationItemOutput', expireAt: string, expireCashbackAmount: string }> }, operations: Array<{ __typename?: 'CashbackOperationOutput', status: string, cashbackAmountInCents: number, appliedBalanceInCents: number, settlementDate: string, createdAt: string }> } };
+export type CashbackQuery = { __typename?: 'Query', cashback: { __typename?: 'CashbackOutput', wallet: { __typename?: 'CashbackWalletOutput', balanceInCents: number }, expiration: { __typename?: 'CashbackExpirationInfoOutput', totalExpireBalanceInCents: string, cashbackToExpire: Array<{ __typename?: 'CashbackExpirationItemOutput', expireAt: string, expireCashbackAmount: string }> }, operations: Array<{ __typename?: 'CashbackOperationOutput', status: string, cashbackAmountInCents: number, appliedBalanceInCents: number, settlementDate?: string | null, createdAt: string }> } };
 
 export type CheckIfUserExistsQueryVariables = Exact<{
   email: Scalars['String'];
@@ -2122,6 +2153,16 @@ export const OrderFormFragmentFragmentDoc = gql`
     coupon
     sellerCoupon
     sellerCouponName
+    couponDiscount
+    couponDescription
+    itemsWithCouponDiscount {
+      id
+      name
+      sellingPrice
+      itemColor
+      imageUrl
+      imageSource
+    }
   }
   shippingData {
     address {

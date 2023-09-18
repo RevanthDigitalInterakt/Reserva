@@ -30,6 +30,8 @@ export default function CouponComponent() {
     }));
   }, []);
 
+  console.log('asdadsa', marketingData.itemsWithCouponDiscount);
+
   const handleAddSellerCoupon = useCallback(async () => {
     setSellerCouponError(false);
 
