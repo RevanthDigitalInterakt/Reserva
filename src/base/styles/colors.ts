@@ -22,4 +22,6 @@ export const COLORS = {
   MODAL_BACKGROUND_COLOR: 'rgba(0, 0, 0, 0.5)',
   ACTION_BUTTON_COLOR: '#333333',
   DIVIDER: '#d7d7d7',
+  ITEM_BORDER: '#bbbbbb',
+  GRADIENT_COLOR: 'rgba(255, 255, 255, 0.5)',
 };

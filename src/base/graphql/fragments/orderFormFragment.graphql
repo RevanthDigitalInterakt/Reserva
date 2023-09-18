@@ -26,6 +26,14 @@ fragment orderFormFragment on OrderformOutput {
         coupon
         sellerCoupon
         sellerCouponName
+        itemsWithCouponDiscount {
+        id
+        name
+        sellingPrice
+        itemColor
+        imageUrl
+        imageSource
+      }
     }
     shippingData {
         address {

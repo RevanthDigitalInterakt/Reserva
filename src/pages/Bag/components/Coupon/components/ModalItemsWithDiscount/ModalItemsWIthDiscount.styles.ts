@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
 
   modalContent: {
-    height: '60%',
+    height: '65%',
     backgroundColor: COLORS.WHITE,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
 
   modalRow: {
     flexDirection: 'row',
-    alignItems: 'center',
   },
 
   modalSubTitle: {
@@ -53,12 +52,49 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+  modalItemMedia: {
+    width: 40,
+    height: 40,
+  },
+
   modalItemTitle: {
     color: COLORS.BLACK,
     fontFamily: 'ReservaSans-Bold',
     textTransform: 'uppercase',
     margin: 10,
     padding: 10,
+  },
+
+  modalFooter: {
+    padding: 10,
+  },
+
+  modalFooterTextInfo: {
+    color: COLORS.INPUT_ERROR_MESSAGE,
+    marginTop: -2,
+    marginLeft: 5,
+    fontFamily: 'ReservaSans-Medium',
+    fontSize: 14,
+  },
+
+  modalFooterRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+
+  modalFooterTitle: {
+    fontFamily: 'ReservaSans-Regular',
+    fontSize: 14,
+  },
+
+  modalFooterLabel: {
+    fontFamily: 'ReservaSans-Bold',
+    fontSize: 16,
+  },
+
+  modalFooterLabelAlignment: {
+    alignItems: 'flex-end',
   },
 });
 
