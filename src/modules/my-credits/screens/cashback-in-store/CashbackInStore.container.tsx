@@ -5,7 +5,7 @@ import { MyCashbackAPI } from '../../../my-cashback/api/MyCashbackAPI';
 import
 {
   CashbackHttpUrl,
-  GetTokenResponse,
+  type GetTokenResponse,
 } from '../../api/MyCreditsAPI';
 import { CashbackInStoreView } from './CashbackInStore.view';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
