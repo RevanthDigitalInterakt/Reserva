@@ -37,7 +37,7 @@ function ProductItem({
       flex={1}
       alignItems="center"
       justifyContent="center"
-      height={353}
+      height={385}
       mr={horizontal && 'xxxs'}
     >
       {

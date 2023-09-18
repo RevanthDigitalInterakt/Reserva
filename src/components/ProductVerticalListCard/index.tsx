@@ -164,7 +164,7 @@ export function ProductVerticalListCard({
   return (
     <View>
       <Box height="100%">
-        <Box position="absolute" zIndex={5} right={10} top={8}>
+        <Box position="absolute" zIndex={5} right={4} top={6}>
           {loadingFavorite ? (
             <LottieView
               source={loadingSpinner}
@@ -245,7 +245,7 @@ export function ProductVerticalListCard({
         <Box marginTop="nano" width={configDeviceSizes.DEVICE_WIDTH * 0.45}>
           <Text
             style={{
-              height: 40, paddingRight: 6, fontSize: 12, fontFamily: 'ReservaSans-Bold',
+              paddingBottom: 8, paddingRight: 6, fontSize: 12, fontFamily: 'ReservaSans-Bold',
             }}
           >
             {productTitle}

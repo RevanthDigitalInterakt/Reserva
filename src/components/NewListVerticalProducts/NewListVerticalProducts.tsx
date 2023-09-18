@@ -45,7 +45,7 @@ function NewListVerticalProducts({
       flex={1}
       alignItems="center"
       justifyContent="center"
-      marginBottom="xxs"
+      marginBottom='xs'
       height={showThumbColors ? 375 : 353}
     >
       <ProductVerticalListCard
