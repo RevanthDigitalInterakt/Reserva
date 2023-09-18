@@ -6,7 +6,7 @@ import EventProvider from '../../../../utils/EventProvider';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import {
   useCashbackLazyQuery,
-  CashbackQuery,
+  type CashbackQuery,
 } from '../../../../base/graphql/generated';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
