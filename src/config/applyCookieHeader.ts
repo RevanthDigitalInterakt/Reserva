@@ -10,7 +10,7 @@ const applyCookieHeader = async (config: AxiosRequestConfig) => {
 
   const { getBoolean } = useRemoteConfig.getState();
 
-  const showNewWebview = getBoolean('show_new_webview_checkout');
+  const showNewWebview = getBoolean('show_new_webview_checkout_v2');
   const CookieAB = showNewWebview ? 'VtexIdclientAutCookie_applojausereservaqa' : 'VtexIdclientAutCookie_lojausereserva';
 
   let newBaseURL = config.baseURL;

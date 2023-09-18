@@ -20,6 +20,7 @@ import ProductThumbColorsRow from '../ProductThumbColorsRow/ProductThumbColorsRo
 import type { IGetPrimeReturn } from '../../zustand/usePrimeConfig/usePrimeConfig';
 import type { Maybe, ProductSizeInstallmentOutput } from '../../base/graphql/generated';
 import { TTypesInstallments, useRemoteConfig } from '../../hooks/useRemoteConfig';
+import { FlagDiscount } from '../FlagDiscount/FlagDiscount';
 
 export interface ProductVerticalListCardProps {
   imageWidth?: number
@@ -44,72 +45,6 @@ export interface ProductVerticalListCardProps {
   testID?: string;
   installmentsEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
 }
-
-export interface DiscountLabelProps {
-  discountTag: number
-  width?: number
-  height?: number
-  isDetail?: boolean
-}
-
-export const DiscountLabel = ({
-  discountTag,
-  width,
-  height,
-  isDetail,
-}: DiscountLabelProps) => (
-  <Box
-    alignItems="center"
-    justifyContent="space-between"
-    position="absolute"
-    bg="vermelhoRSV"
-    width={width || configDeviceSizes.DEVICE_WIDTH * 0.1215}
-    height={height || configDeviceSizes.DEVICE_WIDTH * 0.1215}
-    py="quarck"
-  >
-    <Box
-      flexDirection="row"
-      position="absolute"
-      alignItems="flex-start"
-      justifyContent="center"
-      left={5}
-      top={3}
-    >
-      <Typography
-        fontFamily="reservaDisplayRegular"
-        fontSize={isDetail ? 36 : configDeviceSizes.DEVICE_WIDTH * 0.055}
-        color="white"
-      >
-        {discountTag}
-      </Typography>
-      <Typography
-        fontFamily="reservaDisplayRegular"
-        fontSize={isDetail ? 20 : 11}
-        color="white"
-        textAlign="center"
-      >
-        %
-      </Typography>
-    </Box>
-
-    <Box
-      flexDirection="row"
-      position="absolute"
-      justifyContent="center"
-      left={5}
-      bottom={isDetail ? -2 : -2}
-    >
-      <Typography
-        fontFamily="reservaDisplayRegular"
-        fontSize={isDetail ? 32 : configDeviceSizes.DEVICE_WIDTH * 0.045}
-        color="vermelhoAlerta"
-        textAlign="center"
-      >
-        OFF
-      </Typography>
-    </Box>
-  </Box>
-);
 
 export const ProductVerticalListCard = ({
   currency,
@@ -204,7 +139,7 @@ export const ProductVerticalListCard = ({
 
         {discountTag ? (
           <Box top={0} left={0} zIndex={1}>
-            <DiscountLabel discountTag={discountTag} />
+            <FlagDiscount discountTag={discountTag} />
           </Box>
         ) : <></>}
 

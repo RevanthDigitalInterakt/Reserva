@@ -16,6 +16,7 @@ import { usePrimeStore } from '../zustand/usePrimeStore/usePrimeStore';
 import { useCart } from '../context/CartContext';
 import { useRemoteConfig } from './useRemoteConfig';
 import { usePageLoadingStore } from '../zustand/usePageLoadingStore/usePageLoadingStore';
+import { Method } from '../utils/EventProvider/Event';
 
 interface IUseNavigationToDeliveryReturn {
   handleNavigateToDelivery: (value: any) => void;
@@ -57,7 +58,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
   const { getBoolean } = useRemoteConfig();
 
   const showNewWebviewCheckout = useMemo(() => (
-    getBoolean('show_new_webview_checkout')
+    getBoolean('show_new_webview_checkout_v2')
   ), [getBoolean]);
 
   useEffect(() => {
@@ -145,7 +146,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
       await restoreCart(orderFormId);
 
       EventProvider.logEvent('complete_registration', {
-        registration_method: 'email',
+        method: Method.Email,
         custumer_email: profile?.email,
       });
 

@@ -24,4 +24,5 @@ export const COLORS = {
   DIVIDER: '#d7d7d7',
   ITEM_BORDER: '#bbbbbb',
   GRADIENT_COLOR: 'rgba(255, 255, 255, 0.5)',
+  SUCCESS: '#31955F',
 };

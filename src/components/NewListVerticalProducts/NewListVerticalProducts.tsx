@@ -88,6 +88,7 @@ function NewListVerticalProducts({
             size: item.size,
             colorName: item.colorName,
             lowPrice: item.currentPrice,
+            skuName: item.skuName,
           });
         }}
         discountTag={item.discountPercentage ? item.discountPercentage : undefined}
