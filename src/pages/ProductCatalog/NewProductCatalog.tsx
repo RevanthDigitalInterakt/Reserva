@@ -19,7 +19,7 @@ type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
 const defaultReference = 'collection:2407';
 
-function NewProductCatalog({ route }: Props) {
+function NewProductCatalog({ navigation, route }: Props) {
   const {
     doFetchMore,
     loading,
@@ -59,19 +59,18 @@ function NewProductCatalog({ route }: Props) {
     }
   }, [loading, startLoadingTime, onFinishLoad]);
 
-  useEffect(() => {
-    onInit(SearchType.CATALOG);
 
-    return () => {
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', async () => {
       onInit(SearchType.CATALOG);
-    };
-  }, [onInit]);
-
-  useEffect(() => {
-    onSearch({
-      facets: defaultFacets,
+      onSearch({
+        facets: defaultFacets,
+      });
     });
-  }, [defaultFacets, onSearch]);
+    return unsubscribe;
+  }, [defaultFacets, navigation, onSearch, onInit]);
+
 
   const hasFilters = useMemo(() => !!parameters.facets.length, [parameters.facets]);
 
@@ -82,7 +81,7 @@ function NewProductCatalog({ route }: Props) {
       );
     }
 
-    if (!result.length && !hasFilters) {
+    if (!result.length && !hasFilters && !loading) {
       return <ProductNotFound />;
     }
 
