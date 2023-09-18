@@ -9,6 +9,7 @@ import useDitoStore from '../zustand/useDitoStore';
 import { getApolloClient } from '../utils/getApolloClient';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
+import { Method } from '../utils/EventProvider/Event';
 
 const initialLoginCredentials = {
   username: '',
@@ -82,6 +83,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
 
       EventProvider.logEvent('login', {
         custumer_email: email,
+        method: Method.Email,
       });
 
       setIsLoadingEmail(false);

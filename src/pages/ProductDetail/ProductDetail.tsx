@@ -17,13 +17,13 @@ import { useProductDetailStore } from '../../zustand/useProductDetail/useProduct
 import EventProvider from '../../utils/EventProvider';
 import type { IProductDetailRouteParams } from '../../utils/createNavigateToProductParams';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
-import { ProductRecommendation } from '../../components/ProductRecommendation/ProductRecommendation';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
 import { getProductCategories } from '../../utils/getProductCategories';
 import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
+import { Recommendation } from '../../modules/Checkout/components/Recommendation';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -139,8 +139,11 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
             <ProductAbout />
 
-            <ProductRecommendation />
+          </Box>
 
+          <Recommendation />
+
+          <Box px="xxxs">
             <FormNewsletter />
           </Box>
         </View>

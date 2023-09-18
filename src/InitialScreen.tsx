@@ -15,6 +15,7 @@ import { usePrimeConfig } from './zustand/usePrimeConfig/usePrimeConfig';
 import useCheckAppNewVersion from './hooks/useCheckAppNewVersion';
 import { useRefreshToken } from './hooks/useRefreshToken';
 import { useWishlistActions } from './hooks/useWishlistActions';
+import { useOncePerDayEvent } from './utils/useOncePerDayEvent';
 
 interface IProps {
   children: React.ReactNode;
@@ -30,6 +31,8 @@ function InitialScreen({ children }: IProps) {
   const { barStyle } = useStatusBar();
 
   const { handleDitoRegisterAnony, handleDitoRegister } = useInitialDito();
+
+  const { triggerEvent } = useOncePerDayEvent('@Dito:lastEventDate');
 
   useCheckAppNewVersion();
   useRefreshToken();
@@ -71,6 +74,10 @@ function InitialScreen({ children }: IProps) {
     // useSubscriberForeground()
     OnForegroundEventPush();
   }, []);
+
+  useEffect(() => {
+    triggerEvent();
+  }, [triggerEvent]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

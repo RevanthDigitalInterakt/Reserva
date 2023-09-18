@@ -3,3 +3,4 @@ android/
 ios/
 coverage/
 lib/
+src/base/graphql/generated.ts

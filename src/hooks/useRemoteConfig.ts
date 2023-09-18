@@ -40,6 +40,7 @@ export interface IRemoteConfigKeys {
   show_new_webview_checkout: boolean;
   show_new_login: boolean,
   show_new_login_tester: boolean,
+  show_new_webview_checkout_v2: boolean;
   show_new_home: boolean;
   show_new_home_tester: boolean;
 }
@@ -79,6 +80,7 @@ export const defaults: IRemoteConfigKeys = {
   show_new_webview_checkout: false,
   show_new_login: false,
   show_new_login_tester: true,
+  show_new_webview_checkout_v2: false,
   show_new_home: false,
   show_new_home_tester: true,
 };

@@ -14,6 +14,7 @@ export default function ListAddressItem({
   animationListController,
   onNavigate,
   onShowModalConfirmDelete,
+  mainAddress,
 }: IListAddressItem): JSX.Element {
   return (
     <TouchableOpacity
@@ -26,7 +27,16 @@ export default function ListAddressItem({
           <IconPlace />
           )}
           <View style={{ marginLeft: !item.selected ? 20 : 0 }}>
-            <Text style={styles.listItemTitle}>{item.addressName}</Text>
+            <View style={styles.listItemBodyContent}>
+              <Text style={styles.listItemTitle}>{item.addressName}</Text>
+              {item.selected && mainAddress === item.id && (
+                <View
+                  style={styles.tagMainAddressContainer}
+                >
+                  <Text style={styles.tagMainAddressLabel}>Endereço Principal</Text>
+                </View>
+              )}
+            </View>
           </View>
         </View>
         {item.selected && (
