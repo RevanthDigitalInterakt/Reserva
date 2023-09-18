@@ -16,11 +16,11 @@ export default function SectionProductsWithDiscount() {
   const { setShowModalItems } = useBagCouponItemsWithDiscount(['setShowModalItems']);
   const { marketingData, appTotalizers } = useBagStore(['marketingData', 'appTotalizers']);
 
-  const newArr = marketingData?.itemsWithCouponDiscount.slice(0, 2);
-
   return (
     <View>
-      {newArr && appTotalizers.discount !== 0 && newArr.length > 0 && (
+      {marketingData?.itemsWithCouponDiscount
+        && appTotalizers.discount !== 0
+        && marketingData?.itemsWithCouponDiscount.length > 0 && (
         <View style={styles.sectionContainer}>
           <View style={styles.sectionContent}>
             <Text style={[styles.sectionTitle, { fontSize: 16 }]}>O desconto </Text>
@@ -28,7 +28,7 @@ export default function SectionProductsWithDiscount() {
             <Text style={[styles.sectionTitle, { fontSize: 16 }]}>aos seguintes itens:</Text>
           </View>
 
-          {newArr.map((item, index) => (
+          {marketingData?.itemsWithCouponDiscount.slice(0, 2).map((item, index) => (
             <View key={item.id}>
               <View
                 style={[styles.sectionItemContainer, {
