@@ -1,15 +1,19 @@
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
-  FlatList, SafeAreaView,
+  FlatList, SafeAreaView, Animated
 } from 'react-native';
 
 import NewBanner from '../../components/Banner/NewBanner';
 import { Box } from '../../components/Box/Box';
 import ModalSignUpComplete from '../../components/ModalSignUpComplete';
 import WithoutInternet from '../../components/WithoutInternet';
+import { useIsTester } from '../../hooks/useIsTester';
+import { useRemoteConfig } from '../../hooks/useRemoteConfig';
+import { NewTransparentTopBarDefault } from '../../modules/Menu/components/NewTransparentTopBarDefault';
+import { NewWhiteTopBarDefault } from '../../modules/Menu/components/NewWhiteTopBarDefault';
 import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
 import EventProvider from '../../utils/EventProvider';
 import { defaultBrand } from '../../utils/defaultWBrand';
@@ -20,14 +24,53 @@ import { useHomeStore } from '../../zustand/useHomeStore';
 import HomeCarousels from './components/HomeCarousels';
 import HomeCountDown from './components/HomeCountDown';
 import HomeDiscountModal from './components/HomeDiscountModal';
+import { NewHomeCarousels } from './components/NewHomeCarousels';
+import useHomeHeader from './hooks/useHomeHeader';
+import styles from './styles';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 function Home() {
-  const { onLoad, medias, loaded } = useHomeStore(['onLoad', 'medias', 'loaded']);
-  const { showModalSignUpComplete } = useAuthModalStore(['showModalSignUpComplete']);
+  const { onLoad, medias, loaded } = useHomeStore([
+    'onLoad',
+    'medias',
+    'loaded',
+  ]);
+  const { showModalSignUpComplete } = useAuthModalStore([
+    'showModalSignUpComplete',
+  ]);
   const { isConnected } = useConnectivityStore(['isConnected']);
+
+  const isTester = useIsTester();
+  const { getBoolean } = useRemoteConfig();
+  const newHeaderIsActive = useMemo(
+    () => getBoolean(isTester ? 'show_new_header_tester' : 'show_new_header'),
+    [getBoolean, isTester],
+  );
+
+  const {
+    handleScroll,
+    topBarDefaultAnimated,
+    transparentTopBarAnimated,
+    whiteTopBarAnimated,
+  } = useHomeHeader();
+
+  const renderHeader = () => (
+    <>
+      <Animated.View style={[styles.topBarDefault, topBarDefaultAnimated]}>
+        <TopBarDefault />
+      </Animated.View>
+      <Animated.View
+        style={[styles.transparentTopBar, transparentTopBarAnimated]}
+      >
+        <NewTransparentTopBarDefault />
+      </Animated.View>
+      <Animated.View style={[styles.whiteTopBar, whiteTopBarAnimated]}>
+        <NewWhiteTopBarDefault />
+      </Animated.View>
+    </>
+  );
 
   useEffect(() => {
     if (isConnected && !loaded) {
@@ -40,8 +83,11 @@ function Home() {
   if (!loaded && !isConnected) {
     return (
       <Box flex={1} bg="white" {...testProps('home_container')}>
-        <TopBarDefault />
-
+        {newHeaderIsActive ? (
+          <NewTransparentTopBarDefault />
+        ) : (
+          <TopBarDefault />
+        )}
         <WithoutInternet />
       </Box>
     );
@@ -49,20 +95,23 @@ function Home() {
 
   return (
     <Box flex={1} bg="white" {...testProps('home_container')}>
-      <TopBarDefault />
-
-      <HomeDiscountModal />
-
+      {newHeaderIsActive ? renderHeader() : <TopBarDefault />}
+      {!newHeaderIsActive ? <HomeDiscountModal /> : null}
       <SafeAreaView {...testProps('home_count_down_container')}>
         <FlatList
-          ListHeaderComponent={(
+          ListHeaderComponent={() => (
             <Box style={{ overflow: 'hidden' }}>
-              <HomeCountDown />
-
-              <HomeCarousels />
+              {newHeaderIsActive ? <NewHomeCarousels />
+                : (
+                  <>
+                    <HomeCountDown />
+                    <HomeCarousels />
+                  </>
+                )}
             </Box>
           )}
           bounces
+          onScroll={handleScroll}
           contentContainerStyle={{ paddingBottom: 100 }}
           keyExtractor={(item) => `home-media-${item.image.url.toString()}-${item.image.title}`}
           data={medias}
@@ -76,6 +125,7 @@ function Home() {
             />
           )}
         />
+
       </SafeAreaView>
 
       {!!showModalSignUpComplete && <ModalSignUpComplete />}

@@ -20,6 +20,7 @@ export type IconTopBar = {
   size: number;
   onPress: () => void;
   badgeCount?: number;
+  color?: string;
   testID: string;
 };
 

@@ -26,6 +26,8 @@ export interface IRemoteConfigKeys {
   balance_cashback_in_app: boolean;
   show_prime: boolean;
   show_prime_tester: boolean;
+  show_new_header: boolean;
+  show_new_header_tester: boolean;
   EMAIL_TESTERS: string[];
   appName: string;
   appVersion: string;
@@ -63,6 +65,8 @@ export const defaults: IRemoteConfigKeys = {
   primelp_terms_search: 'prime',
   show_prime: false,
   show_prime_tester: false,
+  show_new_header: false,
+  show_new_header_tester: true,
   show_price_prime_pdp: false,
   show_price_prime_pdc: false,
   pdp_show_video: false,
