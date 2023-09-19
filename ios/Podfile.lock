@@ -1480,7 +1480,7 @@ PODS:
     - React-Core
   - RNPermissions (3.8.4):
     - React-Core
-  - RNReanimated (3.4.1):
+  - RNReanimated (3.5.2):
     - DoubleConversion
     - FBLazyVector
     - glog
@@ -1865,31 +1865,27 @@ SPEC CHECKSUMS:
   DatadogSDKCrashReporting: 24a0e6ec6db905cdeb174721962a7941b2f8a9d2
   DatadogSDKReactNative: d4372ad5eb31c6516f9ef43162ab715024b8db7d
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
-  FBLazyVector: fa8275d5086566e22a26ddc385ab5772e7f9b1bd
-  FBReactNativeSpec: 5445ec96c630ab91f4965f68537894ebf9971d67
-  Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
-  FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
-  FirebaseAnalytics: 319c9b3b1bdd400d60e2f415dff0c5f6959e6760
-  FirebaseAppCheck: 4bb7c14da666a15dd7b4d55df2728832da9e7c72
-  FirebaseCore: 04186597c095da37d90ff9fd3e53bc61a1ff2440
-  FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb
-  FirebaseCrashlytics: 3b7f17cdf5bf1ae6ad5956696a6c26edeb39cca7
-  FirebaseFirestore: 0e7321a508cc9de54316ec45400caba6b5719beb
-  FirebaseInAppMessaging: 4cc32b975626b0905f77ed7cb3ebd57612ac5d5c
-  FirebaseInstallations: 830327b45345ffc859eaa9c17bcd5ae893fd5425
-  FirebaseMessaging: b0aeba17332ee1ee610662b4d1e02a86db82f08f
-  FirebasePerformance: 4f6d878a30f70f5ea4327c36868cd3624e762a07
-  FirebaseRemoteConfig: 84d3397887d95587f0ee7a0a3989b2756dc2bbf9
-  FirebaseStorage: 815410224b548172c578f02554a86bbc8f817f50
-  Flipper: bc940dd278ca91f9b2d36b6fac5c098a8906ffa2
-  Flipper-Boost-iOSX: fd1e2b8cbef7e662a122412d7ac5f5bea715403c
-  Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
-  Flipper-Fmt: 60cbdd92fc254826e61d669a5d87ef7015396a9b
-  Flipper-Folly: 83af37379faa69497529e414bd43fbfc7cae259a
-  Flipper-Glog: 1dfd6abf1e922806c52ceb8701a3599a79a200a6
-  Flipper-PeerTalk: 116d8f857dc6ef55c7a5a75ea3ceaafe878aadc9
-  Flipper-RSocket: d9d9ade67cbecf6ac10730304bf5607266dd2541
-  FlipperKit: b2c08dc00bd104315cf3d0fe2f4939b0b20b407a
+  FBLazyVector: 5d4a3b7f411219a45a6d952f77d2c0a6c9989da5
+  FBReactNativeSpec: 3fc2d478e1c4b08276f9dd9128f80ec6d5d85c1f
+  Firebase: 07150e75d142fb9399f6777fa56a187b17f833a0
+  FirebaseABTesting: e1535073fac4ff55c7537a6e041155c72d9e6906
+  FirebaseAnalytics: 0270389efbe3022b54ec4588862dabec3477ee98
+  FirebaseAppCheck: c5e49dadf9c9cbabf0066074af938e032a0cce48
+  FirebaseAppCheckInterop: c87f1d5421c852413dd936b2b2340b21e62501a0
+  FirebaseAuthInterop: 23be77be1ca68e4bd15214f403f807a6ca70d7e0
+  FirebaseCore: f86a1394906b97ac445ae49c92552a9425831bed
+  FirebaseCoreExtension: 0ce5ac36042001cfa233ce7bfa28e5c313cf80f4
+  FirebaseCoreInternal: d558159ee6cc4b823c2296ecc193de9f6d9a5bb3
+  FirebaseCrashlytics: c4d111b7430c49744c74bcc6346ea00868661ac8
+  FirebaseFirestore: f94c9541515fa4a49af52269bbc50349009424b4
+  FirebaseInAppMessaging: dc24f50aebaf81a377f0b8abf360778f94208931
+  FirebaseInstallations: 7b99ef103f013624444c614397038219c45f8e63
+  FirebaseMessaging: bb2c4f6422a753038fe137d90ae7c1af57251316
+  FirebasePerformance: 1a63c51c9d14fc1190b0970d5aab96672cb0bce6
+  FirebaseRemoteConfig: bc7f260e6596956fafbb532443c19bd3c30f5258
+  FirebaseSessions: f145e7365d36bec0d724c4574a8750e6f82fa6c8
+  FirebaseStorage: 1d7ca8c8953fc61ccacaa7c612696b5402968a0d
+  fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   GoogleAppMeasurement: 2d800fab85e7848b1e66a6f8ce5bca06c5aad892
   GoogleDataTransport: 54dee9d48d14580407f8f5fbf2f496e92437a2f2
@@ -1980,7 +1976,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: c0d04458598fcb26052494ae23dda8f8f5162b13
   RNNotifee: f3c01b391dd8e98e67f539f9a35a9cbcd3bae744
   RNPermissions: e847e8d9057fb9d0889a1a3cc6cbaaa214d31e28
-  RNReanimated: 53ca20eee770c41173703f5948cd8898aa08262c
+  RNReanimated: 2491645f0883526f4470d8b5c761308709ba31f8
   RNScreens: 6a8a3c6b808aa48dca1780df7b73ea524f602c63
   RNSentry: 0a1daa8ee81e2776f977ae8c66e67c8d85587828
   RNSha256: a6bc3640a34eb41907e363828b9ec742c274298d

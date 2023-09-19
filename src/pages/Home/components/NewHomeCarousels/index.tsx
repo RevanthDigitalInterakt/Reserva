@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import { ActivityIndicator, View } from "react-native";
-import { Box } from "@usereservaapp/reserva-ui";
 import { useNavigation } from "@react-navigation/native";
 import { useHomeStore } from "../../../../zustand/useHomeStore";
 import { COLORS } from "../../../../base/styles/colors";
@@ -15,6 +14,7 @@ import EventProvider from "../../../../utils/EventProvider";
 import { usePageLoadingStore } from "../../../../zustand/usePageLoadingStore/usePageLoadingStore";
 import { NewHomeCountDown } from "../NewHomeCountDown.tsx";
 import styles from "./styles";
+import { Box } from "../../../../components/Box/Box";
 
 export function NewHomeCarousels() {
   const { carousels, loading } = useHomeStore(["carousels", "loading"]);

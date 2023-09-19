@@ -64,7 +64,7 @@ export const ProductVerticalListCard = ({
   installmentsEqualPrime,
   prime,
   testID,
-}: ProductVerticalListCardProps) {
+}: ProductVerticalListCardProps) => {
   const { getString } = useRemoteConfig();
 
   const typeInstallments: TTypesInstallments = useMemo(() => (

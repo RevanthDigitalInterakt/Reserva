@@ -8,7 +8,7 @@ import Config from 'react-native-config';
 import CookieManager from '@react-native-cookies/cookies';
 import { getAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 
-const COOKIE = 'VtexIdclientAutCookie_lojausereserva';
+const COOKIE = 'VtexIdclientAutCookie_applojausereservaqa';
 
 export const directionalLinkProduction = new RetryLink().split(
   (operation) => operation.getContext().clientName === 'contentful',
@@ -93,6 +93,6 @@ export const authLinkHeader = setContext(async (_, { headers }) => {
   const cookie = await getAsyncStorageItem('Auth:Cookie');
 
   return {
-    headers: { ...headers, cookie, 'x-vtex-cookie': COOKIE },
+    headers: { ...headers, cookie, 'x-vtex-cookie': 'VtexIdclientAutCookie_applojausereservaqa' },
   };
 });
