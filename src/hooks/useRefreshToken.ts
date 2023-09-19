@@ -54,11 +54,10 @@ export function useRefreshToken() {
 
   useEffect(() => {
     handleGetUserProfile();
-    AppState.addEventListener('change', handleAppStateChange);
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
 
     return () => {
-      // TODO: use "remove" method returned by addEventListener when updating react-native to 0.65+
-      AppState.removeEventListener('change', handleAppStateChange);
+      subscription.remove();
     };
   }, []);
 }
