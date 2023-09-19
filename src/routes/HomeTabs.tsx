@@ -10,7 +10,6 @@ import Home from '../pages/Home';
 import NewProductCatalog from '../pages/ProductCatalog';
 import WishList from '../pages/WishList/WishList';
 import { TabBar } from './TabBar';
-import { resetStackOnTabPress } from '../utils/resetStackOnTabPress';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,10 +20,7 @@ export function HomeTabs() {
       flex={1}
       testID="com.usereserva:id/home_tabs_buttons"
     >
-      <Tab.Navigator
-        tabBar={(props) => <TabBar {...props} />}
-        screenListeners={resetStackOnTabPress}
-      >
+      <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
         <Tab.Screen
           name="Home"
           component={Home}
