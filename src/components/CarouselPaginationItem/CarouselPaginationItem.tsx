@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 import Animated, {
   Extrapolate,
   interpolate,
   SharedValue,
   useAnimatedStyle,
-} from "react-native-reanimated";
-import { COLORS } from "../../base/styles";
-import { scale } from "../../utils/scale";
+} from 'react-native-reanimated';
+import { COLORS } from '../../base/styles';
+import { scale } from '../../utils/scale';
 
 interface ICarouselPaginationItem {
   index: number;
@@ -41,7 +41,7 @@ function CarouselPaginationItem({
             animValue.value,
             inputRange,
             outputRange,
-            Extrapolate.CLAMP
+            Extrapolate.CLAMP,
           ),
         },
       ],
@@ -64,7 +64,7 @@ function CarouselPaginationItem({
         actualPosition === index
           ? [width, width * 4.3, width]
           : [width, width * 4.3, width],
-        Extrapolate.CLAMP
+        Extrapolate.CLAMP,
       ),
     };
   }, [animValue, index, length, actualPosition]);
@@ -76,8 +76,8 @@ function CarouselPaginationItem({
           width: scale(width),
           height: scale(width - 2),
           borderRadius: 50,
-          overflow: "hidden",
-          transform: [{ rotateZ: "0deg" }],
+          overflow: 'hidden',
+          transform: [{ rotateZ: '0deg' }],
           borderWidth: 2,
           borderColor: COLORS.WHITE,
         },

@@ -1,22 +1,24 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
-import { Pressable, View } from "react-native";
-import { Box } from "@usereservaapp/reserva-ui";
-import { useSharedValue } from "react-native-reanimated";
+import React, {
+  useCallback, useMemo, useRef, useState,
+} from 'react';
+import { useNavigation } from '@react-navigation/native';
+import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
+import { Pressable, View } from 'react-native';
+import { Box } from '@usereservaapp/reserva-ui';
+import { useSharedValue } from 'react-native-reanimated';
 import type {
   HomeCarouselItemOutput,
   HomeCarouselOutput,
-} from "../../../../base/graphql/generated";
-import testProps from "../../../../utils/testProps";
-import configDeviceSizes from "../../../../utils/configDeviceSizes";
-import ImageComponent from "../../../../components/ImageComponent/ImageComponent";
-import { COLORS } from "../../../../base/styles/colors";
-import { styles } from "./HomeMainCarousel.styles";
-import CarrouselScrollIndicator from "../../../../modules/Home/component/CarouselScrollIndicator";
-import CarouselPaginationItem from "../../../../components/CarouselPaginationItem";
-import { useIsTester } from "../../../../hooks/useIsTester";
-import { useRemoteConfig } from "../../../../hooks/useRemoteConfig";
+} from '../../../../base/graphql/generated';
+import testProps from '../../../../utils/testProps';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
+import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
+import { COLORS } from '../../../../base/styles/colors';
+import { styles } from './HomeMainCarousel.styles';
+import CarrouselScrollIndicator from '../../../../modules/Home/component/CarouselScrollIndicator';
+import CarouselPaginationItem from '../../../../components/CarouselPaginationItem';
+import { useIsTester } from '../../../../hooks/useIsTester';
+import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
 interface IHomeMainCarousel {
   data: HomeCarouselOutput;
@@ -33,12 +35,12 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
 
   const slideDelay = useMemo(
     () => (data.showtime || 10) * 1000,
-    [data.showtime]
+    [data.showtime],
   );
 
   const showNewHome = useMemo(
-    () => getBoolean(isTester ? "show_new_home_tester" : "show_new_home"),
-    [getBoolean, isTester]
+    () => getBoolean(isTester ? 'show_new_home_tester' : 'show_new_home'),
+    [getBoolean, isTester],
   );
 
   const carouselHeight = useMemo(() => {
@@ -55,20 +57,20 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
     (item: HomeCarouselItemOutput) => {
       const { reservaMini, orderBy } = item;
 
-      return navigation.navigate("ProductCatalog", {
+      return navigation.navigate('ProductCatalog', {
         facetInput: item.facets,
         referenceId: item.reference,
         reservaMini,
         orderBy,
       });
     },
-    [navigation]
+    [navigation],
   );
 
   return (
-    <View style={{ flex: 1 }} {...testProps("default_carrousel_container")}>
+    <View style={{ flex: 1 }} {...testProps('default_carrousel_container')}>
       <Carousel
-        {...testProps("default_carrousel_content")}
+        {...testProps('default_carrousel_content')}
         loop
         width={configDeviceSizes.DEVICE_WIDTH}
         height={carouselHeight}
@@ -86,13 +88,13 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
         }}
         panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
         data={data.items}
-        style={{ backgroundColor: "rgba(0, 0, 0, 0)", position: "relative" }}
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0)', position: 'relative' }}
         onSnapToItem={setCurrIndex}
         renderItem={({ item }) => (
           <Box alignItems="flex-start" bg="white">
             <Box mb="quarck" width={1}>
               <Pressable
-                {...testProps("carrousel_button")}
+                {...testProps('carrousel_button')}
                 onPress={() => onPress(item)}
                 delayLongPress={100}
               >
@@ -103,9 +105,9 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
                     },
                     showNewHome
                       ? {
-                          borderBottomLeftRadius: 8,
-                          borderBottomRightRadius: 8,
-                        }
+                        borderBottomLeftRadius: 8,
+                        borderBottomRightRadius: 8,
+                      }
                       : null,
                   ]}
                   resizeMode="cover"
