@@ -1,49 +1,57 @@
-import { Box } from '@usereservaapp/reserva-ui';
-import React, { useEffect, useMemo } from 'react';
-import { Animated, FlatList, SafeAreaView } from 'react-native';
-import utc from 'dayjs/plugin/utc';
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import testProps from '../../utils/testProps';
-import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
-import HomeCarousels from './components/HomeCarousels';
-import NewBanner from '../../components/Banner/NewBanner';
-import HomeCountDown from './components/HomeCountDown';
-import useAuthModalStore from '../../zustand/useAuthModalStore';
-import EventProvider from '../../utils/EventProvider';
-import { defaultBrand } from '../../utils/defaultWBrand';
-import ModalSignUpComplete from '../../components/ModalSignUpComplete';
-import { useHomeStore } from '../../zustand/useHomeStore';
-import WithoutInternet from '../../components/WithoutInternet';
-import { useConnectivityStore } from '../../zustand/useConnectivityStore';
-import { useIsTester } from '../../hooks/useIsTester';
-import { useRemoteConfig } from '../../hooks/useRemoteConfig';
-import { NewHomeCarousels } from './components/NewHomeCarousels';
-import { NewTransparentTopBarDefault } from '../../modules/Menu/components/NewTransparentTopBarDefault';
-import HomeDiscountModal from './components/HomeDiscountModal';
-import { NewWhiteTopBarDefault } from '../../modules/Menu/components/NewWhiteTopBarDefault';
-import styles from './styles';
-import useHomeHeader from './hooks/useHomeHeader';
+import { Box } from "@usereservaapp/reserva-ui";
+import React, { useEffect, useMemo } from "react";
+import {
+  ActivityIndicator,
+  Animated,
+  FlatList,
+  SafeAreaView,
+} from "react-native";
+import utc from "dayjs/plugin/utc";
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import testProps from "../../utils/testProps";
+import { TopBarDefault } from "../../modules/Menu/components/TopBarDefault";
+import HomeCarousels from "./components/HomeCarousels";
+import NewBanner from "../../components/Banner/NewBanner";
+import HomeCountDown from "./components/HomeCountDown";
+import useAuthModalStore from "../../zustand/useAuthModalStore";
+import EventProvider from "../../utils/EventProvider";
+import { defaultBrand } from "../../utils/defaultWBrand";
+import ModalSignUpComplete from "../../components/ModalSignUpComplete";
+import { useHomeStore } from "../../zustand/useHomeStore";
+import WithoutInternet from "../../components/WithoutInternet";
+import { useConnectivityStore } from "../../zustand/useConnectivityStore";
+import { useIsTester } from "../../hooks/useIsTester";
+import { useRemoteConfig } from "../../hooks/useRemoteConfig";
+import { NewHomeCarousels } from "./components/NewHomeCarousels";
+import { NewTransparentTopBarDefault } from "../../modules/Menu/components/NewTransparentTopBarDefault";
+import HomeDiscountModal from "./components/HomeDiscountModal";
+import { NewWhiteTopBarDefault } from "../../modules/Menu/components/NewWhiteTopBarDefault";
+import styles from "./styles";
+import useHomeHeader from "./hooks/useHomeHeader";
+import { useAuthStore } from "../../zustand/useAuth/useAuthStore";
+import { COLORS } from "../../base/styles/colors";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 function Home() {
+  const { ...authStore } = useAuthStore(["initialized"]);
   const { onLoad, medias, loaded } = useHomeStore([
-    'onLoad',
-    'medias',
-    'loaded',
+    "onLoad",
+    "medias",
+    "loaded",
   ]);
   const { showModalSignUpComplete } = useAuthModalStore([
-    'showModalSignUpComplete',
+    "showModalSignUpComplete",
   ]);
-  const { isConnected } = useConnectivityStore(['isConnected']);
+  const { isConnected } = useConnectivityStore(["isConnected"]);
 
   const isTester = useIsTester();
   const { getBoolean } = useRemoteConfig();
   const newHeaderIsActive = useMemo(
-    () => getBoolean(isTester ? 'show_new_header_tester' : 'show_new_header'),
-    [getBoolean, isTester],
+    () => getBoolean(isTester ? "show_new_header_tester" : "show_new_header"),
+    [getBoolean, isTester]
   );
 
   const {
@@ -73,13 +81,13 @@ function Home() {
     if (isConnected && !loaded) {
       onLoad();
 
-      EventProvider.logEvent('page_view', { wbrand: defaultBrand.picapau });
+      EventProvider.logEvent("page_view", { wbrand: defaultBrand.picapau });
     }
   }, [isConnected, loaded]);
 
   if (!loaded && !isConnected) {
     return (
-      <Box flex={1} bg="white" {...testProps('home_container')}>
+      <Box flex={1} bg="white" {...testProps("home_container")}>
         {newHeaderIsActive ? (
           <NewTransparentTopBarDefault />
         ) : (
@@ -90,27 +98,38 @@ function Home() {
     );
   }
 
+  if (!authStore.initialized) {
+    return (
+      <Box flex={1} justifyContent="center">
+        <ActivityIndicator size="small" color={COLORS.BLACK} />
+      </Box>
+    );
+  }
+
   return (
-    <Box flex={1} bg="white" {...testProps('home_container')}>
+    <Box flex={1} bg="white" {...testProps("home_container")}>
       {newHeaderIsActive ? renderHeader() : <TopBarDefault />}
       {!newHeaderIsActive ? <HomeDiscountModal /> : null}
-      <SafeAreaView {...testProps('home_count_down_container')}>
+      <SafeAreaView {...testProps("home_count_down_container")}>
         <FlatList
           ListHeaderComponent={() => (
-            <Box style={{ overflow: 'hidden' }}>
-              {newHeaderIsActive ? <NewHomeCarousels />
-                : (
-                  <>
-                    <HomeCountDown />
-                    <HomeCarousels />
-                  </>
-                )}
+            <Box style={{ overflow: "hidden" }}>
+              {newHeaderIsActive ? (
+                <NewHomeCarousels />
+              ) : (
+                <>
+                  <HomeCountDown />
+                  <HomeCarousels />
+                </>
+              )}
             </Box>
           )}
           bounces
           onScroll={handleScroll}
           contentContainerStyle={{ paddingBottom: 100 }}
-          keyExtractor={(item) => `home-media-${item.image.url.toString()}-${item.image.title}`}
+          keyExtractor={(item) =>
+            `home-media-${item.image.url.toString()}-${item.image.title}`
+          }
           data={medias}
           renderItem={({ item }) => (
             <NewBanner
@@ -122,7 +141,6 @@ function Home() {
             />
           )}
         />
-
       </SafeAreaView>
 
       {!!showModalSignUpComplete && <ModalSignUpComplete />}
