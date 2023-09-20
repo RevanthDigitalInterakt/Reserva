@@ -1,7 +1,6 @@
 import { Box } from '@usereservaapp/reserva-ui';
 import React, { useEffect, useMemo } from 'react';
 import {
-  ActivityIndicator,
   Animated,
   FlatList,
   SafeAreaView,
@@ -29,14 +28,24 @@ import HomeDiscountModal from './components/HomeDiscountModal';
 import { NewWhiteTopBarDefault } from '../../modules/Menu/components/NewWhiteTopBarDefault';
 import styles from './styles';
 import useHomeHeader from './hooks/useHomeHeader';
-import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
-import { COLORS } from '../../base/styles/colors';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+const ListHeader = ({ newHeaderIsActive }: { newHeaderIsActive: boolean }) => (
+  <Box style={{ overflow: 'hidden' }}>
+    {newHeaderIsActive ? (
+      <NewHomeCarousels />
+    ) : (
+      <>
+        <HomeCountDown />
+        <HomeCarousels />
+      </>
+    )}
+  </Box>
+);
+
 function Home() {
-  const { ...authStore } = useAuthStore(['initialized']);
   const { onLoad, medias, loaded } = useHomeStore([
     'onLoad',
     'medias',
@@ -98,32 +107,13 @@ function Home() {
     );
   }
 
-  if (!authStore.initialized) {
-    return (
-      <Box flex={1} justifyContent="center">
-        <ActivityIndicator size="small" color={COLORS.BLACK} />
-      </Box>
-    );
-  }
-
   return (
     <Box flex={1} bg="white" {...testProps('home_container')}>
       {newHeaderIsActive ? renderHeader() : <TopBarDefault />}
       {!newHeaderIsActive ? <HomeDiscountModal /> : null}
       <SafeAreaView {...testProps('home_count_down_container')}>
         <FlatList
-          ListHeaderComponent={() => (
-            <Box style={{ overflow: 'hidden' }}>
-              {newHeaderIsActive ? (
-                <NewHomeCarousels />
-              ) : (
-                <>
-                  <HomeCountDown />
-                  <HomeCarousels />
-                </>
-              )}
-            </Box>
-          )}
+          ListHeaderComponent={<ListHeader newHeaderIsActive={newHeaderIsActive} />}
           bounces
           onScroll={handleScroll}
           contentContainerStyle={{ paddingBottom: 100 }}
