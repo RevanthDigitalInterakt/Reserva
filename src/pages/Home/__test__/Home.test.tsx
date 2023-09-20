@@ -62,6 +62,12 @@ jest.mock("../../../zustand/useHomeStore", () => ({
   }),
 }));
 
+jest.mock("../../../zustand/useAuth/useAuthStore", () => ({
+  useAuthStore: () => ({
+    initialized: true,
+  }),
+}));
+
 describe("Home", () => {
   beforeEach(() => {
     jest.clearAllMocks();
