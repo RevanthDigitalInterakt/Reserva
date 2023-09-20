@@ -11,6 +11,7 @@ export const FlagDiscount = ({ discountTag, isDetail }: IFlagDiscount) => (
     ...styles.box,
     marginLeft: isDetail ? 4 : 14,
     marginTop: 4,
+    padding: isDetail ? 6 : 4,
   }}
   >
     <Text style={{
