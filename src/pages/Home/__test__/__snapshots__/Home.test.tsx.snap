@@ -883,18 +883,7 @@ exports[`Home renders correctly 1`] = `
     testID="com.usereserva:id/home_count_down_container"
   >
     <RCTScrollView
-      ListHeaderComponent={
-        <Styled(View)
-          style={
-            Object {
-              "overflow": "hidden",
-            }
-          }
-        >
-          <HomeCountDown />
-          <HomeCarousels />
-        </Styled(View)>
-      }
+      ListHeaderComponent={[Function]}
       bounces={true}
       contentContainerStyle={
         Object {
@@ -1454,7 +1443,6 @@ exports[`Home renders correctly 1`] = `
                             "elevation": 5,
                             "height": 48,
                             "justifyContent": "center",
-                            "marginBottom": 10,
                             "marginRight": 10,
                             "marginTop": 10,
                             "maxHeight": 48,
@@ -1527,7 +1515,6 @@ exports[`Home renders correctly 1`] = `
                             "elevation": 5,
                             "height": 48,
                             "justifyContent": "center",
-                            "marginBottom": 10,
                             "marginRight": 10,
                             "marginTop": 10,
                             "maxHeight": 48,
@@ -1600,7 +1587,6 @@ exports[`Home renders correctly 1`] = `
                             "elevation": 5,
                             "height": 48,
                             "justifyContent": "center",
-                            "marginBottom": 10,
                             "marginRight": 10,
                             "marginTop": 10,
                             "maxHeight": 48,
@@ -1673,7 +1659,6 @@ exports[`Home renders correctly 1`] = `
                             "elevation": 5,
                             "height": 48,
                             "justifyContent": "center",
-                            "marginBottom": 10,
                             "marginRight": 10,
                             "marginTop": 10,
                             "maxHeight": 48,
@@ -1746,7 +1731,6 @@ exports[`Home renders correctly 1`] = `
                             "elevation": 5,
                             "height": 48,
                             "justifyContent": "center",
-                            "marginBottom": 10,
                             "marginRight": 10,
                             "marginTop": 10,
                             "maxHeight": 48,
