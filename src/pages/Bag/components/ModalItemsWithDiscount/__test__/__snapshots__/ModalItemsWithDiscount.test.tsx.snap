@@ -10,7 +10,7 @@ exports[`Modal items with discount snapshot 1`] = `
   <View
     style={
       Object {
-        "backgroundColor": "rgba(0, 0, 0, 0.5)",
+        "backgroundColor": "rgba(0, 0, 0, 0.6)",
         "flex": 1,
         "justifyContent": "flex-end",
       }
