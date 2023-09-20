@@ -218,6 +218,226 @@ exports[`HomeCarousel should match to snapshot 1`] = `
         />
       </View>
     </View>
+    <View
+      style={
+        Object {
+          "marginBottom": -58.59375,
+          "top": -58.59375,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "shadowColor": "#0000001A",
+            "shadowOffset": Object {
+              "height": 4,
+              "width": 0,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 10,
+            "zIndex": 999,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "backgroundColor": "#FFF",
+              "borderRadius": 16,
+              "flexDirection": "row",
+              "padding": 15,
+              "position": "relative",
+              "width": "90%",
+              "zIndex": 9999,
+            }
+          }
+          testID="search_button"
+        >
+          <Text
+            style={
+              Object {
+                "color": "#A6A6A6",
+                "flex": 1,
+                "fontFamily": "ReservaSans-Regular",
+                "fontSize": 32.8125,
+                "letterSpacing": -0.4,
+              }
+            }
+          >
+            O que você procura hoje?
+          </Text>
+          <Image
+            height={32.8125}
+            onError={[Function]}
+            resizeMode="contain"
+            source={
+              Object {
+                "commons": Object {
+                  "GuideBermuda": [Circular],
+                  "GuideCalca": [Circular],
+                  "GuideCamiseta": [Circular],
+                  "GuideHoodie": [Circular],
+                  "GuideJaqueta": [Circular],
+                  "GuideMangaCurta": [Circular],
+                  "GuideMangaLonga": [Circular],
+                  "GuidePolo": [Circular],
+                  "GuideShort": [Circular],
+                  "GuideSueter": [Circular],
+                  "GuideSungaCueca": [Circular],
+                  "QrcodeBackground": [Circular],
+                  "americanExpress": [Circular],
+                  "arrowInstruction": [Circular],
+                  "bagEmpty": [Circular],
+                  "bannerCatalog": [Circular],
+                  "bannerLogin": [Circular],
+                  "bannerOffer": [Circular],
+                  "cardFront": [Circular],
+                  "cardVerso": [Circular],
+                  "clothingCare1": [Circular],
+                  "clothingCareBleach": [Circular],
+                  "clothingCareDrying": [Circular],
+                  "clothingCarePass": [Circular],
+                  "clothingCareProfessionalWashing": [Circular],
+                  "clothingCareWash": [Circular],
+                  "cupomModalBackground": [Circular],
+                  "dividerReserva": [Circular],
+                  "elo": [Circular],
+                  "emptyProductCatalog": [Circular],
+                  "facebook": [Circular],
+                  "foraDoAr": [Circular],
+                  "headerLogin": [Circular],
+                  "homeMock1": [Circular],
+                  "homeMock2": [Circular],
+                  "homeMock3": [Circular],
+                  "homeMock4": [Circular],
+                  "imageCashback": [Circular],
+                  "imageNotFound": [Circular],
+                  "instagram": [Circular],
+                  "localReserva": [Circular],
+                  "logoQRCode": [Circular],
+                  "mastercard": [Circular],
+                  "noStoresFound": [Circular],
+                  "noWishList": [Circular],
+                  "pinYou": [Circular],
+                  "purchaseConfirmation": [Circular],
+                  "raceImageBackground": [Circular],
+                  "saleOff": [Circular],
+                  "search": [Circular],
+                  "searchNotFound": [Circular],
+                  "selectRectangle": [Circular],
+                  "shirt1": [Circular],
+                  "shirt2": [Circular],
+                  "shirt3": [Circular],
+                  "shirt4": [Circular],
+                  "topBannerMock1": [Circular],
+                  "twitter": [Circular],
+                  "update": [Circular],
+                  "visa": [Circular],
+                  "whatsapp": [Circular],
+                  "withoutInternet": [Circular],
+                  "zoomHand": [Circular],
+                },
+                "default": Object {
+                  "GuideBermuda": [Circular],
+                  "GuideCalca": [Circular],
+                  "GuideCamiseta": [Circular],
+                  "GuideHoodie": [Circular],
+                  "GuideJaqueta": [Circular],
+                  "GuideMangaCurta": [Circular],
+                  "GuideMangaLonga": [Circular],
+                  "GuidePolo": [Circular],
+                  "GuideShort": [Circular],
+                  "GuideSueter": [Circular],
+                  "GuideSungaCueca": [Circular],
+                  "QrcodeBackground": [Circular],
+                  "americanExpress": [Circular],
+                  "arrowInstruction": [Circular],
+                  "bagEmpty": [Circular],
+                  "bannerCatalog": [Circular],
+                  "bannerLogin": [Circular],
+                  "bannerOffer": [Circular],
+                  "cardFront": [Circular],
+                  "cardVerso": [Circular],
+                  "chevronRight": [Function],
+                  "clothingCare1": [Circular],
+                  "clothingCareBleach": [Circular],
+                  "clothingCareDrying": [Circular],
+                  "clothingCarePass": [Circular],
+                  "clothingCareProfessionalWashing": [Circular],
+                  "clothingCareWash": [Circular],
+                  "cupomModalBackground": [Circular],
+                  "dividerReserva": [Circular],
+                  "elo": [Circular],
+                  "emptyProductCatalog": [Circular],
+                  "facebook": [Circular],
+                  "foraDoAr": [Circular],
+                  "headerLogin": [Circular],
+                  "homeMock1": [Circular],
+                  "homeMock2": [Circular],
+                  "homeMock3": [Circular],
+                  "homeMock4": [Circular],
+                  "imageCashback": [Circular],
+                  "imageNotFound": [Circular],
+                  "instagram": [Circular],
+                  "localReserva": [Circular],
+                  "logoPrime": [Function],
+                  "logoQRCode": [Circular],
+                  "mastercard": [Circular],
+                  "noStoresFound": [Circular],
+                  "noWishList": [Circular],
+                  "pinYou": [Circular],
+                  "purchaseConfirmation": [Circular],
+                  "raceImageBackground": [Circular],
+                  "saleOff": [Circular],
+                  "search": [Circular],
+                  "searchNotFound": [Circular],
+                  "selectRectangle": [Circular],
+                  "shirt1": [Circular],
+                  "shirt2": [Circular],
+                  "shirt3": [Circular],
+                  "shirt4": [Circular],
+                  "topBannerMock1": [Circular],
+                  "twitter": [Circular],
+                  "update": [Circular],
+                  "visa": [Circular],
+                  "whatsapp": [Circular],
+                  "withoutInternet": [Circular],
+                  "zoomHand": [Circular],
+                },
+                "svgs": Object {
+                  "chevronRight": [Function],
+                  "logoPrime": [Function],
+                },
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "height": 0,
+                  "width": 30.46875,
+                },
+                undefined,
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
   </View>
   <View
     accessibilityLabel="com.usereserva:id/carousels_cards"
