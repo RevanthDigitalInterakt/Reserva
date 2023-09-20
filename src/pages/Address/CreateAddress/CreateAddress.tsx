@@ -190,7 +190,7 @@ export default function CreateAddress(
         showShadow
         backButtonPress={navigation.goBack}
       />
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent} keyboardShouldPersistTaps="always">
         <View style={styles.content}>
           <Text style={styles.title}>Adicionar endereço</Text>
         </View>
