@@ -7,12 +7,12 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import { useBagCouponItemsWithDiscount } from '../../../../../../zustand/useBagCouponItemsWithDiscount/useBagCouponItemsWithDiscount';
-import IconClose from '../../../../../../../assets/icons/IconClose';
+import { useBagCouponItemsWithDiscount } from '../../../../zustand/useBagCouponItemsWithDiscount/useBagCouponItemsWithDiscount';
+import IconClose from '../../../../../assets/icons/IconClose';
 import styles from './ModalItemsWIthDiscount.styles';
-import IconInfoFill from '../../../../../../../assets/icons/IconInfoFill';
-import { COLORS } from '../../../../../../base/styles/colors';
-import { useBagStore } from '../../../../../../zustand/useBagStore/useBagStore';
+import IconInfoFill from '../../../../../assets/icons/IconInfoFill';
+import { COLORS } from '../../../../base/styles/colors';
+import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 
 export type TItemData = {
   id: string;

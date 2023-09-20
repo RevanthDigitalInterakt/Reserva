@@ -6,11 +6,11 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { useBagCouponItemsWithDiscount } from '../../../../../../zustand/useBagCouponItemsWithDiscount/useBagCouponItemsWithDiscount';
-import { useBagStore } from '../../../../../../zustand/useBagStore/useBagStore';
+import { useBagCouponItemsWithDiscount } from '../../../../zustand/useBagCouponItemsWithDiscount/useBagCouponItemsWithDiscount';
+import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 
 import styles from './SectionProductsWithDiscount.styles';
-import { COLORS } from '../../../../../../base/styles/colors';
+import { COLORS } from '../../../../base/styles/colors';
 
 export default function SectionProductsWithDiscount() {
   const { setShowModalItems } = useBagCouponItemsWithDiscount(['setShowModalItems']);

@@ -3,7 +3,7 @@ import { theme } from '@usereservaapp/reserva-ui';
 import { MockedProvider } from '@apollo/client/testing';
 import { ThemeProvider } from 'styled-components/native';
 import { render, screen } from '@testing-library/react-native';
-import CartContextProvider from '../../../../../../../context/CartContext';
+import CartContextProvider from '../../../../../context/CartContext';
 import SectionProductsWithDiscount from '..';
 
 const Component = (
