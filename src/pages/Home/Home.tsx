@@ -1,6 +1,10 @@
 import { Box } from '@usereservaapp/reserva-ui';
 import React, { useEffect, useMemo } from 'react';
-import { Animated, FlatList, SafeAreaView } from 'react-native';
+import {
+  Animated,
+  FlatList,
+  SafeAreaView,
+} from 'react-native';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
@@ -27,6 +31,19 @@ import useHomeHeader from './hooks/useHomeHeader';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+
+const ListHeader = ({ newHeaderIsActive }: { newHeaderIsActive: boolean }) => (
+  <Box style={{ overflow: 'hidden' }}>
+    {newHeaderIsActive ? (
+      <NewHomeCarousels />
+    ) : (
+      <>
+        <HomeCountDown />
+        <HomeCarousels />
+      </>
+    )}
+  </Box>
+);
 
 function Home() {
   const { onLoad, medias, loaded } = useHomeStore([
@@ -96,17 +113,7 @@ function Home() {
       {!newHeaderIsActive ? <HomeDiscountModal /> : null}
       <SafeAreaView {...testProps('home_count_down_container')}>
         <FlatList
-          ListHeaderComponent={() => (
-            <Box style={{ overflow: 'hidden' }}>
-              {newHeaderIsActive ? <NewHomeCarousels />
-                : (
-                  <>
-                    <HomeCountDown />
-                    <HomeCarousels />
-                  </>
-                )}
-            </Box>
-          )}
+          ListHeaderComponent={<ListHeader newHeaderIsActive={newHeaderIsActive} />}
           bounces
           onScroll={handleScroll}
           contentContainerStyle={{ paddingBottom: 100 }}
@@ -122,7 +129,6 @@ function Home() {
             />
           )}
         />
-
       </SafeAreaView>
 
       {!!showModalSignUpComplete && <ModalSignUpComplete />}
