@@ -56,12 +56,8 @@ function Home() {
   ]);
   const { isConnected } = useConnectivityStore(['isConnected']);
 
-  const isTester = useIsTester();
   const { getBoolean } = useRemoteConfig();
-  const newHeaderIsActive = useMemo(
-    () => getBoolean(isTester ? 'show_new_header_tester' : 'show_new_header'),
-    [getBoolean, isTester],
-  );
+  const newHeaderIsActive = getBoolean('show_new_header');
 
   const {
     handleScroll,

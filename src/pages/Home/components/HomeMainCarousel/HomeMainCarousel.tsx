@@ -6,18 +6,14 @@ import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { Pressable, View } from 'react-native';
 import { Box } from '@usereservaapp/reserva-ui';
 import { useSharedValue } from 'react-native-reanimated';
-import type {
-  HomeCarouselItemOutput,
-  HomeCarouselOutput,
-} from '../../../../base/graphql/generated';
 import testProps from '../../../../utils/testProps';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
+import type { HomeCarouselItemOutput, HomeCarouselOutput } from '../../../../base/graphql/generated';
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
 import { COLORS } from '../../../../base/styles/colors';
 import { styles } from './HomeMainCarousel.styles';
 import CarrouselScrollIndicator from '../../../../modules/Home/component/CarouselScrollIndicator';
 import CarouselPaginationItem from '../../../../components/CarouselPaginationItem';
-import { useIsTester } from '../../../../hooks/useIsTester';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
 interface IHomeMainCarousel {
@@ -28,7 +24,6 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
   const navigation = useNavigation();
   const progressValue = useSharedValue<number>(0);
   const { getBoolean } = useRemoteConfig();
-  const isTester = useIsTester();
 
   const [currIndex, setCurrIndex] = useState(0);
   const $carousel = useRef<ICarouselInstance>();
@@ -38,10 +33,7 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
     [data.showtime],
   );
 
-  const showNewHome = useMemo(
-    () => getBoolean(isTester ? 'show_new_home_tester' : 'show_new_home'),
-    [getBoolean, isTester],
-  );
+  const showNewHome = getBoolean('show_new_home');
 
   const carouselHeight = useMemo(() => {
     const [item] = data.items;
