@@ -1,8 +1,8 @@
-import React, { useMemo } from "react";
-import { View } from "react-native";
-import testProps from "../../../../utils/testProps";
-import styles from "./styles";
-import { NewNumberCard } from "../NewNumberCard";
+import React, { useMemo } from 'react';
+import { View } from 'react-native';
+import testProps from '../../../../utils/testProps';
+import styles from './styles';
+import { NewNumberCard } from '../NewNumberCard';
 
 interface NewFlipNumberProps {
   number: string;
@@ -12,10 +12,10 @@ interface NewFlipNumberProps {
 export function NewFlipNumber({ number, testID }: NewFlipNumberProps) {
   const { previousNumber, nextNumber } = useMemo(
     () => ({
-      previousNumber: number.toString().padStart(2, "0"),
-      nextNumber: (Number(number) + 1).toString().padStart(2, "0"),
+      previousNumber: number.toString().padStart(2, '0'),
+      nextNumber: (Number(number) + 1).toString().padStart(2, '0'),
     }),
-    [number]
+    [number],
   );
 
   return (

@@ -1,7 +1,7 @@
-import { Dimensions, StyleSheet } from "react-native";
-import { COLORS } from "../../../../base/styles";
+import { Dimensions, StyleSheet } from 'react-native';
+import { COLORS } from '../../../../base/styles';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 const size = width / 10;
 
 const styles = StyleSheet.create({

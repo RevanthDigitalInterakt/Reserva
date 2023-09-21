@@ -27,7 +27,7 @@ const style = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: COLORS.BLACK,
-    flex: 1
+    flex: 1,
   },
 
   listItemSubtitle: {

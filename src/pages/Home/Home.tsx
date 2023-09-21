@@ -1,5 +1,5 @@
 import { Box } from '@usereservaapp/reserva-ui';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import {
   Animated,
   FlatList,
@@ -20,7 +20,6 @@ import ModalSignUpComplete from '../../components/ModalSignUpComplete';
 import { useHomeStore } from '../../zustand/useHomeStore';
 import WithoutInternet from '../../components/WithoutInternet';
 import { useConnectivityStore } from '../../zustand/useConnectivityStore';
-import { useIsTester } from '../../hooks/useIsTester';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { NewHomeCarousels } from './components/NewHomeCarousels';
 import { NewTransparentTopBarDefault } from '../../modules/Menu/components/NewTransparentTopBarDefault';
