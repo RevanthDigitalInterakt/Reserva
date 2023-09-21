@@ -6,11 +6,11 @@ import { Pressable, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import type { HomeCarouselItemOutput, HomeCarouselOutput } from '../../../../base/graphql/generated';
 import Carousel, { type ICarouselInstance } from 'react-native-reanimated-carousel';
+
 import testProps from '../../../../utils/testProps';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
 import CarouselPaginationItem from '../../../../components/CarouselPaginationItem';
-import { useIsTester } from '../../../../hooks/useIsTester';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import CarrouselScrollIndicator from '../../../../modules/Home/component/CarouselScrollIndicator';
 import { styles } from './HomeMainCarousel.styles';
@@ -25,7 +25,6 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
   const navigation = useNavigation();
   const progressValue = useSharedValue<number>(0);
   const { getBoolean } = useRemoteConfig();
-  const isTester = useIsTester();
 
   const [currIndex, setCurrIndex] = useState(0);
   const $carousel = useRef<ICarouselInstance>();
@@ -35,10 +34,7 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
     [data.showtime],
   );
 
-  const showNewHome = useMemo(
-    () => getBoolean(isTester ? 'show_new_home_tester' : 'show_new_home'),
-    [getBoolean, isTester],
-  );
+  const showNewHome = getBoolean('show_new_home');
 
   const carouselHeight = useMemo(() => {
     const [item] = data.items;
