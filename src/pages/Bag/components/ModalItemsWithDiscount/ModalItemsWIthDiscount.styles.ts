@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { COLORS } from '../../../../base/styles/colors';
+import { FONTS } from '../../../../base/styles';
 
 const styles = StyleSheet.create({
   modalContainer: {
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
   },
 
   modalTitle: {
-    fontFamily: 'ReservaSerif-Bold',
+    fontFamily: FONTS.RESERVA_SERIF_BOLD,
     fontSize: 24,
   },
 
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
   },
 
   modalSubTitle: {
-    fontFamily: 'ReservaSans-Regular',
+    fontFamily: FONTS.RESERVA_SANS_REGULAR,
   },
 
   modalDivider: {
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
 
   modalItemTitle: {
     color: COLORS.BLACK,
-    fontFamily: 'ReservaSans-Bold',
+    fontFamily: FONTS.RESERVA_SANS_BOLD,
     textTransform: 'uppercase',
     margin: 10,
     padding: 10,
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     color: COLORS.INPUT_ERROR_MESSAGE,
     marginTop: -2,
     marginLeft: 5,
-    fontFamily: 'ReservaSans-Medium',
+    fontFamily: FONTS.RESERVA_SANS_MEDIUM,
     fontSize: 14,
   },
 
@@ -84,12 +85,12 @@ const styles = StyleSheet.create({
   },
 
   modalFooterTitle: {
-    fontFamily: 'ReservaSans-Regular',
+    fontFamily: FONTS.RESERVA_SANS_REGULAR,
     fontSize: 14,
   },
 
   modalFooterLabel: {
-    fontFamily: 'ReservaSans-Bold',
+    fontFamily: FONTS.RESERVA_SANS_BOLD,
     fontSize: 16,
   },
 

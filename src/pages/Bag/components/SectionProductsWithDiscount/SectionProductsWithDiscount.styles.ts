@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { COLORS } from '../../../../base/styles/colors';
+import { FONTS } from '../../../../base/styles';
 
 const styles = StyleSheet.create({
   sectionContainer: {
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
   },
 
   sectionTitle: {
-    fontFamily: 'ReservaSans-Regular',
+    fontFamily: FONTS.RESERVA_SANS_REGULAR,
   },
 
   sectionItemContainer: {
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
 
   sectionItemTitle: {
     color: COLORS.BLACK,
-    fontFamily: 'ReservaSans-Bold',
+    fontFamily: FONTS.RESERVA_SANS_BOLD,
     textTransform: 'uppercase',
     margin: 10,
     padding: 10,
