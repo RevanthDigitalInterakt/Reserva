@@ -31,6 +31,19 @@ import styles from './styles';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+const ListHeader = ({ newHeaderIsActive }: { newHeaderIsActive: boolean }) => (
+  <Box style={{ overflow: 'hidden' }}>
+    {newHeaderIsActive ? (
+      <NewHomeCarousels />
+    ) : (
+      <>
+        <HomeCountDown />
+        <HomeCarousels />
+      </>
+    )}
+  </Box>
+);
+
 function Home() {
   const { onLoad, medias, loaded } = useHomeStore([
     'onLoad',
@@ -99,17 +112,7 @@ function Home() {
       {!newHeaderIsActive ? <HomeDiscountModal /> : null}
       <SafeAreaView {...testProps('home_count_down_container')}>
         <FlatList
-          ListHeaderComponent={() => (
-            <Box style={{ overflow: 'hidden' }}>
-              {newHeaderIsActive ? <NewHomeCarousels />
-                : (
-                  <>
-                    <HomeCountDown />
-                    <HomeCarousels />
-                  </>
-                )}
-            </Box>
-          )}
+          ListHeaderComponent={<ListHeader newHeaderIsActive={newHeaderIsActive} />}
           bounces
           onScroll={handleScroll}
           contentContainerStyle={{ paddingBottom: 100 }}
@@ -125,7 +128,6 @@ function Home() {
             />
           )}
         />
-
       </SafeAreaView>
 
       {!!showModalSignUpComplete && <ModalSignUpComplete />}

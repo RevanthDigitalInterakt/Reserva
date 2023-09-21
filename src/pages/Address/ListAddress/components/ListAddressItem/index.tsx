@@ -26,9 +26,9 @@ export default function ListAddressItem({
           {!item.selected && (
           <IconPlace />
           )}
-          <View style={{ marginLeft: !item.selected ? 20 : 0 }}>
+          <View style={{ marginLeft: !item.selected ? 20 : 0, width: '85%' }}>
             <View style={styles.listItemBodyContent}>
-              <Text style={styles.listItemTitle}>{item.addressName}</Text>
+              <Text style={styles.listItemTitle} numberOfLines={1}>{item.addressName}</Text>
               {item.selected && mainAddress === item.id && (
                 <View
                   style={styles.tagMainAddressContainer}
