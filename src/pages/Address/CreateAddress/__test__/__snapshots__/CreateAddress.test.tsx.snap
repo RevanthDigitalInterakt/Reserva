@@ -415,10 +415,11 @@ exports[`Create Address snapshot 1`] = `
   <RCTScrollView
     contentContainerStyle={
       Object {
+        "marginBottom": 60,
         "padding": 20,
       }
     }
-    keyboardShouldPersistTaps="always"
+    keyboardShouldPersistTaps="handled"
   >
     <View>
       <View
@@ -951,7 +952,7 @@ exports[`Create Address snapshot 1`] = `
               autoCapitalize="none"
               autoCorrect={false}
               editable={true}
-              keyboardType="number-pad"
+              keyboardType="default"
               onBlur={[Function]}
               onChangeText={[Function]}
               onFocus={[Function]}
