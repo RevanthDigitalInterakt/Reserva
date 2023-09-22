@@ -1,5 +1,6 @@
 // Esta função cria uma matriz de identidade 4x4.
-// Uma matriz de identidade é uma matriz quadrada que tem 1s na diagonal principal e 0s em todos os outros elementos.
+// Uma matriz de identidade é uma matriz quadrada
+// que tem 1s na diagonal principal e 0s em todos os outros elementos.
 const createIdentityMatrix = (): number[] => [
   1,
   0,
