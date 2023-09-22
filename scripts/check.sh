@@ -27,7 +27,7 @@ git fetch origin
 
 # Try to find the latest commit in the trunk branch and the current branch (check remote first, then local)
 LAST_TRUNK_COMMIT=$(git rev-parse origin/$BRANCH1 2>/dev/null || git rev-parse $BRANCH1 2>/dev/null)
-LAST_BRANCH_COMMIT=$(git rev-parse origin/$BRANCH2 2>/dev/null || git rev-parse $BRANCH2 2>/dev/null)
+LAST_BRANCH_COMMIT=$(git rev-parse $BRANCH2 2>/dev/null || git rev-parse $BRANCH2 2>/dev/null)
 
 # Check if the current branch is synced of the trunk
 if [ $(git merge-base $BRANCH1 $BRANCH2) == "$LAST_TRUNK_COMMIT" ]; then
