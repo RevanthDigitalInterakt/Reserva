@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.0.16
+
+- [18643 - Implementar filtro de preços na busca Smarthint](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18643)
+
+---
+
 ### 2.0.15
 
 - [18405 - Novo layout tag desconto [PDC + PDP]](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18405)

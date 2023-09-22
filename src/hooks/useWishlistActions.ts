@@ -63,7 +63,7 @@ export function useWishlistActions() {
         if (isFavorite) {
           await onUnfavorite(product);
           EventProvider.logEvent(
-            'add_wishlist',
+            'add_to_wishlist',
             {
               value: product.lowPrice,
               currency: 'BRL',
@@ -76,7 +76,7 @@ export function useWishlistActions() {
 
         trackEventDitoAddWishlist(product);
         EventProvider.logEvent(
-          'add_wishlist',
+          'add_to_wishlist',
           {
             value: product.lowPrice,
             currency: 'BRL',
