@@ -433,7 +433,7 @@ exports[`Modal items with discount snapshot 1`] = `
                       ]
                     }
                   >
-                    00
+                    0
                   </Text>
                 </View>
               </View>

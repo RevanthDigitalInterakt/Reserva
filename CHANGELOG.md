@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.0.16
+
+- [17254 - SRN Cupom na Bag - Listagem dos itens do cupom](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/17254)
+
+---
+
 ### 2.0.15
 
 - [18405 - Novo layout tag desconto [PDC + PDP]](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18405)

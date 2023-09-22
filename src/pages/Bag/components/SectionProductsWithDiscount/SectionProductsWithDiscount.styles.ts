@@ -42,11 +42,12 @@ const styles = StyleSheet.create({
   sectionGradientContainer: {
     position: 'absolute',
     backgroundColor: 'transparent',
-    top: 115,
+    top: 70,
     width: '100%',
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 20
   },
 
   sectionActionButtonContainer: {
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
 
   sectionActionButtonText: {
     textDecorationLine: 'underline',
-    fontFamily: 'Nunito-SemiBold',
+    fontFamily: FONTS.NUNITO_SEMI_BOLD,
   },
 });
 

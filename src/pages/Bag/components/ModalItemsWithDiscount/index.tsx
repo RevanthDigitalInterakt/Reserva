@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   Modal,
   Text,
@@ -28,12 +28,6 @@ export default function ModalItemsWithDiscount() {
 
   const { marketingData, appTotalizers } = useBagStore(['marketingData', 'appTotalizers']);
 
-  const splitDecimalNumber = (value: number) => (`${value?.toFixed(2)}`)?.split('.')[1];
-
-  const splitIntegerNumber = (numInteger: number) => (numInteger <= 0
-    ? Math.ceil(numInteger)
-    : Math.floor(numInteger));
-
   const renderItemList = (item: TItemData) => (
     <View style={styles.modalItemContainer}>
       <Image
@@ -50,25 +44,30 @@ export default function ModalItemsWithDiscount() {
     </View>
   );
 
-  const totalPriceItemsWithDiscount = useCallback(() => {
+  const totalPriceItemsWithDiscount = useMemo(() => {
     const newValue = marketingData?.itemsWithCouponDiscount
       .reduce((acc, cur) => acc + cur.sellingPrice, 0);
 
     if (newValue) {
       const formattValue = newValue / 100;
 
-      const decimalNumber = splitDecimalNumber(formattValue);
-      const integerNumber = splitIntegerNumber(formattValue);
-
       return {
-        decimalNumber,
-        integerNumber,
+        decimalNumber: (`${formattValue?.toFixed(2)}`)?.split('.')[1],
+        integerNumber: (formattValue <= 0
+          ? Math.ceil(formattValue)
+          : Math.floor(formattValue)),
+        totalizerDiscountDecimal: (`${appTotalizers.discount?.toFixed(2)}`)?.split('.')[1],
+        totalizerDiscountInteger: (appTotalizers.discount <= 0
+          ? Math.ceil(appTotalizers.discount)
+          : Math.floor(appTotalizers.discount)),
       };
     }
 
     return {
       decimalNumber: 0,
       integerNumber: 0,
+      totalizerDiscountDecimal: 0,
+      totalizerDiscountInteger: 0,
     };
   }, [marketingData?.itemsWithCouponDiscount]);
 
@@ -123,7 +122,7 @@ export default function ModalItemsWithDiscount() {
                   >
                     R$
                     {' '}
-                    {totalPriceItemsWithDiscount().integerNumber}
+                    {totalPriceItemsWithDiscount.integerNumber}
                     ,
                   </Text>
                   <View style={{ alignSelf: 'flex-start' }}>
@@ -135,7 +134,7 @@ export default function ModalItemsWithDiscount() {
                         ]
                       }
                     >
-                      {totalPriceItemsWithDiscount().decimalNumber}
+                      {totalPriceItemsWithDiscount.decimalNumber}
                     </Text>
                   </View>
                 </View>
@@ -152,7 +151,7 @@ export default function ModalItemsWithDiscount() {
                     >
                       R$
                       {' '}
-                      {splitIntegerNumber(appTotalizers.discount).toString().replace('-', '')}
+                      {totalPriceItemsWithDiscount.totalizerDiscountInteger.toString().replace('-', '')}
                       ,
                     </Text>
                     <View style={{ alignSelf: 'flex-start' }}>
@@ -164,7 +163,7 @@ export default function ModalItemsWithDiscount() {
                           ]
                         }
                       >
-                        {splitDecimalNumber(appTotalizers.discount)}
+                        {totalPriceItemsWithDiscount.totalizerDiscountDecimal}
                       </Text>
                     </View>
                   </View>

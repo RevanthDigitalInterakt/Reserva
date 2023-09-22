@@ -29,4 +29,5 @@ export const FONTS = {
   RESERVA_SERIF_REGULAR: "ReservaSerif-Regular",
   RESERVA_SERIF_THIN: "ReservaSerif-Thin",
   RESERVA_SERIF_THIN_ITALIC: "ReservaSerif-ThinItalic",
+  NUNITO_SEMI_BOLD: "Nunito-SemiBold",
 };
