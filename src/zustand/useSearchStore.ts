@@ -8,13 +8,17 @@ import type {
   SearchQuery,
   SearchQueryVariables,
 } from '../base/graphql/generated';
-import { SearchDocument, SearchFacetItemOutput, SearchOrderByEnum } from '../base/graphql/generated';
+import {
+  SearchDocument, SearchFacetItemOutput, SearchOrderByEnum, SearchProviderEnum,
+} from '../base/graphql/generated';
 import { getApolloClient } from '../utils/getApolloClient';
 import { trackEventSearchDito } from '../utils/trackEventSearchDito';
 import EventProvider from '../utils/EventProvider';
 import { getBrandByUrl } from '../utils/getBrandByURL';
 import { trackEventAccessedCategoryDito } from '../utils/trackEventAccessedCategoryDito';
 import { getCollectionFacetsValue } from '../utils/getCollectionFacetsValue';
+import { useRemoteConfig } from '../hooks/useRemoteConfig';
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export enum SearchStatusEnum {
   INITIAL,
@@ -66,7 +70,7 @@ interface ISearchStore {
   searchType: SearchType;
   status: SearchStatusEnum;
   filters: ISearchStoreFilters;
-  parameters: Required<SearchProductInput>;
+  parameters: SearchProductInput;
   resultCount: number;
   result: ProductListOutput[];
   onInit: (searchType: SearchType) => void,
@@ -95,6 +99,7 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
     facets: [],
     perPage: RESULT_PER_PAGE,
     priceRange: null,
+    provider: null,
   },
   result: [],
   onInit: (searchType) => set(() => ({
@@ -113,7 +118,16 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
 
       Keyboard.dismiss();
 
-      const newParameters = { ...getState().parameters, ...parameters };
+      const { getBoolean } = useRemoteConfig.getState();
+      const provider = getBoolean('show_on_smart_hint')
+        ? SearchProviderEnum.Smarthint
+        : SearchProviderEnum.Vtex;
+
+      const newParameters = {
+        ...{ provider },
+        ...getState().parameters,
+        ...parameters,
+      };
 
       set(() => ({
         loading: true,
@@ -128,7 +142,9 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
         context: { clientName: 'gateway' },
         fetchPolicy: 'network-only',
         query: SearchDocument,
-        variables: { input: newParameters },
+        variables: {
+          input: newParameters,
+        },
       });
 
       const { searchType } = getState();
@@ -153,7 +169,7 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
         resultCount: data.search.count,
       }));
     } catch (err) {
-      //
+      ExceptionProvider.captureException(err);
     }
   },
   doFetchMore: async () => {
@@ -182,7 +198,7 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
         resultCount: data.search.count,
       }));
     } catch (err) {
-      //
+      ExceptionProvider.captureException(err);
     }
   },
 }));

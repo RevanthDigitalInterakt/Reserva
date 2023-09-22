@@ -1,15 +1,15 @@
-import { StyleSheet } from "react-native";
-import { scale } from "../../utils/scale";
-import { COLORS } from "../../base/styles";
+import { StyleSheet } from 'react-native';
+import { scale } from '../../utils/scale';
+import { COLORS } from '../../base/styles';
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 
   dividerWrapper: {
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     marginHorizontal: scale(2),
     height: scale(11),
   },

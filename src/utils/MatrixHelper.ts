@@ -78,7 +78,7 @@ const perspectiveMatrix = (matrix: number[], value: number): number[] => {
 // Função para traduzir (mover) uma matriz em um espaço 3D.
 const translateMatrix = (
   matrix: number[],
-  origin: { x: number; y: number; z: number }
+  origin: { x: number; y: number; z: number },
 ): number[] => {
   const { x, y, z } = origin;
   const translate = createIdentityMatrix();
@@ -91,7 +91,7 @@ const translateMatrix = (
 // Função para desfazer a tradução de uma matriz em um espaço 3D.
 const untranslateMatrix = (
   matrix: number[],
-  origin: { x: number; y: number; z: number }
+  origin: { x: number; y: number; z: number },
 ): number[] => {
   const { x, y, z } = origin;
   return translateMatrix(matrix, { x: -x, y: -y, z: -z });

@@ -42,6 +42,7 @@ export interface IRemoteConfigKeys {
   show_new_webview_checkout_v2: boolean;
   show_new_home: boolean;
   show_new_home_tester: boolean;
+  show_on_smart_hint: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -81,6 +82,7 @@ export const defaults: IRemoteConfigKeys = {
   show_new_webview_checkout_v2: false,
   show_new_home: false,
   show_new_home_tester: true,
+  show_on_smart_hint: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;

@@ -1,3 +1,5 @@
+// @ts-nocheck
+/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 
@@ -1336,6 +1338,11 @@ export type QueryMostSearchedWordsArgs = {
   provider?: InputMaybe<SearchProviderInput>;
 };
 
+export type QueryMostSearchedWordsArgs = {
+  provider?: InputMaybe<SearchProviderInput>;
+};
+
+
 export type QueryOrderArgs = {
   input: OrderDetailIdInput;
 };
@@ -1508,7 +1515,7 @@ export type SearchProductPriceRangeInput = {
 
 export enum SearchProviderEnum {
   Smarthint = 'SMARTHINT',
-  Vtex = 'VTEX',
+  Vtex = 'VTEX'
 }
 
 export type SearchProviderInput = {
@@ -1816,7 +1823,7 @@ export type CepQueryVariables = Exact<{
 }>;
 
 
-export type CepQuery = { __typename?: 'Query', cep?: { __typename?: 'CepOutput', postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, neighborhood?: string | null, reference?: string | null, geoCoordinates?: number | null } | null };
+export type CepQuery = { __typename?: 'Query', cep?: { __typename?: 'CepOutput', postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, neighborhood?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null } | null };
 
 export type CheckIfUserExistsQueryVariables = Exact<{
   email: Scalars['String'];
@@ -1925,6 +1932,7 @@ export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'Search
 
 export type SearchAutocompleteSuggestionsQueryVariables = Exact<{
   q: Scalars['String'];
+  provider: SearchProviderInput;
 }>;
 
 export type SearchAutocompleteSuggestionsQuery = { __typename?: 'Query', searchAutocompleteSuggestions: Array<string> };
@@ -4307,8 +4315,8 @@ export function refetchSearchQuery(variables: SearchQueryVariables) {
   return { query: SearchDocument, variables };
 }
 export const SearchAutocompleteSuggestionsDocument = gql`
-    query searchAutocompleteSuggestions($q: String!) {
-  searchAutocompleteSuggestions(q: $q)
+    query searchAutocompleteSuggestions($q: String!, $provider: SearchProviderInput!) {
+  searchAutocompleteSuggestions(q: $q, provider: $provider)
 }
     `;
 
@@ -4325,6 +4333,7 @@ export const SearchAutocompleteSuggestionsDocument = gql`
  * const { data, loading, error } = useSearchAutocompleteSuggestionsQuery({
  *   variables: {
  *      q: // value for 'q'
+ *      provider: // value for 'provider'
  *   },
  * });
  */
@@ -4556,5 +4565,5 @@ export type WishlistCheckProductQueryHookResult = ReturnType<typeof useWishlistC
 export type WishlistCheckProductLazyQueryHookResult = ReturnType<typeof useWishlistCheckProductLazyQuery>;
 export type WishlistCheckProductQueryResult = Apollo.QueryResult<WishlistCheckProductQuery, WishlistCheckProductQueryVariables>;
 export function refetchWishlistCheckProductQuery(variables: WishlistCheckProductQueryVariables) {
-  return { query: WishlistCheckProductDocument, variables };
-}
+      return { query: WishlistCheckProductDocument, variables: variables }
+    }

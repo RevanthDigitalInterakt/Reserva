@@ -1,6 +1,10 @@
 import { Box } from '@usereservaapp/reserva-ui';
-import React, { useEffect, useMemo } from 'react';
-import { Animated, FlatList, SafeAreaView } from 'react-native';
+import React, { useEffect } from 'react';
+import {
+  Animated,
+  FlatList,
+  SafeAreaView,
+} from 'react-native';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
@@ -16,7 +20,6 @@ import ModalSignUpComplete from '../../components/ModalSignUpComplete';
 import { useHomeStore } from '../../zustand/useHomeStore';
 import WithoutInternet from '../../components/WithoutInternet';
 import { useConnectivityStore } from '../../zustand/useConnectivityStore';
-import { useIsTester } from '../../hooks/useIsTester';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { NewHomeCarousels } from './components/NewHomeCarousels';
 import { NewTransparentTopBarDefault } from '../../modules/Menu/components/NewTransparentTopBarDefault';
@@ -27,6 +30,19 @@ import useHomeHeader from './hooks/useHomeHeader';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+
+const ListHeader = ({ newHeaderIsActive }: { newHeaderIsActive: boolean }) => (
+  <Box style={{ overflow: 'hidden' }}>
+    {newHeaderIsActive ? (
+      <NewHomeCarousels />
+    ) : (
+      <>
+        <HomeCountDown />
+        <HomeCarousels />
+      </>
+    )}
+  </Box>
+);
 
 function Home() {
   const { onLoad, medias, loaded } = useHomeStore([
@@ -39,12 +55,8 @@ function Home() {
   ]);
   const { isConnected } = useConnectivityStore(['isConnected']);
 
-  const isTester = useIsTester();
   const { getBoolean } = useRemoteConfig();
-  const newHeaderIsActive = useMemo(
-    () => getBoolean(isTester ? 'show_new_header_tester' : 'show_new_header'),
-    [getBoolean, isTester],
-  );
+  const newHeaderIsActive = getBoolean('show_new_header');
 
   const {
     handleScroll,
@@ -96,17 +108,7 @@ function Home() {
       {!newHeaderIsActive ? <HomeDiscountModal /> : null}
       <SafeAreaView {...testProps('home_count_down_container')}>
         <FlatList
-          ListHeaderComponent={() => (
-            <Box style={{ overflow: 'hidden' }}>
-              {newHeaderIsActive ? <NewHomeCarousels />
-                : (
-                  <>
-                    <HomeCountDown />
-                    <HomeCarousels />
-                  </>
-                )}
-            </Box>
-          )}
+          ListHeaderComponent={<ListHeader newHeaderIsActive={newHeaderIsActive} />}
           bounces
           onScroll={handleScroll}
           contentContainerStyle={{ paddingBottom: 100 }}
@@ -122,7 +124,6 @@ function Home() {
             />
           )}
         />
-
       </SafeAreaView>
 
       {!!showModalSignUpComplete && <ModalSignUpComplete />}

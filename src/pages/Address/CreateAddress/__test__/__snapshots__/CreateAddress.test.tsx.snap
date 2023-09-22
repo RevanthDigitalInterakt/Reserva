@@ -415,9 +415,11 @@ exports[`Create Address snapshot 1`] = `
   <RCTScrollView
     contentContainerStyle={
       Object {
+        "marginBottom": 60,
         "padding": 20,
       }
     }
+    keyboardShouldPersistTaps="handled"
   >
     <View>
       <View
@@ -496,6 +498,15 @@ exports[`Create Address snapshot 1`] = `
               }
             >
               <Text
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
                     "color": "#a3a3a3",
@@ -573,6 +584,15 @@ exports[`Create Address snapshot 1`] = `
               }
             >
               <Text
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
                     "color": "#a3a3a3",
@@ -650,6 +670,15 @@ exports[`Create Address snapshot 1`] = `
               }
             >
               <Text
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
                     "color": "#a3a3a3",
@@ -727,6 +756,15 @@ exports[`Create Address snapshot 1`] = `
               }
             >
               <Text
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
                     "color": "#a3a3a3",
@@ -804,6 +842,15 @@ exports[`Create Address snapshot 1`] = `
               }
             >
               <Text
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
                     "color": "#a3a3a3",
@@ -881,6 +928,15 @@ exports[`Create Address snapshot 1`] = `
               }
             >
               <Text
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
                     "color": "#a3a3a3",
@@ -896,7 +952,7 @@ exports[`Create Address snapshot 1`] = `
               autoCapitalize="none"
               autoCorrect={false}
               editable={true}
-              keyboardType="number-pad"
+              keyboardType="default"
               onBlur={[Function]}
               onChangeText={[Function]}
               onFocus={[Function]}
@@ -958,6 +1014,15 @@ exports[`Create Address snapshot 1`] = `
               }
             >
               <Text
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
                     "color": "#a3a3a3",
@@ -1035,6 +1100,15 @@ exports[`Create Address snapshot 1`] = `
               }
             >
               <Text
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
                     "color": "#a3a3a3",
@@ -1112,6 +1186,15 @@ exports[`Create Address snapshot 1`] = `
               }
             >
               <Text
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
                     "color": "#a3a3a3",

@@ -3,13 +3,14 @@
 ### 2.0.16
 
 - [17254 - SRN Cupom na Bag - Listagem dos itens do cupom](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/17254)
+- [18643 - Implementar filtro de preços na busca Smarthint](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18643)
+- Correções novo fluxo de cadastro de endereços
 
 ---
 
 ### 2.0.15
 
 - [18405 - Novo layout tag desconto [PDC + PDP]](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18405)
-
 - [16996 - Criar novo componente de busca](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16996)
 
 ---
