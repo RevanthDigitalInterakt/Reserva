@@ -3,6 +3,7 @@
 ### 2.0.16
 
 - [18643 - Implementar filtro de preços na busca Smarthint](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18643)
+- [Add script to check for sync with trunk, lint errors, and changelog updates.]
 - Correções novo fluxo de cadastro de endereços
 
 ---
