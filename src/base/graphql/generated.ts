@@ -1338,11 +1338,6 @@ export type QueryMostSearchedWordsArgs = {
   provider?: InputMaybe<SearchProviderInput>;
 };
 
-export type QueryMostSearchedWordsArgs = {
-  provider?: InputMaybe<SearchProviderInput>;
-};
-
-
 export type QueryOrderArgs = {
   input: OrderDetailIdInput;
 };
