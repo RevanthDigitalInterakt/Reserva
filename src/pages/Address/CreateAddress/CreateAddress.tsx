@@ -115,7 +115,7 @@ export default function CreateAddress(
         setFieldValue('addressState', data?.cep?.state);
         setFieldValue('street', data?.cep?.street);
 
-        return
+        return;
       }
     } catch (error) {
       ExceptionProvider.captureException(error);
