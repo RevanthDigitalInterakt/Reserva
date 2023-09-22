@@ -20,7 +20,7 @@ export function useNewAuthentication({ closeModal }: IParamsHook) {
   const [loadingSignIn, setLoadingSignIn] = useState(false);
 
   const { handleNavigateToDelivery } = useNavigationToDelivery();
-  const { onSignIn, onSignOut, errorSignInMessage } = useAuthStore(['onSignIn', 'onSignOut', 'errorSignInMessage']);
+  const { onSignIn, onSignOut } = useAuthStore(['onSignIn', 'onSignOut']);
   const { actions } = useBagStore(['actions']);
 
   const checkNavigation = useCallback((navigationOrigin: string, profile: ProfileQuery) => {
@@ -53,7 +53,7 @@ export function useNewAuthentication({ closeModal }: IParamsHook) {
 
       checkNavigation(navigationOrigin, response);
     } catch (error) {
-      Alert.alert('Erro', errorSignInMessage, [
+      Alert.alert('Erro', 'Não foi possível realizar o login, tente novamente', [
         {
           onPress: () => {},
           text: 'OK',
@@ -70,7 +70,7 @@ export function useNewAuthentication({ closeModal }: IParamsHook) {
         custumer_email: email,
       });
     }
-  }, [checkNavigation, closeModal, errorSignInMessage, onSignIn]);
+  }, [checkNavigation, closeModal, onSignIn]);
 
   const handleLogout = useCallback(async () => {
     try {

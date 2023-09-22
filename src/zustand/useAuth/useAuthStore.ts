@@ -33,7 +33,6 @@ export interface IAuthStore {
   profile?: TProfileData;
   //
   onSignIn: (email: string, password: string, isNewUser?: boolean) => Promise<ProfileQuery>;
-  errorSignInMessage: string;
   onUpdateAuthData: (token: string, cookie: string) => Promise<void>;
   //
   onSignOut: () => Promise<void>;
@@ -43,7 +42,6 @@ const authStore = create<IAuthStore>((set, getState) => ({
   initialized: false,
   profile: undefined,
   isAnonymousUser: true,
-  errorSignInMessage: '',
   onInit: async () => {
     try {
       const state = getState();
@@ -148,10 +146,6 @@ const authStore = create<IAuthStore>((set, getState) => ({
       return profile;
     } catch (err) {
       ExceptionProvider.captureException(err, { email, password });
-
-      set({
-        ...getState(), errorSignInMessage: 'Não foi possível realizar o login, tente novamente',
-      });
 
       throw new Error(err);
     }
