@@ -18,7 +18,7 @@ export default function SectionProductsWithDiscount() {
 
   const hasEmpty = marketingData?.itemsWithCouponDiscount
   && appTotalizers.discount !== 0
-  && marketingData?.itemsWithCouponDiscount.length > 0
+  && marketingData?.itemsWithCouponDiscount.length > 0;
 
   return (
     <View>
@@ -56,8 +56,8 @@ export default function SectionProductsWithDiscount() {
             colors={[COLORS.GRADIENT_COLOR, COLORS.WHITE, COLORS.WHITE]}
             style={[styles.sectionGradientContainer,
               {
-                top: marketingData?.itemsWithCouponDiscount.length > 2 ? 115 : 60
-              }
+                top: marketingData?.itemsWithCouponDiscount.length > 2 ? 115 : 60,
+              },
             ]}
           >
             <TouchableOpacity
