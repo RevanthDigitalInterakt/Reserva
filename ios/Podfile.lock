@@ -1469,7 +1469,7 @@ SPEC CHECKSUMS:
   DatadogSDKReactNative: d4372ad5eb31c6516f9ef43162ab715024b8db7d
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: fa8275d5086566e22a26ddc385ab5772e7f9b1bd
-  FBReactNativeSpec: f022ccbf67f06ef8e25ac4689ab28e9e17226430
+  FBReactNativeSpec: b687f8af0dd94d8acda03e812dc52bd1dc22d4bc
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
   FirebaseAnalytics: 319c9b3b1bdd400d60e2f415dff0c5f6959e6760

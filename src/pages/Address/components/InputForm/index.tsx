@@ -5,6 +5,7 @@ import {
   TextInput,
   Text,
   Animated,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 import styles from './InputForm.styles';
@@ -52,6 +53,11 @@ export default function InputForm({
     moveLabelToTop();
   }, [moveLabelToTop]);
 
+  const onFocusField = useCallback(() => {
+    inputRef.current?.focus();
+    onFocusHandler();
+  }, []);
+
   const onBlurHandler = useCallback(() => {
     fieldTouched(inputName);
 
@@ -79,7 +85,9 @@ export default function InputForm({
             transform: [{ translateY: translateStyleY }],
           }]}
         >
-          <Text style={styles.inputPlaceholder}>{placeholder}</Text>
+          <TouchableWithoutFeedback onPress={onFocusField}>
+            <Text style={styles.inputPlaceholder}>{placeholder}</Text>
+          </TouchableWithoutFeedback>
         </Animated.View>
         <TextInput
           style={styles.inputText}

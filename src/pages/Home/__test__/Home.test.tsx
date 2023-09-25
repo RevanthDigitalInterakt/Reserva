@@ -6,7 +6,10 @@ import { MockedProvider } from '@apollo/client/testing';
 import Home from '../Home';
 
 import {
-  mockHomeCarouselQuery, mockHomeConfigQuery, mockHomeCountdownQuery, mockHomeMediasQuery,
+  mockHomeCarouselQuery,
+  mockHomeConfigQuery,
+  mockHomeCountdownQuery,
+  mockHomeMediasQuery,
 } from './Home.mock';
 
 const Component = (
@@ -30,8 +33,12 @@ jest.mock('react-native-share', () => ({
 }));
 
 jest.mock('../../../hooks/usePrimeInfo', () => ({
-  usePrimeInfo: () => ({
-  }),
+  usePrimeInfo: () => ({}),
+}));
+
+jest.mock('react-native-background-timer', () => ({
+  stopBackgroundTimer: jest.fn(),
+  runBackgroundTimer: jest.fn(),
 }));
 
 jest.mock('../../../zustand/useApolloFetchPolicyStore', () => ({
@@ -55,6 +62,12 @@ jest.mock('../../../zustand/useHomeStore', () => ({
   }),
 }));
 
+jest.mock('../../../zustand/useAuth/useAuthStore', () => ({
+  useAuthStore: () => ({
+    initialized: true,
+  }),
+}));
+
 describe('Home', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -71,13 +84,17 @@ describe('Home', () => {
 
   it('should render flatlist correctly', () => {
     render(Component);
-    const card = screen.getByTestId('com.usereserva:id/home_count_down_container');
+    const card = screen.getByTestId(
+      'com.usereserva:id/home_count_down_container',
+    );
     expect(card).toBeOnTheScreen();
   });
 
   it('should render banner properly', () => {
     render(Component);
-    const card = screen.getByTestId('com.usereserva:id/banner_button_collection:1587');
+    const card = screen.getByTestId(
+      'com.usereserva:id/banner_button_collection:1587',
+    );
     expect(card).toBeOnTheScreen();
   });
 });

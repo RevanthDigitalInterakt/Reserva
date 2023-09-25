@@ -73,6 +73,8 @@ export default function CreateAddress(
   const inputNeighborRef = useRef<TextInput>(null);
   const inputNumberRef = useRef<TextInput>(null);
   const inputComplementRef = useRef<TextInput>(null);
+  const inputStateRef = useRef<TextInput>(null);
+  const inputCityRef = useRef<TextInput>(null);
 
   const [loading, setLoading] = useState(false);
   const [isMainAddress, setIsMainAddress] = useState(mainAddress === route.params?.id || false);
@@ -107,10 +109,14 @@ export default function CreateAddress(
         },
       });
 
-      setFieldValue('city', data?.cep?.city);
-      setFieldValue('neighborhood', data?.cep?.neighborhood);
-      setFieldValue('addressState', data?.cep?.state);
-      setFieldValue('street', data?.cep?.street);
+      if (data) {
+        setFieldValue('city', data?.cep?.city);
+        setFieldValue('neighborhood', data?.cep?.neighborhood);
+        setFieldValue('addressState', data?.cep?.state);
+        setFieldValue('street', data?.cep?.street);
+
+        return
+      }
     } catch (error) {
       ExceptionProvider.captureException(error);
     }
@@ -190,7 +196,7 @@ export default function CreateAddress(
         showShadow
         backButtonPress={navigation.goBack}
       />
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent} keyboardShouldPersistTaps="handled">
         <View style={styles.content}>
           <Text style={styles.title}>Adicionar endereço</Text>
         </View>
@@ -324,7 +330,7 @@ export default function CreateAddress(
                   fieldTouched={() => setFieldTouched('addressNumber')}
                   error={errors.addressNumber}
                   isEditable
-                  textInputType="number-pad"
+                  textInputType="default"
                   inputID={testProps('com.usereserva:id/create_address_input_address_number')}
                   touched={touched.addressNumber}
                 />
@@ -353,8 +359,8 @@ export default function CreateAddress(
                   inputValue={values.addressState}
                   fieldTouched={() => setFieldTouched('addressState')}
                   error={errors.addressState}
-                  inputRef={inputComplementRef}
-                  nextInputRef={inputComplementRef}
+                  inputRef={inputStateRef}
+                  nextInputRef={inputCityRef}
                   inputName="addressState"
                   isEditable={values.postalCode !== '' && values.addressState === ''}
                   textInputType="default"
@@ -370,8 +376,7 @@ export default function CreateAddress(
                   inputValue={values.city}
                   fieldTouched={() => setFieldTouched('city')}
                   error={errors.city}
-                  inputRef={inputComplementRef}
-                  nextInputRef={inputComplementRef}
+                  inputRef={inputCityRef}
                   inputName="city"
                   isEditable={values.postalCode !== '' && values.city === ''}
                   textInputType="default"
