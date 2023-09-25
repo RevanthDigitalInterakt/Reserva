@@ -11,7 +11,7 @@ import ProductAbout from './components/ProductAbout';
 import ProductSummary from './components/ProductSummary';
 import ProductAssinaturaSimples from './components/ProductAssinaturaSimples';
 import ProductSelectors from './components/ProductSelectors';
-import { ProductQuery, ProductResultActionEnum, useProductLazyQuery } from '../../base/graphql/generated';
+import { ProductQuery, useProductLazyQuery } from '../../base/graphql/generated';
 import { getProductLoadType } from './utils/getProductLoadType';
 import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
 import EventProvider from '../../utils/EventProvider';
@@ -20,7 +20,6 @@ import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicySto
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
 import { getProductCategories } from '../../utils/getProductCategories';
-import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
 import { Recommendation } from '../../modules/Checkout/components/Recommendation';
@@ -79,7 +78,6 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       }
 
       const { product } = data;
-
       trackEventDitoAccessProduct(data);
 
       EventProvider.logEvent('product_view', {
@@ -89,16 +87,16 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         product_currency: 'BRL',
       });
 
-      if (product.action !== ProductResultActionEnum.ShowProduct) {
-        await DeepLinkPathModule.openUrlInBrowser({
-          closeCurrentAppInstance: false,
-          url: product.share.url,
-        });
-
-        navigation.goBack();
-
-        return;
-      }
+      // if (product.action !== ProductResultActionEnum.ShowProduct) {
+      //   await DeepLinkPathModule.openUrlInBrowser({
+      //     closeCurrentAppInstance: false,
+      //     url: product.share.url,
+      //   });
+      //
+      //   navigation.goBack();
+      //
+      //   return;
+      // }
 
       setProduct(product, params);
     } catch (err) {

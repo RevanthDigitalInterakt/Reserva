@@ -78,59 +78,71 @@ function ProductSelectors() {
     if (selectedSize) doSelectSizeTrack();
   }, [selectedSize, doSelectSizeTrack]);
 
+  console.log('productDetail', productDetail);
+
   if (!productDetail) return null;
+
+  const productDetailsHasColors = !!productDetail.colorUrls.length;
+
+  console.log('productDetailsHasColors', productDetailsHasColors);
 
   return (
     <View>
-      <Box mt="xs">
-        <Box px="xxxs" mb="xxxs">
-          <Typography variant="subtituloSessoes">Cores:</Typography>
-        </Box>
+      {productDetailsHasColors && (
+        <Box mt="xs">
+          <Box px="xxxs" mb="xxxs">
+            <Typography variant="subtituloSessoes">Cores:</Typography>
+          </Box>
 
-        <Box>
-          <ScrollView horizontal>
-            <SelectColor
-              onPress={setSelectedColor}
-              size={30}
-              disabledColors={productDetail.disabledColors}
-              listColors={productDetail.colorUrls}
-              selectedColors={selectedColor?.colorId || ''}
-            />
-          </ScrollView>
+          <Box>
+            <ScrollView horizontal>
+              <SelectColor
+                onPress={setSelectedColor}
+                size={30}
+                disabledColors={productDetail.disabledColors}
+                listColors={productDetail.colorUrls}
+                selectedColors={selectedColor?.colorId || ''}
+              />
+            </ScrollView>
+          </Box>
         </Box>
-      </Box>
+      )}
 
       <Box px="xxxs">
-        <Box mt="xxxs">
-          <Box flexDirection="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="subtituloSessoes">Tamanhos:</Typography>
+        {productDetailsHasColors && (
+          <>
+            <Box mt="xxxs">
+              <Box flexDirection="row" justifyContent="space-between" alignItems="center">
+                <Typography variant="subtituloSessoes">Tamanhos:</Typography>
 
-            {!!categoryTree?.length && (
-              <SizeGuide categoryTree={categoryTree} productId={productDetail.productId} />
+                {!!categoryTree?.length && (
+                  <SizeGuide categoryTree={categoryTree} productId={productDetail.productId} />
+                )}
+              </Box>
+
+              <Box alignItems="flex-start" mt="xxxs">
+                <RadioButtons
+                  size={38}
+                  fontSize={12}
+                  disbledOptions={disabledSizes}
+                  onSelectedChange={(val) => setSelectedSize(`${val}`)}
+                  optionsList={sizes}
+                  defaultSelectedItem=""
+                  selectedItem={selectedSize?.size || ''}
+                />
+              </Box>
+            </Box>
+
+            {!selectedSize?.availableQuantity && (
+              <Box mt="xxs" flexDirection="row" alignItems="center">
+                <Icon name="Alert" size={20} color="vermelhoRSV" mr="nano" />
+
+                <Typography fontFamily="reservaSansBold" fontSize={15} color="vermelhoRSV">
+                  Produto Esgotado
+                </Typography>
+              </Box>
             )}
-          </Box>
-
-          <Box alignItems="flex-start" mt="xxxs">
-            <RadioButtons
-              size={38}
-              fontSize={12}
-              disbledOptions={disabledSizes}
-              onSelectedChange={(val) => setSelectedSize(`${val}`)}
-              optionsList={sizes}
-              defaultSelectedItem=""
-              selectedItem={selectedSize?.size || ''}
-            />
-          </Box>
-        </Box>
-
-        {!selectedSize?.availableQuantity && (
-          <Box mt="xxs" flexDirection="row" alignItems="center">
-            <Icon name="Alert" size={20} color="vermelhoRSV" mr="nano" />
-
-            <Typography fontFamily="reservaSansBold" fontSize={15} color="vermelhoRSV">
-              Produto Esgotado
-            </Typography>
-          </Box>
+          </>
         )}
 
         <ProductAddToCart />
