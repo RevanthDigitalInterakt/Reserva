@@ -31,7 +31,6 @@ import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 import { trackAccessBag } from '../../utils/trackAccessBag';
 import { getBrands } from '../../utils/getBrands';
 import { trackViewCart } from '../../utils/trackViewCart';
-import ModalItemsWithDiscount from './components/ModalItemsWithDiscount';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -205,8 +204,6 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
           navigation.popToTop();
         }}
       />
-
-      <ModalItemsWithDiscount />
     </SafeAreaView>
   );
 }
