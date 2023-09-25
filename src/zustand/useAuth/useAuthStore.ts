@@ -32,7 +32,7 @@ export interface IAuthStore {
   onGetProfile: (fetchPolicy?: FetchPolicy) => Promise<TProfileData>;
   profile?: TProfileData;
   //
-  onSignIn: (email: string, password: string, isNewUser?: boolean) => Promise<void>;
+  onSignIn: (email: string, password: string, isNewUser?: boolean) => Promise<ProfileQuery>;
   onUpdateAuthData: (token: string, cookie: string) => Promise<void>;
   //
   onSignOut: () => Promise<void>;
