@@ -10,8 +10,8 @@ export type Items = {
 export enum Method {
   Email = 'email',
   Google = 'google',
-  Facebook = 'facebook'
-};
+  Facebook = 'facebook',
+}
 
 type EventValues = {
   item_id: string;
@@ -159,6 +159,8 @@ export namespace EventsOptions {
   export type PressHeaderSearch = Pick<EventValues, 'open'>;
   export type PageLoadTime = Pick<EventValues, | 'page' | 'value'>;
   export type SignUp = Pick<EventValues, | 'method'>;
+  export type Wishlist = Pick<EventValues, | 'currency' | 'items' | 'value'>;
+
 }
 
 export type EventOptionsFn =
@@ -317,4 +319,8 @@ export type EventOptionsFn =
   | {
     type: 'sign_up',
     payload: EventsOptions.SignUp
+  }
+  | {
+    type: 'add_to_wishlist',
+    payload: EventsOptions.Wishlist
   };

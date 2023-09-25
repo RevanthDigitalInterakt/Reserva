@@ -4,18 +4,21 @@ import React, {
 } from 'react';
 import { Pressable, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
-import type { HomeCarouselItemOutput, HomeCarouselOutput } from '../../../../base/graphql/generated';
 import Carousel, { type ICarouselInstance } from 'react-native-reanimated-carousel';
 
-import testProps from '../../../../utils/testProps';
-import configDeviceSizes from '../../../../utils/configDeviceSizes';
-import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
+import type {
+  HomeCarouselItemOutput,
+  HomeCarouselOutput,
+} from '../../../../base/graphql/generated';
+import { COLORS } from '../../../../base/styles';
+import { Box } from '../../../../components/Box/Box';
 import CarouselPaginationItem from '../../../../components/CarouselPaginationItem';
+import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import CarrouselScrollIndicator from '../../../../modules/Home/component/CarouselScrollIndicator';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
+import testProps from '../../../../utils/testProps';
 import { styles } from './HomeMainCarousel.styles';
-import { Box } from '../../../../components/Box/Box';
-import { COLORS } from '../../../../base/styles';
 
 interface IHomeMainCarousel {
   data: HomeCarouselOutput;

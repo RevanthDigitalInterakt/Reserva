@@ -1,5 +1,5 @@
-import styled from "styled-components/native";
-import { StyleSheet } from "react-native";
+import styled from 'styled-components/native';
+import { StyleSheet } from 'react-native';
 
 interface IBrandContainerProps {
   index: number;
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 
   brandShadowContainer: {
     elevation: 5,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 2,
       height: 2,
@@ -30,23 +30,20 @@ const styles = StyleSheet.create({
 });
 
 const BrandContainer = styled.TouchableOpacity<IBrandContainerProps>`
-  width: ${({ deviceWidth, lastIndex }) =>
-    lastIndex <= 4
-      ? `${(deviceWidth - (10 * lastIndex - 1) - 10) / lastIndex}px`
-      : "78px"};
+  width: ${({ deviceWidth, lastIndex }) => (lastIndex <= 4
+    ? `${(deviceWidth - (10 * lastIndex - 1) - 10) / lastIndex}px`
+    : '78px')};
   height: 48px;
-  max-width: ${({ deviceWidth, lastIndex }) =>
-    lastIndex <= 4
-      ? `${(deviceWidth - (10 * lastIndex - 1) - 10) / lastIndex}px`
-      : "78px"};
+  max-width: ${({ deviceWidth, lastIndex }) => (lastIndex <= 4
+    ? `${(deviceWidth - (10 * lastIndex - 1) - 10) / lastIndex}px`
+    : '78px')};
   max-height: 48px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
   background: #ffffff;
-  margin-right: ${({ index, lastIndex }) =>
-    index === lastIndex ? "0px" : "10px"};
+  margin-right: ${({ index, lastIndex }) => (index === lastIndex ? '0px' : '10px')};
   margin-top: 10px;
 `;
 

@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View, Animated, Dimensions } from "react-native";
-import testProps from "../../../../utils/testProps";
-import { NewFlipCard } from "../NewFlipCard";
-import styles from "./styles";
-import MatrixHelper from "../../../../utils/MatrixHelper";
-import { Card } from "./components/Card";
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Animated, Dimensions } from 'react-native';
+import testProps from '../../../../utils/testProps';
+import { NewFlipCard } from '../NewFlipCard';
+import styles from './styles';
+import MatrixHelper from '../../../../utils/MatrixHelper';
+import { Card } from './components/Card';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 const size = width / 8;
 
 interface NumberCardProps {
@@ -31,7 +31,7 @@ export function NewNumberCard({
       }) => void;
     } | null,
     deg: number,
-    y: number
+    y: number,
   ) => {
     const matrix = MatrixHelper.createIdentityMatrix();
     MatrixHelper.translateMatrix(matrix, { x: 0, y, z: 0 });
@@ -83,7 +83,7 @@ export function NewNumberCard({
   return (
     <View
       style={styles.container}
-      {...testProps("com.usereserva:id/number_card_container")}
+      {...testProps('com.usereserva:id/number_card_container')}
     >
       <Card
         testID="com.usereserva:id/number_card_type_upper_card"

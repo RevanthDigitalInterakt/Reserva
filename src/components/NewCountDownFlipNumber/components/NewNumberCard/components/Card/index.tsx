@@ -1,10 +1,10 @@
-import React from "react";
-import { Text, View } from "react-native";
-import styles from "./styles";
-import testProps from "../../../../../../utils/testProps";
+import React from 'react';
+import { Text, View } from 'react-native';
+import styles from './styles';
+import testProps from '../../../../../../utils/testProps';
 
 interface ICard {
-  type: "upper" | "lower";
+  type: 'upper' | 'lower';
   number: any;
   testID: string;
 }
@@ -14,7 +14,7 @@ export function Card({ type, number, testID }: ICard) {
     <View
       style={
         styles({
-          upper: type === "upper",
+          upper: type === 'upper',
         }).card
       }
       {...testProps(testID)}
@@ -22,10 +22,10 @@ export function Card({ type, number, testID }: ICard) {
       <Text
         style={
           styles({
-            upper: type === "upper",
+            upper: type === 'upper',
           }).number
         }
-        {...testProps("com.usereserva:id/card_number")}
+        {...testProps('com.usereserva:id/card_number')}
       >
         {number}
       </Text>

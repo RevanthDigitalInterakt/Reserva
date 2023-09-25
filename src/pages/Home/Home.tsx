@@ -1,16 +1,18 @@
+import React, { useEffect } from 'react';
+import {
+  Animated,
+  FlatList,
+  SafeAreaView,
+} from 'react-native';
+import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
-import React, { useEffect, useMemo } from 'react';
-import {
-  FlatList, SafeAreaView, Animated
-} from 'react-native';
 
 import NewBanner from '../../components/Banner/NewBanner';
 import { Box } from '../../components/Box/Box';
 import ModalSignUpComplete from '../../components/ModalSignUpComplete';
 import WithoutInternet from '../../components/WithoutInternet';
-import { useIsTester } from '../../hooks/useIsTester';
+import { useConnectivityStore } from '../../zustand/useConnectivityStore';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { NewTransparentTopBarDefault } from '../../modules/Menu/components/NewTransparentTopBarDefault';
 import { NewWhiteTopBarDefault } from '../../modules/Menu/components/NewWhiteTopBarDefault';
@@ -19,7 +21,6 @@ import EventProvider from '../../utils/EventProvider';
 import { defaultBrand } from '../../utils/defaultWBrand';
 import testProps from '../../utils/testProps';
 import useAuthModalStore from '../../zustand/useAuthModalStore';
-import { useConnectivityStore } from '../../zustand/useConnectivityStore';
 import { useHomeStore } from '../../zustand/useHomeStore';
 import HomeCarousels from './components/HomeCarousels';
 import HomeCountDown from './components/HomeCountDown';

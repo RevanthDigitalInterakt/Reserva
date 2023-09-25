@@ -1,3 +1,5 @@
+// @ts-nocheck
+/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -85,7 +87,7 @@ export type CepOutput = {
   __typename?: 'CepOutput';
   city?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
-  geoCoordinates?: Maybe<Scalars['Int']>;
+  geoCoordinates?: Maybe<Array<Scalars['Float']>>;
   neighborhood?: Maybe<Scalars['String']>;
   postalCode?: Maybe<Scalars['String']>;
   reference?: Maybe<Scalars['String']>;
@@ -1365,6 +1367,11 @@ export type QueryDeeplinkPathArgs = {
 };
 
 
+export type QueryMostSearchedWordsArgs = {
+  provider?: InputMaybe<SearchProviderInput>;
+};
+
+
 export type QueryOrderArgs = {
   input: OrderDetailIdInput;
 };
@@ -1401,6 +1408,7 @@ export type QuerySearchArgs = {
 
 
 export type QuerySearchAutocompleteSuggestionsArgs = {
+  provider?: InputMaybe<SearchProviderInput>;
   q: Scalars['String'];
 };
 
@@ -1494,6 +1502,7 @@ export type SearchFacetRangeOutput = {
 
 export type SearchFacetsInput = {
   facets?: InputMaybe<Array<SearchProductFacetInput>>;
+  provider?: InputMaybe<SearchProviderEnum>;
   q?: InputMaybe<Scalars['String']>;
 };
 
@@ -1534,12 +1543,22 @@ export type SearchProductInput = {
   page: Scalars['Int'];
   perPage?: InputMaybe<Scalars['Int']>;
   priceRange?: InputMaybe<SearchProductPriceRangeInput>;
+  provider?: InputMaybe<SearchProviderEnum>;
   q?: InputMaybe<Scalars['String']>;
 };
 
 export type SearchProductPriceRangeInput = {
   from: Scalars['Float'];
   to: Scalars['Float'];
+};
+
+export enum SearchProviderEnum {
+  Smarthint = 'SMARTHINT',
+  Vtex = 'VTEX'
+}
+
+export type SearchProviderInput = {
+  value?: InputMaybe<SearchProviderEnum>;
 };
 
 export type SellerInfoInput = {
@@ -1872,7 +1891,7 @@ export type CepQueryVariables = Exact<{
 }>;
 
 
-export type CepQuery = { __typename?: 'Query', cep?: { __typename?: 'CepOutput', postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, neighborhood?: string | null, reference?: string | null, geoCoordinates?: number | null } | null };
+export type CepQuery = { __typename?: 'Query', cep?: { __typename?: 'CepOutput', postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, neighborhood?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null } | null };
 
 export type CheckIfUserExistsQueryVariables = Exact<{
   email: Scalars['String'];
@@ -1999,6 +2018,7 @@ export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'Search
 
 export type SearchAutocompleteSuggestionsQueryVariables = Exact<{
   q: Scalars['String'];
+  provider: SearchProviderInput;
 }>;
 
 
@@ -4379,8 +4399,8 @@ export function refetchSearchQuery(variables: SearchQueryVariables) {
       return { query: SearchDocument, variables: variables }
     }
 export const SearchAutocompleteSuggestionsDocument = gql`
-    query searchAutocompleteSuggestions($q: String!) {
-  searchAutocompleteSuggestions(q: $q)
+    query searchAutocompleteSuggestions($q: String!, $provider: SearchProviderInput!) {
+  searchAutocompleteSuggestions(q: $q, provider: $provider)
 }
     `;
 
@@ -4397,6 +4417,7 @@ export const SearchAutocompleteSuggestionsDocument = gql`
  * const { data, loading, error } = useSearchAutocompleteSuggestionsQuery({
  *   variables: {
  *      q: // value for 'q'
+ *      provider: // value for 'provider'
  *   },
  * });
  */

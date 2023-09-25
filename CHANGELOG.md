@@ -1,9 +1,16 @@
 ## CHANGELOG
 
+### 2.0.16
+
+- [18643 - Implementar filtro de preços na busca Smarthint](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18643)
+- [Script para verificar lint, branch, changelog e test]
+- [Correções novo fluxo de cadastro de endereços]
+
+---
+
 ### 2.0.15
 
 - [18405 - Novo layout tag desconto [PDC + PDP]](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18405)
-
 - [16996 - Criar novo componente de busca](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16996)
 
 ---

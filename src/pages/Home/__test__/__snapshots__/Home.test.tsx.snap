@@ -883,7 +883,11 @@ exports[`Home renders correctly 1`] = `
     testID="com.usereserva:id/home_count_down_container"
   >
     <RCTScrollView
-      ListHeaderComponent={[Function]}
+      ListHeaderComponent={
+        <ListHeader
+          newHeaderIsActive={false}
+        />
+      }
       bounces={true}
       contentContainerStyle={
         Object {

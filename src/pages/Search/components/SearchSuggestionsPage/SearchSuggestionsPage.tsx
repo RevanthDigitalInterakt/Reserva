@@ -1,9 +1,10 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import { ActivityIndicator, Keyboard } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import DeepLinkPathModule from '../../../../NativeModules/DeepLinkPathModule';
 import {
+  SearchProviderEnum,
   useCheckSearchRedirectLazyQuery, useSearchAutocompleteSuggestionsLazyQuery,
 } from '../../../../base/graphql/generated';
 import { COLORS } from '../../../../base/styles/colors';
@@ -14,18 +15,28 @@ import { Typography } from '../../../../components/Typography/Typography';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 import useSearchStore from '../../../../zustand/useSearchStore';
+import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
 function SearchSuggestionsPage() {
   const navigation = useNavigation();
   const { primeActive, primeLPSearchTerms } = usePrimeInfo();
-
+  const { getBoolean } = useRemoteConfig();
   const { onSearch, parameters } = useSearchStore(['onSearch', 'parameters']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
+
+  const showOnSmartint = useMemo(() => getBoolean('show_on_smart_hint'), [getBoolean]);
 
   const [getSuggestions, { data, loading }] = useSearchAutocompleteSuggestionsLazyQuery({
     context: { clientName: 'gateway' },
     notifyOnNetworkStatusChange: true,
-    variables: { q: parameters.q },
+    variables: {
+      q: parameters.q,
+      provider: {
+        value: showOnSmartint
+          ? SearchProviderEnum.Smarthint
+          : SearchProviderEnum.Vtex,
+      },
+    },
     fetchPolicy: getFetchPolicyPerKey('searchAutocompleteSuggestions'),
   });
 

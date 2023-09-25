@@ -1,10 +1,10 @@
-import React, { forwardRef } from "react";
-import { Animated, View, Text } from "react-native";
-import testProps from "../../../../utils/testProps";
-import styles from "./styles";
+import React, { forwardRef } from 'react';
+import { Animated, View, Text } from 'react-native';
+import testProps from '../../../../utils/testProps';
+import styles from './styles';
 
 interface IFlipCard {
-  type: "front" | "back";
+  type: 'front' | 'back';
   number: string;
   testID: string;
 }
@@ -18,7 +18,7 @@ export const NewFlipCard = forwardRef((props: IFlipCard, ref) => {
       ref={ref}
       style={
         styles({
-          isFront: type === "front",
+          isFront: type === 'front',
         }).container
       }
     >
@@ -27,7 +27,7 @@ export const NewFlipCard = forwardRef((props: IFlipCard, ref) => {
           {...testProps(`com.usereserva:id/flip_card_number_${type}`)}
           style={
             styles({
-              isFront: type === "front",
+              isFront: type === 'front',
             }).number
           }
         >
