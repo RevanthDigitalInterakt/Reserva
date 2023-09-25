@@ -3,15 +3,17 @@
 ### 2.0.16
 
 - [17254 - SRN Cupom na Bag - Listagem dos itens do cupom](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/17254)
+- [SRN-17075 Refactor Login](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/17075)
 - [18643 - Implementar filtro de preços na busca Smarthint](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18643)
-- [Add script to check for sync with trunk, lint errors, and changelog updates.]
-- Correções novo fluxo de cadastro de endereços
+- [Script para verificar lint, branch, changelog e test]
+- [Correções novo fluxo de cadastro de endereços]
 
 ---
 
 ### 2.0.15
 
 - [18405 - Novo layout tag desconto [PDC + PDP]](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18405)
+- [SRN-17072 Refatoração Login - Código de Layout da tela](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/17072)
 - [16996 - Criar novo componente de busca](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16996)
 
 ---
