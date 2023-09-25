@@ -25,4 +25,7 @@ export const COLORS = {
   MEDIUM_BLACK: '#1A1A1A',
   MEDIUM_BLACK_2: '#1f1f1f',
   SUCCESS: '#31955F',
+  DIVIDER: '#d7d7d7',
+  ITEM_BORDER: '#bbbbbb',
+  GRADIENT_COLOR: 'rgba(255, 255, 255, 0.5)',
 };

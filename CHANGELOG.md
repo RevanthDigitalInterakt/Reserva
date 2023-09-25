@@ -1,6 +1,8 @@
 ## CHANGELOG
 
 ### 2.0.16
+
+- [17254 - SRN Cupom na Bag - Listagem dos itens do cupom](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/17254)
 - [SRN-17075 Refactor Login](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/17075)
 - [18643 - Implementar filtro de preços na busca Smarthint](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18643)
 - [Script para verificar lint, branch, changelog e test]
