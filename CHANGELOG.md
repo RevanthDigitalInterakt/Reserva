@@ -1,5 +1,12 @@
 ## CHANGELOG
 
+### 2.1.0
+
+- [15509 - Update React-native and libs](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15509)
+
+---
+
+
 ### 2.0.16
 
 - [18643 - Implementar filtro de preços na busca Smarthint](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18643)
