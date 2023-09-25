@@ -16,7 +16,6 @@ import EventProvider from '../../utils/EventProvider';
 import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { Recommendation } from './components/Recommendation';
 import { ShippingBar } from './components/ShippingBar';
-import CouponComponent from './components/Coupon';
 import LoadingModal from './components/LoadingModal';
 import DeleteProductModal from './components/DeleteProduct';
 import BagProductList from './components/ProductList';
@@ -29,6 +28,7 @@ import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 import { trackAccessBag } from '../../utils/trackAccessBag';
 import { getBrands } from '../../utils/getBrands';
 import { trackViewCart } from '../../utils/trackViewCart';
+import CouponComponent from './components/Coupon';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 

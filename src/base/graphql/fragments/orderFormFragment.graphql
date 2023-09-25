@@ -23,9 +23,17 @@ fragment orderFormFragment on OrderformOutput {
         ...OrderformSelectableGiftFragment
     }
     marketingData {
-        coupon
-        sellerCoupon
-        sellerCouponName
+      coupon
+      sellerCoupon
+      sellerCouponName
+      itemsWithCouponDiscount {
+        id
+        name
+        sellingPrice
+        itemColor
+        imageUrl
+        imageSource
+      }
     }
     shippingData {
         address {
