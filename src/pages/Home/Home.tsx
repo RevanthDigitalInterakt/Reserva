@@ -32,18 +32,20 @@ import styles from './styles';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const ListHeader = ({ newHeaderIsActive }: { newHeaderIsActive: boolean }) => (
-  <Box style={{ overflow: 'hidden' }}>
-    {newHeaderIsActive ? (
-      <NewHomeCarousels />
-    ) : (
-      <>
-        <HomeCountDown />
-        <HomeCarousels />
-      </>
-    )}
-  </Box>
-);
+function ListHeader({ newHeaderIsActive }: { newHeaderIsActive: boolean }) {
+  return (
+    <Box style={{ overflow: 'hidden' }}>
+      {newHeaderIsActive ? (
+        <NewHomeCarousels />
+      ) : (
+        <>
+          <HomeCountDown />
+          <HomeCarousels />
+        </>
+      )}
+    </Box>
+  );
+}
 
 function Home() {
   const { onLoad, medias, loaded } = useHomeStore([

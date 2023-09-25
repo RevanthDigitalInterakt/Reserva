@@ -114,8 +114,6 @@ export default function CreateAddress(
         setFieldValue('neighborhood', data?.cep?.neighborhood);
         setFieldValue('addressState', data?.cep?.state);
         setFieldValue('street', data?.cep?.street);
-
-        return
       }
     } catch (error) {
       ExceptionProvider.captureException(error);

@@ -42,7 +42,7 @@ export interface ProductVerticalListCardProps {
   installmentsEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
 }
 
-export const ProductVerticalListCard = ({
+export function ProductVerticalListCard({
   currency,
   imageSource,
   installmentsNumber,
@@ -64,7 +64,7 @@ export const ProductVerticalListCard = ({
   installmentsEqualPrime,
   prime,
   testID,
-}: ProductVerticalListCardProps) => {
+}: ProductVerticalListCardProps) {
   const { getString } = useRemoteConfig();
 
   const typeInstallments: TTypesInstallments = useMemo(() => (

@@ -26,7 +26,7 @@ interface IWishListProductCard {
   testID?: string;
 }
 
-export const WishListProductCard = ({
+export function WishListProductCard({
   currency = 'R$',
   discountTag,
   imageUrl,
@@ -40,8 +40,8 @@ export const WishListProductCard = ({
   loadingWishList,
   loadingBagButton,
   testID,
-}: IWishListProductCard) => (
-  <>
+}: IWishListProductCard) {
+  return (
     <Box
       flexDirection="row"
       height={152}
@@ -232,5 +232,5 @@ export const WishListProductCard = ({
           )}
       </Box>
     </Box>
-  </>
-);
+  );
+}

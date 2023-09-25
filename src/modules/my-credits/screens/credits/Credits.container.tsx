@@ -23,7 +23,7 @@ export function CreditsContainer({ navigateBack }: CreditsContainerProps) {
 
   const getCreditBalance = useCallback(async () => {
     if (!profile?.document) {
-      return
+      return;
     }
     try {
       const customer = await MyCreditsAPI.get<GetCustomerResponse>(
@@ -37,10 +37,8 @@ export function CreditsContainer({ navigateBack }: CreditsContainerProps) {
         );
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-
-
   }, [profile]);
 
   useEffect(() => {

@@ -4,34 +4,34 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { createZustandStoreWithSelectors } from '../utils/createZustandStoreWithSelectors';
 
 type TCacheKeys = 'appMenu'
-  | 'banner'
-  | 'brandsCarousel'
-  | 'checkSearchRedirect'
-  | 'config'
-  | 'countdownClock'
-  | 'facets'
-  | 'getWishlist'
-  | 'home'
-  | 'homeCarousels'
-  | 'homeMedias'
-  | 'homeCountdown'
-  | 'homeConfig'
-  | 'landingPagePrime'
-  | 'mktinStatus'
-  | 'primeFAQ'
-  | 'productDetail'
-  | 'productFeaturedData'
-  | 'productRecommendations'
-  | 'productSearch'
-  | 'profile'
-  | 'searchSuggestionsAndProductSearch'
-  | 'sellerInfo'
-  | 'updateInApp'
-  | 'mostSearchedWords'
-  | 'searchNews'
-  | 'search'
-  | 'searchFacets'
-  | 'searchAutocompleteSuggestions';
+| 'banner'
+| 'brandsCarousel'
+| 'checkSearchRedirect'
+| 'config'
+| 'countdownClock'
+| 'facets'
+| 'getWishlist'
+| 'home'
+| 'homeCarousels'
+| 'homeMedias'
+| 'homeCountdown'
+| 'homeConfig'
+| 'landingPagePrime'
+| 'mktinStatus'
+| 'primeFAQ'
+| 'productDetail'
+| 'productFeaturedData'
+| 'productRecommendations'
+| 'productSearch'
+| 'profile'
+| 'searchSuggestionsAndProductSearch'
+| 'sellerInfo'
+| 'updateInApp'
+| 'mostSearchedWords'
+| 'searchNews'
+| 'search'
+| 'searchFacets'
+| 'searchAutocompleteSuggestions';
 
 const ONE_MINUTE = 1000 * 60;
 const TWO_MINUTES = ONE_MINUTE * 2;
@@ -83,74 +83,75 @@ interface IApolloFetchPolicyStore {
 }
 
 export const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
-  persist((set, getState) => ({
-    initialized: false,
-    setInitialized: () => set({ ...getState(), initialized: true }),
-    lastFetchedTimes: {
-      appMenu: 0,
-      banner: 0,
-      brandsCarousel: 0,
-      checkSearchRedirect: 0,
-      config: 0,
-      countdownClock: 0,
-      getWishlist: 0,
-      facets: 0,
-      home: 0,
-      homeCarousels: 0,
-      homeMedias: 0,
-      homeCountdown: 0,
-      homeConfig: 0,
-      landingPagePrime: 0,
-      mktinStatus: 0,
-      primeFAQ: 0,
-      productDetail: 0,
-      productFeaturedData: 0,
-      productRecommendations: 0,
-      productSearch: 0,
-      profile: 0,
-      searchSuggestionsAndProductSearch: 0,
-      sellerInfo: 0,
-      updateInApp: 0,
-      mostSearchedWords: 0,
-      searchNews: 0,
-      search: 0,
-      searchFacets: 0,
-      searchAutocompleteSuggestions: 0,
-    },
-    getFetchPolicyPerKey: (key: TCacheKeys) => {
-      if (DISABLED_CACHE_POLICY) return 'network-only';
+  persist(
+    (set, getState) => ({
+      initialized: false,
+      setInitialized: () => set({ ...getState(), initialized: true }),
+      lastFetchedTimes: {
+        appMenu: 0,
+        banner: 0,
+        brandsCarousel: 0,
+        checkSearchRedirect: 0,
+        config: 0,
+        countdownClock: 0,
+        getWishlist: 0,
+        facets: 0,
+        home: 0,
+        homeCarousels: 0,
+        homeMedias: 0,
+        homeCountdown: 0,
+        homeConfig: 0,
+        landingPagePrime: 0,
+        mktinStatus: 0,
+        primeFAQ: 0,
+        productDetail: 0,
+        productFeaturedData: 0,
+        productRecommendations: 0,
+        productSearch: 0,
+        profile: 0,
+        searchSuggestionsAndProductSearch: 0,
+        sellerInfo: 0,
+        updateInApp: 0,
+        mostSearchedWords: 0,
+        searchNews: 0,
+        search: 0,
+        searchFacets: 0,
+        searchAutocompleteSuggestions: 0,
+      },
+      getFetchPolicyPerKey: (key: TCacheKeys) => {
+        if (DISABLED_CACHE_POLICY) return 'network-only';
 
-      const lastFetchedTime = getState().lastFetchedTimes[key];
+        const lastFetchedTime = getState().lastFetchedTimes[key];
 
-      if (!lastFetchedTime) {
+        if (!lastFetchedTime) {
+          getState().updateLastFetchedTime(key);
+
+          return 'network-only';
+        }
+
+        const expirationTime = expireTimes[key] || 0;
+        const nextAllowedFetchTime = lastFetchedTime + expirationTime;
+
+        if (nextAllowedFetchTime > new Date().getTime()) {
+          return 'cache-first';
+        }
+
         getState().updateLastFetchedTime(key);
 
         return 'network-only';
-      }
+      },
+      updateLastFetchedTime: (key: TCacheKeys) => {
+        const state = getState();
 
-      const expirationTime = expireTimes[key] || 0;
-      const nextAllowedFetchTime = lastFetchedTime + expirationTime;
-
-      if (nextAllowedFetchTime > new Date().getTime()) {
-        return 'cache-first';
-      }
-
-      getState().updateLastFetchedTime(key);
-
-      return 'network-only';
-    },
-    updateLastFetchedTime: (key: TCacheKeys) => {
-      const state = getState();
-
-      set({
-        ...state,
-        lastFetchedTimes: {
-          ...state.lastFetchedTimes,
-          [key]: new Date().getTime(),
-        },
-      });
-    },
-  }),
+        set({
+          ...state,
+          lastFetchedTimes: {
+            ...state.lastFetchedTimes,
+            [key]: new Date().getTime(),
+          },
+        });
+      },
+    }),
     {
       name: 'apollo-fetch-policy-storage',
       storage: createJSONStorage(() => AsyncStorage),

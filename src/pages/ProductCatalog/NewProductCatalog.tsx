@@ -59,8 +59,6 @@ function NewProductCatalog({ navigation, route }: Props) {
     }
   }, [loading, startLoadingTime, onFinishLoad]);
 
-
-
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
       onInit(SearchType.CATALOG);
@@ -70,7 +68,6 @@ function NewProductCatalog({ navigation, route }: Props) {
     });
     return unsubscribe;
   }, [defaultFacets, navigation, onSearch, onInit]);
-
 
   const hasFilters = useMemo(() => !!parameters.facets.length, [parameters.facets]);
 
