@@ -10,7 +10,6 @@ import {
 import { CouponBadge } from '../../../../modules/Checkout/components/CouponBadge';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom';
-import SectionProductsWithDiscount from '../SectionProductsWithDiscount';
 
 export default function CouponComponent() {
   const {
@@ -211,8 +210,6 @@ export default function CouponComponent() {
             </Box>
           )}
         </>
-
-        <SectionProductsWithDiscount />
 
         <Box
           marginBottom="micro"
