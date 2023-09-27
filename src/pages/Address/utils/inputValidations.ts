@@ -17,6 +17,9 @@ enum FeedbackMessageEnum {
   REQUIRED_CITY = 'Insira um Cidade',
   REQUIRED_NUMBER = 'Insira um número',
   REQUIRED_STATE = 'Insira um Estado',
+  REQUIRED_EMAIL = 'Insira seu e-mail',
+  REQUIRED_PASSWORD = 'Insira sua senha',
+  VALID_EMAIL = 'Insira um e-mail válido',
 }
 
 export const addressSurnameSchema = Yup.string()
@@ -61,3 +64,9 @@ export const citySchema = Yup.string()
   .min(2, FeedbackMessageEnum.MIN_INPUT_SIZE_2)
   .max(30, FeedbackMessageEnum.MAX_INPUT_SIZE_30)
   .required(FeedbackMessageEnum.REQUIRED_CITY);
+
+export const emailSchema = Yup.string()
+  .email(FeedbackMessageEnum.VALID_EMAIL)
+  .required(FeedbackMessageEnum.REQUIRED_EMAIL);
+
+export const passwordSchema = Yup.string().required(FeedbackMessageEnum.REQUIRED_PASSWORD);

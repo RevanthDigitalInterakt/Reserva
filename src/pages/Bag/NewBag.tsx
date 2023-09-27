@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+} from 'react-native';
 import { Box, Typography } from '@usereservaapp/reserva-ui';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { bagStyles } from './styles/bagStyles';
