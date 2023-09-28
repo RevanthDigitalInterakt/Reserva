@@ -2,6 +2,7 @@
 
 ### 2.0.17
 - [19042 - Modificar variáveis enviadas em eventos do firebase de "wbrand" para "item_brand"](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/19042)
+- [19366 - Criar endereço com o mesmo apelido](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/19366)
 ---
 
 ### 2.0.16

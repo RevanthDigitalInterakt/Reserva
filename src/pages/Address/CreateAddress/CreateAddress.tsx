@@ -12,6 +12,8 @@ import {
   TouchableOpacity,
   TextInput,
   ActivityIndicator,
+  Keyboard,
+  Alert,
 } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -122,6 +124,19 @@ export default function CreateAddress(
     }
   }, [getCep]);
 
+  const verifyAddressNameField = useCallback((addressSurname: string): boolean => {
+    const addressExists = profile?.addresses.find(
+      (address) => address?.addressName === addressSurname,
+    );
+
+    if (addressExists) {
+      Alert.alert('Erro', 'Já existe um endereço com o apelido digitado.');
+      return true;
+    }
+
+    return false;
+  }, []);
+
   const handleCreateAddress = useCallback(async (addressValues: ICreateAddress) => {
     try {
       const {
@@ -219,7 +234,14 @@ export default function CreateAddress(
             addressState: addressData?.state || '',
             city: addressData?.city || '',
           }}
-          onSubmit={(values) => handleCreateAddress(values)}
+          onSubmit={(values) => {
+            const response = verifyAddressNameField(values.addressSurname);
+
+            Keyboard.dismiss();
+            if (response) return;
+
+            handleCreateAddress(values);
+          }}
           validationSchema={createAddressSchema}
         >
           {({
@@ -344,7 +366,7 @@ export default function CreateAddress(
                   inputRef={inputComplementRef}
                   nextInputRef={inputComplementRef}
                   inputName="complement"
-                  fieldTouched={() => {}}
+                  fieldTouched={() => { }}
                   error={errors.complement}
                   isEditable
                   textInputType="default"
@@ -424,7 +446,7 @@ export default function CreateAddress(
                   <Text style={styles.textActionButtonCancel}>cancelar</Text>
                 </TouchableOpacity>
               </View>
-              { modalVisible && (
+              {modalVisible && (
                 <ModalCancelCreateAddress
                   showModal={modalVisible}
                   modalController={modalController}
