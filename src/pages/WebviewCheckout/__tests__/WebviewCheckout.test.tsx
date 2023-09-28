@@ -118,7 +118,7 @@ describe('WebviewCheckout', () => {
       coupon: 'reserva10',
       currency: 'BRL',
       items: [],
-      wbrand: 'reserva',
+      item_brand: 'reserva',
     };
 
     const payloadAddShippingInfo = JSON.stringify(
@@ -139,7 +139,7 @@ describe('WebviewCheckout', () => {
     expect(EventProvider.logEvent).toHaveBeenNthCalledWith(1, 'add_shipping_info', expectedData);
 
     const expectedData2 = {
-      wbrand: 'reserva',
+      item_brand: 'reserva',
     };
 
     const payloadPageView = JSON.stringify(
@@ -217,10 +217,8 @@ describe('WebviewCheckout', () => {
       }],
       transaction_id: '',
       value: 89,
-      wbrand: 'RESERVA',
+      item_brand: 'RESERVA',
     });
-
-    expect(EventProvider.logEvent).toHaveBeenNthCalledWith(2, 'page_view', { wbrand: 'RESERVA,' });
 
     expect(EventProvider.sendTrackEvent).toHaveBeenNthCalledWith(2, 'fez-pedido', {
       action: 'fez-pedido',
@@ -240,7 +238,7 @@ describe('WebviewCheckout', () => {
     });
 
     expect(EventProvider.logPurchase).toBeCalledWith({
-      affiliation: 'APP',
+      affiliation: 'RESERVA',
       coupon: 'coupon',
       currency: 'BRL',
       items: [

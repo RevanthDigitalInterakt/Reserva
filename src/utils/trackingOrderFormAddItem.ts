@@ -17,7 +17,7 @@ export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderForm
     }
 
     EventProvider.logEvent('page_view', {
-      wbrand: defaultBrand.picapau,
+      item_brand: defaultBrand.picapau,
     });
 
     EventProvider.logEvent('add_to_cart', {
@@ -27,7 +27,7 @@ export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderForm
       item_category: 'product',
       currency: 'BRL',
       seller: product.seller,
-      wbrand: getBrands(orderForm?.items || []),
+      item_brand: getBrands(orderForm?.items || []),
     });
 
     const ditoId = orderForm?.clientProfileData?.email

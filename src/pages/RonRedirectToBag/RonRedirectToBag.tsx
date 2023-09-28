@@ -67,14 +67,14 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
     await setItem('@RNSession:Ron', true);
 
     EventProvider.logEvent('page_view', {
-      wbrand: defaultBrand.picapau,
+      item_brand: defaultBrand.picapau,
     });
     EventProvider.logEvent(
       'ron_open',
       {
         open: ronCode,
         items: adaptOrderFormItemsTrack(orderForm?.items),
-        wbrand: getBrands(orderForm?.items || []),
+        item_brand: getBrands(orderForm?.items || []),
       },
     );
 

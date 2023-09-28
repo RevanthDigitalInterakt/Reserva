@@ -716,7 +716,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       setOrderForm(data);
 
       EventProvider.logEvent('page_view', {
-        wbrand: defaultBrand.picapau,
+        item_brand: defaultBrand.picapau,
       });
 
       EventProvider.logEvent('add_to_cart', {
@@ -726,7 +726,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
         item_category: 'product',
         currency: 'BRL',
         seller,
-        wbrand: getBrands(data?.items || []),
+        item_brand: getBrands(data?.items || []),
       });
 
       const ditoId = orderForm?.clientProfileData?.email

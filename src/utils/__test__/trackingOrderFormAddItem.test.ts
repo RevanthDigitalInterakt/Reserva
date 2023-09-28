@@ -48,7 +48,7 @@ describe('trackingOrderFormAddItem', () => {
 
   it('should call events with correct parameters', () => {
     EventProvider.logEvent('page_view', {
-      wbrand: defaultBrand.picapau,
+      item_brand: defaultBrand.picapau,
     });
 
     EventProvider.logEvent('add_to_cart', {
@@ -58,7 +58,7 @@ describe('trackingOrderFormAddItem', () => {
       item_category: 'product',
       currency: 'BRL',
       seller: productMock?.seller,
-      wbrand: productMock?.additionalInfo.brandName,
+      item_brand: productMock?.additionalInfo.brandName,
     });
 
     EventProvider.sendTrackEvent('adicionou-produto-ao-carrinho', {
@@ -82,9 +82,9 @@ describe('trackingOrderFormAddItem', () => {
   });
 
   it('should call events with correct parameters', () => {
-    expect(logEventSpy).toHaveBeenCalledWith('page_view', { wbrand: 'RESERVA,' });
+    expect(logEventSpy).toHaveBeenCalledWith('page_view', { item_brand: 'RESERVA,' });
     expect(logEventSpy).toHaveBeenCalledWith('add_to_cart', {
-      currency: 'BRL', item_category: 'product', item_id: '433083', item_price: 429, item_quantity: 1, seller: '1', wbrand: 'RESERVA',
+      currency: 'BRL', item_category: 'product', item_id: '433083', item_price: 429, item_quantity: 1, seller: '1', item_brand: 'RESERVA',
     });
     expect(trackEventSpy).toHaveBeenCalledWith('adicionou-produto-ao-carrinho', {
       action: 'adicionou-produto-ao-carrinho',

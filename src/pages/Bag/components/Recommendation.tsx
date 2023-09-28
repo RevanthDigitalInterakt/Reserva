@@ -50,11 +50,11 @@ export function Recommendation() {
         item_category: Object.values(item?.categoryTree?.map((i) => (i.href))).join('|'),
       }));
       EventProvider.logEvent('page_view', {
-        wbrand: defaultBrand.picapau,
+        item_brand: defaultBrand.picapau,
       });
       EventProvider.logEvent('view_item_list', {
         items: newItems,
-        wbrand: getBrandByUrl(products),
+        item_brand: getBrandByUrl(products),
       });
     } catch (error) {
       ExceptionProvider.captureException(error);

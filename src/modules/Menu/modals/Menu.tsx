@@ -94,7 +94,7 @@ function MenuSubItem({
   useEffect(() => {
     setClickMenu(false);
     EventProvider.logEvent('page_view', {
-      wbrand: defaultBrand.picapau,
+      item_brand: defaultBrand.picapau,
     });
   }, []);
 
