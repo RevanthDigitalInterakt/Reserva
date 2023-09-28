@@ -1,6 +1,5 @@
 import { Linking, Platform } from 'react-native';
 import EventProvider from '../../utils/EventProvider';
-import { defaultBrand } from '../../utils/defaultWBrand';
 import { urlRon } from '../../utils/LinkingUtils/static/deepLinkMethods';
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 
@@ -210,7 +209,7 @@ export const prepareEventDataPurchaseCompleted = (
       productIds: resProductIds,
       ids: resIds,
       adaptItems: resAdaptItems,
-      wbrand: resWbrand,
+      item_brand: resWbrand,
       afContent: resAfContent,
       itemSubtotal: condensedResItemSubtotal,
       afRevenue: resAfRevenue,
@@ -253,7 +252,7 @@ export const triggerEventAfterPurchaseCompleted = async (dataPurchaseCompleted: 
           id: userRefDito,
           id_transacao: dataPurchaseCompleted?.orderId,
           quantidade: item?.quantity,
-          marca: dataPurchaseCompleted?.wbrand,
+          marca: dataPurchaseCompleted?.item_brand,
           id_produto: item?.productId,
           nome_produto: item?.name,
           categorias_produto: item?.productCategories,
@@ -318,7 +317,7 @@ export const triggerEventAfterPurchaseCompleted = async (dataPurchaseCompleted: 
           items: dataPurchaseCompleted.adaptItems,
           transaction_id: '',
           value: dataPurchaseCompleted.orderValue,
-          wbrand: dataPurchaseCompleted.wbrand,
+          item_brand: dataPurchaseCompleted.item_brand,
         },
       );
     }
@@ -345,7 +344,7 @@ export const triggerEventAfterPurchaseCompleted = async (dataPurchaseCompleted: 
 
   /* ---- Event logPurchase ---- */
   EventProvider.logPurchase({
-    affiliation: 'APP',
+    affiliation: dataPurchaseCompleted.item_brand,
     coupon: 'coupon',
     currency: 'BRL',
     items: dataPurchaseCompleted?.adaptItems,
@@ -353,11 +352,6 @@ export const triggerEventAfterPurchaseCompleted = async (dataPurchaseCompleted: 
     tax: dataPurchaseCompleted?.rate,
     transaction_id: dataPurchaseCompleted?.orderId,
     value: dataPurchaseCompleted?.orderValue,
-  });
-
-  /* ---- Event page_view ---- */
-  EventProvider.logEvent('page_view', {
-    wbrand: defaultBrand.picapau,
   });
 
   EventProvider.sendPushTags('sendAbandonedCartTags', {

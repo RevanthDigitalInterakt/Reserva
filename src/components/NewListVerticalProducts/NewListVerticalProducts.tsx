@@ -67,11 +67,11 @@ function NewListVerticalProducts({
         installmentsPrice={item.installment.value}
         loadingFavorite={loadingSkuId === item.skuId}
         onClickImage={() => {
-          EventProvider.logEvent('page_view', { wbrand: defaultBrand.picapau });
+          EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
           EventProvider.logEvent('select_item', {
             item_list_id: item.productId,
             item_list_name: item.productName,
-            wbrand: item.brand,
+            item_brand: item.brand,
           });
 
           navigation.navigate('ProductDetail', { skuId: item.skuId });

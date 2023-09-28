@@ -261,12 +261,12 @@ const WishList = () => {
                         const { productId, productSku } = item;
                         if (productSku?.name) {
                           EventProvider.logEvent('page_view', {
-                            wbrand: defaultBrand.picapau,
+                            item_brand: defaultBrand.picapau,
                           });
                           EventProvider.logEvent('select_item', {
                             item_list_id: productId || '',
                             item_list_name: productSku?.name?.split('-')[0] || '',
-                            wbrand: getBrandByUrl(wishProducts),
+                            item_brand: getBrandByUrl(wishProducts),
                           });
                         }
 

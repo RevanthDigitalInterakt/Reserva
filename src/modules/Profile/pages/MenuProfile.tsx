@@ -93,7 +93,7 @@ export function MenuProfile() {
 
   useEffect(() => {
     EventProvider.logEvent('page_view', {
-      wbrand: defaultBrand.picapau,
+      item_brand: defaultBrand.picapau,
     });
 
     BackHandler.addEventListener('hardwareBackPress', () => {

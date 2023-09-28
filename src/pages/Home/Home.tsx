@@ -85,7 +85,7 @@ function Home() {
     if (isConnected && !loaded) {
       onLoad();
 
-      EventProvider.logEvent('page_view', { wbrand: defaultBrand.picapau });
+      EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
     }
   }, [isConnected, loaded]);
 

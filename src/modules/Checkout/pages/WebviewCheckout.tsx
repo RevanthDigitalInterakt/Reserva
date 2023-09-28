@@ -108,7 +108,7 @@ const Checkout: React.FC<{}> = () => {
               payment_type: response?.data[0]?.paymentData
                 ?.transactions[0]?.payments[0]?.paymentSystemName,
               items: newItems,
-              wbrand: getBrands(items),
+              item_brand: getBrands(items),
             });
           }
 
@@ -175,7 +175,7 @@ const Checkout: React.FC<{}> = () => {
             items: adaptOrderFormItemsTrack(orderForm?.items),
             transaction_id: '',
             value: orderValue,
-            wbrand: getBrands(orderForm?.items || []),
+            item_brand: getBrands(orderForm?.items || []),
           },
         );
       }
@@ -279,7 +279,7 @@ const Checkout: React.FC<{}> = () => {
           trackEventOrderedDito(orderForm);
 
           EventProvider.logEvent('page_view', {
-            wbrand: defaultBrand.picapau,
+            item_brand: defaultBrand.picapau,
           });
 
           EventProvider.logEvent('add_payment_info_test', {});

@@ -85,7 +85,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
         currency: 'BRL',
         items: newItems,
         value: total + discount + delivery,
-        wbrand: getBrands(items),
+        item_brand: getBrands(items),
       });
 
       appsFlyer.logEvent('af_initiated_checkout', {

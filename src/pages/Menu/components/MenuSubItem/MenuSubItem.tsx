@@ -16,7 +16,7 @@ interface IMenuSubItem {
 function MenuSubItem({ data, testID, onPress }: IMenuSubItem) {
   useEffect(() => {
     EventProvider.logEvent('page_view', {
-      wbrand: defaultBrand.picapau,
+      item_brand: defaultBrand.picapau,
     });
   }, []);
 

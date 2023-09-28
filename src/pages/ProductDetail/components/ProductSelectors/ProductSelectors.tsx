@@ -33,7 +33,7 @@ function ProductSelectors() {
       if (!productDetail || !selectedSize) return;
 
       EventProvider.logEvent('page_view', {
-        wbrand: defaultBrand.picapau,
+        item_brand: defaultBrand.picapau,
       });
 
       EventProvider.logEvent('view_item', {
@@ -49,7 +49,7 @@ function ProductSelectors() {
           },
         ],
         value: productDetail.priceRange.sellingPrice?.lowPrice,
-        wbrand: `${productDetail?.categoryTree[0]?.toUpperCase()},`,
+        item_brand: `${productDetail?.categoryTree[0]?.toUpperCase()},`,
       });
     } catch (err) {
       ExceptionProvider.captureException(err);

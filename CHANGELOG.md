@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.0.17
+- [19042 - Modificar variáveis enviadas em eventos do firebase de "wbrand" para "item_brand"](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/19042)
+---
+
 ### 2.0.16
 
 - [SRN-17075 Refactor Login](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/17075)

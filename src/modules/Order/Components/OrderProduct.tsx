@@ -37,12 +37,12 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
               <Button
                 onPress={() => {
                   EventProvider.logEvent('page_view', {
-                    wbrand: defaultBrand.picapau,
+                    item_brand: defaultBrand.picapau,
                   });
                   EventProvider.logEvent('select_item', {
                     item_list_id: orderItem?.id,
                     item_list_name: orderItem?.name,
-                    wbrand: defaultBrand.reserva,
+                    item_brand: defaultBrand.reserva,
                   });
 
                   navigate('ProductDetail', {

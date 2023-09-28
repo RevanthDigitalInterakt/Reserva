@@ -251,7 +251,7 @@ export const ListHorizontalProducts = ({
                   EventProvider.logEvent('select_item', {
                     item_list_id: item?.productId,
                     item_list_name: item?.productName,
-                    wbrand: getBrandByUrl(products),
+                    item_brand: getBrandByUrl(products),
                   });
 
                   navigation.navigate('ProductDetail', createNavigateToProductParams({

@@ -14,7 +14,8 @@ describe('Matrix Functions', () => {
   });
 
   test('rotateXMatrix should rotate matrix on X axis', () => {
-    // Para esse teste, você pode ou usar uma matriz conhecida e seu resultado após rotação ou usar casos mais simples.
+    // Para esse teste, você pode ou usar uma matriz conhecida
+    // e seu resultado após rotação ou usar casos mais simples.
     // Neste exemplo, a matriz de identidade é rotacionada em 0 graus no eixo X (sem alterações).
     const identity = matrixFunctions.createIdentityMatrix();
     const rotated = matrixFunctions.rotateXMatrix(identity, 0);
@@ -22,7 +23,8 @@ describe('Matrix Functions', () => {
   });
 
   test('perspectiveMatrix should apply 3D depth transformation', () => {
-    // Semelhante ao teste de rotação, este teste pode ser mais elaborado dependendo das necessidades.
+    // Semelhante ao teste de rotação, este teste pode ser mais
+    // elaborado dependendo das necessidades.
     const identity = matrixFunctions.createIdentityMatrix();
     const perspective = matrixFunctions.perspectiveMatrix(identity, 1000);
     expect(perspective[11]).toEqual(-0.001);
