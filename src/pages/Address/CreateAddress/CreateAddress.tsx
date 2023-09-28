@@ -153,6 +153,11 @@ export default function CreateAddress(
 
       if (loading) return;
 
+      Keyboard.dismiss();
+      const response = verifyAddressNameField(addressSurname);
+
+      if (response) return;
+
       setLoading(true);
 
       await profileAddress(
@@ -234,14 +239,7 @@ export default function CreateAddress(
             addressState: addressData?.state || '',
             city: addressData?.city || '',
           }}
-          onSubmit={(values) => {
-            const response = verifyAddressNameField(values.addressSurname);
-
-            Keyboard.dismiss();
-            if (response) return;
-
-            handleCreateAddress(values);
-          }}
+          onSubmit={(values) => handleCreateAddress(values)}
           validationSchema={createAddressSchema}
         >
           {({
