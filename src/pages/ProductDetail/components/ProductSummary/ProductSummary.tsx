@@ -10,18 +10,22 @@ import { useWishlistActions } from '../../../../hooks/useWishlistActions';
 import images from '../../../../base/styles/icons';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import EventProvider from '../../../../utils/EventProvider';
-import { ProductDetailCard } from '../../../../components/ProductDetailCard/ProductDetailCard';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 import PricesSelectBoxes from '../../../../components/PricesSelectBoxes';
 import { ProductDetailCardLegacy } from '../../../../components/ProductDetailCardLegacy/ProductDetailCardLegacy';
+import { ProductResultActionEnum } from '../../../../base/graphql/generated';
+import { NewProductDetailCard } from '../../../../components/NewProductDetailCard';
 
 function ProductSummary() {
   const { getBoolean } = useRemoteConfig();
   const { primeActive } = usePrimeInfo();
-  const { productDetail, selectedColor, selectedSize } = useProductDetailStore([
+  const {
+    productDetail, selectedColor, selectedSize, selectedGiftCardSku,
+  } = useProductDetailStore([
     'productDetail',
     'selectedSize',
     'selectedColor',
+    'selectedGiftCardSku',
   ]);
 
   const { loadingSkuId, checkIsFavorite, onToggleFavorite } = useWishlistActions();
@@ -82,37 +86,54 @@ function ProductSummary() {
   ), [imageIndex, video]);
 
   const ProductDetailCardComponent = useMemo(() => (
-    showPrimeBox ? ProductDetailCard : ProductDetailCardLegacy
+    showPrimeBox ? NewProductDetailCard : ProductDetailCardLegacy
   ), [showPrimeBox]);
 
-  if (!productDetail || !selectedColor) return null;
+  const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
+  const giftCardImage = isGiftCard ? productDetail?.giftCard?.options[0]?.images : [];
+  const hasNotSelectedColor = !selectedColor && !isGiftCard;
+
+  console.log('selectedGiftCardSku', selectedGiftCardSku);
+
+  const favoriteProduct = isGiftCard ? {
+    productName: productDetail?.productName,
+    productId: productDetail?.productId,
+    skuId: selectedGiftCardSku!,
+  } : {
+    productName: productDetail?.productName,
+    productId: selectedSize?.itemId || '',
+    size: selectedSize?.size,
+    lowPrice: selectedSize?.currentPrice || 0,
+    colorName: selectedColor?.colorName,
+    skuId: selectedSize?.itemId || '',
+    skuName: selectedSize?.skuName || '',
+    category: '',
+    brand: '',
+  };
+
+  const isLoadingFavorite = isGiftCard
+    ? loadingSkuId === selectedGiftCardSku
+    : loadingSkuId === selectedSize?.itemId;
+
+  const isFavorite = checkIsFavorite(isGiftCard ? selectedGiftCardSku! : selectedSize?.itemId || '');
+  const giftCardFirstPriceOption = isGiftCard ? productDetail?.giftCard?.options[0]?.name : '';
+
+  if (!productDetail || hasNotSelectedColor) return null;
 
   return (
     <>
       <ModalZoomImage
         isVisible={showModal}
-        image={selectedColor.images || []}
+        image={isGiftCard ? giftCardImage! : selectedColor?.images || []}
         setIsVisibleZoom={setShowModal}
         setIndexOpenImage={imageIndex}
       />
 
       <ProductDetailCardComponent
         testID={`com.usereserva:id/productdetail_card_${slugify(productDetail.productId)}`}
-        loadingFavorite={loadingSkuId === selectedSize?.itemId}
-        isFavorited={checkIsFavorite(selectedSize?.itemId || '')}
-        onClickFavorite={() => {
-          onToggleFavorite({
-            productName: productDetail.productName,
-            productId: selectedSize?.itemId || '',
-            size: selectedSize?.size,
-            lowPrice: selectedSize?.currentPrice || 0,
-            colorName: selectedColor?.colorName,
-            skuId: selectedSize?.itemId || '',
-            skuName: selectedSize?.skuName || '',
-            category: '',
-            brand: '',
-          });
-        }}
+        loadingFavorite={isLoadingFavorite}
+        isFavorited={isFavorite}
+        onClickFavorite={() => onToggleFavorite(favoriteProduct)}
         imagesHeight={3 * (configDeviceSizes.DEVICE_WIDTH / 2)}
         title={productDetail.productName}
         price={selectedSize?.listPrice || 0}
@@ -124,8 +145,9 @@ function ProductSummary() {
         saleOff={saleOff}
         avaibleUnits={selectedSize?.availableQuantity || undefined}
         setModalZoom={handleSetModalZoom}
+        giftCardFirstPriceOption={giftCardFirstPriceOption}
         imagesWidth={configDeviceSizes.DEVICE_WIDTH}
-        images={selectedColor.images || []}
+        images={isGiftCard ? giftCardImage! : selectedColor?.images || []}
         videoThumbnail={video}
         showZoomButton={showZoomButton}
         imageIndexActual={(newIndex) => {
@@ -138,7 +160,7 @@ function ProductSummary() {
         }}
       />
 
-      {!!showPrimeBox && <PricesSelectBoxes selectedSize={selectedSize} />}
+      {(!!showPrimeBox && !isGiftCard) && <PricesSelectBoxes selectedSize={selectedSize} />}
     </>
   );
 }

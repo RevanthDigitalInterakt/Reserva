@@ -20,7 +20,7 @@ export function useWishlistActions() {
     'onUnfavorite',
   ]);
 
-  const [loadingSkuId, setLoadingSkuId] = useState<string>();
+  const [loadingSkuId, setLoadingSkuId] = useState<string>('');
   const { profile } = useAuthStore(['profile']);
 
   useEffect(() => {

@@ -9,6 +9,7 @@ interface IUseProductDetailStore {
   productDetail: ProductQuery['product'] | null;
   selectedColor: ProductColorOutput | null;
   selectedSize: ProductSizeOutput | null;
+  selectedGiftCardSku: string | null;
   initialCep?: string;
   assinaturaSimples: {
     accepted: boolean;
@@ -24,6 +25,7 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
   productDetail: null,
   selectedColor: null,
   selectedSize: null,
+  selectedGiftCardSku: null,
   initialCep: '',
   assinaturaSimples: {
     accepted: true,
@@ -56,6 +58,7 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
       productDetail: data,
       selectedColor: initialColor,
       selectedSize: initialSize,
+      selectedGiftCardSku: routeParams?.skuId,
       initialCep: routeParams?.hasCep || '',
     });
   },
@@ -85,6 +88,12 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
     ));
 
     set({ ...state, selectedSize });
+  },
+
+  setGiftCardSelectedAmount: (giftCardSku: string) => {
+    const state = getState();
+
+    set({ ...state, selectedGiftCardSku: giftCardSku });
   },
 }));
 

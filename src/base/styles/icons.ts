@@ -64,6 +64,11 @@ export const commons = {
   selectRectangle: require('../../../assets/common/selectRectangle.png'),
   emptyProductCatalog: require('../../../assets/common/emptyProductCatalog.png'),
   search: require('../../../assets/common/search.png'),
+  filledHeart: require('../../../assets/common/filled-heart.png'),
+  unfilledHeart: require('../../../assets/common/unfilled-heart.png'),
+  share: require('../../../assets/common/share.png'),
+  expand: require('../../../assets/common/expand.png'),
+  arrowRight: require('../../../assets/common/arrow-right.png'),
 };
 
 /* mapping of svgs used as icons */

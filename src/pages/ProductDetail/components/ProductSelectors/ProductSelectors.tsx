@@ -1,17 +1,22 @@
 import React, {
-  useCallback, useEffect, useMemo,
+  useCallback, useEffect, useMemo, useState,
 } from 'react';
 import {
-  Box, Divider, Icon, RadioButtons, SelectColor, Typography,
+  Box, Icon, RadioButtons, SelectColor, Typography,
 } from '@usereservaapp/reserva-ui';
 import { ScrollView } from 'react-native-gesture-handler';
 import { View } from 'react-native';
+
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { SizeGuide, SizeGuideImages } from './SizeGuide';
 import EventProvider from '../../../../utils/EventProvider';
 import ProductAddToCart from '../ProductAddToCart';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
+import { NewInput } from '../../../../components/NewInput';
+import { NewInputType } from '../../../../components/NewInput/types';
+import { styles } from './ProductSelectors.styles';
+import { BottomSheet } from '../../../../components/BottomSheet';
 
 function ProductSelectors() {
   const {
@@ -77,14 +82,15 @@ function ProductSelectors() {
   useEffect(() => {
     if (selectedSize) doSelectSizeTrack();
   }, [selectedSize, doSelectSizeTrack]);
+  const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
 
-  console.log('productDetail', productDetail);
+  const handleBottomSheet = useCallback(() => {
+    setBottomSheetIsOpen(!bottomSheetIsOpen);
+  }, [bottomSheetIsOpen]);
 
   if (!productDetail) return null;
 
   const productDetailsHasColors = !!productDetail.colorUrls.length;
-
-  console.log('productDetailsHasColors', productDetailsHasColors);
 
   return (
     <View>
@@ -145,11 +151,23 @@ function ProductSelectors() {
           </>
         )}
 
+        {/* TODO: FORM CARTÃO PRESENTE */}
+        <View style={styles.inputsWrapper}>
+          <NewInput
+            type={NewInputType.CALL_TO_ACTION}
+            onPress={handleBottomSheet}
+            placeholder="Valor do cartão presente"
+          />
+          <NewInput type={NewInputType.TEXT} placeholder="Digite aqui o e-mail do presenteado" />
+        </View>
+
+        <BottomSheet isOpen={bottomSheetIsOpen} onBackdropPress={handleBottomSheet} />
+
         <ProductAddToCart />
 
         <Box mt="nano" flexDirection="row" />
 
-        <Divider variant="fullWidth" my="xs" />
+        {/* <Divider variant="fullWidth" my="xs" /> */}
       </Box>
     </View>
   );

@@ -23,7 +23,7 @@ function ProductAbout() {
     });
   }, [productDetail]);
 
-  if (!productDetail || !data) return null;
+  if (!productDetail || !data?.description) return null;
 
   return (
     <Box>

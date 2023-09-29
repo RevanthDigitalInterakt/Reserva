@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { scale } from '../../../../utils/scale';
 
 export const styles = StyleSheet.create({
   containerLoading: {
@@ -9,5 +10,11 @@ export const styles = StyleSheet.create({
     left: '50%',
     marginTop: 0,
     marginLeft: -8,
+  },
+  inputsWrapper: {
+    width: '100%',
+    height: scale(95),
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });
