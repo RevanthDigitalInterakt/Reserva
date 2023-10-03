@@ -69,6 +69,8 @@ export const commons = {
   share: require('../../../assets/common/share.png'),
   expand: require('../../../assets/common/expand.png'),
   arrowRight: require('../../../assets/common/arrow-right.png'),
+  uncheckedBox: require('../../../assets/common/unchecked-box.png'),
+  checkedBox: require('../../../assets/common/checked-box.png'),
 };
 
 /* mapping of svgs used as icons */

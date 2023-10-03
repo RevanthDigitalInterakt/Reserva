@@ -23,6 +23,7 @@ import { getProductCategories } from '../../utils/getProductCategories';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
 import { Recommendation } from '../../modules/Checkout/components/Recommendation';
+import { GiftCardAddToCart } from './components/GiftCardAddToCart';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -123,8 +124,9 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   }, [loading, onFinishLoad, startLoadingTime]);
 
   return (
-    <ProductDetailWrapper loading={loading}>
-      {!!productDetail && (
+    <>
+      <ProductDetailWrapper loading={loading}>
+        {!!productDetail && (
         <View>
           <ProductSummary />
 
@@ -144,9 +146,12 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
           <Box px="xxxs">
             <FormNewsletter />
           </Box>
+
         </View>
-      )}
-    </ProductDetailWrapper>
+        )}
+      </ProductDetailWrapper>
+      <GiftCardAddToCart />
+    </>
   );
 }
 

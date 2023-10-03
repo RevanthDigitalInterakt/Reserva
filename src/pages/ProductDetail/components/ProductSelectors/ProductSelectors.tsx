@@ -17,6 +17,8 @@ import { NewInput } from '../../../../components/NewInput';
 import { NewInputType } from '../../../../components/NewInput/types';
 import { styles } from './ProductSelectors.styles';
 import { BottomSheet } from '../../../../components/BottomSheet';
+import { GiftCardList } from './components/GiftCardList';
+import { ProductResultActionEnum, type ProductGiftCardOptionOutput } from '../../../../base/graphql/generated';
 
 function ProductSelectors() {
   const {
@@ -25,12 +27,20 @@ function ProductSelectors() {
     selectedSize,
     setSelectedColor,
     setSelectedSize,
+    selectedGiftCardSku,
+    setGiftCardSelectedAmount,
+    selectedGiftCardEmail,
+    setGiftCardSelectedEmail,
   } = useProductDetailStore([
     'productDetail',
     'selectedColor',
     'selectedSize',
     'setSelectedColor',
+    'setGiftCardSelectedAmount',
     'setSelectedSize',
+    'selectedGiftCardSku',
+    'selectedGiftCardEmail',
+    'setGiftCardSelectedEmail',
   ]);
 
   const doSelectSizeTrack = useCallback(() => {
@@ -87,6 +97,22 @@ function ProductSelectors() {
   const handleBottomSheet = useCallback(() => {
     setBottomSheetIsOpen(!bottomSheetIsOpen);
   }, [bottomSheetIsOpen]);
+
+  const handleSelectGiftCard = (option: ProductGiftCardOptionOutput) => {
+    setGiftCardSelectedAmount(option.itemId);
+    handleBottomSheet();
+  };
+
+  const handleChangeBeneficiarysEmail = (email: string) => {
+    setGiftCardSelectedEmail(email);
+  };
+
+  const selectedGiftCardSkuAmount = useMemo(() => {
+    if (!selectedGiftCardSku) return null;
+    return productDetail?.giftCard?.options.find((option) => option.itemId === selectedGiftCardSku)?.name;
+  }, [selectedGiftCardSku, productDetail?.giftCard?.options]);
+
+  const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
 
   if (!productDetail) return null;
 
@@ -157,13 +183,16 @@ function ProductSelectors() {
             type={NewInputType.CALL_TO_ACTION}
             onPress={handleBottomSheet}
             placeholder="Valor do cartão presente"
+            value={selectedGiftCardSkuAmount as string | undefined}
           />
-          <NewInput type={NewInputType.TEXT} placeholder="Digite aqui o e-mail do presenteado" />
+          <NewInput onChangeText={handleChangeBeneficiarysEmail} value={selectedGiftCardEmail} type={NewInputType.TEXT} placeholder="Digite aqui o e-mail do presenteado" />
         </View>
 
-        <BottomSheet isOpen={bottomSheetIsOpen} onBackdropPress={handleBottomSheet} />
+        <BottomSheet isOpen={bottomSheetIsOpen} onBackdropPress={handleBottomSheet}>
+          <GiftCardList onSelect={handleSelectGiftCard} list={productDetail.giftCard?.options!} />
+        </BottomSheet>
 
-        <ProductAddToCart />
+        {!isGiftCard && <ProductAddToCart />}
 
         <Box mt="nano" flexDirection="row" />
 

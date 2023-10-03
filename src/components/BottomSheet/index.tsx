@@ -11,6 +11,7 @@ export function BottomSheet({ children, isOpen = false, onBackdropPress } : Bott
         style={{
           margin: 0,
           justifyContent: 'flex-end',
+          flex: 1,
         }}
         customBackdrop={(
           <TouchableWithoutFeedback onPress={onBackdropPress}>
@@ -23,10 +24,12 @@ export function BottomSheet({ children, isOpen = false, onBackdropPress } : Bott
           )}
       >
         <View style={{
-          height: '42%',
+          height: '50%',
           backgroundColor: 'white',
           borderTopEndRadius: 12,
           borderTopStartRadius: 12,
+          paddingHorizontal: 24,
+          paddingTop: 24,
         }}
         >
           {children}

@@ -7,4 +7,6 @@ export interface NewInputProps {
   type: NewInputType;
   placeholder?: string;
   onPress?: () => void;
+  onChangeText?: (text: string) => void;
+  value?: string | undefined;
 }

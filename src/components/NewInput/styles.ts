@@ -20,9 +20,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     fontSize: scale(14),
-    fontFamily: FONTS.RESERVA_SANS_REGULAR,
+    fontFamily: FONTS.RESERVA_SANS_BOLD,
     color: COLORS.TEXT_INPUT,
-    zIndex: 999,
+  },
+  textInputPlaceholder: {
+    width: '100%',
+    height: '100%',
+    fontSize: scale(14),
+    fontFamily: FONTS.RESERVA_SANS_REGULAR,
   },
   arrowIcon: {
     width: scale(8),

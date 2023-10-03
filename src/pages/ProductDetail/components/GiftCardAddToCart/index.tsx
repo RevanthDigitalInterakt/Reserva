@@ -1,0 +1,136 @@
+import React, { useCallback, useMemo, useState } from 'react';
+import { Alert, View } from 'react-native';
+import LottieView from 'lottie-react-native';
+import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
+import DropShadow from 'react-native-drop-shadow';
+import { useCart } from '../../../../context/CartContext';
+import EventProvider from '../../../../utils/EventProvider';
+import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+import { ModalBag } from '../../../../components/ModalBag/ModalBag';
+import testProps from '../../../../utils/testProps';
+import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
+import { NewButton } from '../../../../components/NewButton';
+import { NewCheckBox } from '../../../../components/NewCheckBox';
+import styles from './styles';
+
+export function GiftCardAddToCart() {
+  const { restoreCart } = useCart();
+  const { actions, items, orderFormId } = useBagStore(['actions', 'orderFormId', 'items']);
+  const {
+    productDetail,
+    selectedGiftCardSku,
+    selectedSize,
+    assinaturaSimples,
+    selectedGiftCardEmail,
+  } = useProductDetailStore([
+    'productDetail',
+    'selectedGiftCardSku',
+    'selectedSize',
+    'assinaturaSimples',
+    'selectedGiftCardEmail',
+  ]);
+
+  const [showAnimationBag, setShowAnimationBag] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const selectedGiftCard = useMemo(() => {
+    if (!selectedGiftCardSku) return null;
+    return productDetail?.giftCard?.options?.find((option) => option.itemId === selectedGiftCardSku);
+  }, [selectedGiftCardSku, productDetail?.giftCard?.options]);
+
+  const addTagsUponCartUpdate = useCallback(() => {
+    if (!selectedGiftCard || !productDetail) return;
+
+    const timestamp = Math.floor(Date.now() / 1000);
+
+    EventProvider.sendPushTags('sendAbandonedCartTags', {
+      cart_update: timestamp.toString(),
+      product_name: selectedGiftCard?.name,
+      product_image: selectedGiftCard?.images[0],
+    });
+  }, [selectedGiftCard, productDetail]);
+
+  const validateForm = useCallback(() => {
+    if (!selectedGiftCardEmail) Alert.alert('Ops...', 'Por favor, informe o e-mail do presenteado');
+    if (!termsAccepted) Alert.alert('Ops...', 'Por favor, aceite os termos e condições');
+    if (!selectedGiftCard) Alert.alert('Ops...', 'Por favor, selecione um valor para o cartão');
+  }, [selectedGiftCardEmail, selectedGiftCard, termsAccepted]);
+
+  const buttonAddCartActive = useMemo(() => {
+    if (!selectedGiftCard || !productDetail || !termsAccepted || !selectedGiftCardEmail) {
+      return false;
+    }
+
+    if (productDetail?.properties.isAssinaturaSimples && !assinaturaSimples?.accepted) {
+      return false;
+    }
+
+    return true;
+  }, [assinaturaSimples, productDetail, selectedSize, termsAccepted, selectedGiftCardEmail]);
+
+  const onAddProductToCart = useCallback(async () => {
+    try {
+      validateForm();
+      if (!buttonAddCartActive || loading) return;
+
+      setLoading(true);
+
+      const orderFormItem = items.find((item) => item.id === selectedGiftCard!.itemId);
+
+      await actions.ADD_ITEM(
+        '1',
+        selectedGiftCard!.itemId,
+        orderFormItem ? orderFormItem.quantity + 1 : 1,
+      );
+
+      await restoreCart(orderFormId);
+
+      setShowAnimationBag(true);
+      addTagsUponCartUpdate();
+    } catch (err) {
+      ExceptionProvider.captureException(err);
+      Alert.alert('Ocorreu um erro', err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [
+    actions,
+    addTagsUponCartUpdate,
+    loading,
+    items,
+    orderFormId,
+    restoreCart,
+    selectedSize,
+    buttonAddCartActive,
+  ]);
+
+  const handleTerms = useCallback(() => {
+    setTermsAccepted(!termsAccepted);
+  }, [termsAccepted]);
+
+  return (
+    <DropShadow style={styles.container}>
+      <ModalBag
+        isVisible={showAnimationBag}
+        onBackdropPress={() => setShowAnimationBag(false)}
+      />
+
+      <NewCheckBox onPress={handleTerms} checked={termsAccepted} />
+
+      <NewButton
+        onPress={onAddProductToCart}
+        text={loading ? '' : 'ADICIONAR À SACOLA'}
+        disabled={!buttonAddCartActive}
+        {...testProps('com.usereserva:id/button_add_to_bag')}
+      />
+
+      {loading && (
+        <View style={styles.loader}>
+          <LottieView source={loadingSpinner} style={{ width: 16, height: 16 }} autoPlay loop />
+        </View>
+      )}
+    </DropShadow>
+  );
+}

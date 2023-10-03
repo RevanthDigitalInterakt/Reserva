@@ -625,6 +625,10 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
               seller,
               id,
               quantity,
+              // TODO: Adicionar Gift Card
+              // giftCard: {
+              //   email: ''
+              // }
             },
           },
         });

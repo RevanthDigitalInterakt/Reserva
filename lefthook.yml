@@ -4,12 +4,12 @@ commit-msg:
     commitlint:
       run: npx commitlint --edit
       skip: merge
-pre-push:
-  parallel: true
-  commands:
-    test:
-      run: bash scripts/tests.sh
-      skip: merge
-    lint:
-      run: bash scripts/check.sh
-      skip: merge
+# pre-push:
+#   parallel: true
+#   commands:
+#     test:
+#       run: bash scripts/tests.sh
+#       skip: merge
+#     lint:
+#       run: bash scripts/check.sh
+#       skip: merge

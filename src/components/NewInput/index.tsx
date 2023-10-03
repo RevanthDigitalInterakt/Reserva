@@ -5,7 +5,9 @@ import styles from './styles';
 import { COLORS } from '../../base/styles';
 import IconComponent from '../IconComponent/IconComponent';
 
-export function NewInput({ type, placeholder, onPress }: NewInputProps) {
+export function NewInput({
+  type, placeholder, onPress, value, onChangeText,
+}: NewInputProps) {
   // const [text, setText] = useState('');
 
   const editable = type === NewInputType.TEXT;
@@ -17,7 +19,9 @@ export function NewInput({ type, placeholder, onPress }: NewInputProps) {
         autoCapitalize="none"
         onPressIn={onPress}
         editable={editable}
-        style={styles.textInput}
+        onChangeText={onChangeText}
+        style={value ? styles.textInput : styles.textInputPlaceholder}
+        value={value}
         placeholderTextColor={COLORS.TEXT_INPUT_PLACEHOLDER}
       />
       {type === NewInputType.CALL_TO_ACTION && (
