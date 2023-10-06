@@ -1864,7 +1864,7 @@ SPEC CHECKSUMS:
   DatadogSDK: 46e1a7363bc3130fae151ec4aedf11ea291517c5
   DatadogSDKCrashReporting: 24a0e6ec6db905cdeb174721962a7941b2f8a9d2
   DatadogSDKReactNative: d4372ad5eb31c6516f9ef43162ab715024b8db7d
-  DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
+  DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: 71803c074f6325f10b5ec891c443b6bbabef0ca7
   FBReactNativeSpec: 448e08a759d29a96e15725ae532445bf4343567c
   Firebase: 66043bd4579e5b73811f96829c694c7af8d67435
@@ -1886,7 +1886,7 @@ SPEC CHECKSUMS:
   FirebaseSessions: ee59a7811bef4c15f65ef6472f3210faa293f9c8
   FirebaseStorage: 1d4be239ea32fb3c0f3680a6f2b706d6cabe37f2
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
-  glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
+  glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   GoogleAppMeasurement: 722db6550d1e6d552b08398b69a975ac61039338
   GoogleDataTransport: 54dee9d48d14580407f8f5fbf2f496e92437a2f2
   GoogleUtilities: 13e2c67ede716b8741c7989e26893d151b2b2084
