@@ -28,4 +28,8 @@ export const COLORS = {
   DIVIDER: '#d7d7d7',
   ITEM_BORDER: '#bbbbbb',
   GRADIENT_COLOR: 'rgba(255, 255, 255, 0.5)',
+  LIGHT_GREY_BLUE: '#D8D9DA',
+  DARK_GREY_BLUE: '#8A8C8E',
+  DARKISH_GREY: '#979797',
+  SUCCESS_GREEN: '#38A238',
 };

@@ -127,6 +127,8 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
               actualPosition={currIndex}
               key={`home-main-carousel-${item.image.url}`}
               length={data.items.length}
+              slideDelay={slideDelay}
+              onFinishAnimation={() => $carousel.current?.next()}
             />
           ))}
         </View>

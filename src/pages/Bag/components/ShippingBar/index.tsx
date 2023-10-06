@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
+import { View } from 'react-native';
+import { ProgressBar } from './progressBar';
 import { useShippingBarStore, useInitialShippingBar } from '../../../../zustand/useShippingBarStore';
 import { IfRenderShippingMessage } from './shippingMessage';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
-import { Box } from '../../../../components/Box/Box';
-import { ProgressBar } from '../../../../components/ProgressBar/ProgressBar';
 
 export interface IShippingBar {
   totalOrder: number;
@@ -28,25 +28,21 @@ export function ShippingBar({ totalOrder, loading }: IShippingBar) {
   );
 
   return loadingBar ? (
-    <Box mt="micro">
+    <View style={{ marginTop: 12 }}>
       <IfRenderShippingMessage
         sumPriceShipping={totalOrder}
         freeShippingValue={freeShippingValue}
         sumPrice={sumPrice}
       />
 
-      <Box mt="nano">
+      <View style={{ marginTop: 8 }}>
         <ProgressBar
-          colorBar="neutroFrio1"
-          colorProgress="verdeSucesso"
-          bg="white"
           value={isFreeShipping ? 1 : valueProgressBar}
           max={isFreeShipping ? 1 : freeShippingValue}
           barHeight={5}
-          colorLabel="neutroFrio2"
           showPercent={false}
         />
-      </Box>
-    </Box>
+      </View>
+    </View>
   ) : null;
 }

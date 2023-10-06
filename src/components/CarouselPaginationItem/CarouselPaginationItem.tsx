@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -14,6 +14,8 @@ interface ICarouselPaginationItem {
   length: number;
   animValue: SharedValue<number>;
   actualPosition: number;
+  slideDelay: number;
+  onFinishAnimation: () => void;
 }
 
 function CarouselPaginationItem({
@@ -22,8 +24,28 @@ function CarouselPaginationItem({
   length,
   animValue,
   actualPosition,
+  slideDelay,
+  onFinishAnimation,
 }: ICarouselPaginationItem) {
   const width = 9;
+
+  const $timeout = useRef<NodeJS.Timer>();
+
+  const onSetAutoplay = useCallback(() => {
+    clearTimeout($timeout.current);
+
+    $timeout.current = setTimeout(() => {
+      onFinishAnimation();
+    }, slideDelay);
+  }, [$timeout, slideDelay]);
+
+  useEffect(() => {
+    onSetAutoplay();
+  }, [actualPosition]);
+
+  useEffect(() => () => {
+    clearTimeout($timeout.current);
+  }, []);
 
   const bulletStyle = useAnimatedStyle(() => {
     let inputRange = [index - 1, index, index + 1];
@@ -50,11 +72,9 @@ function CarouselPaginationItem({
 
   const bulletWrapperStyle = useAnimatedStyle(() => {
     let inputRange = [index - 1, index, index + 1];
-    let outputRange = [-width, 0, width];
 
     if (index === 0 && animValue.value > length - 1) {
       inputRange = [length - 1, length, length + 1];
-      outputRange = [-width, 0, width];
     }
 
     return {

@@ -3,8 +3,9 @@ import React from 'react';
 import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom';
 import type { IPropsShippingMessage } from './types';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
-import { Box } from '../../../../components/Box/Box';
-import { Typography } from '../../../../components/Typography/Typography';
+import { Text, View } from 'react-native';
+import styles from './shippingMessage.styles';
+import IconGreenCheckMark from '../../../../../assets/icons/IconGreenCheckMark';
 
 export function IfRenderShippingMessage({
   sumPriceShipping,
@@ -15,47 +16,49 @@ export function IfRenderShippingMessage({
 
   if (isPrime) {
     return (
-      <Box flexDirection="row" alignItems="center">
-        <Box>
-          <Typography>Cliente </Typography>
-        </Box>
-        <Typography style={{ marginTop: 3 }} fontFamily="reservaDisplayRegular" color="fullBlack">
+      <View style={styles.container}>
+        <View style={styles.container}>
+          <IconGreenCheckMark />
+          <Text style={styles.text}>Cliente </Text>
+        </View>
+        <Text style={styles.textPrime}>
           PRIME
-        </Typography>
-        <Typography> já tem </Typography>
-        <Typography color="verdeSucesso" fontWeight="bold">
-          frete grátis
-        </Typography>
-      </Box>
+        </Text>
+        <Text style={styles.text}>já tem </Text>
+        <Text style={styles.greenText}>
+          FRETE GRÁTIS!
+        </Text>
+      </View>
     );
   }
 
   if (sumPriceShipping < freeShippingValue) {
     return (
-      <Box flexDirection="row">
-        <Box>
-          <Typography>Faltam apenas </Typography>
-        </Box>
+      <View style={styles.container}>
+        <View>
+          <Text>Faltam apenas </Text>
+        </View>
         <PriceCustom
           fontFamily="nunitoBold"
           sizeInterger={3}
           sizeDecimal={1}
           num={-sumPrice}
         />
-        <Typography> para ganhar </Typography>
-        <Typography color="vermelhoRSV" fontWeight="bold">
-          frete grátis
-        </Typography>
-      </Box>
+        <Text style={styles.text}> para ganhar </Text>
+        <Text style={styles.redText}>
+          FRETE GRÁTIS
+        </Text>
+      </View>
     );
   }
 
   return (
-    <Box flexDirection="row">
-      <Typography color="verdeSucesso">Você ganhou </Typography>
-      <Typography color="verdeSucesso" fontWeight="bold">
-        frete grátis!
-      </Typography>
-    </Box>
+    <View style={styles.container}>
+      <IconGreenCheckMark />
+      <Text style={styles.darkGreenText}>Você ganhou </Text>
+      <Text style={styles.greenText}>
+        FRETE GRÁTIS!
+      </Text>
+    </View>
   );
 }

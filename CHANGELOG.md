@@ -6,9 +6,14 @@
 
 ---
 
+### 2.0.18
+- [19366 - Criar endereço com o mesmo apelido](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/19366)
+- [18614 Ajustes barra de progresso da bag (frete)](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18614)
+- [19154 - Banner principal deve passar a cada 10 segundos](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/19154) 
 
 ### 2.0.17
 - [19042 - Modificar variáveis enviadas em eventos do firebase de "wbrand" para "item_brand"](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/19042)
+
 ---
 
 ### 2.0.16
@@ -17,6 +22,7 @@
 - [18643 - Implementar filtro de preços na busca Smarthint](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18643)
 - [Script para verificar lint, branch, changelog e test]
 - [Correções novo fluxo de cadastro de endereços]
+- [18614 Ajustes barra de progresso da bag (frete)](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18614)
 - [Correcão nome do evento do wishlist]
 - [18405 - Novo layout tag desconto [PDC + PDP]](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18405)
 - [SRN-17072 Refatoração Login - Código de Layout da tela](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/17072)
