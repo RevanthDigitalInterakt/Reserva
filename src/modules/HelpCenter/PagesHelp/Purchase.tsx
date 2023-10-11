@@ -1,60 +1,48 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { Linking, SafeAreaView, ScrollView } from "react-native";
 import {
-  Typography,
   Box,
-  ExpansePanel,
   Divider,
+  ExpansePanel,
+  Typography,
 } from "@usereservaapp/reserva-ui";
 
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import Toast from "react-native-toast-message";
 
-export const FrequentDoubts = () => {
-  useEffect(() => {}, []);
-
+export const Purchase: React.FC<{}> = () => {
   const data = [
     {
-      title: "Parcerias",
+      title: "Como saber o tamanho do meu produto?",
       content:
-        "Caso você queira fazer algum tipo de parceria entre em contato com nosso time através do e-mail contato.marketing@usereserva.com enviando sua proposta detalhada e o material.",
+        "Basta clicar em uma das seguintes opções dentro da tela do produto escolhido." +
+        "\n\nClicando na tabela de medidas, você verá o tamanho do produto em centímetros." +
+        "\n\nClicando em descubra o seu tamanho, você conseguirá saber o tamanho ideal do seu produto de acordo com suas medidas e peso atual.",
     },
     {
-      title: "Promoção para aniversariante",
+      title: "Como realizar uma compra no site?",
       content:
-        "No seu mês de aniversário, você tem desconto de 10% em todas as lojas e no site. Basta efetuar login e realizar a compra normalmente. O desconto será exibido no momento de finalizar o pedido." +
-        "\n\nO desconto não é cumulativo com outras promoções, Marcas parceiras e na compra de cartão presente.",
+        "1 - Escolha o produto de sua preferência e adicione ao carrinho;\n" +
+        "2 - Clique em fechar o pedido no seu carrinho de compras;\n" +
+        "3 - Na próxima tela insira seu CPF ou E-mail e clique em fechar pedido;\n" +
+        "4 - Insira seus dados, uma nova senha e o endereço para entrega;\n" +
+        "5 - Selecione e preencha os dados para pagamento, e clique em finalizar o pagamento;\n" +
+        "\nPronto, seu pedido será separado e enviado para o endereço que você escolheu!",
     },
     {
-      title: "Como faço para ser um revendedor Reserva?",
+      title: "Como excluir um item da sacola",
       content:
-        "Adoramos saber que você acredita em nossa família e tem interesse em fazer parte dela!" +
-        "\n\nSe você tem loja física e CNPJ, pode se tornar um parceiro revendedor da família Reserva!" +
-        "\n\nPra ser um revendedor, você pode enviar uma mensagem pra nossa galera do atacado pelo link abaixo, enviando as seguintes informações:" +
-        "\n\nhttps://wa.me/5521992638524\n" +
-        "\n- Marca de seu interesse de revenda (Mini, Reserva, Eva)" +
-        "\n- Fotos de sua loja." +
-        "\n- CNPJ",
+        "Ao clicar em Minha Sacola no canto superior direito da tela, é possível ter acesso a todos os itens selecionados." +
+        "\n\nÀ direita de cada item existe um X que, ao clicar, a peça será excluída da sacola.",
     },
     {
-      title: "Como entrar em contato com as Lojas Físicas?",
+      title: "Como funciona o desconto na primeira compra?",
       content:
-        "Para falar com nossas Lojas Físicas, escolha a loja mais próxima da sua residência e ligue para o telefone disponível nessa lista:" +
-        "\n\nhttps://www.usereserva.com/usereserva/page/lojas" +
-        "\n\nSerá um prazer conversar com você!",
-    },
-    {
-      title: "Qual o horário de atendimento das lojas?",
-      content:
-        "Aqui o link com os endereços, telefones e horário de todas as nossas lojas:" +
-        "\nhttps://www.usereserva.com/lojas",
-    },
-    {
-      title: "Quer trabalhar conosco?",
-      content:
-        "Ficamos muito felizes em saber que você quer trabalhar com a gente!" +
-        "\n\nPara consultar as vagas disponíveis, basta acessar o site https://trabalheconosco.vagas.com.br/grupo-reserva/ e cadastrar o seu currículo.",
+        "Escolha os produtos de sua preferência, selecione a cor, o tamanho e adicione-os à sacola." +
+        "\n\nÉ necessário que você insira seu e-mail de cadastro, caso o site identifique que é um novo cadastro o desconto é liberado. O desconto é automático e apenas válido para compras acima do valor de R$150,00." +
+        "\n\nOBS: Não cumulativo com outras promoções, peças com desconto e compras de marcas parceiras." +
+        "\n\nOBS 2: Caso o desconto não entre de forma automática, tente utilizar o cupom RSVAPP50.",
     },
   ];
 
@@ -87,16 +75,17 @@ export const FrequentDoubts = () => {
       <ScrollView>
         <Box flex={1} pt="xs" paddingX="xxxs">
           <Box mb="nano" alignSelf="flex-start">
-            <Typography variant="tituloSessoes">Dúvidas frequentes</Typography>
+            <Box mb={"nano"}>
+              <Typography variant="tituloSessoes">Compra</Typography>
+            </Box>
           </Box>
-
           {data.map((item, key) => (
             <Box key={key}>
               <ExpansePanel information={{ ...item }} />
               <Divider mt="xxxs" variant="fullWidth" />
             </Box>
           ))}
-          <Box mb="xs" mt="xs" alignSelf="flex-start">
+          <Box mb="xxs" mt="xxs" alignSelf="flex-start">
             <Box mb="nano">
               <Typography fontFamily="nunitoBold" fontSize={16}>
                 Ficou com alguma dúvida? 😉
@@ -108,7 +97,7 @@ export const FrequentDoubts = () => {
                 links abaixo:
               </Typography>
             </Box>
-            <Box mb={"nano"}>
+            <Box mb="nano">
               <Typography
                 fontFamily="nunitoRegular"
                 fontSize={14}

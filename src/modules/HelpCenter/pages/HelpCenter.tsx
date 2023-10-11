@@ -1,37 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView, ScrollView } from 'react-native';
-import {
-  Typography,
-  Box,
-  SearchBar,
-} from '@usereservaapp/reserva-ui';
+import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView, ScrollView } from "react-native";
+import { Typography, Box, SearchBar } from "@usereservaapp/reserva-ui";
 
-import type { StackScreenProps } from '@react-navigation/stack';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
-import ItemListHelp from '../Components/ItemListHelp';
-import type { RootStackParamList } from '../../../routes/StackNavigator';
-import testProps from '../../../utils/testProps';
+import type { StackScreenProps } from "@react-navigation/stack";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import ItemListHelp from "../Components/ItemListHelp";
+import type { RootStackParamList } from "../../../routes/StackNavigator";
+import testProps from "../../../utils/testProps";
 
-type Props = StackScreenProps<RootStackParamList, 'HelpCenter'>;
+type Props = StackScreenProps<RootStackParamList, "HelpCenter">;
 
 export const HelpCenter = ({ route }: Props) => {
   const navigation = useNavigation();
 
-  const [, setSearch] = useState('');
+  const [, setSearch] = useState("");
   const data = [
-    { title: 'Cuidados com a roupa', navigate: 'ClothingCare' },
-    { title: 'Trocas e devoluções', navigate: 'Exchanges' },
-    { title: 'Pedidos e entregas', navigate: 'OrdersAndDeliveries' },
-    { title: 'Formas de pagamento', navigate: 'HelpPaymentMethods' },
-    { title: 'Dúvidas Frequentes', navigate: 'FrequentDoubts' },
+    { title: "Cuidados com a roupa", navigate: "ClothingCare" },
+    { title: "PRIME", navigate: "PrimeHelpInfo" },
+    { title: "Cashback", navigate: "CashbackHelpInfo" },
+    { title: "Cadastro", navigate: "SignupHelpInfo" },
+    { title: "Compra", navigate: "PurchaseHelpInfo" },
+    { title: "Pagamento", navigate: "PaymentHelpInfo" },
+    { title: "Troca e devolução", navigate: "ExchangeHelpInfo" },
+    { title: "FAÇA VC", navigate: "FacaVcHelpInfo" },
+    { title: "Pedido", navigate: "RequestHelpInfo" },
+    { title: "Entrega", navigate: "ShippingHelpInfo" },
     {
-      title: 'Política de privacidade e Termos de Uso',
-      navigate: 'PrivacyPolicy',
+      title: "Política de privacidade e Termos de Uso",
+      navigate: "PrivacyPolicy",
     },
-
-    { title: 'Fale Conosco', navigate: 'ContactUs' },
+    { title: "Dúvidas Frequentes", navigate: "FrequentDoubts" },
   ];
 
   const [filter, setFilter] = useState(data);
@@ -40,15 +40,15 @@ export const HelpCenter = ({ route }: Props) => {
 
   const navigateGoBack = () => {
     navigation.goBack();
-    route?.params?.comeFrom === 'Menu' && navigation.navigate('Menu');
+    route?.params?.comeFrom === "Menu" && navigation.navigate("Menu");
   };
 
   return (
     <SafeAreaView
       flex={1}
-      style={{ justifyContent: 'space-between' }}
+      style={{ justifyContent: "space-between" }}
       backgroundColor="white"
-      {...testProps('com.usereserva:id/help_center_container')}
+      {...testProps("com.usereserva:id/help_center_container")}
     >
       <TopBarBackButton backButtonPress={() => navigateGoBack()} />
 
@@ -65,7 +65,7 @@ export const HelpCenter = ({ route }: Props) => {
             onValueChange={(text) => {
               setSearch(text);
               const newFilter = data.filter((item) => {
-                const regex = new RegExp(text, 'gi');
+                const regex = new RegExp(text, "gi");
                 return item.title.match(regex) != null;
               });
 

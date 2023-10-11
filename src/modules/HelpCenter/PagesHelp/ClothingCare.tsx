@@ -1,21 +1,40 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
-import { Dimensions, SafeAreaView, ScrollView } from 'react-native';
-import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
+import { Dimensions, Linking, SafeAreaView, ScrollView } from "react-native";
+import { Box, Icon, Typography } from "@usereservaapp/reserva-ui";
 
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import Toast from "react-native-toast-message";
 
-const windowWidth = Dimensions.get('window').width;
-const windowheight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowheight = Dimensions.get("window").height;
 const SIZE_ICONS_CARDS = 20;
 
 export const ClothingCare: React.FC<{}> = () => {
   useEffect(() => {}, []);
 
+  const urlWhatsapp =
+    "https://api.whatsapp.com/send/?phone=552136092555&text&type=phone_number&app_absent=0";
+
+  const urlContact = "https://usereserva.zendesk.com/hc/pt-br/requests/new";
+
+  const openLink = async (url: string) => {
+    const supported = await Linking.canOpenURL(url);
+    if (supported) {
+      await Linking.openURL(url);
+    } else {
+      Toast.show({
+        type: "error",
+        type1: "Algo deu errado",
+        type2: "Tente novamente",
+      });
+    }
+  };
+
   return (
     <SafeAreaView
       flex={1}
-      style={{ justifyContent: 'space-between' }}
+      style={{ justifyContent: "space-between" }}
       backgroundColor="white"
     >
       <TopBarBackButton />
@@ -30,13 +49,17 @@ export const ClothingCare: React.FC<{}> = () => {
             </Box>
 
             <Box mb="xs" mt="xs" alignSelf="flex-start">
+              <Box mb="nano">
+                <Typography fontFamily="nunitoBold" fontSize={18}>
+                  Como lavar a peça de roupa
+                </Typography>
+              </Box>
               <Typography fontFamily="nunitoRegular" fontSize={14}>
-                "Joga na máquina e tá tudo certo!" Na, na, ni, na, não!
-              </Typography>
-              <Typography fontFamily="nunitoRegular" fontSize={14}>
-                Saiba aqui o que fazer para manter a qualidade da sua peça
-                reserva e prolongar ao máximo a vida útil das roupas. O pica-pau
-                merece seu carinho!
+                O processo de lavagem e conservação do produto pode variar de
+                peça para peça, de acordo com o material utilizado na confecção.
+                Você encontra as especificações de cada uma nas etiquetas
+                internas. Basta verificar a imagem na etiqueta e verificar no
+                quadro no link abaixo o significado de cada uma delas.
               </Typography>
             </Box>
 
@@ -540,7 +563,7 @@ export const ClothingCare: React.FC<{}> = () => {
 
             {/* {} */}
 
-            <Box mb="md">
+            <Box mb="nano">
               <Box
                 backgroundColor="#000000"
                 alignItems="center"
@@ -736,6 +759,40 @@ export const ClothingCare: React.FC<{}> = () => {
                   <Box mt="micro" />
                 </Box>
               </Box>
+            </Box>
+            <Box mb="xs" mt="xs" alignSelf="flex-start">
+              <Box mb="nano">
+                <Typography fontFamily="nunitoBold" fontSize={18}>
+                  Ficou com alguma dúvida? 😉
+                </Typography>
+              </Box>
+              <Box mb="nano">
+                <Typography fontFamily="nunitoRegular" fontSize={14}>
+                  Um de nossos encantadores pode te ajudar, basta acessar um dos
+                  links abaixo:
+                </Typography>
+              </Box>
+              <Box mb={"nano"}>
+                <Typography
+                  fontFamily="nunitoRegular"
+                  fontSize={16}
+                  onPress={() => openLink(urlWhatsapp)}
+                  style={{
+                    textDecorationLine: "underline",
+                    paddingVertical: 4,
+                  }}
+                >
+                  Whatsapp
+                </Typography>
+              </Box>
+              <Typography
+                fontFamily="nunitoRegular"
+                fontSize={16}
+                onPress={() => openLink(urlContact)}
+                style={{ textDecorationLine: "underline", paddingVertical: 4 }}
+              >
+                Fale conosco
+              </Typography>
             </Box>
           </Box>
         </Box>

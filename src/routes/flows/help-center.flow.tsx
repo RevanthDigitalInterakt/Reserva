@@ -1,44 +1,69 @@
-import { HelpCenter } from '../../modules/HelpCenter/pages/HelpCenter';
-import { ClothingCare } from '../../modules/HelpCenter/PagesHelp/ClothingCare';
-import { ContactUs } from '../../modules/HelpCenter/PagesHelp/ContactUs';
-import { Exchanges } from '../../modules/HelpCenter/PagesHelp/Exchanges';
-import { FrequentDoubts } from '../../modules/HelpCenter/PagesHelp/FrequentDoubts';
-import { HelpPaymentMethods } from '../../modules/HelpCenter/PagesHelp/HelpPaymentMethods';
-import { OrdersAndDeliveries } from '../../modules/HelpCenter/PagesHelp/OrdersAndDeliveries';
-import { PrivacyPolicy } from '../../modules/HelpCenter/PagesHelp/PrivacyPolicy';
-import type { Flow } from '../types/flow.type';
+import { HelpCenter } from "../../modules/HelpCenter/pages/HelpCenter";
+import { Cashback } from "../../modules/HelpCenter/PagesHelp/Cashback";
+import { ClothingCare } from "../../modules/HelpCenter/PagesHelp/ClothingCare";
+import { Exchange } from "../../modules/HelpCenter/PagesHelp/Exchange";
+import { FacaVc } from "../../modules/HelpCenter/PagesHelp/FacaVc";
+import { FrequentDoubts } from "../../modules/HelpCenter/PagesHelp/FrequentDoubts";
+import { Payment } from "../../modules/HelpCenter/PagesHelp/Payment";
+import { Prime } from "../../modules/HelpCenter/PagesHelp/Prime";
+import { PrivacyPolicy } from "../../modules/HelpCenter/PagesHelp/PrivacyPolicy";
+import { Purchase } from "../../modules/HelpCenter/PagesHelp/Purchase";
+import { Request } from "../../modules/HelpCenter/PagesHelp/Request";
+import { Shipping } from "../../modules/HelpCenter/PagesHelp/Shipping";
+import { Signup } from "../../modules/HelpCenter/PagesHelp/Signup";
+import type { Flow } from "../types/flow.type";
 
 export const HelpCenterFLow: Flow[] = [
   {
     component: HelpCenter,
-    name: 'HelpCenter',
+    name: "HelpCenter",
   },
   {
     component: ClothingCare,
-    name: 'ClothingCare',
+    name: "ClothingCare",
   },
   {
-    component: Exchanges,
-    name: 'Exchanges',
+    component: Prime,
+    name: "PrimeHelpInfo",
   },
   {
-    component: OrdersAndDeliveries,
-    name: 'OrdersAndDeliveries',
+    component: Cashback,
+    name: "CashbackHelpInfo",
   },
   {
-    component: HelpPaymentMethods,
-    name: 'HelpPaymentMethods',
+    component: Signup,
+    name: "SignupHelpInfo",
+  },
+  {
+    component: Purchase,
+    name: "PurchaseHelpInfo",
+  },
+  {
+    component: Payment,
+    name: "PaymentHelpInfo",
+  },
+  {
+    component: Request,
+    name: "RequestHelpInfo",
+  },
+  {
+    component: Shipping,
+    name: "ShippingHelpInfo",
+  },
+  {
+    component: Exchange,
+    name: "ExchangeHelpInfo",
+  },
+  {
+    component: FacaVc,
+    name: "FacaVcHelpInfo",
   },
   {
     component: FrequentDoubts,
-    name: 'FrequentDoubts',
+    name: "FrequentDoubts",
   },
   {
     component: PrivacyPolicy,
-    name: 'PrivacyPolicy',
-  },
-  {
-    component: ContactUs,
-    name: 'ContactUs',
+    name: "PrivacyPolicy",
   },
 ];
