@@ -53,9 +53,10 @@ export function GiftCardAddToCart() {
   }, [selectedGiftCard, productDetail]);
 
   const validateForm = useCallback(() => {
-    if (!selectedGiftCardEmail) Alert.alert('Ops...', 'Por favor, informe o e-mail do presenteado');
-    if (!termsAccepted) Alert.alert('Ops...', 'Por favor, aceite os termos e condições');
-    if (!selectedGiftCard) Alert.alert('Ops...', 'Por favor, selecione um valor para o cartão');
+    if (!selectedGiftCardEmail) return Alert.alert('Ops...', 'Por favor, informe o e-mail do presenteado');
+    if (!termsAccepted) return Alert.alert('Ops...', 'Por favor, aceite os termos e condições');
+    if (!selectedGiftCard) return Alert.alert('Ops...', 'Por favor, selecione um valor para o cartão');
+    return true;
   }, [selectedGiftCardEmail, selectedGiftCard, termsAccepted]);
 
   const buttonAddCartActive = useMemo(() => {
@@ -63,11 +64,7 @@ export function GiftCardAddToCart() {
       return false;
     }
 
-    if (productDetail?.properties.isAssinaturaSimples && !assinaturaSimples?.accepted) {
-      return false;
-    }
-
-    return true;
+    return !(productDetail?.properties.isAssinaturaSimples && !assinaturaSimples?.accepted);
   }, [assinaturaSimples, productDetail, selectedSize, termsAccepted, selectedGiftCardEmail]);
 
   const onAddProductToCart = useCallback(async () => {
@@ -104,6 +101,7 @@ export function GiftCardAddToCart() {
     restoreCart,
     selectedSize,
     buttonAddCartActive,
+    selectedGiftCardEmail, selectedGiftCard, termsAccepted,
   ]);
 
   const handleTerms = useCallback(() => {
