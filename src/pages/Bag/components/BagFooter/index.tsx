@@ -57,7 +57,7 @@ export default function BagFooter() {
           />
         </Box>
 
-        {appTotalizers.total > 0 && (
+        {installmentInfo.totalPrice > 0 && appTotalizers.total > 0 && (
           <Box alignItems="flex-end">
             <Typography fontFamily="nunitoRegular" fontSize={13}>
               em até
