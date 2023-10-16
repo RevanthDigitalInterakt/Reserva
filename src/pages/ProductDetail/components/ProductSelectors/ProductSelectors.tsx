@@ -2,7 +2,7 @@ import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import {
-  Box, Icon, RadioButtons, SelectColor, Typography,
+  Box, Divider, Icon, RadioButtons, SelectColor, Typography,
 } from '@usereservaapp/reserva-ui';
 import { ScrollView } from 'react-native-gesture-handler';
 import { View } from 'react-native';
@@ -18,7 +18,7 @@ import { NewInputType } from '../../../../components/NewInput/types';
 import { styles } from './ProductSelectors.styles';
 import { BottomSheet } from '../../../../components/BottomSheet';
 import { GiftCardList } from './components/GiftCardList';
-import { ProductResultActionEnum, type ProductGiftCardOptionOutput } from '../../../../base/graphql/generated';
+import { type ProductGiftCardOptionOutput, ProductResultActionEnum } from '../../../../base/graphql/generated';
 
 function ProductSelectors() {
   const {
@@ -56,14 +56,14 @@ function ProductSelectors() {
         items: [
           {
             item_id: selectedSize?.itemId,
-            price: productDetail.priceRange.sellingPrice?.lowPrice,
+            price: productDetail?.priceRange?.sellingPrice?.lowPrice || 0,
             quantity: 1,
             item_variant: '',
             item_name: productDetail.productName,
             item_category: 'product_group',
           },
         ],
-        value: productDetail.priceRange.sellingPrice?.lowPrice,
+        value: productDetail?.priceRange?.sellingPrice?.lowPrice || 0,
         item_brand: `${productDetail?.categoryTree[0]?.toUpperCase()},`,
       });
     } catch (err) {
@@ -91,6 +91,10 @@ function ProductSelectors() {
 
   useEffect(() => {
     if (selectedSize) doSelectSizeTrack();
+    return () => {
+      setGiftCardSelectedEmail('');
+      setGiftCardSelectedAmount('');
+    };
   }, [selectedSize, doSelectSizeTrack]);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
 
@@ -177,26 +181,35 @@ function ProductSelectors() {
           </>
         )}
 
-        {/* TODO: FORM CARTÃO PRESENTE */}
-        <View style={styles.inputsWrapper}>
-          <NewInput
-            type={NewInputType.CALL_TO_ACTION}
-            onPress={handleBottomSheet}
-            placeholder="Valor do cartão presente"
-            value={selectedGiftCardSkuAmount as string | undefined}
-          />
-          <NewInput onChangeText={handleChangeBeneficiarysEmail} value={selectedGiftCardEmail} type={NewInputType.TEXT} placeholder="Digite aqui o e-mail do presenteado" />
-        </View>
+        {isGiftCard ? (
+          <>
+            <View style={styles.inputsWrapper}>
+              <NewInput
+                type={NewInputType.CALL_TO_ACTION}
+                onPress={handleBottomSheet}
+                placeholder="Valor do cartão presente"
+                value={selectedGiftCardSkuAmount as string | undefined}
+              />
+              <NewInput
+                onChangeText={handleChangeBeneficiarysEmail}
+                value={selectedGiftCardEmail}
+                type={NewInputType.TEXT}
+                placeholder="Digite aqui o e-mail do presenteado"
+              />
+            </View>
 
-        <BottomSheet isOpen={bottomSheetIsOpen} onBackdropPress={handleBottomSheet}>
-          <GiftCardList onSelect={handleSelectGiftCard} list={productDetail.giftCard?.options!} />
-        </BottomSheet>
-
-        {!isGiftCard && <ProductAddToCart />}
+            <BottomSheet isOpen={bottomSheetIsOpen} onBackdropPress={handleBottomSheet}>
+              <GiftCardList
+                onSelect={handleSelectGiftCard}
+                list={productDetail.giftCard?.options!}
+              />
+            </BottomSheet>
+          </>
+        ) : <ProductAddToCart />}
 
         <Box mt="nano" flexDirection="row" />
 
-        {/* <Divider variant="fullWidth" my="xs" /> */}
+        <Divider variant="fullWidth" my="xs" />
       </Box>
     </View>
   );
