@@ -79,37 +79,41 @@ function ProductListItem({
 
             <Box width={230} justifyContent="space-between" flexGrow={1}>
               <Box flexDirection="row" marginTop="quarck">
-                <Box
-                  borderRadius="nano"
-                  marginRight="micro"
-                  borderColor="dropDownBorderColor"
-                  borderWidth="hairline"
-                  flexDirection="row"
-                  alignItems="center"
-                  height={25}
-                >
-                  <Box paddingX="nano" flexDirection="row" justifyContent="space-between">
-                    <Typography fontFamily="nunitoRegular" fontSize="11px" color="preto">
-                      {`Tam: ${data.itemSize}`}
-                    </Typography>
+                {data.itemSize ? (
+                  <Box
+                    borderRadius="nano"
+                    marginRight="micro"
+                    borderColor="dropDownBorderColor"
+                    borderWidth="hairline"
+                    flexDirection="row"
+                    alignItems="center"
+                    height={25}
+                  >
+                    <Box paddingX="nano" flexDirection="row" justifyContent="space-between">
+                      <Typography fontFamily="nunitoRegular" fontSize="11px" color="preto">
+                        {`Tam: ${data.itemSize}`}
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
+                ) : null}
 
-                <Box
-                  borderRadius="nano"
-                  borderColor="dropDownBorderColor"
-                  borderWidth="hairline"
-                  flexDirection="row"
-                  alignItems="center"
-                  height={25}
-                >
-                  <Box paddingX="nano" flexDirection="row" justifyContent="space-between">
-                    <Typography fontFamily="nunitoRegular" fontSize="11px" color="preto">
-                      {`Cor: ${data.itemColor}`}
-                    </Typography>
-                    <Box />
+                {data.itemColor ? (
+                  <Box
+                    borderRadius="nano"
+                    borderColor="dropDownBorderColor"
+                    borderWidth="hairline"
+                    flexDirection="row"
+                    alignItems="center"
+                    height={25}
+                  >
+                    <Box paddingX="nano" flexDirection="row" justifyContent="space-between">
+                      <Typography fontFamily="nunitoRegular" fontSize="11px" color="preto">
+                        {`Cor: ${data.itemColor}`}
+                      </Typography>
+                      <Box />
+                    </Box>
                   </Box>
-                </Box>
+                ) : null}
               </Box>
 
               <Box flexDirection="row" alignItems="center">
@@ -149,7 +153,7 @@ function ProductListItem({
                         color={discountTag ? 'neutroFrio2' : 'preto'}
                         style={discountTag ? { textDecorationLine: 'line-through' } : {}}
                       >
-                        {discountTag ? `${decimalPart(price)}` : `\n${decimalPart(price)}` }
+                        {discountTag ? `${decimalPart(price)}` : `\n${decimalPart(price)}`}
                       </Typography>
                     </Box>
                   </Box>
