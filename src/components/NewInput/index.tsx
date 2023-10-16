@@ -6,7 +6,7 @@ import { COLORS } from '../../base/styles';
 import IconComponent from '../IconComponent/IconComponent';
 
 export function NewInput({
-  type, placeholder, onPress, value, onChangeText,
+  type, placeholder, onPress, value, onChangeText, ...props
 }: NewInputProps) {
   // const [text, setText] = useState('');
 
@@ -23,6 +23,7 @@ export function NewInput({
         style={value ? styles.textInput : styles.textInputPlaceholder}
         value={value}
         placeholderTextColor={COLORS.TEXT_INPUT_PLACEHOLDER}
+        {...props}
       />
       {type === NewInputType.CALL_TO_ACTION && (
         <IconComponent
