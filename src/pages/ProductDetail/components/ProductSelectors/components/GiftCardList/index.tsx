@@ -10,7 +10,7 @@ const GiftCardOption = ({ onSelect, option }: GiftCardOptionProps) => (
     onPress={() => onSelect(option)}
     style={styles.cardOption}
   >
-    <Text>
+    <Text style={styles.cardOptionText}>
       {option.name}
     </Text>
   </TouchableOpacity>
@@ -26,7 +26,7 @@ export function GiftCardList({ list, onSelect }: GiftCardListProps) {
         contentContainerStyle={styles.listContainer}
         data={list}
         renderItem={
-            ({ item }) => <GiftCardOption onSelect={onSelect} option={item} key={item.itemId} />
+          ({ item }) => <GiftCardOption onSelect={onSelect} option={item} key={item.itemId} />
         }
         keyExtractor={(item) => item.itemId}
       />
