@@ -11,7 +11,7 @@ import ProductAbout from './components/ProductAbout';
 import ProductSummary from './components/ProductSummary';
 import ProductAssinaturaSimples from './components/ProductAssinaturaSimples';
 import ProductSelectors from './components/ProductSelectors';
-import { ProductQuery, useProductLazyQuery } from '../../base/graphql/generated';
+import { ProductQuery, ProductResultActionEnum, useProductLazyQuery } from '../../base/graphql/generated';
 import { getProductLoadType } from './utils/getProductLoadType';
 import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
 import EventProvider from '../../utils/EventProvider';
@@ -36,6 +36,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
     'resetProduct',
     'productDetail',
   ]);
+
+  const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
 
   const [getProduct, { loading }] = useProductLazyQuery({
     fetchPolicy: getFetchPolicyPerKey('productDetail'),
@@ -150,7 +152,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         </View>
         )}
       </ProductDetailWrapper>
-      <GiftCardAddToCart />
+      {isGiftCard && <GiftCardAddToCart />}
     </>
   );
 }
