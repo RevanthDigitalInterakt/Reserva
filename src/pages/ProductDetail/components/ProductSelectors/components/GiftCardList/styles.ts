@@ -17,6 +17,11 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     marginBottom: 16,
   },
+  cardOptionText: {
+    color: COLORS.TEXT_INPUT,
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
 
 });
 
