@@ -92,12 +92,12 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
     const [categoryType, categoryData] = countDown?.reference?.split(':');
     if (categoryType === 'product') {
       EventProvider.logEvent('page_view', {
-        wbrand: defaultBrand.picapau,
+        item_brand: defaultBrand.picapau,
       });
       EventProvider.logEvent('select_item', {
         item_list_id: categoryData || '',
         item_list_name: '',
-        wbrand: defaultBrand.reserva,
+        item_brand: defaultBrand.reserva,
       });
 
       navigation.navigate('ProductDetail', {

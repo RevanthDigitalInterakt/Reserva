@@ -161,8 +161,8 @@ android {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2023000080
-        versionName "2.0.16"
+        versionCode 2023000082
+        versionName "2.0.18"
         missingDimensionStrategy 'react-native-camera', 'general'
         resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
         resValue "string", "URL_GATEWAY_CLIENT", project.env.get("URL_GATEWAY_CLIENT")

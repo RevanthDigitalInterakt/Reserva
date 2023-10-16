@@ -728,7 +728,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       setOrderForm(data);
 
       EventProvider.logEvent('page_view', {
-        wbrand: defaultBrand.picapau,
+        item_brand: defaultBrand.picapau,
       });
 
       EventProvider.logEvent('add_to_cart', {
@@ -738,7 +738,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         item_category: 'product',
         currency: 'BRL',
         seller,
-        wbrand: getBrands(data?.items || []),
+        item_brand: getBrands(data?.items || []),
       });
 
       const ditoId = orderForm?.clientProfileData?.email
@@ -791,7 +791,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       EventProvider.logEvent('remove_from_cart', {
         item_id: itemId,
         item_categories: 'product',
-        wbrand: getBrands(data?.items),
+        item_brand: getBrands(data?.items),
       });
 
       return { ok: true };

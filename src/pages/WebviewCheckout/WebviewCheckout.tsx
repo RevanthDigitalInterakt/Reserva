@@ -94,18 +94,18 @@ const WebviewCheckout = () => {
     switch (newData.type) {
       case 'add_shipping_info': {
         const {
-          coupon, currency, items, wbrand,
+          coupon, currency, items, item_brand,
         } = newData?.rawMessage?.data;
 
         EventProvider.logEvent('add_shipping_info', {
-          coupon, currency, items, wbrand,
+          coupon, currency, items, item_brand,
         });
         return null;
       }
 
       case 'page_view': {
-        const { wbrand } = newData?.rawMessage?.data;
-        EventProvider.logEvent('page_view', { wbrand });
+        const { item_brand } = newData?.rawMessage?.data;
+        EventProvider.logEvent('page_view', { item_brand });
         return null;
       }
 

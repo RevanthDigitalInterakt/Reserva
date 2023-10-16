@@ -57,7 +57,7 @@ export const MyWalletContainer = ({ navigateBack }: MyWalletContainerProps) => {
 
   useEffect(() => {
     EventProvider.logEvent('page_view', {
-      wbrand: defaultBrand.picapau,
+      item_brand: defaultBrand.picapau,
     });
   }, []);
 

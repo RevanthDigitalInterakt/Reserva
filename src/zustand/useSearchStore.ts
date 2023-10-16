@@ -158,7 +158,7 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
         trackEventAccessedCategoryDito(getCollectionFacetsValue(newParameters.facets));
         EventProvider.logEvent('product_list_view', {
           content_type: 'product_group',
-          wbrand: getBrandByUrl({ categoryTree: [{ href: data.search.items[0]?.category || '' }] }),
+          item_brand: getBrandByUrl({ categoryTree: [{ href: data.search.items[0]?.category || '' }] }),
         });
       }
 

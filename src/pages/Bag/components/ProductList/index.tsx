@@ -49,7 +49,7 @@ export default function BagProductList() {
       item_category: 'product',
       currency: 'BRL',
       seller: item.seller,
-      wbrand: getBrands(orderForm?.items || []),
+      item_brand: getBrands(orderForm?.items || []),
     });
   }, [actions, orderForm?.items]);
 
@@ -67,7 +67,7 @@ export default function BagProductList() {
     EventProvider.logEvent('remove_from_cart', {
       item_id: item.id,
       item_categories: 'product',
-      wbrand: defaultBrand.reserva,
+      item_brand: defaultBrand.reserva,
     });
 
     await actions.UPDATE_PRODUCT_COUNT(index, item, countUpdated);
@@ -80,13 +80,13 @@ export default function BagProductList() {
     isPrimeSubscription,
   }: TItemBag) => {
     EventProvider.logEvent('page_view', {
-      wbrand: defaultBrand.picapau,
+      item_brand: defaultBrand.picapau,
     });
 
     EventProvider.logEvent('select_item', {
       item_list_id: productId,
       item_list_name: name,
-      wbrand: defaultBrand.reserva,
+      item_brand: defaultBrand.reserva,
     });
 
     if (isPrimeSubscription) {

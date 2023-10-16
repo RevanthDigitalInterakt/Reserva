@@ -40,7 +40,7 @@ export const CreditsContainer = ({ navigateBack }: CreditsContainerProps) => {
 
   useEffect(() => {
     EventProvider.logEvent('page_view', {
-      wbrand: defaultBrand.picapau,
+      item_brand: defaultBrand.picapau,
     });
     StorageService.getItem<ProfileVars>({
       key: StorageServiceKeys.PROFILE,

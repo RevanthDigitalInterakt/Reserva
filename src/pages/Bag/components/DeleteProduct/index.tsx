@@ -17,7 +17,7 @@ export default function DeleteProductModal() {
     EventProvider.logEvent('remove_from_cart', {
       item_id: deleteProductModal.deleteInfo.product?.id,
       item_categories: 'product',
-      wbrand: defaultBrand.reserva,
+      item_brand: defaultBrand.reserva,
     });
 
     await actions.UPDATE_PRODUCT_COUNT(

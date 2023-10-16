@@ -10,7 +10,7 @@ import testProps from '../../../../utils/testProps';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import type { HomeCarouselItemOutput, HomeCarouselOutput } from '../../../../base/graphql/generated';
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
-import { COLORS } from '../../../../base/styles/colors';
+import { COLORS } from '../../../../base/styles';
 import { styles } from './HomeMainCarousel.styles';
 import CarrouselScrollIndicator from '../../../../modules/Home/component/CarouselScrollIndicator';
 import CarouselPaginationItem from '../../../../components/CarouselPaginationItem';
@@ -123,6 +123,8 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
               actualPosition={currIndex}
               key={`home-main-carousel-${item.image.url}`}
               length={data.items.length}
+              slideDelay={slideDelay}
+              onFinishAnimation={() => $carousel.current?.next()}
             />
           ))}
         </View>

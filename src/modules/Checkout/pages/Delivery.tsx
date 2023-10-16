@@ -184,14 +184,14 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                 }));
 
                 EventProvider.logEvent('page_view', {
-                  wbrand: defaultBrand.picapau,
+                  item_brand: defaultBrand.picapau,
                 });
 
                 EventProvider.logEvent('add_shipping_info', {
                   coupon: '',
                   currency: 'BRL',
                   items: newItems,
-                  wbrand: getBrands(items),
+                  item_brand: getBrands(items),
                 });
               } catch (e) {
                 ExceptionProvider.captureException(e);
@@ -241,7 +241,7 @@ const Delivery: React.FC<Props> = ({ route, navigation }) => {
                 coupon: '',
                 currency: 'BRL',
                 items: newItems,
-                wbrand: getBrands(items),
+                item_brand: getBrands(items),
               });
             } catch (e) {
               ExceptionProvider.captureException(e);

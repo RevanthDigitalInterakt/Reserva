@@ -457,7 +457,7 @@ export const BagScreen = ({ route }: Props) => {
           }));
 
           EventProvider.logEvent('page_view', {
-            wbrand: defaultBrand.picapau,
+            item_brand: defaultBrand.picapau,
           });
 
           EventProvider.logEvent('begin_checkout', {
@@ -465,7 +465,7 @@ export const BagScreen = ({ route }: Props) => {
             currency: 'BRL',
             items: newItems,
             value: totalBag + totalDiscountPrice + totalDelivery,
-            wbrand: getBrands(items),
+            item_brand: getBrands(items),
           });
         }
 
