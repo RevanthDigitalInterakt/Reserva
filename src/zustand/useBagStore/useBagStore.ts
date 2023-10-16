@@ -42,6 +42,7 @@ import {
   OrderFormUpdateItemDocument,
   OrderFormUpdateItemMutation,
   OrderFormUpdateItemMutationVariables,
+  ProductResultActionEnum,
 } from '../../base/graphql/generated';
 import { getAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { getMessageErrorWhenUpdateItem } from './helpers/getMessageErrorWhenUpdateItem';
@@ -49,6 +50,7 @@ import { trackingOrderFormAddItem } from '../../utils/trackingOrderFormAddItem';
 import { handleCopyTextToClipboard } from '../../utils/CopyToClipboard';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { trackEventDitoStatusCart } from '../../utils/trackEventDitoStatusCart';
+import { productDetailStore } from '../useProductDetail/useProductDetail';
 
 const bagStore = create<IBagStore>((set, getState): IBagStore => ({
   initialized: false,
@@ -111,6 +113,14 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           throw new Error('OrderForm inválido.');
         }
 
+        orderForm.items = orderForm.items.map((item) => {
+          if (item.productCategories.includes('Cartão Presente')) {
+            item.itemColor = '';
+            return item;
+          }
+          return item;
+        });
+
         set(() => ({
           orderFormId,
           messages: orderForm.messages,
@@ -148,6 +158,14 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         if (!orderForm) {
           throw new Error('OrderForm inválido.');
         }
+
+        orderForm.items = orderForm.items.map((item) => {
+          if (item.productCategories.includes('Cartão Presente')) {
+            item.itemColor = '';
+            return item;
+          }
+          return item;
+        });
 
         set(() => ({
           orderFormId,
@@ -188,6 +206,14 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         const { orderFormRefreshData: orderForm } = data;
 
+        orderForm.items = orderForm.items.map((item) => {
+          if (item.productCategories.includes('Cartão Presente')) {
+            item.itemColor = '';
+            return item;
+          }
+          return item;
+        });
+
         set(() => ({
           clientProfileData: orderForm.clientProfileData,
           items: orderForm.items,
@@ -218,6 +244,14 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         });
 
         const { orderFormReset: orderForm } = data;
+
+        orderForm.items = orderForm.items.map((item) => {
+          if (item.productCategories.includes('Cartão Presente')) {
+            item.itemColor = '';
+            return item;
+          }
+          return item;
+        });
 
         set(() => ({
           clientProfileData: orderForm.clientProfileData,
@@ -252,6 +286,14 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         }
 
         await setAsyncStorageItem('orderFormId', orderForm.orderFormId);
+
+        orderForm.items = orderForm.items.map((item) => {
+          if (item.productCategories.includes('Cartão Presente')) {
+            item.itemColor = '';
+            return item;
+          }
+          return item;
+        });
 
         set(() => ({
           orderFormId: orderForm.orderFormId,
@@ -304,6 +346,14 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         if (!orderForm) {
           throw new Error('Cupom inválido.');
         }
+
+        orderForm.items = orderForm.items.map((item) => {
+          if (item.productCategories.includes('Cartão Presente')) {
+            item.itemColor = '';
+            return item;
+          }
+          return item;
+        });
 
         set(() => ({
           marketingData: orderForm.marketingData,
@@ -483,6 +533,13 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         let errorsMessages = '';
 
+        const isGiftCard = item.productCategories.includes('Cartão Presente');
+        const handleQuantity = () => {
+          if (isGiftCard) return countUpdated;
+          if (item.isAssinaturaSimples && !isGiftCard) return 1;
+          return countUpdated;
+        };
+
         const { data } = await getApolloClient().mutate<
         OrderFormUpdateItemMutation,
         OrderFormUpdateItemMutationVariables
@@ -493,7 +550,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             index,
             id: item.id,
             seller: item.seller,
-            quantity: item.isAssinaturaSimples ? 1 : countUpdated,
+            quantity: handleQuantity(),
           },
           context: { clientName: 'gateway' },
         });
@@ -510,7 +567,13 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         }
 
         set(() => ({
-          items: orderForm?.items || [],
+          items: orderForm?.items.map((orderItem) => {
+            if (orderItem.productCategories.includes('Cartão Presente')) {
+              orderItem.itemColor = '';
+              return orderItem;
+            }
+            return orderItem;
+          }) || [],
           selectableGift: orderForm?.selectableGift,
           marketingData: orderForm?.marketingData,
           appTotalizers: orderForm?.appTotalizers,
@@ -613,6 +676,23 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
       try {
         set(() => ({ topBarLoading: true }));
 
+        const { selectedGiftCardEmail, productDetail } = productDetailStore.getState();
+        const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
+        let input = {
+          orderFormId: getState().orderFormId,
+          seller,
+          id,
+          quantity,
+        };
+
+        if (isGiftCard) {
+          input = {
+            ...input,
+            giftCard: {
+              email: selectedGiftCardEmail,
+            },
+          };
+        }
         const { data } = await getApolloClient().mutate<
         OrderFormAddItemMutation,
         OrderFormAddItemMutationVariables
@@ -620,23 +700,20 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           mutation: OrderFormAddItemDocument,
           context: { clientName: 'gateway' },
           variables: {
-            input: {
-              orderFormId: getState().orderFormId,
-              seller,
-              id,
-              quantity,
-              // TODO: Adicionar Gift Card
-              // giftCard: {
-              //   email: ''
-              // }
-            },
+            input,
           },
         });
 
         const { orderFormAddItem: orderForm } = data || {};
 
         set(() => ({
-          items: orderForm?.items || [],
+          items: orderForm?.items.map((item) => {
+            if (item.productCategories.includes('Cartão Presente')) {
+              item.itemColor = '';
+              return item;
+            }
+            return item;
+          }) || [],
           selectableGift: orderForm?.selectableGift,
           marketingData: orderForm?.marketingData,
           appTotalizers: orderForm?.appTotalizers,
