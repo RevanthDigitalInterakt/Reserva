@@ -93,8 +93,6 @@ function ProductSummary() {
   const giftCardImage = isGiftCard ? productDetail?.giftCard?.options[0]?.images : [];
   const hasNotSelectedColor = !selectedColor && !isGiftCard;
 
-  console.log('selectedGiftCardSku', selectedGiftCardSku);
-
   const favoriteProduct = isGiftCard ? {
     productName: productDetail?.productName,
     productId: productDetail?.productId,
