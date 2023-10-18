@@ -8,8 +8,6 @@ import IconComponent from '../IconComponent/IconComponent';
 export function NewInput({
   type, placeholder, onPress, value, onChangeText, ...props
 }: NewInputProps) {
-  // const [text, setText] = useState('');
-
   const editable = type === NewInputType.TEXT;
 
   return (
