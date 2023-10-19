@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.1.1
+
+- correção do countdown
+
 ### 2.1.0
 
 - [15509 - Update React-native and libs](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15509)
