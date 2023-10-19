@@ -12,6 +12,7 @@ import { CarrouselMedias } from '../ProductDetailCardLegacy/components/Carrousel
 import { Typography } from '../Typography/Typography';
 import { ImageSlider } from './components/ImageSlider';
 import type { ProductDetailCardProps } from './types';
+import { loadingSpinner } from '../../../assets/animations';
 
 export function ProductDetailCard({
   images,
