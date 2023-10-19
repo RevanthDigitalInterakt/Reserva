@@ -19,17 +19,17 @@ const OnForegroundEventPush = async () => {
       name: 'Default Channel',
     });
 
-    if (!remoteMessage.data?.data) return;
+    if (!remoteMessage?.data?.data) return;
 
-    if (remoteMessage.data) {
+    if (remoteMessage?.data) {
       const { details, reference, notification } = JSON.parse(remoteMessage?.data?.data || '{}');
 
       await setItem('@DitoNotification:Id', notification);
       await setItem('@DitoNotification:Ref', reference);
 
       const link = details?.link || '';
-      const title = details?.message.split('\n')[0] || '';
-      const body = details?.message.split('\n')[1] || '';
+      const title = details?.message?.split('\n')[0] || '';
+      const body = details?.message?.split('\n')[1] || '';
       const bigText = body || ' ';
       const hasLink = link || 'usereserva://home-tabs';
       try {
@@ -58,8 +58,8 @@ const OnForegroundEventPush = async () => {
 
   // TODO Add subscriber
   notifee.onForegroundEvent(async ({ type, detail }) => {
-    if (type === EventType.PRESS && detail.notification?.data?.hasLink) {
-      const dataLink = detail.notification?.data?.hasLink;
+    if (type === EventType.PRESS && detail?.notification?.data?.hasLink) {
+      const dataLink = detail?.notification?.data?.hasLink;
 
       await Linking.openURL(dataLink);
 
