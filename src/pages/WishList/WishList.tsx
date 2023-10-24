@@ -252,7 +252,7 @@ const WishList = () => {
                       color={item.colorName}
                       size={item.size}
                       title={item.product?.productName}
-                      price={item.installmentPrice}
+                      price={item.product?.priceRange.sellingPrice.highPrice}
                       imageUrl={item?.imageUrl}
                       onClickFavorite={() => handleFavorite(item)}
                       onClickBagButton={() => onAddProductToCart(item)}
