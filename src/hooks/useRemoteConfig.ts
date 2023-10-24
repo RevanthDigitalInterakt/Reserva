@@ -46,6 +46,8 @@ export interface IRemoteConfigKeys {
   show_new_home: boolean;
   show_new_home_tester: boolean;
   show_on_smart_hint: boolean;
+  show_item_price: boolean;
+  show_item_price_tester: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -89,6 +91,8 @@ export const defaults: IRemoteConfigKeys = {
   show_new_home: false,
   show_new_home_tester: true,
   show_on_smart_hint: false,
+  show_item_price: false,
+  show_item_price_tester: true,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;
