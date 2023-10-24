@@ -3,7 +3,7 @@ import {
   Box,
   Typography,
 } from '@usereservaapp/reserva-ui';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Alert, FlatList } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
@@ -26,6 +26,8 @@ import useWishlistStore from '../../zustand/useWishlistStore';
 import { EmptyWishList } from './EmptyWishList';
 import SkeletonWishList from './SkeletonWishList';
 import { mapProductToFavoriteItem } from './adaptWishList';
+import { useRemoteConfig } from '../../hooks/useRemoteConfig';
+import { useIsTester } from '../../hooks/useIsTester';
 
 const WishList = () => {
   const navigation = useNavigation();
@@ -34,6 +36,11 @@ const WishList = () => {
   const [loadingAddToBag, setLoadingAddToBag] = useState(false);
   const [loadingSkuId, setLoadingSkuId] = useState<string| null>(null);
   const [showAnimationBag, setShowAnimationBag] = useState(false);
+
+  const { getBoolean } = useRemoteConfig();
+  const isTester = useIsTester();
+
+  const showProductPrice = useMemo(() => getBoolean(isTester ? 'show_item_price_tester' : 'show_item_price'), [getBoolean, isTester]);
 
   const { profile, initialized: initializedAuth } = useAuthStore(['profile', 'initialized']);
 
@@ -252,7 +259,10 @@ const WishList = () => {
                       color={item.colorName}
                       size={item.size}
                       title={item.product?.productName}
-                      price={item.product?.priceRange.sellingPrice.highPrice}
+                      price={
+                        showProductPrice
+                          ? item.product?.priceRange.sellingPrice.highPrice : item.installmentPrice
+                      }
                       imageUrl={item?.imageUrl}
                       onClickFavorite={() => handleFavorite(item)}
                       onClickBagButton={() => onAddProductToCart(item)}
