@@ -23,8 +23,6 @@ import SelectableGifts from './components/SelectableGifts';
 import { Box } from '../../components/Box/Box';
 import { Typography } from '../../components/Typography/Typography';
 import { useIsTester } from '../../hooks/useIsTester';
-import { ModalClientIsPrime } from '../../components/ModalClientIsPrime/ModalClientIsPrime';
-import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 import { trackAccessBag } from '../../utils/trackAccessBag';
 import { getBrands } from '../../utils/getBrands';
 import { trackViewCart } from '../../utils/trackViewCart';
@@ -34,11 +32,6 @@ type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
 export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   const isTester = useIsTester();
-
-  const { changeStateIsVisibleModalPrimeRemoved, isVisibleModalPrimeRemoved } = usePrimeStore([
-    'changeStateIsVisibleModalPrimeRemoved',
-    'isVisibleModalPrimeRemoved',
-  ]);
 
   const {
     topBarLoading,
@@ -189,19 +182,6 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
 
       <ToastProvider />
 
-      <ModalClientIsPrime
-        isVisible={isVisibleModalPrimeRemoved}
-        onBackdropPress={() => {
-          changeStateIsVisibleModalPrimeRemoved(false);
-
-          if (items.length) {
-            navigation.navigate('DeliveryScreen', { comeFrom: 'Checkout' });
-            return;
-          }
-
-          navigation.popToTop();
-        }}
-      />
     </SafeAreaView>
   );
 }

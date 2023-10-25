@@ -1,8 +1,10 @@
 import { useLazyQuery } from '@apollo/client';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import { Alert, FlatList } from 'react-native';
-
 import { useNavigation } from '@react-navigation/native';
+
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { ModalBag } from '../../components/ModalBag/ModalBag';
 import { WishListProductCard } from '../../components/WishListProductCard/WishListProductCard';
@@ -24,6 +26,8 @@ import SkeletonWishList from './SkeletonWishList';
 import { mapProductToFavoriteItem } from './adaptWishList';
 import { Box } from '../../components/Box/Box';
 import { Typography } from '../../components/Typography/Typography';
+import { useRemoteConfig } from '../../hooks/useRemoteConfig';
+import { useIsTester } from '../../hooks/useIsTester';
 
 function WishList() {
   const navigation = useNavigation();

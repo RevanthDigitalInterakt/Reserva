@@ -1,19 +1,24 @@
+import { useNavigation, useRoute } from '@react-navigation/native';
+import axios from 'axios';
 import React, {
   useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
-import { View, Platform } from 'react-native';
-import { WebView, type WebViewMessageEvent, type WebViewNavigation } from 'react-native-webview';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import axios from 'axios';
+import { Platform, View } from 'react-native';
 import deviceInfo from 'react-native-device-info';
-import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
-import EventProvider from '../../utils/EventProvider';
-import { useBagStore } from '../../zustand/useBagStore/useBagStore';
+import { WebView, type WebViewMessageEvent, type WebViewNavigation } from 'react-native-webview';
+
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { Button } from '../../components/Button';
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
-import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
-import { getURLParameter, prepareEventDataPurchaseCompleted, triggerEventAfterPurchaseCompleted } from './eventHelper';
+import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
 import { GetPurchaseData } from '../../services/vtexService';
+import EventProvider from '../../utils/EventProvider';
+import { useBagStore } from '../../zustand/useBagStore/useBagStore';
+import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
+import { getURLParameter, prepareEventDataPurchaseCompleted, triggerEventAfterPurchaseCompleted } from './eventHelper';
+import LoadingCheckout from '../../components/LoadingCheckout/LoadingCheckout';
+import { ModalClientIsPrime } from '../../components/ModalClientIsPrime/ModalClientIsPrime';
+
 /**
  "Be very careful with the implementation as
  it involves webview, and if you don't know what you're doing,
@@ -37,6 +42,11 @@ function WebviewCheckout() {
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
   const [navState, setNavState] = useState('');
   const { orderFormId } = useBagStore(['orderFormId']);
+
+  const { changeStateIsVisibleModalPrimeRemoved, isVisibleModalPrimeRemoved } = usePrimeStore([
+    'changeStateIsVisibleModalPrimeRemoved',
+    'isVisibleModalPrimeRemoved',
+  ]);
 
   const pressAfterPurchaseCompleted = useCallback(async () => {
     setLoading(true);
@@ -122,7 +132,7 @@ function WebviewCheckout() {
   }, [doEventPurchaseCompleted, isOrderPlaced, loading, purchaseCompleted]);
 
   const injectedJavaScript = `
-    window.metadata = { appVersion: "${deviceInfo.getVersion()}", platformType: "${Platform.OS}" } 
+    window.metadata = { appVersion: "${deviceInfo.getVersion()}", platformType: "${Platform.OS}" }
   `;
 
   return (
@@ -134,11 +144,11 @@ function WebviewCheckout() {
           loading={loading}
         />
       </View>
-
       <WebView
         ref={webviewRef}
-        injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
+        renderLoading={() => <LoadingCheckout />}
         startInLoadingState
+        injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
         originWhitelist={['*']}
         testID="com.usereserva:id/web_view_checkout"
         source={{
@@ -162,6 +172,12 @@ function WebviewCheckout() {
         />
       )}
 
+      <ModalClientIsPrime
+        isVisible={isVisibleModalPrimeRemoved}
+        onBackdropPress={() => {
+          changeStateIsVisibleModalPrimeRemoved(false);
+        }}
+      />
     </>
   );
 }

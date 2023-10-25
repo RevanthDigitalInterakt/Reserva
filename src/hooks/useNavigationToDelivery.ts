@@ -46,7 +46,6 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     'hasPrimeSubscriptionInCart']);
 
   const { restoreCart } = useCart();
-
   const { primeActive } = usePrimeInfo();
   const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
 
@@ -105,6 +104,12 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     }
   }, [appTotalizers, items]);
 
+  const goToWebviewCheckout = useCallback((value: string) => {
+    navigation.navigate('Checkout', {
+      url: `https://appqa.usereserva.com/checkout?orderFormId=${value}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
+    });
+  }, []);
+
   const hasPrimeRemovedFromBag = useCallback(async (profile) => {
     if (profile?.isPrime && hasPrimeSubscriptionInCart && primeActive) {
       const primeItemIndex = items.findIndex((item) => item.isPrimeSubscription);
@@ -150,22 +155,13 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     try {
       setNavigateToDeliveryDisable(true);
 
-      onTrackCheckoutEvents();
-
       await actions.REMOVE_UNAVAILABLE_ITEMS();
 
-      const primeRemovedFromCart = await hasPrimeRemovedFromBag(profile);
+      await hasPrimeRemovedFromBag(profile);
 
-      await actions.REFRESH_ORDER_FORM();
+      goToWebviewCheckout(orderFormId);
 
-      await restoreCart(orderFormId);
-
-      if (!primeRemovedFromCart) {
-        setNavigateToDeliveryDisable(false);
-        navigation.navigate('Checkout', {
-          url: `https://appqa.usereserva.com/checkout?orderFormId=${orderFormId}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
-        });
-      }
+      onTrackCheckoutEvents();
     } catch (error) {
       ExceptionProvider.captureException(
         error,

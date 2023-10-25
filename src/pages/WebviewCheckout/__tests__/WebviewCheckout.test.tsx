@@ -36,6 +36,16 @@ jest.mock('../../../hooks/usePrimeInfo', () => ({
   }),
 }));
 
+jest.mock('../../../zustand/usePrimeStore/usePrimeStore', () => ({
+  usePrimeStore: () => ({
+    hasPrimeSubscriptionInCart: true,
+    changeStateIsVisibleModalPrimeRemoved: jest.fn(),
+  }),
+}));
+
+// Mocking the LoadingCheckout component
+jest.mock('../../../components/LoadingCheckout/LoadingCheckout', () => 'LoadingCheckout');
+
 const TestingComponent = (
   <ThemeProvider theme={theme}>
     <CartContext.Provider value={{ setOrderFormLegacy: jest.fn() } as any}>
