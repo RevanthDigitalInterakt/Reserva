@@ -71,12 +71,9 @@ function NewProductCatalog({ navigation, route }: Props) {
       onSearch({
         facets: defaultFacets,
       });
-
     });
     return unsubscribe;
   }, [defaultFacets, navigation, onSearch, onInit, isGoingBack]);
-
-
 
   const hasFilters = useMemo(() => !!parameters.facets.length, [parameters.facets]);
 

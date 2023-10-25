@@ -5,7 +5,7 @@ import {
 import { SvgUri } from 'react-native-svg';
 import styles from './LoadingCheckout.styles';
 
-const LoadingCheckout = () => {
+function LoadingCheckout() {
   const rotate = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -32,6 +32,6 @@ const LoadingCheckout = () => {
       />
     </View>
   );
-};
+}
 
 export default LoadingCheckout;

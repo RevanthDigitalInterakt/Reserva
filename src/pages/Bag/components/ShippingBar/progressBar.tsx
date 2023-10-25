@@ -15,13 +15,13 @@ interface RangeProps {
   showPercent: boolean;
 }
 
-export const ProgressBar = ({
+export function ProgressBar({
   label,
   value,
   max,
   barHeight = 3,
   showPercent = false,
-}: RangeProps) => {
+}: RangeProps) {
   const nextPercent = (value * 100) / max;
   const [percent, setPercent] = useState(0);
 
@@ -67,4 +67,4 @@ export const ProgressBar = ({
       <View style={[styles.greenBar, { height: barHeight, width: `${Math.min(percent, 100)}%`, marginTop: -barHeight }]} />
     </View>
   );
-};
+}

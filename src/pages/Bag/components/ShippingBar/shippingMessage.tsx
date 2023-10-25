@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { Text, View } from 'react-native';
 import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom';
 import type { IPropsShippingMessage } from './types';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
-import { Text, View } from 'react-native';
 import styles from './shippingMessage.styles';
 import IconGreenCheckMark from '../../../../../assets/icons/IconGreenCheckMark';
 

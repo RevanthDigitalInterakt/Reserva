@@ -29,7 +29,7 @@ function NewListVerticalProducts({
   marginBottom,
   headerComponent,
   onFetchMore,
-  cacheGoingBackRequest
+  cacheGoingBackRequest,
 }: ListProductsProps) {
   const navigation = useNavigation();
   const { getBoolean } = useRemoteConfig();
@@ -75,8 +75,8 @@ function NewListVerticalProducts({
             item_list_name: item.productName,
             item_brand: item.brand,
           });
-          
-          if(cacheGoingBackRequest){
+
+          if (cacheGoingBackRequest) {
             cacheGoingBackRequest();
           }
           // @ts-ignore
