@@ -33,6 +33,11 @@ function WishList() {
   const [loadingSkuId, setLoadingSkuId] = useState<string | null>(null);
   const [showAnimationBag, setShowAnimationBag] = useState(false);
 
+  const { getBoolean } = useRemoteConfig();
+  const isTester = useIsTester();
+
+  const showProductPrice = useMemo(() => getBoolean(isTester ? 'show_item_price_tester' : 'show_item_price'), [getBoolean, isTester]);
+
   const { profile, initialized: initializedAuth } = useAuthStore(['profile', 'initialized']);
 
   const {
@@ -246,7 +251,10 @@ function WishList() {
                       color={item.colorName}
                       size={item.size}
                       title={item.product?.productName}
-                      price={item.installmentPrice}
+                      price={
+                        showProductPrice
+                          ? item.product?.priceRange.sellingPrice.highPrice : item.installmentPrice
+                      }
                       imageUrl={item?.imageUrl}
                       onClickFavorite={() => handleFavorite(item)}
                       onClickBagButton={() => onAddProductToCart(item)}
