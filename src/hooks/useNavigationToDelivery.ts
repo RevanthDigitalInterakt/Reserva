@@ -1,5 +1,5 @@
 import {
-  useCallback, useEffect, useMemo, useState,
+  useCallback, useEffect, useState,
 } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
@@ -14,7 +14,6 @@ import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { usePrimeInfo } from './usePrimeInfo';
 import { usePrimeStore } from '../zustand/usePrimeStore/usePrimeStore';
 import { useCart } from '../context/CartContext';
-import { useRemoteConfig } from './useRemoteConfig';
 import { usePageLoadingStore } from '../zustand/usePageLoadingStore/usePageLoadingStore';
 import { Method } from '../utils/EventProvider/Event';
 
@@ -47,19 +46,12 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     'hasPrimeSubscriptionInCart']);
 
   const { restoreCart } = useCart();
-
   const { primeActive } = usePrimeInfo();
   const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
 
   const { changeStateIsVisibleModalPrimeRemoved } = usePrimeStore([
     'changeStateIsVisibleModalPrimeRemoved',
   ]);
-
-  const { getBoolean } = useRemoteConfig();
-
-  const showNewWebviewCheckout = useMemo(() => (
-    getBoolean('show_new_webview_checkout_v2')
-  ), [getBoolean]);
 
   useEffect(() => {
     if (needRefreshing) {
@@ -112,6 +104,12 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     }
   }, [appTotalizers, items]);
 
+  const goToWebviewCheckout = useCallback((value: string) => {
+    navigation.navigate('Checkout', {
+      url: `https://appqa.usereserva.com/checkout?orderFormId=${value}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
+    });
+  }, []);
+
   const hasPrimeRemovedFromBag = useCallback(async (profile) => {
     if (profile?.isPrime && hasPrimeSubscriptionInCart && primeActive) {
       const primeItemIndex = items.findIndex((item) => item.isPrimeSubscription);
@@ -157,26 +155,13 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     try {
       setNavigateToDeliveryDisable(true);
 
-      onTrackCheckoutEvents();
-
       await actions.REMOVE_UNAVAILABLE_ITEMS();
 
-      const primeRemovedFromCart = await hasPrimeRemovedFromBag(profile);
+      await hasPrimeRemovedFromBag(profile);
 
-      await actions.REFRESH_ORDER_FORM();
+      goToWebviewCheckout(orderFormId);
 
-      await restoreCart(orderFormId);
-
-      if (!primeRemovedFromCart) {
-        if (showNewWebviewCheckout) {
-          setNavigateToDeliveryDisable(false);
-          navigation.navigate('Checkout', {
-            url: `https://appqa.usereserva.com/checkout?orderFormId=${orderFormId}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
-          });
-        } else {
-          navigation.navigate('DeliveryScreen', {});
-        }
-      }
+      onTrackCheckoutEvents();
     } catch (error) {
       ExceptionProvider.captureException(
         error,
@@ -197,7 +182,6 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     onTrackCheckoutEvents,
     orderFormId,
     restoreCart,
-    showNewWebviewCheckout,
   ]);
 
   return {
