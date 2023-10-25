@@ -19,6 +19,7 @@ interface ListProductsProps {
   marginBottom?: number;
   headerComponent?: React.ReactNode[]
   onFetchMore: () => void;
+  cacheGoingBackRequest?: () => void;
 }
 
 function NewListVerticalProducts({
@@ -28,6 +29,7 @@ function NewListVerticalProducts({
   marginBottom,
   headerComponent,
   onFetchMore,
+  cacheGoingBackRequest
 }: ListProductsProps) {
   const navigation = useNavigation();
   const { getBoolean } = useRemoteConfig();
@@ -73,7 +75,10 @@ function NewListVerticalProducts({
             item_list_name: item.productName,
             item_brand: item.brand,
           });
-
+          
+          if(cacheGoingBackRequest){
+            cacheGoingBackRequest();
+          }
           // @ts-ignore
           navigation.navigate('ProductDetail', { skuId: item.skuId });
         }}

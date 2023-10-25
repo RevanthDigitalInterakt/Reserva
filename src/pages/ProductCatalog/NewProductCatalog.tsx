@@ -38,6 +38,7 @@ function NewProductCatalog({ navigation, route }: Props) {
     'onInit',
   ]);
 
+  const [isGoingBack, setIsGoingBack] = useState(false);
   const [loadingMedias, setLoadingMedias] = useState(false);
   const { referenceId, filters } = route.params;
   const { offersPage } = useHomeStore(['offersPage']);
@@ -61,13 +62,21 @@ function NewProductCatalog({ navigation, route }: Props) {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
+      if (isGoingBack) {
+        setIsGoingBack(false);
+        return;
+      }
+
       onInit(SearchType.CATALOG);
       onSearch({
         facets: defaultFacets,
       });
+
     });
     return unsubscribe;
-  }, [defaultFacets, navigation, onSearch, onInit]);
+  }, [defaultFacets, navigation, onSearch, onInit, isGoingBack]);
+
+
 
   const hasFilters = useMemo(() => !!parameters.facets.length, [parameters.facets]);
 
@@ -86,6 +95,7 @@ function NewProductCatalog({ navigation, route }: Props) {
       <NewListVerticalProducts
         data={result}
         loading={loading}
+        cacheGoingBackRequest={() => setIsGoingBack(true)}
         headerComponent={(
           <>
             <NewCountdown

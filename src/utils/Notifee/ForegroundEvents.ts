@@ -22,6 +22,7 @@ const OnForegroundEventPush = async () => {
     if (!remoteMessage?.data?.data) return;
 
     if (remoteMessage?.data) {
+      try {
       const { details, reference, notification } = JSON.parse(remoteMessage?.data?.data || '{}');
 
       await setItem('@DitoNotification:Id', notification);
@@ -32,7 +33,7 @@ const OnForegroundEventPush = async () => {
       const body = details?.message?.split('\n')[1] || '';
       const bigText = body || ' ';
       const hasLink = link || 'usereserva://home-tabs';
-      try {
+     
         notifee.displayNotification({
           title,
           body,
