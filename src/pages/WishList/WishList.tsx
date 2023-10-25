@@ -3,7 +3,9 @@ import {
   Box,
   Typography,
 } from '@usereservaapp/reserva-ui';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import { Alert, FlatList } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';

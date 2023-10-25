@@ -1,14 +1,25 @@
+
+
+
 ## CHANGELOG
 
 ### 2.1.2 (Android)
 - [20881 - Bug valores no favoritos APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/20881)
+
+- [19764 - Melhorar o carregamento da webview no APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19764)
 
 ---
 
 ### 2.0.22 (iOS)
 - [20881 - Bug valores no favoritos APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/20881)
 
+- [19764 - Melhorar o carregamento da webview no APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19764)
+
 ---
+
+### 2.0.21
+- Correção Countdown
+
 
 ### 2.0.18
 - [19366 - Criar endereço com o mesmo apelido](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/19366)
