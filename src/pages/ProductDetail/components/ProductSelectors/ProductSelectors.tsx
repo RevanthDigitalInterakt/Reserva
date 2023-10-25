@@ -5,7 +5,9 @@ import {
   Box, Divider, Icon, RadioButtons, SelectColor, Typography,
 } from '@usereservaapp/reserva-ui';
 import { ScrollView } from 'react-native-gesture-handler';
-import { View } from 'react-native';
+import {
+  Image, Text, TouchableOpacity, View,
+} from 'react-native';
 
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { SizeGuide, SizeGuideImages } from './SizeGuide';
@@ -19,8 +21,11 @@ import { styles } from './ProductSelectors.styles';
 import { BottomSheet } from '../../../../components/BottomSheet';
 import { GiftCardList } from './components/GiftCardList';
 import { type ProductGiftCardOptionOutput, ProductResultActionEnum } from '../../../../base/graphql/generated';
+import { GiftCardRulesModal } from './components/GiftCardRulesModal';
+import { commons } from '../../../../base/styles';
 
 function ProductSelectors() {
+  const [showModal, setShowModal] = useState(false);
   const {
     productDetail,
     selectedColor,
@@ -111,6 +116,8 @@ function ProductSelectors() {
     setGiftCardSelectedEmail(email);
   };
 
+  const handleShowModal = () => setShowModal(true);
+
   const selectedGiftCardSkuAmount = useMemo(() => {
     if (!selectedGiftCardSku) return null;
     return productDetail?.giftCard?.options.find((option) => option.itemId === selectedGiftCardSku)?.name;
@@ -198,6 +205,11 @@ function ProductSelectors() {
               />
             </View>
 
+            <TouchableOpacity onPress={handleShowModal} style={styles.infoWrapper}>
+              <Image source={commons.help} />
+              <Text style={styles.infoText}>Entenda como funciona o presente.</Text>
+            </TouchableOpacity>
+
             <BottomSheet isOpen={bottomSheetIsOpen} onBackdropPress={handleBottomSheet}>
               <GiftCardList
                 onSelect={handleSelectGiftCard}
@@ -209,8 +221,22 @@ function ProductSelectors() {
 
         <Box mt="nano" flexDirection="row" />
 
-        <Divider variant="fullWidth" my="xs" />
+        {!isGiftCard ? (
+          <Divider variant="fullWidth" my="xs" />
+        ) : null}
       </Box>
+
+      <GiftCardRulesModal
+        isVisible={showModal}
+        setIsVisible={() => setShowModal(false)}
+        data={{
+          titleModal: 'Cartão Presente',
+          descriptionModal: "Para garantir que o presenteado receba o código, é importante que você forneça um e-mail válido no campo 'E-mail do Presenteado' e que selecione o valor desejado no campo 'Valor do Cartão Presente' \n\n*Se certifique sempre de conferir os campos antes concluir a compra.",
+        }}
+        onPress={() => {
+          setShowModal(false);
+        }}
+      />
     </View>
   );
 }

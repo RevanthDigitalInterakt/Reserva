@@ -85,11 +85,15 @@ function ProductSummary() {
     (!!video && imageIndex >= 0) || !video
   ), [imageIndex, video]);
 
-  const ProductDetailCardComponent = useMemo(() => (
-    showPrimeBox ? NewProductDetailCard : ProductDetailCardLegacy
-  ), [showPrimeBox]);
-
   const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
+
+  const ProductDetailCardComponent = useMemo(() => {
+    if (showPrimeBox || isGiftCard) {
+      return NewProductDetailCard;
+    }
+    return ProductDetailCardLegacy;
+  }, [showPrimeBox]);
+
   const giftCardImage = isGiftCard ? productDetail?.giftCard?.options[0]?.images : [];
   const hasNotSelectedColor = !selectedColor && !isGiftCard;
 

@@ -71,6 +71,7 @@ export const commons = {
   arrowRight: require('../../../assets/common/arrow-right.png'),
   uncheckedBox: require('../../../assets/common/unchecked-box.png'),
   checkedBox: require('../../../assets/common/checked-box.png'),
+  help: require('../../../assets/common/help.png'),
 };
 
 /* mapping of svgs used as icons */

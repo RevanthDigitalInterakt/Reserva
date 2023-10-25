@@ -11,7 +11,10 @@ export function NewInput({
   const editable = type === NewInputType.TEXT;
 
   return (
-    <Pressable style={styles.container} onPress={onPress}>
+    <Pressable
+      style={styles.container}
+      onPress={onPress}
+    >
       <TextInput
         placeholder={placeholder}
         autoCapitalize="none"

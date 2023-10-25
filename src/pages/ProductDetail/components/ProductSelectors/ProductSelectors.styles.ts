@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { scale } from '../../../../utils/scale';
+import { FONTS } from '../../../../base/styles';
 
 export const styles = StyleSheet.create({
   containerLoading: {
@@ -13,8 +14,18 @@ export const styles = StyleSheet.create({
   },
   inputsWrapper: {
     width: '100%',
-    height: scale(95),
-    alignItems: 'center',
+    height: scale(90),
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
+  },
+  infoWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginTop: scale(12),
+  },
+  infoText: {
+    marginLeft: scale(4),
+    textDecorationLine: 'underline',
+    fontFamily: FONTS.RESERVA_SANS_MEDIUM,
   },
 });
