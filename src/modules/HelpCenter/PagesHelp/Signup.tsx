@@ -1,16 +1,13 @@
 import React from "react";
 
-import {
-  Dimensions,
-  Image,
-  Linking,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
-import { Box, Typography } from "@usereservaapp/reserva-ui";
+import { Linking, SafeAreaView, ScrollView } from "react-native";
 
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import Toast from "react-native-toast-message";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import { Box } from "../../../components/Box/Box";
+import { Typography } from "../../../components/Typography/Typography";
+import { Divider } from "../../../components/Divider/Divider";
+import { ExpansePanel } from "../../../components/ExpansePanel/ExpansePanel";
 
 export const Signup: React.FC<{}> = () => {
   const screenWidth = Dimensions.get("window").width * 0.9;

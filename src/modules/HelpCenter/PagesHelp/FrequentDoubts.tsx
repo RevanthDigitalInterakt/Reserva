@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
+
 import { Linking, SafeAreaView, ScrollView } from "react-native";
 
+import Toast from "react-native-toast-message";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import { Box } from "../../../components/Box/Box";
 import { Typography } from "../../../components/Typography/Typography";
-import { ExpansePanel } from "../../../components/ExpansePanel/ExpansePanel";
 import { Divider } from "../../../components/Divider/Divider";
-import Toast from "react-native-toast-message";
+import { ExpansePanel } from "../../../components/ExpansePanel/ExpansePanel";
 
 export function FrequentDoubts() {
   useEffect(() => {}, []);
