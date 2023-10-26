@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
-import { Box } from '@usereservaapp/reserva-ui';
 import React, { useCallback } from 'react';
 import { TouchableOpacity } from 'react-native';
+
 import testProps from '../../utils/testProps';
+import { Box } from '../Box/Box';
 import ImageComponent from '../ImageComponent/ImageComponent';
 
 interface INewBanner {

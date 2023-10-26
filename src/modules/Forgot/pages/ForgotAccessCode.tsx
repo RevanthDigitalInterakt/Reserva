@@ -1,20 +1,21 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
-
 import { Platform, SafeAreaView, ScrollView } from 'react-native';
-import {
-  Box, Button, Typography, Icon,
-} from '@usereservaapp/reserva-ui';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import images from '../../../base/styles/icons';
-import type { RootStackParamList } from '../../../routes/StackNavigator';
-import HeaderBanner from '../componet/HeaderBanner';
-import UnderlineInput from '../../../components/UnderlineInput';
-import { platformType } from '../../../utils/platformType';
-import testProps from '../../../utils/testProps';
 
 import { useRecoverPasswordResetMutation } from '../../../base/graphql/generated';
+import images from '../../../base/styles/icons';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
 import CodeInput from '../../../components/CodeInput/CodeInput';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../components/Typography/Typography';
+import UnderlineInput from '../../../components/UnderlineInput';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
+import { platformType } from '../../../utils/platformType';
+import testProps from '../../../utils/testProps';
+import HeaderBanner from '../componet/HeaderBanner';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 export interface ForgotAccessCodeProps
@@ -99,16 +100,12 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
       <ScrollView
-        // ref={scrollRef}
         ref={scrollViewRef}
-      // onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}
-      // onContentSizeChange={() => scrollRef.current?.scrollToEnd()}
       >
         <>
           <KeyboardAwareScrollView
             enableOnAndroid
             enableAutomaticScroll={Platform.OS === platformType.IOS}
-            // ref={scrollRef}
             extraScrollHeight={155}
           >
             <HeaderBanner
@@ -217,7 +214,7 @@ export const PasswordCheck: React.FC<PasswordCheckProps> = ({
   return (
     <Box flexDirection="row" alignItems="center" width="50%" mt={15}>
       <Box mt="nano" mr={2}>
-        <Icon name="Check" size={16} color={color} />
+        <IconLegacy name="Check" size={16} color={color} />
       </Box>
       <Typography color={color}>{text}</Typography>
     </Box>

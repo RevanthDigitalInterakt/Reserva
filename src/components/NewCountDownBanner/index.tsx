@@ -53,7 +53,7 @@ export function NewCountDownBanner({ data }: ICountDownBanner) {
     <DropShadow style={styles.dropShadow}>
       <View style={styles.container}>
         <View style={styles.contentWrapper}>
-          <Text style={styles.title}>{`${data.title} por R$145` || ''}</Text>
+          <Text style={styles.title}>{data.title ?? ''}</Text>
 
           <View style={styles.cronometerAndButtonsWrapper}>
             <NewCountDownFlipNumber />

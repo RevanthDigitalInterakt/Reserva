@@ -1,18 +1,18 @@
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
-import {
-  Box, Icon, Badge, Typography,
-} from '@usereservaapp/reserva-ui';
-
-import { ButtonStyle } from './styles';
+import { Badge } from '../Badge/Badge';
+import { Box } from '../Box/Box';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
+import { Typography } from '../Typography/Typography';
 import { buttonVariants } from './constants';
+import { ButtonStyle } from './styles';
 import type { ButtonProps, ButtonStyleProps } from './types';
 
 export const buttonVariantsOptions = Object.keys(
   buttonVariants.variants as Object,
 );
 
-export const Button = ({
+export function Button({
   icon,
   title,
   inline,
@@ -25,7 +25,7 @@ export const Button = ({
   badgeCount,
   buttonBackgroundColor,
   ...props
-}: ButtonProps) => {
+}: ButtonProps) {
   const styleProps: ButtonStyleProps = props;
   const { variant } = styleProps;
 
@@ -57,7 +57,7 @@ export const Button = ({
     if (iconProps?.props.name) {
       const IconProps = { ...iconProps.props };
 
-      return <Icon {...IconProps} />;
+      return <IconLegacy {...IconProps} />;
     }
 
     return null;
@@ -81,69 +81,68 @@ export const Button = ({
         </Box>
       );
     }
-    return (
-      <>
-        {!children ? (
-          <Box
-            alignItems="center"
-            flexDirection="row"
-            width={variant === 'modal' ? '100%' : undefined}
-            justifyContent={variant === 'modal' ? 'space-between' : 'center'}
-          >
-            {variant === 'modal' && leftIcon ? (
-              <Box
-                width={29}
-                height={32}
-                borderColor="preto"
-                borderRadius="pico"
-                alignItems="center"
-                alignSelf="flex-end"
-                borderWidth="hairline"
-                justifyContent="center"
-                borderLeftColor="transparente"
-              >
-                {handleIcon(leftIcon)}
-              </Box>
-            ) : (
-              handleIcon(leftIcon)
-            )}
+
+    if (!children) {
+      return (
+        <Box
+          alignItems="center"
+          flexDirection="row"
+          width={variant === 'modal' ? '100%' : undefined}
+          justifyContent={variant === 'modal' ? 'space-between' : 'center'}
+        >
+          {variant === 'modal' && leftIcon ? (
             <Box
+              width={29}
+              height={32}
+              borderColor="preto"
+              borderRadius="pico"
+              alignItems="center"
+              alignSelf="flex-end"
+              borderWidth="hairline"
               justifyContent="center"
-              height={styleProps.height}
-              px={variant === 'modal' ? 'micro' : undefined}
+              borderLeftColor="transparente"
             >
-              <Typography
-                letterSpacing={1.6}
-                color={fetchTextColor()}
-                fontSize={fetchFontSize()}
-                fontFamily={fetchFontFamily()}
-              >
-                {title}
-              </Typography>
+              {handleIcon(leftIcon)}
             </Box>
-            {variant === 'modal' && rightIcon ? (
-              <Box
-                width={29}
-                height={32}
-                borderColor="preto"
-                borderRadius="pico"
-                alignItems="center"
-                alignSelf="flex-end"
-                borderWidth="hairline"
-                justifyContent="center"
-                borderRightColor="transparente"
-              >
-                {handleIcon(rightIcon)}
-              </Box>
-            ) : (
-              handleIcon(rightIcon)
-            )}
+          ) : (
+            handleIcon(leftIcon)
+          )}
+          <Box
+            justifyContent="center"
+            height={styleProps.height}
+            px={variant === 'modal' ? 'micro' : undefined}
+          >
+            <Typography
+              letterSpacing={1.6}
+              color={fetchTextColor()}
+              fontSize={fetchFontSize()}
+              fontFamily={fetchFontFamily()}
+            >
+              {title}
+            </Typography>
           </Box>
-        ) : (
-          children
-        )}
-      </>
-    );
+          {variant === 'modal' && rightIcon ? (
+            <Box
+              width={29}
+              height={32}
+              borderColor="preto"
+              borderRadius="pico"
+              alignItems="center"
+              alignSelf="flex-end"
+              borderWidth="hairline"
+              justifyContent="center"
+              borderRightColor="transparente"
+            >
+              {handleIcon(rightIcon)}
+            </Box>
+          ) : (
+            handleIcon(rightIcon)
+          )}
+        </Box>
+      );
+    }
+
+    return children;
   };
 
   return (
@@ -171,4 +170,4 @@ export const Button = ({
       )}
     </Box>
   );
-};
+}

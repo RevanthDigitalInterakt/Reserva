@@ -1,15 +1,13 @@
+/* eslint-disable max-len */
 import React from "react";
-
 import { Linking, SafeAreaView, ScrollView } from "react-native";
-import {
-  Box,
-  Divider,
-  ExpansePanel,
-  Typography,
-} from "@usereservaapp/reserva-ui";
 
+import { Box } from "../../../components/Box/Box";
+import { Typography } from "../../../components/Typography/Typography";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
 import Toast from "react-native-toast-message";
+import { ExpansePanel } from "../../../components/ExpansePanel/ExpansePanel";
+import { Divider } from "../../../components/Divider/Divider";
 
 export const PrivacyPolicy: React.FC<{}> = () => {
   const data = [
@@ -50,8 +48,8 @@ export const PrivacyPolicy: React.FC<{}> = () => {
     } else {
       Toast.show({
         type: "error",
-        type1: "Algo deu errado",
-        type2: "Tente novamente",
+        text1: "Algo deu errado",
+        text2: "Tente novamente",
       });
     }
   };

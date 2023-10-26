@@ -1,5 +1,4 @@
 import React from 'react';
-import { theme } from '@usereservaapp/reserva-ui';
 import { MockedProvider } from '@apollo/client/testing';
 import { ThemeProvider } from 'styled-components/native';
 import { fireEvent, render } from '@testing-library/react-native';
@@ -17,6 +16,7 @@ import {
   installmentInfo,
 } from '../__mocks__';
 import * as useAuthStore from '../../../../../zustand/useAuth/useAuthStore';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 import { Method } from '../../../../../utils/EventProvider/Event';
 
 jest.mock('../../../../../utils/EventProvider');

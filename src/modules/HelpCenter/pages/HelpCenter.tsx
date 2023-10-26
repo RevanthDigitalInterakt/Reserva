@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
-
 import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView, ScrollView } from "react-native";
-import { Typography, Box, SearchBar } from "@usereservaapp/reserva-ui";
-
 import type { StackScreenProps } from "@react-navigation/stack";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import ItemListHelp from "../Components/ItemListHelp";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, ScrollView } from "react-native";
+
+import { Box } from "../../../components/Box/Box";
+import { SearchBar } from "../../../components/SearchBar/SearchBar";
+import { Typography } from "../../../components/Typography/Typography";
 import type { RootStackParamList } from "../../../routes/StackNavigator";
 import testProps from "../../../utils/testProps";
+import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
+import ItemListHelp from "../Components/ItemListHelp";
 
 type Props = StackScreenProps<RootStackParamList, "HelpCenter">;
 
-export const HelpCenter = ({ route }: Props) => {
+export function HelpCenter({ route }: Props) {
   const navigation = useNavigation();
 
   const [, setSearch] = useState("");
@@ -40,7 +41,9 @@ export const HelpCenter = ({ route }: Props) => {
 
   const navigateGoBack = () => {
     navigation.goBack();
-    route?.params?.comeFrom === "Menu" && navigation.navigate("Menu");
+    if (route?.params?.comeFrom === "Menu") {
+      navigation.navigate("Menu");
+    }
   };
 
   return (
@@ -78,7 +81,7 @@ export const HelpCenter = ({ route }: Props) => {
           <Box mb="micro" flex={1}>
             {filter.map((item, key) => (
               <ItemListHelp
-                key={key}
+                key={item.title}
                 title={item.title}
                 onPress={() => {
                   navigation.navigate(item.navigate);
@@ -90,4 +93,4 @@ export const HelpCenter = ({ route }: Props) => {
       </Box>
     </SafeAreaView>
   );
-};
+}

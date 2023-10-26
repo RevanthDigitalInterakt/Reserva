@@ -1,14 +1,15 @@
 import React, { useCallback, useMemo } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import {
-  Typography,
-  decimalPart,
-  integerPart,
-} from '@usereservaapp/reserva-ui';
-import { styles } from './SelectBoxNormal.styles';
-import testProps from '../../utils/testProps';
-import { TTypesInstallments, useRemoteConfig } from '../../hooks/useRemoteConfig';
+  StyleSheet,
+  TouchableOpacity, View,
+} from 'react-native';
+
 import type { Maybe, ProductSizeInstallmentOutput } from '../../base/graphql/generated';
+import { useRemoteConfig, type TTypesInstallments } from '../../hooks/useRemoteConfig';
+import { decimalPart, integerPart } from '../../utils/numberUtils';
+import testProps from '../../utils/testProps';
+import { Typography } from '../Typography/Typography';
+import { styles } from './SelectBoxNormal.styles';
 
 export interface SelectBoxNormalProps {
   onPress: (option: string) => void;

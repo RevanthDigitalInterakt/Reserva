@@ -2,7 +2,6 @@ import React, {
   useCallback, useEffect,
 } from 'react';
 import { StatusBar } from 'react-native';
-import * as Animatable from 'react-native-animatable';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import messaging from '@react-native-firebase/messaging';
 import { useStatusBar } from './context/StatusBarContext';
@@ -85,9 +84,7 @@ function InitialScreen({ children }: IProps) {
 
       <CodePushModal />
 
-      <Animatable.View animation="fadeIn" style={{ height: '100%' }}>
-        {children}
-      </Animatable.View>
+      {children}
     </SafeAreaView>
   );
 }

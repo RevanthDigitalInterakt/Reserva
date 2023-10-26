@@ -45,6 +45,8 @@ import { postalCodeMask } from '../../../utils/postalCodeMask';
 import testProps from '../../../utils/testProps';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
+import { useCart } from '../../../context/CartContext';
 
 const createAddressSchema = Yup.object().shape({
   addressSurname: addressSurnameSchema,
@@ -84,6 +86,10 @@ export default function CreateAddress(
 
   const switchMainAddress = () => setIsMainAddress(!isMainAddress);
 
+  const { orderFormId, actions } = useBagStore(['orderFormId', 'actions']);
+
+  const { restoreCart } = useCart();
+
   const [profileAddress] = useProfileAddressMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
@@ -116,8 +122,6 @@ export default function CreateAddress(
         setFieldValue('neighborhood', data?.cep?.neighborhood);
         setFieldValue('addressState', data?.cep?.state);
         setFieldValue('street', data?.cep?.street);
-
-        return;
       }
     } catch (error) {
       ExceptionProvider.captureException(error);
@@ -180,6 +184,8 @@ export default function CreateAddress(
           },
         },
       );
+      await actions.REFRESH_ORDER_FORM();
+      await restoreCart(orderFormId);
     } catch (error) {
       ExceptionProvider.captureException(error);
     } finally {

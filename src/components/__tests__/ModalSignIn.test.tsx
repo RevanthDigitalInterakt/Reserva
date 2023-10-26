@@ -3,7 +3,6 @@ import {
   render,
   fireEvent,
 } from '@testing-library/react-native';
-import { theme } from '@usereservaapp/reserva-ui';
 import { act } from '@testing-library/react-hooks';
 import { MockedProvider } from '@apollo/client/testing';
 import { ThemeProvider } from 'styled-components/native';
@@ -15,6 +14,7 @@ import { ApolloMockLPPrime } from '../../pages/PrimeLP/__mocks__/primeLPMocks';
 
 import { ModalSignIn } from '../ModalSignIn';
 import { isValidEmail, isValidPassword } from '../ModalSignIn/utils';
+import { theme } from '../../base/usereservappLegacy/theme';
 
 const mockAddItemFn = jest.fn();
 const mockedNavigate = jest.fn();

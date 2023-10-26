@@ -1,5 +1,4 @@
 import React from 'react';
-import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 import {
   fireEvent, render, screen,
@@ -10,6 +9,7 @@ import { ApolloMockLPPrime } from '../../../pages/PrimeLP/__mocks__/primeLPMocks
 import { CartContext } from '../../../context/CartContext';
 import * as useLandingPagePrimeQuery from '../../../base/graphql/generated';
 import { mockPrimeData } from '../../../../__mocks__/PrimeLP.mock';
+import { theme } from '../../../base/usereservappLegacy/theme';
 
 const selectedSizeMock = {
   __typename: 'ProductSizeOutput',
@@ -87,15 +87,17 @@ jest
     loading: false,
   } as any);
 
-const TestingComponent = (selectedSize: any) => (
-  <ThemeProvider theme={theme}>
-    <MockedProvider mocks={ApolloMockLPPrime} addTypename={false}>
-      <CartContext.Provider value={{ addItem: mockAddItemFn } as any}>
-        <PricesSelectBoxes selectedSize={selectedSize} />
-      </CartContext.Provider>
-    </MockedProvider>
-  </ThemeProvider>
-);
+function TestingComponent(selectedSize: any) {
+  return (
+    <ThemeProvider theme={theme}>
+      <MockedProvider mocks={ApolloMockLPPrime} addTypename={false}>
+        <CartContext.Provider value={{ addItem: mockAddItemFn } as any}>
+          <PricesSelectBoxes selectedSize={selectedSize} />
+        </CartContext.Provider>
+      </MockedProvider>
+    </ThemeProvider>
+  );
+}
 
 describe('PricesSelectBoxes', () => {
   beforeEach(() => {

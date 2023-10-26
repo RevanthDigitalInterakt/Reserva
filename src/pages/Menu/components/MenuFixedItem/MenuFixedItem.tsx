@@ -1,6 +1,9 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
+
+import { Box } from '../../../../components/Box/Box';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../components/Typography/Typography';
 import testProps from '../../../../utils/testProps';
 
 interface IFixedMenuItem {
@@ -31,7 +34,7 @@ function FixedMenuItem({
         flexDirection="row"
         marginX="xxxs"
       >
-        <Icon name={iconName} color="preto" size={18} />
+        <IconLegacy name={iconName} color="preto" size={18} />
 
         <Box marginX="micro">
           <Typography

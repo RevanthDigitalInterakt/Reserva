@@ -1,22 +1,24 @@
 import React, {
-  useLayoutEffect, useState, useCallback,
+  useCallback,
+  useLayoutEffect, useState,
 } from 'react';
 import { View } from 'react-native';
-import { Typography } from '@usereservaapp/reserva-ui';
 
 import testProps from '../../utils/testProps';
 import { useCart } from '../../context/CartContext';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import type { ProductSizeOutput } from '../../base/graphql/generated';
+
 import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 
-import { ModalSignIn } from '../ModalSignIn';
 import { ModalBag } from '../ModalBag/ModalBag';
+import { ModalSignIn } from '../ModalSignIn';
 import { ModalWelcomePrime } from '../ModalWelcomePrime';
-import { SelectBoxPrime } from '../SelectBoxPrime/SelectBoxPrime';
 import { SelectBoxNormal } from '../SelectBoxNormal/SelectBoxNormal';
+import { SelectBoxPrime } from '../SelectBoxPrime/SelectBoxPrime';
 
+import { Typography } from '../Typography/Typography';
 import { styles } from './PricesSelectBoxes.styles';
 
 interface IPropsPriceSelectBoxes {

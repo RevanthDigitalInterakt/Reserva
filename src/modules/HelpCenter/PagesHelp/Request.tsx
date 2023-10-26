@@ -54,8 +54,8 @@ export const Request: React.FC<{}> = () => {
     } else {
       Toast.show({
         type: "error",
-        type1: "Algo deu errado",
-        type2: "Tente novamente",
+        text1: "Algo deu errado",
+        text2: "Tente novamente",
       });
     }
   };

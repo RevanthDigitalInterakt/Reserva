@@ -5,7 +5,6 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react-native';
-import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 import { MockedProvider } from '@apollo/client/testing';
 import PrimeLP from '../PrimeLP';
@@ -13,6 +12,7 @@ import { CartContext } from '../../../context/CartContext';
 import { ApolloMockLPPrime } from '../__mocks__/primeLPMocks';
 import * as useLandingPagePrimeQuery from '../../../base/graphql/generated';
 import { mockPrimeData } from '../../../../__mocks__/PrimeLP.mock';
+import { theme } from '../../../base/usereservappLegacy/theme';
 
 // MOCKS
 const mockAddItemFn = jest.fn();

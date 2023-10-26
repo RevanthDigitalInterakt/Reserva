@@ -4,7 +4,6 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import TransformUtil from '../../../../utils/transformUtil';
 import FlipCard from './FlipCard';
 import Card from './Card';
 import testProps from '../../../../utils/testProps';
@@ -33,11 +32,11 @@ class NumberCard extends React.Component<NumberCardProps> {
     const { size } = this.props;
     this.animateTick();
     this.rotateFront.addListener(({ value }) => {
-      this.transformRef(this.frontRef, value, size * 0.23);
+      // this.transformRef(this.frontRef, value, size * 0.23);
     });
 
     this.rotateBack.addListener(({ value }) => {
-      this.transformRef(this.backRef, value, -size * 0.23);
+      // this.transformRef(this.backRef, value, -size * 0.23);
     });
   }
 
@@ -74,7 +73,8 @@ class NumberCard extends React.Component<NumberCardProps> {
     ]).start();
   };
 
-  transformRef = (ref, deg, y) => {
+  // TODO update
+  /* transformRef = (ref, deg, y) => {
     const { perspective } = this.props;
     const matrix = TransformUtil.createIdentityMatrix();
     TransformUtil.translateMatrix(matrix, { x: 0, y, z: 0 });
@@ -84,7 +84,7 @@ class NumberCard extends React.Component<NumberCardProps> {
     if (ref) {
       ref.setNativeProps({ style: { transform: [{ matrix }] } });
     }
-  };
+  }; */
 
   render() {
     const {

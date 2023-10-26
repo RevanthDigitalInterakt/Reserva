@@ -1,10 +1,11 @@
 import React from 'react';
-import {
-  Box, Button, Icon, theme,
-} from '@usereservaapp/reserva-ui';
 import ProgressBar from 'react-native-progress/Bar';
 import ImageComponent from '../../../components/ImageComponent/ImageComponent';
 import type { TSource } from '../../../components/IconComponent/IconComponent';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { theme } from '../../../base/usereservappLegacy/theme';
 
 const HeaderBanner: React.FC<{
   onClickGoBack?: () => void,
@@ -18,7 +19,7 @@ const HeaderBanner: React.FC<{
   <Box>
     <Box position="absolute" top={10} left={10} zIndex={4} style={{ elevation: 3 }}>
       <Button onPress={onClickGoBack}>
-        <Icon name="ArrowBack" size={24} color="preto" />
+        <IconLegacy name="ArrowBack" size={24} color="preto" />
       </Button>
     </Box>
     <ImageComponent

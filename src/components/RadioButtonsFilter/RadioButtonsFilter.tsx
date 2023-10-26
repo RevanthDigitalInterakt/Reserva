@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Box, Button, theme, Typography,
-} from '@usereservaapp/reserva-ui';
+import type { theme } from '../../base/usereservappLegacy/theme';
+import { Box } from '../Box/Box';
+import { Button } from '../Button';
+import { Typography } from '../Typography/Typography';
 
 interface RadioButtonsFilterProps {
   optionsList: any[];

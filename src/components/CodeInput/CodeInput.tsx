@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
 import { Pressable, TextInput } from 'react-native';
-import { Box, Typography } from '@usereservaapp/reserva-ui';
 import testProps from '../../utils/testProps';
+import { Box } from '../Box/Box';
+import { Typography } from '../Typography/Typography';
 
 export interface CodeInputProps {
   showError: boolean,
@@ -10,9 +11,13 @@ export interface CodeInputProps {
   onChageCode: (code: string) => void
 }
 
-const CodeInput = ({
-  code, onChageCode, showError = true, errorMessage = 'Digite um código válido',
-}: CodeInputProps) => {
+function CodeInput({
+  code,
+  onChageCode,
+  showError = true,
+  errorMessage = 'Digite um código válido',
+
+}: CodeInputProps) {
   const codeMaxSize = 6;
   const codeDigitsArray = new Array(codeMaxSize).fill(0);
   const refTextInput = useRef<TextInput>(null);
@@ -26,7 +31,7 @@ const CodeInput = ({
         <Box flexDirection="row" justifyContent="space-between">
           {codeDigitsArray.map((val, idx) => (
             <Box
-              key={idx}
+              key={`${val + idx}`}
               borderWidth="hairline"
               borderColor={showError ? 'vermelhoAlerta' : 'transparente'}
               alignItems="center"
@@ -68,6 +73,6 @@ const CodeInput = ({
       />
     </Box>
   );
-};
+}
 
 export default CodeInput;

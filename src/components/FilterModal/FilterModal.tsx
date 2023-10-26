@@ -1,24 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView } from 'react-native';
-import {
-  Box,
-  Button,
-  Divider,
-  theme,
-  Typography,
-} from '@usereservaapp/reserva-ui';
 import Modal from 'react-native-modal';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import configDeviceSizes from '../../utils/configDeviceSizes';
 import useSearchStore from '../../zustand/useSearchStore';
 import FilterCategories from './components/FilterCategories';
-import { SearchFacetOutput, SearchProductFacetInput, useSearchFacetsLazyQuery } from '../../base/graphql/generated';
+import { type SearchFacetOutput, type SearchProductFacetInput, useSearchFacetsLazyQuery } from '../../base/graphql/generated';
 import FilterColors from './components/FilterColors';
 import FilterSizes from './components/FilterSizes';
 import FilterPrices from './components/FilterPrices';
 import { COLORS } from '../../base/styles/colors';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
+import { Box } from '../Box/Box';
+import { theme } from '../../base/usereservappLegacy/theme';
+import { Typography } from '../Typography/Typography';
+import { Divider } from '../Divider/Divider';
+import { Button } from '../Button';
 
 function getFacetValue(values: Set<{ value: string; hex?: string; }>) {
   return new Set(Array.from(values).map((item) => item.hex || item.value));
@@ -108,7 +106,8 @@ function FilterModal({ onClose, visible, defaultFacets }: IFilterModal) {
     } catch (err) {
       Alert.alert(
         '',
-        'Ocorreu um erro ao filtrar os produtos', [{
+        'Ocorreu um erro ao filtrar os produtos',
+        [{
           onPress: onClose,
           text: 'OK',
         }],

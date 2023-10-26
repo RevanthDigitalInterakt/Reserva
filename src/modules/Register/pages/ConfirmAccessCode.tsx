@@ -1,20 +1,19 @@
-import {
-  Box, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
-import {
+import
+{
   ActivityIndicator,
   Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import images from '../../../base/styles/icons';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../../../components/UnderlineInput';
 import { platformType } from '../../../utils/platformType';
-import {
+import
+{
   SignUpDocumentTypeEnum,
   useSignUpMutation, useSignUpVerificationCodeMutation,
 } from '../../../base/graphql/generated';
@@ -29,6 +28,9 @@ import ModalCheckUserConnection from '../component/ModalCheckUserConnection';
 import CodeInput from '../../../components/CodeInput/CodeInput';
 import { getCopiedValue } from '../../../utils/CopyToClipboard';
 import { useCheckConnection } from '../../../hooks/useCheckConnection';
+import { Box } from '../../../components/Box/Box';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../components/Typography/Typography';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { Method } from '../../../utils/EventProvider/Event';
 
@@ -45,7 +47,7 @@ export const PasswordCheck: React.FC<PasswordCheckProps> = ({
   return (
     <Box flexDirection="row" alignItems="center" width="50%" mt={15}>
       <Box mt="nano" mr={2}>
-        <Icon name="Check" size={16} color={color} />
+        <IconLegacy name="Check" size={16} color={color} />
       </Box>
       <Typography color={color}>{text}</Typography>
     </Box>
@@ -84,17 +86,15 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   const trackEventSignUpDito = useCallback(async (emailDito: string, cpfDito: string) => {
     const id = await AsyncStorage.getItem('@Dito:anonymousID');
 
-    EventProvider.sendTrackEvent(
-      'fez-cadastro', {
-        id,
-        action: 'fez-cadastro',
-        data: {
-          email: emailDito,
-          cpf: cpfDito,
-          origem: 'app',
-        },
+    EventProvider.sendTrackEvent('fez-cadastro', {
+      id,
+      action: 'fez-cadastro',
+      data: {
+        email: emailDito,
+        cpf: cpfDito,
+        origem: 'app',
       },
-    );
+    });
   }, []);
 
   const pasteCode = useCallback(async () => {

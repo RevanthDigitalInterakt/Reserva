@@ -1,11 +1,13 @@
 import { Platform } from 'react-native';
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import React from 'react';
 import { platformType } from '../../../../utils/platformType';
 import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import { useNavigationToDelivery } from '../../../../hooks/useNavigationToDelivery';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Button } from '../../../../components/Button';
 
 export default function BagFooter() {
   const {

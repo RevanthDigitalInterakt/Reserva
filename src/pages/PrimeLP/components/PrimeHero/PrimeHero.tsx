@@ -1,12 +1,13 @@
 import React, { useCallback } from 'react';
 import { ImageBackground, TouchableOpacity, View } from 'react-native';
-import { Typography } from '@usereservaapp/reserva-ui';
-import configDeviceSizes from '../../../../utils/configDeviceSizes';
-import { styles } from './PrimeHero.styles';
-import IconPrimeLogo from '../Icons/IconPrimeLogo';
+
 import type { PrimeDetailOutput } from '../../../../base/graphql/generated';
-import EventProvider from '../../../../utils/EventProvider';
+import { Typography } from '../../../../components/Typography/Typography';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
+import EventProvider from '../../../../utils/EventProvider';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
+import IconPrimeLogo from '../Icons/IconPrimeLogo';
+import { styles } from './PrimeHero.styles';
 
 const ImageSource = require('../../../../../assets/common/header.png');
 

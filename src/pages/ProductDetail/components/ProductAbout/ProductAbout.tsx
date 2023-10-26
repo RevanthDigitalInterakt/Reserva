@@ -1,11 +1,13 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
-import ProductDescription from './ProductDescription';
-import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../components/Typography/Typography';
 import EventProvider from '../../../../utils/EventProvider';
 import testProps from '../../../../utils/testProps';
+import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+import ProductDescription from './ProductDescription';
 
 function ProductAbout() {
   const { productDetail, selectedSize } = useProductDetailStore(['productDetail', 'selectedSize']);
@@ -37,11 +39,11 @@ function ProductAbout() {
           {showSection
             ? (
               <Box alignSelf="center" paddingRight="quarck" paddingLeft="quarck">
-                <Icon name="Subtraction" color="fullBlack" size={20} />
+                <IconLegacy name="Subtraction" color="fullBlack" size={20} />
               </Box>
             ) : (
               <Box alignSelf="center" paddingRight="nano">
-                <Icon name="Add" color="fullBlack" size={20} />
+                <IconLegacy name="Add" color="fullBlack" size={20} />
               </Box>
             )}
 

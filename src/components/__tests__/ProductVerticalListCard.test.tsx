@@ -2,14 +2,16 @@ import React from 'react';
 import {
   render,
 } from '@testing-library/react-native';
-import { ProductVerticalListCard, theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
+import { ProductVerticalListCard } from '../ProductVerticalListCard';
+import { theme } from '../../base/usereservappLegacy/theme';
 
 describe('ProductVerticalListCard', () => {
   it('should match with the snapshot', async () => {
     const Component = (
       <ThemeProvider theme={theme}>
         <ProductVerticalListCard
+          prime={null}
           imageSource=""
           productTitle="title"
           price={1200}

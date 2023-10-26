@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { WebView } from 'react-native-webview';
-import { Box } from '@usereservaapp/reserva-ui';
 import LottieView from 'lottie-react-native';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import { TopBarBackButton } from '../Menu/components/TopBarBackButton';
+import { Box } from '../../components/Box/Box';
+import { loadingSpinner } from '../../../assets/animations';
 
 export const WebviewZendesk: React.FC<{}> = () => {
   const [loading, setLoading] = useState(true);
@@ -58,7 +58,7 @@ export const WebviewZendesk: React.FC<{}> = () => {
           setNavState(navState.url);
         }}
         onLoadProgress={(e) => {
-          webref.current.injectJavaScript(scripts);
+          webref.current?.injectJavaScript(scripts);
         }}
         source={{
           uri: 'https://usereserva.zendesk.com/hc/pt-br/requests/new',

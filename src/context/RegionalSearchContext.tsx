@@ -8,7 +8,7 @@ import React, {
   useEffect,
   useLayoutEffect,
 } from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { instance } from '../config/vtexConfig';
 
 interface RegionalSearchContextProps {
@@ -53,7 +53,7 @@ interface RegionalSearchProviderProps {
   children?: ReactNode;
 }
 
-const RegionalSearchContextProvider = ({ children }: RegionalSearchProviderProps) => {
+function RegionalSearchContextProvider({ children }: RegionalSearchProviderProps) {
   const [regionId, setRegionId] = useState('');
   const [cep, setCep] = useState('');
   const [segmentToken, setSegmentToken] = useState('');
@@ -113,7 +113,7 @@ const RegionalSearchContextProvider = ({ children }: RegionalSearchProviderProps
       {children}
     </RegionalSearchContext.Provider>
   );
-};
+}
 
 export default RegionalSearchContextProvider;
 

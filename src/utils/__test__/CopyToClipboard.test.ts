@@ -1,7 +1,7 @@
-import Clipboard from '@react-native-community/clipboard';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { handleCopyTextToClipboard, getCopiedValue } from '../CopyToClipboard';
 
-jest.mock('@react-native-community/clipboard', () => ({
+jest.mock('@react-native-clipboard/clipboard', () => ({
   setString: jest.fn(),
   getString: jest.fn(),
 }));

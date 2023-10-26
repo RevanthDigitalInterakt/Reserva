@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { Dimensions, Platform, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 
-import testProps from '../../utils/testProps';
 import { platformType } from '../../utils/platformType';
+import testProps from '../../utils/testProps';
 
+import { Box } from '../Box/Box';
+import { Button } from '../Button';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
+import { Typography } from '../Typography/Typography';
 import type { UnderlineInputProps } from './types';
 
 const screenWidth = Dimensions.get('window').width;
 
-const UnderlineInput: React.FC<UnderlineInputProps> = ({
+function UnderlineInput({
   width,
   value,
   testID,
@@ -25,7 +26,8 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
   isSecureText,
   keyboardType,
   isModal = false,
-}) => {
+}: UnderlineInputProps) {
+  // TODO refactor
   width = width == undefined ? (width = screenWidth - 20 * 2) : width;
   iconSize = iconSize == undefined ? (iconSize = 22) : iconSize;
 
@@ -78,7 +80,7 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
                 setHidePassword(!hidePassword);
               }}
             >
-              <Icon
+              <IconLegacy
                 size={iconSize}
                 name={hidePassword ? 'EyeOff' : 'EyeOpen'}
               />
@@ -98,5 +100,5 @@ const UnderlineInput: React.FC<UnderlineInputProps> = ({
       )}
     </Box>
   );
-};
+}
 export default UnderlineInput;

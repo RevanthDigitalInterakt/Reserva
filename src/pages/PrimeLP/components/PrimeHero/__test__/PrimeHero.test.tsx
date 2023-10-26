@@ -1,9 +1,9 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@usereservaapp/reserva-ui';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import PrimeHero from '../PrimeHero';
 import { mockPrimeData, addToCartMock } from '../../../../../../__mocks__/PrimeLP.mock';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 
 const mockProfile = {
   __typename: 'ProfileOutput',

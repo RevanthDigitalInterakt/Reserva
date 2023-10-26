@@ -1,17 +1,20 @@
 import React, { useCallback } from 'react';
 import Modal from 'react-native-modal';
-import {
-  Box, Button, Divider, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import { TouchableOpacity } from 'react-native';
 import {
-  ImageLibraryOptions,
-  ImagePickerResponse,
+  type ImageLibraryOptions,
+  type ImagePickerResponse,
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
+
 import { ChangeFileModalStyles as Styles } from './styles/changeFileModal.styles';
 import { requestCameraPermission, requestExternalWritePermission } from './helpers/permissions';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Button } from '../../../../components/Button';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Divider } from '../../../../components/Divider/Divider';
 
 const launchImageLibraryOptions: ImageLibraryOptions = {
   selectionLimit: 1,
@@ -46,12 +49,12 @@ export interface IFile {
   initialFilePath: string | undefined
 }
 
-const ChangeFileModal = ({
+function ChangeFileModal({
   show,
   toggleModal,
   handleChangeFile,
   handleDeleteProfileImage,
-}: IChangeFileModalProps): JSX.Element => {
+}: IChangeFileModalProps): JSX.Element {
   const handleChooseGallery = useCallback(async (): Promise<void> => {
     const isCameraPermitted = await requestCameraPermission();
     const isStoragePermitted = await requestExternalWritePermission();
@@ -125,7 +128,7 @@ const ChangeFileModal = ({
             }}
             onPress={toggleModal}
             variant="icone"
-            icon={<Icon size={12} name="Close" />}
+            icon={<IconLegacy size={12} name="Close" />}
           />
         </Box>
         <Box mt="xxs" mb="micro">
@@ -137,7 +140,7 @@ const ChangeFileModal = ({
         <Box mt="xxs" mb="micro">
           <TouchableOpacity onPress={handleChooseCamera} testID="com.usereserva:id/changefilemodal_button_camera">
             <Box style={Styles.boxTouchable}>
-              <Icon name="Cam" size={20} mr="micro" />
+              <IconLegacy name="Cam" size={20} mr="micro" />
               <Typography fontFamily="reservaSansMedium" fontSize={14}>
                 Tirar uma foto
               </Typography>
@@ -150,7 +153,7 @@ const ChangeFileModal = ({
         <Box mt="micro" mb="micro">
           <TouchableOpacity onPress={handleChooseGallery} testID="com.usereserva:id/changefilemodal_button_gallery">
             <Box style={Styles.boxTouchable}>
-              <Icon name="Image" size={20} mr="micro" />
+              <IconLegacy name="Image" size={20} mr="micro" />
               <Typography fontFamily="reservaSansMedium" fontSize={14}>
                 Buscar na galeria
               </Typography>
@@ -166,7 +169,7 @@ const ChangeFileModal = ({
             testID="com.usereserva:id/changefilemodal_button_clear"
           >
             <Box style={Styles.boxTouchable}>
-              <Icon name="Trash" size={20} mr="micro" />
+              <IconLegacy name="Trash" size={20} mr="micro" />
               <Typography
                 style={{ color: '#EF1E1E' }}
                 fontFamily="reservaSansMedium"
@@ -180,6 +183,6 @@ const ChangeFileModal = ({
       </Box>
     </Modal>
   );
-};
+}
 
 export default ChangeFileModal;

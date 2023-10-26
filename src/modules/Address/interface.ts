@@ -11,7 +11,7 @@ export interface IAddress {
   country: string;
 }
 
-export interface IEditAddress extends IAddress{
+export interface IEditAddress extends IAddress {
   id: string;
   receiverName: string;
 

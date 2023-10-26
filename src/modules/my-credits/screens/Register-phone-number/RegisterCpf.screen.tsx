@@ -4,7 +4,7 @@ import React from 'react';
 import { BaseScreen } from '../../../../components/BaseScreen';
 import { RegisterCpfContainer } from './RegisterCpf.container';
 
-export const RegisterCpfScreen = ({ route }) => {
+export function RegisterCpfScreen({ route }) {
   const navigation = useNavigation();
 
   const navigateBack = () => {
@@ -32,4 +32,4 @@ export const RegisterCpfScreen = ({ route }) => {
       />
     </BaseScreen>
   );
-};
+}

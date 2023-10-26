@@ -1,14 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { Platform, TouchableOpacity } from 'react-native';
-import {
-  Typography, Box, Icon, Divider,
-} from '@usereservaapp/reserva-ui';
 import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { stringToReal } from '../../../utils/stringToReal';
 import { platformType } from '../../../utils/platformType';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Divider } from '../../../components/Divider/Divider';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 
 type IOrderData = {
   orderId: string;
@@ -57,7 +58,7 @@ interface IOrder {
   data: IOrderData;
 }
 
-const Order = ({ data }: IOrder) => {
+function Order({ data }: IOrder) {
   const navigation = useNavigation();
 
   const order = useMemo(() => ({
@@ -133,11 +134,11 @@ const Order = ({ data }: IOrder) => {
         <Divider variant="fullWidth" mt="micro" />
 
         <Box alignItems="center" pt="micro">
-          <Icon name="ArrowDown" size={20} />
+          <IconLegacy name="ArrowDown" size={20} />
         </Box>
       </Box>
     </TouchableOpacity>
   );
-};
+}
 
 export default Order;

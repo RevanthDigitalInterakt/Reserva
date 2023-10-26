@@ -1,9 +1,10 @@
 import React from 'react';
-import { Box } from '@usereservaapp/reserva-ui';
-import FlipNumber from '../../modules/Home/component/flipcountdoun/FlipNumber';
-import testProps from '../../utils/testProps';
+
 import type { HomeCountdownThemeOutput } from '../../base/graphql/generated';
 import { useCountDown } from '../../context/ChronometerContext';
+import FlipNumber from '../../modules/Home/component/flipcountdoun/FlipNumber';
+import testProps from '../../utils/testProps';
+import { Box } from '../Box/Box';
 
 interface ICountDownFlipNumber {
   theme: HomeCountdownThemeOutput;

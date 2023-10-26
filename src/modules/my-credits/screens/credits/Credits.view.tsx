@@ -1,13 +1,15 @@
 import React from 'react';
-import { Box, Divider, Typography } from '@usereservaapp/reserva-ui';
 import { PriceCustom } from '../../../Checkout/components/PriceCustom';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Divider } from '../../../../components/Divider/Divider';
 
 export interface CreditsViewProps {
   creditsBalance?: number;
 }
 
-export const CreditsView = ({ creditsBalance }: CreditsViewProps) => (
-  <>
+export function CreditsView({ creditsBalance }: CreditsViewProps) {
+  return (
     <Box mx="xxs" mt="sm">
       <Box mb="nano">
         <Typography variant="tituloSessoes">Meus créditos</Typography>
@@ -44,5 +46,5 @@ export const CreditsView = ({ creditsBalance }: CreditsViewProps) => (
         </Box>
       </Box>
     </Box>
-  </>
-);
+  );
+}

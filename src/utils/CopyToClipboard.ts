@@ -1,4 +1,4 @@
-import Clipboard from '@react-native-community/clipboard';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 export const handleCopyTextToClipboard = (text: string): void => {
   Clipboard.setString(text);

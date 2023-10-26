@@ -8,7 +8,7 @@ const mockReturnValues: any = {
   },
 };
 
-jest.mock('@react-native-community/async-storage', () => ({
+jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: jest.fn(() => new Promise((resolve) => {
     resolve(true);
   })),

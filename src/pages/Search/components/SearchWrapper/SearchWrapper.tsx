@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Box, SearchBar } from '@usereservaapp/reserva-ui';
+
+import { Box } from '../../../../components/Box/Box';
+import { SearchBar } from '../../../../components/SearchBar/SearchBar';
+import useDebounce from '../../../../hooks/useDebounce';
 import { TopBarDefaultBackButton } from '../../../../modules/Menu/components/TopBarDefaultBackButton';
 import useSearchStore, { SearchStatusEnum } from '../../../../zustand/useSearchStore';
-import useDebounce from '../../../../hooks/useDebounce';
 
 interface ISearchWrapper {
   children: React.ReactNode;

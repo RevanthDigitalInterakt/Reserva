@@ -25,34 +25,28 @@ export class CashbackService {
 
   public async getToken(cpf: string, installationToken: string):
   Promise<AxiosResponse<GetTokenResponse>> {
-    const response = await this.http.post<GetTokenResponse>(
-      '/loyalty/modify-token', {
-        cpf,
-        installationToken,
-      },
-    );
+    const response = await this.http.post<GetTokenResponse>('/loyalty/modify-token', {
+      cpf,
+      installationToken,
+    });
     return response;
   }
 
   public async acceptLoyalty(cpf: string):
   Promise<AxiosResponse<AcceptLoyaltyResponse>> {
-    const response = await this.http.post<AcceptLoyaltyResponse>(
-      '/loyalty/accept-loyalty', {
-        cpf,
-      },
-    );
+    const response = await this.http.post<AcceptLoyaltyResponse>('/loyalty/accept-loyalty', {
+      cpf,
+    });
     return response;
   }
 
   public async getCustomer(cpf: string):
   Promise<AxiosResponse<GetCustomerResponse>> {
-    const response = await this.http.get<GetCustomerResponse>(
-      '/loyalty/customer', {
-        params: {
-          cpf,
-        },
+    const response = await this.http.get<GetCustomerResponse>('/loyalty/customer', {
+      params: {
+        cpf,
       },
-    );
+    });
     return response;
   }
 }

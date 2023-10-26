@@ -6,14 +6,12 @@ export async function trackEventAccessedCategoryDito(selectedCollection:string) 
 
   if (!selectedCollection) return;
 
-  EventProvider.sendTrackEvent(
-    'acessou-categoria', {
-      id,
-      action: 'acessou-categoria',
-      data: {
-        nome_categoria: selectedCollection,
-        origem: 'app',
-      },
+  EventProvider.sendTrackEvent('acessou-categoria', {
+    id,
+    action: 'acessou-categoria',
+    data: {
+      nome_categoria: selectedCollection,
+      origem: 'app',
     },
-  );
+  });
 }

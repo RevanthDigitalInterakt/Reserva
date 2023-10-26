@@ -1,13 +1,14 @@
-import {
-  Box, Toggle, Typography,
-} from '@usereservaapp/reserva-ui';
 import { TouchableOpacity } from 'react-native';
 import React, { useCallback, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+
 import { handleCopyTextToClipboard } from '../../../../utils/CopyToClipboard';
 import { useCart } from '../../../../context/CartContext';
 import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
 import EventProvider from '../../../../utils/EventProvider';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Toggle } from '../../../../components/Toggle/Toggle';
 
 interface ITesterAreaViewComponentProps {
   handleToggleModalTesting: () => void

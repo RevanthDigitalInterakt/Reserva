@@ -1,6 +1,8 @@
 import { Platform, TouchableOpacity } from 'react-native';
-import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
 import React, { useCallback, useState } from 'react';
+import { Box } from '../../../../../../components/Box/Box';
+import { Typography } from '../../../../../../components/Typography/Typography';
+import { IconLegacy } from '../../../../../../components/IconLegacy/IconLegacy';
 
 export type TGender = 'Homem' | 'Mulher' | 'Não binário' | 'Outro';
 interface IGenderInputProps {
@@ -80,7 +82,7 @@ function GenderInput({ currentGender, handleSelectGender }: IGenderInputProps) {
           </Box>
 
           <Box position="absolute" right={0} top={24}>
-            <Icon
+            <IconLegacy
               color="preto"
               name="ArrowDown"
               size={18}

@@ -1,12 +1,13 @@
 import * as React from 'react';
-import {
-  Box, Divider, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
-import { TouchableOpacity } from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import testProps from '../../../../utils/testProps';
+import { TouchableOpacity, View } from 'react-native';
+
+import type { MenuCategoryItemOutput, MenuCategoryOutput } from '../../../../base/graphql/generated';
+import { Box } from '../../../../components/Box/Box';
+import { Divider } from '../../../../components/Divider/Divider';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../components/Typography/Typography';
 import { slugify } from '../../../../utils/slugify';
-import type { MenuCategoryOutput, MenuCategoryItemOutput } from '../../../../base/graphql/generated';
+import testProps from '../../../../utils/testProps';
 import MenuSubItem from '../MenuSubItem';
 
 interface IMenuItem {
@@ -37,7 +38,7 @@ function MenuItem({ data, opened, onPress }: IMenuItem) {
           </Typography>
 
           <Box>
-            <Icon
+            <IconLegacy
               style={{ transform: [{ rotate: opened ? '90deg' : '0deg' }] }}
               name="ChevronRight"
               color="preto"
@@ -50,9 +51,8 @@ function MenuItem({ data, opened, onPress }: IMenuItem) {
       {opened && (
         <>
           <Divider variant="fullWidth" marginTop="micro" />
-          <Animatable.View
+          <View
             {...testProps('com.usereserva:id/animation_container')}
-            animation="fadeIn"
           >
             {data.children.map((item, index) => (
               <MenuSubItem
@@ -62,7 +62,7 @@ function MenuItem({ data, opened, onPress }: IMenuItem) {
                 onPress={onPress}
               />
             ))}
-          </Animatable.View>
+          </View>
         </>
       )}
     </Box>

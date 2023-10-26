@@ -1,16 +1,18 @@
 import React from 'react';
 
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { BottomBar, BottomBarButton, Box } from '@usereservaapp/reserva-ui';
+
 import { slugify } from '../utils/slugify';
 import testProps from '../utils/testProps';
+import { BottomBar, BottomBarButton } from './BottomBar';
+import { Box } from '../components/Box/Box';
 
 type OnPressType = {
   key: string;
   name: string;
 };
 
-export const TabBar = ({ state, navigation }: BottomTabBarProps<{}>) => {
+export function TabBar({ state, navigation }: BottomTabBarProps<{}>) {
   const onPress = ({ key, name }: OnPressType, isFocused: Boolean) => {
     const event = navigation.emit({
       type: 'tabPress',
@@ -44,4 +46,4 @@ export const TabBar = ({ state, navigation }: BottomTabBarProps<{}>) => {
       </BottomBar>
     </Box>
   );
-};
+}
