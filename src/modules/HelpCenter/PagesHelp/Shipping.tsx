@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Linking, SafeAreaView, ScrollView } from "react-native";
+import { Image, Linking, SafeAreaView, ScrollView } from "react-native";
 
 import Toast from "react-native-toast-message";
 import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";

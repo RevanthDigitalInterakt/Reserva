@@ -10,8 +10,6 @@ import { Divider } from "../../../components/Divider/Divider";
 import { ExpansePanel } from "../../../components/ExpansePanel/ExpansePanel";
 
 export function FrequentDoubts() {
-  useEffect(() => {}, []);
-
   const data = [
     {
       title: "Parcerias",
