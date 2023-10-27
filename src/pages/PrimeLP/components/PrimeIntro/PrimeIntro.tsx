@@ -1,9 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Typography } from '@usereservaapp/reserva-ui';
 import { styles } from './PrimeIntro.styles';
 import type { PrimeDetailOutput } from '../../../../base/graphql/generated';
 import testProps from '../../../../utils/testProps';
+import { Typography } from '../../../../components/Typography/Typography';
 
 interface IPrimeIntro {
   data: PrimeDetailOutput;

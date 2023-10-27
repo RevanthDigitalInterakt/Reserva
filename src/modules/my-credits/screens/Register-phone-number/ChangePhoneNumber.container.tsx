@@ -19,12 +19,12 @@ interface ChangePhoneNumberContainerProps {
   navigateToConfirmPhone: () => void;
 }
 
-export const ChangePhoneNumberContainer = ({
+export function ChangePhoneNumberContainer({
   profile,
   navigateBack,
   navigateToRegisterPhoneNumber,
   navigateToConfirmPhone,
-}: ChangePhoneNumberContainerProps) => {
+}: ChangePhoneNumberContainerProps) {
   const [loadingToken, setLoadingToken] = React.useState(false);
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
   const [{ data: dataProfile }, setDataProfile] = useState({
@@ -103,4 +103,4 @@ export const ChangePhoneNumberContainer = ({
       />
     </>
   );
-};
+}

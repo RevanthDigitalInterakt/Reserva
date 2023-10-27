@@ -1,12 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
-import { Box } from '@usereservaapp/reserva-ui';
 import React, { useCallback } from 'react';
 import { TouchableOpacity } from 'react-native';
-import ImageComponent from '../ImageComponent/ImageComponent';
+
+import { COLORS } from '../../base/styles/colors';
 import EventProvider from '../../utils/EventProvider';
 import { defaultBrand } from '../../utils/defaultWBrand';
 import testProps from '../../utils/testProps';
-import { COLORS } from '../../base/styles/colors';
+import { Box } from '../Box/Box';
+import ImageComponent from '../ImageComponent/ImageComponent';
 
 export interface BannerProps {
   reference: string;
@@ -15,12 +16,12 @@ export interface BannerProps {
   orderBy?: string;
 }
 
-const Banner: React.FC<BannerProps> = ({
+function Banner({
   reference,
   url,
   reservaMini,
   orderBy,
-}) => {
+}: BannerProps) {
   const navigation = useNavigation();
 
   const handleOnPressed = useCallback(() => {
@@ -83,5 +84,5 @@ const Banner: React.FC<BannerProps> = ({
       </Box>
     </Box>
   );
-};
+}
 export default Banner;

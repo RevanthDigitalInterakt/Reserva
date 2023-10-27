@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-
 import { SafeAreaView, ScrollView } from 'react-native';
-import {
-  Typography, Box, ExpansePanel, Divider,
-} from '@usereservaapp/reserva-ui';
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { ExpansePanel } from '../../../components/ExpansePanel/ExpansePanel';
+import { Divider } from '../../../components/Divider/Divider';
 
-export const FrequentDoubts = () => {
+export function FrequentDoubts() {
   useEffect(() => { }, []);
 
   const data = [
@@ -155,8 +155,8 @@ export const FrequentDoubts = () => {
             </Typography>
           </Box>
 
-          {data.map((item, key) => (
-            <Box key={key}>
+          {data.map((item) => (
+            <Box key={item.title}>
               <ExpansePanel information={{ ...item }} />
               <Divider mt="xxxs" variant="fullWidth" />
             </Box>
@@ -165,4 +165,4 @@ export const FrequentDoubts = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

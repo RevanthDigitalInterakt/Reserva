@@ -1,12 +1,12 @@
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@usereservaapp/reserva-ui';
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { MockedProvider } from '@apollo/client/testing';
 import Config from 'react-native-config';
 import type { DocumentNode } from 'graphql';
 import { act } from 'react-test-renderer';
-import { brandsCarouselQuery, IBrandsCarouselQuery } from '../../../../../graphql/brands/brandsCarouselQuery';
+import { brandsCarouselQuery, type IBrandsCarouselQuery } from '../../../../../graphql/brands/brandsCarouselQuery';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 import HomeBrandsCarousel from '../HomeBrandsCarousel';
 import { HomePageSectionTypeEnum } from '../../../../../base/graphql/generated';
 

@@ -1,23 +1,24 @@
 import { useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
-import {
-  Box, Button, Typography, Picker,
-} from '@usereservaapp/reserva-ui';
 import React, { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
+  Pressable,
   SafeAreaView,
   ScrollView,
-  Pressable,
 } from 'react-native';
 
+import { useProfileAddressMutation } from '../../../../base/graphql/generated';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { Picker } from '../../../../components/Picker/Picker';
+import { Typography } from '../../../../components/Typography/Typography';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
+import { CepVerifyPostalCode } from '../../../../services/vtexService';
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import InputOption from '../../Components/InputOption';
-import { CepVerifyPostalCode } from '../../../../services/vtexService';
-import { useProfileAddressMutation } from '../../../../base/graphql/generated';
 import type { IAddress } from '../../interface';
-import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'NewAddress'>;
 type TAddressProps = Omit<IAddress, 'addressType'>;
@@ -411,17 +412,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
             <Button
               mt="xxs"
               onPress={() => {
-                /* if (isValidFields) {
-                  isValidField.city('');
-                  isValidField.neighborhood('');
-                  isValidField.number('');
-                  isValidField.receiverName('');
-                  isValidField.state('');
-                  isValidField.street('');
-
-                  return Alert.alert('Erro', 'Alguns Campos não foram preenchidos');
-                } */
-
                 if (!executeCallback) {
                   return handleSaveAddress();
                 }

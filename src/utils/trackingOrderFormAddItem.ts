@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import EventProvider from './EventProvider';
 import { defaultBrand } from './defaultWBrand';
@@ -34,24 +34,22 @@ export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderForm
       ? await getAsyncStorageItem('@Dito:userRef')
       : await AsyncStorage.getItem('@Dito:anonymousID');
 
-    EventProvider.sendTrackEvent(
-      'adicionou-produto-ao-carrinho', {
-        id: ditoId,
-        action: 'adicionou-produto-ao-carrinho',
-        data: {
-          marca: product?.additionalInfo?.brandName || '',
-          id_produto: id,
-          nome_produto: product?.name || '',
-          categorias_produto: Object.entries(product.productCategories)
-            .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
-            .join(', '),
-          tamanho: product.skuName.split(' - ')[1],
-          cor: product.skuName.split(' - ')[0],
-          preco_produto: (product.sellingPrice || 0) / 100, // convertPrice
-          origem: 'app',
-        },
+    EventProvider.sendTrackEvent('adicionou-produto-ao-carrinho', {
+      id: ditoId,
+      action: 'adicionou-produto-ao-carrinho',
+      data: {
+        marca: product?.additionalInfo?.brandName || '',
+        id_produto: id,
+        nome_produto: product?.name || '',
+        categorias_produto: Object.entries(product.productCategories)
+          .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
+          .join(', '),
+        tamanho: product.skuName.split(' - ')[1],
+        cor: product.skuName.split(' - ')[0],
+        preco_produto: (product.sellingPrice || 0) / 100, // convertPrice
+        origem: 'app',
       },
-    );
+    });
   } catch (e) {
     ExceptionProvider.captureException(e);
   }

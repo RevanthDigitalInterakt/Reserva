@@ -1,26 +1,22 @@
-import {
-  Box,
-  Button,
-  Icon,
-  Typography,
-} from '@usereservaapp/reserva-ui';
-import {
-  loadingSpinner,
-} from '@usereservaapp/reserva-ui/src/assets/animations';
 import LottieView from 'lottie-react-native';
 import React, { useMemo } from 'react';
-
 import { Text, View } from 'react-native';
+
+import { loadingSpinner } from '../../../assets/animations';
+import type { Maybe, ProductSizeInstallmentOutput } from '../../base/graphql/generated';
+import { useRemoteConfig, type TTypesInstallments } from '../../hooks/useRemoteConfig';
 import configDeviceSizes from '../../utils/configDeviceSizes';
 import { decimalPart, integerPart } from '../../utils/numberUtils';
+import type { IGetPrimeReturn } from '../../zustand/usePrimeConfig/usePrimeConfig';
+import { Box } from '../Box/Box';
+import { Button } from '../Button';
+import { FlagDiscount } from '../FlagDiscount/FlagDiscount';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
 import ImageComponent from '../ImageComponent/ImageComponent';
 import ProductPricePrimeRow from '../ProductPricePrimeLabelRow/ProductPricePrimeRow';
 import ProductPriceRow from '../ProductPriceRow/ProductPriceRow';
 import ProductThumbColorsRow from '../ProductThumbColorsRow/ProductThumbColorsRow';
-import type { IGetPrimeReturn } from '../../zustand/usePrimeConfig/usePrimeConfig';
-import type { Maybe, ProductSizeInstallmentOutput } from '../../base/graphql/generated';
-import { TTypesInstallments, useRemoteConfig } from '../../hooks/useRemoteConfig';
-import { FlagDiscount } from '../FlagDiscount/FlagDiscount';
+import { Typography } from '../Typography/Typography';
 
 export interface ProductVerticalListCardProps {
   imageWidth?: number
@@ -46,7 +42,7 @@ export interface ProductVerticalListCardProps {
   installmentsEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
 }
 
-export const ProductVerticalListCard = ({
+export function ProductVerticalListCard({
   currency,
   imageSource,
   installmentsNumber,
@@ -68,7 +64,7 @@ export const ProductVerticalListCard = ({
   installmentsEqualPrime,
   prime,
   testID,
-}: ProductVerticalListCardProps) => {
+}: ProductVerticalListCardProps) {
   const { getString } = useRemoteConfig();
 
   const typeInstallments: TTypesInstallments = useMemo(() => (
@@ -101,7 +97,7 @@ export const ProductVerticalListCard = ({
   return (
     <View>
       <Box height="100%">
-        <Box position="absolute" zIndex={5} right={10} top={8}>
+        <Box position="absolute" zIndex={5} right={4} top={6}>
           {loadingFavorite ? (
             <LottieView
               source={loadingSpinner}
@@ -127,7 +123,7 @@ export const ProductVerticalListCard = ({
                 }
               }}
               icon={(
-                <Icon
+                <IconLegacy
                   name={isFavorited ? 'HeartRaised' : 'Heart'}
                   size={18}
                   color="preto"
@@ -137,11 +133,11 @@ export const ProductVerticalListCard = ({
           )}
         </Box>
 
-        {discountTag ? (
+        {discountTag && (
           <Box top={0} left={0} zIndex={1}>
             <FlagDiscount discountTag={discountTag} />
           </Box>
-        ) : <></>}
+        ) }
 
         {saleOff && (
         <Box position="absolute" top={discountTag ? 50 : 0} left={0} zIndex={1}>
@@ -179,9 +175,11 @@ export const ProductVerticalListCard = ({
         />
         )}
 
-        <Box marginTop="micro" width={configDeviceSizes.DEVICE_WIDTH * 0.45}>
+        <Box marginTop="nano" width={configDeviceSizes.DEVICE_WIDTH * 0.45}>
           <Text
-            style={{ fontSize: 12, fontFamily: 'ReservaSans-Bold' }}
+            style={{
+              paddingBottom: 8, paddingRight: 6, fontSize: 12, fontFamily: 'ReservaSans-Bold',
+            }}
           >
             {productTitle}
           </Text>
@@ -192,25 +190,24 @@ export const ProductVerticalListCard = ({
             <Box
               flexDirection="row"
               alignItems="flex-end"
-              mt="nano"
             >
               <Typography
                 fontFamily="reservaSansRegular"
-                fontSize="9px"
+                fontSize={12}
                 color="neutroFrio2"
               >
                 De
               </Typography>
               <Typography
                 fontFamily="reservaSansRegular"
-                fontSize="9px"
+                fontSize={12}
                 color="neutroFrio2"
               >
                 {` ${currency || 'R$'} `}
               </Typography>
               <Typography
                 fontFamily="reservaSansRegular"
-                fontSize="9px"
+                fontSize={12}
                 color="neutroFrio2"
                 style={{
                   textDecorationLine: 'line-through',
@@ -220,8 +217,8 @@ export const ProductVerticalListCard = ({
               </Typography>
               <Typography
                 fontFamily="reservaSansRegular"
-                fontSize="5px"
-                color="preto"
+                fontSize={12}
+                color="neutroFrio2"
                 style={{
                   textDecorationLine: 'line-through',
                 }}
@@ -257,4 +254,4 @@ export const ProductVerticalListCard = ({
       </Box>
     </View>
   );
-};
+}

@@ -1,8 +1,9 @@
 import React from 'react';
 import type { ImageStyle, StyleProp } from 'react-native';
-import { Box, Icon } from '@usereservaapp/reserva-ui';
 import { Button } from '../Button';
-import ImageComponent, { TSource } from '../ImageComponent/ImageComponent';
+import ImageComponent, { type TSource } from '../ImageComponent/ImageComponent';
+import { Box } from '../Box/Box';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
 
 interface AvatarProps {
   imageSource?: TSource
@@ -18,7 +19,7 @@ interface AvatarProps {
   imageStyle: StyleProp<ImageStyle>
 }
 
-export const Avatar = ({
+export function Avatar({
   imageSource,
   sizeImage = 60,
   sizeButton = 25,
@@ -30,16 +31,17 @@ export const Avatar = ({
   },
   onPress,
   imageStyle,
-}: AvatarProps) => (
-  <Box
-    height={sizeImage}
-    width={sizeImage}
-    borderRadius="infinity"
-    bg="neutroFrio1"
-    alignItems="center"
-    justifyContent="center"
-  >
-    {
+}: AvatarProps) {
+  return (
+    <Box
+      height={sizeImage}
+      width={sizeImage}
+      borderRadius="infinity"
+      bg="neutroFrio1"
+      alignItems="center"
+      justifyContent="center"
+    >
+      {
         imageSource
           ? (
             <ImageComponent
@@ -59,11 +61,11 @@ export const Avatar = ({
               alignItems="center"
               justifyContent="center"
             >
-              <Icon name="User" color="neutroFrio1" size={sizeImage} />
+              <IconLegacy name="User" color="neutroFrio1" size={sizeImage} />
             </Box>
           )
       }
-    {buttonEdit
+      {buttonEdit
         && (
         <Box
           position="absolute"
@@ -82,9 +84,10 @@ export const Avatar = ({
             alignItems="center"
             justifyContent="center"
           >
-            <Icon name="Edit" color="white" size={sizeButton * 0.7} />
+            <IconLegacy name="Edit" color="white" size={sizeButton * 0.7} />
           </Button>
         </Box>
         )}
-  </Box>
-);
+    </Box>
+  );
+}

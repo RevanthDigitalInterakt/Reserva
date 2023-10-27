@@ -1,14 +1,10 @@
 import { useLazyQuery } from '@apollo/client';
-import {
-  Box,
-  Typography,
-} from '@usereservaapp/reserva-ui';
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { Alert, FlatList } from 'react-native';
-
 import { useNavigation } from '@react-navigation/native';
+
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { ModalBag } from '../../components/ModalBag/ModalBag';
 import { WishListProductCard } from '../../components/WishListProductCard/WishListProductCard';
@@ -28,15 +24,17 @@ import useWishlistStore from '../../zustand/useWishlistStore';
 import { EmptyWishList } from './EmptyWishList';
 import SkeletonWishList from './SkeletonWishList';
 import { mapProductToFavoriteItem } from './adaptWishList';
+import { Box } from '../../components/Box/Box';
+import { Typography } from '../../components/Typography/Typography';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { useIsTester } from '../../hooks/useIsTester';
 
-const WishList = () => {
+function WishList() {
   const navigation = useNavigation();
   const [wishProducts, setWishProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadingAddToBag, setLoadingAddToBag] = useState(false);
-  const [loadingSkuId, setLoadingSkuId] = useState<string| null>(null);
+  const [loadingSkuId, setLoadingSkuId] = useState<string | null>(null);
   const [showAnimationBag, setShowAnimationBag] = useState(false);
 
   const { getBoolean } = useRemoteConfig();
@@ -76,60 +74,56 @@ const WishList = () => {
     },
   );
 
-  const doInitialRequest = React.useCallback(
-    async () => {
-      if (!favoritesIds?.length) {
-        setWishProducts([]);
-        setLoading(false);
-        return;
-      }
-      setLoading(true);
-      try {
-        const { data: listProduct } = await getWishListProducts({
-          variables: {
-            idArray: favoritesIds,
-          },
-        });
+  const doInitialRequest = React.useCallback(async () => {
+    if (!favoritesIds?.length) {
+      setWishProducts([]);
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    try {
+      const { data: listProduct } = await getWishListProducts({
+        variables: {
+          idArray: favoritesIds,
+        },
+      });
 
-        const favorites = listProduct.productsByIdentifier.flatMap(
-          (product) => mapProductToFavoriteItem(product, favoritesIds),
-        );
+      const favorites = listProduct.productsByIdentifier.flatMap(
+        (product) => mapProductToFavoriteItem(product, favoritesIds),
+      );
 
-        setWishProducts(favorites);
-      } catch (e) {
-        ExceptionProvider.captureException(e);
-      } finally {
-        setLoading(false);
-      }
-    }, [favoritesIds, getWishListProducts],
-  );
+      setWishProducts(favorites);
+    } catch (e) {
+      ExceptionProvider.captureException(e);
+    } finally {
+      setLoading(false);
+    }
+  }, [favoritesIds, getWishListProducts]);
 
-  const doRefresh = React.useCallback(
-    async (newFavoritesIds: string[]) => {
-      if (!newFavoritesIds?.length) {
-        setWishProducts([]);
-        return;
-      }
+  const doRefresh = React.useCallback(async (newFavoritesIds: string[]) => {
+    if (!newFavoritesIds?.length) {
+      setWishProducts([]);
+      return;
+    }
 
-      try {
-        const { data: listProduct } = await getWishListProducts({
-          variables: {
-            idArray: newFavoritesIds,
-          },
-        });
+    try {
+      const { data: listProduct } = await getWishListProducts({
+        variables: {
+          idArray: newFavoritesIds,
+        },
+      });
 
-        const favorites = listProduct.productsByIdentifier.flatMap(
-          (product) => mapProductToFavoriteItem(product, newFavoritesIds),
-        );
+      const favorites = listProduct.productsByIdentifier.flatMap(
+        (product) => mapProductToFavoriteItem(product, newFavoritesIds),
+      );
 
-        setWishProducts(favorites);
-      } catch (e) {
-        ExceptionProvider.captureException(e);
-      } finally {
-        setLoadingSkuId(null);
-      }
-    }, [getWishListProducts],
-  );
+      setWishProducts(favorites);
+    } catch (e) {
+      ExceptionProvider.captureException(e);
+    } finally {
+      setLoadingSkuId(null);
+    }
+  }, [getWishListProducts]);
 
   const handleFavorite = useCallback(async (data) => {
     const {
@@ -297,6 +291,6 @@ const WishList = () => {
       )}
     </Box>
   );
-};
+}
 
 export default WishList;

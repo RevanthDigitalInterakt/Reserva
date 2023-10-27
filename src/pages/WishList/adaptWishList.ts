@@ -4,9 +4,7 @@ export const getHighestInstallment = (installments: any[]) => installments?.redu
   { NumberOfInstallments: 0, Value: 0 },
 );
 
-export const mapProductToFavoriteItem = (
-  product: any, wishSkus: string[],
-) => product.items.flatMap((item: any) => {
+export const mapProductToFavoriteItem = (product: any, wishSkus: string[]) => product.items.flatMap((item: any) => {
   if (wishSkus.includes(item.itemId)) {
     const availableProduct = item?.sellers[0]?.commertialOffer?.AvailableQuantity > 0;
     const highestInstallment = getHighestInstallment(

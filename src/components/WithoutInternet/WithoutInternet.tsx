@@ -1,6 +1,9 @@
 import React from 'react';
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
+
+import { Box } from '../Box/Box';
+import { Button } from '../Button';
 import IconComponent from '../IconComponent/IconComponent';
+import { Typography } from '../Typography/Typography';
 
 interface IWithoutInternet {
   onLoad?: () => void;

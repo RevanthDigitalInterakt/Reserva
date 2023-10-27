@@ -1,5 +1,4 @@
 import React from 'react';
-import { theme } from '@usereservaapp/reserva-ui';
 import { MockedProvider } from '@apollo/client/testing';
 import { ThemeProvider } from 'styled-components/native';
 
@@ -15,6 +14,7 @@ import ListAddress from '../ListAddress';
 import ModalConfirmDelete from '../components/ModalConfirmDelete';
 import CartContextProvider from '../../../../context/CartContext';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
+import { theme } from '../../../../base/usereservappLegacy/theme';
 
 type TNavigation = StackScreenProps<RootStackParamList, 'AddressList'>['navigation'];
 

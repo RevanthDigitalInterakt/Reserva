@@ -1,8 +1,8 @@
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@usereservaapp/reserva-ui';
 import React from 'react';
 import { render, screen } from '@testing-library/react-native';
 import UserProfilePictureComponent from '../UserProfilePictureComponent';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 
 const mockProps = {
   file: {

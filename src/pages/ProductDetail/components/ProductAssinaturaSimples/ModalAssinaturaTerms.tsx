@@ -1,13 +1,12 @@
 import React from 'react';
 import { Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import Modal from 'react-native-modal';
-import {
-  Box,
-  Button,
-  Icon,
-  Typography,
-} from '@usereservaapp/reserva-ui';
+
 import testProps from '../../../../utils/testProps';
+import { Box } from '../../../../components/Box/Box';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Button } from '../../../../components/Button';
 
 interface Props {
   isVisible: boolean;
@@ -35,7 +34,7 @@ export const ModalAssinaturaTerms: React.FC<Props> = ({
     >
       <Box flexDirection="row-reverse">
         <TouchableOpacity onPress={() => setIsVisible(false)}>
-          <Icon name="Close" size={14} />
+          <IconLegacy name="Close" size={14} />
         </TouchableOpacity>
       </Box>
 

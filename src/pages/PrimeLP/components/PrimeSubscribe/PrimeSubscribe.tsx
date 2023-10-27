@@ -2,12 +2,12 @@ import React, { useCallback } from 'react';
 import {
   View, TouchableOpacity, ImageBackground,
 } from 'react-native';
-import { Typography } from '@usereservaapp/reserva-ui';
 import { styles } from './PrimeSubscribe.styles';
 import testProps from '../../../../utils/testProps';
 import type { PrimeDetailOutput } from '../../../../base/graphql/generated';
 import EventProvider from '../../../../utils/EventProvider';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
+import { Typography } from '../../../../components/Typography/Typography';
 
 const ImageProductSource = require('../../../../../assets/common/product.png');
 

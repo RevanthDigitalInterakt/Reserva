@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box } from '@usereservaapp/reserva-ui';
 import { Skeleton } from '../../../../modules/Checkout/components/Skeleton';
+import { Box } from '../../../../components/Box/Box';
 
 export interface ICatalogSkeletonProps {
   loading: boolean

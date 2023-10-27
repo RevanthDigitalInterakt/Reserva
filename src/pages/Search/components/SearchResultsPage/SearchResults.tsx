@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import { Box } from '@usereservaapp/reserva-ui';
 import { COLORS } from '../../../../base/styles/colors';
 import useSearchStore from '../../../../zustand/useSearchStore';
 import ProductNotFound from '../ProductNotFound';
 import NewListVerticalProducts from '../../../../components/NewListVerticalProducts';
 import SearchResultHeader from '../SearchResultHeader';
+import { Box } from '../../../../components/Box/Box';
 
 function SearchResults() {
   const {

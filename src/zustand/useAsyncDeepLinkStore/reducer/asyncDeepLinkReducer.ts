@@ -1,8 +1,10 @@
 import type { IAsyncDeepLinkStore, IPayloadDispatch } from '../types/asyncDeepLinkStore';
 import reducerMethods from './methods/reducerMethods';
 
-const reducer = async (state: IAsyncDeepLinkStore,
-  { actionType, payload }: IPayloadDispatch): Promise<IAsyncDeepLinkStore> => {
+const reducer = async (
+  state: IAsyncDeepLinkStore,
+  { actionType, payload }: IPayloadDispatch,
+): Promise<IAsyncDeepLinkStore> => {
   switch (actionType) {
     case 'CATALOG': {
       const navigateToRoute = await reducerMethods.CATALOG({ ...payload });

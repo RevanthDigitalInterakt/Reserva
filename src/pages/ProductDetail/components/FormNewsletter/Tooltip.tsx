@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
-import { Box, Typography } from '@usereservaapp/reserva-ui';
 import testProps from '../../../../utils/testProps';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
 
 interface ITooltip {
   tooltipText: string,

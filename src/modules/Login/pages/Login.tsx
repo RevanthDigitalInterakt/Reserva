@@ -1,7 +1,4 @@
-import React, {
-  useCallback, useEffect, FC,
-} from 'react';
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
+import React, { useCallback, useEffect } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
 import {
   Alert, SafeAreaView, ScrollView,
@@ -16,6 +13,9 @@ import UnderlineInput from '../../../components/UnderlineInput';
 import testProps from '../../../utils/testProps';
 import { useAuthentication } from '../../../hooks/useAuthentication';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { useNavigationToDelivery } from '../../../hooks/useNavigationToDelivery';
 import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
@@ -23,13 +23,13 @@ import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
-export const LoginScreen: FC<Props> = ({
+export function LoginScreen({
   route,
   navigation,
-}) => {
+}: Props) {
   const { comeFrom, previousPage, invalidSession } = route.params || {};
 
-  const skipHomePage = comeFrom === 'BagScreen' ? () => {} : undefined;
+  const skipHomePage = comeFrom === 'BagScreen' ? () => { } : undefined;
 
   const {
     handleLogin,
@@ -114,7 +114,6 @@ export const LoginScreen: FC<Props> = ({
     try {
       if (comeFrom === 'Checkout') {
         verifyUserEmail();
-        return;
       }
     } catch (error) {
       ExceptionProvider.captureException(error);
@@ -284,4 +283,4 @@ export const LoginScreen: FC<Props> = ({
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

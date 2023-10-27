@@ -1,5 +1,6 @@
-import { Box } from '@usereservaapp/reserva-ui';
 import React from 'react';
+
+import { Box } from '../../../../components/Box/Box';
 import { Skeleton } from '../../../../modules/Checkout/components/Skeleton';
 
 export default function BagSkeleton() {

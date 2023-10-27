@@ -2,18 +2,22 @@ import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import {
-  Box, Divider, Icon, RadioButtons, SelectColor, Typography,
+  Icon
 } from '@usereservaapp/reserva-ui';
-import { ScrollView } from 'react-native-gesture-handler';
 import {
   Image, Text, TouchableOpacity, View,
 } from 'react-native';
-
-import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
-import { SizeGuide, SizeGuideImages } from './SizeGuide';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Box } from '../../../../components/Box/Box';
+import { Divider } from '../../../../components/Divider/Divider';
+import { RadioButtons } from '../../../../components/RadioButtons/RadioButtons';
+import { Typography } from '../../../../components/Typography/Typography';
 import EventProvider from '../../../../utils/EventProvider';
-import ProductAddToCart from '../ProductAddToCart';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
+import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+import ProductAddToCart from '../ProductAddToCart';
+import { SelectColor } from '../SelectColor/SelectColor';
+import { SizeGuide, SizeGuideImages } from './SizeGuide';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 import { NewInput } from '../../../../components/NewInput';
 import { NewInputType } from '../../../../components/NewInput/types';

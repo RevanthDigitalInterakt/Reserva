@@ -1,6 +1,3 @@
-import {
-  Box, Button, Icon, Picker, Typography,
-} from '@usereservaapp/reserva-ui';
 import React, { useCallback, useState } from 'react';
 import { View, Linking } from 'react-native';
 import type { SearchOrderByEnum, SearchProductFacetInput } from '../../../../base/graphql/generated';
@@ -9,6 +6,11 @@ import FilterModal from '../../../../components/FilterModal/FilterModal';
 import useSearchStore from '../../../../zustand/useSearchStore';
 
 import testProps from '../../../../utils/testProps';
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Picker } from '../../../../components/Picker/Picker';
 
 const SHOW_FILTER_BUTTON = true;
 
@@ -54,7 +56,7 @@ function ProductCatalogHeader({ defaultFacets }: ProductCatalogHeaderProps) {
           {...testProps('com.usereserva:id/whatssapp_button_product_catalog')}
         >
           <Box flexDirection="row">
-            <Icon name="Whatsapp" size={16} color="preto" />
+            <IconLegacy name="Whatsapp" size={16} color="preto" />
             <Box marginX="nano">
               <Typography
                 color="preto"

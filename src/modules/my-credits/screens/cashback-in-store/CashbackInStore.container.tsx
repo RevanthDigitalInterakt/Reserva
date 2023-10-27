@@ -1,10 +1,11 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import { MyCashbackAPI } from '../../../my-cashback/api/MyCashbackAPI';
-import {
+import
+{
   CashbackHttpUrl,
-  GetTokenResponse,
+  type GetTokenResponse,
 } from '../../api/MyCreditsAPI';
 import { CashbackInStoreView } from './CashbackInStore.view';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
@@ -13,7 +14,7 @@ interface CashbackInStoreContainerProps {
   navigateBack: () => void;
 }
 
-export const CashbackInStoreContainer = ({ navigateBack }: CashbackInStoreContainerProps) => {
+export function CashbackInStoreContainer({ navigateBack }: CashbackInStoreContainerProps) {
   const { profile } = useAuthStore(['profile']);
   const [token, setToken] = useState<string>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -69,4 +70,4 @@ export const CashbackInStoreContainer = ({ navigateBack }: CashbackInStoreContai
       />
     </>
   );
-};
+}

@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { Typography } from '@usereservaapp/reserva-ui';
 import {
   Animated,
   LayoutAnimation,
@@ -11,6 +10,7 @@ import IconComponent from '../IconComponent/IconComponent';
 import { toggleAnimation } from '../../routes/animations/toggleAnimation';
 import { styles } from './styles';
 import testProps from '../../utils/testProps';
+import { Typography } from '../Typography/Typography';
 
 interface IDropDownItem {
   title: string;
@@ -22,7 +22,7 @@ function DropdownItem({ body, title, justifyText = false }: IDropDownItem) {
   const [showContent, setShowContent] = useState(false);
   const animationController = useRef(new Animated.Value(0)).current;
 
-  function handleDropDownPress() {
+  const handleDropDownPress = () => {
     const animationConfig = {
       duration: 300,
       toValue: showContent ? 0 : 1,
@@ -32,7 +32,7 @@ function DropdownItem({ body, title, justifyText = false }: IDropDownItem) {
     Animated.timing(animationController, animationConfig).start();
     LayoutAnimation.configureNext(toggleAnimation());
     setShowContent(!showContent);
-  }
+  };
 
   const chevronTransform = animationController.interpolate({
     inputRange: [0, 1],

@@ -1,10 +1,8 @@
 import React, { useMemo, useState } from 'react';
-import { createAnimatableComponent } from 'react-native-animatable';
-import { Box, CheckboxListFilter } from '@usereservaapp/reserva-ui';
 import TitleFilter from './TitleFilter';
 import type { SearchFacetItemOutput } from '../../../base/graphql/generated';
-
-const BoxAnimation = createAnimatableComponent(Box);
+import { CheckboxListFilter } from '../../CheckboxListFilter/CheckboxListFilter';
+import { Box } from '../../Box/Box';
 
 interface IFilterCategories {
   data: SearchFacetItemOutput[];
@@ -28,7 +26,7 @@ function FilterCategories({ data, selectedItems, onUpdate }: IFilterCategories) 
         title="Categorias"
       />
 
-      <BoxAnimation animation="fadeIn" paddingX="micro">
+      <Box paddingX="micro">
         <CheckboxListFilter
           optionsList={showSection ? data : data.slice(0, 6)}
           selectedList={itemsSelected}
@@ -41,7 +39,7 @@ function FilterCategories({ data, selectedItems, onUpdate }: IFilterCategories) 
             onUpdate(newSet);
           }}
         />
-      </BoxAnimation>
+      </Box>
     </>
   );
 }

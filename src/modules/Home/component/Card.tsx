@@ -1,13 +1,13 @@
 import React from 'react';
-
 import { useNavigation } from '@react-navigation/native';
 
-import { Box, Button } from '@usereservaapp/reserva-ui';
 import type { CarrouselCard, IQueryFilters } from '../../../graphql/homePage/HomeQuery';
 import EventProvider from '../../../utils/EventProvider';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import ImageComponent from '../../../components/ImageComponent/ImageComponent';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
 
 export interface IHomeCard {
   image: {
@@ -31,7 +31,7 @@ const Card = ({
   reference,
   reservaMini,
   orderBy,
-}: CarrouselCard) => {
+}: CarrouselCard) {
   const navigation = useNavigation();
 
   const handleNavigation = () => {
@@ -91,6 +91,6 @@ const Card = ({
       </Button>
     </Box>
   );
-};
+}
 
 export default Card;

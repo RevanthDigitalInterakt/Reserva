@@ -30,9 +30,9 @@ interface StatusBarContextProviderProps {
   children?: ReactNode;
 }
 
-const StatusBarContextProvider = ({
+function StatusBarContextProvider({
   children,
-}: StatusBarContextProviderProps) => {
+}: StatusBarContextProviderProps) {
   const [backgroundColor, setBackgroundColor] = useState('#61dafb');
   const [barStyle, setBarStyle] = useState(
     Platform.OS === platformType.IOS
@@ -60,7 +60,7 @@ const StatusBarContextProvider = ({
       {children}
     </StatusBarContext.Provider>
   );
-};
+}
 
 export default StatusBarContextProvider;
 

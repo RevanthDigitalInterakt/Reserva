@@ -1,9 +1,9 @@
-import { Typography } from '@usereservaapp/reserva-ui';
 import React from 'react';
-import { Modal, View, TouchableOpacity } from 'react-native';
-import useAuthModalStore from '../../zustand/useAuthModalStore';
-import testProps from '../../utils/testProps';
+import { Modal, TouchableOpacity, View } from 'react-native';
 
+import testProps from '../../utils/testProps';
+import useAuthModalStore from '../../zustand/useAuthModalStore';
+import { Typography } from '../Typography/Typography';
 import { styles } from './ModalSignUpComplete.styles';
 
 function ModalSignUpComplete() {

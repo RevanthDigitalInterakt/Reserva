@@ -1,6 +1,3 @@
-import {
-  Alert, Box, Button, Typography,
-} from '@usereservaapp/reserva-ui';
 import React, { useEffect } from 'react';
 import { ActivityIndicator, FlatList, SafeAreaView } from 'react-native';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
@@ -10,8 +7,12 @@ import AddressSelector from '../../Components/AddressSelector';
 import type { IEditAddress } from '../../interface';
 import useController from '../controller/useController';
 import testProps from '../../../../utils/testProps';
+import { Alert } from '../../../../components/Alert/Alert';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Button } from '../../../../components/Button';
 
-const AddressList = () => {
+function AddressList() {
   const controller = useController();
 
   const renderModal = React.useMemo(() => {
@@ -95,7 +96,7 @@ const AddressList = () => {
           <FlatList
             style={{ marginBottom: 20 }}
             showsVerticalScrollIndicator={false}
-            data={controller.profileData?.addresses}
+            data={controller?.profileData?.addresses}
             keyExtractor={(item, index) => `${item?.id}-${index}`}
             renderItem={({ item }: { item: IEditAddress }) => {
               const {
@@ -147,6 +148,6 @@ const AddressList = () => {
       </SafeAreaView>
     </>
   );
-};
+}
 
 export default AddressList;

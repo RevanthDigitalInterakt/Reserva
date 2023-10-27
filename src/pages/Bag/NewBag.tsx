@@ -1,13 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
-import { Box, Typography } from '@usereservaapp/reserva-ui';
+import { SafeAreaView, ScrollView } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { bagStyles } from './styles/bagStyles';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
-import { EmptyBag } from '../../modules/Checkout/components/EmptyBag';
+import { EmptyBag } from './components/EmptyBag';
 import WithAvoidingView from '../../utils/WithAvoidingView';
 import ToastProvider from '../../utils/Toast';
 import BagSkeleton from './components/Skeleton';
@@ -18,17 +14,19 @@ import NotFoundProduct from './components/NotFoundProduct';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import EventProvider from '../../utils/EventProvider';
 import { useBagStore } from '../../zustand/useBagStore/useBagStore';
-import { Recommendation } from '../../modules/Checkout/components/Recommendation';
-import { ShippingBar } from '../../modules/Checkout/components/ShippingBar';
-import CouponComponent from './components/Coupon';
+import { Recommendation } from './components/Recommendation';
+import { ShippingBar } from './components/ShippingBar';
 import LoadingModal from './components/LoadingModal';
 import DeleteProductModal from './components/DeleteProduct';
 import BagProductList from './components/ProductList';
 import SelectableGifts from './components/SelectableGifts';
+import { Box } from '../../components/Box/Box';
+import { Typography } from '../../components/Typography/Typography';
 import { useIsTester } from '../../hooks/useIsTester';
 import { trackAccessBag } from '../../utils/trackAccessBag';
 import { getBrands } from '../../utils/getBrands';
 import { trackViewCart } from '../../utils/trackViewCart';
+import CouponComponent from './components/Coupon';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 

@@ -1,19 +1,20 @@
-import React, { useMemo } from 'react';
 import LottieView from 'lottie-react-native';
-import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
+import React, { useMemo } from 'react';
 
-import { Button } from '../Button';
-import { ImageSlider } from './components/ImageSlider';
-import IconComponent from '../IconComponent/IconComponent';
-import { FlagDiscount } from '../FlagDiscount/FlagDiscount';
-
-import type { ProductDetailCardProps } from './types';
 import { useIsTester } from '../../hooks/useIsTester';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
+import { Box } from '../Box/Box';
+import { Button } from '../Button';
+import { FlagDiscount } from '../FlagDiscount/FlagDiscount';
+import IconComponent from '../IconComponent/IconComponent';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
 import { CarrouselMedias } from '../ProductDetailCardLegacy/components/CarrouselMedias';
+import { Typography } from '../Typography/Typography';
+import { ImageSlider } from './components/ImageSlider';
+import type { ProductDetailCardProps } from './types';
+import { loadingSpinner } from '../../../assets/animations';
 
-export const ProductDetailCard = ({
+export function ProductDetailCard({
   images,
   discountTag,
   saleOff,
@@ -32,7 +33,7 @@ export const ProductDetailCard = ({
   showZoomButton,
   videoThumbnail,
   testID,
-}: ProductDetailCardProps) => {
+}: ProductDetailCardProps) {
   const isTester = useIsTester();
   const { getBoolean } = useRemoteConfig();
 
@@ -142,7 +143,7 @@ export const ProductDetailCard = ({
                     }
                   }}
                   icon={(
-                    <Icon
+                    <IconLegacy
                       name={isFavorited ? 'HeartRaised' : 'Heart'}
                       size={20}
                       color="preto"
@@ -161,7 +162,7 @@ export const ProductDetailCard = ({
                 variant="icone"
                 testID={`${testID}_share`}
                 onPress={onClickShare}
-                icon={<Icon name="Share" size={16} color="preto" />}
+                icon={<IconLegacy name="Share" size={16} color="preto" />}
               />
             </Box>
           </Box>
@@ -177,7 +178,7 @@ export const ProductDetailCard = ({
                 variant="icone"
                 onPress={setModalZoom}
                 testID={`${testID}_zoom`}
-                icon={<Icon name="Expand" size={18} color="preto" />}
+                icon={<IconLegacy name="Expand" size={18} color="preto" />}
               />
             </Box>
           )}
@@ -223,4 +224,4 @@ export const ProductDetailCard = ({
       </Box>
     </Box>
   );
-};
+}
