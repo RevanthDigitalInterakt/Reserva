@@ -7,10 +7,11 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
-import { Box, Icon } from '@usereservaapp/reserva-ui';
 import { Button } from '../../../Button';
 import ImageComponent from '../../../ImageComponent/ImageComponent';
 import type { ImageSliderProps } from './types';
+import { Box } from '../../../Box/Box';
+import { IconLegacy } from '../../../IconLegacy/IconLegacy';
 
 export const ImageSlider = ({
   images,
@@ -80,7 +81,7 @@ export const ImageSlider = ({
           onPress={() => {
             goBack();
           }}
-          icon={<Icon name="ChevronLeft" color="neutroFrio2" size={23} />}
+          icon={<IconLegacy name="ChevronLeft" color="neutroFrio2" size={23} />}
         />
       </Box>
       )}
@@ -98,7 +99,7 @@ export const ImageSlider = ({
           onPress={() => {
             goNext();
           }}
-          icon={<Icon name="ChevronRight" color="neutroFrio2" size={23} />}
+          icon={<IconLegacy name="ChevronRight" color="neutroFrio2" size={23} />}
         />
       </Box>
       )}

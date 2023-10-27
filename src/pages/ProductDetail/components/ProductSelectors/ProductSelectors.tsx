@@ -2,9 +2,6 @@ import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import {
-  Icon
-} from '@usereservaapp/reserva-ui';
-import {
   Image, Text, TouchableOpacity, View,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -27,6 +24,7 @@ import { GiftCardList } from './components/GiftCardList';
 import { type ProductGiftCardOptionOutput, ProductResultActionEnum } from '../../../../base/graphql/generated';
 import { GiftCardRulesModal } from './components/GiftCardRulesModal';
 import { commons } from '../../../../base/styles';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 
 function ProductSelectors() {
   const [showModal, setShowModal] = useState(false);
@@ -182,7 +180,7 @@ function ProductSelectors() {
 
             {!selectedSize?.availableQuantity && (
               <Box mt="xxs" flexDirection="row" alignItems="center">
-                <Icon name="Alert" size={20} color="vermelhoRSV" mr="nano" />
+                <IconLegacy name="Alert" size={20} color="vermelhoRSV" mr="nano" />
 
                 <Typography fontFamily="reservaSansBold" fontSize={15} color="vermelhoRSV">
                   Produto Esgotado

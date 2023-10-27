@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Alert, View } from 'react-native';
 import LottieView from 'lottie-react-native';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
+import { loadingSpinner } from '../../../../../assets/animations';
 import DropShadow from 'react-native-drop-shadow';
 import { useCart } from '../../../../context/CartContext';
 import EventProvider from '../../../../utils/EventProvider';

@@ -15,9 +15,11 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: 'white',
-    height: '17%',
-    padding: 12,
-    justifyContent: 'flex-end',
+    height: '18%',
+    paddingHorizontal: 12,
+    display: 'flex',
+    justifyContent: 'space-between',
+    paddingBottom: 24
   },
   loader: {
     position: 'absolute',

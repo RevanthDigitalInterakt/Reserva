@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import LottieView from 'lottie-react-native';
-import { Box } from '@usereservaapp/reserva-ui';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
+import { loadingSpinner } from '../../../assets/animations';
 
 import { Text, TouchableOpacity, View } from 'react-native';
 import { ImageSlider } from './components/ImageSlider';
@@ -13,6 +12,7 @@ import { useIsTester } from '../../hooks/useIsTester';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { CarrouselMedias } from '../ProductDetailCardLegacy/components/CarrouselMedias';
 import styles from './styles';
+import { Box } from '../Box/Box';
 
 export const NewProductDetailCard = ({
   images,
