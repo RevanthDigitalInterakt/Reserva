@@ -165,6 +165,20 @@ function NewCountdown(props: NewCountdownProps) {
     }).then(({ data }) => {
       if (data?.countdown) {
         setCountDownLocal(data.countdown);
+      } else {
+        getCountDown({
+          context: { clientName: 'gateway' },
+          fetchPolicy: getFetchPolicyPerKey('countdownClock'),
+          variables: {
+            input: {
+              selectClockScreen: ClockScreenEnum.All,
+            },
+          },
+        }).then(({ data: data2 }) => {
+          if (data2?.countdown) {
+            setCountDownLocal(data2.countdown);
+          }
+        });
       }
     });
   }, [getCountDown, getFetchPolicyPerKey, reference, selectClockScreen]);

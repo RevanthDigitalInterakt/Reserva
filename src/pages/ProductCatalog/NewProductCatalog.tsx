@@ -47,6 +47,9 @@ function NewProductCatalog({ route }: Props) {
     [referenceId, offersPage],
   );
 
+  const countdownType = reference === offersPage
+    ? ClockScreenEnum.Offers : ClockScreenEnum.Category;
+
   const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
   const defaultFacets = useMemo(() => generateFacets({
     ...filters,
@@ -95,7 +98,7 @@ function NewProductCatalog({ route }: Props) {
             <>
               <NewCountdown
                 reference={reference}
-                selectClockScreen={ClockScreenEnum.Category}
+                selectClockScreen={countdownType}
               />
 
               <Banner
