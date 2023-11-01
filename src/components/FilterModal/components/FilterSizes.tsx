@@ -1,11 +1,8 @@
 import React, { useMemo, useState } from 'react';
-import { createAnimatableComponent } from 'react-native-animatable';
-import { Box } from '@usereservaapp/reserva-ui';
 import TitleFilter from './TitleFilter';
 import type { SearchFacetItemOutput } from '../../../base/graphql/generated';
 import RadioButtonsFilter from '../../RadioButtonsFilter';
-
-const BoxAnimation = createAnimatableComponent(Box);
+import { Box } from '../../Box/Box';
 
 interface IFilterSizes {
   data: SearchFacetItemOutput[];
@@ -32,7 +29,7 @@ function FilterSizes({ data, selectedItems, onUpdate }: IFilterSizes) {
         title="Tamanho"
       />
 
-      <BoxAnimation animation="fadeIn" paddingY="micro" paddingX="micro">
+      <Box paddingY="micro" paddingX="micro">
         <RadioButtonsFilter
           onSelectedChange={(size: string[]) => {
             const items = size.filter(Boolean);
@@ -44,7 +41,7 @@ function FilterSizes({ data, selectedItems, onUpdate }: IFilterSizes) {
           fontSize="10px"
           optionsList={showSection ? sizes : sizes.slice(0, 5)}
         />
-      </BoxAnimation>
+      </Box>
     </>
   );
 }

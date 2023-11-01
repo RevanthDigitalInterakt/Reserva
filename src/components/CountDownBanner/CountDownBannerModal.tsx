@@ -1,10 +1,12 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { type Dispatch, type SetStateAction } from 'react';
 import Modal from 'react-native-modal';
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
-import testProps from '../../utils/testProps';
+
 import type { HomeCountdownQuery } from '../../base/graphql/generated';
+import testProps from '../../utils/testProps';
+import { Box } from '../Box/Box';
+import { Button } from '../Button';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
+import { Typography } from '../Typography/Typography';
 
 interface ICountDownBannerModal {
   isVisible: boolean;
@@ -41,7 +43,7 @@ export function CountDownBannerModal({
             {...testProps('countDownLocal_checkTheRules_button_close')}
             onPress={() => setIsVisible(false)}
             variant="icone"
-            icon={<Icon size={17} name="Close" />}
+            icon={<IconLegacy size={17} name="Close" />}
           />
         </Box>
         <Box>

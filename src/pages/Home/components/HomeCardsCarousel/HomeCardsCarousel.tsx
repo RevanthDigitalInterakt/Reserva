@@ -1,11 +1,12 @@
 import React, { useRef } from 'react';
 import { Animated, View } from 'react-native';
-import { Box } from '@usereservaapp/reserva-ui';
+
 import type { HomeCarouselOutput } from '../../../../base/graphql/generated';
-import testProps from '../../../../utils/testProps';
+import { Box } from '../../../../components/Box/Box';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
-import { styles } from './HomeCardsCarousel.styles';
+import testProps from '../../../../utils/testProps';
 import HomeCard from '../HomeCard';
+import { styles } from './HomeCardsCarousel.styles';
 
 interface IHomeCardsCarousel {
   data: HomeCarouselOutput;

@@ -1,14 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import {
-  Box,
-  Button,
-  Divider,
-  Icon,
-  TextField,
-  Typography,
-} from '@usereservaapp/reserva-ui';
-import { CouponBadge } from '../../../../modules/Checkout/components/CouponBadge';
+import { CouponBadge } from '../CouponBadge';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
+import { Box } from '../../../../components/Box/Box';
+import { Divider } from '../../../../components/Divider/Divider';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../components/Typography/Typography';
+import { TextField } from '../../../../components/TextField/TextField';
+import { Button } from '../../../../components/Button';
 import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom';
 
 export default function CouponComponent() {
@@ -57,7 +55,7 @@ export default function CouponComponent() {
         alignItems="center"
       >
         <Box marginRight="micro">
-          <Icon name="Tag" size={20} color="preto" />
+          <IconLegacy name="Tag" size={20} color="preto" />
         </Box>
         <Box flex={1}>
           <Typography variant="subtituloSessoes">
@@ -76,20 +74,20 @@ export default function CouponComponent() {
       <Box flexDirection="row">
         {/* cupom vendedor */}
         {!!marketingData?.sellerCoupon && (
-          <CouponBadge
-            testID="com.usereserva:id/CouponBadge_sellerCode"
-            value={`${marketingData?.sellerCouponName} | ${marketingData?.sellerCoupon.toUpperCase()}`}
-            onPress={actions.REMOVE_SELLER_COUPON}
-          />
+        <CouponBadge
+          testID="com.usereserva:id/CouponBadge_sellerCode"
+          value={`${marketingData?.sellerCouponName} | ${marketingData?.sellerCoupon.toUpperCase()}`}
+          onPress={actions.REMOVE_SELLER_COUPON}
+        />
         )}
 
         {/* cupom desconto */}
         {!!marketingData?.coupon && (
-          <CouponBadge
-            testID="com.usereserva:id/CouponBadge_discountCode"
-            value={marketingData?.coupon}
-            onPress={actions.REMOVE_DISCOUNT_COUPON}
-          />
+        <CouponBadge
+          testID="com.usereserva:id/CouponBadge_discountCode"
+          value={marketingData?.coupon}
+          onPress={actions.REMOVE_DISCOUNT_COUPON}
+        />
         )}
       </Box>
 
@@ -116,11 +114,11 @@ export default function CouponComponent() {
       </Box>
 
       {sellerCouponError && (
-        <Box marginRight="micro">
-          <Typography color="vermelhoAlerta" variant="precoAntigo3">
-            Digite um código válido
-          </Typography>
-        </Box>
+      <Box marginRight="micro">
+        <Typography color="vermelhoAlerta" variant="precoAntigo3">
+          Digite um código válido
+        </Typography>
+      </Box>
       )}
 
       <Box marginTop="xxxs" flexDirection="row">
@@ -146,11 +144,11 @@ export default function CouponComponent() {
       </Box>
 
       {discountCouponError && (
-        <Box marginRight="micro">
-          <Typography color="vermelhoAlerta" variant="precoAntigo3">
-            Digite um cupom válido
-          </Typography>
-        </Box>
+      <Box marginRight="micro">
+        <Typography color="vermelhoAlerta" variant="precoAntigo3">
+          Digite um cupom válido
+        </Typography>
+      </Box>
       )}
 
       <Divider variant="fullWidth" marginY="xs" />
@@ -174,39 +172,39 @@ export default function CouponComponent() {
         ) : null}
 
         {appTotalizers.delivery > 0 && (
-          <Box
-            marginBottom="micro"
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="precoAntigo3">Frete</Typography>
-            <PriceCustom
-              fontFamily="nunitoSemiBold"
-              sizeInterger={15}
-              sizeDecimal={11}
-              num={Math.abs(appTotalizers.delivery)}
-            />
-          </Box>
+        <Box
+          marginBottom="micro"
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography variant="precoAntigo3">Frete</Typography>
+          <PriceCustom
+            fontFamily="nunitoSemiBold"
+            sizeInterger={15}
+            sizeDecimal={11}
+            num={Math.abs(appTotalizers.delivery)}
+          />
+        </Box>
         )}
 
         {appTotalizers.discount !== 0 && (
-          <Box
-            marginBottom="micro"
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="precoAntigo3">Descontos</Typography>
+        <Box
+          marginBottom="micro"
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography variant="precoAntigo3">Descontos</Typography>
 
-            <PriceCustom
-              fontFamily="nunitoSemiBold"
-              negative
-              sizeInterger={15}
-              sizeDecimal={11}
-              num={Math.abs(appTotalizers.discount)}
-            />
-          </Box>
+          <PriceCustom
+            fontFamily="nunitoSemiBold"
+            negative
+            sizeInterger={15}
+            sizeDecimal={11}
+            num={Math.abs(appTotalizers.discount)}
+          />
+        </Box>
         )}
       </>
 

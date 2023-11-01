@@ -1,17 +1,19 @@
+import { useNavigation } from '@react-navigation/native';
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { PixelRatio, Platform, TouchableOpacity } from 'react-native';
-import { Box, Typography } from '@usereservaapp/reserva-ui';
-import { useNavigation } from '@react-navigation/native';
+
 import type { HomeCountdownQuery } from '../../base/graphql/generated';
 import { useCountDown } from '../../context/ChronometerContext';
-import testProps from '../../utils/testProps';
+import { useChronometer } from '../../hooks/useChronometer';
 import configDeviceSizes from '../../utils/configDeviceSizes';
 import { platformType } from '../../utils/platformType';
-import { CountDownBannerModal } from './CountDownBannerModal';
-import { useChronometer } from '../../hooks/useChronometer';
+import testProps from '../../utils/testProps';
+import { Box } from '../Box/Box';
 import CountDownFlipNumber from '../CountDownFlipNumber';
+import { Typography } from '../Typography/Typography';
+import { CountDownBannerModal } from './CountDownBannerModal';
 
 const scale = configDeviceSizes.DEVICE_WIDTH / 320;
 

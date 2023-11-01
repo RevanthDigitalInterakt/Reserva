@@ -164,9 +164,7 @@ export interface IGetPrimeReturn {
   primeInstallments: { number: number; value: number; };
 }
 
-export const getPrime = (
-  item: ProductQL, promo: PrimeConfigOutput,
-): IGetPrimeReturn | null => {
+export const getPrime = (item: ProductQL, promo: PrimeConfigOutput): IGetPrimeReturn | null => {
   const hasPrime = hasPrimeConditions(item, promo);
 
   if (hasPrime) {

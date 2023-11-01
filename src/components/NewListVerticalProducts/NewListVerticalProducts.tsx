@@ -1,25 +1,25 @@
-import {
-  Box, Typography,
-} from '@usereservaapp/reserva-ui';
+import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useMemo } from 'react';
 import { ActivityIndicator, FlatList } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import type { ProductListOutput } from '../../base/graphql/generated';
-import { defaultBrand } from '../../utils/defaultWBrand';
-import EventProvider from '../../utils/EventProvider';
-import { ProductVerticalListCard } from '../ProductVerticalListCard';
-import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { COLORS } from '../../base/styles/colors';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
+import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { useWishlistActions } from '../../hooks/useWishlistActions';
+import EventProvider from '../../utils/EventProvider';
+import { defaultBrand } from '../../utils/defaultWBrand';
+import { Box } from '../Box/Box';
+import { ProductVerticalListCard } from '../ProductVerticalListCard';
+import { Typography } from '../Typography/Typography';
 
 interface ListProductsProps {
   data: ProductListOutput[];
   total: number;
   loading: boolean;
   marginBottom?: number;
-  headerComponent?: JSX.Element[]
+  headerComponent?: React.ReactNode[]
   onFetchMore: () => void;
+  cacheGoingBackRequest?: () => void;
 }
 
 function NewListVerticalProducts({
@@ -29,6 +29,7 @@ function NewListVerticalProducts({
   marginBottom,
   headerComponent,
   onFetchMore,
+  cacheGoingBackRequest,
 }: ListProductsProps) {
   const navigation = useNavigation();
   const { getBoolean } = useRemoteConfig();
@@ -46,6 +47,7 @@ function NewListVerticalProducts({
       flex={1}
       alignItems="center"
       justifyContent="center"
+      marginBottom="xs"
       height={showThumbColors ? 375 : 353}
     >
       <ProductVerticalListCard
@@ -67,13 +69,17 @@ function NewListVerticalProducts({
         installmentsPrice={item.installment.value}
         loadingFavorite={loadingSkuId === item.skuId}
         onClickImage={() => {
-          EventProvider.logEvent('page_view', { wbrand: defaultBrand.picapau });
+          EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
           EventProvider.logEvent('select_item', {
             item_list_id: item.productId,
             item_list_name: item.productName,
-            wbrand: item.brand,
+            item_brand: item.brand,
           });
 
+          if (cacheGoingBackRequest) {
+            cacheGoingBackRequest();
+          }
+          // @ts-ignore
           navigation.navigate('ProductDetail', { skuId: item.skuId });
         }}
         colors={showThumbColors ? (item.colors || []) : []}
@@ -104,6 +110,24 @@ function NewListVerticalProducts({
     showThumbColors,
   ]);
 
+  const Footer = useMemo(() => {
+    if (!loading) {
+      return null;
+    }
+
+    return (
+      <Box
+        width="100%"
+        height={30}
+        color="verdeSucesso"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <ActivityIndicator size="small" color={COLORS.BLACK} />
+      </Box>
+    );
+  }, [loading]);
+
   return (
     <FlatList
       style={{ marginBottom }}
@@ -124,21 +148,7 @@ function NewListVerticalProducts({
       onEndReached={() => {
         if (data.length < total) onFetchMore();
       }}
-      ListFooterComponent={() => {
-        if (!loading) return null;
-
-        return (
-          <Box
-            width="100%"
-            height={30}
-            color="verdeSucesso"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <ActivityIndicator size="small" color={COLORS.BLACK} />
-          </Box>
-        );
-      }}
+      ListFooterComponent={Footer}
       onEndReachedThreshold={0.5}
       renderItem={({ item }) => onRenderItem(item)}
     />

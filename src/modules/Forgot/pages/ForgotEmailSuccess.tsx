@@ -2,12 +2,12 @@ import { useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import {
-  Typography, Box, Button,
-} from '@usereservaapp/reserva-ui';
 import images from '../../../base/styles/icons';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../componet/HeaderBanner';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
 
 export interface ForgotAccessCodeProps extends StackScreenProps<RootStackParamList, 'ForgotEmailSuccess'> { }
 

@@ -1,30 +1,42 @@
-import { Box } from '@usereservaapp/reserva-ui';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
-  FlatList, SafeAreaView, Text, TouchableOpacity, View,
+  Animated,
+  FlatList,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
-import { WebView, WebViewMessageEvent } from 'react-native-webview';
+import { WebView, type WebViewMessageEvent } from 'react-native-webview';
 import Modal from 'react-native-modal';
-import testProps from '../../utils/testProps';
-import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
-import HomeCarousels from './components/HomeCarousels';
+
 import NewBanner from '../../components/Banner/NewBanner';
-import HomeDiscountModal from './components/HomeDiscountModal';
-import HomeCountDown from './components/HomeCountDown';
-import useAuthModalStore from '../../zustand/useAuthModalStore';
-import EventProvider from '../../utils/EventProvider';
-import { defaultBrand } from '../../utils/defaultWBrand';
+import { Box } from '../../components/Box/Box';
 import ModalSignUpComplete from '../../components/ModalSignUpComplete';
-import { useHomeStore } from '../../zustand/useHomeStore';
 import WithoutInternet from '../../components/WithoutInternet';
 import { useConnectivityStore } from '../../zustand/useConnectivityStore';
 import { COLORS } from '../../base/styles/colors';
 import configDeviceSizes from '../../utils/configDeviceSizes';
 import { platformType } from '../../utils/platformType';
+import { useRemoteConfig } from '../../hooks/useRemoteConfig';
+import { NewTransparentTopBarDefault } from '../../modules/Menu/components/NewTransparentTopBarDefault';
+import { NewWhiteTopBarDefault } from '../../modules/Menu/components/NewWhiteTopBarDefault';
+import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
+import EventProvider from '../../utils/EventProvider';
+import { defaultBrand } from '../../utils/defaultWBrand';
+import testProps from '../../utils/testProps';
+import useAuthModalStore from '../../zustand/useAuthModalStore';
+import { useHomeStore } from '../../zustand/useHomeStore';
+import HomeCarousels from './components/HomeCarousels';
+import HomeCountDown from './components/HomeCountDown';
+import HomeDiscountModal from './components/HomeDiscountModal';
+import { NewHomeCarousels } from './components/NewHomeCarousels';
+import useHomeHeader from './hooks/useHomeHeader';
+import styles from './styles';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -32,10 +44,30 @@ dayjs.extend(timezone);
 // const injectedJavaScript = `
 // window.ReactNativeWebView.postMessage('{"type":"button-action","state":false}');
 //   `;
+function ListHeader({ newHeaderIsActive }: { newHeaderIsActive: boolean }) {
+  return (
+    <Box style={{ overflow: 'hidden' }}>
+      {newHeaderIsActive ? (
+        <NewHomeCarousels />
+      ) : (
+        <>
+          <HomeCountDown />
+          <HomeCarousels />
+        </>
+      )}
+    </Box>
+  );
+}
 
 function Home() {
-  const { onLoad, medias, loaded } = useHomeStore(['onLoad', 'medias', 'loaded']);
-  const { showModalSignUpComplete } = useAuthModalStore(['showModalSignUpComplete']);
+  const { onLoad, medias, loaded } = useHomeStore([
+    'onLoad',
+    'medias',
+    'loaded',
+  ]);
+  const { showModalSignUpComplete } = useAuthModalStore([
+    'showModalSignUpComplete',
+  ]);
   const { isConnected } = useConnectivityStore(['isConnected']);
 
   const [isRoletaVisible, setIsRoletaVisible] = useState(false);
@@ -53,20 +85,48 @@ function Home() {
       //
     }
   }, []);
+  const { getBoolean } = useRemoteConfig();
+  const newHeaderIsActive = getBoolean('show_new_header');
+
+  const {
+    handleScroll,
+    topBarDefaultAnimated,
+    transparentTopBarAnimated,
+    whiteTopBarAnimated,
+  } = useHomeHeader();
+
+  const renderHeader = () => (
+    <>
+      <Animated.View style={[styles.topBarDefault, topBarDefaultAnimated]}>
+        <TopBarDefault />
+      </Animated.View>
+      <Animated.View
+        style={[styles.transparentTopBar, transparentTopBarAnimated]}
+      >
+        <NewTransparentTopBarDefault />
+      </Animated.View>
+      <Animated.View style={[styles.whiteTopBar, whiteTopBarAnimated]}>
+        <NewWhiteTopBarDefault />
+      </Animated.View>
+    </>
+  );
 
   useEffect(() => {
     if (isConnected && !loaded) {
       onLoad();
 
-      EventProvider.logEvent('page_view', { wbrand: defaultBrand.picapau });
+      EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
     }
   }, [isConnected, loaded]);
 
   if (!loaded && !isConnected) {
     return (
       <Box flex={1} bg="white" {...testProps('home_container')}>
-        <TopBarDefault />
-
+        {newHeaderIsActive ? (
+          <NewTransparentTopBarDefault />
+        ) : (
+          <TopBarDefault />
+        )}
         <WithoutInternet />
       </Box>
     );
@@ -74,14 +134,12 @@ function Home() {
 
   return (
     <Box flex={1} bg="white" {...testProps('home_container')}>
-      <TopBarDefault />
-
-      <HomeDiscountModal />
-
+      {newHeaderIsActive ? renderHeader() : <TopBarDefault />}
+      {!newHeaderIsActive ? <HomeDiscountModal /> : null}
       <SafeAreaView {...testProps('home_count_down_container')}>
         <FlatList
           ListHeaderComponent={(
-            <Box style={{ overflow: 'hidden' }}>
+            <>
               <View
                 style={{
                   alignItems: 'center',
@@ -100,13 +158,11 @@ function Home() {
                   <Text style={{ color: '#fff' }}>ABRIR MODAL ROLETA</Text>
                 </TouchableOpacity>
               </View>
-
-              <HomeCountDown />
-
-              <HomeCarousels />
-            </Box>
+              <ListHeader newHeaderIsActive={newHeaderIsActive} />
+            </>
           )}
           bounces
+          onScroll={handleScroll}
           contentContainerStyle={{ paddingBottom: 100 }}
           keyExtractor={(item) => `home-media-${item.image.url.toString()}-${item.image.title}`}
           data={medias}
@@ -134,8 +190,8 @@ function Home() {
         <View
           style={{
             position: 'absolute',
-            left: (configDeviceSizes.DEVICE_WIDTH / 2) - 25,
-            top: ((configDeviceSizes.DEVICE_HEIGHT * 0.9) / 2) - 25,
+            left: configDeviceSizes.DEVICE_WIDTH / 2 - 25,
+            top: (configDeviceSizes.DEVICE_HEIGHT * 0.9) / 2 - 25,
             width: 50,
             height: 50,
             alignItems: 'center',
@@ -146,7 +202,9 @@ function Home() {
         </View>
 
         <WebView
-          source={{ uri: `https://www.usereserva.com/files/popconvert.html?${new Date().getTime()}` }}
+          source={{
+            uri: `https://www.usereserva.com/files/popconvert.html?${new Date().getTime()}`,
+          }}
           style={{
             width: '100%',
             height: configDeviceSizes.DEVICE_HEIGHT * 0.9,
@@ -154,9 +212,7 @@ function Home() {
           }}
           cacheEnabled={false}
           cacheMode="LOAD_NO_CACHE"
-          renderLoading={() => (
-            <ActivityIndicator />
-          )}
+          renderLoading={() => <ActivityIndicator />}
           // injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
           onMessage={onHandleMessage}
         />

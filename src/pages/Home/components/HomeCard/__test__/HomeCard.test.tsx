@@ -1,12 +1,13 @@
-import React from 'react';
 import {
   fireEvent,
   render,
   screen,
   waitFor,
 } from '@testing-library/react-native';
-import { theme } from '@usereservaapp/reserva-ui';
+import React from 'react';
 import { ThemeProvider } from 'styled-components/native';
+
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 import HomeCard from '../HomeCard';
 
 // MOCKS

@@ -1,4 +1,3 @@
-import { Typography } from '@usereservaapp/reserva-ui';
 import React from 'react';
 import {
   Modal, View, TouchableOpacity,
@@ -7,6 +6,7 @@ import useAuthModalStore from '../../../../zustand/useAuthModalStore';
 import testProps from '../../../../utils/testProps';
 
 import { styles } from './ModalCheckUserConnection.styles';
+import { Typography } from '../../../../components/Typography/Typography';
 
 function ModalCheckUserConnection() {
   const { setModalCheckConnection, showModalCheckConnection } = useAuthModalStore(['setModalCheckConnection', 'showModalCheckConnection']);

@@ -1,18 +1,20 @@
 import { useLazyQuery } from '@apollo/client';
-import {
-  Box, Button, Divider, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { BackHandler } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { profileQuery, ProfileVars } from '../../../graphql/profile/profileQuery';
+import { profileQuery, type ProfileVars } from '../../../graphql/profile/profileQuery';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { cashbackService } from '../../../services/cashbackService';
 import { StorageService, StorageServiceKeys } from '../../../shared/services/StorageService';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Divider } from '../../../components/Divider/Divider';
+import { Button } from '../../../components/Button';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 
 type Props = StackScreenProps<RootStackParamList, 'Credits'>;
 
@@ -111,7 +113,7 @@ export const Credits: React.FC<Props> = ({ navigation }) => {
                 }}
               >
                 <>
-                  <Icon name="Cashback" size={20} color="preto" mr="xxxs" />
+                  <IconLegacy name="Cashback" size={20} color="preto" mr="xxxs" />
 
                   <Typography fontFamily="nunitoBold" fontSize={16}>
                     Cashback em Lojas

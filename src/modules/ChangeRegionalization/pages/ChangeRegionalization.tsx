@@ -5,9 +5,7 @@ import React, {
 } from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  Box, Button, Icon, Picker, TextField, Typography,
-} from '@usereservaapp/reserva-ui';
+
 import * as Yup from 'yup';
 import type { StackScreenProps } from '@react-navigation/stack/lib/typescript/src/types';
 import { Platform } from 'react-native';
@@ -16,10 +14,16 @@ import { TopBarBackButtonWithoutLogo } from '../../Menu/components/TopBarBackBut
 import { FormikTextInput } from '../../../components/FormikTextInput/FormikTextInput';
 import { platformType } from '../../../utils/platformType';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { TextField } from '../../../components/TextField/TextField';
+import { Picker } from '../../../components/Picker/Picker';
 
 type Props = StackScreenProps<RootStackParamList, 'ChangeRegionalization'>;
 
-export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
+export function ChangeRegionalization({ route }:Props) {
   const [cepInputText, setCepInputText] = useState('');
   const [isCepAddress, setIsCepAddress] = useState<boolean | undefined>(false);
   const [isCepProductDetail, setIsCepProductDetail] = useState<boolean | undefined>(false);
@@ -147,16 +151,16 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
               validateOnBlur
               validateOnChange
               onSubmit={
-              async (values) => {
-                const data = await fetchCepInfo(values.cep);
-                navigate.navigate('CEPList', {
-                  list: [data],
-                  searchTerm: cepInputText,
-                  isCepAddress: isCepAddress || false,
-                  isCepProductDetail: isCepProductDetail || false,
-                });
+                async (values) => {
+                  const data = await fetchCepInfo(values.cep);
+                  navigate.navigate('CEPList', {
+                    list: [data],
+                    searchTerm: cepInputText,
+                    isCepAddress: isCepAddress || false,
+                    isCepProductDetail: isCepProductDetail || false,
+                  });
+                }
               }
-            }
             >
               {({ values }) => (
                 <Box
@@ -264,7 +268,7 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
                     <Box
                       marginTop={11}
                     >
-                      <Icon
+                      <IconLegacy
                         name="ArrowDown"
                         size={22}
                         color="preto"
@@ -313,7 +317,7 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
                       <Box
                         marginTop={11}
                       >
-                        <Icon
+                        <IconLegacy
                           name="ArrowDown"
                           size={22}
                           color="preto"
@@ -404,4 +408,4 @@ export const ChangeRegionalization: React.FC<Props> = ({ route }) => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

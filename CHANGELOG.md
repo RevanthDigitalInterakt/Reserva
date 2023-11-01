@@ -1,4 +1,65 @@
+
+
+
 ## CHANGELOG
+
+### 2.1.2 (Android)
+
+- [20881 - Bug valores no favoritos APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/20881)
+- [19764 - Melhorar o carregamento da webview no APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19764)
+
+---
+
+### 2.1.0 (Android)
+
+- [15509 - Update React-native and libs](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15509)
+
+- [19764 - Melhorar o carregamento da webview no APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19764)
+
+---
+
+### 2.0.22 (iOS)
+
+- [20881 - Bug valores no favoritos APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/20881)
+- [19764 - Melhorar o carregamento da webview no APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19764)
+
+- [19764 - Melhorar o carregamento da webview no APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19764)
+
+---
+
+### 2.0.21
+- Correção Countdown
+
+
+### 2.0.18
+
+- [19366 - Criar endereço com o mesmo apelido](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/19366)
+- [18614 Ajustes barra de progresso da bag (frete)](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18614)
+- [19154 - Banner principal deve passar a cada 10 segundos](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/19154)
+
+### 2.0.17
+
+- [19042 - Modificar variáveis enviadas em eventos do firebase de "wbrand" para "item_brand"](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/19042)
+
+---
+
+### 2.0.16
+
+- [SRN-17075 Refactor Login](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/17075)
+- [18643 - Implementar filtro de preços na busca Smarthint](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18643)
+- [Script para verificar lint, branch, changelog e test]
+- [Correções novo fluxo de cadastro de endereços]
+- [18614 Ajustes barra de progresso da bag (frete)](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18614)
+- [Correcão nome do evento do wishlist]
+- [18405 - Novo layout tag desconto [PDC + PDP]](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/18405)
+- [SRN-17072 Refatoração Login - Código de Layout da tela](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/17072)
+- [16996 - Componente de busca home app](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/16996)
+
+---
+
+### 2.0.15
+
+---
 
 ### 2.0.14
 
@@ -23,6 +84,7 @@
 ---
 
 ### 2.0.13
+
 - [16560 - Manter a integridade dos eventos da antiga webview](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_workitems/edit/15983/)
 
 ---
@@ -50,6 +112,7 @@
 ---
 
 ### 2.0.10
+
 - [14551 - Como usuário quero ver vídeo do produto na PDP](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14551)
 - [14879 - Ajustar lógica atualização forçada](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14879)
 - [14806 - Integração nova busca](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14806)
@@ -75,6 +138,7 @@
 ---
 
 ### 2.0.7
+
 - [14848 - BUG - Layout do modal após clicar no valor prime na PDP](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14848)
 - [14895 - Thumb de cores na PDC não estava aparecendo](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14895)
 - [SRN-227 - DITO - Evento adicionou produto ao carrinho](https://reserva.atlassian.net/browse/SRN-227)
@@ -89,7 +153,7 @@
 - [14126 - Prime Feature Toggle](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Downstream/Product%20Backlog/?workitem=14126)
 - [14123 - Alteração header para usuários Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14123)
 - [SRN-226 - Dito evento acessou produto](https://reserva.atlassian.net/browse/SRN-226)
-- [14122 -  Como cliente Prime quero enxergar frete grátis na sacola](https://dev.azure.com/areco/Canal%20App%20e%20Omni/_workitems/edit/14122)
+- [14122 - Como cliente Prime quero enxergar frete grátis na sacola](https://dev.azure.com/areco/Canal%20App%20e%20Omni/_workitems/edit/14122)
 - [14419 - Mover lógica de remover prime da sacola quando o usuário for Prime para a bag](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_boards/board/t/Espartanos%20Team%20Value%20Stream/Product%20Backlog/?workitem=14419)
 - [14123 - Prime header indique que sou Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Value%20Stream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14123)
 - [14128 - Criar componente de FAQ na LP do Prime](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_sprints/taskboard/Espartanos%20Team%20Downstream/Canal%20App%20e%20Omni/PI%2002.2023/SP%2001?workitem=14128)

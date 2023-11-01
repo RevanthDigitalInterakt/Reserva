@@ -27,6 +27,7 @@ const style = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: COLORS.BLACK,
+    flex: 1,
   },
 
   listItemSubtitle: {
@@ -94,14 +95,16 @@ const style = StyleSheet.create({
   },
   listItemBodyContent: {
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 0,
+    margin: 0,
   },
   tagMainAddressContainer: {
     backgroundColor: COLORS.SUCCESS,
-    paddingHorizontal: 5,
-    paddingVertical: 3,
+    paddingHorizontal: 3,
+    paddingVertical: 2,
     borderRadius: 5,
-    marginLeft: 100,
+    marginLeft: 5,
   },
   tagMainAddressLabel: {
     fontFamily: 'ReservaSans-Regular',

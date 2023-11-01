@@ -19,7 +19,7 @@ export interface IInputForm {
   inputValue?: string;
   onTextChange(value: string): void;
   inputRef: React.RefObject<TextInput>;
-  nextInputRef: React.RefObject<TextInput>;
+  nextInputRef?: React.RefObject<TextInput>;
   inputName: string;
   fieldTouched: (field: string) => void;
   error?: string;

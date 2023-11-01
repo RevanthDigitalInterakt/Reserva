@@ -1,21 +1,21 @@
-import React, { useMemo } from 'react';
 import LottieView from 'lottie-react-native';
-import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
+import React, { useMemo } from 'react';
 
-import { Button } from '../Button';
-import { ImageSlider } from './components/ImageSlider';
-import { DiscountLabel } from '../ProductVerticalListCard';
-import IconComponent from '../IconComponent/IconComponent';
-
+import { loadingSpinner } from '../../../assets/animations';
 import { useIsTester } from '../../hooks/useIsTester';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { decimalPart, integerPart } from '../../utils/numberUtils';
-
-import type { ProductDetailCardLegacyProps } from './types';
+import { Box } from '../Box/Box';
+import { Button } from '../Button';
+import { FlagDiscount } from '../FlagDiscount/FlagDiscount';
+import IconComponent from '../IconComponent/IconComponent';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
+import { Typography } from '../Typography/Typography';
 import { CarrouselMedias } from './components/CarrouselMedias';
+import { ImageSlider } from './components/ImageSlider';
+import type { ProductDetailCardLegacyProps } from './types';
 
-export const ProductDetailCardLegacy = ({
+export function ProductDetailCardLegacy({
   currency,
   images,
   discountTag,
@@ -40,7 +40,7 @@ export const ProductDetailCardLegacy = ({
   avaibleUnits,
   mktplaceNameComponent = null,
   testID,
-}: ProductDetailCardLegacyProps) => {
+}: ProductDetailCardLegacyProps) {
   const isTester = useIsTester();
   const { getBoolean } = useRemoteConfig();
 
@@ -63,10 +63,8 @@ export const ProductDetailCardLegacy = ({
           left={0}
           top={0}
         >
-          <DiscountLabel
+          <FlagDiscount
             discountTag={discountTag}
-            width={80}
-            height={80}
             isDetail
           />
         </Box>
@@ -150,7 +148,7 @@ export const ProductDetailCardLegacy = ({
                     }
                   }}
                   icon={(
-                    <Icon
+                    <IconLegacy
                       name={isFavorited ? 'HeartRaised' : 'Heart'}
                       size={20}
                       color="preto"
@@ -169,7 +167,7 @@ export const ProductDetailCardLegacy = ({
                 variant="icone"
                 testID={`${testID}_share`}
                 onPress={onClickShare}
-                icon={<Icon name="Share" size={16} color="preto" />}
+                icon={<IconLegacy name="Share" size={16} color="preto" />}
               />
             </Box>
           </Box>
@@ -186,7 +184,7 @@ export const ProductDetailCardLegacy = ({
                 variant="icone"
                 onPress={setModalZoom}
                 testID={`${testID}_zoom`}
-                icon={<Icon name="Expand" size={18} color="preto" />}
+                icon={<IconLegacy name="Expand" size={18} color="preto" />}
               />
             </Box>
           )}
@@ -294,37 +292,35 @@ export const ProductDetailCardLegacy = ({
             marginX="micro"
           />
           {installmentsNumber > 0 && (
-          <>
-            <Box flexDirection="row">
-              <Box flexDirection="row" alignItems="baseline">
-                <Typography
-                  fontFamily="reservaSansRegular"
-                  fontSize={18}
-                  color={discountTag ? 'vermelhoRSV' : 'preto'}
-                >
-                  {installmentsNumber}
-                  x
-                </Typography>
-                <Typography
-                  fontFamily="reservaSansBold"
-                  fontSize={24}
-                  color={discountTag ? 'vermelhoRSV' : 'preto'}
-                >
-                  {` ${currency || 'R$'} ${integerPart(installmentsPrice)},`}
-                </Typography>
-              </Box>
+          <Box flexDirection="row">
+            <Box flexDirection="row" alignItems="baseline">
               <Typography
-                fontFamily="reservaSansBold"
-                fontSize="11px"
+                fontFamily="reservaSansRegular"
+                fontSize={18}
                 color={discountTag ? 'vermelhoRSV' : 'preto'}
               >
-                {`${decimalPart(installmentsPrice)}`}
+                {installmentsNumber}
+                x
+              </Typography>
+              <Typography
+                fontFamily="reservaSansBold"
+                fontSize={24}
+                color={discountTag ? 'vermelhoRSV' : 'preto'}
+              >
+                {` ${currency || 'R$'} ${integerPart(installmentsPrice)},`}
               </Typography>
             </Box>
-          </>
+            <Typography
+              fontFamily="reservaSansBold"
+              fontSize="11px"
+              color={discountTag ? 'vermelhoRSV' : 'preto'}
+            >
+              {`${decimalPart(installmentsPrice)}`}
+            </Typography>
+          </Box>
           )}
         </Box>
       </Box>
     </Box>
   );
-};
+}

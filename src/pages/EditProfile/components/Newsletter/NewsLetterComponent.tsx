@@ -1,6 +1,8 @@
-import { Box, Checkbox } from '@usereservaapp/reserva-ui';
-import React, { useCallback } from 'react';
 import { useMutation } from '@apollo/client';
+import React, { useCallback } from 'react';
+
+import { Box } from '../../../../components/Box/Box';
+import { Checkbox } from '../../../../components/Checkbox/Checkbox';
 import subscribeNewsLetter from '../../../../graphql/profile/newsLetter';
 
 interface INewsLetterProps {

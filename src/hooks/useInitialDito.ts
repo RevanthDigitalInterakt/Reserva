@@ -2,7 +2,7 @@
 import { useCallback } from 'react';
 import { Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 import type { ProfileVars } from '../graphql/profile/profileQuery';
 import createMobileToken from '../utils/Dito/src/utils/sendTokenMobile';
@@ -29,13 +29,11 @@ export default function useInitialDito() {
   const { profile } = useAuthStore(['profile']);
 
   const trackEventHomeDito = async ({ id }: Pick<IHandleRegisterToken, 'id'>) => {
-    EventProvider.sendTrackEvent(
-      'acessou-home', {
-        id,
-        action: 'acessou-home',
-        data: { origem: 'app', dispositivo: Platform.OS },
-      },
-    );
+    EventProvider.sendTrackEvent('acessou-home', {
+      id,
+      action: 'acessou-home',
+      data: { origem: 'app', dispositivo: Platform.OS },
+    });
   };
 
   const handleRegisterTokenDito = useCallback(async ({ id, deviceToken }: IHandleRegisterToken) => {
@@ -46,50 +44,48 @@ export default function useInitialDito() {
     });
   }, []);
 
-  const handleRegisterUser = useCallback(
-    async ({ deviceToken }: IHandleRegisterUser) => {
-      const syncAnonymousToUser = await AsyncStorage.getItem('@Dito:anonymousID');
+  const handleRegisterUser = useCallback(async ({ deviceToken }: IHandleRegisterUser) => {
+    const syncAnonymousToUser = await AsyncStorage.getItem('@Dito:anonymousID');
 
-      if (syncAnonymousToUser) {
-        await sendUpdateUserDataToDito({
-          id: syncAnonymousToUser,
-          user: {
-            email: profile?.email,
-            gender: profile?.gender || '',
-            birthday: profile?.birthDate,
-            cpf: profile?.document || '',
-            data: { dispositivo: Platform.OS },
-          },
-        });
-        await handleRegisterTokenDito({ id: syncAnonymousToUser, deviceToken });
-      }
-
-      await setItem('@Dito:userRef', profile?.document || '');
-      await sendUserDataToDito({
-        id: profile?.document || '',
+    if (syncAnonymousToUser) {
+      await sendUpdateUserDataToDito({
+        id: syncAnonymousToUser,
         user: {
-          name: profile?.firstName || '',
           email: profile?.email,
           gender: profile?.gender || '',
           birthday: profile?.birthDate,
           cpf: profile?.document || '',
-          data: {
-            dispositivo: Platform.OS,
-          },
+          data: { dispositivo: Platform.OS },
         },
       });
-      await handleRegisterTokenDito({ id: profile?.document || '', deviceToken });
-      await trackEventHomeDito({ id: profile?.document || '' });
-    }, [
-      handleRegisterTokenDito,
-      profile?.birthDate,
-      profile?.document,
-      profile?.email,
-      profile?.firstName,
-      profile?.gender,
-      setItem,
-    ],
-  );
+      await handleRegisterTokenDito({ id: syncAnonymousToUser, deviceToken });
+    }
+
+    await setItem('@Dito:userRef', profile?.document || '');
+    await sendUserDataToDito({
+      id: profile?.document || '',
+      user: {
+        name: profile?.firstName || '',
+        email: profile?.email,
+        gender: profile?.gender || '',
+        birthday: profile?.birthDate,
+        cpf: profile?.document || '',
+        data: {
+          dispositivo: Platform.OS,
+        },
+      },
+    });
+    await handleRegisterTokenDito({ id: profile?.document || '', deviceToken });
+    await trackEventHomeDito({ id: profile?.document || '' });
+  }, [
+    handleRegisterTokenDito,
+    profile?.birthDate,
+    profile?.document,
+    profile?.email,
+    profile?.firstName,
+    profile?.gender,
+    setItem,
+  ]);
 
   const handleRegisterAnonymous = useCallback(async ({ deviceToken }: Pick<IHandleRegisterToken, 'deviceToken'>) => {
     try {

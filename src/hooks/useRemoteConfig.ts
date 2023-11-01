@@ -26,6 +26,8 @@ export interface IRemoteConfigKeys {
   balance_cashback_in_app: boolean;
   show_prime: boolean;
   show_prime_tester: boolean;
+  show_new_header: boolean;
+  show_new_header_tester: boolean;
   EMAIL_TESTERS: string[];
   appName: string;
   appVersion: string;
@@ -37,9 +39,12 @@ export interface IRemoteConfigKeys {
   show_new_address_tester: boolean;
   show_new_address_list: boolean;
   show_new_address_list_tester: boolean;
-  show_new_webview_checkout_v2: boolean;
+  show_new_login: boolean,
+  show_new_login_tester: boolean,
   show_new_home: boolean;
-  show_new_home_tester: boolean;
+  show_on_smart_hint: boolean;
+  show_item_price: boolean;
+  show_item_price_tester: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -64,6 +69,8 @@ export const defaults: IRemoteConfigKeys = {
   primelp_terms_search: 'prime',
   show_prime: false,
   show_prime_tester: false,
+  show_new_header: false,
+  show_new_header_tester: true,
   show_price_prime_pdp: false,
   show_price_prime_pdc: false,
   pdp_show_video: false,
@@ -74,9 +81,12 @@ export const defaults: IRemoteConfigKeys = {
   show_new_address_tester: true,
   show_new_address_list: false,
   show_new_address_list_tester: true,
-  show_new_webview_checkout_v2: false,
+  show_new_login: false,
+  show_new_login_tester: true,
   show_new_home: false,
-  show_new_home_tester: true,
+  show_on_smart_hint: false,
+  show_item_price: false,
+  show_item_price_tester: true,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;

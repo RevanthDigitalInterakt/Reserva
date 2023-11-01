@@ -1,10 +1,12 @@
-import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Box, Button } from '@usereservaapp/reserva-ui';
-import EventProvider from '../../../../utils/EventProvider';
-import { defaultBrand } from '../../../../utils/defaultWBrand';
+import React from 'react';
+
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
+import EventProvider from '../../../../utils/EventProvider';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
+import { defaultBrand } from '../../../../utils/defaultWBrand';
 import testProps from '../../../../utils/testProps';
 
 export interface IHomeCard {
@@ -27,13 +29,13 @@ function HomeCard({
 
     if (categoryType === 'product') {
       EventProvider.logEvent('page_view', {
-        wbrand: defaultBrand.picapau,
+        item_brand: defaultBrand.picapau,
       });
 
       EventProvider.logEvent('select_item', {
         item_list_id: categoryData || '',
         item_list_name: '',
-        wbrand: defaultBrand.reserva,
+        item_brand: defaultBrand.reserva,
       });
 
       navigation.navigate('ProductDetail', {

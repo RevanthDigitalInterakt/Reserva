@@ -5,11 +5,9 @@ import {
 } from 'react';
 import { BackHandler, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {
-  Box, Button, Typography,
-} from '@usereservaapp/reserva-ui';
 import firestore from '@react-native-firebase/firestore';
 import { differenceInMonths } from 'date-fns';
+
 import { MyCashbackScreensRoutes } from '../../my-cashback/navigation/MyCashbackNavigator';
 import { useCheckConnection } from '../../../hooks/useCheckConnection';
 import { FirebaseService } from '../../../shared/services/FirebaseService';
@@ -23,6 +21,9 @@ import { defaultBrand } from '../../../utils/defaultWBrand';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { Avatar } from '../../../components/Avatar/AvatarComponent';
 import { useAuthentication } from '../../../hooks/useAuthentication';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 export function MenuProfile() {
@@ -93,7 +94,7 @@ export function MenuProfile() {
 
   useEffect(() => {
     EventProvider.logEvent('page_view', {
-      wbrand: defaultBrand.picapau,
+      item_brand: defaultBrand.picapau,
     });
 
     BackHandler.addEventListener('hardwareBackPress', () => {

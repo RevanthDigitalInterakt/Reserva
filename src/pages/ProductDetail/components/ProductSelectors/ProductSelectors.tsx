@@ -1,16 +1,21 @@
 import React, {
   useCallback, useEffect, useMemo,
 } from 'react';
-import {
-  Box, Divider, Icon, RadioButtons, SelectColor, Typography,
-} from '@usereservaapp/reserva-ui';
-import { ScrollView } from 'react-native-gesture-handler';
+
 import { View } from 'react-native';
-import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
-import { SizeGuide, SizeGuideImages } from './SizeGuide';
+import { ScrollView } from 'react-native-gesture-handler';
+
+import { Box } from '../../../../components/Box/Box';
+import { Divider } from '../../../../components/Divider/Divider';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { RadioButtons } from '../../../../components/RadioButtons/RadioButtons';
+import { Typography } from '../../../../components/Typography/Typography';
 import EventProvider from '../../../../utils/EventProvider';
-import ProductAddToCart from '../ProductAddToCart';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
+import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+import ProductAddToCart from '../ProductAddToCart';
+import { SelectColor } from '../SelectColor/SelectColor';
+import { SizeGuide, SizeGuideImages } from './SizeGuide';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 function ProductSelectors() {
@@ -33,7 +38,7 @@ function ProductSelectors() {
       if (!productDetail || !selectedSize) return;
 
       EventProvider.logEvent('page_view', {
-        wbrand: defaultBrand.picapau,
+        item_brand: defaultBrand.picapau,
       });
 
       EventProvider.logEvent('view_item', {
@@ -49,7 +54,7 @@ function ProductSelectors() {
           },
         ],
         value: productDetail.priceRange.sellingPrice?.lowPrice,
-        wbrand: `${productDetail?.categoryTree[0]?.toUpperCase()},`,
+        item_brand: `${productDetail?.categoryTree[0]?.toUpperCase()},`,
       });
     } catch (err) {
       ExceptionProvider.captureException(err);
@@ -125,7 +130,7 @@ function ProductSelectors() {
 
         {!selectedSize?.availableQuantity && (
           <Box mt="xxs" flexDirection="row" alignItems="center">
-            <Icon name="Alert" size={20} color="vermelhoRSV" mr="nano" />
+            <IconLegacy name="Alert" size={20} color="vermelhoRSV" mr="nano" />
 
             <Typography fontFamily="reservaSansBold" fontSize={15} color="vermelhoRSV">
               Produto Esgotado

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { theme } from '@usereservaapp/reserva-ui';
 import { MockedProvider } from '@apollo/client/testing';
 import { ThemeProvider } from 'styled-components/native';
 import type { DocumentNode } from 'graphql';

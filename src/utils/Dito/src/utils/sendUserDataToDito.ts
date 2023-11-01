@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getDitoUser, registerDitoUser } from '../routes/user';
 import sendUpdateUserDataToDito from './sendUpdateUserDataToDito';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';

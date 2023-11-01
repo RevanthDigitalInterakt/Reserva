@@ -1,25 +1,29 @@
-import { create } from 'zustand';
 import type { FetchPolicy } from '@apollo/client';
-import AsyncStorage from '@react-native-community/async-storage';
-import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { create } from 'zustand';
+
 import type {
   ProfileQuery,
   ProfileQueryVariables,
+  RefreshTokenMutation,
+  RefreshTokenMutationVariables,
   SignInMutation,
   SignInMutationVariables,
 } from '../../base/graphql/generated';
-import { createTokenExpireDate } from '../../utils/createTokenExpireDate';
-import { getAsyncStorageItem, removeAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import {
   ProfileDocument,
+  RefreshTokenDocument,
   SignInDocument,
 } from '../../base/graphql/generated';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
+import { getAsyncStorageItem, removeAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import EventProvider from '../../utils/EventProvider';
+import { checkIfNeedRefreshToken } from '../../utils/checkIfNeedRefreshToken';
+import { createTokenExpireDate } from '../../utils/createTokenExpireDate';
+import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
+import { getApolloClient } from '../../utils/getApolloClient';
 import { identifyCustomer } from './methods/identifyCustomer';
 import { RefreshTokenError } from './types/refreshTokenError';
-import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
-import { getApolloClient } from '../../utils/getApolloClient';
-import { onRefreshToken } from './onRefreshToken';
 
 type TProfileData = ProfileQuery['profile'];
 
@@ -27,12 +31,12 @@ export interface IAuthStore {
   initialized: boolean;
   isAnonymousUser: boolean;
   onInit: () => Promise<boolean>;
-  onRefreshToken: (forceRefresh?: boolean) => Promise<boolean>;
+  onRefreshToken: () => Promise<boolean>;
   //
   onGetProfile: (fetchPolicy?: FetchPolicy) => Promise<TProfileData>;
   profile?: TProfileData;
   //
-  onSignIn: (email: string, password: string, isNewUser?: boolean) => Promise<void>;
+  onSignIn: (email: string, password: string, isNewUser?: boolean) => Promise<ProfileQuery>;
   onUpdateAuthData: (token: string, cookie: string) => Promise<void>;
   //
   onSignOut: () => Promise<void>;
@@ -69,8 +73,27 @@ const authStore = create<IAuthStore>((set, getState) => ({
   },
   onRefreshToken: async () => {
     try {
-      const result = await onRefreshToken();
-      return result;
+      const needRefreshToken = await checkIfNeedRefreshToken();
+
+      if (!needRefreshToken) return false;
+
+      const client = getApolloClient();
+
+      const { data } = await client.mutate<RefreshTokenMutation, RefreshTokenMutationVariables>({
+        context: { clientName: 'gateway' },
+        mutation: RefreshTokenDocument,
+        fetchPolicy: 'no-cache',
+      });
+
+      if (!data?.refreshToken?.token || !data?.refreshToken?.authCookie) {
+        throw new Error('Unauthorized');
+      }
+
+      await setAsyncStorageItem('Auth:Token', data.refreshToken.token);
+      await setAsyncStorageItem('Auth:Cookie', data.refreshToken.authCookie);
+      await setAsyncStorageItem('Auth:TokenRefreshTime', createTokenExpireDate());
+
+      return true;
     } catch (err) {
       ExceptionProvider.captureException(
         err,

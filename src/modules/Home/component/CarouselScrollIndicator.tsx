@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Easing, LayoutChangeEvent } from 'react-native';
-import { Box, theme } from '@usereservaapp/reserva-ui';
+import { Animated, Easing, type LayoutChangeEvent } from 'react-native';
 import testProps from '../../../utils/testProps';
+import { Box } from '../../../components/Box/Box';
+import { theme } from '../../../base/usereservappLegacy/theme';
 
 interface CarrouselScrollIndicatorProps {
   carouselLength: number;

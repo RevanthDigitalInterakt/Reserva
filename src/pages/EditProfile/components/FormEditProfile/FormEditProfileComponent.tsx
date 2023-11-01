@@ -1,14 +1,13 @@
 import React, {
   useCallback, useEffect, useState,
 } from 'react';
-import { Box, TextField } from '@usereservaapp/reserva-ui';
 import { useFormik } from 'formik';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import FullNameIcon from './Icons/FullNameIcon';
 import EmailIcon from './Icons/EmailIcon';
 import CPFIcon from './Icons/CPFIcon';
-import GenderInput, { TGender } from './components/GenderInput/GenderInput';
+import GenderInput, { type TGender } from './components/GenderInput/GenderInput';
 import BirthDateIcon from './Icons/BirthDateIcon';
 import PhoneNumberIcon from './Icons/PhoneNumberIcon';
 import UserProfilePictureComponent from '../UserProfilePicture/UserProfilePictureComponent';
@@ -20,21 +19,25 @@ import NewsLetterComponent from '../Newsletter/NewsLetterComponent';
 import DeleteAccountComponent from '../DeleteAccount/DeleteAccountComponent';
 import SubmitingContentComponent from '../SubmitingContent/SubmitingContentComponent';
 import EditProfileSchema from './yup/schema/editProfile.schema';
-import {
+import
+{
   formatAndSearcFieldValue,
   formatDate,
 } from '../../../../utils/GenericFormats';
-import { genderEngToPt, TGenderEngKeys } from './static/GenderTranslate';
-import {
+import { genderEngToPt, type TGenderEngKeys } from './static/GenderTranslate';
+import
+{
   generateCustonFieldsToPayloadUserData,
   generatePayloadToUploadUserData,
-  IUserDataUpload,
+  type IUserDataUpload,
 } from '../../../../utils/updateUserData';
 import { FirebaseService } from '../../../../shared/services/FirebaseService';
 import type { IFormEditProfileSchema } from './interfaces/formEditProfile';
 import { useProfileLazyQuery, useProfileUpdateMutation } from '../../../../base/graphql/generated';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
+import { Box } from '../../../../components/Box/Box';
+import { TextField } from '../../../../components/TextField/TextField';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 import { useNavigationToDelivery } from '../../../../hooks/useNavigationToDelivery';
 
@@ -69,53 +72,51 @@ function FormEditProfileComponent({
 
   const { handleNavigateToDelivery } = useNavigationToDelivery();
 
-  const handleSubmitForm = useCallback(
-    async (formValues: IFormEditProfileSchema): Promise<void> => {
-      handleToogleLoading(true);
+  const handleSubmitForm = useCallback(async (formValues: IFormEditProfileSchema): Promise<void> => {
+    handleToogleLoading(true);
 
-      const userDateUpload: IUserDataUpload = generatePayloadToUploadUserData(formValues);
-      let imageRef = formValues.profileImage.initialFilePath || 'null';
+    const userDateUpload: IUserDataUpload = generatePayloadToUploadUserData(formValues);
+    let imageRef = formValues.profileImage.initialFilePath || 'null';
 
-      const isUpdateProfileImage = typeof formValues.profileImage.uri !== 'undefined' && formValues.profileImage.uri !== formValues.profileImage.initialFilePath;
+    const isUpdateProfileImage = typeof formValues.profileImage.uri !== 'undefined' && formValues.profileImage.uri !== formValues.profileImage.initialFilePath;
 
-      if (isUpdateProfileImage) {
-        imageRef = await createFS({
-          uri: formValues.profileImage.uri,
-        });
-
-        if (formValues.profileImage.initialFilePath) {
-          await deleteFS(`${formValues.profileImage.initialFilePath}`);
-        }
-      }
-
-      const userAcceptTerms = await AsyncStorage.getItem('@user:accepted');
-
-      const customFields = generateCustonFieldsToPayloadUserData({
-        userAcceptTerms: userAcceptTerms ? JSON.parse(userAcceptTerms) : false,
-        profileImage: imageRef,
-        subscribed: formValues.newsLetter,
+    if (isUpdateProfileImage) {
+      imageRef = await createFS({
+        uri: formValues.profileImage.uri,
       });
 
-      await updateUserdata({
-        variables: {
-          input: {
-            ...userDateUpload,
-            customFields,
-          },
+      if (formValues.profileImage.initialFilePath) {
+        await deleteFS(`${formValues.profileImage.initialFilePath}`);
+      }
+    }
+
+    const userAcceptTerms = await AsyncStorage.getItem('@user:accepted');
+
+    const customFields = generateCustonFieldsToPayloadUserData({
+      userAcceptTerms: userAcceptTerms ? JSON.parse(userAcceptTerms) : false,
+      profileImage: imageRef,
+      subscribed: formValues.newsLetter,
+    });
+
+    await updateUserdata({
+      variables: {
+        input: {
+          ...userDateUpload,
+          customFields,
         },
-      });
+      },
+    });
 
-      const profileData = await onGetProfile();
+    const profileData = await onGetProfile();
 
-      if (isRegister) {
-        handleNavigateToDelivery(profileData);
-        return;
-      }
+    if (isRegister) {
+      handleNavigateToDelivery(profileData);
+      return;
+    }
 
-      handleToogleLoading(false);
-      navigation.goBack();
-    }, [],
-  );
+    handleToogleLoading(false);
+    navigation.goBack();
+  }, []);
 
   const editProfileForm = useFormik<IFormEditProfileSchema>({
     initialValues: FormEditProfileInitialValues,
@@ -126,13 +127,13 @@ function FormEditProfileComponent({
   });
 
   const handleChangeFormValue = useCallback(
-      <T extends unknown>(
+    <T extends unknown>(
       field: keyof IFormEditProfileSchema,
       value: T,
     ): void => {
-        editProfileForm.setFieldValue(field, value);
-      },
-      [editProfileForm],
+      editProfileForm.setFieldValue(field, value);
+    },
+    [editProfileForm],
   );
 
   const handleChangeProfileImage = useCallback(
@@ -234,6 +235,7 @@ function FormEditProfileComponent({
 
   return (
     <>
+
       <ChangeFileModal
         show={showChangeFileModal}
         handleDeleteProfileImage={handleDeleteProfileImage}

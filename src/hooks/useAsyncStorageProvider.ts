@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { Cookies } from '@react-native-cookies/cookies';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 

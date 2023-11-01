@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useState, Dispatch, SetStateAction,
+  useEffect, useState, type Dispatch, type SetStateAction,
 } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -8,9 +8,7 @@ import {
   PixelRatio,
   Platform,
 } from 'react-native';
-import {
-  Box, Typography, Button, Icon,
-} from '@usereservaapp/reserva-ui';
+
 import Modal from 'react-native-modal';
 import FlipNumber from './flipcountdoun/FlipNumber';
 import { useCountDown } from '../../../context/ChronometerContext';
@@ -19,10 +17,13 @@ import EventProvider from '../../../utils/EventProvider';
 import { platformType } from '../../../utils/platformType';
 import testProps from '../../../utils/testProps';
 import { defaultBrand } from '../../../utils/defaultWBrand';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 
 export interface CountDownProps {
   countDown?: ICountDownClock;
-  loadingCountDownBanner?: boolean;
 }
 const deviceWidth = Dimensions.get('window').width;
 
@@ -92,12 +93,12 @@ export const CountDownBanner: React.FC<CountDownProps> = ({
     const [categoryType, categoryData] = countDown?.reference?.split(':');
     if (categoryType === 'product') {
       EventProvider.logEvent('page_view', {
-        wbrand: defaultBrand.picapau,
+        item_brand: defaultBrand.picapau,
       });
       EventProvider.logEvent('select_item', {
         item_list_id: categoryData || '',
         item_list_name: '',
-        wbrand: defaultBrand.reserva,
+        item_brand: defaultBrand.reserva,
       });
 
       navigation.navigate('ProductDetail', {
@@ -269,71 +270,72 @@ interface IcheckTheRules {
   rulesData?: ICountDownClock;
   goToPromotion?: () => void;
 }
-const CheckTheRules = ({
+function CheckTheRules({
   isVisible,
   setIsVisible,
   rulesData,
   goToPromotion,
-}: IcheckTheRules) => (
-  <Modal
-    avoidKeyboard
-    onBackdropPress={() => setIsVisible(false)}
-    isVisible={isVisible}
-  >
-    <Box
-      testID="com.usereserva:id/check_the_rules_container"
-      bg="white"
-      minHeight={184}
-      alignItems="center"
-      justifyContent="center"
-      px={34}
-      py={45}
+}: IcheckTheRules) {
+  return (
+    <Modal
+      avoidKeyboard
+      onBackdropPress={() => setIsVisible(false)}
+      isVisible={isVisible}
     >
-      <Box position="absolute" top={16} right={20} zIndex={4}>
-        <Button
-          testID="com.usereserva:id/countDownLocal_checkTheRules_button_close"
-          onPress={() => setIsVisible(false)}
-          variant="icone"
-          icon={<Icon size={17} name="Close" />}
-        />
-      </Box>
-      <Box>
-        <Typography
-          testID="com.usereserva:id/check_the_rules_title_modal"
-          textAlign="center"
-          fontFamily="reservaSerifBold"
-          fontSize={34}
-        >
-          {rulesData?.titleModal}
-        </Typography>
-      </Box>
-      <Box mt={8}>
-        <Typography
-            // textAlign={'center'}
-          lineHeight={23}
-          fontFamily="reservaSansRegular"
-          fontSize={18}
-        >
-          {rulesData?.descriptionModal}
-        </Typography>
-      </Box>
-      <Box width="100%" mt={38} mb={5}>
-        <Button
-          testID="com.usereserva:id/check_the_rules_button_promotion"
-          variant="primarioEstreito"
-          width="100%"
-          height={50}
-          onPress={goToPromotion}
-        >
+      <Box
+        testID="com.usereserva:id/check_the_rules_container"
+        bg="white"
+        minHeight={184}
+        alignItems="center"
+        justifyContent="center"
+        px={34}
+        py={45}
+      >
+        <Box position="absolute" top={16} right={20} zIndex={4}>
+          <Button
+            testID="com.usereserva:id/countDownLocal_checkTheRules_button_close"
+            onPress={() => setIsVisible(false)}
+            variant="icone"
+            icon={<IconLegacy size={17} name="Close" />}
+          />
+        </Box>
+        <Box>
           <Typography
-            color="white"
-            fontFamily="nunitoExtraBold"
-            fontSize={13}
+            testID="com.usereserva:id/check_the_rules_title_modal"
+            textAlign="center"
+            fontFamily="reservaSerifBold"
+            fontSize={34}
           >
-            IR PARA A PROMO
+            {rulesData?.titleModal}
           </Typography>
-        </Button>
+        </Box>
+        <Box mt={8}>
+          <Typography
+            lineHeight={23}
+            fontFamily="reservaSansRegular"
+            fontSize={18}
+          >
+            {rulesData?.descriptionModal}
+          </Typography>
+        </Box>
+        <Box width="100%" mt={38} mb={5}>
+          <Button
+            testID="com.usereserva:id/check_the_rules_button_promotion"
+            variant="primarioEstreito"
+            width="100%"
+            height={50}
+            onPress={goToPromotion}
+          >
+            <Typography
+              color="white"
+              fontFamily="nunitoExtraBold"
+              fontSize={13}
+            >
+              IR PARA A PROMO
+            </Typography>
+          </Button>
+        </Box>
       </Box>
-    </Box>
-  </Modal>
-);
+    </Modal>
+  );
+}

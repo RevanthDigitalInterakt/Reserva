@@ -1,9 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import {
-  Box, Button, Divider, OutlineInput, Typography,
-} from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+
 import { useProductDeliveryTimeLazyQuery } from '../../../../base/graphql/generated';
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { Divider } from '../../../../components/Divider/Divider';
+import { OutlineInput } from '../../../../components/OutlineInput/OutlineInput';
+import { Typography } from '../../../../components/Typography/Typography';
 import { removeNonNumbers } from '../../../../utils/removeNonNumbers';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import EventProvider from '../../../../utils/EventProvider';

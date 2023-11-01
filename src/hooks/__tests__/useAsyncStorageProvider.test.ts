@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import useAsyncStorageProvider from '../useAsyncStorageProvider';
 
 describe('useAsyncStorageProvider test', () => {

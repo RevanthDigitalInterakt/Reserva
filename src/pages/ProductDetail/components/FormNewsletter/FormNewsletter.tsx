@@ -1,11 +1,14 @@
 import React, { useCallback, useState } from 'react';
-import { Box, OutlineInput, Typography } from '@usereservaapp/reserva-ui';
-import * as Yup from 'yup';
 import { Keyboard } from 'react-native';
-import Tooltip from './Tooltip';
+import * as Yup from 'yup';
+
 import { useSubscribeNewsletterMutation } from '../../../../base/graphql/generated';
+import { Box } from '../../../../components/Box/Box';
+import { OutlineInput } from '../../../../components/OutlineInput/OutlineInput';
+import { Typography } from '../../../../components/Typography/Typography';
 import EventProvider from '../../../../utils/EventProvider';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+import Tooltip from './Tooltip';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 function FormNewsletter() {

@@ -12,6 +12,8 @@ import {
   TouchableOpacity,
   TextInput,
   ActivityIndicator,
+  Keyboard,
+  Alert,
 } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -43,6 +45,8 @@ import { postalCodeMask } from '../../../utils/postalCodeMask';
 import testProps from '../../../utils/testProps';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
+import { useCart } from '../../../context/CartContext';
 
 const createAddressSchema = Yup.object().shape({
   addressSurname: addressSurnameSchema,
@@ -73,12 +77,18 @@ export default function CreateAddress(
   const inputNeighborRef = useRef<TextInput>(null);
   const inputNumberRef = useRef<TextInput>(null);
   const inputComplementRef = useRef<TextInput>(null);
+  const inputStateRef = useRef<TextInput>(null);
+  const inputCityRef = useRef<TextInput>(null);
 
   const [loading, setLoading] = useState(false);
   const [isMainAddress, setIsMainAddress] = useState(mainAddress === route.params?.id || false);
   const [modalVisible, setModalVisible] = useState(false);
 
   const switchMainAddress = () => setIsMainAddress(!isMainAddress);
+
+  const { orderFormId, actions } = useBagStore(['orderFormId', 'actions']);
+
+  const { restoreCart } = useCart();
 
   const [profileAddress] = useProfileAddressMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
@@ -107,14 +117,29 @@ export default function CreateAddress(
         },
       });
 
-      setFieldValue('city', data?.cep?.city);
-      setFieldValue('neighborhood', data?.cep?.neighborhood);
-      setFieldValue('addressState', data?.cep?.state);
-      setFieldValue('street', data?.cep?.street);
+      if (data) {
+        setFieldValue('city', data?.cep?.city);
+        setFieldValue('neighborhood', data?.cep?.neighborhood);
+        setFieldValue('addressState', data?.cep?.state);
+        setFieldValue('street', data?.cep?.street);
+      }
     } catch (error) {
       ExceptionProvider.captureException(error);
     }
   }, [getCep]);
+
+  const verifyAddressNameField = useCallback((addressSurname: string): boolean => {
+    const addressExists = profile?.addresses.find(
+      (address) => address?.addressName === addressSurname,
+    );
+
+    if (addressExists) {
+      Alert.alert('Erro', 'Já existe um endereço com o apelido digitado.');
+      return true;
+    }
+
+    return false;
+  }, []);
 
   const handleCreateAddress = useCallback(async (addressValues: ICreateAddress) => {
     try {
@@ -131,6 +156,11 @@ export default function CreateAddress(
       } = addressValues;
 
       if (loading) return;
+
+      Keyboard.dismiss();
+      const response = verifyAddressNameField(addressSurname);
+
+      if (response) return;
 
       setLoading(true);
 
@@ -154,6 +184,8 @@ export default function CreateAddress(
           },
         },
       );
+      await actions.REFRESH_ORDER_FORM();
+      await restoreCart(orderFormId);
     } catch (error) {
       ExceptionProvider.captureException(error);
     } finally {
@@ -190,7 +222,7 @@ export default function CreateAddress(
         showShadow
         backButtonPress={navigation.goBack}
       />
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent} keyboardShouldPersistTaps="handled">
         <View style={styles.content}>
           <Text style={styles.title}>Adicionar endereço</Text>
         </View>
@@ -324,7 +356,7 @@ export default function CreateAddress(
                   fieldTouched={() => setFieldTouched('addressNumber')}
                   error={errors.addressNumber}
                   isEditable
-                  textInputType="number-pad"
+                  textInputType="default"
                   inputID={testProps('com.usereserva:id/create_address_input_address_number')}
                   touched={touched.addressNumber}
                 />
@@ -338,7 +370,7 @@ export default function CreateAddress(
                   inputRef={inputComplementRef}
                   nextInputRef={inputComplementRef}
                   inputName="complement"
-                  fieldTouched={() => {}}
+                  fieldTouched={() => { }}
                   error={errors.complement}
                   isEditable
                   textInputType="default"
@@ -353,8 +385,8 @@ export default function CreateAddress(
                   inputValue={values.addressState}
                   fieldTouched={() => setFieldTouched('addressState')}
                   error={errors.addressState}
-                  inputRef={inputComplementRef}
-                  nextInputRef={inputComplementRef}
+                  inputRef={inputStateRef}
+                  nextInputRef={inputCityRef}
                   inputName="addressState"
                   isEditable={values.postalCode !== '' && values.addressState === ''}
                   textInputType="default"
@@ -370,8 +402,7 @@ export default function CreateAddress(
                   inputValue={values.city}
                   fieldTouched={() => setFieldTouched('city')}
                   error={errors.city}
-                  inputRef={inputComplementRef}
-                  nextInputRef={inputComplementRef}
+                  inputRef={inputCityRef}
                   inputName="city"
                   isEditable={values.postalCode !== '' && values.city === ''}
                   textInputType="default"
@@ -419,7 +450,7 @@ export default function CreateAddress(
                   <Text style={styles.textActionButtonCancel}>cancelar</Text>
                 </TouchableOpacity>
               </View>
-              { modalVisible && (
+              {modalVisible && (
                 <ModalCancelCreateAddress
                   showModal={modalVisible}
                   modalController={modalController}

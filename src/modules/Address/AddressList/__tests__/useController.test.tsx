@@ -1,7 +1,7 @@
 import React from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { MockedProvider } from '@apollo/client/testing';
-import AsyncStorageMock from '@react-native-community/async-storage/jest/async-storage-mock';
+import AsyncStorageMock from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 import useController from '../controller/useController';
 import { ProfileAddressRemoveDocument as DELETE_ADDRESS_QUERY } from '../../../../base/graphql/generated';
 import CartContextProvider, { CartContext } from '../../../../context/CartContext';
@@ -68,15 +68,17 @@ describe('AddressList - controller', () => {
       },
     ];
 
-    const MockedCartContext = ({ children }: { children: React.ReactNode }) => (
-      <CartContext.Provider value={{
-        refreshOrderFormData: jest.fn().mockResolvedValue({ orderFormId: '50e2a3c1631046feabb90e13f55e66cb' }),
-        identifyCustomer: jest.fn().mockResolvedValue(true),
-      }}
-      >
-        {children}
-      </CartContext.Provider>
-    );
+    function MockedCartContext({ children }: { children: React.ReactNode }) {
+      return (
+        <CartContext.Provider value={{
+          refreshOrderFormData: jest.fn().mockResolvedValue({ orderFormId: '50e2a3c1631046feabb90e13f55e66cb' }),
+          identifyCustomer: jest.fn().mockResolvedValue(true),
+        }}
+        >
+          {children}
+        </CartContext.Provider>
+      );
+    }
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <MockedProvider mocks={mocks}>

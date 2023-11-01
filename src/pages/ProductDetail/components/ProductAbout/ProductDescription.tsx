@@ -1,6 +1,7 @@
 import React from 'react';
-import { Box, Typography } from '@usereservaapp/reserva-ui';
 import testProps from '../../../../utils/testProps';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
 
 interface IProductDescription {
   title: string;

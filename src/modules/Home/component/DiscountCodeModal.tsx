@@ -1,15 +1,16 @@
 import React, { useRef, useState } from 'react';
-
-import Clipboard from '@react-native-community/clipboard';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { Animated, Dimensions, ImageBackground } from 'react-native';
 import Modal from 'react-native-modal';
 import Share from 'react-native-share';
-import {
-  Box, Button, Icon, theme, Typography,
-} from '@usereservaapp/reserva-ui';
 
 import images from '../../../base/styles/icons';
 import testProps from '../../../utils/testProps';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { Typography } from '../../../components/Typography/Typography';
+import { theme } from '../../../base/usereservappLegacy/theme';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 
 interface IData {
   coupon: string;
@@ -92,7 +93,7 @@ function DiscountCodeModal({ data, isVisible, onClose }: IDiscountCodeModal) {
               testID="com.usereserva:id/discout_code_modal_button"
               onPress={onClose}
               variant="icone"
-              icon={<Icon name="Close" size={8} color="white" />}
+              icon={<IconLegacy name="Close" size={8} color="white" />}
               hitSlop={{
                 top: 30, right: 30, bottom: 30, left: 30,
               }}
@@ -111,7 +112,6 @@ function DiscountCodeModal({ data, isVisible, onClose }: IDiscountCodeModal) {
             source={images.cupomModalBackground}
             style={{
               width: modalWidth,
-              // height: modalHeight,
               paddingHorizontal: data.coupon ? 15 : 20,
               paddingBottom: data.coupon ? 0 : 15,
             }}
@@ -127,7 +127,7 @@ function DiscountCodeModal({ data, isVisible, onClose }: IDiscountCodeModal) {
                   bottom: 30,
                 }}
                 variant="icone"
-                icon={<Icon name="Close" size={8} color="preto" />}
+                icon={<IconLegacy name="Close" size={8} color="preto" />}
               />
             </Box>
             <Box mt={25}>
@@ -217,7 +217,7 @@ function DiscountCodeModal({ data, isVisible, onClose }: IDiscountCodeModal) {
                         {data.coupon}
                       </Typography>
                       <Box position="absolute" right={17.5}>
-                        <Icon name="Copy" size={16} color="neutroFrio2" />
+                        <IconLegacy name="Copy" size={16} color="neutroFrio2" />
                       </Box>
                     </Box>
                   </Button>

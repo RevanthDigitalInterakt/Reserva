@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { View } from 'react-native-animatable';
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
+
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../../components/Typography/Typography';
 import { platformType } from '../../../../utils/platformType';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 
@@ -61,7 +62,7 @@ export default function NotFoundProduct() {
           </Typography>
         </Box>
         <Button testID="com.usereserva:id/NotFoundProduct_setProduct" flex={1} onPress={handleSetNotFoundProduct}>
-          <Icon name="Close" size={15} color="preto" ml="xxxs" />
+          <IconLegacy name="Close" size={15} color="preto" ml="xxxs" />
         </Button>
       </Box>
     </View>

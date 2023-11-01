@@ -1,8 +1,9 @@
 import styled from 'styled-components/native';
 import { StyleSheet } from 'react-native';
-import { Box, Typography } from '@usereservaapp/reserva-ui';
 import configDeviceSizes from '../../utils/configDeviceSizes';
 import { COLORS } from '../../base/styles/colors';
+import { Box } from '../Box/Box';
+import { Typography } from '../Typography/Typography';
 
 export const objectStyles = StyleSheet.create({
   modal: {

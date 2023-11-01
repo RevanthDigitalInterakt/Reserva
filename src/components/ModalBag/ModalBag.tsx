@@ -1,9 +1,10 @@
-import { Box, theme } from '@usereservaapp/reserva-ui';
 import Modal from 'react-native-modal';
 import React, { useState, useEffect } from 'react';
 
 import LottieView from 'lottie-react-native';
 import animations from '../../base/styles/animations';
+import { Box } from '../Box/Box';
+import { theme } from '../../base/usereservappLegacy/theme';
 
 export interface ModalBagProps {
   isVisible: boolean;
@@ -11,7 +12,7 @@ export interface ModalBagProps {
   onModalHide?: () => void;
 }
 
-export const ModalBag = ({ isVisible, onBackdropPress, onModalHide }: ModalBagProps) => {
+export function ModalBag({ isVisible, onBackdropPress, onModalHide }: ModalBagProps) {
   const [animationFinished, setAnimationFinished] = useState(false);
   const [animation, setAnimation] = useState(null);
 
@@ -57,4 +58,4 @@ export const ModalBag = ({ isVisible, onBackdropPress, onModalHide }: ModalBagPr
       </Modal>
     </Box>
   );
-};
+}

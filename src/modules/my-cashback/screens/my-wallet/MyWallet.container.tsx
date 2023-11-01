@@ -6,7 +6,7 @@ import EventProvider from '../../../../utils/EventProvider';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import {
   useCashbackLazyQuery,
-  CashbackQuery,
+  type CashbackQuery,
 } from '../../../../base/graphql/generated';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
@@ -29,7 +29,7 @@ export enum BalanceType {
   FUTURE = 'future',
 }
 
-export const MyWalletContainer = ({ navigateBack }: MyWalletContainerProps) => {
+export function MyWalletContainer({ navigateBack }: MyWalletContainerProps) {
   const [balance, setBalance] = useState<number>(0);
   const [operationFilter, setOperationFilter] = useState<FilterOptions>(FilterOptions.ALL);
   const [
@@ -57,7 +57,7 @@ export const MyWalletContainer = ({ navigateBack }: MyWalletContainerProps) => {
 
   useEffect(() => {
     EventProvider.logEvent('page_view', {
-      wbrand: defaultBrand.picapau,
+      item_brand: defaultBrand.picapau,
     });
   }, []);
 
@@ -186,4 +186,4 @@ export const MyWalletContainer = ({ navigateBack }: MyWalletContainerProps) => {
       />
     </>
   );
-};
+}

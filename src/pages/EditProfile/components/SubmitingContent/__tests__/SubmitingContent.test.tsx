@@ -1,10 +1,10 @@
 import React from 'react';
-import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 import {
   act, fireEvent, render, screen,
 } from '@testing-library/react-native';
 import SubmitingContentComponent from '../SubmitingContentComponent';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 
 const SubmitingContentProps = {
   handleSubmitForm: jest.fn(),

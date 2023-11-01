@@ -1,10 +1,11 @@
 import React from 'react';
 import { Dimensions, Linking, Modal } from 'react-native';
-import {
-  Box, Button, Typography,
-} from '@usereservaapp/reserva-ui';
+
 import testProps from '../../../utils/testProps';
 import IconComponent from '../../../components/IconComponent/IconComponent';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 

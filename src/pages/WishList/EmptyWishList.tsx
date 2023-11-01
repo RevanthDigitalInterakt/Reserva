@@ -1,10 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import IconComponent from '../../components/IconComponent/IconComponent';
+import { Box } from '../../components/Box/Box';
+import { Typography } from '../../components/Typography/Typography';
+import { Button } from '../../components/Button';
 
-export const EmptyWishList = () => {
+export function EmptyWishList() {
   const navigation = useNavigation();
 
   return (
@@ -34,4 +36,4 @@ export const EmptyWishList = () => {
       </Box>
     </ScrollView>
   );
-};
+}

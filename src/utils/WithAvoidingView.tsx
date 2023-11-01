@@ -2,7 +2,7 @@ import React from 'react';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { platformType } from './platformType';
 
-const WithAvoidingView = ({ children }: { children: React.ReactNode }) => {
+function WithAvoidingView({ children }: { children: React.ReactNode }) {
   if (Platform.OS === platformType.IOS) {
     return (
       <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
@@ -12,6 +12,6 @@ const WithAvoidingView = ({ children }: { children: React.ReactNode }) => {
   }
 
   return <>{children}</>;
-};
+}
 
 export default WithAvoidingView;

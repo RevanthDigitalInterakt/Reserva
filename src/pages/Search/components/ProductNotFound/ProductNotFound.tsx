@@ -1,6 +1,8 @@
 import React from 'react';
-import { Box, Typography } from '@usereservaapp/reserva-ui';
+
+import { Box } from '../../../../components/Box/Box';
 import IconComponent from '../../../../components/IconComponent/IconComponent';
+import { Typography } from '../../../../components/Typography/Typography';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 
 function ProductNotFound() {

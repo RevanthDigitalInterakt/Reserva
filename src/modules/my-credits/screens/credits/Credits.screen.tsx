@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BaseScreen } from '../../../../components/BaseScreen';
 import { CreditsContainer } from './Credits.container';
 
-export const CreditsScreen = () => {
+export function CreditsScreen() {
   const navigation = useNavigation();
 
   const navigateBack = () => {
@@ -18,4 +18,4 @@ export const CreditsScreen = () => {
       />
     </BaseScreen>
   );
-};
+}

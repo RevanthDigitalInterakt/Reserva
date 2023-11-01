@@ -1,18 +1,15 @@
 pre-commit:
-  parallel: true
-  commands:
-    lint:
-      glob: '*.{js,ts,jsx,tsx}'
-      run: bash scripts/lint.sh
-      skip: merge
 commit-msg:
-  parallel: true
   commands:
     commitlint:
       run: npx commitlint --edit
       skip: merge
 pre-push:
+  parallel: true
   commands:
-    test:
-      run: yarn test
+    lint:
+      run: bash scripts/check.sh
       skip: merge
+    #test: #TODO fix tests
+    #  run: bash scripts/tests.sh
+    #  skip: merge

@@ -1,12 +1,13 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import { FlatList, Platform } from 'react-native';
-import {
-  Box, Button, Typography,
-} from '@usereservaapp/reserva-ui';
-import { useNavigation } from '@react-navigation/native';
-import { platformType } from '../../../utils/platformType';
+
+import { type SearchNewsQuery, useSearchNewsQuery } from '../../../base/graphql/generated';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
 import ImageComponent from '../../../components/ImageComponent/ImageComponent';
-import { SearchNewsQuery, useSearchNewsQuery } from '../../../base/graphql/generated';
+import { Typography } from '../../../components/Typography/Typography';
+import { platformType } from '../../../utils/platformType';
 import { useApolloFetchPolicyStore } from '../../../zustand/useApolloFetchPolicyStore';
 
 export function News() {

@@ -1,11 +1,11 @@
-import {
-  Box, Button, Typography,
-} from '@usereservaapp/reserva-ui';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import type { IFile } from '../ModalChangeFile/ChangeFileModal';
 import { FirebaseService } from '../../../../shared/services/FirebaseService';
 import { Avatar } from '../../../../components/Avatar/AvatarComponent';
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { Typography } from '../../../../components/Typography/Typography';
 
 interface IUserProfilePictureComponentProps {
   file: IFile;

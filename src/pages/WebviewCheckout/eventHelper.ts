@@ -1,6 +1,5 @@
 import { Linking, Platform } from 'react-native';
 import EventProvider from '../../utils/EventProvider';
-import { defaultBrand } from '../../utils/defaultWBrand';
 import { urlRon } from '../../utils/LinkingUtils/static/deepLinkMethods';
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 
@@ -50,9 +49,7 @@ function condenseArray(data: any) {
   });
 }
 
-const sumQuantity = (items: any) => items.reduce((
-  acc: any, value: any,
-) => acc + value.quantity, 0);
+const sumQuantity = (items: any) => items.reduce((acc: any, value: any) => acc + value.quantity, 0);
 
 const getBrands = (items: any) => {
   const brandNames = items?.map(
@@ -210,7 +207,7 @@ export const prepareEventDataPurchaseCompleted = (
       productIds: resProductIds,
       ids: resIds,
       adaptItems: resAdaptItems,
-      wbrand: resWbrand,
+      item_brand: resWbrand,
       afContent: resAfContent,
       itemSubtotal: condensedResItemSubtotal,
       afRevenue: resAfRevenue,
@@ -245,25 +242,23 @@ export const triggerEventAfterPurchaseCompleted = async (dataPurchaseCompleted: 
 
   /* ---- Event fez-pedido-produto ---- */
   dataPurchaseCompleted.orderFormItems.forEach((item) => {
-    EventProvider.sendTrackEvent(
-      'fez-pedido-produto', {
+    EventProvider.sendTrackEvent('fez-pedido-produto', {
+      id: userRefDito,
+      action: 'fez-pedido-produto',
+      data: {
         id: userRefDito,
-        action: 'fez-pedido-produto',
-        data: {
-          id: userRefDito,
-          id_transacao: dataPurchaseCompleted?.orderId,
-          quantidade: item?.quantity,
-          marca: dataPurchaseCompleted?.wbrand,
-          id_produto: item?.productId,
-          nome_produto: item?.name,
-          categorias_produto: item?.productCategories,
-          tamanho: item?.skuName?.split('-')?.[1]?.trim() || '',
-          cor: item?.skuName?.split('-')?.[0]?.trim() || '',
-          preco_produto: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,
-          origem: 'app',
-        },
+        id_transacao: dataPurchaseCompleted?.orderId,
+        quantidade: item?.quantity,
+        marca: dataPurchaseCompleted?.item_brand,
+        id_produto: item?.productId,
+        nome_produto: item?.name,
+        categorias_produto: item?.productCategories,
+        tamanho: item?.skuName?.split('-')?.[1]?.trim() || '',
+        cor: item?.skuName?.split('-')?.[0]?.trim() || '',
+        preco_produto: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,
+        origem: 'app',
       },
-    );
+    });
   });
 
   /* ---- Event sendLastOrderData ---- */
@@ -318,34 +313,32 @@ export const triggerEventAfterPurchaseCompleted = async (dataPurchaseCompleted: 
           items: dataPurchaseCompleted.adaptItems,
           transaction_id: '',
           value: dataPurchaseCompleted.orderValue,
-          wbrand: dataPurchaseCompleted.wbrand,
+          item_brand: dataPurchaseCompleted.item_brand,
         },
       );
     }
   }
 
   /* ---- Event fez-pedido ---- */
-  EventProvider.sendTrackEvent(
-    'fez-pedido', {
+  EventProvider.sendTrackEvent('fez-pedido', {
+    id: userRefDito,
+    action: 'fez-pedido',
+    data: {
+      quantidade_produtos: dataPurchaseCompleted?.totalQuantity,
+      id_transacao: dataPurchaseCompleted?.orderId || '',
+      metodo_pagamento: dataPurchaseCompleted?.paymentSystemName,
+      subtotal: dataPurchaseCompleted?.itemSubtotal,
+      total: dataPurchaseCompleted?.orderValue,
+      total_frete: dataPurchaseCompleted?.itemShippingTotal,
+      origem: 'app',
+      dispositivo: Platform.OS,
       id: userRefDito,
-      action: 'fez-pedido',
-      data: {
-        quantidade_produtos: dataPurchaseCompleted?.totalQuantity,
-        id_transacao: dataPurchaseCompleted?.orderId || '',
-        metodo_pagamento: dataPurchaseCompleted?.paymentSystemName,
-        subtotal: dataPurchaseCompleted?.itemSubtotal,
-        total: dataPurchaseCompleted?.orderValue,
-        total_frete: dataPurchaseCompleted?.itemShippingTotal,
-        origem: 'app',
-        dispositivo: Platform.OS,
-        id: userRefDito,
-      },
     },
-  );
+  });
 
   /* ---- Event logPurchase ---- */
   EventProvider.logPurchase({
-    affiliation: 'APP',
+    affiliation: dataPurchaseCompleted.item_brand,
     coupon: 'coupon',
     currency: 'BRL',
     items: dataPurchaseCompleted?.adaptItems,
@@ -353,11 +346,6 @@ export const triggerEventAfterPurchaseCompleted = async (dataPurchaseCompleted: 
     tax: dataPurchaseCompleted?.rate,
     transaction_id: dataPurchaseCompleted?.orderId,
     value: dataPurchaseCompleted?.orderValue,
-  });
-
-  /* ---- Event page_view ---- */
-  EventProvider.logEvent('page_view', {
-    wbrand: defaultBrand.picapau,
   });
 
   EventProvider.sendPushTags('sendAbandonedCartTags', {

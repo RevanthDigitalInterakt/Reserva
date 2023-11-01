@@ -1,13 +1,14 @@
-import React from 'react';
 import {
   render,
   screen,
 } from '@testing-library/react-native';
-import { theme } from '@usereservaapp/reserva-ui';
+import React from 'react';
+
 import { MockedProvider } from '@apollo/client/testing';
 import { ThemeProvider } from 'styled-components/native';
-import HomeDiscountModal from '../HomeDiscountModal';
 import { HomeConfigDocument } from '../../../../../base/graphql/generated';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
+import HomeDiscountModal from '../HomeDiscountModal';
 
 // MOCKS
 const mockNavigate = jest.fn();

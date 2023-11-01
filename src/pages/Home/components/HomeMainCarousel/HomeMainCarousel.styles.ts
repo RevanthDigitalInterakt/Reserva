@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignSelf: 'center',
-    position: 'absolute',
-    bottom: 30,
+    position: 'relative',
+    bottom: 40,
   },
 });

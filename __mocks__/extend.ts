@@ -10,8 +10,8 @@ jest.mock('zustand');
 
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
 
-jest.mock('@react-native-community/async-storage', () => (
-  jest.requireActual('@react-native-community/async-storage/jest/async-storage-mock')
+jest.mock('@react-native-async-storage/async-storage', () => (
+  jest.requireActual('@react-native-async-storage/async-storage/jest/async-storage-mock')
 ));
 
 jest.mock('@react-native-firebase/remote-config', () => jest.fn(() => ({
@@ -69,7 +69,7 @@ jest.mock('react-native-reanimated', () => {
   return Reanimated;
 });
 
-jest.mock('@react-native-community/clipboard', () => ({
+jest.mock('@react-native-clipboard/clipboard', () => ({
   setString: jest.fn(),
   getString: jest.fn(),
 }));
