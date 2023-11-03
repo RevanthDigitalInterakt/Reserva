@@ -11,6 +11,7 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { Box } from '../../../components/Box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import useOpenLink from '../../../hooks/useOpenLink';
+import images from '../../../base/styles/icons';
 
 export function Signup() {
   const screenWidth = Dimensions.get('window').width * 0.9;
@@ -42,7 +43,7 @@ export function Signup() {
                 e confirmar o cancelamento.
               </Typography>
               <Image
-                source={require('../../../../assets/help/signup1.png')}
+                source={images.signup1}
                 style={{ width: screenWidth }}
                 resizeMode="contain"
               />
@@ -65,7 +66,7 @@ export function Signup() {
                 superior direita do site e selecionar a opção CADASTRE-SE.
               </Typography>
               <Image
-                source={require('../../../../assets/help/signup2.png')}
+                source={images.signup2}
                 style={{ width: screenWidth }}
                 resizeMode="contain"
               />
@@ -148,7 +149,7 @@ export function Signup() {
                 Senha”.
               </Typography>
               <Image
-                source={require('../../../../assets/help/signup3.png')}
+                source={images.signup3}
                 style={{ width: screenWidth }}
                 resizeMode="contain"
               />
@@ -158,7 +159,7 @@ export function Signup() {
                 serva.
               </Typography>
               <Image
-                source={require('../../../../assets/help/signup4.png')}
+                source={images.signup4}
                 style={{ width: screenWidth }}
                 resizeMode="contain"
               />
@@ -198,7 +199,7 @@ export function Signup() {
                 será enviada para seu e-mail de cadastro.
               </Typography>
               <Image
-                source={require('../../../../assets/help/signup5.png')}
+                source={images.signup5}
                 style={{ width: screenWidth }}
                 resizeMode="contain"
               />

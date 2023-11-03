@@ -10,6 +10,7 @@ import { Typography } from '../../../components/Typography/Typography';
 import { Divider } from '../../../components/Divider/Divider';
 import { ExpansePanel } from '../../../components/ExpansePanel/ExpansePanel';
 import useOpenLink from '../../../hooks/useOpenLink';
+import images from '../../../base/styles/icons';
 
 const data = [
   {
@@ -64,9 +65,6 @@ const data = [
   },
 ];
 
-const shipping1Image = require('../../../../assets/help/shipping1.png');
-const shipping2Image = require('../../../../assets/help/shipping2.png');
-
 export function Shipping() {
   const openLink = useOpenLink();
 
@@ -98,7 +96,7 @@ export function Shipping() {
                 clicar em &apos;Meus pedidos&apos;.
               </Typography>
               <Image
-                source={shipping1Image}
+                source={images.shipping1}
                 style={{ width: '100%' }}
                 resizeMode="contain"
               />
@@ -106,7 +104,7 @@ export function Shipping() {
                 Selecione seu pedido que apresentará um dos seguintes status:
               </Typography>
               <Image
-                source={shipping2Image}
+                source={images.shipping2}
                 style={{ width: '100%' }}
                 resizeMode="contain"
               />
