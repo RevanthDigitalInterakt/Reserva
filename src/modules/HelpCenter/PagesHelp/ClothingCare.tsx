@@ -1,40 +1,25 @@
-import React, { useEffect } from "react";
-import { Dimensions, Linking, SafeAreaView, ScrollView } from "react-native";
+import React, { useEffect } from 'react';
+import {
+  Dimensions, SafeAreaView, ScrollView,
+} from 'react-native';
 
-import { Box } from "../../../components/Box/Box";
-import { IconLegacy } from "../../../components/IconLegacy/IconLegacy";
-import { Typography } from "../../../components/Typography/Typography";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import Toast from "react-native-toast-message";
+import { Box } from '../../../components/Box/Box';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../components/Typography/Typography';
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import useOpenLink from '../../../hooks/useOpenLink';
 
-const windowWidth = Dimensions.get("window").width;
+const windowWidth = Dimensions.get('window').width;
 const SIZE_ICONS_CARDS = 20;
 
 export function ClothingCare() {
   useEffect(() => {}, []);
-
-  const urlWhatsapp =
-    "https://api.whatsapp.com/send/?phone=552136092555&text&type=phone_number&app_absent=0";
-
-  const urlContact = "https://usereserva.zendesk.com/hc/pt-br/requests/new";
-
-  const openLink = async (url: string) => {
-    const supported = await Linking.canOpenURL(url);
-    if (supported) {
-      await Linking.openURL(url);
-    } else {
-      Toast.show({
-        type: "error",
-        text1: "Algo deu errado",
-        text2: "Tente novamente",
-      });
-    }
-  };
+  const openLink = useOpenLink();
 
   return (
     <SafeAreaView
       flex={1}
-      style={{ justifyContent: "space-between" }}
+      style={{ justifyContent: 'space-between' }}
       backgroundColor="white"
     >
       <TopBarBackButton />
@@ -770,13 +755,13 @@ export function ClothingCare() {
                   links abaixo:
                 </Typography>
               </Box>
-              <Box mb={"nano"}>
+              <Box mb="nano">
                 <Typography
                   fontFamily="nunitoRegular"
                   fontSize={16}
-                  onPress={() => openLink(urlWhatsapp)}
+                  onPress={() => openLink('urlWhatsapp')}
                   style={{
-                    textDecorationLine: "underline",
+                    textDecorationLine: 'underline',
                     paddingVertical: 4,
                   }}
                 >
@@ -786,8 +771,8 @@ export function ClothingCare() {
               <Typography
                 fontFamily="nunitoRegular"
                 fontSize={16}
-                onPress={() => openLink(urlContact)}
-                style={{ textDecorationLine: "underline", paddingVertical: 4 }}
+                onPress={() => openLink('urlContact')}
+                style={{ textDecorationLine: 'underline', paddingVertical: 4 }}
               >
                 Fale conosco
               </Typography>

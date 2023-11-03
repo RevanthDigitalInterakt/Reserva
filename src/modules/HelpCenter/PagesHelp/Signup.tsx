@@ -1,43 +1,25 @@
-import React from "react";
+import React from 'react';
 
 import {
   Dimensions,
   Image,
-  Linking,
   SafeAreaView,
   ScrollView,
-} from "react-native";
+} from 'react-native';
 
-import Toast from "react-native-toast-message";
-import { TopBarBackButton } from "../../Menu/components/TopBarBackButton";
-import { Box } from "../../../components/Box/Box";
-import { Typography } from "../../../components/Typography/Typography";
+import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import useOpenLink from '../../../hooks/useOpenLink';
 
-export const Signup: React.FC<{}> = () => {
-  const screenWidth = Dimensions.get("window").width * 0.9;
-
-  const urlWhatsapp =
-    "https://api.whatsapp.com/send/?phone=552136092555&text&type=phone_number&app_absent=0";
-
-  const urlContact = "https://usereserva.zendesk.com/hc/pt-br/requests/new";
-
-  const openLink = async (url: string) => {
-    const supported = await Linking.canOpenURL(url);
-    if (supported) {
-      await Linking.openURL(url);
-    } else {
-      Toast.show({
-        type: "error",
-        text1: "Algo deu errado",
-        text2: "Tente novamente",
-      });
-    }
-  };
+export function Signup() {
+  const screenWidth = Dimensions.get('window').width * 0.9;
+  const openLink = useOpenLink();
 
   return (
     <SafeAreaView
       flex={1}
-      style={{ justifyContent: "space-between" }}
+      style={{ justifyContent: 'space-between' }}
       backgroundColor="white"
     >
       <TopBarBackButton />
@@ -60,7 +42,7 @@ export const Signup: React.FC<{}> = () => {
                 e confirmar o cancelamento.
               </Typography>
               <Image
-                source={require("../../../../assets/help/signup1.png")}
+                source={require('../../../../assets/help/signup1.png')}
                 style={{ width: screenWidth }}
                 resizeMode="contain"
               />
@@ -83,7 +65,7 @@ export const Signup: React.FC<{}> = () => {
                 superior direita do site e selecionar a opção CADASTRE-SE.
               </Typography>
               <Image
-                source={require("../../../../assets/help/signup2.png")}
+                source={require('../../../../assets/help/signup2.png')}
                 style={{ width: screenWidth }}
                 resizeMode="contain"
               />
@@ -104,13 +86,15 @@ export const Signup: React.FC<{}> = () => {
               <Typography fontFamily="nunitoRegular" fontSize={14}>
                 Caso deseje cancelar o recebimento das nossas comunicações pelo
                 whatsapp, e-mail ou SMS, basta entrar em contato conosco através
-                da nossa{" "}
+                da nossa
+                {' '}
                 <Typography
-                  onPress={() => openLink(urlWhatsapp)}
-                  style={{ textDecorationLine: "underline", color: "#000" }}
+                  onPress={() => openLink('urlWhatsapp')}
+                  style={{ textDecorationLine: 'underline', color: '#000' }}
                 >
                   central de relacionamento
-                </Typography>{" "}
+                </Typography>
+                {' '}
                 (whatsApp - (21) 3609-2555) e nos informe os seguintes dados
                 para que possamos inativar seu cadastro:
               </Typography>
@@ -134,13 +118,16 @@ export const Signup: React.FC<{}> = () => {
                   descadastro:
                 </Typography>
                 <Typography fontFamily="nunitoRegular" fontSize={14}>
-                  (A) E-mail (Promoções e informações){" "}
+                  (A) E-mail (Promoções e informações)
+                  {' '}
                 </Typography>
                 <Typography fontFamily="nunitoRegular" fontSize={14}>
-                  (B) Telefone (SMS){" "}
+                  (B) Telefone (SMS)
+                  {' '}
                 </Typography>
                 <Typography fontFamily="nunitoRegular" fontSize={14}>
-                  (C) Contatos de loja{" "}
+                  (C) Contatos de loja
+                  {' '}
                 </Typography>
                 <Typography fontFamily="nunitoRegular" fontSize={14}>
                   (D) Todos
@@ -161,7 +148,7 @@ export const Signup: React.FC<{}> = () => {
                 Senha”.
               </Typography>
               <Image
-                source={require("../../../../assets/help/signup3.png")}
+                source={require('../../../../assets/help/signup3.png')}
                 style={{ width: screenWidth }}
                 resizeMode="contain"
               />
@@ -171,7 +158,7 @@ export const Signup: React.FC<{}> = () => {
                 serva.
               </Typography>
               <Image
-                source={require("../../../../assets/help/signup4.png")}
+                source={require('../../../../assets/help/signup4.png')}
                 style={{ width: screenWidth }}
                 resizeMode="contain"
               />
@@ -211,7 +198,7 @@ export const Signup: React.FC<{}> = () => {
                 será enviada para seu e-mail de cadastro.
               </Typography>
               <Image
-                source={require("../../../../assets/help/signup5.png")}
+                source={require('../../../../assets/help/signup5.png')}
                 style={{ width: screenWidth }}
                 resizeMode="contain"
               />
@@ -251,13 +238,13 @@ export const Signup: React.FC<{}> = () => {
                 links abaixo:
               </Typography>
             </Box>
-            <Box mb={"nano"}>
+            <Box mb="nano">
               <Typography
                 fontFamily="nunitoRegular"
                 fontSize={14}
-                onPress={() => openLink(urlWhatsapp)}
+                onPress={() => openLink('urlWhatsapp')}
                 style={{
-                  textDecorationLine: "underline",
+                  textDecorationLine: 'underline',
                   paddingVertical: 4,
                 }}
               >
@@ -267,8 +254,8 @@ export const Signup: React.FC<{}> = () => {
             <Typography
               fontFamily="nunitoRegular"
               fontSize={14}
-              onPress={() => openLink(urlContact)}
-              style={{ textDecorationLine: "underline", paddingVertical: 4 }}
+              onPress={() => openLink('urlContact')}
+              style={{ textDecorationLine: 'underline', paddingVertical: 4 }}
             >
               Fale conosco
             </Typography>
@@ -277,4 +264,4 @@ export const Signup: React.FC<{}> = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

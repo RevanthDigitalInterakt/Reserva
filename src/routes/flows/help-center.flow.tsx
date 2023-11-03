@@ -1,69 +1,69 @@
-import { HelpCenter } from "../../modules/HelpCenter/pages/HelpCenter";
-import { Cashback } from "../../modules/HelpCenter/PagesHelp/Cashback";
-import { ClothingCare } from "../../modules/HelpCenter/PagesHelp/ClothingCare";
-import { Exchange } from "../../modules/HelpCenter/PagesHelp/Exchange";
-import { FacaVc } from "../../modules/HelpCenter/PagesHelp/FacaVc";
-import { FrequentDoubts } from "../../modules/HelpCenter/PagesHelp/FrequentDoubts";
-import { Payment } from "../../modules/HelpCenter/PagesHelp/Payment";
-import { Prime } from "../../modules/HelpCenter/PagesHelp/Prime";
-import { PrivacyPolicy } from "../../modules/HelpCenter/PagesHelp/PrivacyPolicy";
-import { Purchase } from "../../modules/HelpCenter/PagesHelp/Purchase";
-import { Request } from "../../modules/HelpCenter/PagesHelp/Request";
-import { Shipping } from "../../modules/HelpCenter/PagesHelp/Shipping";
-import { Signup } from "../../modules/HelpCenter/PagesHelp/Signup";
-import type { Flow } from "../types/flow.type";
+import { HelpCenter } from '../../modules/HelpCenter/pages/HelpCenter';
+import { Cashback } from '../../modules/HelpCenter/PagesHelp/Cashback';
+import { ClothingCare } from '../../modules/HelpCenter/PagesHelp/ClothingCare';
+import { Exchange } from '../../modules/HelpCenter/PagesHelp/Exchange';
+import { FacaVc } from '../../modules/HelpCenter/PagesHelp/FacaVc';
+import { FrequentDoubts } from '../../modules/HelpCenter/PagesHelp/FrequentDoubts';
+import { Payment } from '../../modules/HelpCenter/PagesHelp/Payment';
+import { Prime } from '../../modules/HelpCenter/PagesHelp/Prime';
+import { PrivacyPolicy } from '../../modules/HelpCenter/PagesHelp/PrivacyPolicy';
+import { Purchase } from '../../modules/HelpCenter/PagesHelp/Purchase';
+import { Request } from '../../modules/HelpCenter/PagesHelp/Request';
+import { Shipping } from '../../modules/HelpCenter/PagesHelp/Shipping';
+import { Signup } from '../../modules/HelpCenter/PagesHelp/Signup';
+import type { Flow } from '../types/flow.type';
 
 export const HelpCenterFLow: Flow[] = [
   {
     component: HelpCenter,
-    name: "HelpCenter",
+    name: 'HelpCenter',
   },
   {
     component: ClothingCare,
-    name: "ClothingCare",
+    name: 'ClothingCare',
   },
   {
     component: Prime,
-    name: "PrimeHelpInfo",
+    name: 'PrimeHelpInfo',
   },
   {
     component: Cashback,
-    name: "CashbackHelpInfo",
+    name: 'CashbackHelpInfo',
   },
   {
     component: Signup,
-    name: "SignupHelpInfo",
+    name: 'SignupHelpInfo',
   },
   {
     component: Purchase,
-    name: "PurchaseHelpInfo",
+    name: 'PurchaseHelpInfo',
   },
   {
     component: Payment,
-    name: "PaymentHelpInfo",
+    name: 'PaymentHelpInfo',
   },
   {
     component: Request,
-    name: "RequestHelpInfo",
+    name: 'RequestHelpInfo',
   },
   {
     component: Shipping,
-    name: "ShippingHelpInfo",
+    name: 'ShippingHelpInfo',
   },
   {
     component: Exchange,
-    name: "ExchangeHelpInfo",
+    name: 'ExchangeHelpInfo',
   },
   {
     component: FacaVc,
-    name: "FacaVcHelpInfo",
+    name: 'FacaVcHelpInfo',
   },
   {
     component: FrequentDoubts,
-    name: "FrequentDoubts",
+    name: 'FrequentDoubts',
   },
   {
     component: PrivacyPolicy,
-    name: "PrivacyPolicy",
+    name: 'PrivacyPolicy',
   },
 ];
