@@ -143,8 +143,8 @@ export function Signup() {
             </Box>
             <Box mb="nano">
               <Typography fontFamily="nunitoRegular" fontSize={14}>
-                Para solicitar uma nova senha, basta acessar "Minha conta" do
-                site, clicar em "Autenticação" e clicar no botão “Redefinir
+                Para solicitar uma nova senha, basta acessar &quot;Minha conta&quot; do
+                site, clicar em &quot;Autenticação&quot; e clicar no botão “Redefinir
                 Senha”.
               </Typography>
               <Image
@@ -153,8 +153,8 @@ export function Signup() {
                 resizeMode="contain"
               />
               <Typography fontFamily="nunitoRegular" fontSize={14}>
-                Caso não consiga acessar sua conta, pode clicar em "Entrar com
-                e-mail e senha" e selecionar a opção "Esqueci a minha Senha".
+                Caso não consiga acessar sua conta, pode clicar em &quot;Entrar com
+                e-mail e senha&quot; e selecionar a opção &quot;Esqueci a minha Senha&quot;.
                 serva.
               </Typography>
               <Image

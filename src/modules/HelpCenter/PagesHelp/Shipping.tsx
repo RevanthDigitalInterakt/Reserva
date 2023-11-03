@@ -64,6 +64,9 @@ const data = [
   },
 ];
 
+const shipping1Image = require('../../../../assets/help/shipping1.png');
+const shipping2Image = require('../../../../assets/help/shipping2.png');
+
 export function Shipping() {
   const openLink = useOpenLink();
 
@@ -90,12 +93,12 @@ export function Shipping() {
             </Box>
             <Box>
               <Typography fontFamily="nunitoRegular" fontSize={14}>
-                Para acompanhar a entrega do seu pedido, basta clicar em 'Minha
-                conta' no canto superior direito do nosso site, fazer login e
-                clicar em 'Meus pedidos'.
+                Para acompanhar a entrega do seu pedido, basta clicar em &apos;Minha
+                conta&apos; no canto superior direito do nosso site, fazer login e
+                clicar em &apos;Meus pedidos&apos;.
               </Typography>
               <Image
-                source={require('../../../../assets/help/shipping1.png')}
+                source={shipping1Image}
                 style={{ width: '100%' }}
                 resizeMode="contain"
               />
@@ -103,7 +106,7 @@ export function Shipping() {
                 Selecione seu pedido que apresentará um dos seguintes status:
               </Typography>
               <Image
-                source={require('../../../../assets/help/shipping2.png')}
+                source={shipping2Image}
                 style={{ width: '100%' }}
                 resizeMode="contain"
               />
