@@ -2,9 +2,6 @@ import axios from 'axios';
 import type { AxiosResponse } from 'axios';
 import { asyncRequestHandler } from '../utils/asyncRequestHandler'
 
-// https://intelitest--lojausereserva.myvtex.com/_v/getTrackingInvoice/33231016590234006450550050022653171887831862
-// https://intelitest--lojausereserva.myvtex.com/_v/getTrackingNumber/E24923026
-
 const _httpClient = axios.create({
   baseURL: 'https://intelitest--lojausereserva.myvtex.com'
 })
