@@ -164,6 +164,13 @@ interface LogisticsInfo {
   slas: Slas[];
   shippingEstimateDate: string;
   deliveryChannel: string;
+  pickupStoreInfo?: {
+    additionalInfo: null;
+    address: null;
+    dockId: null;
+    friendlyName: null;
+    isPickupStore: boolean;
+  };
 }
 
 interface BusinessHours {
