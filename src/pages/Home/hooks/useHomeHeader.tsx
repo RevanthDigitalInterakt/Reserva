@@ -38,7 +38,7 @@ export default function useHomeHeader() {
 
     Animated.timing(whiteHeaderTranslateAnimatedValueRef, {
       toValue: WITH_TRANSLATE,
-      duration: 100,
+      duration: 40,
       useNativeDriver: true,
     }).start();
 
@@ -88,13 +88,13 @@ export default function useHomeHeader() {
     if (direction === 'up') {
       Animated.timing(headerWithSearchOpacityAnimatedValueRef, {
         toValue: WITH_OPACITY,
-        duration: 80,
+        duration: 40,
         useNativeDriver: true,
       }).start();
     } else {
       Animated.timing(headerWithSearchOpacityAnimatedValueRef, {
         toValue: WITHOUT_OPACITY,
-        duration: 80,
+        duration: 40,
         useNativeDriver: true,
       }).start();
     }
