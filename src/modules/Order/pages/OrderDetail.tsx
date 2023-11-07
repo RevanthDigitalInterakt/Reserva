@@ -1,9 +1,21 @@
+
 import { useClipboard } from '@react-native-clipboard/clipboard';
 import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Linking, Platform, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from 'react';
+import {
+  Linking,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity
+} from 'react-native';
 
 import {
   fetchTrackingStatusByInvoiceKey,
@@ -93,9 +105,9 @@ const OrderList: React.FC<any> = ({ route }) => {
     setTimeout(() => setClickedIcon(false), 1000);
   };
 
-  const handleTrackingUrl = async () => {
-    await Linking.openURL(orderTrackingStatus.trackingData?.tracking_url)
-  };
+  const handleTrackingUrl = useCallback(async () => {
+    await Linking.openURL(orderTrackingStatus.trackingData?.tracking_url!)
+  }, []);
 
   const hasPackage = useMemo(() => {
     const pack = orderDetails?.packageAttachment?.packages[0]?.courierStatus;
