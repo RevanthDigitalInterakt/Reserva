@@ -107,7 +107,7 @@ const OrderList: React.FC<any> = ({ route }) => {
 
   const handleTrackingUrl = useCallback(async () => {
     await Linking.openURL(orderTrackingStatus.trackingData?.tracking_url!)
-  }, []);
+  }, [orderTrackingStatus]);
 
   const hasPackage = useMemo(() => {
     const pack = orderDetails?.packageAttachment?.packages[0]?.courierStatus;

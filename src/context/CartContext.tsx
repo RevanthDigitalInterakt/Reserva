@@ -166,9 +166,8 @@ interface LogisticsInfo {
   deliveryChannel: string;
   pickupStoreInfo?: {
     additionalInfo: string;
-    address: object;
     dockId: number | null;
-    friendlyName: string;
+    friendlyName: string; // Apenas esse campo será utilizado
     isPickupStore: boolean;
   };
 }
