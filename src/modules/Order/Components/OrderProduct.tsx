@@ -1,13 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {
-  Typography, Box, Button,
-} from '@usereservaapp/reserva-ui';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import ImageComponent from '../../../components/ImageComponent/ImageComponent';
 import configDeviceSizes from '../../../utils/configDeviceSizes';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { Typography } from '../../../components/Typography/Typography';
 
 type IOrderItemData = {
   listPrice?: number;
@@ -25,14 +25,13 @@ interface IOrderProduct {
   orderItem: IOrderItemData;
 }
 
-const OrderProduct = ({ orderItem }: IOrderProduct) => {
+function OrderProduct({ orderItem }: IOrderProduct) {
   const { navigate } = useNavigation();
 
   return (
-    <>
-      <Box flexDirection="row" mt="xxs">
-        <Box>
-          {orderItem
+    <Box flexDirection="row" mt="xxs">
+      <Box>
+        {orderItem
             && (
               <Button
                 onPress={() => {
@@ -61,41 +60,40 @@ const OrderProduct = ({ orderItem }: IOrderProduct) => {
                 />
               </Button>
             )}
+      </Box>
+
+      <Box ml="micro" flex={1}>
+        <Box mb="nano">
+          <Typography fontSize={13} fontFamily="nunitoBold">
+            {orderItem?.name?.split(' - ')[0]}
+          </Typography>
         </Box>
 
-        <Box ml="micro" flex={1}>
-          <Box mb="nano">
-            <Typography fontSize={13} fontFamily="nunitoBold">
-              {orderItem?.name?.split(' - ')[0]}
-            </Typography>
-          </Box>
-
-          <Box flexDirection="row">
-            <Typography
-              color="neutroFrio2"
-              fontSize={11}
-              fontFamily="nunitoRegular"
-            >
-              De:
-              {' '}
-            </Typography>
-            <PriceCustom
-              fontFamily="nunitoSemiBold"
-              sizeInterger={15}
-              sizeDecimal={11}
-              num={orderItem?.listPrice ? orderItem?.listPrice / 100 : 0}
-            />
-          </Box>
+        <Box flexDirection="row">
+          <Typography
+            color="neutroFrio2"
+            fontSize={11}
+            fontFamily="nunitoRegular"
+          >
+            De:
+            {' '}
+          </Typography>
           <PriceCustom
             fontFamily="nunitoSemiBold"
             sizeInterger={15}
             sizeDecimal={11}
-            num={orderItem.price / 100}
+            num={orderItem?.listPrice ? orderItem?.listPrice / 100 : 0}
           />
         </Box>
+        <PriceCustom
+          fontFamily="nunitoSemiBold"
+          sizeInterger={15}
+          sizeDecimal={11}
+          num={orderItem.price / 100}
+        />
       </Box>
-    </>
+    </Box>
   );
-};
+}
 
 export default OrderProduct;

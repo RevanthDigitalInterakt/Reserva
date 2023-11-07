@@ -1,14 +1,12 @@
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
-import { BackHandler, Linking, ScrollView } from 'react-native';
 import {
-  Box, Divider, theme, Typography,
-} from '@usereservaapp/reserva-ui';
-import AsyncStorage from '@react-native-community/async-storage';
+  BackHandler, Linking, ScrollView, View,
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackActions, useLinkTo, useNavigation } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
-import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { RootStackParamList } from '../../routes/StackNavigator';
@@ -16,13 +14,17 @@ import { TopBarMenu } from '../../modules/Menu/components/TopBarMenu';
 import testProps from '../../utils/testProps';
 import EventProvider from '../../utils/EventProvider';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
-import { MenuCategoryItemOutput, MenuItemTypeEnum, useAppMenuQuery } from '../../base/graphql/generated';
+import { type MenuCategoryItemOutput, MenuItemTypeEnum, useAppMenuQuery } from '../../base/graphql/generated';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import MenuItem from './components/MenuItem';
 import FixedMenuItem from './components/MenuFixedItem';
 import { getDitoUserID } from '../../utils/Dito/src/utils/getDitoUserID';
 import MenuBreadcrumb from './components/MenuBreadcrumb';
+import { Box } from '../../components/Box/Box';
+import { Divider } from '../../components/Divider/Divider';
+import { Typography } from '../../components/Typography/Typography';
+import { theme } from '../../base/usereservappLegacy/theme';
 
 export type MenuProps = StackScreenProps<RootStackParamList, 'Menu'>;
 
@@ -49,16 +51,14 @@ function Menu() {
 
     const id = await getDitoUserID(profile?.email);
 
-    EventProvider.sendTrackEvent(
-      'acessou-departamento', {
-        id,
-        action: 'acessou-departamento',
-        data: {
-          nome_departamento: openedCategories,
-          origem: 'app',
-        },
+    EventProvider.sendTrackEvent('acessou-departamento', {
+      id,
+      action: 'acessou-departamento',
+      data: {
+        nome_departamento: openedCategories,
+        origem: 'app',
       },
-    );
+    });
   }, [profile?.email]);
 
   const getTestEnvironment = useCallback(async () => {
@@ -128,7 +128,7 @@ function Menu() {
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
 
           {data?.appMenu?.length && (
-            <Animatable.View animation="fadeIn">
+            <View>
               {data.appMenu.map((item, index) => (
                 <MenuItem
                   key={`${item.name}-${item.type}-${item.children.length}`}
@@ -190,7 +190,7 @@ function Menu() {
                 title="Política de Privacidade"
                 onPress={() => navigateFromMenu('PrivacyPolicy')}
               />
-            </Animatable.View>
+            </View>
           )}
 
           <Box mt="xs" alignItems="center">

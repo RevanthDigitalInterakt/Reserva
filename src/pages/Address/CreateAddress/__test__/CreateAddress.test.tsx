@@ -1,5 +1,4 @@
 import React from 'react';
-import { theme } from '@usereservaapp/reserva-ui';
 import { MockedProvider } from '@apollo/client/testing';
 import { ThemeProvider } from 'styled-components/native';
 import {
@@ -13,6 +12,7 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import CreateAddress from '../CreateAddress';
 import CartContextProvider from '../../../../context/CartContext';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
+import { theme } from '../../../../base/usereservappLegacy/theme';
 
 type TNavigation = StackScreenProps<RootStackParamList, 'CreateAddress'>['navigation'];
 

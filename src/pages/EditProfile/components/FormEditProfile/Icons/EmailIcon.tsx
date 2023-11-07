@@ -1,13 +1,15 @@
-import { Box, Icon } from '@usereservaapp/reserva-ui';
 import React from 'react';
 import type { IDefaultIconProps } from '../interfaces/icons';
+
+import { Box } from '../../../../../components/Box/Box';
+import { IconLegacy } from '../../../../../components/IconLegacy/IconLegacy';
 
 interface IEmailIconProps extends IDefaultIconProps {}
 function EmailIcon({ isEmpty }: IEmailIconProps) {
   return (
     <Box ml="nano">
       {!isEmpty && (
-        <Icon
+        <IconLegacy
           color="preto"
           name="Check"
           size={18}

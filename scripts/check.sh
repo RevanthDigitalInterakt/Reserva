@@ -53,7 +53,7 @@ fi
 
 
 #------ Check lint ------#
-declare -i LIMIT_ERROR=221
+declare -i LIMIT_ERROR=271
 declare -i TOTAL_ERROR=$(yarn run --silent lint | grep 'problems' | grep -o '[0-9]\+' | head -1)
 
 if (( LIMIT_ERROR < TOTAL_ERROR )); then

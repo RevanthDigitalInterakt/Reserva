@@ -1,9 +1,11 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
+
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { Typography } from '../../../components/Typography/Typography';
 import { instance } from '../../../config/vtexConfig';
 import { useRegionalSearch } from '../../../context/RegionalSearchContext';
 import { TopBarBackButtonWithoutLogo } from '../../Menu/components/TopBarBackButtonWithoutLogo';
@@ -23,7 +25,7 @@ export interface CepsInfo {
 
 export type SearchBy = 'cep' | 'address';
 
-export const CEPList = ({ ...props }) => {
+export function CEPList({ ...props }) {
   const {
     route: {
       params: {
@@ -61,11 +63,9 @@ export const CEPList = ({ ...props }) => {
         },
       });
       const { data: response } = await instance.get(`/segments/${data.segmentToken}`);
-      const value = await AsyncStorage.setItem('RegionalSearch:cep', cep);
 
       setRegionId(response.regionId);
       setSegmentToken(data.segmentToken);
-      // setCep(cep)
       navigation.navigate('Home');
     }
   };
@@ -114,7 +114,7 @@ export const CEPList = ({ ...props }) => {
         contentContainerStyle={{
         }}
         keyExtractor={(_, index) => index.toString()}
-        renderItem={({ item, index }) => (
+        renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => selectCep(item.cep)}
             containerStyle={{
@@ -201,4 +201,4 @@ export const CEPList = ({ ...props }) => {
       />
     </SafeAreaView>
   );
-};
+}

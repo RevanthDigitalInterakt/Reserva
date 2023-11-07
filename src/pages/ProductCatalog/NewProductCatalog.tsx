@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
-import { Box } from '@usereservaapp/reserva-ui';
 import NewListVerticalProducts from '../../components/NewListVerticalProducts/NewListVerticalProducts';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { generateFacets } from '../../utils/generateFacets';
@@ -12,6 +11,7 @@ import Banner from './components/Banner/Banner';
 import { ClockScreenEnum } from '../../base/graphql/generated';
 import ProductNotFound from '../Search/components/ProductNotFound/ProductNotFound';
 import { CatalogSkeleton } from './components/CatalogSkeleton/CatalogSkeleton';
+import { Box } from '../../components/Box/Box';
 import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
 import { useHomeStore } from '../../zustand/useHomeStore';
 
@@ -19,7 +19,7 @@ type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
 const defaultReference = 'collection:2407';
 
-function NewProductCatalog({ route }: Props) {
+function NewProductCatalog({ navigation, route }: Props) {
   const {
     doFetchMore,
     loading,
@@ -38,6 +38,7 @@ function NewProductCatalog({ route }: Props) {
     'onInit',
   ]);
 
+  const [isGoingBack, setIsGoingBack] = useState(false);
   const [loadingMedias, setLoadingMedias] = useState(false);
   const { referenceId, filters } = route.params;
   const { offersPage } = useHomeStore(['offersPage']);
@@ -63,18 +64,19 @@ function NewProductCatalog({ route }: Props) {
   }, [loading, startLoadingTime, onFinishLoad]);
 
   useEffect(() => {
-    onInit(SearchType.CATALOG);
+    const unsubscribe = navigation.addListener('focus', async () => {
+      if (isGoingBack) {
+        setIsGoingBack(false);
+        return;
+      }
 
-    return () => {
       onInit(SearchType.CATALOG);
-    };
-  }, [onInit]);
-
-  useEffect(() => {
-    onSearch({
-      facets: defaultFacets,
+      onSearch({
+        facets: defaultFacets,
+      });
     });
-  }, [defaultFacets, onSearch]);
+    return unsubscribe;
+  }, [defaultFacets, navigation, onSearch, onInit, isGoingBack]);
 
   const hasFilters = useMemo(() => !!parameters.facets.length, [parameters.facets]);
 
@@ -85,37 +87,34 @@ function NewProductCatalog({ route }: Props) {
       );
     }
 
-    if (!result.length && !hasFilters) {
+    if (!result.length && !hasFilters && !loading) {
       return <ProductNotFound />;
     }
 
     return (
-      <>
-        <NewListVerticalProducts
-          data={result}
-          loading={loading}
-          headerComponent={(
-            <>
-              <NewCountdown
-                reference={reference}
-                selectClockScreen={countdownType}
-              />
-
-              <Banner
-                setLoading={setLoadingMedias}
-                reference={reference}
-              />
-
-              <ProductCatalogHeader
-                defaultFacets={defaultFacets}
-              />
-            </>
+      <NewListVerticalProducts
+        data={result}
+        loading={loading}
+        cacheGoingBackRequest={() => setIsGoingBack(true)}
+        headerComponent={(
+          <>
+            <NewCountdown
+              reference={reference}
+              selectClockScreen={countdownType}
+            />
+            <Banner
+              setLoading={setLoadingMedias}
+              reference={reference}
+            />
+            <ProductCatalogHeader
+              defaultFacets={defaultFacets}
+            />
+          </>
         )}
-          marginBottom={0}
-          onFetchMore={doFetchMore}
-          total={resultCount}
-        />
-      </>
+        marginBottom={0}
+        onFetchMore={doFetchMore}
+        total={resultCount}
+      />
     );
   }, [
     loadingMedias,

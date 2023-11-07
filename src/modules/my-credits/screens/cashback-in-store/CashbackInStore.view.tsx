@@ -1,9 +1,3 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  Typography,
-} from '@usereservaapp/reserva-ui';
 import React, { useEffect } from 'react';
 import { ImageBackground } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
@@ -17,6 +11,10 @@ import {
   profileQuery,
 } from '../../../../graphql/profile/profileQuery';
 import IconComponent from '../../../../components/IconComponent/IconComponent';
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Button } from '../../../../components/Button';
+import { Checkbox } from '../../../../components/Checkbox/Checkbox';
 
 export interface CashbackInStoreViewProps {
   token?: string;
@@ -27,14 +25,14 @@ export interface CashbackInStoreViewProps {
   acceptTermsAndConditions: () => void;
 }
 
-export const CashbackInStoreView = ({
+export function CashbackInStoreView({
   token,
   generateToken,
   toggleModal,
   modalVisible,
   termsIsAccepted,
   acceptTermsAndConditions,
-}: CashbackInStoreViewProps) => {
+}: CashbackInStoreViewProps) {
   const [getProfile] = useLazyQuery(profileQuery, { fetchPolicy: 'no-cache' });
   const navigation = useNavigation();
 
@@ -45,91 +43,89 @@ export const CashbackInStoreView = ({
   }, []);
 
   return (
-    <>
-      <Box mx="xxs" mt="sm">
-        <Box mb="nano">
-          <Typography fontFamily="reservaSerifMedium" fontSize={28}>
-            Cashback em Lojas
-          </Typography>
-        </Box>
-        <Box mb="xxs">
-          <Typography fontFamily="nunitoRegular" fontSize={14}>
-            Use o QR Code para gerar cashback nas compras em lojas físicas.
-          </Typography>
-        </Box>
-        <Box mt="xl" alignItems="center" justifyContent="center">
-          <ImageBackground
-            source={images.QrcodeBackground}
-            style={{ width: 230, height: 230, justifyContent: 'center' }}
-            resizeMode="contain"
-          >
-            <Box alignItems="center" justifyContent="center">
-              {token ? (
-                <QRCode
-                  value={token}
-                  logo={images.logoQRCode}
-                  logoSize={40}
-                  size={200}
-                />
-              ) : (
-                <IconComponent icon="imageCashback" width={200} height={200} />
-              )}
-            </Box>
-          </ImageBackground>
-          <Box mt="xl" mb="xxs" width="100%">
-            <Button
-              onPress={() => generateToken()}
-              height={50}
-              bg="preto"
-              width="100%"
-              disabled={!termsIsAccepted}
-            >
-              <Typography color="white">GERAR QR CODE</Typography>
-            </Button>
-          </Box>
-
-          <ModalTermsAndConditionsCashback
-            isVisible={modalVisible}
-            setIsVisible={toggleModal}
-            setTermAndConditions={acceptTermsAndConditions}
-          />
-
-          <Box
-            borderRadius={4}
-            bg="#F9F8F6"
-            borderWidth={1}
-            borderColor="#C7C3B7"
-            flexDirection="row"
-            width="100%"
-            alignItems="center"
-            mb="nano"
-            height={42}
-          >
-            <Box>
-              <Checkbox
-                marginLeft={13}
-                checked={termsIsAccepted}
-                color="preto"
-                onCheck={acceptTermsAndConditions}
+    <Box mx="xxs" mt="sm">
+      <Box mb="nano">
+        <Typography fontFamily="reservaSerifMedium" fontSize={28}>
+          Cashback em Lojas
+        </Typography>
+      </Box>
+      <Box mb="xxs">
+        <Typography fontFamily="nunitoRegular" fontSize={14}>
+          Use o QR Code para gerar cashback nas compras em lojas físicas.
+        </Typography>
+      </Box>
+      <Box mt="xl" alignItems="center" justifyContent="center">
+        <ImageBackground
+          source={images.QrcodeBackground}
+          style={{ width: 230, height: 230, justifyContent: 'center' }}
+          resizeMode="contain"
+        >
+          <Box alignItems="center" justifyContent="center">
+            {token ? (
+              <QRCode
+                value={token}
+                logo={images.logoQRCode}
+                logoSize={40}
+                size={200}
               />
-            </Box>
-            <Box>
-              <Button onPress={toggleModal}>
-                <Typography
-                  fontFamily="nunitoRegular"
-                  fontSize={14}
-                  color="preto"
-                >
-                  {'Li e aceito os '}
-                  <Typography style={{ textDecorationLine: 'underline' }}>
-                    termos e condições de uso.
-                  </Typography>
+            ) : (
+              <IconComponent icon="imageCashback" width={200} height={200} />
+            )}
+          </Box>
+        </ImageBackground>
+        <Box mt="xl" mb="xxs" width="100%">
+          <Button
+            onPress={() => generateToken()}
+            height={50}
+            bg="preto"
+            width="100%"
+            disabled={!termsIsAccepted}
+          >
+            <Typography color="white">GERAR QR CODE</Typography>
+          </Button>
+        </Box>
+
+        <ModalTermsAndConditionsCashback
+          isVisible={modalVisible}
+          setIsVisible={toggleModal}
+          setTermAndConditions={acceptTermsAndConditions}
+        />
+
+        <Box
+          borderRadius={4}
+          bg="#F9F8F6"
+          borderWidth={1}
+          borderColor="#C7C3B7"
+          flexDirection="row"
+          width="100%"
+          alignItems="center"
+          mb="nano"
+          height={42}
+        >
+          <Box>
+            <Checkbox
+              marginLeft={13}
+              checked={termsIsAccepted}
+              color="preto"
+              onCheck={acceptTermsAndConditions}
+            />
+          </Box>
+          <Box>
+            <Button onPress={toggleModal}>
+              <Typography
+                fontFamily="nunitoRegular"
+                fontSize={14}
+                color="preto"
+              >
+                {'Li e aceito os '}
+                <Typography style={{ textDecorationLine: 'underline' }}>
+                  termos e condições de uso.
                 </Typography>
-              </Button>
-            </Box>
+              </Typography>
+            </Button>
           </Box>
         </Box>
       </Box>
-    </>
+    </Box>
   );
-};
+}

@@ -1,12 +1,15 @@
 import React, { useMemo } from 'react';
-import {
-  Box, Button, decimalPart, Icon, integerPart, Typography,
-} from '@usereservaapp/reserva-ui';
 import { TouchableOpacity } from 'react-native';
-import { slugify } from '../../../../utils/slugify';
-import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
-import configDeviceSizes from '../../../../utils/configDeviceSizes';
+
 import type { OrderFormQuery } from '../../../../base/graphql/generated';
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
+import { Typography } from '../../../../components/Typography/Typography';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
+import { decimalPart, integerPart } from '../../../../utils/numberUtils';
+import { slugify } from '../../../../utils/slugify';
 import testProps from '../../../../utils/testProps';
 
 interface IProductListItemPrime {
@@ -162,7 +165,7 @@ function ProductListItemPrime({
             }}
             variant="icone"
             onPress={onDelete}
-            icon={<Icon name="Close" size={11} color="preto" />}
+            icon={<IconLegacy name="Close" size={11} color="preto" />}
           />
         </Box>
       </Box>

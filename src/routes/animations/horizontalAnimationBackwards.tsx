@@ -1,7 +1,7 @@
 import {
   HeaderStyleInterpolators,
-  StackCardInterpolationProps,
-  StackNavigationOptions,
+  type StackCardInterpolationProps,
+  type StackNavigationOptions,
   TransitionSpecs,
 } from '@react-navigation/stack';
 

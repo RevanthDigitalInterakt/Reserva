@@ -25,9 +25,9 @@ export const ChronometerContext = createContext<ChronometerContextProps>(default
 interface ChronometerContextProviderProps {
   children?: ReactNode;
 }
-const ChronometerContextProvider = ({
+function ChronometerContextProvider({
   children,
-}: ChronometerContextProviderProps) => {
+}: ChronometerContextProviderProps) {
   const [time, setTime] = useState<Time>();
 
   return (
@@ -35,7 +35,7 @@ const ChronometerContextProvider = ({
       {children}
     </ChronometerContext.Provider>
   );
-};
+}
 
 export default ChronometerContextProvider;
 

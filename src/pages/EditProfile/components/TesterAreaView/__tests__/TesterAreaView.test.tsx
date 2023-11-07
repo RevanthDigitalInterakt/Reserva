@@ -1,11 +1,11 @@
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@usereservaapp/reserva-ui';
 import React from 'react';
-import {
+import
+{
   act, fireEvent, render, screen,
 } from '@testing-library/react-native';
-import Clipboard from '@react-native-community/clipboard';
-import AsyncStorage from '@react-native-community/async-storage';
+import Clipboard from '@react-native-clipboard/clipboard';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import TesterAreaViewComponent from '../TesterAreaViewComponent';
 import CartContextProvider from '../../../../../context/CartContext';
 

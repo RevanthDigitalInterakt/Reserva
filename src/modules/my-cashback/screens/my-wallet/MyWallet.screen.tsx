@@ -3,7 +3,7 @@ import React from 'react';
 import { BaseScreen } from '../../../../components/BaseScreen';
 import { MyWalletContainer } from './MyWallet.container';
 
-export const MyWalletScreen = () => {
+export function MyWalletScreen() {
   const navigation = useNavigation();
 
   const navigateBack = () => {
@@ -23,4 +23,4 @@ export const MyWalletScreen = () => {
       />
     </BaseScreen>
   );
-};
+}

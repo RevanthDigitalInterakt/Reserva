@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
-import { Typography } from '@usereservaapp/reserva-ui';
 import IconPrimeDiscount from '../Icons/IconPrimeDiscount';
 import IconPrimeFreeShipping from '../Icons/IconPrimeFreeShipping';
 import IconPrimeCashback from '../Icons/IconPrimeCashback';
 import { styles } from './PrimeBenefits.styles';
 import type { PrimeDetailOutput } from '../../../../base/graphql/generated';
 import IconPrimePartners from '../Icons/IconPrimePartners';
+import { Typography } from '../../../../components/Typography/Typography';
 
 interface IPrimeBenefits {
   data: PrimeDetailOutput;

@@ -1,5 +1,7 @@
-import { Box, Typography } from '@usereservaapp/reserva-ui';
 import React from 'react';
+
+import { Box } from '../../../../components/Box/Box';
+import { Typography } from '../../../../components/Typography/Typography';
 
 export function FirstPurchaseDiscount({ discountText }: { discountText: string }) {
   return (

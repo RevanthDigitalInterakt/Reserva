@@ -12,7 +12,7 @@ MyCreditsParamList,
 MyCreditsScreensRoutes.CHANGE_PHONE_NUMBER
 >;
 
-export const ChangePhoneNumberScreen = ({ route }: ChangePhoneNumberScreenProps) => {
+export function ChangePhoneNumberScreen({ route }: ChangePhoneNumberScreenProps) {
   const navigation = useNavigation();
 
   const navigateBack = () => {
@@ -43,4 +43,4 @@ export const ChangePhoneNumberScreen = ({ route }: ChangePhoneNumberScreenProps)
       />
     </BaseScreen>
   );
-};
+}

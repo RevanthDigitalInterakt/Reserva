@@ -1,16 +1,14 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import {
-  Counter,
-  Icon,
-  Checkbox,
-  Box,
-  Typography,
-} from '@usereservaapp/reserva-ui';
 import { integerPart, decimalPart } from '../../utils/numberUtils';
 import { Button } from '../Button';
 import ImageComponent from '../ImageComponent/ImageComponent';
 import configDeviceSizes from '../../utils/configDeviceSizes';
+import { Counter } from '../Counter/Counter';
+import { Box } from '../Box/Box';
+import { Typography } from '../Typography/Typography';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
+import { Checkbox } from '../Checkbox/Checkbox';
 
 interface ProductHorizontalListCardProps {
   currency?: string
@@ -41,7 +39,7 @@ interface ProductHorizontalListCardProps {
   testID?: string;
 }
 
-export const ProductHorizontalListCard = ({
+export function ProductHorizontalListCard({
   currency = 'R$',
   discountTag,
   imageSource,
@@ -67,87 +65,52 @@ export const ProductHorizontalListCard = ({
   isGiftable = false,
   isGift = false,
   testID,
-}: ProductHorizontalListCardProps) => {
+}: ProductHorizontalListCardProps) {
   const handleToggleIsGift = () => {
     handleToggleGift?.(!isGift);
   };
 
   return (
-    <>
-      <Box
-        flexDirection="row"
-        height={height || 152}
-        justifyContent="space-between"
-        flexGrow={1}
-      >
-        <Box flexDirection="row">
-          <Box marginRight="micro">
+    <Box
+      flexDirection="row"
+      height={height || 152}
+      justifyContent="space-between"
+      flexGrow={1}
+    >
+      <Box flexDirection="row">
+        <Box marginRight="micro">
 
-            <TouchableOpacity onPress={handleNavigateToProductDetail} testID={`${testID}_image`}>
-              <ImageComponent
-                source={{ uri: imageSource }}
-                style={{
-                  height: '100%',
-                  width: imageWidth || configDeviceSizes.DEVICE_WIDTH * 0.25,
-                }}
-              />
-            </TouchableOpacity>
+          <TouchableOpacity onPress={handleNavigateToProductDetail} testID={`${testID}_image`}>
+            <ImageComponent
+              source={{ uri: imageSource }}
+              style={{
+                height: '100%',
+                width: imageWidth || configDeviceSizes.DEVICE_WIDTH * 0.25,
+              }}
+            />
+          </TouchableOpacity>
+        </Box>
+
+        <Box>
+          <Box flexDirection="row" width={configDeviceSizes.DEVICE_WIDTH * 0.53}>
+            <Typography
+              fontFamily="nunitoBold"
+              fontSize="13px"
+              textAlign="center"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {productTitle}
+            </Typography>
           </Box>
-
-          <Box>
-            <Box flexDirection="row" width={configDeviceSizes.DEVICE_WIDTH * 0.53}>
-              <Typography
-                fontFamily="nunitoBold"
-                fontSize="13px"
-                textAlign="center"
-                numberOfLines={1}
-                ellipsizeMode="tail"
-              >
-                {productTitle}
-              </Typography>
-            </Box>
-            <Box width={230} justifyContent="space-between" flexGrow={1}>
-              {!onClickAddCount
-                ? (
-                  <Box
-                    flexDirection="row"
-                    marginTop="quarck"
-                  >
-                    <Box mr="micro">
-                      <Button
-                        borderRadius="nano"
-                        borderColor="dropDownBorderColor"
-                        borderWidth="hairline"
-                        flexDirection="row"
-                        inline
-                        height={25}
-                        testID={`${testID}_size`}
-                        onPress={onClickPiker}
-                      >
-                        <Box
-                          paddingLeft="nano"
-                          flexDirection="row"
-                          justifyContent="space-between"
-                        >
-                          <Typography
-                            fontFamily="nunitoRegular"
-                            fontSize="11px"
-                            color="preto"
-                          >
-                            {`Tam: ${ItemSize}`}
-                          </Typography>
-                          <Icon
-                            style={{ transform: [{ rotate: '90deg' }] }}
-                            name="ChevronRight"
-                            color="preto"
-                            marginLeft="micro"
-                            marginRight="nano"
-                            size={16}
-                          />
-                        </Box>
-                      </Button>
-                    </Box>
-
+          <Box width={230} justifyContent="space-between" flexGrow={1}>
+            {!onClickAddCount
+              ? (
+                <Box
+                  flexDirection="row"
+                  marginTop="quarck"
+                >
+                  <Box mr="micro">
                     <Button
                       borderRadius="nano"
                       borderColor="dropDownBorderColor"
@@ -155,9 +118,8 @@ export const ProductHorizontalListCard = ({
                       flexDirection="row"
                       inline
                       height={25}
-                      testID={`${testID}_color`}
-                      onPress={() => {
-                      }}
+                      testID={`${testID}_size`}
+                      onPress={onClickPiker}
                     >
                       <Box
                         paddingLeft="nano"
@@ -169,9 +131,9 @@ export const ProductHorizontalListCard = ({
                           fontSize="11px"
                           color="preto"
                         >
-                          {`Cor: ${itemColor}`}
+                          {`Tam: ${ItemSize}`}
                         </Typography>
-                        <Icon
+                        <IconLegacy
                           style={{ transform: [{ rotate: '90deg' }] }}
                           name="ChevronRight"
                           color="preto"
@@ -182,116 +144,151 @@ export const ProductHorizontalListCard = ({
                       </Box>
                     </Button>
                   </Box>
-                )
-                : (
-                  <Box flexDirection="row" marginTop="quarck">
-                    <Box
-                      borderRadius="nano"
-                      marginRight="micro"
-                      borderColor="dropDownBorderColor"
-                      borderWidth="hairline"
-                      flexDirection="row"
-                      alignItems="center"
-                      height={25}
-                    >
-                      <Box
-                        paddingX="nano"
-                        flexDirection="row"
-                        justifyContent="space-between"
-                      >
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          fontSize="11px"
-                          color="preto"
-                        >
-                          {`Tam: ${ItemSize}`}
-                        </Typography>
-                      </Box>
-                    </Box>
 
+                  <Button
+                    borderRadius="nano"
+                    borderColor="dropDownBorderColor"
+                    borderWidth="hairline"
+                    flexDirection="row"
+                    inline
+                    height={25}
+                    testID={`${testID}_color`}
+                    onPress={() => {
+                    }}
+                  >
                     <Box
-                      borderRadius="nano"
-                      borderColor="dropDownBorderColor"
-                      borderWidth="hairline"
+                      paddingLeft="nano"
                       flexDirection="row"
-                      alignItems="center"
-                      height={25}
+                      justifyContent="space-between"
                     >
-                      <Box
-                        paddingX="nano"
-                        flexDirection="row"
-                        justifyContent="space-between"
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize="11px"
+                        color="preto"
                       >
-                        <Typography
-                          fontFamily="nunitoRegular"
-                          fontSize="11px"
-                          color="preto"
-                        >
-                          {`Cor: ${itemColor}`}
-                        </Typography>
-                        <Box />
-                      </Box>
+                        {`Cor: ${itemColor}`}
+                      </Typography>
+                      <IconLegacy
+                        style={{ transform: [{ rotate: '90deg' }] }}
+                        name="ChevronRight"
+                        color="preto"
+                        marginLeft="micro"
+                        marginRight="nano"
+                        size={16}
+                      />
+                    </Box>
+                  </Button>
+                </Box>
+              )
+              : (
+                <Box flexDirection="row" marginTop="quarck">
+                  <Box
+                    borderRadius="nano"
+                    marginRight="micro"
+                    borderColor="dropDownBorderColor"
+                    borderWidth="hairline"
+                    flexDirection="row"
+                    alignItems="center"
+                    height={25}
+                  >
+                    <Box
+                      paddingX="nano"
+                      flexDirection="row"
+                      justifyContent="space-between"
+                    >
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize="11px"
+                        color="preto"
+                      >
+                        {`Tam: ${ItemSize}`}
+                      </Typography>
                     </Box>
                   </Box>
-                )}
-              <Box flexDirection="row" alignItems="center">
-                <Box>
-                  <Box flexDirection="row" alignItems="flex-end">
-                    <Typography
-                      fontFamily="nunitoBold"
-                      fontSize="15px"
-                      color="neutroFrio2"
+
+                  <Box
+                    borderRadius="nano"
+                    borderColor="dropDownBorderColor"
+                    borderWidth="hairline"
+                    flexDirection="row"
+                    alignItems="center"
+                    height={25}
+                  >
+                    <Box
+                      paddingX="nano"
+                      flexDirection="row"
+                      justifyContent="space-between"
                     >
-                      {discountTag ? (
-                        `De ${currency || 'R$'} `
-                      ) : (
-                        <Typography fontFamily="nunitoRegular" color="neutroFrio2">
-                          {'Por\n'}
-                          <Typography
-                            fontFamily="nunitoBold"
-                            color={discountTag ? 'neutroFrio2' : 'preto'}
-                          >
-                            {currency || 'R$'}
-                          </Typography>
+                      <Typography
+                        fontFamily="nunitoRegular"
+                        fontSize="11px"
+                        color="preto"
+                      >
+                        {`Cor: ${itemColor}`}
+                      </Typography>
+                      <Box />
+                    </Box>
+                  </Box>
+                </Box>
+              )}
+            <Box flexDirection="row" alignItems="center">
+              <Box>
+                <Box flexDirection="row" alignItems="flex-end">
+                  <Typography
+                    fontFamily="nunitoBold"
+                    fontSize="15px"
+                    color="neutroFrio2"
+                  >
+                    {discountTag ? (
+                      `De ${currency || 'R$'} `
+                    ) : (
+                      <Typography fontFamily="nunitoRegular" color="neutroFrio2">
+                        {'Por\n'}
+                        <Typography
+                          fontFamily="nunitoBold"
+                          color={discountTag ? 'neutroFrio2' : 'preto'}
+                        >
+                          {currency || 'R$'}
                         </Typography>
-                      )}
-                    </Typography>
-                    <Typography
-                      fontFamily="nunitoBold"
-                      fontSize="15px"
-                      color={discountTag ? 'neutroFrio2' : 'preto'}
-                      style={
+                      </Typography>
+                    )}
+                  </Typography>
+                  <Typography
+                    fontFamily="nunitoBold"
+                    fontSize="15px"
+                    color={discountTag ? 'neutroFrio2' : 'preto'}
+                    style={
                       discountTag
                         ? {
                           textDecorationLine: 'line-through',
                         }
                         : {}
                     }
-                    >
-                      {discountTag
-                        ? `${integerPart(price)},`
-                        : `\n${integerPart(price)},`}
-                    </Typography>
-                    <Box mb={8}>
-                      <Typography
-                        fontFamily="nunitoBold"
-                        fontSize="8px"
-                        color={discountTag ? 'neutroFrio2' : 'preto'}
-                        style={
+                  >
+                    {discountTag
+                      ? `${integerPart(price)},`
+                      : `\n${integerPart(price)},`}
+                  </Typography>
+                  <Box mb={8}>
+                    <Typography
+                      fontFamily="nunitoBold"
+                      fontSize="8px"
+                      color={discountTag ? 'neutroFrio2' : 'preto'}
+                      style={
                         discountTag
                           ? {
                             textDecorationLine: 'line-through',
                           }
                           : {}
                       }
-                      >
-                        {discountTag
-                          ? `${decimalPart(price)}`
-                          : `\n${decimalPart(price)}`}
-                      </Typography>
-                    </Box>
+                    >
+                      {discountTag
+                        ? `${decimalPart(price)}`
+                        : `\n${decimalPart(price)}`}
+                    </Typography>
                   </Box>
-                  {(priceWithDiscount === 0 && isGift) && (
+                </Box>
+                {(priceWithDiscount === 0 && isGift) && (
                   <Box flexDirection="row">
                     <Typography
                       fontFamily="nunitoBold"
@@ -302,8 +299,8 @@ export const ProductHorizontalListCard = ({
                     </Typography>
                   </Box>
 
-                  )}
-                  {discountTag && priceWithDiscount !== 0 && (
+                )}
+                {discountTag && priceWithDiscount !== 0 && (
                   <Box flexDirection="row">
                     <Typography
                       fontFamily="nunitoBold"
@@ -318,7 +315,9 @@ export const ProductHorizontalListCard = ({
                       }
                     >
                       {`${currency || 'R$'} ${integerPart(
-                        discountApi ? priceWithDiscount + Math.abs(discountApi) : priceWithDiscount,
+                        discountApi
+                          ? priceWithDiscount + Math.abs(discountApi)
+                          : priceWithDiscount,
                       )},`}
                     </Typography>
                     <Typography
@@ -334,39 +333,41 @@ export const ProductHorizontalListCard = ({
                       }
                     >
                       {`${decimalPart(
-                        discountApi ? priceWithDiscount + Math.abs(discountApi) : priceWithDiscount,
+                        discountApi
+                          ? priceWithDiscount + Math.abs(discountApi)
+                          : priceWithDiscount,
                       )}`}
                     </Typography>
                   </Box>
-                  )}
-                  {discountApi ? (
-                    <Box flexDirection="row">
-                      <Typography
-                        fontFamily="nunitoBold"
-                        fontSize="14px"
-                        color="vermelhoRSV"
-                      >
-                        {`R$ ${integerPart(priceWithDiscount || price)},`}
-                      </Typography>
-                      <Typography
-                        fontFamily="nunitoBold"
-                        fontSize="8px"
-                        color="vermelhoRSV"
-                      >
-                        {decimalPart(priceWithDiscount || price)}
-                      </Typography>
-                    </Box>
-                  ) : null}
-                </Box>
+                )}
+                {discountApi ? (
+                  <Box flexDirection="row">
+                    <Typography
+                      fontFamily="nunitoBold"
+                      fontSize="14px"
+                      color="vermelhoRSV"
+                    >
+                      {`R$ ${integerPart(priceWithDiscount || price)},`}
+                    </Typography>
+                    <Typography
+                      fontFamily="nunitoBold"
+                      fontSize="8px"
+                      color="vermelhoRSV"
+                    >
+                      {decimalPart(priceWithDiscount || price)}
+                    </Typography>
+                  </Box>
+                ) : null}
               </Box>
-              <Box
-                width="100%"
-                flexDirection="row"
-                alignItems="center"
-                justifyContent="space-between"
-                position="relative"
-              >
-                {count && (
+            </Box>
+            <Box
+              width="100%"
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="space-between"
+              position="relative"
+            >
+              {count && (
                 <Box width={90} marginTop="micro">
                   <Counter
                     testID={`${testID}_count`}
@@ -380,30 +381,28 @@ export const ProductHorizontalListCard = ({
                     }}
                     onClickSub={(subCount) => {
                       if (subCount <= 0 && onClickSubCount) {
-                        return onClickSubCount(count);
-                      }
-
-                      if (onClickSubCount) {
-                        return onClickSubCount(subCount);
+                        onClickSubCount(count);
+                      } else if (onClickSubCount) {
+                        onClickSubCount(subCount);
                       }
                     }}
                   />
                 </Box>
-                )}
-                {isGiftable && (
+              )}
+              {isGiftable && (
                 <Checkbox
                   testID={`${testID}_isGift`}
                   fontFamily="reservaSansRegular"
-                  fontSize="10px"
+                  fontSize={10}
                   optionName="É presente?"
                   color="preto"
                   width="80px"
                   onCheck={handleToggleIsGift}
                   checked={isGift}
                 />
-                )}
-              </Box>
-              {onClickBagButton && (
+              )}
+            </Box>
+            {onClickBagButton && (
               <Box>
                 <Button
                   flexDirection="row"
@@ -424,12 +423,12 @@ export const ProductHorizontalListCard = ({
                   </Box>
                 </Button>
               </Box>
-              )}
-            </Box>
+            )}
           </Box>
         </Box>
-        <Box paddingLeft="xxs" paddingTop="nano" position="absolute" right={0} top={-5}>
-          {onClickFavorite && (
+      </Box>
+      <Box paddingLeft="xxs" paddingTop="nano" position="absolute" right={0} top={-5}>
+        {onClickFavorite && (
           <Button
             variant="icone"
             testID={`${testID}_favorite`}
@@ -439,15 +438,15 @@ export const ProductHorizontalListCard = ({
               }
             }}
             icon={(
-              <Icon
+              <IconLegacy
                 name={isFavorited ? 'HeartRaised' : 'Heart'}
                 size={14}
                 color="preto"
               />
             )}
           />
-          )}
-          {onClickClose && (
+        )}
+        {onClickClose && (
           <Button
             hitSlop={{
               top: 35, left: 35, bottom: 35, right: 35,
@@ -456,11 +455,10 @@ export const ProductHorizontalListCard = ({
             onPress={() => {
               onClickClose();
             }}
-            icon={<Icon name="Close" size={11} color="preto" />}
+            icon={<IconLegacy name="Close" size={11} color="preto" />}
           />
-          )}
-        </Box>
+        )}
       </Box>
-    </>
+    </Box>
   );
-};
+}

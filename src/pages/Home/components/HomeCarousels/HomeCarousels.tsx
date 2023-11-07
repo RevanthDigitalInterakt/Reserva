@@ -1,14 +1,15 @@
 import React, { useCallback } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import { Box } from '@usereservaapp/reserva-ui';
-import { useHomeStore } from '../../../../zustand/useHomeStore';
-import { COLORS } from '../../../../base/styles/colors';
+
 import type { HomeCarouselOutput } from '../../../../base/graphql/generated';
 import { HomePageSectionTypeEnum } from '../../../../base/graphql/generated';
-import HomeMainCarousel from '../HomeMainCarousel';
+import { COLORS } from '../../../../base/styles/colors';
+import { Box } from '../../../../components/Box/Box';
+import testProps from '../../../../utils/testProps';
+import { useHomeStore } from '../../../../zustand/useHomeStore';
 import HomeBrandsCarousel from '../HomeBrandsCarousel';
 import HomeCardsCarousel from '../HomeCardsCarousel';
-import testProps from '../../../../utils/testProps';
+import HomeMainCarousel from '../HomeMainCarousel';
 
 function HomeCarousels() {
   const { carousels, loading } = useHomeStore(['carousels', 'loading']);

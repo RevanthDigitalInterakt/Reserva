@@ -28,7 +28,7 @@ export enum RemoteConfigKeys {
 
 export type RemoteConfigKeysType = keyof typeof RemoteConfigKeys;
 
-export const FirebaseContextProvider = ({ children }: FirebaseContextProviderProps) => {
+export function FirebaseContextProvider({ children }: FirebaseContextProviderProps) {
   const [remoteConfigs, setRemoteConfigs] = useState<any[]>([]);
 
   const fetchValues = async () => {
@@ -56,6 +56,6 @@ export const FirebaseContextProvider = ({ children }: FirebaseContextProviderPro
       {children}
     </FirebaseContext.Provider>
   );
-};
+}
 
 export const useFirebaseContext = () => useContext(FirebaseContext);

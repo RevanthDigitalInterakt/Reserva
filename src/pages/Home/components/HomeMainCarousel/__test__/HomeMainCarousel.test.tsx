@@ -1,12 +1,13 @@
-import React from 'react';
 import {
   render,
   screen,
 } from '@testing-library/react-native';
-import { theme } from '@usereservaapp/reserva-ui';
+import React from 'react';
 import { ThemeProvider } from 'styled-components/native';
-import HomeMainCarousel from '../HomeMainCarousel';
+
 import type { HomeCarouselOutput } from '../../../../../base/graphql/generated';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
+import HomeMainCarousel from '../HomeMainCarousel';
 
 // MOCKS
 const mockNavigate = jest.fn();

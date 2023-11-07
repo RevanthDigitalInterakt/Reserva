@@ -1,15 +1,14 @@
 import React from 'react';
 import { ActivityIndicator, TouchableOpacity } from 'react-native';
-import {
-  Icon,
-  Box,
-  Typography,
-} from '@usereservaapp/reserva-ui';
-import { integerPart, decimalPart } from '../../utils/numberUtils';
-import { Button } from '../Button';
-import ImageComponent from '../ImageComponent/ImageComponent';
-import configDeviceSizes from '../../utils/configDeviceSizes';
+
 import { COLORS } from '../../base/styles/colors';
+import configDeviceSizes from '../../utils/configDeviceSizes';
+import { decimalPart, integerPart } from '../../utils/numberUtils';
+import { Box } from '../Box/Box';
+import { Button } from '../Button';
+import { IconLegacy } from '../IconLegacy/IconLegacy';
+import ImageComponent from '../ImageComponent/ImageComponent';
+import { Typography } from '../Typography/Typography';
 
 interface IWishListProductCard {
   currency?: string;
@@ -27,7 +26,7 @@ interface IWishListProductCard {
   testID?: string;
 }
 
-export const WishListProductCard = ({
+export function WishListProductCard({
   currency = 'R$',
   discountTag,
   imageUrl,
@@ -41,8 +40,8 @@ export const WishListProductCard = ({
   loadingWishList,
   loadingBagButton,
   testID,
-}: IWishListProductCard) => (
-  <>
+}: IWishListProductCard) {
+  return (
     <Box
       flexDirection="row"
       height={152}
@@ -217,7 +216,7 @@ export const WishListProductCard = ({
                 await onClickFavorite();
               }}
               icon={(
-                <Icon
+                <IconLegacy
                   name="HeartRaised"
                   size={14}
                   color="preto"
@@ -233,5 +232,5 @@ export const WishListProductCard = ({
           )}
       </Box>
     </Box>
-  </>
-);
+  );
+}

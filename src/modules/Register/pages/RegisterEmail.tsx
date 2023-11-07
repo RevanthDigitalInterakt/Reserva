@@ -2,14 +2,17 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
-import { Typography, Box, Button } from '@usereservaapp/reserva-ui';
-import images from '../../../base/styles/icons';
-import type { RootStackParamList } from '../../../routes/StackNavigator';
-import UnderlineInput from '../../../components/UnderlineInput';
-import HeaderBanner from '../../Forgot/componet/HeaderBanner';
-import { useCart } from '../../../context/CartContext';
-import { validateEmail } from '../../../utils/validateEmail';
+
 import { useSignUpVerificationCodeMutation } from '../../../base/graphql/generated';
+import images from '../../../base/styles/icons';
+import { Box } from '../../../components/Box/Box';
+import { Button } from '../../../components/Button';
+import { Typography } from '../../../components/Typography/Typography';
+import UnderlineInput from '../../../components/UnderlineInput';
+import { useCart } from '../../../context/CartContext';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
+import { validateEmail } from '../../../utils/validateEmail';
+import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 export interface RegisterEmailProps

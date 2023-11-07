@@ -1,6 +1,7 @@
-import { Box, Icon } from '@usereservaapp/reserva-ui';
 import React from 'react';
-import { IDefaultIconProps } from '../interfaces/icons';
+import { type IDefaultIconProps } from '../interfaces/icons';
+import { Box } from '../../../../../components/Box/Box';
+import { IconLegacy } from '../../../../../components/IconLegacy/IconLegacy';
 
 interface BirthDateIconProps extends IDefaultIconProps {}
 
@@ -8,7 +9,7 @@ function BirthDateIcon({ isEmpty }: BirthDateIconProps) {
   return (
     <Box ml="nano">
       {!isEmpty && (
-        <Icon
+        <IconLegacy
           color="preto"
           name="Check"
           size={18}

@@ -4,7 +4,7 @@ import React from 'react';
 import { BaseScreen } from '../../../../components/BaseScreen';
 import { RegisterPhoneNumberContainer } from './RegisterPhoneNumber.container';
 
-export const RegisterPhoneNumberScreen = ({ route }) => {
+export function RegisterPhoneNumberScreen({ route }) {
   const navigation = useNavigation();
 
   const navigateBack = () => {
@@ -28,4 +28,4 @@ export const RegisterPhoneNumberScreen = ({ route }) => {
       />
     </BaseScreen>
   );
-};
+}

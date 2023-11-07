@@ -1,9 +1,9 @@
 import Modal from 'react-native-modal';
-import { Box } from '@usereservaapp/reserva-ui';
 import LottieView from 'lottie-react-native';
-import { loadingSpinner } from '@usereservaapp/reserva-ui/src/assets/animations';
 import React from 'react';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
+import { Box } from '../../../../components/Box/Box';
+import { loadingSpinner } from '../../../../../assets/animations';
 
 export default function LoadingModal() {
   const { loadingModal } = useBagStore(['loadingModal']);

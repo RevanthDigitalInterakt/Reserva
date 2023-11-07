@@ -1,5 +1,4 @@
 import React from 'react';
-import { theme } from '@usereservaapp/reserva-ui';
 import { MockedProvider } from '@apollo/client/testing';
 import { ThemeProvider } from 'styled-components/native';
 import { fireEvent, render } from '@testing-library/react-native';
@@ -8,6 +7,7 @@ import CouponComponent from '..';
 import CartContextProvider from '../../../../../context/CartContext';
 import * as useBagStore from '../../../../../zustand/useBagStore/useBagStore';
 import subscribeNewsLetter from '../../../../../graphql/profile/newsLetter';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 
 jest.mock('react', () => ({
   ...jest.requireActual('react'),

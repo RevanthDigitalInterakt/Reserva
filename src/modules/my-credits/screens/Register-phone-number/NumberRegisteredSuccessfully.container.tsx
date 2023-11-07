@@ -8,10 +8,10 @@ interface NumberRegisteredSuccessfullyContainerProps {
   navigateToCashbackInStore: () => void;
 }
 
-export const NumberRegisteredSuccessfullyContainer = ({
+export function NumberRegisteredSuccessfullyContainer({
   navigateBack,
   navigateToCashbackInStore,
-}: NumberRegisteredSuccessfullyContainerProps) => {
+}: NumberRegisteredSuccessfullyContainerProps) {
   const handleNavigateToCashbackInStore = () => {
     navigateToCashbackInStore();
   };
@@ -28,4 +28,4 @@ export const NumberRegisteredSuccessfullyContainer = ({
       />
     </>
   );
-};
+}

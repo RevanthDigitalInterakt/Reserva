@@ -5,12 +5,14 @@ import { useCountDown } from '../../context/ChronometerContext';
 import styles from './styles';
 import { NewFlipNumber } from './components/NewFlipNumber';
 
-const Divider = () => (
-  <View style={styles.dividerWrapper}>
-    <View style={styles.divider} />
-    <View style={styles.divider} />
-  </View>
-);
+function Divider() {
+  return (
+    <View style={styles.dividerWrapper}>
+      <View style={styles.divider} />
+      <View style={styles.divider} />
+    </View>
+  );
+}
 
 export function NewCountDownFlipNumber() {
   const { time = '00:00:01' } = useCountDown();

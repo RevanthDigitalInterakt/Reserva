@@ -1,12 +1,14 @@
-import { Box, Button, Typography } from '@usereservaapp/reserva-ui';
 import React from 'react';
 import {
   ActivityIndicator, BackHandler, Platform, View,
 } from 'react-native';
+import codePush, { type DownloadProgress } from 'react-native-code-push';
 import RNExitApp from 'react-native-exit-app';
-import codePush, { DownloadProgress } from 'react-native-code-push';
 import ReactNativeModal from 'react-native-modal';
 import { platformType } from '../../utils/platformType';
+import { Box } from '../Box/Box';
+import { Button } from '../Button';
+import { Typography } from '../Typography/Typography';
 
 interface CodePushContext {
   status: null | codePush.SyncStatus;

@@ -9,16 +9,14 @@ export async function trackEventSearchDito(q: string, resultCount: number) {
     return;
   }
 
-  EventProvider.sendTrackEvent(
-    'buscou-produto', {
-      id,
-      action: 'buscou-produto',
-      data: {
-        term: q,
-        itens_encontrados: resultCount || 0,
-        dispositivo: Platform.OS,
-        origem: 'app',
-      },
+  EventProvider.sendTrackEvent('buscou-produto', {
+    id,
+    action: 'buscou-produto',
+    data: {
+      term: q,
+      itens_encontrados: resultCount || 0,
+      dispositivo: Platform.OS,
+      origem: 'app',
     },
-  );
+  });
 }

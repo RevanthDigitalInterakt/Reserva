@@ -1,6 +1,3 @@
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import React, {
@@ -15,6 +12,10 @@ import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useRedefinePasswordMutation } from '../../../base/graphql/generated';
 import useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
+import { Button } from '../../../components/Button';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 function EditPasswordSuccessful() {
@@ -46,7 +47,7 @@ function EditPasswordSuccessful() {
   );
 }
 
-export const EditPassword = () => {
+export function EditPassword() {
   const formRef = useRef<any>(null);
   const [showNewPassword, setShowNewPassword] = useState(true);
   const [showCurrentPassword, setShowCurrentPassword] = useState(true);
@@ -162,13 +163,13 @@ export const EditPassword = () => {
                               onPress={() => setShowCurrentPassword(!showCurrentPassword)}
                             >
                               {showCurrentPassword ? (
-                                <Icon
+                                <IconLegacy
                                   color="neutroFrio2"
                                   name="EyeOff"
                                   size={25}
                                 />
                               ) : (
-                                <Icon
+                                <IconLegacy
                                   color="neutroFrio2"
                                   name="EyeOpen"
                                   size={25}
@@ -190,13 +191,13 @@ export const EditPassword = () => {
                               onPress={() => setShowNewPassword(!showNewPassword)}
                             >
                               {showNewPassword ? (
-                                <Icon
+                                <IconLegacy
                                   color="neutroFrio2"
                                   name="EyeOff"
                                   size={25}
                                 />
                               ) : (
-                                <Icon
+                                <IconLegacy
                                   color="neutroFrio2"
                                   name="EyeOpen"
                                   size={25}
@@ -218,13 +219,13 @@ export const EditPassword = () => {
                               onPress={() => setShowRepeatPassword(!showRepeatPassword)}
                             >
                               {showRepeatPassword ? (
-                                <Icon
+                                <IconLegacy
                                   color="neutroFrio2"
                                   name="EyeOff"
                                   size={25}
                                 />
                               ) : (
-                                <Icon
+                                <IconLegacy
                                   color="neutroFrio2"
                                   name="EyeOpen"
                                   size={25}
@@ -252,4 +253,4 @@ export const EditPassword = () => {
       )}
     </SafeAreaView>
   );
-};
+}

@@ -286,18 +286,6 @@ const SearchNewOrderDetail = async (
   return response;
 };
 
-const Attachment = async (
-  orderFormId: string | undefined,
-  productOrderFormIndex: any,
-  attachmentName: any,
-) => {
-  const response = await vtexConfig3.post(
-    `/api/checkout/pub/orderForm/${orderFormId}/items/${productOrderFormIndex}/attachments/${attachmentName}`,
-    { content: { aceito: 'true' } },
-  );
-  return response;
-};
-
 const SetGiftSize = async (
   orderFormId?: string | undefined,
   giftId?: string | undefined,
@@ -359,7 +347,6 @@ export {
   SearchNewOrders,
   SearchNewOrderDetail,
   OrderDetail,
-  Attachment,
   SetGiftSize,
   RestoreCart,
 };

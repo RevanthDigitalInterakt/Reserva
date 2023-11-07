@@ -1,16 +1,21 @@
 import React, { useMemo } from 'react';
-import {
-  Box, Button, Checkbox, Counter, decimalPart, Icon, integerPart, Typography,
-} from '@usereservaapp/reserva-ui';
 import { TouchableOpacity, View } from 'react-native';
-import { slugify } from '../../../../utils/slugify';
-import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
-import configDeviceSizes from '../../../../utils/configDeviceSizes';
+
 import type { OrderFormQuery } from '../../../../base/graphql/generated';
-import { FirstPurchaseDiscount, TotalDiscountFirstPurchase } from './ProductListItemDiscount.utils';
+import { Box } from '../../../../components/Box/Box';
+import { Button } from '../../../../components/Button';
+import { Checkbox } from '../../../../components/Checkbox/Checkbox';
+import { Counter } from '../../../../components/Counter/Counter';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
+import { Typography } from '../../../../components/Typography/Typography';
+import configDeviceSizes from '../../../../utils/configDeviceSizes';
+import { decimalPart, integerPart } from '../../../../utils/numberUtils';
+import { slugify } from '../../../../utils/slugify';
 import testProps from '../../../../utils/testProps';
 import IconPrimeLogoWhite from '../../../PrimeLP/components/Icons/IconPrimeLogoWhite';
 import { styles } from './ProductListItem.styles';
+import { FirstPurchaseDiscount, TotalDiscountFirstPurchase } from './ProductListItemDiscount.utils';
 
 interface IProductListItem {
   data: OrderFormQuery['orderForm']['items'][0];
@@ -252,7 +257,7 @@ function ProductListItem({
             }}
             variant="icone"
             onPress={onDelete}
-            icon={<Icon name="Close" size={11} color="preto" />}
+            icon={<IconLegacy name="Close" size={11} color="preto" />}
           />
         </Box>
       </Box>

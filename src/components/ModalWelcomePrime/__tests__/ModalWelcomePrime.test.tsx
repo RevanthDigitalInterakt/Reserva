@@ -1,5 +1,4 @@
 import React from 'react';
-import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { MockedProvider } from '@apollo/client/testing';
@@ -7,6 +6,7 @@ import { ModalWelcomePrime } from '..';
 import { ApolloMockLPPrime } from '../../../pages/PrimeLP/__mocks__/primeLPMocks';
 import * as useLandingPagePrimeQuery from '../../../base/graphql/generated';
 import { mockPrimeData } from '../../../../__mocks__/PrimeLP.mock';
+import { theme } from '../../../base/usereservappLegacy/theme';
 
 jest.mock('../../../zustand/useApolloFetchPolicyStore', () => ({
   useApolloFetchPolicyStore: () => ({
@@ -27,13 +27,15 @@ jest
 
 const closeModal = jest.fn();
 
-const TestingComponent = () => (
-  <ThemeProvider theme={theme}>
-    <MockedProvider mocks={ApolloMockLPPrime} addTypename={false}>
-      <ModalWelcomePrime isVisible onClose={closeModal} />
-    </MockedProvider>
-  </ThemeProvider>
-);
+function TestingComponent() {
+  return (
+    <ThemeProvider theme={theme}>
+      <MockedProvider mocks={ApolloMockLPPrime} addTypename={false}>
+        <ModalWelcomePrime isVisible onClose={closeModal} />
+      </MockedProvider>
+    </ThemeProvider>
+  );
+}
 
 describe('ModalWelcomePrime', () => {
   beforeEach(() => {

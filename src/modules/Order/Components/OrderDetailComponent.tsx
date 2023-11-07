@@ -1,10 +1,9 @@
-import {
-  Typography, Box,
-} from '@usereservaapp/reserva-ui';
 import React from 'react';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import OrderProduct from './OrderProduct';
 import type { IOrderId } from '../../../context/CartContext';
+import { Box } from '../../../components/Box/Box';
+import { Typography } from '../../../components/Typography/Typography';
 
 export type IOrderData = {
   orderId: string;
@@ -65,22 +64,23 @@ interface IOrderDetailComponent {
   deliveryState: number;
 }
 
-const OrderDetailComponent = ({ data }: IOrderDetailComponent) => (
-  <Box>
-    <Box mt="xxs" flexDirection="row" justifyContent="space-between">
-      <Typography
-        fontFamily="reservaDisplayRegular"
-        fontSize={20}
-        color="vermelhoRSV"
-      >
-        {data?.orderId && data?.orderId}
-      </Typography>
-    </Box>
-    {data?.items?.length > 0 && data.items.map(
-      (item) => <OrderProduct key={item.productId} orderItem={item} />,
-    )}
+function OrderDetailComponent({ data }: IOrderDetailComponent) {
+  return (
+    <Box>
+      <Box mt="xxs" flexDirection="row" justifyContent="space-between">
+        <Typography
+          fontFamily="reservaDisplayRegular"
+          fontSize={20}
+          color="vermelhoRSV"
+        >
+          {data?.orderId && data?.orderId}
+        </Typography>
+      </Box>
+      {data?.items?.length > 0 && data.items.map(
+        (item) => <OrderProduct key={item.productId} orderItem={item} />,
+      )}
 
-    {data
+      {data
       && (
         <Box mt="xs" flexDirection="row" justifyContent="space-between">
           <Typography variant="precoAntigo3">Subtotal</Typography>
@@ -94,7 +94,7 @@ const OrderDetailComponent = ({ data }: IOrderDetailComponent) => (
           />
         </Box>
       )}
-    {data
+      {data
       && (
         <Box mt="micro" flexDirection="row" justifyContent="space-between">
           <Typography variant="precoAntigo3">Frete</Typography>
@@ -109,7 +109,7 @@ const OrderDetailComponent = ({ data }: IOrderDetailComponent) => (
           />
         </Box>
       )}
-    {data
+      {data
       && (
         <Box mt="micro" flexDirection="row" justifyContent="space-between">
           <Typography variant="precoAntigo3">Descontos</Typography>
@@ -122,7 +122,7 @@ const OrderDetailComponent = ({ data }: IOrderDetailComponent) => (
           />
         </Box>
       )}
-    {data
+      {data
       && (
         <Box
           mt="xxxs"
@@ -139,7 +139,8 @@ const OrderDetailComponent = ({ data }: IOrderDetailComponent) => (
           />
         </Box>
       )}
-  </Box>
-);
+    </Box>
+  );
+}
 
 export default OrderDetailComponent;

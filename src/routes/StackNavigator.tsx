@@ -2,23 +2,27 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import CallCenter from '../modules/CallCenter';
 import { WebviewZendesk } from '../modules/CallCenter/WebviewZendesk';
-import { ChangeRegionalization } from '../modules/ChangeRegionalization/pages/ChangeRegionalization';
-import { DeliveryScreen } from '../modules/Checkout/pages/Delivery';
-import { MapScreen } from '../modules/Checkout/pages/Map';
-import { WithdrawInStore } from '../modules/Checkout/pages/WithdrawInStore';
-import { Credits } from '../modules/Credits/pages/Credits';
-import { MyCashbackRoutes } from '../modules/my-cashback/navigation/MyCashbackNavigator';
-import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavigator';
-import { EditPassword } from '../modules/Profile/pages/EditPassword';
+import { Cashback } from '../modules/Cashback/pages/Cashback';
 import {
   CEPList,
-  CepsInfo,
-  SearchBy,
+  type CepsInfo,
+  type SearchBy,
 } from '../modules/ChangeRegionalization/pages/CEPList';
+import { ChangeRegionalization } from '../modules/ChangeRegionalization/pages/ChangeRegionalization';
+import { Credits } from '../modules/Credits/pages/Credits';
 import { AccountDeletedSuccessfully } from '../modules/Profile/pages/AccountDeletedSuccessfully';
-
-// TODO refactor Dependency cycle
-import { Cashback } from '../modules/Cashback/pages/Cashback';
+import { EditPassword } from '../modules/Profile/pages/EditPassword';
+import { MyCashbackRoutes } from '../modules/my-cashback/navigation/MyCashbackNavigator';
+import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavigator';
+import NewBag from '../pages/Bag/NewBag';
+import EditProfile from '../pages/EditProfile/EditProfile';
+import PrimeLP from '../pages/PrimeLP';
+import RonRedirectToBag from '../pages/RonRedirectToBag';
+import NewSearch from '../pages/Search';
+import { AsyncDeepLinkScreenLoading } from '../pages/WebRedirectToCatalog/AsyncDeepLinkScreenLoading';
+import WebviewCheckout from '../pages/WebviewCheckout/WebviewCheckout';
+import type { IFilters } from '../utils/generateFacets';
+import { HomeTabs } from './HomeTabs';
 import {
   AddressFlow,
   ForgotFlow,
@@ -28,17 +32,7 @@ import {
   ProductFlow,
   RegisterFlow,
 } from './flows';
-
-import { HomeTabs } from './HomeTabs';
 import type { Flow } from './types/flow.type';
-import RonRedirectToBag from '../pages/RonRedirectToBag';
-import EditProfile from '../pages/EditProfile/EditProfile';
-import type { IFilters } from '../utils/generateFacets';
-import { AsyncDeepLinkScreenLoading } from '../pages/WebRedirectToCatalog/AsyncDeepLinkScreenLoading';
-import { BagABTest } from '../modules/Checkout/pages/BagABTest';
-import PrimeLP from '../pages/PrimeLP';
-import { WebviewABTest } from '../pages/WebviewCheckout/WebviewABTest';
-import NewSearch from '../pages/Search';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -55,8 +49,7 @@ export type RootStackParamList = {
   };
   PrimeLP: undefined;
   HelpCenter: { comeFrom?: 'Menu' | 'Other' };
-  DeliveryScreen: { comeFrom: 'Checkout' | 'Login' };
-  Checkout: undefined;
+  Checkout: { url: string };
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
   LoginAlternative: {
     comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' | 'BagScreen',
@@ -137,7 +130,6 @@ export type RootStackParamList = {
   EditPassword: {
     email: string;
   };
-  MapScreen: { geolocation: string; locationPermission: boolean };
   BagScreen: {
     isProfileComplete: boolean;
     orderFormId: string | undefined;
@@ -167,54 +159,34 @@ const flows: Flow[] = [
 
 export const MainStack = createStackNavigator();
 
-export const MainStackScreen = () => (
-  <MainStack.Navigator
-    detachInactiveScreens
-    screenOptions={{ headerShown: false }}
-  >
-    <MainStack.Screen name="HomeTabs" component={HomeTabs} />
+export function MainStackScreen() {
+  return (
+    <MainStack.Navigator
+      detachInactiveScreens
+      screenOptions={{ headerShown: false }}
 
-    {flows.map((flow: Flow) => (
-      <MainStack.Screen
-        key={`${flow.name}`}
-        name={flow.name}
-        component={flow.component}
-        initialParams={flow.initialParams}
-      />
-    ))}
-    <MainStack.Screen name="SearchMenu" component={NewSearch} />
-    <MainStack.Screen
-      name="ChangeRegionalization"
-      component={ChangeRegionalization}
-    />
-    <MainStack.Screen name="CEPList" component={CEPList} />
-    <MainStack.Screen name="RonRedirectToBag" component={RonRedirectToBag} />
-    <MainStack.Screen name="AsyncDeepLink" component={AsyncDeepLinkScreenLoading} />
+    >
+      <MainStack.Screen name="HomeTabs" component={HomeTabs} />
 
-    <MainStack.Screen
-      name="BagScreen"
-      component={BagABTest}
-      initialParams={{ isProfileComplete: false }}
-    />
+      {flows.map((flow: Flow) => (
+        <MainStack.Screen key={`${flow.name}`} name={flow.name} component={flow.component} initialParams={flow.initialParams} />
+      ))}
 
-    {/* TODO REMOVER DeliveryScreen */}
-    <MainStack.Screen name="DeliveryScreen" component={DeliveryScreen} />
-    <MainStack.Screen name="Checkout" component={WebviewABTest} />
-    <MainStack.Screen name="WithdrawInStore" component={WithdrawInStore} />
-    <MainStack.Screen name="MapScreen" component={MapScreen} />
-    <MainStack.Screen name="Cashback" component={Cashback} />
-    <MainStack.Screen name="Credits" component={Credits} />
-    <MainStack.Screen name="EditProfile" component={EditProfile} />
-    <MainStack.Screen name="EditPassword" component={EditPassword} />
-
-    <MainStack.Screen
-      name="AccountDeletedSuccessfully"
-      component={AccountDeletedSuccessfully}
-    />
-
-    <MainStack.Screen name="CallCenter" component={CallCenter} />
-    <MainStack.Screen name="WebviewZendesk" component={WebviewZendesk} />
-
-    <MainStack.Screen name="PrimeLP" component={PrimeLP} />
-  </MainStack.Navigator>
-);
+      <MainStack.Screen name="ChangeRegionalization" component={ChangeRegionalization} />
+      <MainStack.Screen name="SearchMenu" component={NewSearch} />
+      <MainStack.Screen name="CEPList" component={CEPList} />
+      <MainStack.Screen name="RonRedirectToBag" component={RonRedirectToBag} />
+      <MainStack.Screen name="AsyncDeepLink" component={AsyncDeepLinkScreenLoading} />
+      <MainStack.Screen name="BagScreen" component={NewBag} initialParams={{ isProfileComplete: false }} />
+      <MainStack.Screen name="Checkout" component={WebviewCheckout} />
+      <MainStack.Screen name="Cashback" component={Cashback} />
+      <MainStack.Screen name="Credits" component={Credits} />
+      <MainStack.Screen name="EditProfile" component={EditProfile} />
+      <MainStack.Screen name="EditPassword" component={EditPassword} />
+      <MainStack.Screen name="AccountDeletedSuccessfully" component={AccountDeletedSuccessfully} />
+      <MainStack.Screen name="CallCenter" component={CallCenter} />
+      <MainStack.Screen name="WebviewZendesk" component={WebviewZendesk} />
+      <MainStack.Screen name="PrimeLP" component={PrimeLP} />
+    </MainStack.Navigator>
+  );
+}

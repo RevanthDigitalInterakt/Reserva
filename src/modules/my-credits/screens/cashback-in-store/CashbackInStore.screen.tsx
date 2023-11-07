@@ -5,7 +5,7 @@ import { BackHandler } from 'react-native';
 import { BaseScreen } from '../../../../components/BaseScreen';
 import { CashbackInStoreContainer } from './CashbackInStore.container';
 
-export const CashbackInStoreScreen = () => {
+export function CashbackInStoreScreen() {
   const navigation = useNavigation();
 
   const navigateBack = () => {
@@ -34,4 +34,4 @@ export const CashbackInStoreScreen = () => {
       />
     </BaseScreen>
   );
-};
+}

@@ -5,13 +5,11 @@ import React, {
 } from 'react';
 import { Platform, View } from 'react-native';
 import deviceInfo from 'react-native-device-info';
-import { WebView, WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
+import { WebView, type WebViewMessageEvent, type WebViewNavigation } from 'react-native-webview';
 
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { Button } from '../../components/Button';
-import { useCart } from '../../context/CartContext';
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
-import { ModalClientIsPrime } from '../../modules/Checkout/components/ModalClientIsPrime/ModalClientIsPrime';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
 import { GetPurchaseData } from '../../services/vtexService';
 import EventProvider from '../../utils/EventProvider';
@@ -19,6 +17,7 @@ import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 import { getURLParameter, prepareEventDataPurchaseCompleted, triggerEventAfterPurchaseCompleted } from './eventHelper';
 import LoadingCheckout from '../../components/LoadingCheckout/LoadingCheckout';
+import { ModalClientIsPrime } from '../../components/ModalClientIsPrime/ModalClientIsPrime';
 
 /**
  "Be very careful with the implementation as
@@ -34,12 +33,11 @@ import LoadingCheckout from '../../components/LoadingCheckout/LoadingCheckout';
  and please don't skip tests.
  Remember, this is crucial for business-level!"
  */
-const WebviewCheckout = () => {
+function WebviewCheckout() {
   const navigation = useNavigation();
   const route = useRoute();
   const { actions } = useBagStore(['actions']);
   const webviewRef = useRef(null);
-  const { setOrderFormLegacy } = useCart();
   const [loading, setLoading] = useState(false);
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
   const [navState, setNavState] = useState('');
@@ -52,7 +50,6 @@ const WebviewCheckout = () => {
 
   const pressAfterPurchaseCompleted = useCallback(async () => {
     setLoading(true);
-    setOrderFormLegacy('');
     const cookie = await getAsyncStorageItem('Auth:Cookie');
     try {
       await actions.CREATE_NEW_ORDER_FORM();
@@ -63,7 +60,7 @@ const WebviewCheckout = () => {
       setLoading(false);
       navigation.navigate('Home');
     }
-  }, [actions, navigation, setOrderFormLegacy]);
+  }, [actions, navigation]);
 
   const onNavigationStateChangeCapture = (event: WebViewNavigation) => {
     setNavState(event.url);
@@ -183,6 +180,6 @@ const WebviewCheckout = () => {
       />
     </>
   );
-};
+}
 
 export default WebviewCheckout;

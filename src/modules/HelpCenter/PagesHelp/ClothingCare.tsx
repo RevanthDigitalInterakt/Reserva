@@ -1,16 +1,20 @@
 import React, { useEffect } from 'react';
+import {
+  Dimensions, SafeAreaView, ScrollView,
+} from 'react-native';
 
-import { Dimensions, SafeAreaView, ScrollView } from 'react-native';
-import { Box, Icon, Typography } from '@usereservaapp/reserva-ui';
-
+import { Box } from '../../../components/Box/Box';
+import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { Typography } from '../../../components/Typography/Typography';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import useOpenLink from '../../../hooks/useOpenLink';
 
 const windowWidth = Dimensions.get('window').width;
-const windowheight = Dimensions.get('window').height;
 const SIZE_ICONS_CARDS = 20;
 
-export const ClothingCare: React.FC<{}> = () => {
+export function ClothingCare() {
   useEffect(() => {}, []);
+  const openLink = useOpenLink();
 
   return (
     <SafeAreaView
@@ -30,19 +34,23 @@ export const ClothingCare: React.FC<{}> = () => {
             </Box>
 
             <Box mb="xs" mt="xs" alignSelf="flex-start">
+              <Box mb="nano">
+                <Typography fontFamily="nunitoBold" fontSize={18}>
+                  Como lavar a peça de roupa
+                </Typography>
+              </Box>
               <Typography fontFamily="nunitoRegular" fontSize={14}>
-                "Joga na máquina e tá tudo certo!" Na, na, ni, na, não!
-              </Typography>
-              <Typography fontFamily="nunitoRegular" fontSize={14}>
-                Saiba aqui o que fazer para manter a qualidade da sua peça
-                reserva e prolongar ao máximo a vida útil das roupas. O pica-pau
-                merece seu carinho!
+                O processo de lavagem e conservação do produto pode variar de
+                peça para peça, de acordo com o material utilizado na confecção.
+                Você encontra as especificações de cada uma nas etiquetas
+                internas. Basta verificar a imagem na etiqueta e verificar no
+                quadro no link abaixo o significado de cada uma delas.
               </Typography>
             </Box>
 
             <Box mb="nano">
               <Box
-                backgroundColor="#000000"
+                backgroundColor="fullBlack"
                 alignItems="center"
                 justifyContent="center"
                 width={windowWidth - 20}
@@ -67,7 +75,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     mt="nano"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="NotWash"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -84,7 +92,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="Temp40"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -101,7 +109,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="Temp60"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -118,7 +126,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="Temp90"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -135,7 +143,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="NormalCycleWash"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -152,7 +160,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ShortCycleWashing"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -169,7 +177,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ManualWash"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -194,7 +202,7 @@ export const ClothingCare: React.FC<{}> = () => {
 
             <Box mb="nano">
               <Box
-                backgroundColor="#000000"
+                backgroundColor="fullBlack"
                 alignItems="center"
                 justifyContent="center"
                 width={windowWidth - 20}
@@ -219,7 +227,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     mt="nano"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="MachineDry"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -236,7 +244,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="AverageTemp"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -253,7 +261,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ModerateTemp"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -270,7 +278,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="NotMachineDry"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -287,7 +295,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DryngOnTheShadowLinen"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -304,7 +312,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DryOnTheLine"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -321,7 +329,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DryVerticallyDoNotTwist"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -339,7 +347,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     flexWrap="wrap"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DryVerticallyDoNotTwistShadow"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -356,7 +364,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DryHorizontallyToTheShadow"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -374,7 +382,7 @@ export const ClothingCare: React.FC<{}> = () => {
 
             <Box mb="nano">
               <Box
-                backgroundColor="#000000"
+                backgroundColor="fullBlack"
                 alignItems="center"
                 justifyContent="center"
                 width={windowWidth - 20}
@@ -399,7 +407,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="Iron"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -416,7 +424,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="HighTemperature200"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -433,7 +441,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="HighTemperature150"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -450,7 +458,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="HighTemperature110"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -467,7 +475,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DoNotIron"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -481,11 +489,9 @@ export const ClothingCare: React.FC<{}> = () => {
               </Box>
             </Box>
 
-            {/* {} */}
-
             <Box mb="nano">
               <Box
-                backgroundColor="#000000"
+                backgroundColor="fullBlack"
                 alignItems="center"
                 justifyContent="center"
                 width={windowWidth - 20}
@@ -510,7 +516,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     mt="nano"
                     mb="micro"
                   >
-                    <Icon
+                    <IconLegacy
                       name="Bleach"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -524,7 +530,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ShouldNotBetargeted"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -540,9 +546,9 @@ export const ClothingCare: React.FC<{}> = () => {
 
             {/* {} */}
 
-            <Box mb="md">
+            <Box mb="nano">
               <Box
-                backgroundColor="#000000"
+                backgroundColor="fullBlack"
                 alignItems="center"
                 justifyContent="center"
                 width={windowWidth - 20}
@@ -567,7 +573,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DryClean"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -584,7 +590,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="DoNotDryClean"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -601,7 +607,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="AllSolvents"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -618,7 +624,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ProfessionalCleaningPNormal"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -635,7 +641,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ProfessionalCleaningPGentle"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -652,7 +658,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ProfessionalCleaningFNormal"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -669,7 +675,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ProfessionalCleaningFGentle"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -686,7 +692,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ProfessionalCNormalWetCleaning"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -703,7 +709,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     flexDirection="row"
                     alignItems="center"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ProfessionalWetCleaningSoft"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -721,7 +727,7 @@ export const ClothingCare: React.FC<{}> = () => {
                     alignItems="center"
                     flexWrap="wrap"
                   >
-                    <Icon
+                    <IconLegacy
                       name="ProfessionalWetCleaningVerySoft"
                       size={SIZE_ICONS_CARDS}
                       marginRight="micro"
@@ -737,9 +743,43 @@ export const ClothingCare: React.FC<{}> = () => {
                 </Box>
               </Box>
             </Box>
+            <Box mb="xs" mt="xs" alignSelf="flex-start">
+              <Box mb="nano">
+                <Typography fontFamily="nunitoBold" fontSize={18}>
+                  Ficou com alguma dúvida? 😉
+                </Typography>
+              </Box>
+              <Box mb="nano">
+                <Typography fontFamily="nunitoRegular" fontSize={14}>
+                  Um de nossos encantadores pode te ajudar, basta acessar um dos
+                  links abaixo:
+                </Typography>
+              </Box>
+              <Box mb="nano">
+                <Typography
+                  fontFamily="nunitoRegular"
+                  fontSize={16}
+                  onPress={() => openLink('urlWhatsapp')}
+                  style={{
+                    textDecorationLine: 'underline',
+                    paddingVertical: 4,
+                  }}
+                >
+                  Whatsapp
+                </Typography>
+              </Box>
+              <Typography
+                fontFamily="nunitoRegular"
+                fontSize={16}
+                onPress={() => openLink('urlContact')}
+                style={{ textDecorationLine: 'underline', paddingVertical: 4 }}
+              >
+                Fale conosco
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </ScrollView>
     </SafeAreaView>
   );
-};
+}

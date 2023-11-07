@@ -1,20 +1,21 @@
 import React, {
   useCallback, useMemo, useRef, useState,
 } from 'react';
-import Video from 'react-native-video';
-import { Box, Icon } from '@usereservaapp/reserva-ui';
 import {
   ScrollView,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
 } from 'react-native';
+import Video from 'react-native-video';
 
 import { Button } from '../../../Button';
 import ImageComponent from '../../../ImageComponent/ImageComponent';
 
+import { Box } from '../../../Box/Box';
+import { IconLegacy } from '../../../IconLegacy/IconLegacy';
 import type { IParamsCarrouselMedias } from './types';
 
-export const CarrouselMedias = ({
+export function CarrouselMedias({
   images,
   onGoBack,
   onGoNext,
@@ -22,7 +23,7 @@ export const CarrouselMedias = ({
   height = 374,
   videoThumbnail,
   imageIndexActual,
-}: IParamsCarrouselMedias) => {
+}: IParamsCarrouselMedias) {
   const [actualImage, setActualImage] = useState(0);
 
   const videoRef = useRef<Video>(null);
@@ -88,11 +89,11 @@ export const CarrouselMedias = ({
             onPress={() => {
               goBack();
             }}
-            icon={<Icon name="ChevronLeft" color="neutroFrio2" size={23} />}
+            icon={<IconLegacy name="ChevronLeft" color="neutroFrio2" size={23} />}
           />
         </Box>
       )}
-      {actualImage < medias?.length - 1 && (
+      {actualImage < (medias?.length || 0) - 1 && (
         <Box
           position="absolute"
           style={{ elevation: 3 }}
@@ -106,7 +107,7 @@ export const CarrouselMedias = ({
             onPress={() => {
               goNext();
             }}
-            icon={<Icon name="ChevronRight" color="neutroFrio2" size={23} />}
+            icon={<IconLegacy name="ChevronRight" color="neutroFrio2" size={23} />}
           />
         </Box>
       )}
@@ -155,4 +156,4 @@ export const CarrouselMedias = ({
       </ScrollView>
     </Box>
   );
-};
+}

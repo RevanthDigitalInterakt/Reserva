@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Box, Typography } from '@usereservaapp/reserva-ui';
 import { TouchableOpacity } from 'react-native';
 import { useEffect } from 'react';
 import testProps from '../../../../utils/testProps';
 import type { MenuCategoryItemOutput } from '../../../../base/graphql/generated';
 import EventProvider from '../../../../utils/EventProvider';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
+import { Typography } from '../../../../components/Typography/Typography';
+import { Box } from '../../../../components/Box/Box';
 
 interface IMenuSubItem {
   data: MenuCategoryItemOutput;

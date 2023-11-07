@@ -1,10 +1,8 @@
 import React from 'react';
-import {
-  Box, Button, Icon, Typography,
-} from '@usereservaapp/reserva-ui';
-import { createAnimatableComponent } from 'react-native-animatable';
-
-const BoxAnimation = createAnimatableComponent(Box);
+import { Box } from '../../Box/Box';
+import { Typography } from '../../Typography/Typography';
+import { Button } from '../../Button';
+import { IconLegacy } from '../../IconLegacy/IconLegacy';
 
 interface ITitleFilter {
   title: string;
@@ -41,7 +39,7 @@ function TitleFilter({
           onPress={() => setShowMore(!showMore)}
           hitSlop={{ left: 50, top: 15, bottom: 15 }}
         >
-          <BoxAnimation
+          <Box
             testID="com.usereserva:id/title_animation_filter_modal"
             flexDirection="row"
             justifyContent="space-between"
@@ -51,7 +49,7 @@ function TitleFilter({
               Ver mais
             </Typography>
 
-            <Icon
+            <IconLegacy
               style={
                 showMore
                   ? { transform: [{ rotate: '-90deg' }] }
@@ -63,7 +61,7 @@ function TitleFilter({
               marginX="nano"
               size={12}
             />
-          </BoxAnimation>
+          </Box>
         </Button>
       )}
     </Box>

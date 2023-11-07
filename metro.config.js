@@ -1,28 +1,11 @@
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+
 /**
- * Metro configuration for React Native
- * https://github.com/facebook/react-native
+ * Metro configuration
+ * https://facebook.github.io/metro/docs/configuration
  *
- * @format
+ * @type {import('metro-config').MetroConfig}
  */
-const { getDefaultConfig } = require('metro-config');
+const config = {};
 
-const { resolver: defaultResolver } = getDefaultConfig.getDefaultValues();
-
-// Uncomment for use @usereservaapp/reserva-ui from NPM
-module.exports = {
-  transformer: {
-    getTransformOptions: async () => ({
-      transform: {
-        experimentalImportSupport: false,
-        inlineRequires: true,
-      },
-    }),
-  },
-  resolver: {
-    ...defaultResolver,
-    sourceExts: [
-      ...defaultResolver.sourceExts,
-      'cjs',
-    ],
-  },
-};
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);

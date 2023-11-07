@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import EventProvider from './EventProvider';
 import { getAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import type { IBagStore } from '../zustand/useBagStore/types/bagStore';
@@ -17,18 +17,16 @@ export const trackAccessBag = async (
 
     if (!quantity) return;
 
-    EventProvider.sendTrackEvent(
-      'acessou-carrinho', {
-        id,
-        action: 'acessou-carrinho',
-        data: {
-          quantidade: quantity,
-          total: price,
-          marca: brands,
-          origem: 'app',
-        },
+    EventProvider.sendTrackEvent('acessou-carrinho', {
+      id,
+      action: 'acessou-carrinho',
+      data: {
+        quantidade: quantity,
+        total: price,
+        marca: brands,
+        origem: 'app',
       },
-    );
+    });
   } catch (e) {
     ExceptionProvider.captureException(e);
   }

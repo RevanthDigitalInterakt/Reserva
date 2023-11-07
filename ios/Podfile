@@ -1,27 +1,44 @@
-require_relative '../node_modules/react-native/scripts/react_native_pods'
-require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+# Resolve react_native_pods.rb with node to allow for hoisting
+require Pod::Executable.execute_command('node', ['-p',
+  'require.resolve(
+    "react-native/scripts/react_native_pods.rb",
+    {paths: [process.argv[1]]},
+  )', __dir__]).strip
 
-platform :ios, '11.0'
-pod 'Firebase/Core', '~> 8.10.0'
+platform :ios, min_ios_version_supported
+
+prepare_react_native_project!
+
+use_frameworks! :linkage => :static
+$RNFirebaseAsStaticFramework = true 
+
+linkage = ENV['USE_FRAMEWORKS']
+if linkage != nil
+  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
+  use_frameworks! :linkage => linkage.to_sym
+end
 
 target 'reserva' do
-  # React Native Maps dependencies
-  rn_maps_path = '../node_modules/react-native-maps'
-  pod 'react-native-google-maps', :path => rn_maps_path
   config = use_native_modules!
+
+  pod 'Firebase', :modular_headers => true
+  pod 'FirebaseCore', :modular_headers => true
+  pod 'GoogleUtilities', :modular_headers => true
+
+  # Flags change depending on the env values.
+  flags = get_default_flags()
 
   use_react_native!(
     :path => config[:reactNativePath],
-    # to enable hermes on iOS, change `false` to `true` and then install pods
-    :hermes_enabled => false
+    # Hermes is now enabled by default. Disable by setting this flag to false.
+    :hermes_enabled => flags[:hermes_enabled],
+    :fabric_enabled => flags[:fabric_enabled],
+    :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
-
-  pod 'lottie-ios', :path => '../node_modules/lottie-ios'
-
-  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
-
+  # Packages
+  pod 'RNBootSplash', :path => '../node_modules/react-native-bootsplash'
+  
   permissions_path = '../node_modules/react-native-permissions/ios'
 
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
@@ -32,6 +49,8 @@ target 'reserva' do
 
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
+  pod 'react-native-appsflyer', :path => '../node_modules/react-native-appsflyer'
+
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
 
   pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"
@@ -39,29 +58,31 @@ target 'reserva' do
   pod 'RNSentry', :path => '../node_modules/@sentry/react-native'
 
   pod 'RNExitApp', :path => '../node_modules/react-native-exit-app'
-
+  
   target 'reservaTests' do
     inherit! :complete
     # Pods for testing
   end
 
-  # Enables Flipper.
-  #
-  # Note that if you have use_frameworks! enabled, Flipper will not work and
-  # you should disable the next line.
-  # use_flipper!()
-  use_flipper!({'Flipper' => '0.92.0', 'Flipper-Folly' => '2.6.7'})
   post_install do |installer|
-    react_native_post_install(installer)
+    # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
+    react_native_post_install(
+      installer,
+      config[:reactNativePath],
+      :mac_catalyst_enabled => false
+    )
+    __apply_Xcode_12_5_M1_post_install_workaround(installer)
+
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
         config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
-        end
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'
+        target.build_settings(config.name)['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
       end
+    end
   end
 end
 
 target 'OneSignalNotificationServiceExtension' do
-  pod 'OneSignal', '>= 3.0', '< 4.0'
+  pod 'OneSignalXCFramework', '>= 3.0', '< 4.0'
 end

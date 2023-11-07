@@ -1,8 +1,8 @@
 import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@usereservaapp/reserva-ui';
 import DeleteAccountComponent from './DeleteAccountComponent';
+import { theme } from '../../../../base/usereservappLegacy/theme';
 
 jest.useFakeTimers();
 

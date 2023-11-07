@@ -2,14 +2,12 @@ import React, { useMemo } from 'react';
 import {
   ImageBackground, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
-import {
-  Typography,
-  integerPart,
-  decimalPart,
-} from '@usereservaapp/reserva-ui';
-import { styles } from './SelectBoxPrime.styles';
+
+import { useRemoteConfig, type TTypesInstallments } from '../../hooks/useRemoteConfig';
+import { decimalPart, integerPart } from '../../utils/numberUtils';
 import testProps from '../../utils/testProps';
-import { TTypesInstallments, useRemoteConfig } from '../../hooks/useRemoteConfig';
+import { Typography } from '../Typography/Typography';
+import { styles } from './SelectBoxPrime.styles';
 
 const redBadgeImage = require('./assets/redBadge.png');
 
