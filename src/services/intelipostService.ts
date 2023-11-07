@@ -3,7 +3,7 @@ import type { AxiosResponse } from 'axios';
 import { asyncRequestHandler } from '../utils/asyncRequestHandler'
 
 const _httpClient = axios.create({
-  baseURL: 'https://intelitest--lojausereserva.myvtex.com'
+  baseURL: 'https://lojausereserva.myvtex.com'
 })
 
 export type InvoiceKeyData = {
