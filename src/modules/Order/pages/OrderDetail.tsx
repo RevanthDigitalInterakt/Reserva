@@ -61,10 +61,10 @@ const OrderList: React.FC<any> = ({ route }) => {
 
   const fetchTrackingInvoiceStatus = async () => {
     const packages = orderDetails?.packageAttachment?.packages[0];
-    const r = await fetchTrackingStatusByInvoiceKey(packages?.invoiceKey.toString() || '');
-    if (r.status === 200) {
+    const response = await fetchTrackingStatusByInvoiceKey(packages?.invoiceKey.toString() || '');
+    if (response.status === 200) {
       setOrderTrackingStatus({
-        invoiceData: r.data,
+        invoiceData: response.data,
         trackingData: null
       });
     }
@@ -72,10 +72,10 @@ const OrderList: React.FC<any> = ({ route }) => {
 
   const fetchTrackingStatus = async () => {
     const packages = orderDetails?.packageAttachment?.packages[0];
-    const r = await fetchTrackingStatusByTrackingNumber(packages?.trackingNumber.toString() || '');
-    if (r.status === 200) {
+    const response = await fetchTrackingStatusByTrackingNumber(packages?.trackingNumber.toString() || '');
+    if (response.status === 200) {
       setOrderTrackingStatus({
-        trackingData: r.data,
+        trackingData: response.data,
         invoiceData: null
       });
     }

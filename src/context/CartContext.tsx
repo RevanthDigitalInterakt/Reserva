@@ -165,10 +165,10 @@ interface LogisticsInfo {
   shippingEstimateDate: string;
   deliveryChannel: string;
   pickupStoreInfo?: {
-    additionalInfo: null;
-    address: null;
-    dockId: null;
-    friendlyName: null;
+    additionalInfo: string;
+    address: object;
+    dockId: number | null;
+    friendlyName: string;
     isPickupStore: boolean;
   };
 }
