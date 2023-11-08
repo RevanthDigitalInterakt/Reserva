@@ -98,10 +98,11 @@ function NewProductCatalog({ navigation, route }: Props) {
         cacheGoingBackRequest={() => setIsGoingBack(true)}
         headerComponent={(
           <>
-            <NewCountdown
-              reference={reference}
-              selectClockScreen={countdownType}
-            />
+            {countdownType === 'CATEGORY' ? (
+              <NewCountdown reference={reference} selectClockScreen={countdownType} />
+            ) : (
+              <NewCountdown selectClockScreen={countdownType} />
+            )}
             <Banner
               setLoading={setLoadingMedias}
               reference={reference}

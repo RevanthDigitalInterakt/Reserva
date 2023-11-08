@@ -99,7 +99,7 @@ function CheckTheRules({
 }
 
 interface NewCountdownProps {
-  reference: string;
+  reference?: string;
   selectClockScreen: ClockScreenEnum;
 }
 
