@@ -2,18 +2,40 @@ import React from 'react';
 
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
+import { addMinutes, isAfter, parseISO } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import { slugify } from '../utils/slugify';
 import testProps from '../utils/testProps';
 import { BottomBar, BottomBarButton } from './BottomBar';
 import { Box } from '../components/Box/Box';
+import { useBagStore } from '../zustand/useBagStore/useBagStore';
 
 type OnPressType = {
   key: string;
   name: string;
 };
 
-export function TabBar({ state, navigation }: BottomTabBarProps<{}>) {
-  const onPress = ({ key, name }: OnPressType, isFocused: Boolean) => {
+export function TabBar({ state, navigation }: BottomTabBarProps) {
+  const { actions, rouletCoupon } = useBagStore(['actions', 'rouletCoupon']);
+  const onPress = async ({ key, name }: OnPressType, isFocused: Boolean) => {
+    if (name === 'Roulet') {
+      if (rouletCoupon.timestamp) {
+        const dateFromTimestamp = parseISO(rouletCoupon.timestamp);
+        const dateAfter60Minutes = addMinutes(dateFromTimestamp, 60);
+        const nowUTC = utcToZonedTime(new Date(), 'America/Sao_Paulo');
+        const isBlocked = !isAfter(nowUTC, dateAfter60Minutes);
+        if (isBlocked) {
+          return actions.BLOCK_ROULET_COUPON();
+        }
+        actions.UNBLOCK_ROULET_COUPON();
+      }
+      actions.SET_ROULET_LOADING(true);
+      actions.OPEN_ROULET();
+    } else {
+      actions.SET_ROULET_LOADING(false);
+      actions.CLOSE_ROULET();
+    }
+
     const event = navigation.emit({
       type: 'tabPress',
       target: key,
