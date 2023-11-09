@@ -17,6 +17,8 @@ import ProductAddToCart from '../ProductAddToCart';
 import { SelectColor } from '../SelectColor/SelectColor';
 import { SizeGuide, SizeGuideImages } from './SizeGuide';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
+import { RouletCouponCard } from '../../../Home/components/RouletCouponCard';
+import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
 function ProductSelectors() {
   const {
@@ -32,6 +34,9 @@ function ProductSelectors() {
     'setSelectedColor',
     'setSelectedSize',
   ]);
+
+  const { getBoolean } = useRemoteConfig();
+  const showRoulet = getBoolean('show_roulet');
 
   const doSelectSizeTrack = useCallback(() => {
     try {
@@ -138,6 +143,9 @@ function ProductSelectors() {
           </Box>
         )}
 
+        {showRoulet ? (
+          <RouletCouponCard />
+        ) : null}
         <ProductAddToCart />
 
         <Box mt="nano" flexDirection="row" />
