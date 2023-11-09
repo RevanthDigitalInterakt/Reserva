@@ -16,6 +16,11 @@ export interface IAsyncStorageKeys {
   'Auth:Cookie': string;
   'Auth:TokenRefreshTime': number;
   'orderFormId': string;
+  'rouletCoupon': {
+    code: string;
+    timestamp: string;
+    blocked: boolean;
+  }
 }
 
 type TStorageKey = keyof IAsyncStorageKeys;
