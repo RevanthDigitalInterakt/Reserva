@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   ActivityIndicator,
   Animated,
@@ -12,16 +12,14 @@ import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import { WebView, type WebViewMessageEvent } from 'react-native-webview';
-import Modal from 'react-native-modal';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewBanner from '../../components/Banner/NewBanner';
 import { Box } from '../../components/Box/Box';
 import ModalSignUpComplete from '../../components/ModalSignUpComplete';
 import WithoutInternet from '../../components/WithoutInternet';
 import { useConnectivityStore } from '../../zustand/useConnectivityStore';
 import { COLORS } from '../../base/styles/colors';
-import configDeviceSizes from '../../utils/configDeviceSizes';
-import { platformType } from '../../utils/platformType';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { NewTransparentTopBarDefault } from '../../modules/Menu/components/NewTransparentTopBarDefault';
 import { NewWhiteTopBarDefault } from '../../modules/Menu/components/NewWhiteTopBarDefault';
@@ -37,13 +35,76 @@ import HomeDiscountModal from './components/HomeDiscountModal';
 import { NewHomeCarousels } from './components/NewHomeCarousels';
 import useHomeHeader from './hooks/useHomeHeader';
 import styles from './styles';
+import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-// const injectedJavaScript = `
-// window.ReactNativeWebView.postMessage('{"type":"button-action","state":false}');
-//   `;
+function RouletWebview() {
+  const { actions, rouletIsOpen, rouletIsLoading } = useBagStore([
+    'actions',
+    'rouletIsOpen',
+    'rouletIsLoading',
+  ]);
+
+  const onHandleMessage = useCallback(async (ev: WebViewMessageEvent) => {
+    actions.SET_ROULET_LOADING(false);
+    if (ev?.nativeEvent?.data) {
+      const parsed = JSON.parse(ev?.nativeEvent?.data);
+      if (parsed?.data?.reward?.code) {
+        actions.SAVE_ROULET_COUPON(
+          parsed?.data?.reward?.code,
+          parsed?.timestamp,
+        );
+        await AsyncStorage.setItem('rouletCoupon', JSON.stringify({
+          code: parsed?.data?.reward?.code,
+          timestamp: parsed?.timestamp,
+          blocked: false,
+        }));
+      }
+      if (parsed?.data?.closeMethod === 'button-click') {
+        actions.CLOSE_ROULET();
+      }
+    }
+  }, []);
+
+  const webViewUri = useMemo(
+    () => `https://www.usereserva.com/files/popconvert.html?${new Date().getTime()}`,
+    [],
+  );
+
+  return rouletIsOpen ? (
+    <View
+      style={styles.rouletWrapper}
+    >
+      <WebView
+        source={{
+          uri: webViewUri,
+        }}
+        style={styles.webView}
+        cacheEnabled={false}
+        cacheMode="LOAD_NO_CACHE"
+        onMessage={onHandleMessage}
+      />
+
+      <View
+        style={[{
+          display: rouletIsLoading ? 'flex' : 'none',
+        }, styles.loaderWrapper]}
+      >
+        <ActivityIndicator color={COLORS.RED} size="large" />
+      </View>
+
+      <TouchableOpacity
+        style={styles.closeButton}
+        onPress={() => actions.CLOSE_ROULET()}
+      >
+        <Text style={styles.closeButtonText}>Fechar</Text>
+      </TouchableOpacity>
+    </View>
+  ) : null;
+}
+
 function ListHeader({ newHeaderIsActive }: { newHeaderIsActive: boolean }) {
   return (
     <Box style={{ overflow: 'hidden' }}>
@@ -70,21 +131,6 @@ function Home() {
   ]);
   const { isConnected } = useConnectivityStore(['isConnected']);
 
-  const [isRoletaVisible, setIsRoletaVisible] = useState(false);
-
-  const onHandleMessage = useCallback((ev: WebViewMessageEvent) => {
-    try {
-      if (ev?.nativeEvent?.data) {
-        const parsed = JSON.parse(ev?.nativeEvent?.data);
-
-        if (parsed?.type) {
-          setIsRoletaVisible(false);
-        }
-      }
-    } catch (err) {
-      //
-    }
-  }, []);
   const { getBoolean } = useRemoteConfig();
   const newHeaderIsActive = getBoolean('show_new_header');
 
@@ -137,30 +183,11 @@ function Home() {
       {newHeaderIsActive ? renderHeader() : <TopBarDefault />}
       {!newHeaderIsActive ? <HomeDiscountModal /> : null}
       <SafeAreaView {...testProps('home_count_down_container')}>
+        <RouletWebview />
         <FlatList
-          ListHeaderComponent={(
-            <>
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: 20,
-                }}
-              >
-                <TouchableOpacity
-                  onPress={() => setIsRoletaVisible(true)}
-                  style={{
-                    backgroundColor: COLORS.RED,
-                    padding: 10,
-                    borderRadius: 10,
-                  }}
-                >
-                  <Text style={{ color: '#fff' }}>ABRIR MODAL ROLETA</Text>
-                </TouchableOpacity>
-              </View>
-              <ListHeader newHeaderIsActive={newHeaderIsActive} />
-            </>
-          )}
+          ListHeaderComponent={
+            <ListHeader newHeaderIsActive={newHeaderIsActive} />
+          }
           bounces
           onScroll={handleScroll}
           contentContainerStyle={{ paddingBottom: 100 }}
@@ -177,61 +204,6 @@ function Home() {
           )}
         />
       </SafeAreaView>
-
-      <Modal
-        isVisible={isRoletaVisible}
-        onBackButtonPress={() => setIsRoletaVisible(false)}
-        onBackdropPress={() => setIsRoletaVisible(false)}
-        style={{
-          height: configDeviceSizes.DEVICE_HEIGHT * 0.9,
-          backgroundColor: 'transparent',
-        }}
-      >
-        <View
-          style={{
-            position: 'absolute',
-            left: configDeviceSizes.DEVICE_WIDTH / 2 - 25,
-            top: (configDeviceSizes.DEVICE_HEIGHT * 0.9) / 2 - 25,
-            width: 50,
-            height: 50,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <ActivityIndicator color={COLORS.RED} size="large" />
-        </View>
-
-        <WebView
-          source={{
-            uri: `https://www.usereserva.com/files/popconvert.html?${new Date().getTime()}`,
-          }}
-          style={{
-            width: '100%',
-            height: configDeviceSizes.DEVICE_HEIGHT * 0.9,
-            backgroundColor: 'transparent',
-          }}
-          cacheEnabled={false}
-          cacheMode="LOAD_NO_CACHE"
-          renderLoading={() => <ActivityIndicator />}
-          // injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
-          onMessage={onHandleMessage}
-        />
-
-        <TouchableOpacity
-          style={{
-            position: 'absolute',
-            right: 10,
-            top: platformType.IOS ? 20 : 10,
-            paddingHorizontal: 10,
-            paddingVertical: 5,
-            backgroundColor: COLORS.RED,
-          }}
-          onPress={() => setIsRoletaVisible(false)}
-        >
-          <Text style={{ fontSize: 12, color: '#fff' }}>Fechar</Text>
-        </TouchableOpacity>
-      </Modal>
-
       {!!showModalSignUpComplete && <ModalSignUpComplete />}
     </Box>
   );
