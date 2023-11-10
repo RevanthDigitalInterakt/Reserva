@@ -5,13 +5,13 @@
 
 ### 2.1.4 (Android)
 
-- [21060 - Header nova home Android](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21060)
+- [19882 - Ao setar o contador para todas a telas, o mesmo só aparece na home [app]](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19882/)
 
 ---
 
 ### 2.0.24 (iOS)
 
-- [21060 - Header nova home Android](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21060)
+- [19882 - Ao setar o contador para todas a telas, o mesmo só aparece na home [app]](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19882/)
 
 ---
 
