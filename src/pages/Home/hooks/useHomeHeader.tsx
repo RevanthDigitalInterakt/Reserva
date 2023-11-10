@@ -38,7 +38,7 @@ export default function useHomeHeader() {
 
     Animated.timing(whiteHeaderTranslateAnimatedValueRef, {
       toValue: WITH_TRANSLATE,
-      duration: 40,
+      duration: 20,
       useNativeDriver: true,
     }).start();
 
@@ -52,7 +52,7 @@ export default function useHomeHeader() {
   const handleAnimationBetween20And50Y = () => {
     Animated.timing(whiteHeaderOpacityAnimatedValueRef, {
       toValue: WITH_OPACITY,
-      duration: 130,
+      duration: 20,
       useNativeDriver: true,
     }).start();
 
@@ -80,7 +80,7 @@ export default function useHomeHeader() {
   const handleAnimationUnderOrEqual420Y = () => Animated
     .timing(headerWithSearchOpacityAnimatedValueRef, {
       toValue: WITHOUT_OPACITY,
-      duration: 100,
+      duration: 20,
       useNativeDriver: true,
     }).start();
 
@@ -88,13 +88,13 @@ export default function useHomeHeader() {
     if (direction === 'up') {
       Animated.timing(headerWithSearchOpacityAnimatedValueRef, {
         toValue: WITH_OPACITY,
-        duration: 40,
+        duration: 20,
         useNativeDriver: true,
       }).start();
     } else {
       Animated.timing(headerWithSearchOpacityAnimatedValueRef, {
         toValue: WITHOUT_OPACITY,
-        duration: 40,
+        duration: 20,
         useNativeDriver: true,
       }).start();
     }
