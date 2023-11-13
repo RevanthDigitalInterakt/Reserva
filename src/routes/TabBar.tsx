@@ -9,6 +9,7 @@ import testProps from '../utils/testProps';
 import { BottomBar, BottomBarButton } from './BottomBar';
 import { Box } from '../components/Box/Box';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
+import EventProvider from '../utils/EventProvider';
 
 type OnPressType = {
   key: string;
@@ -19,6 +20,7 @@ export function TabBar({ state, navigation }: BottomTabBarProps) {
   const { actions, rouletCoupon } = useBagStore(['actions', 'rouletCoupon']);
   const onPress = async ({ key, name }: OnPressType, isFocused: Boolean) => {
     if (name === 'Roulet') {
+      EventProvider.appsFlyer.logEvent('click_na_roleta', {});
       if (rouletCoupon.timestamp) {
         const dateFromTimestamp = parseISO(rouletCoupon.timestamp);
         const dateAfter60Minutes = addMinutes(dateFromTimestamp, 60);

@@ -9,6 +9,7 @@ import IconComponent from '../../../../components/IconComponent/IconComponent';
 import { scale } from '../../../../utils/scale';
 import { Modal } from '../../../../components/Modal';
 import { CopiedCupomDescription } from '../../../../components/Modal/components/CopiedCupomDescription';
+import EventProvider from '../../../../utils/EventProvider';
 
 const HEADER_ICON_WIDTH = scale(16);
 const HEADER_ICON_HEIGHT = scale(16);
@@ -23,6 +24,7 @@ export function RouletCouponCard() {
   const handleCopyCode = () => {
     setIsVisible(true);
     Clipboard.setString(rouletCoupon.code! || 'teste');
+    EventProvider.appsFlyer.logEvent('click_cupom_roleta', {});
   };
   const handleCloseCard = () => setCardIsOpen(false);
 
