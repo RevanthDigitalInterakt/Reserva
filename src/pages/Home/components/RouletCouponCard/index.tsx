@@ -24,7 +24,7 @@ export function RouletCouponCard() {
   const handleCopyCode = () => {
     setIsVisible(true);
     Clipboard.setString(rouletCoupon.code! || 'teste');
-    EventProvider.appsFlyer.logEvent('click_cupom_roleta', {});
+    EventProvider.logEvent('click_cupom_roleta', {});
   };
   const handleCloseCard = () => setCardIsOpen(false);
 

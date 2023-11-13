@@ -20,7 +20,7 @@ export function TabBar({ state, navigation }: BottomTabBarProps) {
   const { actions, rouletCoupon } = useBagStore(['actions', 'rouletCoupon']);
   const onPress = async ({ key, name }: OnPressType, isFocused: Boolean) => {
     if (name === 'Roulet') {
-      EventProvider.appsFlyer.logEvent('click_na_roleta', {});
+      EventProvider.logEvent('click_na_roleta', {});
       if (rouletCoupon.timestamp) {
         const dateFromTimestamp = parseISO(rouletCoupon.timestamp);
         const dateAfter60Minutes = addMinutes(dateFromTimestamp, 60);
