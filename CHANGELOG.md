@@ -3,6 +3,17 @@
 
 ## CHANGELOG
 
+### 2.0.23 (iOS)
+
+- [19195 - Girar a roleta roleta no app - Roleta best Friday](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19195)
+
+---
+
+### 2.1.3 (Android)
+
+- [19195 - Girar a roleta roleta no app - Roleta best Friday](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19195)
+
+---
 ### 2.1.2 (Android)
 
 - [20881 - Bug valores no favoritos APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/20881)

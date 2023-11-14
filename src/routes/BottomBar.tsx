@@ -5,6 +5,7 @@ import { Box } from '../components/Box/Box';
 import { Button } from '../components/Button';
 import { IconLegacy } from '../components/IconLegacy/IconLegacy';
 import { Typography } from '../components/Typography/Typography';
+import IconComponent from '../components/IconComponent/IconComponent';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -35,12 +36,16 @@ export function BottomBarButton({
       accessibilityLabel={accessibilityLabel}
     >
       <>
-        <IconLegacy
-          name={iconName}
-          color={isSlected ? 'vermelhoAlerta' : 'preto'}
-          size={25}
-          mb={4}
-        />
+        {iconName === 'Roulet' ? (
+          <IconComponent icon="roulet" style={{ width: 25, height: 25, marginBottom: 4 }} />
+        ) : (
+          <IconLegacy
+            name={iconName}
+            color={isSlected ? 'vermelhoAlerta' : 'preto'}
+            size={25}
+            mb={4}
+          />
+        )}
         <Typography fontSize="9px" fontFamily="nunitoRegular" color={isSlected ? 'vermelhoAlerta' : 'preto'}>{label}</Typography>
       </>
     </Button>

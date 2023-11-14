@@ -29,6 +29,7 @@ import sentryConfig from './config/sentryConfig';
 import DatadogComponentProvider from './components/DatadogComponentProvider';
 import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
 import { useConnectivityStore } from './zustand/useConnectivityStore';
+import { useBagStore } from './zustand/useBagStore/useBagStore';
 
 const DefaultTheme = {
   colors: {
@@ -43,6 +44,7 @@ function App() {
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const client = useApolloClientHook(isTesting);
   const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
+  const { actions } = useBagStore(['actions']);
 
   const remoteConfigStore = useRemoteConfig();
   const { setItem } = useAsyncStorageProvider();
@@ -84,10 +86,11 @@ function App() {
             <NavigationContainer
               linking={linkingConfig}
               theme={DefaultTheme}
-              onReady={() => {
+              onReady={async () => {
                 ExceptionProvider.trackScreen();
                 RNBootSplash.hide();
                 onStartLoad(navigationRef.current?.getCurrentRoute()?.name);
+                await actions.ROULET_COUPON_INITIAL_LOAD();
               }}
               ref={navigationRef}
               onStateChange={() => {

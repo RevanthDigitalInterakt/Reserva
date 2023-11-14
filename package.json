@@ -50,11 +50,12 @@
     "@sentry/react-native": "5.9.1",
     "axios": "1.4.0",
     "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
     "dayjs": "^1.11.9",
     "dotenv": "^16.3.1",
     "formik": "^2.4.2",
-    "graphql": "^16.7.1",
     "gl-matrix": "^3.4.3",
+    "graphql": "^16.7.1",
     "jest-fetch-mock": "3.0.3",
     "lottie-react-native": "^5.1.6",
     "qs-stringify": "^1.2.1",
@@ -71,10 +72,10 @@
     "react-native-confetti-cannon": "^1.5.2",
     "react-native-config": "^1.5.1",
     "react-native-device-info": "^10.8.0",
+    "react-native-drop-shadow": "^0.0.8",
     "react-native-exit-app": "^2.0.0",
     "react-native-gesture-handler": "^2.12.1",
     "react-native-get-random-values": "1.9.0",
-    "react-native-drop-shadow": "^0.0.8",
     "react-native-image-pan-zoom": "^2.1.12",
     "react-native-image-picker": "^5.6.1",
     "react-native-image-zoom-viewer": "^3.0.1",
@@ -186,7 +187,8 @@
       "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/?!((jest-)?@react-native|react-native|react-native-modal|react-native-progress|lottie-react-native)"
+      "node_modules/?!((jest-)?@react-native|react-native|react-native-modal|react-native-progress|lottie-react-native)",
+      "jest-runner"
     ],
     "automock": false,
     "moduleFileExtensions": [
