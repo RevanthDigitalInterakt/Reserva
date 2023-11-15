@@ -1,21 +1,21 @@
-# Pull Request: [Nome da Branch]
+### TÍTULO DO PR = Número da história ou bug + descrição do mesmo
 
-## Canal Site
+#### 🔨 O que foi realizado
 
-### 🔨 O que foi realizado
-- [ ] Descreva brevemente as alterações realizadas.
+_Descreva brevemente as alterações realizadas._
 
-### 🔰 Link da tarefa
-- Tarefa relacionada: [Link da Tarefa](URL_da_Tarefa)
+#### 🚨 Atrelou a história/bug ao PR?
 
-### 🎨 UI/UX - Figma
-- [ ] Descreva as alterações relacionadas à UI/UX, se aplicável.
+_Sim/Não_
 
-### 👾 Ambiente de testes
-- [ ] Descreva as instruções para testar as alterações ou o link para o ambiente de testes.
+#### 👾 Ambiente de testes
 
-### 📷 Print/Vídeo da implementação (Frontend)
-- [ ] Anexe prints ou vídeos que mostrem a implementação no frontend, se aplicável.
+_Descreva as instruções para testar as alterações ou o link para o ambiente de testes._
 
-### 📝 Observações
-- [ ] Inclua observações adicionais, se houver.
+#### 📷 Print/Vídeo da implementação (Frontend)
+
+_Anexe prints ou vídeos que mostrem a implementação no frontend, se aplicável._
+
+#### 📝 Observações
+
+_Inclua observações adicionais, se houver._
