@@ -64,6 +64,23 @@ export const commons = {
   selectRectangle: require('../../../assets/common/selectRectangle.png'),
   emptyProductCatalog: require('../../../assets/common/emptyProductCatalog.png'),
   search: require('../../../assets/common/search.png'),
+  discountFlag: require('../../../assets/common/discountFlag.png'),
+  close: require('../../../assets/common/close.png'),
+  copy: require('../../../assets/common/copy.png'),
+  faq: require('../../../assets/common/faq.png'),
+  chat: require('../../../assets/common/chat.png'),
+  pinPlace: require('../../../assets/common/pinPlace.png'),
+  heart: require('../../../assets/common/heart.png'),
+  document: require('../../../assets/common/document.png'),
+  profile: require('../../../assets/common/profile.png'),
+  roulet: require('../../../assets/common/roulet.png'),
+  shipping1: require('../../../assets/help/shipping1.png'),
+  shipping2: require('../../../assets/help/shipping2.png'),
+  signup1: require('../../../assets/help/signup1.png'),
+  signup2: require('../../../assets/help/signup2.png'),
+  signup3: require('../../../assets/help/signup3.png'),
+  signup4: require('../../../assets/help/signup4.png'),
+  signup5: require('../../../assets/help/signup5.png'),
 };
 
 /* mapping of svgs used as icons */
