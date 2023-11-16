@@ -61,7 +61,9 @@ const OrderList: React.FC<any> = ({ route }) => {
 
   const fetchTrackingInvoiceStatus = async () => {
     const packages = orderDetails?.packageAttachment?.packages[0];
-    const response = await fetchTrackingStatusByInvoiceKey(packages?.invoiceKey.toString() || '');
+    const response = await fetchTrackingStatusByInvoiceKey(
+      packages?.invoiceKey.toString() || ''
+    );
     if (response.status === 200) {
       setOrderTrackingStatus({
         invoiceData: response.data,
@@ -72,7 +74,9 @@ const OrderList: React.FC<any> = ({ route }) => {
 
   const fetchTrackingStatus = async () => {
     const packages = orderDetails?.packageAttachment?.packages[0];
-    const response = await fetchTrackingStatusByTrackingNumber(packages?.trackingNumber.toString() || '');
+    const response = await fetchTrackingStatusByTrackingNumber(
+      packages?.trackingNumber.toString() || ''
+    );
     if (response.status === 200) {
       setOrderTrackingStatus({
         trackingData: response.data,
@@ -205,7 +209,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                     <Typography fontSize={14} fontFamily="nunitoBold">
                       Previsão:{' '}
                       {format(
-                        new Date(orderDetails?.shippingData?.logisticsInfo[0]?.shippingEstimateDate),
+                        new Date(orderDetails?.shippingData?.logisticsInfo[0]?.shippingEstimateDate!),
                         'dd/MM/yy',
                         { locale: ptBR },
                       )}
@@ -304,7 +308,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                     </>
                   ) : (
                     <Box mb="micro" flexDirection="row">
-                      <Typography fontFamily="nunitoMedium" fontSize={14}>
+                      <Typography fontFamily="nunitoBold" fontSize={14}>
                         Ponto de Retirada: {orderDetails?.shippingData?.logisticsInfo[0]?.pickupStoreInfo?.friendlyName}
                       </Typography>
                     </Box>

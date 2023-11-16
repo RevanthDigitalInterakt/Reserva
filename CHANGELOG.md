@@ -3,6 +3,17 @@
 
 ## CHANGELOG
 
+### 2.0.24 (iOS)
+
+- [Feature(19072) Integrar intelipost](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_git/app-v2/pullrequest/1591)
+
+---
+
+### 2.1.4 (Android)
+
+- [Feature(19072) Integrar intelipost](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_git/app-v2/pullrequest/1591)
+
+
 ### 2.0.23 (iOS)
 
 - [19195 - Girar a roleta roleta no app - Roleta best Friday](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19195)
