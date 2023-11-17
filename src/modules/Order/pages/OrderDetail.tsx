@@ -16,11 +16,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {
-  fetchTrackingStatusByInvoiceKey,
-  fetchTrackingStatusByTrackingNumber,
-} from '../../../services/intelipostService';
-import type { TrackingNumberData, InvoiceKeyData } from '../../../services/intelipostService';
 import { type IOrderId, useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import OrderDetailComponent from '../Components/OrderDetailComponent';
@@ -31,23 +26,33 @@ import { Typography } from '../../../components/Typography/Typography';
 import { Stepper } from '../../../components/Stepper/Stepper';
 import { Button } from '../../../components/Button';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { useInvoiceKeyQuery, useTrackingCodeQuery } from '../../../base/graphql/generated';
 
 function OrderList({ route }: any): React.ReactElement {
   const { order } = route.params;
   const navigation = useNavigation();
   const { orderDetail } = useCart();
   const [orderDetails, setOrderDetails] = useState<IOrderId>();
-  const [orderTrackingStatus, setOrderTrackingStatus] = useState<{
-    invoiceData: InvoiceKeyData | null,
-    trackingData: TrackingNumberData | null
-  }>({
-    trackingData: null,
-    invoiceData: null,
-  });
   const [, setCopiedText] = useClipboard();
   const [loading, setLoading] = useState(true);
   const [clickedIcon, setClickedIcon] = useState(false);
   const { profile } = useAuthStore(['profile']);
+
+  const {
+    data: invoiceData,
+  } = useInvoiceKeyQuery({
+    variables: {
+      invoiceKey: orderDetails?.packageAttachment?.packages[0]?.invoiceKey.toString() || '',
+    },
+  });
+
+  const {
+    data: trackingData,
+  } = useTrackingCodeQuery({
+    variables: {
+      trackingCode: orderDetails?.packageAttachment?.packages[0]?.trackingNumber.toString() || '',
+    },
+  });
 
   const fetchOrderDetail = async () => {
     if (profile?.authCookie != null) {
@@ -58,46 +63,9 @@ function OrderList({ route }: any): React.ReactElement {
     }
   };
 
-  const fetchTrackingInvoiceStatus = async () => {
-    const packages = orderDetails?.packageAttachment?.packages[0];
-    const response = await fetchTrackingStatusByInvoiceKey(
-      packages?.invoiceKey.toString() || '',
-    );
-    if (response.status === 200) {
-      setOrderTrackingStatus({
-        invoiceData: response.data,
-        trackingData: null,
-      });
-    }
-  };
-
-  const fetchTrackingStatus = async () => {
-    const packages = orderDetails?.packageAttachment?.packages[0];
-    const response = await fetchTrackingStatusByTrackingNumber(
-      packages?.trackingNumber.toString() || '',
-    );
-    if (response.status === 200) {
-      setOrderTrackingStatus({
-        trackingData: response.data,
-        invoiceData: null,
-      });
-    }
-  };
-
   useEffect(() => {
     fetchOrderDetail();
   }, []);
-
-  useEffect(() => {
-    if (orderDetails) {
-      const packages = orderDetails?.packageAttachment?.packages[0];
-      if (packages?.trackingNumber) {
-        fetchTrackingStatus();
-      } else if (packages?.invoiceKey) {
-        fetchTrackingInvoiceStatus();
-      }
-    }
-  }, [orderDetails]);
 
   const handleCopiedText = () => {
     setClickedIcon(true);
@@ -109,8 +77,10 @@ function OrderList({ route }: any): React.ReactElement {
   };
 
   const handleTrackingUrl = useCallback(async () => {
-    await Linking.openURL(orderTrackingStatus.trackingData?.tracking_url!);
-  }, [orderTrackingStatus]);
+    if (trackingData?.trackingCode?.trackingUrl) {
+      await Linking.openURL(trackingData?.trackingCode?.trackingUrl);
+    }
+  }, [trackingData?.trackingCode]);
 
   const hasPackage = useMemo(() => {
     const pack = orderDetails?.packageAttachment?.packages[0]?.courierStatus;
@@ -166,7 +136,7 @@ function OrderList({ route }: any): React.ReactElement {
                 borderBottomColor="divider"
               >
                 {
-                  orderTrackingStatus.trackingData ? (
+                  trackingData?.trackingCode ? (
                     <>
                       <Typography
                         fontSize={14}
@@ -175,56 +145,66 @@ function OrderList({ route }: any): React.ReactElement {
                       >
                         Previsão:
                         {' '}
-                        {orderTrackingStatus.trackingData.estimated_delivery_date_formated}
+                        {trackingData?.trackingCode.estimatedDeliveryDateFormated}
                       </Typography>
                       <Typography fontSize={14} fontFamily="nunitoRegular">
                         Último status:
                         {' '}
-                        {orderTrackingStatus.trackingData.provider_message
-                          ? orderTrackingStatus.trackingData.provider_message
-                          : orderTrackingStatus.trackingData.shipment_order_volume_state}
+                        {trackingData?.trackingCode.providerMessage
+                          ? trackingData?.trackingCode.providerMessage
+                          : trackingData?.trackingCode.shipmentOrderVolumeState}
                       </Typography>
                       <Typography fontSize={14} fontFamily="nunitoRegular">
                         Em:
                         {' '}
-                        {orderTrackingStatus.trackingData.last_status_created}
+                        {trackingData?.trackingCode.lastStatusCreated}
                       </Typography>
                     </>
-                  ) : orderTrackingStatus.invoiceData ? (
-                    <>
-                      <Typography
-                        fontSize={14}
-                        fontFamily="nunitoBold"
-                        style={{ marginBottom: 5 }}
-                      >
-                        Previsão:
-                        {' '}
-                        {orderTrackingStatus.invoiceData.estimated_delivery_date_formated}
-                      </Typography>
-                      <Typography fontSize={14} fontFamily="nunitoRegular">
-                        Último status:
-                        {' '}
-                        {orderTrackingStatus.invoiceData.provider_message
-                          ? orderTrackingStatus.invoiceData.provider_message
-                          : orderTrackingStatus.invoiceData.shipment_order_volume_state}
-                      </Typography>
-                      <Typography fontSize={14} fontFamily="nunitoRegular">
-                        Em:
-                        {' '}
-                        {orderTrackingStatus.invoiceData.last_status_created}
-                      </Typography>
-                    </>
-                  ) : order?.paymentApprovedDate ? (
-                    <Typography fontSize={14} fontFamily="nunitoBold">
-                      Previsão:
-                      {' '}
-                      {format(
-                        new Date(orderDetails?.shippingData?.logisticsInfo[0]?.shippingEstimateDate!),
-                        'dd/MM/yy',
-                        { locale: ptBR },
-                      )}
-                    </Typography>
                   ) : null
+                }
+                {
+                  trackingData?.trackingCode ? (
+                    <>
+                      <Typography
+                        fontSize={14}
+                        fontFamily="nunitoBold"
+                        style={{ marginBottom: 5 }}
+                      >
+                        Previsão:
+                        {' '}
+                        {trackingData?.trackingCode.estimatedDeliveryDate}
+                      </Typography>
+                      <Typography fontSize={14} fontFamily="nunitoRegular">
+                        Último status:
+                        {' '}
+                        {trackingData?.trackingCode.providerMessage
+                          ? trackingData?.trackingCode.providerMessage
+                          : trackingData?.trackingCode.shipmentOrderVolumeState}
+                      </Typography>
+                      <Typography fontSize={14} fontFamily="nunitoRegular">
+                        Em:
+                        {' '}
+                        {trackingData?.trackingCode.lastStatusCreated}
+                      </Typography>
+                    </>
+                  ) : null
+                }
+                {
+                  !trackingData?.trackingCode
+                    && !invoiceData?.invoiceKey
+                    && order?.paymentApprovedDate ? (
+                      <Typography fontSize={14} fontFamily="nunitoBold">
+                        Previsão:
+                        {' '}
+                        {format(
+                          new Date(
+                            orderDetails?.shippingData?.logisticsInfo[0]?.shippingEstimateDate!,
+                          ),
+                          'dd/MM/yy',
+                          { locale: ptBR },
+                        )}
+                      </Typography>
+                    ) : null
                 }
                 <Box mt="nano">
                   <Typography
@@ -303,9 +283,9 @@ function OrderList({ route }: any): React.ReactElement {
                               fontSize={13}
                               style={{ textDecorationLine: 'underline' }}
                               onPress={async () => {
-                                const url = orderDetails?.packageAttachment?.packages[0]?.trackingUrl;
+                                const url = orderDetails?.packageAttachment?.packages[0];
                                 if (url) {
-                                  await Linking.openURL(url);
+                                  await Linking.openURL(url?.trackingUrl);
                                 }
                               }}
                             >
@@ -320,11 +300,14 @@ function OrderList({ route }: any): React.ReactElement {
                         <Typography fontFamily="nunitoBold" fontSize={14}>
                           Ponto de Retirada:
                           {' '}
-                          {orderDetails?.shippingData?.logisticsInfo[0]?.pickupStoreInfo?.friendlyName}
+                          {
+                            orderDetails?.shippingData?.logisticsInfo[0]
+                              ?.pickupStoreInfo?.friendlyName
+                          }
                         </Typography>
                       </Box>
                     )
-                }
+                  }
               </Box>
             )}
           </>
