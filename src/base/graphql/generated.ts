@@ -1,68 +1,67 @@
-// @ts-nocheck
-/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
-
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
 };
 
 export type BannerCategoryImageOutput = {
   __typename?: 'BannerCategoryImageOutput';
-  height: Scalars['Int'];
-  url: Scalars['String'];
+  height: Scalars['Int']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type BannerCategoryInput = {
-  category: Scalars['String'];
+  category: Scalars['String']['input'];
 };
 
 export type BannerCategoryOutput = {
   __typename?: 'BannerCategoryOutput';
   image: BannerCategoryImageOutput;
-  name?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type CashbackExpirationInfoOutput = {
   __typename?: 'CashbackExpirationInfoOutput';
   cashbackToExpire: Array<CashbackExpirationItemOutput>;
-  totalExpireBalanceInCents: Scalars['String'];
+  totalExpireBalanceInCents: Scalars['String']['output'];
 };
 
 export type CashbackExpirationItemOutput = {
   __typename?: 'CashbackExpirationItemOutput';
-  expireAt: Scalars['String'];
-  expireCashbackAmount: Scalars['String'];
-  expireCashbackProgramRefId: Scalars['String'];
-  expireDays: Scalars['Float'];
-  expireOperationId: Scalars['Int'];
-  expireOrderId: Scalars['String'];
-  expireStatus: Scalars['String'];
+  expireAt: Scalars['String']['output'];
+  expireCashbackAmount: Scalars['String']['output'];
+  expireCashbackProgramRefId: Scalars['String']['output'];
+  expireDays: Scalars['Float']['output'];
+  expireOperationId: Scalars['Int']['output'];
+  expireOrderId: Scalars['String']['output'];
+  expireStatus: Scalars['String']['output'];
 };
 
 export type CashbackOperationOutput = {
   __typename?: 'CashbackOperationOutput';
-  appliedBalanceInCents: Scalars['Float'];
-  cashbackAmountInCents: Scalars['Float'];
-  createdAt: Scalars['String'];
-  currentBalanceInCents: Scalars['Float'];
-  externalOrderAmountInCents: Scalars['Float'];
-  externalOrderId: Scalars['String'];
-  requestedCashback: Scalars['Boolean'];
-  settlementDate?: Maybe<Scalars['String']>;
-  status: Scalars['String'];
-  type: Scalars['String'];
+  appliedBalanceInCents: Scalars['Float']['output'];
+  cashbackAmountInCents: Scalars['Float']['output'];
+  createdAt: Scalars['String']['output'];
+  currentBalanceInCents: Scalars['Float']['output'];
+  externalOrderAmountInCents: Scalars['Float']['output'];
+  externalOrderId: Scalars['String']['output'];
+  requestedCashback: Scalars['Boolean']['output'];
+  settlementDate?: Maybe<Scalars['String']['output']>;
+  status: Scalars['String']['output'];
+  type: Scalars['String']['output'];
 };
 
 export type CashbackOutput = {
@@ -74,80 +73,80 @@ export type CashbackOutput = {
 
 export type CashbackWalletOutput = {
   __typename?: 'CashbackWalletOutput';
-  balanceExpiresOn?: Maybe<Scalars['String']>;
-  balanceInCents: Scalars['Float'];
-  pendingBalanceInCents: Scalars['Float'];
-  userStatus: Scalars['String'];
+  balanceExpiresOn?: Maybe<Scalars['String']['output']>;
+  balanceInCents: Scalars['Float']['output'];
+  pendingBalanceInCents: Scalars['Float']['output'];
+  userStatus: Scalars['String']['output'];
 };
 
 export type CepInput = {
-  cep: Scalars['String'];
+  cep: Scalars['String']['input'];
 };
 
 export type CepOutput = {
   __typename?: 'CepOutput';
-  city?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  geoCoordinates?: Maybe<Array<Scalars['Float']>>;
-  neighborhood?: Maybe<Scalars['String']>;
-  postalCode?: Maybe<Scalars['String']>;
-  reference?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  street?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']['output']>;
+  country?: Maybe<Scalars['String']['output']>;
+  geoCoordinates?: Maybe<Array<Scalars['Float']['output']>>;
+  neighborhood?: Maybe<Scalars['String']['output']>;
+  postalCode?: Maybe<Scalars['String']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  street?: Maybe<Scalars['String']['output']>;
 };
 
 export type CheckDeliveryTimeByProductInput = {
-  id: Scalars['String'];
-  postalCode: Scalars['String'];
-  seller: Scalars['String'];
+  id: Scalars['String']['input'];
+  postalCode: Scalars['String']['input'];
+  seller: Scalars['String']['input'];
 };
 
 export type CheckEmailInput = {
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
 };
 
 export enum ClockScreenEnum {
   All = 'ALL',
   Category = 'CATEGORY',
   Home = 'HOME',
-  Offers = 'OFFERS',
+  Offers = 'OFFERS'
 }
 
 export type ConfigCountdownClockOutput = {
   __typename?: 'ConfigCountdownClockOutput';
-  countdown?: Maybe<Scalars['String']>;
-  countdownStart?: Maybe<Scalars['String']>;
-  descriptionModal?: Maybe<Scalars['String']>;
-  reference?: Maybe<Scalars['String']>;
-  subtitle?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  titleButton?: Maybe<Scalars['String']>;
-  titleModal?: Maybe<Scalars['String']>;
-  watchType?: Maybe<Scalars['String']>;
+  countdown?: Maybe<Scalars['String']['output']>;
+  countdownStart?: Maybe<Scalars['String']['output']>;
+  descriptionModal?: Maybe<Scalars['String']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  titleButton?: Maybe<Scalars['String']['output']>;
+  titleModal?: Maybe<Scalars['String']['output']>;
+  watchType?: Maybe<Scalars['String']['output']>;
 };
 
 export type ConfigCountdownClockReservaOutput = {
   __typename?: 'ConfigCountdownClockReservaOutput';
-  countdown?: Maybe<Scalars['String']>;
-  descriptionModal?: Maybe<Scalars['String']>;
-  reference?: Maybe<Scalars['String']>;
-  subtitle?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  titleButton?: Maybe<Scalars['String']>;
-  titleModal?: Maybe<Scalars['String']>;
-  watchType?: Maybe<Scalars['String']>;
+  countdown?: Maybe<Scalars['String']['output']>;
+  descriptionModal?: Maybe<Scalars['String']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  titleButton?: Maybe<Scalars['String']['output']>;
+  titleModal?: Maybe<Scalars['String']['output']>;
+  watchType?: Maybe<Scalars['String']['output']>;
 };
 
 export type ConfigDiscountBarOutput = {
   __typename?: 'ConfigDiscountBarOutput';
-  colorBar?: Maybe<Scalars['String']>;
-  colorButton?: Maybe<Scalars['String']>;
-  coupon?: Maybe<Scalars['String']>;
-  descriptionModal?: Maybe<Scalars['String']>;
-  shareMessage?: Maybe<Scalars['String']>;
-  titleBar?: Maybe<Scalars['String']>;
-  titleButton?: Maybe<Scalars['String']>;
-  titleModal?: Maybe<Scalars['String']>;
+  colorBar?: Maybe<Scalars['String']['output']>;
+  colorButton?: Maybe<Scalars['String']['output']>;
+  coupon?: Maybe<Scalars['String']['output']>;
+  descriptionModal?: Maybe<Scalars['String']['output']>;
+  shareMessage?: Maybe<Scalars['String']['output']>;
+  titleBar?: Maybe<Scalars['String']['output']>;
+  titleButton?: Maybe<Scalars['String']['output']>;
+  titleModal?: Maybe<Scalars['String']['output']>;
 };
 
 export type ConfigOutput = {
@@ -155,206 +154,231 @@ export type ConfigOutput = {
   countDownClock?: Maybe<ConfigCountdownClockOutput>;
   countDownClockReservaMini?: Maybe<ConfigCountdownClockReservaOutput>;
   discountCodeBar?: Maybe<ConfigDiscountBarOutput>;
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  offersPage?: Maybe<Scalars['String']>;
-  online: Scalars['Boolean'];
-  searchCollection: Scalars['String'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  offersPage?: Maybe<Scalars['String']['output']>;
+  online: Scalars['Boolean']['output'];
+  searchCollection: Scalars['String']['output'];
   searchMedia?: Maybe<ConfigSearchMediaOutput>;
-  searchSuggestionsCollection: Array<Scalars['String']>;
+  searchSuggestionsCollection: Array<Scalars['String']['output']>;
   shippingBar?: Maybe<ConfigShippingBarOutput>;
 };
 
 export type ConfigSearchMediaItemOutput = {
   __typename?: 'ConfigSearchMediaItemOutput';
-  image?: Maybe<Scalars['String']>;
-  orderBy?: Maybe<Scalars['String']>;
-  reference?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']['output']>;
+  orderBy?: Maybe<Scalars['String']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
 };
 
 export type ConfigSearchMediaOutput = {
   __typename?: 'ConfigSearchMediaOutput';
   items: Array<ConfigSearchMediaItemOutput>;
-  title?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export type ConfigShippingBarOutput = {
   __typename?: 'ConfigShippingBarOutput';
-  freeShippingValue?: Maybe<Scalars['Float']>;
-  isFreeShipping?: Maybe<Scalars['Boolean']>;
+  freeShippingValue?: Maybe<Scalars['Float']['output']>;
+  isFreeShipping?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ContentfulCategoryDetailOutput = {
   __typename?: 'ContentfulCategoryDetailOutput';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  parentCategoryId?: Maybe<Scalars['String']>;
-  title: Scalars['String'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  parentCategoryId?: Maybe<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
 };
 
 export type ContentfulCategoryOutput = {
   __typename?: 'ContentfulCategoryOutput';
-  fatherCategoryId?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
+  fatherCategoryId?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type ContentfulCollectionOutput = {
   __typename?: 'ContentfulCollectionOutput';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  totalProducts?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  totalProducts?: Maybe<Scalars['Int']['output']>;
 };
 
 export type ContentfulProductItemOutput = {
   __typename?: 'ContentfulProductItemOutput';
-  productId: Scalars['ID'];
-  productName: Scalars['String'];
+  productId: Scalars['ID']['output'];
+  productName: Scalars['String']['output'];
 };
 
 export type CountdownCategoryInput = {
-  categoryReference?: InputMaybe<Scalars['String']>;
+  categoryReference?: InputMaybe<Scalars['String']['input']>;
   selectClockScreen: ClockScreenEnum;
 };
 
 export type CountdownClockCategoryOutput = {
   __typename?: 'CountdownClockCategoryOutput';
-  backgroundColor: Scalars['String'];
-  bannerColor: Scalars['String'];
-  buttonColor: Scalars['String'];
-  descriptionModal?: Maybe<Scalars['String']>;
-  reference: Scalars['String'];
-  remainingTime: Scalars['String'];
+  backgroundColor: Scalars['String']['output'];
+  bannerColor: Scalars['String']['output'];
+  buttonColor: Scalars['String']['output'];
+  descriptionModal?: Maybe<Scalars['String']['output']>;
+  reference: Scalars['String']['output'];
+  remainingTime: Scalars['String']['output'];
   selectClockScreen: ClockScreenEnum;
-  subtitle: Scalars['String'];
-  textColor: Scalars['String'];
-  title: Scalars['String'];
-  titleButton: Scalars['String'];
-  titleModal: Scalars['String'];
+  subtitle: Scalars['String']['output'];
+  textColor: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  titleButton: Scalars['String']['output'];
+  titleModal: Scalars['String']['output'];
 };
 
 export type DeeplinkOutput = {
   __typename?: 'DeeplinkOutput';
-  active: Scalars['Boolean'];
-  path: Scalars['String'];
-  referenceId?: Maybe<Scalars['String']>;
+  active: Scalars['Boolean']['output'];
+  path: Scalars['String']['output'];
+  referenceId?: Maybe<Scalars['String']['output']>;
 };
 
 export type DeeplinkPathInput = {
-  path: Scalars['String'];
+  path: Scalars['String']['input'];
 };
 
 export type GenericOutput = {
   __typename?: 'GenericOutput';
-  error: Scalars['Boolean'];
-  message?: Maybe<Scalars['String']>;
+  error: Scalars['Boolean']['output'];
+  message?: Maybe<Scalars['String']['output']>;
 };
 
 export enum GetProductTypeEnum {
   ProductId = 'PRODUCT_ID',
   SkuId = 'SKU_ID',
-  Slug = 'SLUG',
+  Slug = 'SLUG'
 }
 
 export type HealthcheckOutput = {
   __typename?: 'HealthcheckOutput';
-  status: Scalars['Boolean'];
-  version: Scalars['String'];
+  status: Scalars['Boolean']['output'];
+  version: Scalars['String']['output'];
 };
 
 export type HomeCarouselItemImageOutput = {
   __typename?: 'HomeCarouselItemImageOutput';
-  height?: Maybe<Scalars['Int']>;
-  title: Scalars['String'];
-  url: Scalars['String'];
-  width?: Maybe<Scalars['Int']>;
+  height?: Maybe<Scalars['Int']['output']>;
+  title: Scalars['String']['output'];
+  url: Scalars['String']['output'];
+  width?: Maybe<Scalars['Int']['output']>;
 };
 
 export type HomeCarouselItemOutput = {
   __typename?: 'HomeCarouselItemOutput';
+  creativeName?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
   image: HomeCarouselItemImageOutput;
-  linkMktIn?: Maybe<Scalars['String']>;
-  mkt: Scalars['Boolean'];
-  orderBy: Scalars['String'];
-  reference: Scalars['String'];
-  reservaMini: Scalars['Boolean'];
+  linkMktIn?: Maybe<Scalars['String']['output']>;
+  locationId?: Maybe<Scalars['String']['output']>;
+  mkt: Scalars['Boolean']['output'];
+  orderBy: Scalars['String']['output'];
+  promotionName?: Maybe<Scalars['String']['output']>;
+  reference: Scalars['String']['output'];
+  reservaMini: Scalars['Boolean']['output'];
 };
 
 export type HomeCarouselOutput = {
   __typename?: 'HomeCarouselOutput';
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   items: Array<HomeCarouselItemOutput>;
-  showtime?: Maybe<Scalars['Int']>;
+  showtime?: Maybe<Scalars['Int']['output']>;
   type: HomePageSectionTypeEnum;
 };
 
 export type HomeCountdownOutput = {
   __typename?: 'HomeCountdownOutput';
-  countdown: Scalars['String'];
-  countdownStart?: Maybe<Scalars['String']>;
-  descriptionModal?: Maybe<Scalars['String']>;
+  countdown: Scalars['String']['output'];
+  countdownStart?: Maybe<Scalars['String']['output']>;
+  descriptionModal?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
-  formattedValue?: Maybe<Scalars['String']>;
-  reference?: Maybe<Scalars['String']>;
-  subtitle?: Maybe<Scalars['String']>;
+  formattedValue?: Maybe<Scalars['String']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
   theme: HomeCountdownThemeOutput;
-  title?: Maybe<Scalars['String']>;
-  titleButton?: Maybe<Scalars['String']>;
-  titleModal?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']['output']>;
+  titleButton?: Maybe<Scalars['String']['output']>;
+  titleModal?: Maybe<Scalars['String']['output']>;
   type?: Maybe<ClockScreenEnum>;
-  watchType?: Maybe<Scalars['String']>;
+  watchType?: Maybe<Scalars['String']['output']>;
 };
 
 export type HomeCountdownThemeOutput = {
   __typename?: 'HomeCountdownThemeOutput';
-  clockBackgroundColor: Scalars['String'];
-  colorBanner: Scalars['String'];
-  colorButton: Scalars['String'];
+  clockBackgroundColor: Scalars['String']['output'];
+  colorBanner: Scalars['String']['output'];
+  colorButton: Scalars['String']['output'];
 };
 
 export type HomeMediaOutput = {
   __typename?: 'HomeMediaOutput';
+  creativeName?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   image: HomeCarouselItemImageOutput;
-  linkMktIn?: Maybe<Scalars['String']>;
-  mkt: Scalars['Boolean'];
-  orderBy: Scalars['String'];
-  reference: Scalars['String'];
-  reservaMini: Scalars['Boolean'];
+  linkMktIn?: Maybe<Scalars['String']['output']>;
+  locationId?: Maybe<Scalars['String']['output']>;
+  mkt: Scalars['Boolean']['output'];
+  orderBy: Scalars['String']['output'];
+  promotionName?: Maybe<Scalars['String']['output']>;
+  reference: Scalars['String']['output'];
+  reservaMini: Scalars['Boolean']['output'];
 };
 
 export enum HomePageSectionTypeEnum {
   Brands = 'BRANDS',
   Cards = 'CARDS',
-  Main = 'MAIN',
+  Main = 'MAIN'
 }
+
+export type InvoiceKeyInput = {
+  invoiceKey: Scalars['String']['input'];
+};
+
+export type InvoiceKeyOutput = {
+  __typename?: 'InvoiceKeyOutput';
+  estimatedDeliveryDate?: Maybe<Scalars['Float']['output']>;
+  estimatedDeliveryDateFormated?: Maybe<Scalars['String']['output']>;
+  lastStatusCreated?: Maybe<Scalars['String']['output']>;
+  providerMessage?: Maybe<Scalars['String']['output']>;
+  shipmentOrderVolumeState?: Maybe<Scalars['String']['output']>;
+  shippingAdditional?: Maybe<Scalars['String']['output']>;
+  shippingAddress?: Maybe<Scalars['String']['output']>;
+  shippingCity?: Maybe<Scalars['String']['output']>;
+  shippingQuarter?: Maybe<Scalars['String']['output']>;
+  shippingReference?: Maybe<Scalars['String']['output']>;
+  shippingState?: Maybe<Scalars['String']['output']>;
+};
 
 export type LoggedInOutput = {
   __typename?: 'LoggedInOutput';
-  authCookie?: Maybe<Scalars['String']>;
-  token: Scalars['String'];
+  authCookie?: Maybe<Scalars['String']['output']>;
+  token: Scalars['String']['output'];
 };
 
 export type MenuCategoryItemOutput = {
   __typename?: 'MenuCategoryItemOutput';
-  deeplinkUrl?: Maybe<Scalars['String']>;
+  deeplinkUrl?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
-  highlight: Scalars['Boolean'];
-  name: Scalars['String'];
-  referenceId?: Maybe<Scalars['String']>;
+  highlight: Scalars['Boolean']['output'];
+  name: Scalars['String']['output'];
+  referenceId?: Maybe<Scalars['String']['output']>;
   type: MenuItemTypeEnum;
 };
 
 export type MenuCategoryOutput = {
   __typename?: 'MenuCategoryOutput';
   children: Array<MenuCategoryItemOutput>;
-  deeplinkUrl?: Maybe<Scalars['String']>;
+  deeplinkUrl?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
-  highlight: Scalars['Boolean'];
-  name: Scalars['String'];
-  referenceId?: Maybe<Scalars['String']>;
+  highlight: Scalars['Boolean']['output'];
+  name: Scalars['String']['output'];
+  referenceId?: Maybe<Scalars['String']['output']>;
   type: MenuItemTypeEnum;
 };
 
@@ -362,7 +386,7 @@ export enum MenuItemTypeEnum {
   Category = 'CATEGORY',
   Collection = 'COLLECTION',
   Deeplink = 'DEEPLINK',
-  ParentCategory = 'PARENT_CATEGORY',
+  ParentCategory = 'PARENT_CATEGORY'
 }
 
 export type Mutation = {
@@ -384,207 +408,248 @@ export type Mutation = {
   orderFormUpdateItem: OrderformOutput;
   profile: ProfileOutput;
   profileAddress: ProfileAddressOutput;
-  profileAddressRemove: Scalars['Boolean'];
+  profileAddressRemove: Scalars['Boolean']['output'];
   recoverPasswordReset: LoggedInOutput;
   recoverPasswordVerificationCode: RequestCodeOutput;
   redefinePassword: LoggedInOutput;
   refreshToken: LoggedInOutput;
-  removeCustomer: Scalars['Boolean'];
-  sendLead: Scalars['Boolean'];
+  removeCustomer: Scalars['Boolean']['output'];
+  sendLead: Scalars['Boolean']['output'];
   signIn: LoggedInOutput;
-  signOut: Scalars['Boolean'];
+  signOut: Scalars['Boolean']['output'];
   signUp: LoggedInOutput;
   signUpVerificationCode: RequestCodeOutput;
-  subscribeNewsletter: Scalars['Boolean'];
-  wishlistAddProduct: Array<Scalars['String']>;
-  wishlistRemoveProduct: Array<Scalars['String']>;
+  subscribeNewsletter: Scalars['Boolean']['output'];
+  trackClick: Scalars['Boolean']['output'];
+  trackPageView: Scalars['Boolean']['output'];
+  wishlistAddProduct: Array<Scalars['String']['output']>;
+  wishlistRemoveProduct: Array<Scalars['String']['output']>;
 };
+
 
 export type MutationOrderFormAddDiscountCouponArgs = {
   input: OrderformAddCouponInput;
 };
 
+
 export type MutationOrderFormAddGiftArgs = {
   input: OrderformGiftInput;
 };
+
 
 export type MutationOrderFormAddItemArgs = {
   input: OrderformAddItemInput;
 };
 
+
 export type MutationOrderFormAddSellerCouponArgs = {
   input: OrderformAddCouponInput;
 };
+
 
 export type MutationOrderFormAttachAddressArgs = {
   input: OrderformSelectAddressInput;
 };
 
+
 export type MutationOrderFormAttachClientByCookieArgs = {
   input: OrderformAttachClientByCookieInput;
 };
+
 
 export type MutationOrderFormAttachClientByEmailArgs = {
   input: OrderformAttachClientByEmailInput;
 };
 
+
 export type MutationOrderFormRefreshDataArgs = {
   input: OrderformRefreshDataInput;
 };
+
 
 export type MutationOrderFormRemoveDiscountCouponArgs = {
   input: OrderformRemoveCouponInput;
 };
 
+
 export type MutationOrderFormRemoveGiftArgs = {
   input: OrderformGiftInput;
 };
+
 
 export type MutationOrderFormRemoveSellerCouponArgs = {
   input: OrderformRemoveCouponInput;
 };
 
+
 export type MutationOrderFormRemoveUnavailableItemsArgs = {
   input: OrderformRemoveUnavailableItemsInput;
 };
+
 
 export type MutationOrderFormResetArgs = {
   input: OrderformResetInput;
 };
 
+
 export type MutationOrderFormSetGiftSizeArgs = {
   input: OrderformSetGiftSizeInput;
 };
+
 
 export type MutationOrderFormUpdateItemArgs = {
   input: OrderformUpdateItemInput;
 };
 
+
 export type MutationProfileArgs = {
   input: ProfileUpdateInput;
 };
+
 
 export type MutationProfileAddressArgs = {
   input: UpsertProfileAddressInput;
 };
 
+
 export type MutationProfileAddressRemoveArgs = {
   input: RemoveProfileAddressInput;
 };
+
 
 export type MutationRecoverPasswordResetArgs = {
   input: ResetVtexPasswordInput;
 };
 
+
 export type MutationRecoverPasswordVerificationCodeArgs = {
   input: RequestVerificationCodeInput;
 };
+
 
 export type MutationRedefinePasswordArgs = {
   input: RedefineVtexPasswordInput;
 };
 
+
 export type MutationRemoveCustomerArgs = {
-  customerId: Scalars['String'];
+  customerId: Scalars['String']['input'];
 };
+
 
 export type MutationSendLeadArgs = {
   input: SendLeadInput;
 };
 
+
 export type MutationSignInArgs = {
   input: SignInInput;
 };
+
 
 export type MutationSignUpArgs = {
   input: SignUpUserInput;
 };
 
+
 export type MutationSignUpVerificationCodeArgs = {
   input: RequestVerificationCodeInput;
 };
+
 
 export type MutationSubscribeNewsletterArgs = {
   input: SubscribeNewsletterInput;
 };
 
+
+export type MutationTrackClickArgs = {
+  input: TrackClickInput;
+};
+
+
+export type MutationTrackPageViewArgs = {
+  input: TrackPageViewInput;
+};
+
+
 export type MutationWishlistAddProductArgs = {
   input: WishlistAddProductInput;
 };
+
 
 export type MutationWishlistRemoveProductArgs = {
   input: WishlistRemoveProductInput;
 };
 
 export type OrderDetailIdInput = {
-  orderId: Scalars['String'];
+  orderId: Scalars['String']['input'];
 };
 
 export type OrderDetailItemOfferingOutput = {
   __typename?: 'OrderDetailItemOfferingOutput';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  price: Scalars['String'];
-  type: Scalars['String'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  price: Scalars['String']['output'];
+  type: Scalars['String']['output'];
 };
 
 export type OrderDetailItemOutput = {
   __typename?: 'OrderDetailItemOutput';
-  commission: Scalars['Int'];
-  detailUrl: Scalars['String'];
-  ean: Scalars['String'];
-  freightCommission: Scalars['Int'];
-  id: Scalars['String'];
-  imageUrl: Scalars['String'];
-  isGift: Scalars['Boolean'];
-  listPrice: Scalars['Int'];
-  measurementUnit: Scalars['String'];
-  name: Scalars['String'];
+  commission: Scalars['Int']['output'];
+  detailUrl: Scalars['String']['output'];
+  ean: Scalars['String']['output'];
+  freightCommission: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
+  imageUrl: Scalars['String']['output'];
+  isGift: Scalars['Boolean']['output'];
+  listPrice: Scalars['Int']['output'];
+  measurementUnit: Scalars['String']['output'];
+  name: Scalars['String']['output'];
   offerings: Array<OrderDetailItemOfferingOutput>;
-  price: Scalars['Int'];
-  productId: Scalars['String'];
-  quantity: Scalars['Int'];
-  refId: Scalars['String'];
-  rewardValue: Scalars['Int'];
-  seller: Scalars['String'];
-  sellerSku: Scalars['String'];
-  sellingPrice: Scalars['Int'];
-  tax: Scalars['Int'];
-  uniqueId: Scalars['String'];
-  unitMultiplier: Scalars['Float'];
+  price: Scalars['Int']['output'];
+  productId: Scalars['String']['output'];
+  quantity: Scalars['Int']['output'];
+  refId: Scalars['String']['output'];
+  rewardValue: Scalars['Int']['output'];
+  seller: Scalars['String']['output'];
+  sellerSku: Scalars['String']['output'];
+  sellingPrice: Scalars['Int']['output'];
+  tax: Scalars['Int']['output'];
+  uniqueId: Scalars['String']['output'];
+  unitMultiplier: Scalars['Float']['output'];
 };
 
 export type OrderDetailOutput = {
   __typename?: 'OrderDetailOutput';
-  affiliateId: Scalars['String'];
+  affiliateId: Scalars['String']['output'];
   clientProfileData: OrderDetailProfileDataOutput;
-  creationDate: Scalars['String'];
+  creationDate: Scalars['String']['output'];
   items: Array<OrderDetailItemOutput>;
-  lastChange: Scalars['String'];
-  marketplaceOrderId: Scalars['String'];
-  orderGroup: Scalars['String'];
-  orderId: Scalars['String'];
-  origin: Scalars['String'];
-  salesChannel: Scalars['String'];
-  sellerOrderId: Scalars['String'];
-  sequence: Scalars['String'];
+  lastChange: Scalars['String']['output'];
+  marketplaceOrderId: Scalars['String']['output'];
+  orderGroup: Scalars['String']['output'];
+  orderId: Scalars['String']['output'];
+  origin: Scalars['String']['output'];
+  salesChannel: Scalars['String']['output'];
+  sellerOrderId: Scalars['String']['output'];
+  sequence: Scalars['String']['output'];
   shippingData: OrderDetailShippingData;
-  status: Scalars['String'];
-  statusDescription: Scalars['String'];
+  status: Scalars['String']['output'];
+  statusDescription: Scalars['String']['output'];
   totals: Array<OrderDetailTotalOutput>;
-  value: Scalars['Int'];
+  value: Scalars['Int']['output'];
 };
 
 export type OrderDetailProfileDataOutput = {
   __typename?: 'OrderDetailProfileDataOutput';
-  document: Scalars['String'];
-  documentType: Scalars['String'];
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  id: Scalars['String'];
-  lastName?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  userProfileId: Scalars['String'];
+  document: Scalars['String']['output'];
+  documentType: Scalars['String']['output'];
+  email: Scalars['String']['output'];
+  firstName: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  lastName?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
+  userProfileId: Scalars['String']['output'];
 };
 
 export type OrderDetailShippingData = {
@@ -594,47 +659,47 @@ export type OrderDetailShippingData = {
 
 export type OrderDetailShippingDataAddress = {
   __typename?: 'OrderDetailShippingDataAddress';
-  addressId?: Maybe<Scalars['String']>;
-  addressType?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  complement?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  geoCoordinates: Array<Scalars['Float']>;
-  neighborhood?: Maybe<Scalars['String']>;
-  number?: Maybe<Scalars['String']>;
-  postalCode?: Maybe<Scalars['String']>;
-  receiverName?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  street?: Maybe<Scalars['String']>;
+  addressId?: Maybe<Scalars['String']['output']>;
+  addressType?: Maybe<Scalars['String']['output']>;
+  city?: Maybe<Scalars['String']['output']>;
+  complement?: Maybe<Scalars['String']['output']>;
+  country?: Maybe<Scalars['String']['output']>;
+  geoCoordinates: Array<Scalars['Float']['output']>;
+  neighborhood?: Maybe<Scalars['String']['output']>;
+  number?: Maybe<Scalars['String']['output']>;
+  postalCode?: Maybe<Scalars['String']['output']>;
+  receiverName?: Maybe<Scalars['String']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  street?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderDetailTotalOutput = {
   __typename?: 'OrderDetailTotalOutput';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  value: Scalars['Int'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  value: Scalars['Int']['output'];
 };
 
 export type OrderOutput = {
   __typename?: 'OrderOutput';
-  ShippingEstimatedDateMax: Scalars['String'];
-  affiliateId: Scalars['String'];
-  clientName: Scalars['String'];
-  creationDate: Scalars['String'];
-  currencyCode: Scalars['String'];
-  lastMessageUnread: Scalars['String'];
-  orderFormId: Scalars['String'];
-  orderId: Scalars['String'];
-  origin: Scalars['String'];
-  paymentNames: Scalars['String'];
-  salesChannel: Scalars['String'];
-  sequence: Scalars['String'];
-  status: Scalars['String'];
-  statusDescription: Scalars['String'];
-  totalItems: Scalars['Int'];
-  totalValue: Scalars['Int'];
-  workflowInErrorState: Scalars['Boolean'];
-  workflowInRetry: Scalars['Boolean'];
+  ShippingEstimatedDateMax: Scalars['String']['output'];
+  affiliateId: Scalars['String']['output'];
+  clientName: Scalars['String']['output'];
+  creationDate: Scalars['String']['output'];
+  currencyCode: Scalars['String']['output'];
+  lastMessageUnread: Scalars['String']['output'];
+  orderFormId: Scalars['String']['output'];
+  orderId: Scalars['String']['output'];
+  origin: Scalars['String']['output'];
+  paymentNames: Scalars['String']['output'];
+  salesChannel: Scalars['String']['output'];
+  sequence: Scalars['String']['output'];
+  status: Scalars['String']['output'];
+  statusDescription: Scalars['String']['output'];
+  totalItems: Scalars['Int']['output'];
+  totalValue: Scalars['Int']['output'];
+  workflowInErrorState: Scalars['Boolean']['output'];
+  workflowInRetry: Scalars['Boolean']['output'];
 };
 
 export type OrderPaginationOutput = {
@@ -644,269 +709,277 @@ export type OrderPaginationOutput = {
 };
 
 export type OrderformAddCouponInput = {
-  coupon: Scalars['String'];
-  orderFormId: Scalars['String'];
+  coupon: Scalars['String']['input'];
+  orderFormId: Scalars['String']['input'];
+};
+
+export type OrderformAddItemGiftCardInfoInput = {
+  email: Scalars['String']['input'];
 };
 
 export type OrderformAddItemInput = {
-  id: Scalars['String'];
-  orderFormId: Scalars['String'];
-  quantity: Scalars['Int'];
-  seller: Scalars['String'];
+  giftCard?: InputMaybe<OrderformAddItemGiftCardInfoInput>;
+  id: Scalars['String']['input'];
+  orderFormId: Scalars['String']['input'];
+  quantity: Scalars['Int']['input'];
+  seller: Scalars['String']['input'];
 };
 
 export type OrderformAddressOutput = {
   __typename?: 'OrderformAddressOutput';
-  addressId?: Maybe<Scalars['String']>;
-  addressType?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  complement?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  geoCoordinates?: Maybe<Array<Scalars['Float']>>;
-  isDisposable: Scalars['Boolean'];
-  neighborhood?: Maybe<Scalars['String']>;
-  number?: Maybe<Scalars['String']>;
-  postalCode?: Maybe<Scalars['String']>;
-  receiverName?: Maybe<Scalars['String']>;
-  reference?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  street?: Maybe<Scalars['String']>;
+  addressId?: Maybe<Scalars['String']['output']>;
+  addressType?: Maybe<Scalars['String']['output']>;
+  city?: Maybe<Scalars['String']['output']>;
+  complement?: Maybe<Scalars['String']['output']>;
+  country?: Maybe<Scalars['String']['output']>;
+  geoCoordinates?: Maybe<Array<Scalars['Float']['output']>>;
+  isDisposable: Scalars['Boolean']['output'];
+  neighborhood?: Maybe<Scalars['String']['output']>;
+  number?: Maybe<Scalars['String']['output']>;
+  postalCode?: Maybe<Scalars['String']['output']>;
+  receiverName?: Maybe<Scalars['String']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  street?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderformAppTotalizersOutput = {
   __typename?: 'OrderformAppTotalizersOutput';
-  delivery: Scalars['Float'];
-  discount: Scalars['Float'];
-  items: Scalars['Float'];
-  total: Scalars['Float'];
+  delivery: Scalars['Float']['output'];
+  discount: Scalars['Float']['output'];
+  items: Scalars['Float']['output'];
+  total: Scalars['Float']['output'];
 };
 
 export type OrderformAttachClientByCookieInput = {
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformAttachClientByEmailInput = {
-  email: Scalars['String'];
-  orderFormId: Scalars['String'];
+  email: Scalars['String']['input'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformClientProfileDataOutput = {
   __typename?: 'OrderformClientProfileDataOutput';
-  corporateDocument?: Maybe<Scalars['String']>;
-  corporateName?: Maybe<Scalars['String']>;
-  corporatePhone?: Maybe<Scalars['String']>;
-  document?: Maybe<Scalars['String']>;
-  documentType?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  profileCompleteOnLoading?: Maybe<Scalars['String']>;
-  stateInscription?: Maybe<Scalars['String']>;
-  tradeName?: Maybe<Scalars['String']>;
+  corporateDocument?: Maybe<Scalars['String']['output']>;
+  corporateName?: Maybe<Scalars['String']['output']>;
+  corporatePhone?: Maybe<Scalars['String']['output']>;
+  document?: Maybe<Scalars['String']['output']>;
+  documentType?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  firstName?: Maybe<Scalars['String']['output']>;
+  lastName?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
+  profileCompleteOnLoading?: Maybe<Scalars['String']['output']>;
+  stateInscription?: Maybe<Scalars['String']['output']>;
+  tradeName?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderformGiftInput = {
   /** This is the offering id */
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
   /** Product index */
-  index: Scalars['Int'];
-  orderFormId: Scalars['String'];
+  index: Scalars['Int']['input'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformInput = {
-  orderFormId?: InputMaybe<Scalars['String']>;
+  orderFormId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type OrderformInstallmentInfoOutput = {
   __typename?: 'OrderformInstallmentInfoOutput';
-  installmentPrice: Scalars['Float'];
-  installmentsNumber: Scalars['Float'];
-  totalPrice: Scalars['Float'];
+  installmentPrice: Scalars['Float']['output'];
+  installmentsNumber: Scalars['Float']['output'];
+  totalPrice: Scalars['Float']['output'];
 };
 
 export type OrderformItemAdditionalInfoOutput = {
   __typename?: 'OrderformItemAdditionalInfoOutput';
-  brandName?: Maybe<Scalars['String']>;
+  brandName?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderformItemBundleItemOutput = {
   __typename?: 'OrderformItemBundleItemOutput';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  uniqueId: Scalars['ID'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  uniqueId: Scalars['ID']['output'];
 };
 
 export type OrderformItemOfferingAttachmentOutput = {
   __typename?: 'OrderformItemOfferingAttachmentOutput';
-  name: Scalars['String'];
-  required: Scalars['Boolean'];
+  name: Scalars['String']['output'];
+  required: Scalars['Boolean']['output'];
 };
 
 export type OrderformItemOfferingOutput = {
   __typename?: 'OrderformItemOfferingOutput';
-  allowGiftMessage: Scalars['Boolean'];
+  allowGiftMessage: Scalars['Boolean']['output'];
   attachmentOfferings: Array<OrderformItemOfferingAttachmentOutput>;
-  id: Scalars['String'];
-  name: Scalars['String'];
-  type: Scalars['String'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  type: Scalars['String']['output'];
 };
 
 export type OrderformItemOutput = {
   __typename?: 'OrderformItemOutput';
   additionalInfo?: Maybe<OrderformItemAdditionalInfoOutput>;
-  availability: Scalars['String'];
+  availability: Scalars['String']['output'];
   bundleItems: Array<OrderformItemBundleItemOutput>;
-  detailUrl?: Maybe<Scalars['String']>;
-  disableCounter: Scalars['Boolean'];
-  discountApi?: Maybe<Scalars['Float']>;
-  discountPercent: Scalars['Float'];
-  ean?: Maybe<Scalars['String']>;
-  giftOfferingId?: Maybe<Scalars['String']>;
-  hasPrimeDiscount: Scalars['Boolean'];
-  id: Scalars['String'];
-  imageSource: Scalars['String'];
-  imageUrl?: Maybe<Scalars['String']>;
-  isAddedAsGift: Scalars['Boolean'];
-  isAssinaturaSimples: Scalars['Boolean'];
-  isGift: Scalars['Boolean'];
-  isGiftable: Scalars['Boolean'];
-  isPrimeSubscription: Scalars['Boolean'];
-  itemColor: Scalars['String'];
-  itemSize: Scalars['String'];
-  key: Scalars['String'];
-  listPrice: Scalars['Int'];
-  measurementUnit: Scalars['String'];
-  name: Scalars['String'];
+  detailUrl?: Maybe<Scalars['String']['output']>;
+  disableCounter: Scalars['Boolean']['output'];
+  discountApi?: Maybe<Scalars['Float']['output']>;
+  discountPercent: Scalars['Float']['output'];
+  ean?: Maybe<Scalars['String']['output']>;
+  giftOfferingId?: Maybe<Scalars['String']['output']>;
+  hasPrimeDiscount: Scalars['Boolean']['output'];
+  id: Scalars['String']['output'];
+  imageSource: Scalars['String']['output'];
+  imageUrl?: Maybe<Scalars['String']['output']>;
+  isAddedAsGift: Scalars['Boolean']['output'];
+  isAssinaturaSimples: Scalars['Boolean']['output'];
+  isGift: Scalars['Boolean']['output'];
+  isGiftable: Scalars['Boolean']['output'];
+  isPrimeSubscription: Scalars['Boolean']['output'];
+  itemColor: Scalars['String']['output'];
+  itemSize: Scalars['String']['output'];
+  key: Scalars['String']['output'];
+  listPrice: Scalars['Int']['output'];
+  measurementUnit: Scalars['String']['output'];
+  name: Scalars['String']['output'];
   offerings: Array<OrderformItemOfferingOutput>;
-  price: Scalars['Int'];
-  priceValidUntil: Scalars['String'];
-  priceWithDiscount: Scalars['Float'];
-  productCategories: Array<Scalars['String']>;
-  productId: Scalars['String'];
-  productRefId?: Maybe<Scalars['String']>;
-  productTitle: Scalars['String'];
-  quantity: Scalars['Int'];
-  refId?: Maybe<Scalars['String']>;
-  rewardValue: Scalars['Int'];
-  seller: Scalars['String'];
-  sellingPrice: Scalars['Int'];
-  showFirstPurchaseDiscountMessage?: Maybe<Scalars['String']>;
-  showTotalDiscountFirstPurchaseValue?: Maybe<Scalars['Float']>;
-  skuName: Scalars['String'];
-  tax: Scalars['Int'];
-  uniqueId: Scalars['String'];
-  unitMultiplier: Scalars['Int'];
+  price: Scalars['Int']['output'];
+  priceValidUntil: Scalars['String']['output'];
+  priceWithDiscount: Scalars['Float']['output'];
+  productCategories: Array<Scalars['String']['output']>;
+  productId: Scalars['String']['output'];
+  productRefId?: Maybe<Scalars['String']['output']>;
+  productTitle: Scalars['String']['output'];
+  quantity: Scalars['Int']['output'];
+  refId?: Maybe<Scalars['String']['output']>;
+  rewardValue: Scalars['Int']['output'];
+  seller: Scalars['String']['output'];
+  sellingPrice: Scalars['Int']['output'];
+  showFirstPurchaseDiscountMessage?: Maybe<Scalars['String']['output']>;
+  showTotalDiscountFirstPurchaseValue?: Maybe<Scalars['Float']['output']>;
+  skuName: Scalars['String']['output'];
+  tax: Scalars['Int']['output'];
+  uniqueId: Scalars['String']['output'];
+  unitMultiplier: Scalars['Int']['output'];
 };
 
 export type OrderformMarketingDataOutput = {
   __typename?: 'OrderformMarketingDataOutput';
-  coupon?: Maybe<Scalars['String']>;
-  couponApplied?: Maybe<Scalars['Boolean']>;
-  couponDescription?: Maybe<Scalars['String']>;
-  couponDiscount: Scalars['Float'];
+  coupon?: Maybe<Scalars['String']['output']>;
+  couponApplied: Scalars['Boolean']['output'];
+  couponDescription?: Maybe<Scalars['String']['output']>;
+  couponDiscount: Scalars['Float']['output'];
   itemsWithCouponDiscount: Array<OrderformItemOutput>;
-  marketingTags: Array<Scalars['String']>;
-  sellerCoupon?: Maybe<Scalars['String']>;
-  sellerCouponApplied?: Maybe<Scalars['Boolean']>;
-  sellerCouponDiscount: Scalars['Float'];
-  sellerCouponName?: Maybe<Scalars['String']>;
-  utmCampaign?: Maybe<Scalars['String']>;
-  utmMedium?: Maybe<Scalars['String']>;
-  utmSource?: Maybe<Scalars['String']>;
-  utmiCampaign?: Maybe<Scalars['String']>;
-  utmiPart?: Maybe<Scalars['String']>;
-  utmipage?: Maybe<Scalars['String']>;
+  itemsWithProgressiveDiscount: Array<OrderformItemOutput>;
+  marketingTags: Array<Scalars['String']['output']>;
+  progressiveDiscount: Scalars['Float']['output'];
+  progressiveDiscountApplied: Scalars['Boolean']['output'];
+  sellerCoupon?: Maybe<Scalars['String']['output']>;
+  sellerCouponApplied: Scalars['Boolean']['output'];
+  sellerCouponDiscount: Scalars['Float']['output'];
+  sellerCouponName?: Maybe<Scalars['String']['output']>;
+  utmCampaign?: Maybe<Scalars['String']['output']>;
+  utmMedium?: Maybe<Scalars['String']['output']>;
+  utmSource?: Maybe<Scalars['String']['output']>;
+  utmiCampaign?: Maybe<Scalars['String']['output']>;
+  utmiPart?: Maybe<Scalars['String']['output']>;
+  utmipage?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderformMessageOutput = {
   __typename?: 'OrderformMessageOutput';
-  code?: Maybe<Scalars['String']>;
-  status?: Maybe<Scalars['String']>;
-  text?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  text?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderformOutput = {
   __typename?: 'OrderformOutput';
-  allItemsQuantity: Scalars['Int'];
+  allItemsQuantity: Scalars['Int']['output'];
   appTotalizers: OrderformAppTotalizersOutput;
   clientProfileData?: Maybe<OrderformClientProfileDataOutput>;
-  hasPrimeSubscriptionInCart: Scalars['Boolean'];
+  hasPrimeSubscriptionInCart: Scalars['Boolean']['output'];
   installmentInfo: OrderformInstallmentInfoOutput;
   items: Array<OrderformItemOutput>;
   marketingData?: Maybe<OrderformMarketingDataOutput>;
-  messages: Array<Scalars['String']>;
+  messages: Array<Scalars['String']['output']>;
   messagesDetailed: Array<OrderformMessageOutput>;
-  orderFormId: Scalars['ID'];
-  salesChannel: Scalars['String'];
+  orderFormId: Scalars['ID']['output'];
+  salesChannel: Scalars['String']['output'];
   selectableGift?: Maybe<OrderformSelectableGiftOutput>;
   shippingData?: Maybe<OrderformShippingDataOutput>;
 };
 
 export type OrderformRefreshDataInput = {
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformRemoveCouponInput = {
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformRemoveUnavailableItemsInput = {
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformResetInput = {
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformSelectAddressInput = {
-  addressId: Scalars['String'];
-  orderFormId: Scalars['String'];
+  addressId: Scalars['String']['input'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformSelectableGiftAvailableGiftOutput = {
   __typename?: 'OrderformSelectableGiftAvailableGiftOutput';
-  availability: Scalars['String'];
-  detailUrl: Scalars['String'];
-  ean: Scalars['String'];
-  id: Scalars['String'];
-  imageUrl?: Maybe<Scalars['String']>;
-  isGift?: Maybe<Scalars['Boolean']>;
-  isSelected: Scalars['Boolean'];
-  measurementUnit: Scalars['String'];
-  name: Scalars['String'];
-  productId: Scalars['String'];
-  productRefId: Scalars['String'];
-  refId: Scalars['String'];
-  rewardValue?: Maybe<Scalars['Float']>;
-  seller: Scalars['String'];
-  skuName: Scalars['String'];
-  tax?: Maybe<Scalars['Float']>;
-  uniqueId: Scalars['String'];
-  unitMultiplier: Scalars['Float'];
+  availability: Scalars['String']['output'];
+  detailUrl: Scalars['String']['output'];
+  ean: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  imageUrl?: Maybe<Scalars['String']['output']>;
+  isGift?: Maybe<Scalars['Boolean']['output']>;
+  isSelected: Scalars['Boolean']['output'];
+  measurementUnit: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  productId: Scalars['String']['output'];
+  productRefId: Scalars['String']['output'];
+  refId: Scalars['String']['output'];
+  rewardValue?: Maybe<Scalars['Float']['output']>;
+  seller: Scalars['String']['output'];
+  skuName: Scalars['String']['output'];
+  tax?: Maybe<Scalars['Float']['output']>;
+  uniqueId: Scalars['String']['output'];
+  unitMultiplier: Scalars['Float']['output'];
 };
 
 export type OrderformSelectableGiftOptionOutput = {
   __typename?: 'OrderformSelectableGiftOptionOutput';
-  color: Scalars['String'];
-  id: Scalars['ID'];
-  size: Scalars['String'];
+  color: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  size: Scalars['String']['output'];
 };
 
 export type OrderformSelectableGiftOutput = {
   __typename?: 'OrderformSelectableGiftOutput';
   availableGifts: Array<OrderformSelectableGiftAvailableGiftOutput>;
-  availableQuantity?: Maybe<Scalars['Int']>;
+  availableQuantity?: Maybe<Scalars['Int']['output']>;
   currentSelectableGift: OrderformSelectableGiftAvailableGiftOutput;
   giftOptions: Array<Maybe<OrderformSelectableGiftOptionOutput>>;
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
 };
 
 export type OrderformSetGiftSizeInput = {
-  giftId: Scalars['String'];
-  id: Scalars['String'];
-  orderFormId: Scalars['String'];
-  seller: Scalars['String'];
+  giftId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+  orderFormId: Scalars['String']['input'];
+  seller: Scalars['String']['input'];
 };
 
 export type OrderformShippingDataOutput = {
@@ -918,213 +991,230 @@ export type OrderformShippingDataOutput = {
 };
 
 export type OrderformUpdateItemInput = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
   /** Must be used if you want to set the remove the item from cart */
-  index?: InputMaybe<Scalars['Int']>;
-  orderFormId: Scalars['String'];
-  quantity: Scalars['Int'];
-  seller: Scalars['String'];
+  index?: InputMaybe<Scalars['Int']['input']>;
+  orderFormId: Scalars['String']['input'];
+  quantity: Scalars['Int']['input'];
+  seller: Scalars['String']['input'];
 };
 
 export type PaginationDetailOutput = {
   __typename?: 'PaginationDetailOutput';
-  currentPage: Scalars['Int'];
-  pages: Scalars['Int'];
-  perPage: Scalars['Int'];
-  total: Scalars['Int'];
+  currentPage: Scalars['Int']['output'];
+  pages: Scalars['Int']['output'];
+  perPage: Scalars['Int']['output'];
+  total: Scalars['Int']['output'];
 };
 
 export type PaginationInput = {
-  page: Scalars['Int'];
+  page: Scalars['Int']['input'];
 };
 
 export type PrimeConfigItemOutput = {
   __typename?: 'PrimeConfigItemOutput';
-  id: Scalars['String'];
-  name: Scalars['String'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type PrimeConfigOutput = {
   __typename?: 'PrimeConfigOutput';
   brands: Array<PrimeConfigItemOutput>;
-  brandsAreInclusive: Scalars['Boolean'];
+  brandsAreInclusive: Scalars['Boolean']['output'];
   categories: Array<PrimeConfigItemOutput>;
-  categoriesAreInclusive: Scalars['Boolean'];
+  categoriesAreInclusive: Scalars['Boolean']['output'];
   collections: Array<PrimeConfigItemOutput>;
-  collectionsIsInclusive: Scalars['Boolean'];
-  idCalculatorConfiguration: Scalars['String'];
-  idSeller: Scalars['String'];
-  idSellerIsInclusive: Scalars['Boolean'];
-  isActive: Scalars['Boolean'];
+  collectionsIsInclusive: Scalars['Boolean']['output'];
+  idCalculatorConfiguration: Scalars['String']['output'];
+  idSeller: Scalars['String']['output'];
+  idSellerIsInclusive: Scalars['Boolean']['output'];
+  isActive: Scalars['Boolean']['output'];
   marketingTags: Array<PrimeConfigItemOutput>;
-  name: Scalars['String'];
-  percentualDiscountValue: Scalars['Int'];
-  totalValueCeling: Scalars['Int'];
-  totalValueFloor: Scalars['Int'];
+  name: Scalars['String']['output'];
+  percentualDiscountValue: Scalars['Int']['output'];
+  totalValueCeling: Scalars['Int']['output'];
+  totalValueFloor: Scalars['Int']['output'];
 };
 
 export type PrimeDetailOutput = {
   __typename?: 'PrimeDetailOutput';
-  discountFrom: Scalars['Float'];
-  discountPercentage: Scalars['Int'];
-  installmentPrice: Scalars['Float'];
-  installmentQty: Scalars['Int'];
-  monthlyCashback: Scalars['Float'];
-  productId: Scalars['Int'];
-  productSeller: Scalars['String'];
-  skuId: Scalars['Int'];
+  discountFrom: Scalars['Float']['output'];
+  discountPercentage: Scalars['Int']['output'];
+  installmentPrice: Scalars['Float']['output'];
+  installmentQty: Scalars['Int']['output'];
+  monthlyCashback: Scalars['Float']['output'];
+  productId: Scalars['Int']['output'];
+  productSeller: Scalars['String']['output'];
+  skuId: Scalars['Int']['output'];
 };
 
 export type PrimeFaqOutput = {
   __typename?: 'PrimeFaqOutput';
-  body: Scalars['String'];
-  id: Scalars['ID'];
-  title: Scalars['String'];
+  body: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  title: Scalars['String']['output'];
 };
 
 export type PrimeInfoOutput = {
   __typename?: 'PrimeInfoOutput';
   installment: ProductPriceInstallmentOutput;
-  price: Scalars['Float'];
+  price: Scalars['Float']['output'];
 };
 
 export type ProductColorOutput = {
   __typename?: 'ProductColorOutput';
-  colorId: Scalars['String'];
-  colorName?: Maybe<Scalars['String']>;
-  colorUrl: Scalars['String'];
-  disabled: Scalars['Boolean'];
-  images: Array<Scalars['String']>;
+  colorId: Scalars['String']['output'];
+  colorName?: Maybe<Scalars['String']['output']>;
+  colorUrl: Scalars['String']['output'];
+  disabled: Scalars['Boolean']['output'];
+  images: Array<Scalars['String']['output']>;
   sizes: Array<ProductSizeOutput>;
 };
 
 export type ProductColorUrlOutput = {
   __typename?: 'ProductColorUrlOutput';
-  id: Scalars['ID'];
-  url: Scalars['String'];
+  id: Scalars['ID']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type ProductDeliveryTimeOutput = {
   __typename?: 'ProductDeliveryTimeOutput';
-  estimatedDay?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  price: Scalars['Float'];
+  estimatedDay?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  price: Scalars['Float']['output'];
 };
 
 export type ProductFacetOutput = {
   __typename?: 'ProductFacetOutput';
-  key: Scalars['String'];
-  value: Scalars['String'];
+  key: Scalars['String']['output'];
+  value: Scalars['String']['output'];
+};
+
+export type ProductGiftCardOptionOutput = {
+  __typename?: 'ProductGiftCardOptionOutput';
+  ean: Scalars['String']['output'];
+  images: Array<Scalars['String']['output']>;
+  itemId: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  seller: Scalars['String']['output'];
+};
+
+export type ProductGiftCardOutput = {
+  __typename?: 'ProductGiftCardOutput';
+  howItWorks: Scalars['String']['output'];
+  options: Array<ProductGiftCardOptionOutput>;
+  terms: Scalars['String']['output'];
 };
 
 export type ProductInput = {
   /** Initial selected color */
-  colorId?: InputMaybe<Scalars['String']>;
+  colorId?: InputMaybe<Scalars['String']['input']>;
   /** Initial selected variant ID */
-  itemId?: InputMaybe<Scalars['String']>;
+  itemId?: InputMaybe<Scalars['String']['input']>;
   type: GetProductTypeEnum;
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 export type ProductItemOutput = {
   __typename?: 'ProductItemOutput';
-  images: Array<Scalars['String']>;
-  itemId?: Maybe<Scalars['String']>;
+  images: Array<Scalars['String']['output']>;
+  itemId?: Maybe<Scalars['String']['output']>;
   sellers: Array<ProductItemSellerOutput>;
-  skuName?: Maybe<Scalars['String']>;
+  skuName?: Maybe<Scalars['String']['output']>;
   variations: Array<ProductItemVariationOutput>;
 };
 
 export type ProductItemSellerCommertialOfferInstallmentOutput = {
   __typename?: 'ProductItemSellerCommertialOfferInstallmentOutput';
-  numberOfInstallments: Scalars['Float'];
-  totalValuePlusInterestRate: Scalars['Float'];
-  value: Scalars['Float'];
+  numberOfInstallments: Scalars['Float']['output'];
+  totalValuePlusInterestRate: Scalars['Float']['output'];
+  value: Scalars['Float']['output'];
 };
 
 export type ProductItemSellerCommertialOfferOutput = {
   __typename?: 'ProductItemSellerCommertialOfferOutput';
-  availableQuantity: Scalars['Float'];
+  availableQuantity: Scalars['Float']['output'];
   installments: Array<ProductItemSellerCommertialOfferInstallmentOutput>;
-  listPrice: Scalars['Float'];
-  price: Scalars['Float'];
-  priceWithoutDiscount: Scalars['Float'];
-  spotPrice: Scalars['Float'];
-  tax: Scalars['Float'];
-  taxPercentage: Scalars['Float'];
+  listPrice: Scalars['Float']['output'];
+  price: Scalars['Float']['output'];
+  priceWithoutDiscount: Scalars['Float']['output'];
+  spotPrice: Scalars['Float']['output'];
+  tax: Scalars['Float']['output'];
+  taxPercentage: Scalars['Float']['output'];
 };
 
 export type ProductItemSellerOutput = {
   __typename?: 'ProductItemSellerOutput';
   commertialOffer?: Maybe<ProductItemSellerCommertialOfferOutput>;
-  sellerDefault?: Maybe<Scalars['Boolean']>;
-  sellerId?: Maybe<Scalars['String']>;
+  sellerDefault?: Maybe<Scalars['Boolean']['output']>;
+  sellerId?: Maybe<Scalars['String']['output']>;
 };
 
 export type ProductItemVariationOutput = {
   __typename?: 'ProductItemVariationOutput';
-  name?: Maybe<Scalars['String']>;
-  originalName?: Maybe<Scalars['String']>;
-  values?: Maybe<Array<Scalars['String']>>;
+  name?: Maybe<Scalars['String']['output']>;
+  originalName?: Maybe<Scalars['String']['output']>;
+  values?: Maybe<Array<Scalars['String']['output']>>;
 };
 
 export type ProductListOutput = {
   __typename?: 'ProductListOutput';
-  brand: Scalars['String'];
-  category?: Maybe<Scalars['String']>;
-  colorName?: Maybe<Scalars['String']>;
-  colors?: Maybe<Array<Scalars['String']>>;
-  currentPrice: Scalars['Float'];
-  discountPercentage: Scalars['Float'];
-  hasDiscount: Scalars['Boolean'];
-  image: Scalars['String'];
+  brand: Scalars['String']['output'];
+  category?: Maybe<Scalars['String']['output']>;
+  colorName?: Maybe<Scalars['String']['output']>;
+  colors?: Maybe<Array<Scalars['String']['output']>>;
+  currentPrice: Scalars['Float']['output'];
+  discountPercentage: Scalars['Float']['output'];
+  hasDiscount: Scalars['Boolean']['output'];
+  image: Scalars['String']['output'];
   installment: ProductPriceInstallmentOutput;
   installmentEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
-  listPrice: Scalars['Float'];
+  listPrice: Scalars['Float']['output'];
   prime?: Maybe<ProductListPrimeOutput>;
-  productId: Scalars['String'];
-  productName: Scalars['String'];
-  size?: Maybe<Scalars['String']>;
-  skuId: Scalars['String'];
-  skuName: Scalars['String'];
+  productId: Scalars['String']['output'];
+  productName: Scalars['String']['output'];
+  size?: Maybe<Scalars['String']['output']>;
+  skuId: Scalars['String']['output'];
+  skuName: Scalars['String']['output'];
 };
 
 export type ProductListPrimeOutput = {
   __typename?: 'ProductListPrimeOutput';
   installment: ProductPriceInstallmentOutput;
-  price: Scalars['Float'];
+  price: Scalars['Float']['output'];
 };
 
 export type ProductOutput = {
   __typename?: 'ProductOutput';
   action: ProductResultActionEnum;
-  categoryTree: Array<Scalars['String']>;
+  categoryTree: Array<Scalars['String']['output']>;
   colorUrls: Array<ProductColorUrlOutput>;
   colors: Array<ProductColorOutput>;
-  disabledColors: Array<Scalars['String']>;
+  disabledColors: Array<Scalars['String']['output']>;
+  giftCard?: Maybe<ProductGiftCardOutput>;
   initialColor?: Maybe<ProductColorOutput>;
-  initialColorId?: Maybe<Scalars['String']>;
+  initialColorId?: Maybe<Scalars['String']['output']>;
   initialSize?: Maybe<ProductSizeOutput>;
-  initialSizeId?: Maybe<Scalars['String']>;
-  priceRange: ProductPriceRangeOutput;
-  productId: Scalars['ID'];
-  productName: Scalars['String'];
+  initialSizeId?: Maybe<Scalars['String']['output']>;
+  priceRange?: Maybe<ProductPriceRangeOutput>;
+  productId: Scalars['ID']['output'];
+  productName: Scalars['String']['output'];
   properties: ProductPropertiesOutput;
-  saleOff: Scalars['Boolean'];
+  saleOff: Scalars['Boolean']['output'];
   share: ProductShareOutput;
-  videoThumbnail?: Maybe<Scalars['String']>;
+  videoThumbnail?: Maybe<Scalars['String']['output']>;
 };
 
 export type ProductPriceInstallmentOutput = {
   __typename?: 'ProductPriceInstallmentOutput';
-  number: Scalars['Float'];
-  value: Scalars['Float'];
+  number: Scalars['Float']['output'];
+  value: Scalars['Float']['output'];
 };
 
 export type ProductPriceLevelOutput = {
   __typename?: 'ProductPriceLevelOutput';
-  highPrice: Scalars['Float'];
-  lowPrice: Scalars['Float'];
+  highPrice: Scalars['Float']['output'];
+  lowPrice: Scalars['Float']['output'];
 };
 
 export type ProductPriceRangeOutput = {
@@ -1135,119 +1225,120 @@ export type ProductPriceRangeOutput = {
 
 export type ProductPropertiesOutput = {
   __typename?: 'ProductPropertiesOutput';
-  composition?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  isAssinaturaSimples?: Maybe<Scalars['Boolean']>;
+  composition?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  isAssinaturaSimples?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ProductRecommendationOutput = {
   __typename?: 'ProductRecommendationOutput';
-  categoryTree?: Maybe<Array<Scalars['String']>>;
+  categoryTree?: Maybe<Array<Scalars['String']['output']>>;
   items: Array<ProductItemOutput>;
   priceRange: ProductPriceRangeOutput;
-  productId: Scalars['String'];
-  productName: Scalars['String'];
+  productId: Scalars['String']['output'];
+  productName: Scalars['String']['output'];
 };
 
 export enum ProductResultActionEnum {
   RedirectToSite = 'RedirectToSite',
-  ShowProduct = 'ShowProduct',
+  ShowGiftCard = 'ShowGiftCard',
+  ShowProduct = 'ShowProduct'
 }
 
 export type ProductShareOutput = {
   __typename?: 'ProductShareOutput';
-  message: Scalars['String'];
-  title: Scalars['String'];
-  url: Scalars['String'];
+  message: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type ProductSizeInstallmentOutput = {
   __typename?: 'ProductSizeInstallmentOutput';
-  number: Scalars['Int'];
-  value: Scalars['Float'];
+  number: Scalars['Int']['output'];
+  value: Scalars['Float']['output'];
 };
 
 export type ProductSizeOutput = {
   __typename?: 'ProductSizeOutput';
-  availableQuantity: Scalars['Int'];
+  availableQuantity: Scalars['Int']['output'];
   /** Final price (if discount exists, it's already applied) */
-  currentPrice: Scalars['Float'];
-  disabled: Scalars['Boolean'];
-  discountPercent: Scalars['Float'];
-  ean: Scalars['String'];
-  hasDiscount: Scalars['Boolean'];
+  currentPrice: Scalars['Float']['output'];
+  disabled: Scalars['Boolean']['output'];
+  discountPercent: Scalars['Float']['output'];
+  ean: Scalars['String']['output'];
+  hasDiscount: Scalars['Boolean']['output'];
   installment: ProductSizeInstallmentOutput;
   installmentEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
-  itemId: Scalars['ID'];
+  itemId: Scalars['ID']['output'];
   /** Price without discount (original price) - may be null if the original price is equal to current price */
-  listPrice: Scalars['Float'];
+  listPrice: Scalars['Float']['output'];
   prime?: Maybe<PrimeInfoOutput>;
-  seller: Scalars['String'];
-  size: Scalars['String'];
-  skuName: Scalars['String'];
+  seller: Scalars['String']['output'];
+  size: Scalars['String']['output'];
+  skuName: Scalars['String']['output'];
 };
 
 export type ProfileAddressOutput = {
   __typename?: 'ProfileAddressOutput';
-  addressName?: Maybe<Scalars['String']>;
-  addressType?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  complement?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  neighborhood?: Maybe<Scalars['String']>;
-  number?: Maybe<Scalars['String']>;
-  postalCode?: Maybe<Scalars['String']>;
-  receiverName?: Maybe<Scalars['String']>;
-  reference?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  street?: Maybe<Scalars['String']>;
+  addressName?: Maybe<Scalars['String']['output']>;
+  addressType?: Maybe<Scalars['String']['output']>;
+  city?: Maybe<Scalars['String']['output']>;
+  complement?: Maybe<Scalars['String']['output']>;
+  country?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  neighborhood?: Maybe<Scalars['String']['output']>;
+  number?: Maybe<Scalars['String']['output']>;
+  postalCode?: Maybe<Scalars['String']['output']>;
+  receiverName?: Maybe<Scalars['String']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  street?: Maybe<Scalars['String']['output']>;
 };
 
 export type ProfileCustomFieldOutput = {
   __typename?: 'ProfileCustomFieldOutput';
-  cacheId?: Maybe<Scalars['String']>;
-  key?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
+  cacheId?: Maybe<Scalars['String']['output']>;
+  key?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
 };
 
 export type ProfileOutput = {
   __typename?: 'ProfileOutput';
   addresses: Array<Maybe<ProfileAddressOutput>>;
-  authCookie?: Maybe<Scalars['String']>;
-  birthDate?: Maybe<Scalars['String']>;
+  authCookie?: Maybe<Scalars['String']['output']>;
+  birthDate?: Maybe<Scalars['String']['output']>;
   customFields: Array<Maybe<ProfileCustomFieldOutput>>;
-  document?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
-  firstName?: Maybe<Scalars['String']>;
-  gender?: Maybe<Scalars['String']>;
-  homePhone?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  isComplete: Scalars['Boolean'];
-  isPrime: Scalars['Boolean'];
-  lastName?: Maybe<Scalars['String']>;
+  document?: Maybe<Scalars['String']['output']>;
+  email: Scalars['String']['output'];
+  firstName?: Maybe<Scalars['String']['output']>;
+  gender?: Maybe<Scalars['String']['output']>;
+  homePhone?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  isComplete: Scalars['Boolean']['output'];
+  isPrime: Scalars['Boolean']['output'];
+  lastName?: Maybe<Scalars['String']['output']>;
   payments: Array<Maybe<ProfilePaymentOutput>>;
 };
 
 export type ProfilePaymentOutput = {
   __typename?: 'ProfilePaymentOutput';
-  cardNumber?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
+  cardNumber?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
 };
 
 export type ProfileUpdateCustomFieldInput = {
-  key: Scalars['String'];
-  value?: InputMaybe<Scalars['String']>;
+  key: Scalars['String']['input'];
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProfileUpdateInput = {
-  birthDate: Scalars['String'];
+  birthDate: Scalars['String']['input'];
   customFields: Array<ProfileUpdateCustomFieldInput>;
-  document: Scalars['String'];
-  firstName: Scalars['String'];
-  gender: Scalars['String'];
-  homePhone: Scalars['String'];
-  lastName: Scalars['String'];
+  document: Scalars['String']['input'];
+  firstName: Scalars['String']['input'];
+  gender: Scalars['String']['input'];
+  homePhone: Scalars['String']['input'];
+  lastName: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -1256,9 +1347,9 @@ export type Query = {
   bannerCategory: Array<BannerCategoryOutput>;
   cashback: CashbackOutput;
   cep?: Maybe<CepOutput>;
-  checkIfUserExists: Scalars['Boolean'];
+  checkIfUserExists: Scalars['Boolean']['output'];
   /** @deprecated Use new query `search` */
-  checkSearchRedirect?: Maybe<Scalars['String']>;
+  checkSearchRedirect?: Maybe<Scalars['String']['output']>;
   config?: Maybe<ConfigOutput>;
   contentfulCategories: Array<ContentfulCategoryOutput>;
   contentfulCategory: ContentfulCategoryDetailOutput;
@@ -1270,9 +1361,10 @@ export type Query = {
   homeCarousels: Array<HomeCarouselOutput>;
   homeCountdown?: Maybe<HomeCountdownOutput>;
   homeMedias: Array<HomeMediaOutput>;
+  invoiceKey?: Maybe<InvoiceKeyOutput>;
   landingPagePrime: PrimeDetailOutput;
-  mktinStatus: Scalars['Boolean'];
-  mostSearchedWords: Array<Scalars['String']>;
+  mktinStatus: Scalars['Boolean']['output'];
+  mostSearchedWords: Array<Scalars['String']['output']>;
   order: OrderDetailOutput;
   orderForm: OrderformOutput;
   orders: OrderPaginationOutput;
@@ -1284,162 +1376,195 @@ export type Query = {
   profile: ProfileOutput;
   ronRedirect?: Maybe<RonRedirectOutput>;
   search: SearchOutput;
-  searchAutocompleteSuggestions: Array<Scalars['String']>;
+  searchAutocompleteSuggestions: Array<Scalars['String']['output']>;
   searchFacets: SearchFacetOutput;
   searchNews: Array<SearchNewsOutput>;
   sellerInfo?: Maybe<SellerInfoOutput>;
-  sellersMktin: Array<Scalars['String']>;
+  sellersMktin: Array<Scalars['String']['output']>;
+  trackingCode?: Maybe<TrackingCodeOutput>;
   updateInApp?: Maybe<UpdateInAppOutput>;
-  wishlist: Array<Scalars['String']>;
+  wishlist: Array<Scalars['String']['output']>;
   wishlistCheckProduct: WishlistCheckOutput;
 };
+
 
 export type QueryBannerCategoryArgs = {
   input: BannerCategoryInput;
 };
 
+
 export type QueryCepArgs = {
   input: CepInput;
 };
+
 
 export type QueryCheckIfUserExistsArgs = {
   input: CheckEmailInput;
 };
 
+
 export type QueryCheckSearchRedirectArgs = {
-  q: Scalars['String'];
+  q: Scalars['String']['input'];
 };
+
 
 export type QueryContentfulCategoriesArgs = {
-  searchKey: Scalars['String'];
+  searchKey: Scalars['String']['input'];
 };
+
 
 export type QueryContentfulCategoryArgs = {
-  categoryId: Scalars['String'];
+  categoryId: Scalars['String']['input'];
 };
+
 
 export type QueryContentfulCollectionsArgs = {
-  searchKey: Scalars['String'];
+  searchKey: Scalars['String']['input'];
 };
 
+
 export type QueryContentfulProductsArgs = {
-  q: Scalars['String'];
+  q: Scalars['String']['input'];
 };
+
 
 export type QueryCountdownArgs = {
   input: CountdownCategoryInput;
 };
 
+
 export type QueryDeeplinkPathArgs = {
   input: DeeplinkPathInput;
 };
+
+
+export type QueryInvoiceKeyArgs = {
+  input: InvoiceKeyInput;
+};
+
 
 export type QueryMostSearchedWordsArgs = {
   provider?: InputMaybe<SearchProviderInput>;
 };
 
+
 export type QueryOrderArgs = {
   input: OrderDetailIdInput;
 };
+
 
 export type QueryOrderFormArgs = {
   input?: InputMaybe<OrderformInput>;
 };
 
+
 export type QueryOrdersArgs = {
   input: PaginationInput;
 };
+
 
 export type QueryProductArgs = {
   input: ProductInput;
 };
 
+
 export type QueryProductDeliveryTimeArgs = {
   input: CheckDeliveryTimeByProductInput;
 };
+
 
 export type QueryRonRedirectArgs = {
   input: RonRedirectInput;
 };
 
+
 export type QuerySearchArgs = {
   input: SearchProductInput;
 };
 
+
 export type QuerySearchAutocompleteSuggestionsArgs = {
   provider?: InputMaybe<SearchProviderInput>;
-  q: Scalars['String'];
+  q: Scalars['String']['input'];
 };
+
 
 export type QuerySearchFacetsArgs = {
   input: SearchFacetsInput;
 };
 
+
 export type QuerySellerInfoArgs = {
   input: SellerInfoInput;
 };
+
+
+export type QueryTrackingCodeArgs = {
+  input: TrackingCodeInput;
+};
+
 
 export type QueryWishlistCheckProductArgs = {
   input: WishlistCheckProductInput;
 };
 
 export type RedefineVtexPasswordInput = {
-  currentPassword: Scalars['String'];
-  newPassword: Scalars['String'];
+  currentPassword: Scalars['String']['input'];
+  newPassword: Scalars['String']['input'];
 };
 
 export type RemoveProfileAddressInput = {
-  addressId: Scalars['String'];
+  addressId: Scalars['String']['input'];
 };
 
 export type RequestCodeOutput = {
   __typename?: 'RequestCodeOutput';
-  cookies: Array<Scalars['String']>;
-  ok: Scalars['Boolean'];
+  cookies: Array<Scalars['String']['output']>;
+  ok: Scalars['Boolean']['output'];
 };
 
 export type RequestVerificationCodeInput = {
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
 };
 
 export type ResetVtexPasswordInput = {
-  code: Scalars['String'];
-  cookies: Array<Scalars['String']>;
-  email: Scalars['String'];
-  password: Scalars['String'];
+  code: Scalars['String']['input'];
+  cookies: Array<Scalars['String']['input']>;
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type RonRedirectInput = {
-  code: Scalars['String'];
+  code: Scalars['String']['input'];
 };
 
 export type RonRedirectOutput = {
   __typename?: 'RonRedirectOutput';
-  orderFormId?: Maybe<Scalars['String']>;
+  orderFormId?: Maybe<Scalars['String']['output']>;
   type: RonRedirectTypeEnum;
-  url?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']['output']>;
 };
 
 export enum RonRedirectTypeEnum {
   Custom = 'CUSTOM',
   Orderform = 'ORDERFORM',
   Pdc = 'PDC',
-  Pdp = 'PDP',
+  Pdp = 'PDP'
 }
 
 export type SearchFacetColorItemOutput = {
   __typename?: 'SearchFacetColorItemOutput';
-  hex: Scalars['String'];
-  key: Scalars['String'];
-  name: Scalars['String'];
-  value: Scalars['String'];
+  hex: Scalars['String']['output'];
+  key: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 export type SearchFacetItemOutput = {
   __typename?: 'SearchFacetItemOutput';
-  key: Scalars['String'];
-  name: Scalars['String'];
-  value: Scalars['String'];
+  key: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 export type SearchFacetOutput = {
@@ -1452,22 +1577,22 @@ export type SearchFacetOutput = {
 
 export type SearchFacetRangeOutput = {
   __typename?: 'SearchFacetRangeOutput';
-  from: Scalars['Float'];
-  to: Scalars['Float'];
+  from: Scalars['Float']['output'];
+  to: Scalars['Float']['output'];
 };
 
 export type SearchFacetsInput = {
   facets?: InputMaybe<Array<SearchProductFacetInput>>;
   provider?: InputMaybe<SearchProviderEnum>;
-  q?: InputMaybe<Scalars['String']>;
+  q?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SearchNewsOutput = {
   __typename?: 'SearchNewsOutput';
   facets: Array<ProductFacetOutput>;
-  image: Scalars['String'];
-  orderBy?: Maybe<Scalars['String']>;
-  referenceId: Scalars['String'];
+  image: Scalars['String']['output'];
+  orderBy?: Maybe<Scalars['String']['output']>;
+  referenceId: Scalars['String']['output'];
 };
 
 export enum SearchOrderByEnum {
@@ -1478,34 +1603,34 @@ export enum SearchOrderByEnum {
   OrderByPriceDesc = 'OrderByPriceDESC',
   OrderByReleaseDateDesc = 'OrderByReleaseDateDESC',
   OrderByScoreDesc = 'OrderByScoreDESC',
-  OrderByTopSaleDesc = 'OrderByTopSaleDESC',
+  OrderByTopSaleDesc = 'OrderByTopSaleDESC'
 }
 
 export type SearchOutput = {
   __typename?: 'SearchOutput';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   items: Array<ProductListOutput>;
-  redirect?: Maybe<Scalars['String']>;
+  redirect?: Maybe<Scalars['String']['output']>;
 };
 
 export type SearchProductFacetInput = {
-  key: Scalars['String'];
-  value: Scalars['String'];
+  key: Scalars['String']['input'];
+  value: Scalars['String']['input'];
 };
 
 export type SearchProductInput = {
   facets: Array<SearchProductFacetInput>;
   orderBy?: InputMaybe<SearchOrderByEnum>;
-  page: Scalars['Int'];
-  perPage?: InputMaybe<Scalars['Int']>;
+  page: Scalars['Int']['input'];
+  perPage?: InputMaybe<Scalars['Int']['input']>;
   priceRange?: InputMaybe<SearchProductPriceRangeInput>;
   provider?: InputMaybe<SearchProviderEnum>;
-  q?: InputMaybe<Scalars['String']>;
+  q?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SearchProductPriceRangeInput = {
-  from: Scalars['Float'];
-  to: Scalars['Float'];
+  from: Scalars['Float']['input'];
+  to: Scalars['Float']['input'];
 };
 
 export enum SearchProviderEnum {
@@ -1518,94 +1643,171 @@ export type SearchProviderInput = {
 };
 
 export type SellerInfoInput = {
-  sellerId: Scalars['String'];
+  sellerId: Scalars['String']['input'];
 };
 
 export type SellerInfoOutput = {
   __typename?: 'SellerInfoOutput';
-  bannerMobile?: Maybe<Scalars['String']>;
-  linkApp?: Maybe<Scalars['String']>;
-  logo?: Maybe<Scalars['String']>;
-  sellerId: Scalars['ID'];
-  sellerName?: Maybe<Scalars['String']>;
-  texto?: Maybe<Scalars['String']>;
+  bannerMobile?: Maybe<Scalars['String']['output']>;
+  linkApp?: Maybe<Scalars['String']['output']>;
+  logo?: Maybe<Scalars['String']['output']>;
+  sellerId: Scalars['ID']['output'];
+  sellerName?: Maybe<Scalars['String']['output']>;
+  texto?: Maybe<Scalars['String']['output']>;
 };
 
 export type SendLeadInput = {
-  email: Scalars['String'];
-  idCampanha: Scalars['String'];
-  name: Scalars['String'];
-  phone: Scalars['String'];
+  email: Scalars['String']['input'];
+  idCampanha: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  phone: Scalars['String']['input'];
 };
 
 export type SignInInput = {
-  email: Scalars['String'];
-  isNewUser?: InputMaybe<Scalars['Boolean']>;
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  isNewUser?: InputMaybe<Scalars['Boolean']['input']>;
+  password: Scalars['String']['input'];
 };
 
 export enum SignUpDocumentTypeEnum {
   Cnpj = 'CNPJ',
-  Cpf = 'CPF',
+  Cpf = 'CPF'
 }
 
 export type SignUpUserInput = {
-  code: Scalars['String'];
-  cookies: Array<Scalars['String']>;
-  document?: InputMaybe<Scalars['String']>;
+  code: Scalars['String']['input'];
+  cookies: Array<Scalars['String']['input']>;
+  document?: InputMaybe<Scalars['String']['input']>;
   documentType?: InputMaybe<SignUpDocumentTypeEnum>;
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
+export enum SmarthintPageTypeEnum {
+  Cart = 'cart',
+  Category = 'category',
+  Checkout = 'checkout',
+  Emptycart = 'emptycart',
+  Home = 'home',
+  Notfound = 'notfound',
+  Other = 'other',
+  Product = 'product',
+  Search = 'search',
+  SearchWithResult = 'searchWithResult'
+}
+
 export type SubscribeNewsletterInput = {
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
+};
+
+export type TrackClickInput = {
+  /** In this field, it should be indicated in which SmartHint feature the product was clicked. The field can have the value 'search' when clicked within a search or the value of the 'nameRecommendation' field if the click occurs within a SmartHint recommendation showcase. */
+  clickFeature?: InputMaybe<Scalars['String']['input']>;
+  /** In this field, the position of the Recommendation where the product was clicked should be provided. The position should be the same as indicated in the return of the Recommendation by Page call, where values can vary from 1 to 5 */
+  locationRecs: Scalars['Int']['input'];
+  /** Page Identifier from which the Buyer is coming, the Source of it until reaching the current page/screen. (e.g. collection:1427, product:1924, home, checkout, bag, etc.) */
+  originIdentifier: Scalars['String']['input'];
+  /** Page Identifier that is being viewed by the Buyer (e.g. collection:1427, product:1924, home, checkout, bag, etc.) */
+  pageIdentifier: Scalars['String']['input'];
+  /** The pagetype is the identifier of the type of page the Buyer is on. */
+  pageType: SmarthintPageTypeEnum;
+  /** Field used for SmartHint to know the position of clicked products in the features, be it search or recommendation. When the Buyer clicks on a product, the value of the position in the product list should be provided */
+  position: Scalars['Int']['input'];
+  /** Product code clicked by the Buyer. It's important that this data is the same as what was sent to the Product Catalog. */
+  productId: Scalars['String']['input'];
+  providers: Array<TrackProvidersEnum>;
+  /** Session Value - A session is the period of time during which the user interacts with the application; the identifier of this session should be sent. */
+  session?: InputMaybe<Scalars['String']['input']>;
+  /** When the clickFeature field is equal to search, the term entered by the Buyer to generate the search should be sent. */
+  term?: InputMaybe<Scalars['String']['input']>;
+  /** Should be sent the user's email - That filed it'll be hashed and sent to providers */
+  userEmail?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TrackPageViewInput = {
+  /** Time in seconds that the Buyer spent on the page. */
+  elapsedTime?: InputMaybe<Scalars['Int']['input']>;
+  /** Page Identifier from which the Buyer is coming, the Source of it until reaching the current page/screen. (e.g. collection:1427, product:1924, home, checkout, bag, etc.) */
+  originIdentifier: Scalars['String']['input'];
+  /** Page Identifier that is being viewed by the Buyer (e.g. collection:1427, product:1924, home, checkout, bag, etc.) */
+  pageIdentifier: Scalars['String']['input'];
+  /** The pagetype is the identifier of the type of page the Buyer is on. */
+  pageType: SmarthintPageTypeEnum;
+  providers: Array<TrackProvidersEnum>;
+  /** Session Value - A session is the period of time during which the user interacts with the application; the identifier of this session should be sent. */
+  session?: InputMaybe<Scalars['String']['input']>;
+  /** Should be sent the user's email - That filed it'll be hashed and sent to providers */
+  userEmail?: InputMaybe<Scalars['String']['input']>;
+};
+
+export enum TrackProvidersEnum {
+  Smarthint = 'smarthint'
+}
+
+export type TrackingCodeInput = {
+  trackingCode: Scalars['String']['input'];
+};
+
+export type TrackingCodeOutput = {
+  __typename?: 'TrackingCodeOutput';
+  estimatedDeliveryDate?: Maybe<Scalars['Float']['output']>;
+  estimatedDeliveryDateFormated?: Maybe<Scalars['String']['output']>;
+  lastStatusCreated?: Maybe<Scalars['String']['output']>;
+  providerMessage?: Maybe<Scalars['String']['output']>;
+  shipmentOrderVolumeState?: Maybe<Scalars['String']['output']>;
+  shippingAdditional?: Maybe<Scalars['String']['output']>;
+  shippingAddress?: Maybe<Scalars['String']['output']>;
+  shippingCity?: Maybe<Scalars['String']['output']>;
+  shippingQuarter?: Maybe<Scalars['String']['output']>;
+  shippingReference?: Maybe<Scalars['String']['output']>;
+  shippingState?: Maybe<Scalars['String']['output']>;
+  trackingUrl?: Maybe<Scalars['String']['output']>;
 };
 
 export type UpdateInAppOutput = {
   __typename?: 'UpdateInAppOutput';
-  onlyPlatform?: Maybe<Scalars['String']>;
-  targetVersion?: Maybe<Scalars['String']>;
-  updateAllVersions?: Maybe<Scalars['Boolean']>;
-  updateDescription?: Maybe<Scalars['String']>;
-  updateTitle?: Maybe<Scalars['String']>;
-  updateType?: Maybe<Scalars['String']>;
+  onlyPlatform?: Maybe<Scalars['String']['output']>;
+  targetVersion?: Maybe<Scalars['String']['output']>;
+  updateAllVersions?: Maybe<Scalars['Boolean']['output']>;
+  updateDescription?: Maybe<Scalars['String']['output']>;
+  updateTitle?: Maybe<Scalars['String']['output']>;
+  updateType?: Maybe<Scalars['String']['output']>;
 };
 
 export type UpsertProfileAddressInput = {
-  addressId?: InputMaybe<Scalars['ID']>;
-  addressName?: InputMaybe<Scalars['String']>;
-  city: Scalars['String'];
-  complement?: InputMaybe<Scalars['String']>;
-  country: Scalars['String'];
-  mainAddress?: InputMaybe<Scalars['Boolean']>;
-  neighborhood: Scalars['String'];
-  number: Scalars['String'];
-  postalCode: Scalars['String'];
-  receiverName: Scalars['String'];
-  state: Scalars['String'];
-  street: Scalars['String'];
+  addressId?: InputMaybe<Scalars['ID']['input']>;
+  addressName?: InputMaybe<Scalars['String']['input']>;
+  city: Scalars['String']['input'];
+  complement?: InputMaybe<Scalars['String']['input']>;
+  country: Scalars['String']['input'];
+  mainAddress?: InputMaybe<Scalars['Boolean']['input']>;
+  neighborhood: Scalars['String']['input'];
+  number: Scalars['String']['input'];
+  postalCode: Scalars['String']['input'];
+  receiverName: Scalars['String']['input'];
+  state: Scalars['String']['input'];
+  street: Scalars['String']['input'];
 };
 
 export type WishlistAddProductInput = {
-  productId: Scalars['String'];
-  skuId: Scalars['String'];
+  productId: Scalars['String']['input'];
+  skuId: Scalars['String']['input'];
 };
 
 export type WishlistCheckOutput = {
   __typename?: 'WishlistCheckOutput';
-  inList: Scalars['Boolean'];
-  listIds: Array<Scalars['String']>;
+  inList: Scalars['Boolean']['output'];
+  listIds: Array<Scalars['String']['output']>;
 };
 
 export type WishlistCheckProductInput = {
-  productId: Scalars['String'];
-  skuId: Scalars['String'];
+  productId: Scalars['String']['input'];
+  skuId: Scalars['String']['input'];
 };
 
 export type WishlistRemoveProductInput = {
-  productId?: InputMaybe<Scalars['String']>;
-  skuId?: InputMaybe<Scalars['String']>;
+  productId?: InputMaybe<Scalars['String']['input']>;
+  skuId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type AvailableGiftsFragmentFragment = { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string };
@@ -1623,17 +1825,19 @@ export type ProductSizeFragmentFragment = { __typename?: 'ProductSizeOutput', it
 export type ProfileFragmentFragment = { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, isPrime: boolean, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null> };
 
 export type OrderFormAddDiscountCouponMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
-  coupon: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
+  coupon: Scalars['String']['input'];
 }>;
+
 
 export type OrderFormAddDiscountCouponMutation = { __typename?: 'Mutation', orderFormAddDiscountCoupon: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormAddGiftMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
-  index: Scalars['Int'];
-  id: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
+  index: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 }>;
+
 
 export type OrderFormAddGiftMutation = { __typename?: 'Mutation', orderFormAddGift: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
@@ -1641,12 +1845,14 @@ export type OrderFormAddItemMutationVariables = Exact<{
   input: OrderformAddItemInput;
 }>;
 
+
 export type OrderFormAddItemMutation = { __typename?: 'Mutation', orderFormAddItem: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormAddSellerCouponMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
-  coupon: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
+  coupon: Scalars['String']['input'];
 }>;
+
 
 export type OrderFormAddSellerCouponMutation = { __typename?: 'Mutation', orderFormAddSellerCoupon: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
@@ -1654,56 +1860,64 @@ export type OrderFormRefreshDataMutationVariables = Exact<{
   input: OrderformRefreshDataInput;
 }>;
 
+
 export type OrderFormRefreshDataMutation = { __typename?: 'Mutation', orderFormRefreshData: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormRemoveDiscountCouponMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 }>;
+
 
 export type OrderFormRemoveDiscountCouponMutation = { __typename?: 'Mutation', orderFormRemoveDiscountCoupon: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormRemoveGiftMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
-  index: Scalars['Int'];
-  id: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
+  index: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 }>;
+
 
 export type OrderFormRemoveGiftMutation = { __typename?: 'Mutation', orderFormRemoveGift: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormRemoveSellerCouponMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 }>;
+
 
 export type OrderFormRemoveSellerCouponMutation = { __typename?: 'Mutation', orderFormRemoveSellerCoupon: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormRemoveUnavailableItemsMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 }>;
+
 
 export type OrderFormRemoveUnavailableItemsMutation = { __typename?: 'Mutation', orderFormRemoveUnavailableItems: { __typename?: 'GenericOutput', message?: string | null, error: boolean } };
 
 export type OrderFormResetMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 }>;
+
 
 export type OrderFormResetMutation = { __typename?: 'Mutation', orderFormReset: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormSetGiftSizeMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
-  giftId: Scalars['String'];
-  id: Scalars['String'];
-  seller: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
+  giftId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+  seller: Scalars['String']['input'];
 }>;
+
 
 export type OrderFormSetGiftSizeMutation = { __typename?: 'Mutation', orderFormSetGiftSize: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormUpdateItemMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
-  seller: Scalars['String'];
-  id: Scalars['String'];
-  quantity: Scalars['Int'];
-  index: Scalars['Int'];
+  orderFormId: Scalars['String']['input'];
+  seller: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+  quantity: Scalars['Int']['input'];
+  index: Scalars['Int']['input'];
 }>;
+
 
 export type OrderFormUpdateItemMutation = { __typename?: 'Mutation', orderFormUpdateItem: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
@@ -1711,11 +1925,13 @@ export type ProfileUpdateMutationVariables = Exact<{
   input: ProfileUpdateInput;
 }>;
 
+
 export type ProfileUpdateMutation = { __typename?: 'Mutation', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, isPrime: boolean, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null> } };
 
 export type ProfileAddressMutationVariables = Exact<{
   input: UpsertProfileAddressInput;
 }>;
+
 
 export type ProfileAddressMutation = { __typename?: 'Mutation', profileAddress: { __typename?: 'ProfileAddressOutput', id: string, addressName?: string | null, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null } };
 
@@ -1723,11 +1939,13 @@ export type ProfileAddressRemoveMutationVariables = Exact<{
   input: RemoveProfileAddressInput;
 }>;
 
+
 export type ProfileAddressRemoveMutation = { __typename?: 'Mutation', profileAddressRemove: boolean };
 
 export type RecoverPasswordResetMutationVariables = Exact<{
   input: ResetVtexPasswordInput;
 }>;
+
 
 export type RecoverPasswordResetMutation = { __typename?: 'Mutation', recoverPasswordReset: { __typename?: 'LoggedInOutput', token: string, authCookie?: string | null } };
 
@@ -1735,30 +1953,35 @@ export type RecoverPasswordVerificationCodeMutationVariables = Exact<{
   input: RequestVerificationCodeInput;
 }>;
 
+
 export type RecoverPasswordVerificationCodeMutation = { __typename?: 'Mutation', recoverPasswordVerificationCode: { __typename?: 'RequestCodeOutput', ok: boolean, cookies: Array<string> } };
 
 export type RedefinePasswordMutationVariables = Exact<{
   input: RedefineVtexPasswordInput;
 }>;
 
+
 export type RedefinePasswordMutation = { __typename?: 'Mutation', redefinePassword: { __typename?: 'LoggedInOutput', token: string, authCookie?: string | null } };
 
 export type RefreshTokenMutationVariables = Exact<{ [key: string]: never; }>;
 
+
 export type RefreshTokenMutation = { __typename?: 'Mutation', refreshToken: { __typename?: 'LoggedInOutput', token: string, authCookie?: string | null } };
 
 export type RemoveUserMutationMutationVariables = Exact<{
-  customerId: Scalars['String'];
+  customerId: Scalars['String']['input'];
 }>;
+
 
 export type RemoveUserMutationMutation = { __typename?: 'Mutation', removeCustomer: boolean };
 
 export type SendLeadsMutationVariables = Exact<{
-  idCampanha: Scalars['String'];
-  email: Scalars['String'];
-  name: Scalars['String'];
-  phone: Scalars['String'];
+  idCampanha: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  phone: Scalars['String']['input'];
 }>;
+
 
 export type SendLeadsMutation = { __typename?: 'Mutation', sendLead: boolean };
 
@@ -1766,11 +1989,13 @@ export type SignInMutationVariables = Exact<{
   input: SignInInput;
 }>;
 
+
 export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'LoggedInOutput', token: string, authCookie?: string | null } };
 
 export type SignUpMutationVariables = Exact<{
   input: SignUpUserInput;
 }>;
+
 
 export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'LoggedInOutput', token: string, authCookie?: string | null } };
 
@@ -1778,11 +2003,13 @@ export type SignUpVerificationCodeMutationVariables = Exact<{
   input: RequestVerificationCodeInput;
 }>;
 
+
 export type SignUpVerificationCodeMutation = { __typename?: 'Mutation', signUpVerificationCode: { __typename?: 'RequestCodeOutput', ok: boolean, cookies: Array<string> } };
 
 export type SubscribeNewsletterMutationVariables = Exact<{
   input: SubscribeNewsletterInput;
 }>;
+
 
 export type SubscribeNewsletterMutation = { __typename?: 'Mutation', subscribeNewsletter: boolean };
 
@@ -1790,21 +2017,25 @@ export type WishlistAddProductMutationVariables = Exact<{
   input: WishlistAddProductInput;
 }>;
 
+
 export type WishlistAddProductMutation = { __typename?: 'Mutation', wishlistAddProduct: Array<string> };
 
 export type WishlistRemoveProductMutationVariables = Exact<{
   input: WishlistRemoveProductInput;
 }>;
 
+
 export type WishlistRemoveProductMutation = { __typename?: 'Mutation', wishlistRemoveProduct: Array<string> };
 
 export type AppMenuQueryVariables = Exact<{ [key: string]: never; }>;
+
 
 export type AppMenuQuery = { __typename?: 'Query', appMenu: Array<{ __typename?: 'MenuCategoryOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, children: Array<{ __typename?: 'MenuCategoryItemOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> }> }> };
 
 export type BannerCategoryQueryVariables = Exact<{
   input: BannerCategoryInput;
 }>;
+
 
 export type BannerCategoryQuery = { __typename?: 'Query', bannerCategory: Array<{ __typename?: 'BannerCategoryOutput', image: { __typename?: 'BannerCategoryImageOutput', url: string } }> };
 
@@ -1821,18 +2052,21 @@ export type CepQueryVariables = Exact<{
 export type CepQuery = { __typename?: 'Query', cep?: { __typename?: 'CepOutput', postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, neighborhood?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null } | null };
 
 export type CheckIfUserExistsQueryVariables = Exact<{
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
 }>;
+
 
 export type CheckIfUserExistsQuery = { __typename?: 'Query', checkIfUserExists: boolean };
 
 export type CheckSearchRedirectQueryVariables = Exact<{
-  q: Scalars['String'];
+  q: Scalars['String']['input'];
 }>;
+
 
 export type CheckSearchRedirectQuery = { __typename?: 'Query', checkSearchRedirect?: string | null };
 
 export type ConfigShippingBarQueryVariables = Exact<{ [key: string]: never; }>;
+
 
 export type ConfigShippingBarQuery = { __typename?: 'Query', config?: { __typename?: 'ConfigOutput', shippingBar?: { __typename?: 'ConfigShippingBarOutput', freeShippingValue?: number | null, isFreeShipping?: boolean | null } | null } | null };
 
@@ -1840,53 +2074,72 @@ export type CountdownQueryVariables = Exact<{
   input: CountdownCategoryInput;
 }>;
 
+
 export type CountdownQuery = { __typename?: 'Query', countdown?: { __typename?: 'CountdownClockCategoryOutput', textColor: string, bannerColor: string, buttonColor: string, backgroundColor: string, selectClockScreen: ClockScreenEnum, title: string, subtitle: string, titleButton: string, titleModal: string, remainingTime: string, reference: string, descriptionModal?: string | null } | null };
 
 export type DeeplinkPathQueryVariables = Exact<{
-  path: Scalars['String'];
+  path: Scalars['String']['input'];
 }>;
+
 
 export type DeeplinkPathQuery = { __typename?: 'Query', deeplinkPath?: { __typename?: 'DeeplinkOutput', path: string, referenceId?: string | null, active: boolean } | null };
 
 export type HomeCarouselsQueryVariables = Exact<{ [key: string]: never; }>;
 
+
 export type HomeCarouselsQuery = { __typename?: 'Query', homeCarousels: Array<{ __typename?: 'HomeCarouselOutput', id: string, type: HomePageSectionTypeEnum, showtime?: number | null, items: Array<{ __typename?: 'HomeCarouselItemOutput', mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, reference: string, orderBy: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string, height?: number | null, width?: number | null } }> }> };
 
 export type HomeConfigQueryVariables = Exact<{ [key: string]: never; }>;
+
 
 export type HomeConfigQuery = { __typename?: 'Query', homeConfig?: { __typename?: 'ConfigOutput', id: string, offersPage?: string | null, discountCodeBar?: { __typename?: 'ConfigDiscountBarOutput', titleBar?: string | null, colorBar?: string | null, titleModal?: string | null, descriptionModal?: string | null, titleButton?: string | null, colorButton?: string | null, shareMessage?: string | null, coupon?: string | null } | null } | null };
 
 export type HomeCountdownQueryVariables = Exact<{ [key: string]: never; }>;
 
+
 export type HomeCountdownQuery = { __typename?: 'Query', homeCountdown?: { __typename?: 'HomeCountdownOutput', type?: ClockScreenEnum | null, title?: string | null, subtitle?: string | null, watchType?: string | null, countdown: string, countdownStart?: string | null, titleButton?: string | null, titleModal?: string | null, descriptionModal?: string | null, reference?: string | null, formattedValue?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, theme: { __typename?: 'HomeCountdownThemeOutput', colorBanner: string, colorButton: string, clockBackgroundColor: string } } | null };
 
 export type HomeMediasQueryVariables = Exact<{ [key: string]: never; }>;
 
+
 export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, orderBy: string, reference: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
 
+export type InvoiceKeyQueryVariables = Exact<{
+  invoiceKey: Scalars['String']['input'];
+}>;
+
+
+export type InvoiceKeyQuery = { __typename?: 'Query', invoiceKey?: { __typename?: 'InvoiceKeyOutput', estimatedDeliveryDate?: number | null, estimatedDeliveryDateFormated?: string | null, shippingReference?: string | null, shippingAdditional?: string | null, shippingAddress?: string | null, shippingQuarter?: string | null, shippingCity?: string | null, shippingState?: string | null, shipmentOrderVolumeState?: string | null, providerMessage?: string | null, lastStatusCreated?: string | null } | null };
+
 export type LandingPagePrimeQueryVariables = Exact<{ [key: string]: never; }>;
+
 
 export type LandingPagePrimeQuery = { __typename?: 'Query', landingPagePrime: { __typename?: 'PrimeDetailOutput', productId: number, skuId: number, productSeller: string, installmentQty: number, installmentPrice: number, monthlyCashback: number, discountFrom: number, discountPercentage: number } };
 
 export type MktinStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
+
 export type MktinStatusQuery = { __typename?: 'Query', mktinStatus: boolean };
 
 export type MostSearchedWordsQueryVariables = Exact<{ [key: string]: never; }>;
 
+
 export type MostSearchedWordsQuery = { __typename?: 'Query', mostSearchedWords: Array<string> };
 
 export type OrderFormQueryVariables = Exact<{
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 }>;
+
 
 export type OrderFormQuery = { __typename?: 'Query', orderForm: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type PrimeConfigQueryVariables = Exact<{ [key: string]: never; }>;
 
+
 export type PrimeConfigQuery = { __typename?: 'Query', primeConfig: { __typename?: 'PrimeConfigOutput', idCalculatorConfiguration: string, name: string, percentualDiscountValue: number, isActive: boolean, categoriesAreInclusive: boolean, collectionsIsInclusive: boolean, brandsAreInclusive: boolean, idSeller: string, idSellerIsInclusive: boolean, totalValueFloor: number, totalValueCeling: number, marketingTags: Array<{ __typename?: 'PrimeConfigItemOutput', id: string, name: string }>, categories: Array<{ __typename?: 'PrimeConfigItemOutput', id: string, name: string }>, brands: Array<{ __typename?: 'PrimeConfigItemOutput', id: string, name: string }>, collections: Array<{ __typename?: 'PrimeConfigItemOutput', id: string, name: string }> } };
 
 export type PrimeFaqQueryVariables = Exact<{ [key: string]: never; }>;
+
 
 export type PrimeFaqQuery = { __typename?: 'Query', primeFaq: Array<{ __typename?: 'PrimeFaqOutput', id: string, title: string, body: string }> };
 
@@ -1895,11 +2148,12 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, videoThumbnail?: string | null, priceRange: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } }, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null } | null } };
+export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, videoThumbnail?: string | null, priceRange?: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } } | null, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null } | null } };
 
 export type ProductDeliveryTimeQueryVariables = Exact<{
   input: CheckDeliveryTimeByProductInput;
 }>;
+
 
 export type ProductDeliveryTimeQuery = { __typename?: 'Query', productDeliveryTime: Array<{ __typename?: 'ProductDeliveryTimeOutput', name: string, price: number, estimatedDay?: string | null }> };
 
@@ -1910,11 +2164,13 @@ export type ProductRecommendationsQuery = { __typename?: 'Query', productRecomme
 
 export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
+
 export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, isPrime: boolean, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null> } };
 
 export type RonRedirectQueryVariables = Exact<{
-  code: Scalars['String'];
+  code: Scalars['String']['input'];
 }>;
+
 
 export type RonRedirectQuery = { __typename?: 'Query', ronRedirect?: { __typename?: 'RonRedirectOutput', type: RonRedirectTypeEnum, url?: string | null, orderFormId?: string | null } | null };
 
@@ -1926,9 +2182,10 @@ export type SearchQueryVariables = Exact<{
 export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'SearchOutput', count: number, items: Array<{ __typename?: 'ProductListOutput', productId: string, skuId: string, skuName: string, productName: string, colors?: Array<string> | null, brand: string, category?: string | null, size?: string | null, colorName?: string | null, image: string, listPrice: number, currentPrice: number, hasDiscount: boolean, discountPercentage: number, prime?: { __typename?: 'ProductListPrimeOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number }, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } };
 
 export type SearchAutocompleteSuggestionsQueryVariables = Exact<{
-  q: Scalars['String'];
+  q: Scalars['String']['input'];
   provider: SearchProviderInput;
 }>;
+
 
 export type SearchAutocompleteSuggestionsQuery = { __typename?: 'Query', searchAutocompleteSuggestions: Array<string> };
 
@@ -1936,23 +2193,35 @@ export type SearchFacetsQueryVariables = Exact<{
   input: SearchFacetsInput;
 }>;
 
+
 export type SearchFacetsQuery = { __typename?: 'Query', searchFacets: { __typename?: 'SearchFacetOutput', categories: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, colors: Array<{ __typename?: 'SearchFacetColorItemOutput', key: string, value: string, name: string, hex: string }>, sizes: Array<{ __typename?: 'SearchFacetItemOutput', key: string, value: string, name: string }>, prices: { __typename?: 'SearchFacetRangeOutput', from: number, to: number } } };
 
 export type SearchNewsQueryVariables = Exact<{ [key: string]: never; }>;
 
+
 export type SearchNewsQuery = { __typename?: 'Query', searchNews: Array<{ __typename?: 'SearchNewsOutput', image: string, referenceId: string, orderBy?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> }> };
 
+export type TrackingCodeQueryVariables = Exact<{
+  trackingCode: Scalars['String']['input'];
+}>;
+
+
+export type TrackingCodeQuery = { __typename?: 'Query', trackingCode?: { __typename?: 'TrackingCodeOutput', trackingUrl?: string | null, estimatedDeliveryDate?: number | null, estimatedDeliveryDateFormated?: string | null, shippingReference?: string | null, shippingAddress?: string | null, shippingQuarter?: string | null, shippingCity?: string | null, shippingState?: string | null, shippingAdditional?: string | null, shipmentOrderVolumeState?: string | null, providerMessage?: string | null, lastStatusCreated?: string | null } | null };
+
 export type UpdateInAppQueryVariables = Exact<{ [key: string]: never; }>;
+
 
 export type UpdateInAppQuery = { __typename?: 'Query', updateInApp?: { __typename?: 'UpdateInAppOutput', updateTitle?: string | null, updateDescription?: string | null, updateAllVersions?: boolean | null, targetVersion?: string | null, onlyPlatform?: string | null, updateType?: string | null } | null };
 
 export type WishlistQueryVariables = Exact<{ [key: string]: never; }>;
+
 
 export type WishlistQuery = { __typename?: 'Query', wishlist: Array<string> };
 
 export type WishlistCheckProductQueryVariables = Exact<{
   input: WishlistCheckProductInput;
 }>;
+
 
 export type WishlistCheckProductQuery = { __typename?: 'Query', wishlistCheckProduct: { __typename?: 'WishlistCheckOutput', inList: boolean, listIds: Array<string> } };
 
@@ -2223,9 +2492,9 @@ export type OrderFormAddDiscountCouponMutationFn = Apollo.MutationFunction<Order
  * });
  */
 export function useOrderFormAddDiscountCouponMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormAddDiscountCouponMutation, OrderFormAddDiscountCouponMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<OrderFormAddDiscountCouponMutation, OrderFormAddDiscountCouponMutationVariables>(OrderFormAddDiscountCouponDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OrderFormAddDiscountCouponMutation, OrderFormAddDiscountCouponMutationVariables>(OrderFormAddDiscountCouponDocument, options);
+      }
 export type OrderFormAddDiscountCouponMutationHookResult = ReturnType<typeof useOrderFormAddDiscountCouponMutation>;
 export type OrderFormAddDiscountCouponMutationResult = Apollo.MutationResult<OrderFormAddDiscountCouponMutation>;
 export type OrderFormAddDiscountCouponMutationOptions = Apollo.BaseMutationOptions<OrderFormAddDiscountCouponMutation, OrderFormAddDiscountCouponMutationVariables>;
@@ -2258,9 +2527,9 @@ export type OrderFormAddGiftMutationFn = Apollo.MutationFunction<OrderFormAddGif
  * });
  */
 export function useOrderFormAddGiftMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormAddGiftMutation, OrderFormAddGiftMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<OrderFormAddGiftMutation, OrderFormAddGiftMutationVariables>(OrderFormAddGiftDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OrderFormAddGiftMutation, OrderFormAddGiftMutationVariables>(OrderFormAddGiftDocument, options);
+      }
 export type OrderFormAddGiftMutationHookResult = ReturnType<typeof useOrderFormAddGiftMutation>;
 export type OrderFormAddGiftMutationResult = Apollo.MutationResult<OrderFormAddGiftMutation>;
 export type OrderFormAddGiftMutationOptions = Apollo.BaseMutationOptions<OrderFormAddGiftMutation, OrderFormAddGiftMutationVariables>;
@@ -2291,9 +2560,9 @@ export type OrderFormAddItemMutationFn = Apollo.MutationFunction<OrderFormAddIte
  * });
  */
 export function useOrderFormAddItemMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormAddItemMutation, OrderFormAddItemMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<OrderFormAddItemMutation, OrderFormAddItemMutationVariables>(OrderFormAddItemDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OrderFormAddItemMutation, OrderFormAddItemMutationVariables>(OrderFormAddItemDocument, options);
+      }
 export type OrderFormAddItemMutationHookResult = ReturnType<typeof useOrderFormAddItemMutation>;
 export type OrderFormAddItemMutationResult = Apollo.MutationResult<OrderFormAddItemMutation>;
 export type OrderFormAddItemMutationOptions = Apollo.BaseMutationOptions<OrderFormAddItemMutation, OrderFormAddItemMutationVariables>;
@@ -2325,9 +2594,9 @@ export type OrderFormAddSellerCouponMutationFn = Apollo.MutationFunction<OrderFo
  * });
  */
 export function useOrderFormAddSellerCouponMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormAddSellerCouponMutation, OrderFormAddSellerCouponMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<OrderFormAddSellerCouponMutation, OrderFormAddSellerCouponMutationVariables>(OrderFormAddSellerCouponDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OrderFormAddSellerCouponMutation, OrderFormAddSellerCouponMutationVariables>(OrderFormAddSellerCouponDocument, options);
+      }
 export type OrderFormAddSellerCouponMutationHookResult = ReturnType<typeof useOrderFormAddSellerCouponMutation>;
 export type OrderFormAddSellerCouponMutationResult = Apollo.MutationResult<OrderFormAddSellerCouponMutation>;
 export type OrderFormAddSellerCouponMutationOptions = Apollo.BaseMutationOptions<OrderFormAddSellerCouponMutation, OrderFormAddSellerCouponMutationVariables>;
@@ -2358,9 +2627,9 @@ export type OrderFormRefreshDataMutationFn = Apollo.MutationFunction<OrderFormRe
  * });
  */
 export function useOrderFormRefreshDataMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormRefreshDataMutation, OrderFormRefreshDataMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<OrderFormRefreshDataMutation, OrderFormRefreshDataMutationVariables>(OrderFormRefreshDataDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OrderFormRefreshDataMutation, OrderFormRefreshDataMutationVariables>(OrderFormRefreshDataDocument, options);
+      }
 export type OrderFormRefreshDataMutationHookResult = ReturnType<typeof useOrderFormRefreshDataMutation>;
 export type OrderFormRefreshDataMutationResult = Apollo.MutationResult<OrderFormRefreshDataMutation>;
 export type OrderFormRefreshDataMutationOptions = Apollo.BaseMutationOptions<OrderFormRefreshDataMutation, OrderFormRefreshDataMutationVariables>;
@@ -2391,9 +2660,9 @@ export type OrderFormRemoveDiscountCouponMutationFn = Apollo.MutationFunction<Or
  * });
  */
 export function useOrderFormRemoveDiscountCouponMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormRemoveDiscountCouponMutation, OrderFormRemoveDiscountCouponMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<OrderFormRemoveDiscountCouponMutation, OrderFormRemoveDiscountCouponMutationVariables>(OrderFormRemoveDiscountCouponDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OrderFormRemoveDiscountCouponMutation, OrderFormRemoveDiscountCouponMutationVariables>(OrderFormRemoveDiscountCouponDocument, options);
+      }
 export type OrderFormRemoveDiscountCouponMutationHookResult = ReturnType<typeof useOrderFormRemoveDiscountCouponMutation>;
 export type OrderFormRemoveDiscountCouponMutationResult = Apollo.MutationResult<OrderFormRemoveDiscountCouponMutation>;
 export type OrderFormRemoveDiscountCouponMutationOptions = Apollo.BaseMutationOptions<OrderFormRemoveDiscountCouponMutation, OrderFormRemoveDiscountCouponMutationVariables>;
@@ -2426,9 +2695,9 @@ export type OrderFormRemoveGiftMutationFn = Apollo.MutationFunction<OrderFormRem
  * });
  */
 export function useOrderFormRemoveGiftMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormRemoveGiftMutation, OrderFormRemoveGiftMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<OrderFormRemoveGiftMutation, OrderFormRemoveGiftMutationVariables>(OrderFormRemoveGiftDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OrderFormRemoveGiftMutation, OrderFormRemoveGiftMutationVariables>(OrderFormRemoveGiftDocument, options);
+      }
 export type OrderFormRemoveGiftMutationHookResult = ReturnType<typeof useOrderFormRemoveGiftMutation>;
 export type OrderFormRemoveGiftMutationResult = Apollo.MutationResult<OrderFormRemoveGiftMutation>;
 export type OrderFormRemoveGiftMutationOptions = Apollo.BaseMutationOptions<OrderFormRemoveGiftMutation, OrderFormRemoveGiftMutationVariables>;
@@ -2459,9 +2728,9 @@ export type OrderFormRemoveSellerCouponMutationFn = Apollo.MutationFunction<Orde
  * });
  */
 export function useOrderFormRemoveSellerCouponMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormRemoveSellerCouponMutation, OrderFormRemoveSellerCouponMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<OrderFormRemoveSellerCouponMutation, OrderFormRemoveSellerCouponMutationVariables>(OrderFormRemoveSellerCouponDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OrderFormRemoveSellerCouponMutation, OrderFormRemoveSellerCouponMutationVariables>(OrderFormRemoveSellerCouponDocument, options);
+      }
 export type OrderFormRemoveSellerCouponMutationHookResult = ReturnType<typeof useOrderFormRemoveSellerCouponMutation>;
 export type OrderFormRemoveSellerCouponMutationResult = Apollo.MutationResult<OrderFormRemoveSellerCouponMutation>;
 export type OrderFormRemoveSellerCouponMutationOptions = Apollo.BaseMutationOptions<OrderFormRemoveSellerCouponMutation, OrderFormRemoveSellerCouponMutationVariables>;
@@ -2493,9 +2762,9 @@ export type OrderFormRemoveUnavailableItemsMutationFn = Apollo.MutationFunction<
  * });
  */
 export function useOrderFormRemoveUnavailableItemsMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormRemoveUnavailableItemsMutation, OrderFormRemoveUnavailableItemsMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<OrderFormRemoveUnavailableItemsMutation, OrderFormRemoveUnavailableItemsMutationVariables>(OrderFormRemoveUnavailableItemsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OrderFormRemoveUnavailableItemsMutation, OrderFormRemoveUnavailableItemsMutationVariables>(OrderFormRemoveUnavailableItemsDocument, options);
+      }
 export type OrderFormRemoveUnavailableItemsMutationHookResult = ReturnType<typeof useOrderFormRemoveUnavailableItemsMutation>;
 export type OrderFormRemoveUnavailableItemsMutationResult = Apollo.MutationResult<OrderFormRemoveUnavailableItemsMutation>;
 export type OrderFormRemoveUnavailableItemsMutationOptions = Apollo.BaseMutationOptions<OrderFormRemoveUnavailableItemsMutation, OrderFormRemoveUnavailableItemsMutationVariables>;
@@ -2526,9 +2795,9 @@ export type OrderFormResetMutationFn = Apollo.MutationFunction<OrderFormResetMut
  * });
  */
 export function useOrderFormResetMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormResetMutation, OrderFormResetMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<OrderFormResetMutation, OrderFormResetMutationVariables>(OrderFormResetDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OrderFormResetMutation, OrderFormResetMutationVariables>(OrderFormResetDocument, options);
+      }
 export type OrderFormResetMutationHookResult = ReturnType<typeof useOrderFormResetMutation>;
 export type OrderFormResetMutationResult = Apollo.MutationResult<OrderFormResetMutation>;
 export type OrderFormResetMutationOptions = Apollo.BaseMutationOptions<OrderFormResetMutation, OrderFormResetMutationVariables>;
@@ -2564,9 +2833,9 @@ export type OrderFormSetGiftSizeMutationFn = Apollo.MutationFunction<OrderFormSe
  * });
  */
 export function useOrderFormSetGiftSizeMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormSetGiftSizeMutation, OrderFormSetGiftSizeMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<OrderFormSetGiftSizeMutation, OrderFormSetGiftSizeMutationVariables>(OrderFormSetGiftSizeDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OrderFormSetGiftSizeMutation, OrderFormSetGiftSizeMutationVariables>(OrderFormSetGiftSizeDocument, options);
+      }
 export type OrderFormSetGiftSizeMutationHookResult = ReturnType<typeof useOrderFormSetGiftSizeMutation>;
 export type OrderFormSetGiftSizeMutationResult = Apollo.MutationResult<OrderFormSetGiftSizeMutation>;
 export type OrderFormSetGiftSizeMutationOptions = Apollo.BaseMutationOptions<OrderFormSetGiftSizeMutation, OrderFormSetGiftSizeMutationVariables>;
@@ -2603,9 +2872,9 @@ export type OrderFormUpdateItemMutationFn = Apollo.MutationFunction<OrderFormUpd
  * });
  */
 export function useOrderFormUpdateItemMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormUpdateItemMutation, OrderFormUpdateItemMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<OrderFormUpdateItemMutation, OrderFormUpdateItemMutationVariables>(OrderFormUpdateItemDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OrderFormUpdateItemMutation, OrderFormUpdateItemMutationVariables>(OrderFormUpdateItemDocument, options);
+      }
 export type OrderFormUpdateItemMutationHookResult = ReturnType<typeof useOrderFormUpdateItemMutation>;
 export type OrderFormUpdateItemMutationResult = Apollo.MutationResult<OrderFormUpdateItemMutation>;
 export type OrderFormUpdateItemMutationOptions = Apollo.BaseMutationOptions<OrderFormUpdateItemMutation, OrderFormUpdateItemMutationVariables>;
@@ -2636,9 +2905,9 @@ export type ProfileUpdateMutationFn = Apollo.MutationFunction<ProfileUpdateMutat
  * });
  */
 export function useProfileUpdateMutation(baseOptions?: Apollo.MutationHookOptions<ProfileUpdateMutation, ProfileUpdateMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<ProfileUpdateMutation, ProfileUpdateMutationVariables>(ProfileUpdateDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ProfileUpdateMutation, ProfileUpdateMutationVariables>(ProfileUpdateDocument, options);
+      }
 export type ProfileUpdateMutationHookResult = ReturnType<typeof useProfileUpdateMutation>;
 export type ProfileUpdateMutationResult = Apollo.MutationResult<ProfileUpdateMutation>;
 export type ProfileUpdateMutationOptions = Apollo.BaseMutationOptions<ProfileUpdateMutation, ProfileUpdateMutationVariables>;
@@ -2676,9 +2945,9 @@ export type ProfileAddressMutationFn = Apollo.MutationFunction<ProfileAddressMut
  * });
  */
 export function useProfileAddressMutation(baseOptions?: Apollo.MutationHookOptions<ProfileAddressMutation, ProfileAddressMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<ProfileAddressMutation, ProfileAddressMutationVariables>(ProfileAddressDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ProfileAddressMutation, ProfileAddressMutationVariables>(ProfileAddressDocument, options);
+      }
 export type ProfileAddressMutationHookResult = ReturnType<typeof useProfileAddressMutation>;
 export type ProfileAddressMutationResult = Apollo.MutationResult<ProfileAddressMutation>;
 export type ProfileAddressMutationOptions = Apollo.BaseMutationOptions<ProfileAddressMutation, ProfileAddressMutationVariables>;
@@ -2707,9 +2976,9 @@ export type ProfileAddressRemoveMutationFn = Apollo.MutationFunction<ProfileAddr
  * });
  */
 export function useProfileAddressRemoveMutation(baseOptions?: Apollo.MutationHookOptions<ProfileAddressRemoveMutation, ProfileAddressRemoveMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<ProfileAddressRemoveMutation, ProfileAddressRemoveMutationVariables>(ProfileAddressRemoveDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ProfileAddressRemoveMutation, ProfileAddressRemoveMutationVariables>(ProfileAddressRemoveDocument, options);
+      }
 export type ProfileAddressRemoveMutationHookResult = ReturnType<typeof useProfileAddressRemoveMutation>;
 export type ProfileAddressRemoveMutationResult = Apollo.MutationResult<ProfileAddressRemoveMutation>;
 export type ProfileAddressRemoveMutationOptions = Apollo.BaseMutationOptions<ProfileAddressRemoveMutation, ProfileAddressRemoveMutationVariables>;
@@ -2741,9 +3010,9 @@ export type RecoverPasswordResetMutationFn = Apollo.MutationFunction<RecoverPass
  * });
  */
 export function useRecoverPasswordResetMutation(baseOptions?: Apollo.MutationHookOptions<RecoverPasswordResetMutation, RecoverPasswordResetMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<RecoverPasswordResetMutation, RecoverPasswordResetMutationVariables>(RecoverPasswordResetDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RecoverPasswordResetMutation, RecoverPasswordResetMutationVariables>(RecoverPasswordResetDocument, options);
+      }
 export type RecoverPasswordResetMutationHookResult = ReturnType<typeof useRecoverPasswordResetMutation>;
 export type RecoverPasswordResetMutationResult = Apollo.MutationResult<RecoverPasswordResetMutation>;
 export type RecoverPasswordResetMutationOptions = Apollo.BaseMutationOptions<RecoverPasswordResetMutation, RecoverPasswordResetMutationVariables>;
@@ -2775,9 +3044,9 @@ export type RecoverPasswordVerificationCodeMutationFn = Apollo.MutationFunction<
  * });
  */
 export function useRecoverPasswordVerificationCodeMutation(baseOptions?: Apollo.MutationHookOptions<RecoverPasswordVerificationCodeMutation, RecoverPasswordVerificationCodeMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<RecoverPasswordVerificationCodeMutation, RecoverPasswordVerificationCodeMutationVariables>(RecoverPasswordVerificationCodeDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RecoverPasswordVerificationCodeMutation, RecoverPasswordVerificationCodeMutationVariables>(RecoverPasswordVerificationCodeDocument, options);
+      }
 export type RecoverPasswordVerificationCodeMutationHookResult = ReturnType<typeof useRecoverPasswordVerificationCodeMutation>;
 export type RecoverPasswordVerificationCodeMutationResult = Apollo.MutationResult<RecoverPasswordVerificationCodeMutation>;
 export type RecoverPasswordVerificationCodeMutationOptions = Apollo.BaseMutationOptions<RecoverPasswordVerificationCodeMutation, RecoverPasswordVerificationCodeMutationVariables>;
@@ -2809,9 +3078,9 @@ export type RedefinePasswordMutationFn = Apollo.MutationFunction<RedefinePasswor
  * });
  */
 export function useRedefinePasswordMutation(baseOptions?: Apollo.MutationHookOptions<RedefinePasswordMutation, RedefinePasswordMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<RedefinePasswordMutation, RedefinePasswordMutationVariables>(RedefinePasswordDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RedefinePasswordMutation, RedefinePasswordMutationVariables>(RedefinePasswordDocument, options);
+      }
 export type RedefinePasswordMutationHookResult = ReturnType<typeof useRedefinePasswordMutation>;
 export type RedefinePasswordMutationResult = Apollo.MutationResult<RedefinePasswordMutation>;
 export type RedefinePasswordMutationOptions = Apollo.BaseMutationOptions<RedefinePasswordMutation, RedefinePasswordMutationVariables>;
@@ -2842,9 +3111,9 @@ export type RefreshTokenMutationFn = Apollo.MutationFunction<RefreshTokenMutatio
  * });
  */
 export function useRefreshTokenMutation(baseOptions?: Apollo.MutationHookOptions<RefreshTokenMutation, RefreshTokenMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<RefreshTokenMutation, RefreshTokenMutationVariables>(RefreshTokenDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RefreshTokenMutation, RefreshTokenMutationVariables>(RefreshTokenDocument, options);
+      }
 export type RefreshTokenMutationHookResult = ReturnType<typeof useRefreshTokenMutation>;
 export type RefreshTokenMutationResult = Apollo.MutationResult<RefreshTokenMutation>;
 export type RefreshTokenMutationOptions = Apollo.BaseMutationOptions<RefreshTokenMutation, RefreshTokenMutationVariables>;
@@ -2873,9 +3142,9 @@ export type RemoveUserMutationMutationFn = Apollo.MutationFunction<RemoveUserMut
  * });
  */
 export function useRemoveUserMutationMutation(baseOptions?: Apollo.MutationHookOptions<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>(RemoveUserMutationDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>(RemoveUserMutationDocument, options);
+      }
 export type RemoveUserMutationMutationHookResult = ReturnType<typeof useRemoveUserMutationMutation>;
 export type RemoveUserMutationMutationResult = Apollo.MutationResult<RemoveUserMutationMutation>;
 export type RemoveUserMutationMutationOptions = Apollo.BaseMutationOptions<RemoveUserMutationMutation, RemoveUserMutationMutationVariables>;
@@ -2909,9 +3178,9 @@ export type SendLeadsMutationFn = Apollo.MutationFunction<SendLeadsMutation, Sen
  * });
  */
 export function useSendLeadsMutation(baseOptions?: Apollo.MutationHookOptions<SendLeadsMutation, SendLeadsMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<SendLeadsMutation, SendLeadsMutationVariables>(SendLeadsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendLeadsMutation, SendLeadsMutationVariables>(SendLeadsDocument, options);
+      }
 export type SendLeadsMutationHookResult = ReturnType<typeof useSendLeadsMutation>;
 export type SendLeadsMutationResult = Apollo.MutationResult<SendLeadsMutation>;
 export type SendLeadsMutationOptions = Apollo.BaseMutationOptions<SendLeadsMutation, SendLeadsMutationVariables>;
@@ -2943,9 +3212,9 @@ export type SignInMutationFn = Apollo.MutationFunction<SignInMutation, SignInMut
  * });
  */
 export function useSignInMutation(baseOptions?: Apollo.MutationHookOptions<SignInMutation, SignInMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<SignInMutation, SignInMutationVariables>(SignInDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignInMutation, SignInMutationVariables>(SignInDocument, options);
+      }
 export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
 export type SignInMutationResult = Apollo.MutationResult<SignInMutation>;
 export type SignInMutationOptions = Apollo.BaseMutationOptions<SignInMutation, SignInMutationVariables>;
@@ -2977,9 +3246,9 @@ export type SignUpMutationFn = Apollo.MutationFunction<SignUpMutation, SignUpMut
  * });
  */
 export function useSignUpMutation(baseOptions?: Apollo.MutationHookOptions<SignUpMutation, SignUpMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<SignUpMutation, SignUpMutationVariables>(SignUpDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignUpMutation, SignUpMutationVariables>(SignUpDocument, options);
+      }
 export type SignUpMutationHookResult = ReturnType<typeof useSignUpMutation>;
 export type SignUpMutationResult = Apollo.MutationResult<SignUpMutation>;
 export type SignUpMutationOptions = Apollo.BaseMutationOptions<SignUpMutation, SignUpMutationVariables>;
@@ -3011,9 +3280,9 @@ export type SignUpVerificationCodeMutationFn = Apollo.MutationFunction<SignUpVer
  * });
  */
 export function useSignUpVerificationCodeMutation(baseOptions?: Apollo.MutationHookOptions<SignUpVerificationCodeMutation, SignUpVerificationCodeMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<SignUpVerificationCodeMutation, SignUpVerificationCodeMutationVariables>(SignUpVerificationCodeDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignUpVerificationCodeMutation, SignUpVerificationCodeMutationVariables>(SignUpVerificationCodeDocument, options);
+      }
 export type SignUpVerificationCodeMutationHookResult = ReturnType<typeof useSignUpVerificationCodeMutation>;
 export type SignUpVerificationCodeMutationResult = Apollo.MutationResult<SignUpVerificationCodeMutation>;
 export type SignUpVerificationCodeMutationOptions = Apollo.BaseMutationOptions<SignUpVerificationCodeMutation, SignUpVerificationCodeMutationVariables>;
@@ -3042,9 +3311,9 @@ export type SubscribeNewsletterMutationFn = Apollo.MutationFunction<SubscribeNew
  * });
  */
 export function useSubscribeNewsletterMutation(baseOptions?: Apollo.MutationHookOptions<SubscribeNewsletterMutation, SubscribeNewsletterMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<SubscribeNewsletterMutation, SubscribeNewsletterMutationVariables>(SubscribeNewsletterDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SubscribeNewsletterMutation, SubscribeNewsletterMutationVariables>(SubscribeNewsletterDocument, options);
+      }
 export type SubscribeNewsletterMutationHookResult = ReturnType<typeof useSubscribeNewsletterMutation>;
 export type SubscribeNewsletterMutationResult = Apollo.MutationResult<SubscribeNewsletterMutation>;
 export type SubscribeNewsletterMutationOptions = Apollo.BaseMutationOptions<SubscribeNewsletterMutation, SubscribeNewsletterMutationVariables>;
@@ -3073,9 +3342,9 @@ export type WishlistAddProductMutationFn = Apollo.MutationFunction<WishlistAddPr
  * });
  */
 export function useWishlistAddProductMutation(baseOptions?: Apollo.MutationHookOptions<WishlistAddProductMutation, WishlistAddProductMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<WishlistAddProductMutation, WishlistAddProductMutationVariables>(WishlistAddProductDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<WishlistAddProductMutation, WishlistAddProductMutationVariables>(WishlistAddProductDocument, options);
+      }
 export type WishlistAddProductMutationHookResult = ReturnType<typeof useWishlistAddProductMutation>;
 export type WishlistAddProductMutationResult = Apollo.MutationResult<WishlistAddProductMutation>;
 export type WishlistAddProductMutationOptions = Apollo.BaseMutationOptions<WishlistAddProductMutation, WishlistAddProductMutationVariables>;
@@ -3104,9 +3373,9 @@ export type WishlistRemoveProductMutationFn = Apollo.MutationFunction<WishlistRe
  * });
  */
 export function useWishlistRemoveProductMutation(baseOptions?: Apollo.MutationHookOptions<WishlistRemoveProductMutation, WishlistRemoveProductMutationVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<WishlistRemoveProductMutation, WishlistRemoveProductMutationVariables>(WishlistRemoveProductDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<WishlistRemoveProductMutation, WishlistRemoveProductMutationVariables>(WishlistRemoveProductDocument, options);
+      }
 export type WishlistRemoveProductMutationHookResult = ReturnType<typeof useWishlistRemoveProductMutation>;
 export type WishlistRemoveProductMutationResult = Apollo.MutationResult<WishlistRemoveProductMutation>;
 export type WishlistRemoveProductMutationOptions = Apollo.BaseMutationOptions<WishlistRemoveProductMutation, WishlistRemoveProductMutationVariables>;
@@ -3153,19 +3422,19 @@ export const AppMenuDocument = gql`
  * });
  */
 export function useAppMenuQuery(baseOptions?: Apollo.QueryHookOptions<AppMenuQuery, AppMenuQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<AppMenuQuery, AppMenuQueryVariables>(AppMenuDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AppMenuQuery, AppMenuQueryVariables>(AppMenuDocument, options);
+      }
 export function useAppMenuLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AppMenuQuery, AppMenuQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<AppMenuQuery, AppMenuQueryVariables>(AppMenuDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AppMenuQuery, AppMenuQueryVariables>(AppMenuDocument, options);
+        }
 export type AppMenuQueryHookResult = ReturnType<typeof useAppMenuQuery>;
 export type AppMenuLazyQueryHookResult = ReturnType<typeof useAppMenuLazyQuery>;
 export type AppMenuQueryResult = Apollo.QueryResult<AppMenuQuery, AppMenuQueryVariables>;
 export function refetchAppMenuQuery(variables?: AppMenuQueryVariables) {
-  return { query: AppMenuDocument, variables };
-}
+      return { query: AppMenuDocument, variables: variables }
+    }
 export const BannerCategoryDocument = gql`
     query bannerCategory($input: BannerCategoryInput!) {
   bannerCategory(input: $input) {
@@ -3193,19 +3462,19 @@ export const BannerCategoryDocument = gql`
  * });
  */
 export function useBannerCategoryQuery(baseOptions: Apollo.QueryHookOptions<BannerCategoryQuery, BannerCategoryQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<BannerCategoryQuery, BannerCategoryQueryVariables>(BannerCategoryDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BannerCategoryQuery, BannerCategoryQueryVariables>(BannerCategoryDocument, options);
+      }
 export function useBannerCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BannerCategoryQuery, BannerCategoryQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<BannerCategoryQuery, BannerCategoryQueryVariables>(BannerCategoryDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BannerCategoryQuery, BannerCategoryQueryVariables>(BannerCategoryDocument, options);
+        }
 export type BannerCategoryQueryHookResult = ReturnType<typeof useBannerCategoryQuery>;
 export type BannerCategoryLazyQueryHookResult = ReturnType<typeof useBannerCategoryLazyQuery>;
 export type BannerCategoryQueryResult = Apollo.QueryResult<BannerCategoryQuery, BannerCategoryQueryVariables>;
 export function refetchBannerCategoryQuery(variables: BannerCategoryQueryVariables) {
-  return { query: BannerCategoryDocument, variables };
-}
+      return { query: BannerCategoryDocument, variables: variables }
+    }
 export const CashbackDocument = gql`
     query cashback {
   cashback {
@@ -3246,13 +3515,13 @@ export const CashbackDocument = gql`
  * });
  */
 export function useCashbackQuery(baseOptions?: Apollo.QueryHookOptions<CashbackQuery, CashbackQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<CashbackQuery, CashbackQueryVariables>(CashbackDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CashbackQuery, CashbackQueryVariables>(CashbackDocument, options);
+      }
 export function useCashbackLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CashbackQuery, CashbackQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<CashbackQuery, CashbackQueryVariables>(CashbackDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CashbackQuery, CashbackQueryVariables>(CashbackDocument, options);
+        }
 export type CashbackQueryHookResult = ReturnType<typeof useCashbackQuery>;
 export type CashbackLazyQueryHookResult = ReturnType<typeof useCashbackLazyQuery>;
 export type CashbackQueryResult = Apollo.QueryResult<CashbackQuery, CashbackQueryVariables>;
@@ -3327,19 +3596,19 @@ export const CheckIfUserExistsDocument = gql`
  * });
  */
 export function useCheckIfUserExistsQuery(baseOptions: Apollo.QueryHookOptions<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>(CheckIfUserExistsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>(CheckIfUserExistsDocument, options);
+      }
 export function useCheckIfUserExistsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>(CheckIfUserExistsDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>(CheckIfUserExistsDocument, options);
+        }
 export type CheckIfUserExistsQueryHookResult = ReturnType<typeof useCheckIfUserExistsQuery>;
 export type CheckIfUserExistsLazyQueryHookResult = ReturnType<typeof useCheckIfUserExistsLazyQuery>;
 export type CheckIfUserExistsQueryResult = Apollo.QueryResult<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>;
 export function refetchCheckIfUserExistsQuery(variables: CheckIfUserExistsQueryVariables) {
-  return { query: CheckIfUserExistsDocument, variables };
-}
+      return { query: CheckIfUserExistsDocument, variables: variables }
+    }
 export const CheckSearchRedirectDocument = gql`
     query checkSearchRedirect($q: String!) {
   checkSearchRedirect(q: $q)
@@ -3363,19 +3632,19 @@ export const CheckSearchRedirectDocument = gql`
  * });
  */
 export function useCheckSearchRedirectQuery(baseOptions: Apollo.QueryHookOptions<CheckSearchRedirectQuery, CheckSearchRedirectQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<CheckSearchRedirectQuery, CheckSearchRedirectQueryVariables>(CheckSearchRedirectDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CheckSearchRedirectQuery, CheckSearchRedirectQueryVariables>(CheckSearchRedirectDocument, options);
+      }
 export function useCheckSearchRedirectLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckSearchRedirectQuery, CheckSearchRedirectQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<CheckSearchRedirectQuery, CheckSearchRedirectQueryVariables>(CheckSearchRedirectDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CheckSearchRedirectQuery, CheckSearchRedirectQueryVariables>(CheckSearchRedirectDocument, options);
+        }
 export type CheckSearchRedirectQueryHookResult = ReturnType<typeof useCheckSearchRedirectQuery>;
 export type CheckSearchRedirectLazyQueryHookResult = ReturnType<typeof useCheckSearchRedirectLazyQuery>;
 export type CheckSearchRedirectQueryResult = Apollo.QueryResult<CheckSearchRedirectQuery, CheckSearchRedirectQueryVariables>;
 export function refetchCheckSearchRedirectQuery(variables: CheckSearchRedirectQueryVariables) {
-  return { query: CheckSearchRedirectDocument, variables };
-}
+      return { query: CheckSearchRedirectDocument, variables: variables }
+    }
 export const ConfigShippingBarDocument = gql`
     query configShippingBar {
   config {
@@ -3403,19 +3672,19 @@ export const ConfigShippingBarDocument = gql`
  * });
  */
 export function useConfigShippingBarQuery(baseOptions?: Apollo.QueryHookOptions<ConfigShippingBarQuery, ConfigShippingBarQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<ConfigShippingBarQuery, ConfigShippingBarQueryVariables>(ConfigShippingBarDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ConfigShippingBarQuery, ConfigShippingBarQueryVariables>(ConfigShippingBarDocument, options);
+      }
 export function useConfigShippingBarLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ConfigShippingBarQuery, ConfigShippingBarQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<ConfigShippingBarQuery, ConfigShippingBarQueryVariables>(ConfigShippingBarDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ConfigShippingBarQuery, ConfigShippingBarQueryVariables>(ConfigShippingBarDocument, options);
+        }
 export type ConfigShippingBarQueryHookResult = ReturnType<typeof useConfigShippingBarQuery>;
 export type ConfigShippingBarLazyQueryHookResult = ReturnType<typeof useConfigShippingBarLazyQuery>;
 export type ConfigShippingBarQueryResult = Apollo.QueryResult<ConfigShippingBarQuery, ConfigShippingBarQueryVariables>;
 export function refetchConfigShippingBarQuery(variables?: ConfigShippingBarQueryVariables) {
-  return { query: ConfigShippingBarDocument, variables };
-}
+      return { query: ConfigShippingBarDocument, variables: variables }
+    }
 export const CountdownDocument = gql`
     query countdown($input: CountdownCategoryInput!) {
   countdown(input: $input) {
@@ -3452,19 +3721,19 @@ export const CountdownDocument = gql`
  * });
  */
 export function useCountdownQuery(baseOptions: Apollo.QueryHookOptions<CountdownQuery, CountdownQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<CountdownQuery, CountdownQueryVariables>(CountdownDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountdownQuery, CountdownQueryVariables>(CountdownDocument, options);
+      }
 export function useCountdownLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountdownQuery, CountdownQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<CountdownQuery, CountdownQueryVariables>(CountdownDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountdownQuery, CountdownQueryVariables>(CountdownDocument, options);
+        }
 export type CountdownQueryHookResult = ReturnType<typeof useCountdownQuery>;
 export type CountdownLazyQueryHookResult = ReturnType<typeof useCountdownLazyQuery>;
 export type CountdownQueryResult = Apollo.QueryResult<CountdownQuery, CountdownQueryVariables>;
 export function refetchCountdownQuery(variables: CountdownQueryVariables) {
-  return { query: CountdownDocument, variables };
-}
+      return { query: CountdownDocument, variables: variables }
+    }
 export const DeeplinkPathDocument = gql`
     query deeplinkPath($path: String!) {
   deeplinkPath(input: {path: $path}) {
@@ -3492,19 +3761,19 @@ export const DeeplinkPathDocument = gql`
  * });
  */
 export function useDeeplinkPathQuery(baseOptions: Apollo.QueryHookOptions<DeeplinkPathQuery, DeeplinkPathQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<DeeplinkPathQuery, DeeplinkPathQueryVariables>(DeeplinkPathDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DeeplinkPathQuery, DeeplinkPathQueryVariables>(DeeplinkPathDocument, options);
+      }
 export function useDeeplinkPathLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DeeplinkPathQuery, DeeplinkPathQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<DeeplinkPathQuery, DeeplinkPathQueryVariables>(DeeplinkPathDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DeeplinkPathQuery, DeeplinkPathQueryVariables>(DeeplinkPathDocument, options);
+        }
 export type DeeplinkPathQueryHookResult = ReturnType<typeof useDeeplinkPathQuery>;
 export type DeeplinkPathLazyQueryHookResult = ReturnType<typeof useDeeplinkPathLazyQuery>;
 export type DeeplinkPathQueryResult = Apollo.QueryResult<DeeplinkPathQuery, DeeplinkPathQueryVariables>;
 export function refetchDeeplinkPathQuery(variables: DeeplinkPathQueryVariables) {
-  return { query: DeeplinkPathDocument, variables };
-}
+      return { query: DeeplinkPathDocument, variables: variables }
+    }
 export const HomeCarouselsDocument = gql`
     query homeCarousels {
   homeCarousels {
@@ -3548,19 +3817,19 @@ export const HomeCarouselsDocument = gql`
  * });
  */
 export function useHomeCarouselsQuery(baseOptions?: Apollo.QueryHookOptions<HomeCarouselsQuery, HomeCarouselsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<HomeCarouselsQuery, HomeCarouselsQueryVariables>(HomeCarouselsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeCarouselsQuery, HomeCarouselsQueryVariables>(HomeCarouselsDocument, options);
+      }
 export function useHomeCarouselsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeCarouselsQuery, HomeCarouselsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<HomeCarouselsQuery, HomeCarouselsQueryVariables>(HomeCarouselsDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeCarouselsQuery, HomeCarouselsQueryVariables>(HomeCarouselsDocument, options);
+        }
 export type HomeCarouselsQueryHookResult = ReturnType<typeof useHomeCarouselsQuery>;
 export type HomeCarouselsLazyQueryHookResult = ReturnType<typeof useHomeCarouselsLazyQuery>;
 export type HomeCarouselsQueryResult = Apollo.QueryResult<HomeCarouselsQuery, HomeCarouselsQueryVariables>;
 export function refetchHomeCarouselsQuery(variables?: HomeCarouselsQueryVariables) {
-  return { query: HomeCarouselsDocument, variables };
-}
+      return { query: HomeCarouselsDocument, variables: variables }
+    }
 export const HomeConfigDocument = gql`
     query homeConfig {
   homeConfig: config {
@@ -3596,19 +3865,19 @@ export const HomeConfigDocument = gql`
  * });
  */
 export function useHomeConfigQuery(baseOptions?: Apollo.QueryHookOptions<HomeConfigQuery, HomeConfigQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<HomeConfigQuery, HomeConfigQueryVariables>(HomeConfigDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeConfigQuery, HomeConfigQueryVariables>(HomeConfigDocument, options);
+      }
 export function useHomeConfigLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeConfigQuery, HomeConfigQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<HomeConfigQuery, HomeConfigQueryVariables>(HomeConfigDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeConfigQuery, HomeConfigQueryVariables>(HomeConfigDocument, options);
+        }
 export type HomeConfigQueryHookResult = ReturnType<typeof useHomeConfigQuery>;
 export type HomeConfigLazyQueryHookResult = ReturnType<typeof useHomeConfigLazyQuery>;
 export type HomeConfigQueryResult = Apollo.QueryResult<HomeConfigQuery, HomeConfigQueryVariables>;
 export function refetchHomeConfigQuery(variables?: HomeConfigQueryVariables) {
-  return { query: HomeConfigDocument, variables };
-}
+      return { query: HomeConfigDocument, variables: variables }
+    }
 export const HomeCountdownDocument = gql`
     query homeCountdown {
   homeCountdown {
@@ -3652,19 +3921,19 @@ export const HomeCountdownDocument = gql`
  * });
  */
 export function useHomeCountdownQuery(baseOptions?: Apollo.QueryHookOptions<HomeCountdownQuery, HomeCountdownQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<HomeCountdownQuery, HomeCountdownQueryVariables>(HomeCountdownDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeCountdownQuery, HomeCountdownQueryVariables>(HomeCountdownDocument, options);
+      }
 export function useHomeCountdownLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeCountdownQuery, HomeCountdownQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<HomeCountdownQuery, HomeCountdownQueryVariables>(HomeCountdownDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeCountdownQuery, HomeCountdownQueryVariables>(HomeCountdownDocument, options);
+        }
 export type HomeCountdownQueryHookResult = ReturnType<typeof useHomeCountdownQuery>;
 export type HomeCountdownLazyQueryHookResult = ReturnType<typeof useHomeCountdownLazyQuery>;
 export type HomeCountdownQueryResult = Apollo.QueryResult<HomeCountdownQuery, HomeCountdownQueryVariables>;
 export function refetchHomeCountdownQuery(variables?: HomeCountdownQueryVariables) {
-  return { query: HomeCountdownDocument, variables };
-}
+      return { query: HomeCountdownDocument, variables: variables }
+    }
 export const HomeMediasDocument = gql`
     query homeMedias {
   homeMedias {
@@ -3702,19 +3971,67 @@ export const HomeMediasDocument = gql`
  * });
  */
 export function useHomeMediasQuery(baseOptions?: Apollo.QueryHookOptions<HomeMediasQuery, HomeMediasQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<HomeMediasQuery, HomeMediasQueryVariables>(HomeMediasDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeMediasQuery, HomeMediasQueryVariables>(HomeMediasDocument, options);
+      }
 export function useHomeMediasLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeMediasQuery, HomeMediasQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<HomeMediasQuery, HomeMediasQueryVariables>(HomeMediasDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeMediasQuery, HomeMediasQueryVariables>(HomeMediasDocument, options);
+        }
 export type HomeMediasQueryHookResult = ReturnType<typeof useHomeMediasQuery>;
 export type HomeMediasLazyQueryHookResult = ReturnType<typeof useHomeMediasLazyQuery>;
 export type HomeMediasQueryResult = Apollo.QueryResult<HomeMediasQuery, HomeMediasQueryVariables>;
 export function refetchHomeMediasQuery(variables?: HomeMediasQueryVariables) {
-  return { query: HomeMediasDocument, variables };
+      return { query: HomeMediasDocument, variables: variables }
+    }
+export const InvoiceKeyDocument = gql`
+    query InvoiceKey($invoiceKey: String!) {
+  invoiceKey(input: {invoiceKey: $invoiceKey}) {
+    estimatedDeliveryDate
+    estimatedDeliveryDateFormated
+    shippingReference
+    shippingAdditional
+    shippingAddress
+    shippingQuarter
+    shippingCity
+    shippingState
+    shipmentOrderVolumeState
+    providerMessage
+    lastStatusCreated
+  }
 }
+    `;
+
+/**
+ * __useInvoiceKeyQuery__
+ *
+ * To run a query within a React component, call `useInvoiceKeyQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInvoiceKeyQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useInvoiceKeyQuery({
+ *   variables: {
+ *      invoiceKey: // value for 'invoiceKey'
+ *   },
+ * });
+ */
+export function useInvoiceKeyQuery(baseOptions: Apollo.QueryHookOptions<InvoiceKeyQuery, InvoiceKeyQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<InvoiceKeyQuery, InvoiceKeyQueryVariables>(InvoiceKeyDocument, options);
+      }
+export function useInvoiceKeyLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<InvoiceKeyQuery, InvoiceKeyQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<InvoiceKeyQuery, InvoiceKeyQueryVariables>(InvoiceKeyDocument, options);
+        }
+export type InvoiceKeyQueryHookResult = ReturnType<typeof useInvoiceKeyQuery>;
+export type InvoiceKeyLazyQueryHookResult = ReturnType<typeof useInvoiceKeyLazyQuery>;
+export type InvoiceKeyQueryResult = Apollo.QueryResult<InvoiceKeyQuery, InvoiceKeyQueryVariables>;
+export function refetchInvoiceKeyQuery(variables: InvoiceKeyQueryVariables) {
+      return { query: InvoiceKeyDocument, variables: variables }
+    }
 export const LandingPagePrimeDocument = gql`
     query landingPagePrime {
   landingPagePrime {
@@ -3746,19 +4063,19 @@ export const LandingPagePrimeDocument = gql`
  * });
  */
 export function useLandingPagePrimeQuery(baseOptions?: Apollo.QueryHookOptions<LandingPagePrimeQuery, LandingPagePrimeQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<LandingPagePrimeQuery, LandingPagePrimeQueryVariables>(LandingPagePrimeDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LandingPagePrimeQuery, LandingPagePrimeQueryVariables>(LandingPagePrimeDocument, options);
+      }
 export function useLandingPagePrimeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LandingPagePrimeQuery, LandingPagePrimeQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<LandingPagePrimeQuery, LandingPagePrimeQueryVariables>(LandingPagePrimeDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LandingPagePrimeQuery, LandingPagePrimeQueryVariables>(LandingPagePrimeDocument, options);
+        }
 export type LandingPagePrimeQueryHookResult = ReturnType<typeof useLandingPagePrimeQuery>;
 export type LandingPagePrimeLazyQueryHookResult = ReturnType<typeof useLandingPagePrimeLazyQuery>;
 export type LandingPagePrimeQueryResult = Apollo.QueryResult<LandingPagePrimeQuery, LandingPagePrimeQueryVariables>;
 export function refetchLandingPagePrimeQuery(variables?: LandingPagePrimeQueryVariables) {
-  return { query: LandingPagePrimeDocument, variables };
-}
+      return { query: LandingPagePrimeDocument, variables: variables }
+    }
 export const MktinStatusDocument = gql`
     query mktinStatus {
   mktinStatus
@@ -3781,19 +4098,19 @@ export const MktinStatusDocument = gql`
  * });
  */
 export function useMktinStatusQuery(baseOptions?: Apollo.QueryHookOptions<MktinStatusQuery, MktinStatusQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<MktinStatusQuery, MktinStatusQueryVariables>(MktinStatusDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MktinStatusQuery, MktinStatusQueryVariables>(MktinStatusDocument, options);
+      }
 export function useMktinStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MktinStatusQuery, MktinStatusQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<MktinStatusQuery, MktinStatusQueryVariables>(MktinStatusDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MktinStatusQuery, MktinStatusQueryVariables>(MktinStatusDocument, options);
+        }
 export type MktinStatusQueryHookResult = ReturnType<typeof useMktinStatusQuery>;
 export type MktinStatusLazyQueryHookResult = ReturnType<typeof useMktinStatusLazyQuery>;
 export type MktinStatusQueryResult = Apollo.QueryResult<MktinStatusQuery, MktinStatusQueryVariables>;
 export function refetchMktinStatusQuery(variables?: MktinStatusQueryVariables) {
-  return { query: MktinStatusDocument, variables };
-}
+      return { query: MktinStatusDocument, variables: variables }
+    }
 export const MostSearchedWordsDocument = gql`
     query mostSearchedWords {
   mostSearchedWords
@@ -3816,19 +4133,19 @@ export const MostSearchedWordsDocument = gql`
  * });
  */
 export function useMostSearchedWordsQuery(baseOptions?: Apollo.QueryHookOptions<MostSearchedWordsQuery, MostSearchedWordsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<MostSearchedWordsQuery, MostSearchedWordsQueryVariables>(MostSearchedWordsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MostSearchedWordsQuery, MostSearchedWordsQueryVariables>(MostSearchedWordsDocument, options);
+      }
 export function useMostSearchedWordsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MostSearchedWordsQuery, MostSearchedWordsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<MostSearchedWordsQuery, MostSearchedWordsQueryVariables>(MostSearchedWordsDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MostSearchedWordsQuery, MostSearchedWordsQueryVariables>(MostSearchedWordsDocument, options);
+        }
 export type MostSearchedWordsQueryHookResult = ReturnType<typeof useMostSearchedWordsQuery>;
 export type MostSearchedWordsLazyQueryHookResult = ReturnType<typeof useMostSearchedWordsLazyQuery>;
 export type MostSearchedWordsQueryResult = Apollo.QueryResult<MostSearchedWordsQuery, MostSearchedWordsQueryVariables>;
 export function refetchMostSearchedWordsQuery(variables?: MostSearchedWordsQueryVariables) {
-  return { query: MostSearchedWordsDocument, variables };
-}
+      return { query: MostSearchedWordsDocument, variables: variables }
+    }
 export const OrderFormDocument = gql`
     query orderForm($orderFormId: String!) {
   orderForm(input: {orderFormId: $orderFormId}) {
@@ -3854,19 +4171,19 @@ export const OrderFormDocument = gql`
  * });
  */
 export function useOrderFormQuery(baseOptions: Apollo.QueryHookOptions<OrderFormQuery, OrderFormQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<OrderFormQuery, OrderFormQueryVariables>(OrderFormDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OrderFormQuery, OrderFormQueryVariables>(OrderFormDocument, options);
+      }
 export function useOrderFormLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrderFormQuery, OrderFormQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<OrderFormQuery, OrderFormQueryVariables>(OrderFormDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OrderFormQuery, OrderFormQueryVariables>(OrderFormDocument, options);
+        }
 export type OrderFormQueryHookResult = ReturnType<typeof useOrderFormQuery>;
 export type OrderFormLazyQueryHookResult = ReturnType<typeof useOrderFormLazyQuery>;
 export type OrderFormQueryResult = Apollo.QueryResult<OrderFormQuery, OrderFormQueryVariables>;
 export function refetchOrderFormQuery(variables: OrderFormQueryVariables) {
-  return { query: OrderFormDocument, variables };
-}
+      return { query: OrderFormDocument, variables: variables }
+    }
 export const PrimeConfigDocument = gql`
     query primeConfig {
   primeConfig {
@@ -3917,19 +4234,19 @@ export const PrimeConfigDocument = gql`
  * });
  */
 export function usePrimeConfigQuery(baseOptions?: Apollo.QueryHookOptions<PrimeConfigQuery, PrimeConfigQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PrimeConfigQuery, PrimeConfigQueryVariables>(PrimeConfigDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PrimeConfigQuery, PrimeConfigQueryVariables>(PrimeConfigDocument, options);
+      }
 export function usePrimeConfigLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PrimeConfigQuery, PrimeConfigQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PrimeConfigQuery, PrimeConfigQueryVariables>(PrimeConfigDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PrimeConfigQuery, PrimeConfigQueryVariables>(PrimeConfigDocument, options);
+        }
 export type PrimeConfigQueryHookResult = ReturnType<typeof usePrimeConfigQuery>;
 export type PrimeConfigLazyQueryHookResult = ReturnType<typeof usePrimeConfigLazyQuery>;
 export type PrimeConfigQueryResult = Apollo.QueryResult<PrimeConfigQuery, PrimeConfigQueryVariables>;
 export function refetchPrimeConfigQuery(variables?: PrimeConfigQueryVariables) {
-  return { query: PrimeConfigDocument, variables };
-}
+      return { query: PrimeConfigDocument, variables: variables }
+    }
 export const PrimeFaqDocument = gql`
     query primeFaq {
   primeFaq {
@@ -3956,19 +4273,19 @@ export const PrimeFaqDocument = gql`
  * });
  */
 export function usePrimeFaqQuery(baseOptions?: Apollo.QueryHookOptions<PrimeFaqQuery, PrimeFaqQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PrimeFaqQuery, PrimeFaqQueryVariables>(PrimeFaqDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PrimeFaqQuery, PrimeFaqQueryVariables>(PrimeFaqDocument, options);
+      }
 export function usePrimeFaqLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PrimeFaqQuery, PrimeFaqQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PrimeFaqQuery, PrimeFaqQueryVariables>(PrimeFaqDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PrimeFaqQuery, PrimeFaqQueryVariables>(PrimeFaqDocument, options);
+        }
 export type PrimeFaqQueryHookResult = ReturnType<typeof usePrimeFaqQuery>;
 export type PrimeFaqLazyQueryHookResult = ReturnType<typeof usePrimeFaqLazyQuery>;
 export type PrimeFaqQueryResult = Apollo.QueryResult<PrimeFaqQuery, PrimeFaqQueryVariables>;
 export function refetchPrimeFaqQuery(variables?: PrimeFaqQueryVariables) {
-  return { query: PrimeFaqDocument, variables };
-}
+      return { query: PrimeFaqDocument, variables: variables }
+    }
 export const ProductDocument = gql`
     query product($input: ProductInput!) {
   product(input: $input) {
@@ -4034,19 +4351,19 @@ ${ProductSizeFragmentFragmentDoc}`;
  * });
  */
 export function useProductQuery(baseOptions: Apollo.QueryHookOptions<ProductQuery, ProductQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
+      }
 export function useProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductQuery, ProductQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
+        }
 export type ProductQueryHookResult = ReturnType<typeof useProductQuery>;
 export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
 export type ProductQueryResult = Apollo.QueryResult<ProductQuery, ProductQueryVariables>;
 export function refetchProductQuery(variables: ProductQueryVariables) {
-  return { query: ProductDocument, variables };
-}
+      return { query: ProductDocument, variables: variables }
+    }
 export const ProductDeliveryTimeDocument = gql`
     query productDeliveryTime($input: CheckDeliveryTimeByProductInput!) {
   productDeliveryTime(input: $input) {
@@ -4074,19 +4391,19 @@ export const ProductDeliveryTimeDocument = gql`
  * });
  */
 export function useProductDeliveryTimeQuery(baseOptions: Apollo.QueryHookOptions<ProductDeliveryTimeQuery, ProductDeliveryTimeQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<ProductDeliveryTimeQuery, ProductDeliveryTimeQueryVariables>(ProductDeliveryTimeDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductDeliveryTimeQuery, ProductDeliveryTimeQueryVariables>(ProductDeliveryTimeDocument, options);
+      }
 export function useProductDeliveryTimeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductDeliveryTimeQuery, ProductDeliveryTimeQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<ProductDeliveryTimeQuery, ProductDeliveryTimeQueryVariables>(ProductDeliveryTimeDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductDeliveryTimeQuery, ProductDeliveryTimeQueryVariables>(ProductDeliveryTimeDocument, options);
+        }
 export type ProductDeliveryTimeQueryHookResult = ReturnType<typeof useProductDeliveryTimeQuery>;
 export type ProductDeliveryTimeLazyQueryHookResult = ReturnType<typeof useProductDeliveryTimeLazyQuery>;
 export type ProductDeliveryTimeQueryResult = Apollo.QueryResult<ProductDeliveryTimeQuery, ProductDeliveryTimeQueryVariables>;
 export function refetchProductDeliveryTimeQuery(variables: ProductDeliveryTimeQueryVariables) {
-  return { query: ProductDeliveryTimeDocument, variables };
-}
+      return { query: ProductDeliveryTimeDocument, variables: variables }
+    }
 export const ProductRecommendationsDocument = gql`
     query productRecommendations {
   productRecommendations {
@@ -4150,19 +4467,19 @@ export const ProductRecommendationsDocument = gql`
  * });
  */
 export function useProductRecommendationsQuery(baseOptions?: Apollo.QueryHookOptions<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>(ProductRecommendationsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>(ProductRecommendationsDocument, options);
+      }
 export function useProductRecommendationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>(ProductRecommendationsDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>(ProductRecommendationsDocument, options);
+        }
 export type ProductRecommendationsQueryHookResult = ReturnType<typeof useProductRecommendationsQuery>;
 export type ProductRecommendationsLazyQueryHookResult = ReturnType<typeof useProductRecommendationsLazyQuery>;
 export type ProductRecommendationsQueryResult = Apollo.QueryResult<ProductRecommendationsQuery, ProductRecommendationsQueryVariables>;
 export function refetchProductRecommendationsQuery(variables?: ProductRecommendationsQueryVariables) {
-  return { query: ProductRecommendationsDocument, variables };
-}
+      return { query: ProductRecommendationsDocument, variables: variables }
+    }
 export const ProfileDocument = gql`
     query profile {
   profile {
@@ -4187,19 +4504,19 @@ export const ProfileDocument = gql`
  * });
  */
 export function useProfileQuery(baseOptions?: Apollo.QueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
+      }
 export function useProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
+        }
 export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
 export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
 export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;
 export function refetchProfileQuery(variables?: ProfileQueryVariables) {
-  return { query: ProfileDocument, variables };
-}
+      return { query: ProfileDocument, variables: variables }
+    }
 export const RonRedirectDocument = gql`
     query ronRedirect($code: String!) {
   ronRedirect(input: {code: $code}) {
@@ -4227,19 +4544,19 @@ export const RonRedirectDocument = gql`
  * });
  */
 export function useRonRedirectQuery(baseOptions: Apollo.QueryHookOptions<RonRedirectQuery, RonRedirectQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<RonRedirectQuery, RonRedirectQueryVariables>(RonRedirectDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RonRedirectQuery, RonRedirectQueryVariables>(RonRedirectDocument, options);
+      }
 export function useRonRedirectLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RonRedirectQuery, RonRedirectQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<RonRedirectQuery, RonRedirectQueryVariables>(RonRedirectDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RonRedirectQuery, RonRedirectQueryVariables>(RonRedirectDocument, options);
+        }
 export type RonRedirectQueryHookResult = ReturnType<typeof useRonRedirectQuery>;
 export type RonRedirectLazyQueryHookResult = ReturnType<typeof useRonRedirectLazyQuery>;
 export type RonRedirectQueryResult = Apollo.QueryResult<RonRedirectQuery, RonRedirectQueryVariables>;
 export function refetchRonRedirectQuery(variables: RonRedirectQueryVariables) {
-  return { query: RonRedirectDocument, variables };
-}
+      return { query: RonRedirectDocument, variables: variables }
+    }
 export const SearchDocument = gql`
     query search($input: SearchProductInput!) {
   search(input: $input) {
@@ -4296,19 +4613,19 @@ export const SearchDocument = gql`
  * });
  */
 export function useSearchQuery(baseOptions: Apollo.QueryHookOptions<SearchQuery, SearchQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+      }
 export function useSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchQuery, SearchQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+        }
 export type SearchQueryHookResult = ReturnType<typeof useSearchQuery>;
 export type SearchLazyQueryHookResult = ReturnType<typeof useSearchLazyQuery>;
 export type SearchQueryResult = Apollo.QueryResult<SearchQuery, SearchQueryVariables>;
 export function refetchSearchQuery(variables: SearchQueryVariables) {
-  return { query: SearchDocument, variables };
-}
+      return { query: SearchDocument, variables: variables }
+    }
 export const SearchAutocompleteSuggestionsDocument = gql`
     query searchAutocompleteSuggestions($q: String!, $provider: SearchProviderInput!) {
   searchAutocompleteSuggestions(q: $q, provider: $provider)
@@ -4333,19 +4650,19 @@ export const SearchAutocompleteSuggestionsDocument = gql`
  * });
  */
 export function useSearchAutocompleteSuggestionsQuery(baseOptions: Apollo.QueryHookOptions<SearchAutocompleteSuggestionsQuery, SearchAutocompleteSuggestionsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<SearchAutocompleteSuggestionsQuery, SearchAutocompleteSuggestionsQueryVariables>(SearchAutocompleteSuggestionsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchAutocompleteSuggestionsQuery, SearchAutocompleteSuggestionsQueryVariables>(SearchAutocompleteSuggestionsDocument, options);
+      }
 export function useSearchAutocompleteSuggestionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchAutocompleteSuggestionsQuery, SearchAutocompleteSuggestionsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<SearchAutocompleteSuggestionsQuery, SearchAutocompleteSuggestionsQueryVariables>(SearchAutocompleteSuggestionsDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchAutocompleteSuggestionsQuery, SearchAutocompleteSuggestionsQueryVariables>(SearchAutocompleteSuggestionsDocument, options);
+        }
 export type SearchAutocompleteSuggestionsQueryHookResult = ReturnType<typeof useSearchAutocompleteSuggestionsQuery>;
 export type SearchAutocompleteSuggestionsLazyQueryHookResult = ReturnType<typeof useSearchAutocompleteSuggestionsLazyQuery>;
 export type SearchAutocompleteSuggestionsQueryResult = Apollo.QueryResult<SearchAutocompleteSuggestionsQuery, SearchAutocompleteSuggestionsQueryVariables>;
 export function refetchSearchAutocompleteSuggestionsQuery(variables: SearchAutocompleteSuggestionsQueryVariables) {
-  return { query: SearchAutocompleteSuggestionsDocument, variables };
-}
+      return { query: SearchAutocompleteSuggestionsDocument, variables: variables }
+    }
 export const SearchFacetsDocument = gql`
     query searchFacets($input: SearchFacetsInput!) {
   searchFacets(input: $input) {
@@ -4390,19 +4707,19 @@ export const SearchFacetsDocument = gql`
  * });
  */
 export function useSearchFacetsQuery(baseOptions: Apollo.QueryHookOptions<SearchFacetsQuery, SearchFacetsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<SearchFacetsQuery, SearchFacetsQueryVariables>(SearchFacetsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchFacetsQuery, SearchFacetsQueryVariables>(SearchFacetsDocument, options);
+      }
 export function useSearchFacetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchFacetsQuery, SearchFacetsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<SearchFacetsQuery, SearchFacetsQueryVariables>(SearchFacetsDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchFacetsQuery, SearchFacetsQueryVariables>(SearchFacetsDocument, options);
+        }
 export type SearchFacetsQueryHookResult = ReturnType<typeof useSearchFacetsQuery>;
 export type SearchFacetsLazyQueryHookResult = ReturnType<typeof useSearchFacetsLazyQuery>;
 export type SearchFacetsQueryResult = Apollo.QueryResult<SearchFacetsQuery, SearchFacetsQueryVariables>;
 export function refetchSearchFacetsQuery(variables: SearchFacetsQueryVariables) {
-  return { query: SearchFacetsDocument, variables };
-}
+      return { query: SearchFacetsDocument, variables: variables }
+    }
 export const SearchNewsDocument = gql`
     query searchNews {
   searchNews {
@@ -4433,19 +4750,68 @@ export const SearchNewsDocument = gql`
  * });
  */
 export function useSearchNewsQuery(baseOptions?: Apollo.QueryHookOptions<SearchNewsQuery, SearchNewsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<SearchNewsQuery, SearchNewsQueryVariables>(SearchNewsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchNewsQuery, SearchNewsQueryVariables>(SearchNewsDocument, options);
+      }
 export function useSearchNewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchNewsQuery, SearchNewsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<SearchNewsQuery, SearchNewsQueryVariables>(SearchNewsDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchNewsQuery, SearchNewsQueryVariables>(SearchNewsDocument, options);
+        }
 export type SearchNewsQueryHookResult = ReturnType<typeof useSearchNewsQuery>;
 export type SearchNewsLazyQueryHookResult = ReturnType<typeof useSearchNewsLazyQuery>;
 export type SearchNewsQueryResult = Apollo.QueryResult<SearchNewsQuery, SearchNewsQueryVariables>;
 export function refetchSearchNewsQuery(variables?: SearchNewsQueryVariables) {
-  return { query: SearchNewsDocument, variables };
+      return { query: SearchNewsDocument, variables: variables }
+    }
+export const TrackingCodeDocument = gql`
+    query TrackingCode($trackingCode: String!) {
+  trackingCode(input: {trackingCode: $trackingCode}) {
+    trackingUrl
+    estimatedDeliveryDate
+    estimatedDeliveryDateFormated
+    shippingReference
+    shippingAddress
+    shippingQuarter
+    shippingCity
+    shippingState
+    shippingAdditional
+    shipmentOrderVolumeState
+    providerMessage
+    lastStatusCreated
+  }
 }
+    `;
+
+/**
+ * __useTrackingCodeQuery__
+ *
+ * To run a query within a React component, call `useTrackingCodeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTrackingCodeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTrackingCodeQuery({
+ *   variables: {
+ *      trackingCode: // value for 'trackingCode'
+ *   },
+ * });
+ */
+export function useTrackingCodeQuery(baseOptions: Apollo.QueryHookOptions<TrackingCodeQuery, TrackingCodeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TrackingCodeQuery, TrackingCodeQueryVariables>(TrackingCodeDocument, options);
+      }
+export function useTrackingCodeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TrackingCodeQuery, TrackingCodeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TrackingCodeQuery, TrackingCodeQueryVariables>(TrackingCodeDocument, options);
+        }
+export type TrackingCodeQueryHookResult = ReturnType<typeof useTrackingCodeQuery>;
+export type TrackingCodeLazyQueryHookResult = ReturnType<typeof useTrackingCodeLazyQuery>;
+export type TrackingCodeQueryResult = Apollo.QueryResult<TrackingCodeQuery, TrackingCodeQueryVariables>;
+export function refetchTrackingCodeQuery(variables: TrackingCodeQueryVariables) {
+      return { query: TrackingCodeDocument, variables: variables }
+    }
 export const UpdateInAppDocument = gql`
     query updateInApp {
   updateInApp {
@@ -4475,19 +4841,19 @@ export const UpdateInAppDocument = gql`
  * });
  */
 export function useUpdateInAppQuery(baseOptions?: Apollo.QueryHookOptions<UpdateInAppQuery, UpdateInAppQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<UpdateInAppQuery, UpdateInAppQueryVariables>(UpdateInAppDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UpdateInAppQuery, UpdateInAppQueryVariables>(UpdateInAppDocument, options);
+      }
 export function useUpdateInAppLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UpdateInAppQuery, UpdateInAppQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<UpdateInAppQuery, UpdateInAppQueryVariables>(UpdateInAppDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UpdateInAppQuery, UpdateInAppQueryVariables>(UpdateInAppDocument, options);
+        }
 export type UpdateInAppQueryHookResult = ReturnType<typeof useUpdateInAppQuery>;
 export type UpdateInAppLazyQueryHookResult = ReturnType<typeof useUpdateInAppLazyQuery>;
 export type UpdateInAppQueryResult = Apollo.QueryResult<UpdateInAppQuery, UpdateInAppQueryVariables>;
 export function refetchUpdateInAppQuery(variables?: UpdateInAppQueryVariables) {
-  return { query: UpdateInAppDocument, variables };
-}
+      return { query: UpdateInAppDocument, variables: variables }
+    }
 export const WishlistDocument = gql`
     query wishlist {
   wishlist
@@ -4510,19 +4876,19 @@ export const WishlistDocument = gql`
  * });
  */
 export function useWishlistQuery(baseOptions?: Apollo.QueryHookOptions<WishlistQuery, WishlistQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<WishlistQuery, WishlistQueryVariables>(WishlistDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WishlistQuery, WishlistQueryVariables>(WishlistDocument, options);
+      }
 export function useWishlistLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WishlistQuery, WishlistQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<WishlistQuery, WishlistQueryVariables>(WishlistDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WishlistQuery, WishlistQueryVariables>(WishlistDocument, options);
+        }
 export type WishlistQueryHookResult = ReturnType<typeof useWishlistQuery>;
 export type WishlistLazyQueryHookResult = ReturnType<typeof useWishlistLazyQuery>;
 export type WishlistQueryResult = Apollo.QueryResult<WishlistQuery, WishlistQueryVariables>;
 export function refetchWishlistQuery(variables?: WishlistQueryVariables) {
-  return { query: WishlistDocument, variables };
-}
+      return { query: WishlistDocument, variables: variables }
+    }
 export const WishlistCheckProductDocument = gql`
     query wishlistCheckProduct($input: WishlistCheckProductInput!) {
   wishlistCheckProduct(input: $input) {
@@ -4549,13 +4915,13 @@ export const WishlistCheckProductDocument = gql`
  * });
  */
 export function useWishlistCheckProductQuery(baseOptions: Apollo.QueryHookOptions<WishlistCheckProductQuery, WishlistCheckProductQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<WishlistCheckProductQuery, WishlistCheckProductQueryVariables>(WishlistCheckProductDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WishlistCheckProductQuery, WishlistCheckProductQueryVariables>(WishlistCheckProductDocument, options);
+      }
 export function useWishlistCheckProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WishlistCheckProductQuery, WishlistCheckProductQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<WishlistCheckProductQuery, WishlistCheckProductQueryVariables>(WishlistCheckProductDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WishlistCheckProductQuery, WishlistCheckProductQueryVariables>(WishlistCheckProductDocument, options);
+        }
 export type WishlistCheckProductQueryHookResult = ReturnType<typeof useWishlistCheckProductQuery>;
 export type WishlistCheckProductLazyQueryHookResult = ReturnType<typeof useWishlistCheckProductLazyQuery>;
 export type WishlistCheckProductQueryResult = Apollo.QueryResult<WishlistCheckProductQuery, WishlistCheckProductQueryVariables>;

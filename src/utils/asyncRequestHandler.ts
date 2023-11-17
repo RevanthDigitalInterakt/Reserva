@@ -1,9 +1,9 @@
-import type { AxiosResponse } from 'axios'
+import type { AxiosResponse } from 'axios';
 
 export const asyncRequestHandler = async (promise: Promise<AxiosResponse>) => {
   try {
-    return await promise
+    return await promise;
   } catch ({ response }: any) {
-    return response
+    return response;
   }
-}
+};

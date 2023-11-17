@@ -1,4 +1,3 @@
-
 import { useClipboard } from '@react-native-clipboard/clipboard';
 import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
@@ -7,21 +6,21 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useState
+  useState,
 } from 'react';
 import {
   Linking,
   Platform,
   SafeAreaView,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 
 import {
   fetchTrackingStatusByInvoiceKey,
-  fetchTrackingStatusByTrackingNumber
-} from '../../../services/intelipostService'
-import type { TrackingNumberData, InvoiceKeyData } from '../../../services/intelipostService'
+  fetchTrackingStatusByTrackingNumber,
+} from '../../../services/intelipostService';
+import type { TrackingNumberData, InvoiceKeyData } from '../../../services/intelipostService';
 import { type IOrderId, useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import OrderDetailComponent from '../Components/OrderDetailComponent';
@@ -33,7 +32,7 @@ import { Stepper } from '../../../components/Stepper/Stepper';
 import { Button } from '../../../components/Button';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 
-const OrderList: React.FC<any> = ({ route }) => {
+function OrderList({ route }: any): React.ReactElement {
   const { order } = route.params;
   const navigation = useNavigation();
   const { orderDetail } = useCart();
@@ -43,8 +42,8 @@ const OrderList: React.FC<any> = ({ route }) => {
     trackingData: TrackingNumberData | null
   }>({
     trackingData: null,
-    invoiceData: null
-  })
+    invoiceData: null,
+  });
   const [, setCopiedText] = useClipboard();
   const [loading, setLoading] = useState(true);
   const [clickedIcon, setClickedIcon] = useState(false);
@@ -62,28 +61,28 @@ const OrderList: React.FC<any> = ({ route }) => {
   const fetchTrackingInvoiceStatus = async () => {
     const packages = orderDetails?.packageAttachment?.packages[0];
     const response = await fetchTrackingStatusByInvoiceKey(
-      packages?.invoiceKey.toString() || ''
+      packages?.invoiceKey.toString() || '',
     );
     if (response.status === 200) {
       setOrderTrackingStatus({
         invoiceData: response.data,
-        trackingData: null
+        trackingData: null,
       });
     }
-  }
+  };
 
   const fetchTrackingStatus = async () => {
     const packages = orderDetails?.packageAttachment?.packages[0];
     const response = await fetchTrackingStatusByTrackingNumber(
-      packages?.trackingNumber.toString() || ''
+      packages?.trackingNumber.toString() || '',
     );
     if (response.status === 200) {
       setOrderTrackingStatus({
         trackingData: response.data,
-        invoiceData: null
+        invoiceData: null,
       });
     }
-  }
+  };
 
   useEffect(() => {
     fetchOrderDetail();
@@ -91,18 +90,18 @@ const OrderList: React.FC<any> = ({ route }) => {
 
   useEffect(() => {
     if (orderDetails) {
-      const packages = orderDetails?.packageAttachment?.packages[0]
+      const packages = orderDetails?.packageAttachment?.packages[0];
       if (packages?.trackingNumber) {
-        fetchTrackingStatus()
+        fetchTrackingStatus();
       } else if (packages?.invoiceKey) {
-        fetchTrackingInvoiceStatus()
+        fetchTrackingInvoiceStatus();
       }
     }
   }, [orderDetails]);
 
   const handleCopiedText = () => {
     setClickedIcon(true);
-    const packages = orderDetails?.packageAttachment?.packages[0]
+    const packages = orderDetails?.packageAttachment?.packages[0];
     if (orderDetails) {
       setCopiedText(packages?.trackingNumber || '');
     }
@@ -110,7 +109,7 @@ const OrderList: React.FC<any> = ({ route }) => {
   };
 
   const handleTrackingUrl = useCallback(async () => {
-    await Linking.openURL(orderTrackingStatus.trackingData?.tracking_url!)
+    await Linking.openURL(orderTrackingStatus.trackingData?.tracking_url!);
   }, [orderTrackingStatus]);
 
   const hasPackage = useMemo(() => {
@@ -174,16 +173,21 @@ const OrderList: React.FC<any> = ({ route }) => {
                         fontFamily="nunitoBold"
                         style={{ marginBottom: 5 }}
                       >
-                        Previsão:{' '}{orderTrackingStatus.trackingData.estimated_delivery_date_formated}
+                        Previsão:
+                        {' '}
+                        {orderTrackingStatus.trackingData.estimated_delivery_date_formated}
                       </Typography>
                       <Typography fontSize={14} fontFamily="nunitoRegular">
-                        Último status:{' '}{orderTrackingStatus.trackingData.provider_message
+                        Último status:
+                        {' '}
+                        {orderTrackingStatus.trackingData.provider_message
                           ? orderTrackingStatus.trackingData.provider_message
-                          : orderTrackingStatus.trackingData.shipment_order_volume_state
-                        }
+                          : orderTrackingStatus.trackingData.shipment_order_volume_state}
                       </Typography>
                       <Typography fontSize={14} fontFamily="nunitoRegular">
-                        Em:{' '}{orderTrackingStatus.trackingData.last_status_created}
+                        Em:
+                        {' '}
+                        {orderTrackingStatus.trackingData.last_status_created}
                       </Typography>
                     </>
                   ) : orderTrackingStatus.invoiceData ? (
@@ -193,21 +197,27 @@ const OrderList: React.FC<any> = ({ route }) => {
                         fontFamily="nunitoBold"
                         style={{ marginBottom: 5 }}
                       >
-                        Previsão:{' '}{orderTrackingStatus.invoiceData.estimated_delivery_date_formated}
+                        Previsão:
+                        {' '}
+                        {orderTrackingStatus.invoiceData.estimated_delivery_date_formated}
                       </Typography>
                       <Typography fontSize={14} fontFamily="nunitoRegular">
-                        Último status:{' '}{orderTrackingStatus.invoiceData.provider_message
+                        Último status:
+                        {' '}
+                        {orderTrackingStatus.invoiceData.provider_message
                           ? orderTrackingStatus.invoiceData.provider_message
-                          : orderTrackingStatus.invoiceData.shipment_order_volume_state
-                        }
+                          : orderTrackingStatus.invoiceData.shipment_order_volume_state}
                       </Typography>
                       <Typography fontSize={14} fontFamily="nunitoRegular">
-                        Em:{' '}{orderTrackingStatus.invoiceData.last_status_created}
+                        Em:
+                        {' '}
+                        {orderTrackingStatus.invoiceData.last_status_created}
                       </Typography>
                     </>
                   ) : order?.paymentApprovedDate ? (
                     <Typography fontSize={14} fontFamily="nunitoBold">
-                      Previsão:{' '}
+                      Previsão:
+                      {' '}
                       {format(
                         new Date(orderDetails?.shippingData?.logisticsInfo[0]?.shippingEstimateDate!),
                         'dd/MM/yy',
@@ -234,9 +244,8 @@ const OrderList: React.FC<any> = ({ route }) => {
                 </Box>
                 {
                   (
-                    orderDetails &&
-                    orderDetails?.packageAttachment?.packages.length > 0 &&
-                    orderDetails?.shippingData?.logisticsInfo[0]?.deliveryChannel !== 'pickup-in-point'
+                    orderDetails?.packageAttachment?.packages.length > 0
+                    && orderDetails?.shippingData?.logisticsInfo[0]?.deliveryChannel !== 'pickup-in-point'
                   ) ? (
                     <>
                       <Box mb="micro" flexDirection="row">
@@ -306,13 +315,15 @@ const OrderList: React.FC<any> = ({ route }) => {
                         ) : null
                       }
                     </>
-                  ) : (
-                    <Box mb="micro" flexDirection="row">
-                      <Typography fontFamily="nunitoBold" fontSize={14}>
-                        Ponto de Retirada: {orderDetails?.shippingData?.logisticsInfo[0]?.pickupStoreInfo?.friendlyName}
-                      </Typography>
-                    </Box>
-                  )
+                    ) : (
+                      <Box mb="micro" flexDirection="row">
+                        <Typography fontFamily="nunitoBold" fontSize={14}>
+                          Ponto de Retirada:
+                          {' '}
+                          {orderDetails?.shippingData?.logisticsInfo[0]?.pickupStoreInfo?.friendlyName}
+                        </Typography>
+                      </Box>
+                    )
                 }
               </Box>
             )}
@@ -337,7 +348,7 @@ const OrderList: React.FC<any> = ({ route }) => {
               {orderDetails.paymentData.transactions[0].payments[0]
                 .paymentSystem === 'Cartão de crédito' && (
                   <IconLegacy name="Card" size={20} mr="nano" />
-                )}
+              )}
 
               <Typography fontSize={12} fontFamily="nunitoRegular">
                 {
@@ -355,7 +366,7 @@ const OrderList: React.FC<any> = ({ route }) => {
                   >
                     {orderDetails.paymentData.transactions[0].payments[0].firstDigits}
                   </Typography>
-                )}
+              )}
             </Box>
             <Box flexDirection="row" alignItems="center">
               <Typography fontSize={14} fontFamily="nunitoSemiBold">
@@ -407,6 +418,6 @@ const OrderList: React.FC<any> = ({ route }) => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}
 
 export default OrderList;
