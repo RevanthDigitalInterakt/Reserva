@@ -1,6 +1,6 @@
 ## CHANGELOG
 
-### 2.1.4 (Android)
+### 2.1.4
 
 - [Feature(19072) Integrar intelipost](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_git/app-v2/pullrequest/1591)
 
