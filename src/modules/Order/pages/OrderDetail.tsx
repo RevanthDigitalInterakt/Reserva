@@ -5,7 +5,6 @@ import { ptBR } from 'date-fns/locale';
 import React, {
   useCallback,
   useEffect,
-  useMemo,
   useState,
 } from 'react';
 import {
@@ -23,10 +22,9 @@ import { platformType } from '../../../utils/platformType';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { Box } from '../../../components/Box/Box';
 import { Typography } from '../../../components/Typography/Typography';
-import { Stepper } from '../../../components/Stepper/Stepper';
 import { Button } from '../../../components/Button';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
-import { useInvoiceKeyQuery, useTrackingCodeQuery } from '../../../base/graphql/generated';
+import { useInvoiceKeyLazyQuery, useTrackingCodeLazyQuery } from '../../../base/graphql/generated';
 
 function OrderList({ route }: any): React.ReactElement {
   const { order } = route.params;
@@ -38,20 +36,16 @@ function OrderList({ route }: any): React.ReactElement {
   const [clickedIcon, setClickedIcon] = useState(false);
   const { profile } = useAuthStore(['profile']);
 
-  const {
-    data: invoiceData,
-  } = useInvoiceKeyQuery({
-    variables: {
-      invoiceKey: orderDetails?.packageAttachment?.packages[0]?.invoiceKey.toString() || '',
-    },
+  const [onVerifyInvoiceSLA, { data: invoiceData }] = useInvoiceKeyLazyQuery({
+    context: { clientName: 'gateway' },
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'cache-and-network',
   });
 
-  const {
-    data: trackingData,
-  } = useTrackingCodeQuery({
-    variables: {
-      trackingCode: orderDetails?.packageAttachment?.packages[0]?.trackingNumber.toString() || '',
-    },
+  const [onVerifyTrackingSLA, { data: trackingData }] = useTrackingCodeLazyQuery({
+    context: { clientName: 'gateway' },
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'cache-and-network',
   });
 
   const fetchOrderDetail = async () => {
@@ -67,28 +61,30 @@ function OrderList({ route }: any): React.ReactElement {
     fetchOrderDetail();
   }, []);
 
-  const handleCopiedText = () => {
-    setClickedIcon(true);
-    const packages = orderDetails?.packageAttachment?.packages[0];
+  useEffect(() => {
     if (orderDetails) {
-      setCopiedText(packages?.trackingNumber || '');
+      const packages = orderDetails?.packageAttachment?.packages[0];
+      if (packages?.trackingNumber && packages.trackingNumber.length <= 20) {
+        onVerifyTrackingSLA({
+          variables: {
+            trackingCode: packages?.trackingNumber,
+          },
+        });
+      } else if (packages?.invoiceKey) {
+        onVerifyInvoiceSLA({
+          variables: {
+            invoiceKey: packages?.invoiceKey,
+          },
+        });
+      }
     }
-    setTimeout(() => setClickedIcon(false), 1000);
-  };
+  }, [orderDetails]);
 
   const handleTrackingUrl = useCallback(async () => {
     if (trackingData?.trackingCode?.trackingUrl) {
       await Linking.openURL(trackingData?.trackingCode?.trackingUrl);
     }
   }, [trackingData?.trackingCode]);
-
-  const hasPackage = useMemo(() => {
-    const pack = orderDetails?.packageAttachment?.packages[0]?.courierStatus;
-    if (pack?.data?.length) {
-      return true;
-    }
-    return false;
-  }, [orderDetails?.packageAttachment?.packages]);
 
   return (
     <SafeAreaView flex={1} backgroundColor="white">
@@ -101,32 +97,15 @@ function OrderList({ route }: any): React.ReactElement {
           <>
             {
               (orderDetails && orderDetails?.packageAttachment.packages.length > 0) ? (
-                <>
-                  <Box
-                    mb="xxxs"
-                    justifyContent="flex-start"
-                    paddingTop="md"
-                  >
-                    <Typography variant="tituloSessoes">
-                      Rastreamento de entrega
-                    </Typography>
-                  </Box>
-                  {
-                    hasPackage ? (
-                      <Box paddingX="xxs" paddingY="xs">
-                        <Stepper
-                          steps={[
-                            'Pedido Entregue a Transportadora',
-                            'Confirmação',
-                            'Envio',
-                            'Entrega',
-                          ]}
-                          actualStepIndex={2}
-                        />
-                      </Box>
-                    ) : null
-                  }
-                </>
+                <Box
+                  mb="xxxs"
+                  justifyContent="flex-start"
+                  paddingTop="md"
+                >
+                  <Typography variant="tituloSessoes">
+                    Rastreamento de entrega
+                  </Typography>
+                </Box>
               ) : null
             }
             {orderDetails && (
@@ -136,7 +115,7 @@ function OrderList({ route }: any): React.ReactElement {
                 borderBottomColor="divider"
               >
                 {
-                  trackingData?.trackingCode ? (
+                  invoiceData?.invoiceKey ? (
                     <>
                       <Typography
                         fontSize={14}
@@ -145,19 +124,19 @@ function OrderList({ route }: any): React.ReactElement {
                       >
                         Previsão:
                         {' '}
-                        {trackingData?.trackingCode.estimatedDeliveryDateFormated}
+                        {invoiceData?.invoiceKey.estimatedDeliveryDateFormated}
                       </Typography>
                       <Typography fontSize={14} fontFamily="nunitoRegular">
                         Último status:
                         {' '}
-                        {trackingData?.trackingCode.providerMessage
-                          ? trackingData?.trackingCode.providerMessage
-                          : trackingData?.trackingCode.shipmentOrderVolumeState}
+                        {invoiceData?.invoiceKey.providerMessage
+                          ? invoiceData?.invoiceKey.providerMessage
+                          : invoiceData?.invoiceKey.shipmentOrderVolumeState}
                       </Typography>
                       <Typography fontSize={14} fontFamily="nunitoRegular">
                         Em:
                         {' '}
-                        {trackingData?.trackingCode.lastStatusCreated}
+                        {invoiceData?.invoiceKey.lastStatusCreated}
                       </Typography>
                     </>
                   ) : null
@@ -172,7 +151,7 @@ function OrderList({ route }: any): React.ReactElement {
                       >
                         Previsão:
                         {' '}
-                        {trackingData?.trackingCode.estimatedDeliveryDate}
+                        {trackingData?.trackingCode.estimatedDeliveryDateFormated}
                       </Typography>
                       <Typography fontSize={14} fontFamily="nunitoRegular">
                         Último status:
@@ -253,27 +232,33 @@ function OrderList({ route }: any): React.ReactElement {
                             </Typography>
                           </Box>
                         ) : null}
-                        <Typography fontFamily="nunitoRegular" fontSize={13}>
-                          Código de rastreio:
-                        </Typography>
-                        <Box ml="quarck">
-                          <TouchableOpacity onPress={handleTrackingUrl}>
-                            <Typography
-                              selectable
-                              fontFamily="nunitoExtraBold"
-                              fontSize={13}
-                              style={{ textDecorationLine: 'underline' }}
+                        {
+                          !invoiceData?.invoiceKey ? (
+                            <>
+                              <Typography fontFamily="nunitoRegular" fontSize={13}>
+                                Código de rastreio:
+                              </Typography>
+                              <Box ml="quarck">
+                                <TouchableOpacity onPress={handleTrackingUrl}>
+                                  <Typography
+                                    selectable
+                                    fontFamily="nunitoExtraBold"
+                                    fontSize={13}
+                                    style={{ textDecorationLine: 'underline' }}
 
-                            >
-                              {
-                                orderDetails?.packageAttachment?.packages[0]?.trackingNumber
-                              }
-                            </Typography>
-                          </TouchableOpacity>
-                        </Box>
-                        <Button ml="xxxs" onPress={handleCopiedText}>
-                          <IconLegacy name="Copy" size={20} color="neutroFrio2" />
-                        </Button>
+                                  >
+                                    {
+                                      orderDetails?.packageAttachment?.packages[0]?.trackingNumber
+                                    }
+                                  </Typography>
+                                </TouchableOpacity>
+                              </Box>
+                              <Button ml="xxxs" onPress={handleTrackingUrl}>
+                                <IconLegacy name="Copy" size={20} color="neutroFrio2" />
+                              </Button>
+                            </>
+                          ) : null
+                        }
                       </Box>
                       {
                         orderDetails?.packageAttachment?.packages[0]?.trackingUrl ? (
