@@ -1,0 +1,18 @@
+query TrackingCode($trackingCode: String!) {
+  trackingCode(input: {
+    trackingCode: $trackingCode
+  }) {
+    trackingUrl,
+    estimatedDeliveryDate,
+    estimatedDeliveryDateFormated,
+    shippingReference,
+    shippingAddress,
+    shippingQuarter,
+    shippingCity,
+    shippingState,
+    shippingAdditional,
+    shipmentOrderVolumeState,
+    providerMessage,
+    lastStatusCreated
+  }
+}
