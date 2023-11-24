@@ -253,9 +253,6 @@ function OrderList({ route }: any): React.ReactElement {
                                   </Typography>
                                 </TouchableOpacity>
                               </Box>
-                              <Button ml="xxxs" onPress={handleTrackingUrl}>
-                                <IconLegacy name="Copy" size={20} color="neutroFrio2" />
-                              </Button>
                             </>
                           ) : null
                         }
