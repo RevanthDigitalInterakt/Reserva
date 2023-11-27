@@ -26,7 +26,12 @@ export function NewCountDownBanner({ data }: ICountDownBanner) {
   });
 
   const onPress = useCallback(() => {
-    navigation.navigate('ProductCatalog', { referenceId: data?.reference });
+    const reference = data?.reference || '';
+    const [categoryType, categoryData] = data?.reference ? reference.split(':') : [];
+    navigation.navigate(
+      categoryType === 'product' ? 'ProductDetail' : 'ProductCatalog',
+      categoryType === 'product' ? { productId: categoryData } : { referenceId: data?.reference }
+    );
   }, [data]);
 
   const showClock = useMemo(() => {
