@@ -7,20 +7,25 @@ interface IFlipCard {
   type: 'front' | 'back';
   number: string;
   testID: string;
+  clockBackgroundColor?: string;
+  colorDivider?: string;
 }
 
 export const NewFlipCard = forwardRef((props: IFlipCard, ref) => {
-  const { type, number, testID } = props;
+  const {
+    type, number, testID, clockBackgroundColor, colorDivider,
+  } = props;
+  const containerStyle = styles({ isFront: type === 'front' }).container;
 
   return (
     <Animated.View
       {...testProps(testID)}
       ref={ref}
-      style={
-        styles({
-          isFront: type === 'front',
-        }).container
-      }
+      style={{
+        ...containerStyle,
+        backgroundColor: clockBackgroundColor || containerStyle.backgroundColor,
+        borderColor: colorDivider || containerStyle.borderColor,
+      }}
     >
       <View style={styles({}).overflowContainer}>
         <Text

@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.1.6
+
+- [22268 - Animação contador quebrada](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22268)
+
+---
+
 ### 2.1.4
 
 - [Feature(19072) Integrar intelipost](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_git/app-v2/pullrequest/1591)

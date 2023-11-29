@@ -7,9 +7,16 @@ import { NewNumberCard } from '../NewNumberCard';
 interface NewFlipNumberProps {
   number: string;
   testID: string;
+  clockBackgroundColor?: string;
+  colorDivider?: string;
 }
 
-export function NewFlipNumber({ number, testID }: NewFlipNumberProps) {
+export function NewFlipNumber({
+  number,
+  testID,
+  clockBackgroundColor,
+  colorDivider,
+}: NewFlipNumberProps) {
   const { previousNumber, nextNumber } = useMemo(
     () => ({
       previousNumber: number.toString().padStart(2, '0'),
@@ -24,6 +31,8 @@ export function NewFlipNumber({ number, testID }: NewFlipNumberProps) {
         number={nextNumber}
         previousNumber={previousNumber}
         perspective={250}
+        clockBackgroundColor={clockBackgroundColor}
+        colorDivider={colorDivider}
       />
     </View>
   );

@@ -13,11 +13,15 @@ interface NumberCardProps {
   number: string;
   previousNumber: string;
   perspective: number;
+  clockBackgroundColor?: string;
+  colorDivider?: string;
 }
 export function NewNumberCard({
   number,
   perspective = 250,
   previousNumber,
+  clockBackgroundColor,
+  colorDivider,
 }: NumberCardProps) {
   const [rotateFront] = useState(new Animated.Value(0));
   const [rotateBack] = useState(new Animated.Value(-180));
@@ -82,30 +86,39 @@ export function NewNumberCard({
 
   return (
     <View
-      style={styles.container}
+      style={{
+        ...styles.container,
+        backgroundColor: clockBackgroundColor || styles.container.backgroundColor,
+      }}
       {...testProps('com.usereserva:id/number_card_container')}
     >
       <Card
         testID="com.usereserva:id/number_card_type_upper_card"
         type="upper"
         number={previousNumber}
+        colorDivider={colorDivider}
       />
       <Card
         testID="com.usereserva:id/number_card_type_lower_card"
         type="lower"
         number={number}
+        colorDivider={colorDivider}
       />
       <NewFlipCard
         testID="com.usereserva:id/number_card_type_front_flip_card"
         ref={frontRef}
         type="front"
         number={number}
+        colorDivider={colorDivider}
+        clockBackgroundColor={clockBackgroundColor}
       />
       <NewFlipCard
         testID="com.usereserva:id/number_card__type_back_flip_card"
         ref={backRef}
         type="back"
         number={previousNumber}
+        colorDivider={colorDivider}
+        clockBackgroundColor={clockBackgroundColor}
       />
     </View>
   );

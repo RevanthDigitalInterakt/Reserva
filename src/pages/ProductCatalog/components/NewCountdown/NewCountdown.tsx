@@ -12,13 +12,13 @@ import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import { platformType } from '../../../../utils/platformType';
 import type { ICountDownClock } from '../../../../graphql/homePage/HomeQuery';
 import { useNewChronometer } from '../../../../hooks/useNewChronometer';
-import FlipNumber from '../../../../modules/Home/component/flipcountdoun/FlipNumber';
 import testProps from '../../../../utils/testProps';
 import { ClockScreenEnum, type CountdownClockCategoryOutput, useCountdownLazyQuery } from '../../../../base/graphql/generated';
 import { Box } from '../../../../components/Box/Box';
 import { Button } from '../../../../components/Button';
 import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../../components/Typography/Typography';
+import { NewFlipNumber } from '../../../../components/NewCountDownFlipNumber/components/NewFlipNumber';
 
 const SCALE = configDeviceSizes.DEVICE_WIDTH / 320;
 
@@ -99,7 +99,7 @@ function CheckTheRules({
 }
 
 interface NewCountdownProps {
-  reference: string;
+  reference?: string;
   selectClockScreen: ClockScreenEnum;
 }
 
@@ -125,7 +125,7 @@ function NewCountdown(props: NewCountdownProps) {
 
   const goToPromotion = () => {
     const facetInput = [];
-    const [categoryType, categoryData] = reference?.split(':');
+    const [categoryType, categoryData] = reference?.split(':') || [];
     if (categoryType === 'product') {
       navigation.navigate('ProductDetail', {
         productId: categoryData,
@@ -168,6 +168,20 @@ function NewCountdown(props: NewCountdownProps) {
     }).then(({ data }) => {
       if (data?.countdown) {
         setCountDownLocal(data.countdown);
+      } else {
+        getCountDown({
+          context: { clientName: 'gateway' },
+          fetchPolicy: getFetchPolicyPerKey('countdownClock'),
+          variables: {
+            input: {
+              selectClockScreen: ClockScreenEnum.All,
+            },
+          },
+        }).then(({ data: data2 }) => {
+          if (data2?.countdown) {
+            setCountDownLocal(data2.countdown);
+          }
+        });
       }
     });
   }, [getCountDown, getFetchPolicyPerKey, reference, selectClockScreen]);
@@ -233,28 +247,14 @@ function NewCountdown(props: NewCountdownProps) {
                 </Typography>
               </Box>
               <Box flexDirection="row" alignItems="center" mt={5}>
-                <FlipNumber
-                  clockBackgroundColor={
-                  countDownLocal.backgroundColor
-                  }
-                  colorDivider={countDownLocal.bannerColor}
-                  number={time?.split(':')[0]}
-                  unit="hours"
+
+                <NewFlipNumber
                   {...testProps('com.usereserva:id/flip_number_hours')}
-                />
-
-                <Box height={14} justifyContent="space-between" marginX={6}>
-                  <Box height={3} width={3} borderRadius={3} bg="#FFF" />
-                  <Box height={3} width={3} borderRadius={3} bg="#FFF" />
-                </Box>
-
-                <FlipNumber
+                  number={time?.split(':')[0] || ''}
                   clockBackgroundColor={
-                  countDownLocal.backgroundColor
+                    countDownLocal.backgroundColor
                   }
                   colorDivider={countDownLocal.bannerColor}
-                  number={time?.split(':')[1]}
-                  {...testProps('com.usereserva:id/flip_number_minutes')}
                 />
 
                 <Box height={14} justifyContent="space-between" marginX={6}>
@@ -262,13 +262,27 @@ function NewCountdown(props: NewCountdownProps) {
                   <Box height={3} width={3} borderRadius={3} bg="#FFF" />
                 </Box>
 
-                <FlipNumber
+                <NewFlipNumber
+                  {...testProps('com.usereserva:id/flip_number_minutes')}
+                  number={time?.split(':')[1] || ''}
                   clockBackgroundColor={
-                  countDownLocal.backgroundColor
-                }
+                    countDownLocal.backgroundColor
+                  }
                   colorDivider={countDownLocal.bannerColor}
-                  number={time?.split(':')[2]}
+                />
+
+                <Box height={14} justifyContent="space-between" marginX={6}>
+                  <Box height={3} width={3} borderRadius={3} bg="#FFF" />
+                  <Box height={3} width={3} borderRadius={3} bg="#FFF" />
+                </Box>
+
+                <NewFlipNumber
                   {...testProps('com.usereserva:id/flip_number_seconds')}
+                  number={time?.split(':')[2] || ''}
+                  clockBackgroundColor={
+                    countDownLocal.backgroundColor
+                  }
+                  colorDivider={countDownLocal.bannerColor}
                 />
               </Box>
             </Box>
