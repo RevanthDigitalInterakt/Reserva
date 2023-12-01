@@ -186,7 +186,38 @@ function NewCountdown(props: NewCountdownProps) {
     });
   }, [getCountDown, getFetchPolicyPerKey, reference, selectClockScreen]);
 
+  // const fetchCountdownData = async (selectScreen: ClockScreenEnum, categoryRef?: string) => {
+  //   const result = await getCountDown({
+  //     context: { clientName: 'gateway' },
+  //     fetchPolicy: getFetchPolicyPerKey('countdownClock'),
+  //     variables: {
+  //       input: {
+  //         selectClockScreen: selectScreen,
+  //         categoryReference: categoryRef,
+  //       },
+  //     },
+  //   });
+  //   return result.data?.countdown;
+  // };
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     let countdownData = await fetchCountdownData(selectClockScreen, reference);
+  //     if (!countdownData) {
+  //       countdownData = await fetchCountdownData(ClockScreenEnum.All);
+  //     }
+  //     if (countdownData) {
+  //       setCountDownLocal(countdownData);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [getCountDown, getFetchPolicyPerKey, reference, selectClockScreen]);
+
   const { time, setTime } = useNewChronometer();
+  const hours = time?.split(':')[0] || '';
+  const minutes = time?.split(':')[1] || '';
+  const seconds = time?.split(':')[2] || '';
 
   useEffect(() => {
     if (countDownLocal?.remainingTime) {
@@ -250,7 +281,7 @@ function NewCountdown(props: NewCountdownProps) {
 
                 <NewFlipNumber
                   {...testProps('com.usereserva:id/flip_number_hours')}
-                  number={time?.split(':')[0] || ''}
+                  number={hours}
                   clockBackgroundColor={
                     countDownLocal.backgroundColor
                   }
@@ -264,7 +295,7 @@ function NewCountdown(props: NewCountdownProps) {
 
                 <NewFlipNumber
                   {...testProps('com.usereserva:id/flip_number_minutes')}
-                  number={time?.split(':')[1] || ''}
+                  number={minutes}
                   clockBackgroundColor={
                     countDownLocal.backgroundColor
                   }
@@ -278,7 +309,7 @@ function NewCountdown(props: NewCountdownProps) {
 
                 <NewFlipNumber
                   {...testProps('com.usereserva:id/flip_number_seconds')}
-                  number={time?.split(':')[2] || ''}
+                  number={seconds}
                   clockBackgroundColor={
                     countDownLocal.backgroundColor
                   }

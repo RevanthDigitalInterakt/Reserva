@@ -11,34 +11,35 @@ interface IFlipCard {
   colorDivider?: string;
 }
 
-export const NewFlipCard = forwardRef((props: IFlipCard, ref) => {
-  const {
+export const NewFlipCard = forwardRef(
+  ({
     type, number, testID, clockBackgroundColor, colorDivider,
-  } = props;
-  const containerStyle = styles({ isFront: type === 'front' }).container;
+  }: IFlipCard, ref) => {
+    const containerStyle = styles({ isFront: type === 'front' }).container;
 
-  return (
-    <Animated.View
-      {...testProps(testID)}
-      ref={ref}
-      style={{
-        ...containerStyle,
-        backgroundColor: clockBackgroundColor || containerStyle.backgroundColor,
-        borderColor: colorDivider || containerStyle.borderColor,
-      }}
-    >
-      <View style={styles({}).overflowContainer}>
-        <Text
-          {...testProps(`com.usereserva:id/flip_card_number_${type}`)}
-          style={
+    return (
+      <Animated.View
+        {...testProps(testID)}
+        ref={ref}
+        style={{
+          ...containerStyle,
+          backgroundColor: clockBackgroundColor || containerStyle.backgroundColor,
+          borderColor: colorDivider || containerStyle.borderColor,
+        }}
+      >
+        <View style={styles({}).overflowContainer}>
+          <Text
+            {...testProps(`com.usereserva:id/flip_card_number_${type}`)}
+            style={
             styles({
               isFront: type === 'front',
             }).number
           }
-        >
-          {number}
-        </Text>
-      </View>
-    </Animated.View>
-  );
-});
+          >
+            {number}
+          </Text>
+        </View>
+      </Animated.View>
+    );
+  },
+);
