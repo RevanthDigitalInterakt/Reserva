@@ -155,64 +155,33 @@ function NewCountdown(props: NewCountdownProps) {
     }
   };
 
-  useEffect(() => {
-    getCountDown({
+  const fetchCountdownData = async (selectScreen: ClockScreenEnum, categoryRef?: string) => {
+    const result = await getCountDown({
       context: { clientName: 'gateway' },
       fetchPolicy: getFetchPolicyPerKey('countdownClock'),
       variables: {
         input: {
-          selectClockScreen,
-          categoryReference: reference,
+          selectClockScreen: selectScreen,
+          categoryReference: categoryRef,
         },
       },
-    }).then(({ data }) => {
-      if (data?.countdown) {
-        setCountDownLocal(data.countdown);
-      } else {
-        getCountDown({
-          context: { clientName: 'gateway' },
-          fetchPolicy: getFetchPolicyPerKey('countdownClock'),
-          variables: {
-            input: {
-              selectClockScreen: ClockScreenEnum.All,
-            },
-          },
-        }).then(({ data: data2 }) => {
-          if (data2?.countdown) {
-            setCountDownLocal(data2.countdown);
-          }
-        });
-      }
     });
+    return result.data?.countdown;
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let countdownData = await fetchCountdownData(selectClockScreen, reference);
+      if (!countdownData) {
+        countdownData = await fetchCountdownData(ClockScreenEnum.All);
+      }
+      if (countdownData) {
+        setCountDownLocal(countdownData);
+      }
+    };
+
+    fetchData();
   }, [getCountDown, getFetchPolicyPerKey, reference, selectClockScreen]);
-
-  // const fetchCountdownData = async (selectScreen: ClockScreenEnum, categoryRef?: string) => {
-  //   const result = await getCountDown({
-  //     context: { clientName: 'gateway' },
-  //     fetchPolicy: getFetchPolicyPerKey('countdownClock'),
-  //     variables: {
-  //       input: {
-  //         selectClockScreen: selectScreen,
-  //         categoryReference: categoryRef,
-  //       },
-  //     },
-  //   });
-  //   return result.data?.countdown;
-  // };
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     let countdownData = await fetchCountdownData(selectClockScreen, reference);
-  //     if (!countdownData) {
-  //       countdownData = await fetchCountdownData(ClockScreenEnum.All);
-  //     }
-  //     if (countdownData) {
-  //       setCountDownLocal(countdownData);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [getCountDown, getFetchPolicyPerKey, reference, selectClockScreen]);
 
   const { time, setTime } = useNewChronometer();
   const hours = time?.split(':')[0] || '';
