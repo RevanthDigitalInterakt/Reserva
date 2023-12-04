@@ -254,7 +254,7 @@ export default function SignIn({ route, navigation }: Props): JSX.Element {
                   style={[
                     styles.actionButton,
                     {
-                      backgroundColor: COLORS.ACTION_BUTTON_COLOR,
+                      backgroundColor: COLORS.LIGHT_BLACK,
                     },
                   ]}
                 >

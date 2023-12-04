@@ -1,13 +1,12 @@
 import React, {
-  useCallback, useEffect, useMemo,
+  useCallback, useEffect, useMemo, useState,
 } from 'react';
-
-import { View } from 'react-native';
+import {
+  Image, Text, TouchableOpacity, View,
+} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-
 import { Box } from '../../../../components/Box/Box';
 import { Divider } from '../../../../components/Divider/Divider';
-import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { RadioButtons } from '../../../../components/RadioButtons/RadioButtons';
 import { Typography } from '../../../../components/Typography/Typography';
 import EventProvider from '../../../../utils/EventProvider';
@@ -17,22 +16,40 @@ import ProductAddToCart from '../ProductAddToCart';
 import { SelectColor } from '../SelectColor/SelectColor';
 import { SizeGuide, SizeGuideImages } from './SizeGuide';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
+import { NewInput } from '../../../../components/NewInput';
+import { NewInputType } from '../../../../components/NewInput/types';
+import { styles } from './ProductSelectors.styles';
+import { BottomSheet } from '../../../../components/BottomSheet';
+import { GiftCardList } from './components/GiftCardList';
+import { type ProductGiftCardOptionOutput, ProductResultActionEnum } from '../../../../base/graphql/generated';
+import { GiftCardRulesModal } from './components/GiftCardRulesModal';
+import { commons } from '../../../../base/styles';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { RouletCouponCard } from '../../../Home/components/RouletCouponCard';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
 function ProductSelectors() {
+  const [showModal, setShowModal] = useState(false);
   const {
     productDetail,
     selectedColor,
     selectedSize,
     setSelectedColor,
     setSelectedSize,
+    selectedGiftCardSku,
+    setGiftCardSelectedAmount,
+    selectedGiftCardEmail,
+    setGiftCardSelectedEmail,
   } = useProductDetailStore([
     'productDetail',
     'selectedColor',
     'selectedSize',
     'setSelectedColor',
+    'setGiftCardSelectedAmount',
     'setSelectedSize',
+    'selectedGiftCardSku',
+    'selectedGiftCardEmail',
+    'setGiftCardSelectedEmail',
   ]);
 
   const { getBoolean } = useRemoteConfig();
@@ -51,14 +68,14 @@ function ProductSelectors() {
         items: [
           {
             item_id: selectedSize?.itemId,
-            price: productDetail.priceRange.sellingPrice?.lowPrice,
+            price: productDetail?.priceRange?.sellingPrice?.lowPrice || 0,
             quantity: 1,
             item_variant: '',
             item_name: productDetail.productName,
             item_category: 'product_group',
           },
         ],
-        value: productDetail.priceRange.sellingPrice?.lowPrice,
+        value: productDetail?.priceRange?.sellingPrice?.lowPrice || 0,
         item_brand: `${productDetail?.categoryTree[0]?.toUpperCase()},`,
       });
     } catch (err) {
@@ -86,63 +103,130 @@ function ProductSelectors() {
 
   useEffect(() => {
     if (selectedSize) doSelectSizeTrack();
+    return () => {
+      setGiftCardSelectedEmail('');
+      setGiftCardSelectedAmount('');
+    };
   }, [selectedSize, doSelectSizeTrack]);
+  const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
+
+  const handleBottomSheet = useCallback(() => {
+    setBottomSheetIsOpen(!bottomSheetIsOpen);
+  }, [bottomSheetIsOpen]);
+
+  const handleSelectGiftCard = (option: ProductGiftCardOptionOutput) => {
+    setGiftCardSelectedAmount(option.itemId);
+    handleBottomSheet();
+  };
+
+  const handleChangeBeneficiarysEmail = (email: string) => {
+    setGiftCardSelectedEmail(email);
+  };
+
+  const handleShowModal = () => setShowModal(true);
+
+  const selectedGiftCardSkuAmount = useMemo(() => {
+    if (!selectedGiftCardSku) return null;
+    return productDetail?.giftCard?.options.find(
+      (option) => option.itemId === selectedGiftCardSku,
+    )?.name;
+  }, [selectedGiftCardSku, productDetail?.giftCard?.options]);
+
+  const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
 
   if (!productDetail) return null;
 
+  const productDetailsHasColors = !!productDetail.colorUrls.length;
+
   return (
     <View>
-      <Box mt="xs">
-        <Box px="xxxs" mb="xxxs">
-          <Typography variant="subtituloSessoes">Cores:</Typography>
-        </Box>
+      {productDetailsHasColors && (
+        <Box mt="xs">
+          <Box px="xxxs" mb="xxxs">
+            <Typography variant="subtituloSessoes">Cores:</Typography>
+          </Box>
 
-        <Box>
-          <ScrollView horizontal>
-            <SelectColor
-              onPress={setSelectedColor}
-              size={30}
-              disabledColors={productDetail.disabledColors}
-              listColors={productDetail.colorUrls}
-              selectedColors={selectedColor?.colorId || ''}
-            />
-          </ScrollView>
+          <Box>
+            <ScrollView horizontal>
+              <SelectColor
+                onPress={setSelectedColor}
+                size={30}
+                disabledColors={productDetail.disabledColors}
+                listColors={productDetail.colorUrls}
+                selectedColors={selectedColor?.colorId || ''}
+              />
+            </ScrollView>
+          </Box>
         </Box>
-      </Box>
+      )}
 
       <Box px="xxxs">
-        <Box mt="xxxs">
-          <Box flexDirection="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="subtituloSessoes">Tamanhos:</Typography>
+        {productDetailsHasColors && (
+          <>
+            <Box mt="xxxs">
+              <Box flexDirection="row" justifyContent="space-between" alignItems="center">
+                <Typography variant="subtituloSessoes">Tamanhos:</Typography>
 
-            {!!categoryTree?.length && (
-              <SizeGuide categoryTree={categoryTree} productId={productDetail.productId} />
+                {!!categoryTree?.length && (
+                  <SizeGuide categoryTree={categoryTree} productId={productDetail.productId} />
+                )}
+              </Box>
+
+              <Box alignItems="flex-start" mt="xxxs">
+                <RadioButtons
+                  size={38}
+                  fontSize={12}
+                  disbledOptions={disabledSizes}
+                  onSelectedChange={(val) => setSelectedSize(`${val}`)}
+                  optionsList={sizes}
+                  defaultSelectedItem=""
+                  selectedItem={selectedSize?.size || ''}
+                />
+              </Box>
+            </Box>
+
+            {!selectedSize?.availableQuantity && (
+              <Box mt="xxs" flexDirection="row" alignItems="center">
+                <IconLegacy name="Alert" size={20} color="vermelhoRSV" mr="nano" />
+
+                <Typography fontFamily="reservaSansBold" fontSize={15} color="vermelhoRSV">
+                  Produto Esgotado
+                </Typography>
+              </Box>
             )}
-          </Box>
-
-          <Box alignItems="flex-start" mt="xxxs">
-            <RadioButtons
-              size={38}
-              fontSize={12}
-              disbledOptions={disabledSizes}
-              onSelectedChange={(val) => setSelectedSize(`${val}`)}
-              optionsList={sizes}
-              defaultSelectedItem=""
-              selectedItem={selectedSize?.size || ''}
-            />
-          </Box>
-        </Box>
-
-        {!selectedSize?.availableQuantity && (
-          <Box mt="xxs" flexDirection="row" alignItems="center">
-            <IconLegacy name="Alert" size={20} color="vermelhoRSV" mr="nano" />
-
-            <Typography fontFamily="reservaSansBold" fontSize={15} color="vermelhoRSV">
-              Produto Esgotado
-            </Typography>
-          </Box>
+          </>
         )}
 
+        {isGiftCard ? (
+          <>
+            <View style={styles.inputsWrapper}>
+              <NewInput
+                type={NewInputType.CALL_TO_ACTION}
+                onPress={handleBottomSheet}
+                placeholder="Valor do cartão presente"
+                value={selectedGiftCardSkuAmount as string | undefined}
+              />
+              <NewInput
+                onChangeText={handleChangeBeneficiarysEmail}
+                value={selectedGiftCardEmail}
+                type={NewInputType.TEXT}
+                placeholder="Digite aqui o e-mail do presenteado"
+              />
+            </View>
+
+            <TouchableOpacity onPress={handleShowModal} style={styles.infoWrapper}>
+              <Image source={commons.help} />
+              <Text style={styles.infoText}>Entenda como funciona o presente.</Text>
+            </TouchableOpacity>
+
+            <BottomSheet isOpen={bottomSheetIsOpen} onBackdropPress={handleBottomSheet}>
+              <GiftCardList
+                onSelect={handleSelectGiftCard}
+                list={productDetail.giftCard?.options!}
+              />
+            </BottomSheet>
+          </>
+        ) : <ProductAddToCart />}
         {showRoulet ? (
           <RouletCouponCard />
         ) : null}
@@ -150,8 +234,22 @@ function ProductSelectors() {
 
         <Box mt="nano" flexDirection="row" />
 
-        <Divider variant="fullWidth" my="xs" />
+        {!isGiftCard ? (
+          <Divider variant="fullWidth" my="xs" />
+        ) : null}
       </Box>
+
+      <GiftCardRulesModal
+        isVisible={showModal}
+        setIsVisible={() => setShowModal(false)}
+        data={{
+          titleModal: 'Cartão Presente',
+          descriptionModal: "Para garantir que o presenteado receba o código, é importante que você forneça um e-mail válido no campo 'E-mail do Presenteado' e que selecione o valor desejado no campo 'Valor do Cartão Presente' \n\n*Se certifique sempre de conferir os campos antes concluir a compra.",
+        }}
+        onPress={() => {
+          setShowModal(false);
+        }}
+      />
     </View>
   );
 }

@@ -9,6 +9,8 @@ interface IUseProductDetailStore {
   productDetail: ProductQuery['product'] | null;
   selectedColor: ProductColorOutput | null;
   selectedSize: ProductSizeOutput | null;
+  selectedGiftCardSku: string | undefined;
+  selectedGiftCardEmail: string | undefined;
   initialCep?: string;
   assinaturaSimples: {
     accepted: boolean;
@@ -18,12 +20,16 @@ interface IUseProductDetailStore {
   setProduct: (data: ProductQuery['product'], routeParams?: IProductDetailRouteParams) => void;
   setSelectedColor: (colorId: string) => void;
   setSelectedSize: (variantId: string) => void;
+  setGiftCardSelectedAmount: (giftCardSku: string) => void;
+  setGiftCardSelectedEmail: (giftCardEmail: string) => void;
 }
 
 export const productDetailStore = create<IUseProductDetailStore>((set, getState) => ({
   productDetail: null,
   selectedColor: null,
+  selectedGiftCardEmail: undefined,
   selectedSize: null,
+  selectedGiftCardSku: undefined,
   initialCep: '',
   assinaturaSimples: {
     accepted: true,
@@ -56,6 +62,7 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
       productDetail: data,
       selectedColor: initialColor,
       selectedSize: initialSize,
+      selectedGiftCardSku: routeParams?.skuId,
       initialCep: routeParams?.hasCep || '',
     });
   },
@@ -85,6 +92,18 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
     ));
 
     set({ ...state, selectedSize });
+  },
+
+  setGiftCardSelectedAmount: (giftCardSku: string) => {
+    const state = getState();
+
+    set({ ...state, selectedGiftCardSku: giftCardSku });
+  },
+
+  setGiftCardSelectedEmail: (giftCardEmail: string) => {
+    const state = getState();
+
+    set({ ...state, selectedGiftCardEmail: giftCardEmail });
   },
 }));
 

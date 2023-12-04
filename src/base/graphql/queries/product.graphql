@@ -7,6 +7,17 @@ query product($input: ProductInput!) {
     disabledColors
     saleOff
     videoThumbnail
+    giftCard {
+      options {
+        itemId
+        name
+        ean
+        seller
+        images
+      }
+      terms
+      howItWorks
+    }
     priceRange {
       sellingPrice {
         highPrice
