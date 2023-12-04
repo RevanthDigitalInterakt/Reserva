@@ -45,6 +45,7 @@ export interface IRemoteConfigKeys {
   show_on_smart_hint: boolean;
   show_item_price: boolean;
   show_item_price_tester: boolean;
+  pdp_show_gift_card: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -57,6 +58,7 @@ type TRemoteConfigStringArrayKeys = KeysMatching<IRemoteConfigKeys, string[]>;
 
 export const defaults: IRemoteConfigKeys = {
   show_new_bag: false,
+  pdp_show_gift_card: false,
   show_new_bag_tester: true,
   pdp_button_add_bag: '#11AB6B',
   sale_off_tag: false,

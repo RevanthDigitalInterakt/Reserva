@@ -2,9 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect } from 'react';
 import { Alert, View } from 'react-native';
-
-import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
-import { ProductResultActionEnum, useProductLazyQuery, type ProductQuery } from '../../base/graphql/generated';
+import { type ProductQuery, ProductResultActionEnum, useProductLazyQuery } from '../../base/graphql/generated';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { Box } from '../../components/Box/Box';
 import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
@@ -26,10 +24,13 @@ import ProductSLA from './components/ProductSLA';
 import ProductSelectors from './components/ProductSelectors';
 import ProductSummary from './components/ProductSummary';
 import { getProductLoadType } from './utils/getProductLoadType';
+import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
+import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
 function ProductDetail({ route, navigation }: IProductDetailNew) {
+  const { getBoolean } = useRemoteConfig();
   const { getItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
@@ -92,16 +93,21 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         product_currency: 'BRL',
       });
 
-      // if (product.action !== ProductResultActionEnum.ShowProduct) {
-      //   await DeepLinkPathModule.openUrlInBrowser({
-      //     closeCurrentAppInstance: false,
-      //     url: product.share.url,
-      //   });
-      //
-      //   navigation.goBack();
-      //
-      //   return;
-      // }
+      const pdpShowGiftCard = getBoolean('pdp_show_gift_card');
+      if (
+        (product.action !== ProductResultActionEnum.ShowProduct
+                    && product.action !== ProductResultActionEnum.ShowGiftCard)
+                || (product.action === ProductResultActionEnum.ShowGiftCard && !pdpShowGiftCard)
+      ) {
+        await DeepLinkPathModule.openUrlInBrowser({
+          closeCurrentAppInstance: false,
+          url: product.share.url,
+        });
+
+        navigation.goBack();
+
+        return;
+      }
 
       setProduct(product, params);
     } catch (err) {
