@@ -16,6 +16,7 @@ export type TTypesInstallments = 'hide_installments' | 'show_prime_installments'
 export interface IRemoteConfigKeys {
   pdp_show_video: boolean;
   pdp_show_video_tester: boolean;
+  show_roulet: boolean;
   show_new_bag: boolean;
   show_new_bag_tester: boolean;
   show_pdc_thumb_color: boolean;
@@ -61,6 +62,7 @@ export const defaults: IRemoteConfigKeys = {
   pdp_show_gift_card: false,
   show_new_bag_tester: true,
   pdp_button_add_bag: '#11AB6B',
+  show_roulet: false,
   sale_off_tag: false,
   show_pdc_thumb_color: false,
   cashback_in_store: false,

@@ -56,6 +56,13 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
   initialized: false,
   topBarLoading: false,
   loadingModal: false,
+  rouletCoupon: {
+    code: null,
+    timestamp: null,
+    blocked: false,
+  },
+  rouletIsOpen: false,
+  rouletIsLoading: false,
   initialLoad: false,
   productNotFound: '',
   error: '',
@@ -186,6 +193,20 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ error: error.message }));
       } finally {
         set(() => ({ topBarLoading: false, initialized: true }));
+      }
+    },
+    ROULET_COUPON_INITIAL_LOAD: async () => {
+      const rouletCoupon = await getAsyncStorageItem('rouletCoupon');
+
+      if (rouletCoupon) {
+        const { code, timestamp } = rouletCoupon;
+        set(() => ({
+          rouletCoupon: {
+            code,
+            timestamp,
+            blocked: false,
+          },
+        }));
       }
     },
     REFRESH_ORDER_FORM: async () => {
@@ -734,6 +755,40 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
       } finally {
         set(() => ({ topBarLoading: false }));
       }
+    },
+    SAVE_ROULET_COUPON: (coupon: string, timestamp: string) => {
+      set(() => ({
+        rouletCoupon: {
+          code: coupon,
+          timestamp,
+          blocked: false,
+        },
+      }));
+    },
+    OPEN_ROULET: () => {
+      set(() => ({ rouletIsOpen: true }));
+    },
+    CLOSE_ROULET: () => {
+      set(() => ({ rouletIsOpen: false }));
+    },
+    SET_ROULET_LOADING: (value: boolean) => {
+      set(() => ({ rouletIsLoading: value }));
+    },
+    BLOCK_ROULET_COUPON: () => {
+      set(() => ({
+        rouletCoupon: {
+          ...getState().rouletCoupon,
+          blocked: true,
+        },
+      }));
+    },
+    UNBLOCK_ROULET_COUPON: () => {
+      set(() => ({
+        rouletCoupon: {
+          ...getState().rouletCoupon,
+          blocked: false,
+        },
+      }));
     },
   },
 }));

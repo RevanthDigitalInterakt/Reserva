@@ -7,61 +7,63 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
 };
 
 export type BannerCategoryImageOutput = {
   __typename?: 'BannerCategoryImageOutput';
-  height: Scalars['Int'];
-  url: Scalars['String'];
+  height: Scalars['Int']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type BannerCategoryInput = {
-  category: Scalars['String'];
+  category: Scalars['String']['input'];
 };
 
 export type BannerCategoryOutput = {
   __typename?: 'BannerCategoryOutput';
   image: BannerCategoryImageOutput;
-  name?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type CashbackExpirationInfoOutput = {
   __typename?: 'CashbackExpirationInfoOutput';
   cashbackToExpire: Array<CashbackExpirationItemOutput>;
-  totalExpireBalanceInCents: Scalars['String'];
+  totalExpireBalanceInCents: Scalars['String']['output'];
 };
 
 export type CashbackExpirationItemOutput = {
   __typename?: 'CashbackExpirationItemOutput';
-  expireAt: Scalars['String'];
-  expireCashbackAmount: Scalars['String'];
-  expireCashbackProgramRefId: Scalars['String'];
-  expireDays: Scalars['Float'];
-  expireOperationId: Scalars['Int'];
-  expireOrderId: Scalars['String'];
-  expireStatus: Scalars['String'];
+  expireAt: Scalars['String']['output'];
+  expireCashbackAmount: Scalars['String']['output'];
+  expireCashbackProgramRefId: Scalars['String']['output'];
+  expireDays: Scalars['Float']['output'];
+  expireOperationId: Scalars['Int']['output'];
+  expireOrderId: Scalars['String']['output'];
+  expireStatus: Scalars['String']['output'];
 };
 
 export type CashbackOperationOutput = {
   __typename?: 'CashbackOperationOutput';
-  appliedBalanceInCents: Scalars['Float'];
-  cashbackAmountInCents: Scalars['Float'];
-  createdAt: Scalars['String'];
-  currentBalanceInCents: Scalars['Float'];
-  externalOrderAmountInCents: Scalars['Float'];
-  externalOrderId: Scalars['String'];
-  requestedCashback: Scalars['Boolean'];
-  settlementDate?: Maybe<Scalars['String']>;
-  status: Scalars['String'];
-  type: Scalars['String'];
+  appliedBalanceInCents: Scalars['Float']['output'];
+  cashbackAmountInCents: Scalars['Float']['output'];
+  createdAt: Scalars['String']['output'];
+  currentBalanceInCents: Scalars['Float']['output'];
+  externalOrderAmountInCents: Scalars['Float']['output'];
+  externalOrderId: Scalars['String']['output'];
+  requestedCashback: Scalars['Boolean']['output'];
+  settlementDate?: Maybe<Scalars['String']['output']>;
+  status: Scalars['String']['output'];
+  type: Scalars['String']['output'];
 };
 
 export type CashbackOutput = {
@@ -73,36 +75,36 @@ export type CashbackOutput = {
 
 export type CashbackWalletOutput = {
   __typename?: 'CashbackWalletOutput';
-  balanceExpiresOn?: Maybe<Scalars['String']>;
-  balanceInCents: Scalars['Float'];
-  pendingBalanceInCents: Scalars['Float'];
-  userStatus: Scalars['String'];
+  balanceExpiresOn?: Maybe<Scalars['String']['output']>;
+  balanceInCents: Scalars['Float']['output'];
+  pendingBalanceInCents: Scalars['Float']['output'];
+  userStatus: Scalars['String']['output'];
 };
 
 export type CepInput = {
-  cep: Scalars['String'];
+  cep: Scalars['String']['input'];
 };
 
 export type CepOutput = {
   __typename?: 'CepOutput';
-  city?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  geoCoordinates?: Maybe<Array<Scalars['Float']>>;
-  neighborhood?: Maybe<Scalars['String']>;
-  postalCode?: Maybe<Scalars['String']>;
-  reference?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  street?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']['output']>;
+  country?: Maybe<Scalars['String']['output']>;
+  geoCoordinates?: Maybe<Array<Scalars['Float']['output']>>;
+  neighborhood?: Maybe<Scalars['String']['output']>;
+  postalCode?: Maybe<Scalars['String']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  street?: Maybe<Scalars['String']['output']>;
 };
 
 export type CheckDeliveryTimeByProductInput = {
-  id: Scalars['String'];
-  postalCode: Scalars['String'];
-  seller: Scalars['String'];
+  id: Scalars['String']['input'];
+  postalCode: Scalars['String']['input'];
+  seller: Scalars['String']['input'];
 };
 
 export type CheckEmailInput = {
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
 };
 
 export enum ClockScreenEnum {
@@ -114,39 +116,39 @@ export enum ClockScreenEnum {
 
 export type ConfigCountdownClockOutput = {
   __typename?: 'ConfigCountdownClockOutput';
-  countdown?: Maybe<Scalars['String']>;
-  countdownStart?: Maybe<Scalars['String']>;
-  descriptionModal?: Maybe<Scalars['String']>;
-  reference?: Maybe<Scalars['String']>;
-  subtitle?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  titleButton?: Maybe<Scalars['String']>;
-  titleModal?: Maybe<Scalars['String']>;
-  watchType?: Maybe<Scalars['String']>;
+  countdown?: Maybe<Scalars['String']['output']>;
+  countdownStart?: Maybe<Scalars['String']['output']>;
+  descriptionModal?: Maybe<Scalars['String']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  titleButton?: Maybe<Scalars['String']['output']>;
+  titleModal?: Maybe<Scalars['String']['output']>;
+  watchType?: Maybe<Scalars['String']['output']>;
 };
 
 export type ConfigCountdownClockReservaOutput = {
   __typename?: 'ConfigCountdownClockReservaOutput';
-  countdown?: Maybe<Scalars['String']>;
-  descriptionModal?: Maybe<Scalars['String']>;
-  reference?: Maybe<Scalars['String']>;
-  subtitle?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  titleButton?: Maybe<Scalars['String']>;
-  titleModal?: Maybe<Scalars['String']>;
-  watchType?: Maybe<Scalars['String']>;
+  countdown?: Maybe<Scalars['String']['output']>;
+  descriptionModal?: Maybe<Scalars['String']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  titleButton?: Maybe<Scalars['String']['output']>;
+  titleModal?: Maybe<Scalars['String']['output']>;
+  watchType?: Maybe<Scalars['String']['output']>;
 };
 
 export type ConfigDiscountBarOutput = {
   __typename?: 'ConfigDiscountBarOutput';
-  colorBar?: Maybe<Scalars['String']>;
-  colorButton?: Maybe<Scalars['String']>;
-  coupon?: Maybe<Scalars['String']>;
-  descriptionModal?: Maybe<Scalars['String']>;
-  shareMessage?: Maybe<Scalars['String']>;
-  titleBar?: Maybe<Scalars['String']>;
-  titleButton?: Maybe<Scalars['String']>;
-  titleModal?: Maybe<Scalars['String']>;
+  colorBar?: Maybe<Scalars['String']['output']>;
+  colorButton?: Maybe<Scalars['String']['output']>;
+  coupon?: Maybe<Scalars['String']['output']>;
+  descriptionModal?: Maybe<Scalars['String']['output']>;
+  shareMessage?: Maybe<Scalars['String']['output']>;
+  titleBar?: Maybe<Scalars['String']['output']>;
+  titleButton?: Maybe<Scalars['String']['output']>;
+  titleModal?: Maybe<Scalars['String']['output']>;
 };
 
 export type ConfigOutput = {
@@ -154,99 +156,99 @@ export type ConfigOutput = {
   countDownClock?: Maybe<ConfigCountdownClockOutput>;
   countDownClockReservaMini?: Maybe<ConfigCountdownClockReservaOutput>;
   discountCodeBar?: Maybe<ConfigDiscountBarOutput>;
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  offersPage?: Maybe<Scalars['String']>;
-  online: Scalars['Boolean'];
-  searchCollection: Scalars['String'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  offersPage?: Maybe<Scalars['String']['output']>;
+  online: Scalars['Boolean']['output'];
+  searchCollection: Scalars['String']['output'];
   searchMedia?: Maybe<ConfigSearchMediaOutput>;
-  searchSuggestionsCollection: Array<Scalars['String']>;
+  searchSuggestionsCollection: Array<Scalars['String']['output']>;
   shippingBar?: Maybe<ConfigShippingBarOutput>;
 };
 
 export type ConfigSearchMediaItemOutput = {
   __typename?: 'ConfigSearchMediaItemOutput';
-  image?: Maybe<Scalars['String']>;
-  orderBy?: Maybe<Scalars['String']>;
-  reference?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']['output']>;
+  orderBy?: Maybe<Scalars['String']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
 };
 
 export type ConfigSearchMediaOutput = {
   __typename?: 'ConfigSearchMediaOutput';
   items: Array<ConfigSearchMediaItemOutput>;
-  title?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export type ConfigShippingBarOutput = {
   __typename?: 'ConfigShippingBarOutput';
-  freeShippingValue?: Maybe<Scalars['Float']>;
-  isFreeShipping?: Maybe<Scalars['Boolean']>;
+  freeShippingValue?: Maybe<Scalars['Float']['output']>;
+  isFreeShipping?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ContentfulCategoryDetailOutput = {
   __typename?: 'ContentfulCategoryDetailOutput';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  parentCategoryId?: Maybe<Scalars['String']>;
-  title: Scalars['String'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  parentCategoryId?: Maybe<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
 };
 
 export type ContentfulCategoryOutput = {
   __typename?: 'ContentfulCategoryOutput';
-  fatherCategoryId?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
+  fatherCategoryId?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type ContentfulCollectionOutput = {
   __typename?: 'ContentfulCollectionOutput';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  totalProducts?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  totalProducts?: Maybe<Scalars['Int']['output']>;
 };
 
 export type ContentfulProductItemOutput = {
   __typename?: 'ContentfulProductItemOutput';
-  productId: Scalars['ID'];
-  productName: Scalars['String'];
+  productId: Scalars['ID']['output'];
+  productName: Scalars['String']['output'];
 };
 
 export type CountdownCategoryInput = {
-  categoryReference?: InputMaybe<Scalars['String']>;
+  categoryReference?: InputMaybe<Scalars['String']['input']>;
   selectClockScreen: ClockScreenEnum;
 };
 
 export type CountdownClockCategoryOutput = {
   __typename?: 'CountdownClockCategoryOutput';
-  backgroundColor: Scalars['String'];
-  bannerColor: Scalars['String'];
-  buttonColor: Scalars['String'];
-  descriptionModal?: Maybe<Scalars['String']>;
-  reference: Scalars['String'];
-  remainingTime: Scalars['String'];
+  backgroundColor: Scalars['String']['output'];
+  bannerColor: Scalars['String']['output'];
+  buttonColor: Scalars['String']['output'];
+  descriptionModal?: Maybe<Scalars['String']['output']>;
+  reference: Scalars['String']['output'];
+  remainingTime: Scalars['String']['output'];
   selectClockScreen: ClockScreenEnum;
-  subtitle: Scalars['String'];
-  textColor: Scalars['String'];
-  title: Scalars['String'];
-  titleButton: Scalars['String'];
-  titleModal: Scalars['String'];
+  subtitle: Scalars['String']['output'];
+  textColor: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  titleButton: Scalars['String']['output'];
+  titleModal: Scalars['String']['output'];
 };
 
 export type DeeplinkOutput = {
   __typename?: 'DeeplinkOutput';
-  active: Scalars['Boolean'];
-  path: Scalars['String'];
-  referenceId?: Maybe<Scalars['String']>;
+  active: Scalars['Boolean']['output'];
+  path: Scalars['String']['output'];
+  referenceId?: Maybe<Scalars['String']['output']>;
 };
 
 export type DeeplinkPathInput = {
-  path: Scalars['String'];
+  path: Scalars['String']['input'];
 };
 
 export type GenericOutput = {
   __typename?: 'GenericOutput';
-  error: Scalars['Boolean'];
-  message?: Maybe<Scalars['String']>;
+  error: Scalars['Boolean']['output'];
+  message?: Maybe<Scalars['String']['output']>;
 };
 
 export enum GetProductTypeEnum {
@@ -257,77 +259,77 @@ export enum GetProductTypeEnum {
 
 export type HealthcheckOutput = {
   __typename?: 'HealthcheckOutput';
-  status: Scalars['Boolean'];
-  version: Scalars['String'];
+  status: Scalars['Boolean']['output'];
+  version: Scalars['String']['output'];
 };
 
 export type HomeCarouselItemImageOutput = {
   __typename?: 'HomeCarouselItemImageOutput';
-  height?: Maybe<Scalars['Int']>;
-  title: Scalars['String'];
-  url: Scalars['String'];
-  width?: Maybe<Scalars['Int']>;
+  height?: Maybe<Scalars['Int']['output']>;
+  title: Scalars['String']['output'];
+  url: Scalars['String']['output'];
+  width?: Maybe<Scalars['Int']['output']>;
 };
 
 export type HomeCarouselItemOutput = {
   __typename?: 'HomeCarouselItemOutput';
-  creativeName?: Maybe<Scalars['String']>;
+  creativeName?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
   image: HomeCarouselItemImageOutput;
-  linkMktIn?: Maybe<Scalars['String']>;
-  locationId?: Maybe<Scalars['String']>;
-  mkt: Scalars['Boolean'];
-  orderBy: Scalars['String'];
-  promotionName?: Maybe<Scalars['String']>;
-  reference: Scalars['String'];
-  reservaMini: Scalars['Boolean'];
+  linkMktIn?: Maybe<Scalars['String']['output']>;
+  locationId?: Maybe<Scalars['String']['output']>;
+  mkt: Scalars['Boolean']['output'];
+  orderBy: Scalars['String']['output'];
+  promotionName?: Maybe<Scalars['String']['output']>;
+  reference: Scalars['String']['output'];
+  reservaMini: Scalars['Boolean']['output'];
 };
 
 export type HomeCarouselOutput = {
   __typename?: 'HomeCarouselOutput';
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   items: Array<HomeCarouselItemOutput>;
-  showtime?: Maybe<Scalars['Int']>;
+  showtime?: Maybe<Scalars['Int']['output']>;
   type: HomePageSectionTypeEnum;
 };
 
 export type HomeCountdownOutput = {
   __typename?: 'HomeCountdownOutput';
-  countdown: Scalars['String'];
-  countdownStart?: Maybe<Scalars['String']>;
-  descriptionModal?: Maybe<Scalars['String']>;
+  countdown: Scalars['String']['output'];
+  countdownStart?: Maybe<Scalars['String']['output']>;
+  descriptionModal?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
-  formattedValue?: Maybe<Scalars['String']>;
-  reference?: Maybe<Scalars['String']>;
-  subtitle?: Maybe<Scalars['String']>;
+  formattedValue?: Maybe<Scalars['String']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
   theme: HomeCountdownThemeOutput;
-  title?: Maybe<Scalars['String']>;
-  titleButton?: Maybe<Scalars['String']>;
-  titleModal?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']['output']>;
+  titleButton?: Maybe<Scalars['String']['output']>;
+  titleModal?: Maybe<Scalars['String']['output']>;
   type?: Maybe<ClockScreenEnum>;
-  watchType?: Maybe<Scalars['String']>;
+  watchType?: Maybe<Scalars['String']['output']>;
 };
 
 export type HomeCountdownThemeOutput = {
   __typename?: 'HomeCountdownThemeOutput';
-  clockBackgroundColor: Scalars['String'];
-  colorBanner: Scalars['String'];
-  colorButton: Scalars['String'];
+  clockBackgroundColor: Scalars['String']['output'];
+  colorBanner: Scalars['String']['output'];
+  colorButton: Scalars['String']['output'];
 };
 
 export type HomeMediaOutput = {
   __typename?: 'HomeMediaOutput';
-  creativeName?: Maybe<Scalars['String']>;
+  creativeName?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   image: HomeCarouselItemImageOutput;
-  linkMktIn?: Maybe<Scalars['String']>;
-  locationId?: Maybe<Scalars['String']>;
-  mkt: Scalars['Boolean'];
-  orderBy: Scalars['String'];
-  promotionName?: Maybe<Scalars['String']>;
-  reference: Scalars['String'];
-  reservaMini: Scalars['Boolean'];
+  linkMktIn?: Maybe<Scalars['String']['output']>;
+  locationId?: Maybe<Scalars['String']['output']>;
+  mkt: Scalars['Boolean']['output'];
+  orderBy: Scalars['String']['output'];
+  promotionName?: Maybe<Scalars['String']['output']>;
+  reference: Scalars['String']['output'];
+  reservaMini: Scalars['Boolean']['output'];
 };
 
 export enum HomePageSectionTypeEnum {
@@ -336,30 +338,49 @@ export enum HomePageSectionTypeEnum {
   Main = 'MAIN'
 }
 
+export type InvoiceKeyInput = {
+  invoiceKey: Scalars['String']['input'];
+};
+
+export type InvoiceKeyOutput = {
+  __typename?: 'InvoiceKeyOutput';
+  estimatedDeliveryDate?: Maybe<Scalars['Float']['output']>;
+  estimatedDeliveryDateFormated?: Maybe<Scalars['String']['output']>;
+  lastStatusCreated?: Maybe<Scalars['String']['output']>;
+  providerMessage?: Maybe<Scalars['String']['output']>;
+  shipmentOrderVolumeState?: Maybe<Scalars['String']['output']>;
+  shippingAdditional?: Maybe<Scalars['String']['output']>;
+  shippingAddress?: Maybe<Scalars['String']['output']>;
+  shippingCity?: Maybe<Scalars['String']['output']>;
+  shippingQuarter?: Maybe<Scalars['String']['output']>;
+  shippingReference?: Maybe<Scalars['String']['output']>;
+  shippingState?: Maybe<Scalars['String']['output']>;
+};
+
 export type LoggedInOutput = {
   __typename?: 'LoggedInOutput';
-  authCookie?: Maybe<Scalars['String']>;
-  token: Scalars['String'];
+  authCookie?: Maybe<Scalars['String']['output']>;
+  token: Scalars['String']['output'];
 };
 
 export type MenuCategoryItemOutput = {
   __typename?: 'MenuCategoryItemOutput';
-  deeplinkUrl?: Maybe<Scalars['String']>;
+  deeplinkUrl?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
-  highlight: Scalars['Boolean'];
-  name: Scalars['String'];
-  referenceId?: Maybe<Scalars['String']>;
+  highlight: Scalars['Boolean']['output'];
+  name: Scalars['String']['output'];
+  referenceId?: Maybe<Scalars['String']['output']>;
   type: MenuItemTypeEnum;
 };
 
 export type MenuCategoryOutput = {
   __typename?: 'MenuCategoryOutput';
   children: Array<MenuCategoryItemOutput>;
-  deeplinkUrl?: Maybe<Scalars['String']>;
+  deeplinkUrl?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
-  highlight: Scalars['Boolean'];
-  name: Scalars['String'];
-  referenceId?: Maybe<Scalars['String']>;
+  highlight: Scalars['Boolean']['output'];
+  name: Scalars['String']['output'];
+  referenceId?: Maybe<Scalars['String']['output']>;
   type: MenuItemTypeEnum;
 };
 
@@ -389,20 +410,22 @@ export type Mutation = {
   orderFormUpdateItem: OrderformOutput;
   profile: ProfileOutput;
   profileAddress: ProfileAddressOutput;
-  profileAddressRemove: Scalars['Boolean'];
+  profileAddressRemove: Scalars['Boolean']['output'];
   recoverPasswordReset: LoggedInOutput;
   recoverPasswordVerificationCode: RequestCodeOutput;
   redefinePassword: LoggedInOutput;
   refreshToken: LoggedInOutput;
-  removeCustomer: Scalars['Boolean'];
-  sendLead: Scalars['Boolean'];
+  removeCustomer: Scalars['Boolean']['output'];
+  sendLead: Scalars['Boolean']['output'];
   signIn: LoggedInOutput;
-  signOut: Scalars['Boolean'];
+  signOut: Scalars['Boolean']['output'];
   signUp: LoggedInOutput;
   signUpVerificationCode: RequestCodeOutput;
-  subscribeNewsletter: Scalars['Boolean'];
-  wishlistAddProduct: Array<Scalars['String']>;
-  wishlistRemoveProduct: Array<Scalars['String']>;
+  subscribeNewsletter: Scalars['Boolean']['output'];
+  trackClick: Scalars['Boolean']['output'];
+  trackPageView: Scalars['Boolean']['output'];
+  wishlistAddProduct: Array<Scalars['String']['output']>;
+  wishlistRemoveProduct: Array<Scalars['String']['output']>;
 };
 
 
@@ -512,7 +535,7 @@ export type MutationRedefinePasswordArgs = {
 
 
 export type MutationRemoveCustomerArgs = {
-  customerId: Scalars['String'];
+  customerId: Scalars['String']['input'];
 };
 
 
@@ -541,6 +564,16 @@ export type MutationSubscribeNewsletterArgs = {
 };
 
 
+export type MutationTrackClickArgs = {
+  input: TrackClickInput;
+};
+
+
+export type MutationTrackPageViewArgs = {
+  input: TrackPageViewInput;
+};
+
+
 export type MutationWishlistAddProductArgs = {
   input: WishlistAddProductInput;
 };
@@ -551,74 +584,74 @@ export type MutationWishlistRemoveProductArgs = {
 };
 
 export type OrderDetailIdInput = {
-  orderId: Scalars['String'];
+  orderId: Scalars['String']['input'];
 };
 
 export type OrderDetailItemOfferingOutput = {
   __typename?: 'OrderDetailItemOfferingOutput';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  price: Scalars['String'];
-  type: Scalars['String'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  price: Scalars['String']['output'];
+  type: Scalars['String']['output'];
 };
 
 export type OrderDetailItemOutput = {
   __typename?: 'OrderDetailItemOutput';
-  commission: Scalars['Int'];
-  detailUrl: Scalars['String'];
-  ean: Scalars['String'];
-  freightCommission: Scalars['Int'];
-  id: Scalars['String'];
-  imageUrl: Scalars['String'];
-  isGift: Scalars['Boolean'];
-  listPrice: Scalars['Int'];
-  measurementUnit: Scalars['String'];
-  name: Scalars['String'];
+  commission: Scalars['Int']['output'];
+  detailUrl: Scalars['String']['output'];
+  ean: Scalars['String']['output'];
+  freightCommission: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
+  imageUrl: Scalars['String']['output'];
+  isGift: Scalars['Boolean']['output'];
+  listPrice: Scalars['Int']['output'];
+  measurementUnit: Scalars['String']['output'];
+  name: Scalars['String']['output'];
   offerings: Array<OrderDetailItemOfferingOutput>;
-  price: Scalars['Int'];
-  productId: Scalars['String'];
-  quantity: Scalars['Int'];
-  refId: Scalars['String'];
-  rewardValue: Scalars['Int'];
-  seller: Scalars['String'];
-  sellerSku: Scalars['String'];
-  sellingPrice: Scalars['Int'];
-  tax: Scalars['Int'];
-  uniqueId: Scalars['String'];
-  unitMultiplier: Scalars['Float'];
+  price: Scalars['Int']['output'];
+  productId: Scalars['String']['output'];
+  quantity: Scalars['Int']['output'];
+  refId: Scalars['String']['output'];
+  rewardValue: Scalars['Int']['output'];
+  seller: Scalars['String']['output'];
+  sellerSku: Scalars['String']['output'];
+  sellingPrice: Scalars['Int']['output'];
+  tax: Scalars['Int']['output'];
+  uniqueId: Scalars['String']['output'];
+  unitMultiplier: Scalars['Float']['output'];
 };
 
 export type OrderDetailOutput = {
   __typename?: 'OrderDetailOutput';
-  affiliateId: Scalars['String'];
+  affiliateId: Scalars['String']['output'];
   clientProfileData: OrderDetailProfileDataOutput;
-  creationDate: Scalars['String'];
+  creationDate: Scalars['String']['output'];
   items: Array<OrderDetailItemOutput>;
-  lastChange: Scalars['String'];
-  marketplaceOrderId: Scalars['String'];
-  orderGroup: Scalars['String'];
-  orderId: Scalars['String'];
-  origin: Scalars['String'];
-  salesChannel: Scalars['String'];
-  sellerOrderId: Scalars['String'];
-  sequence: Scalars['String'];
+  lastChange: Scalars['String']['output'];
+  marketplaceOrderId: Scalars['String']['output'];
+  orderGroup: Scalars['String']['output'];
+  orderId: Scalars['String']['output'];
+  origin: Scalars['String']['output'];
+  salesChannel: Scalars['String']['output'];
+  sellerOrderId: Scalars['String']['output'];
+  sequence: Scalars['String']['output'];
   shippingData: OrderDetailShippingData;
-  status: Scalars['String'];
-  statusDescription: Scalars['String'];
+  status: Scalars['String']['output'];
+  statusDescription: Scalars['String']['output'];
   totals: Array<OrderDetailTotalOutput>;
-  value: Scalars['Int'];
+  value: Scalars['Int']['output'];
 };
 
 export type OrderDetailProfileDataOutput = {
   __typename?: 'OrderDetailProfileDataOutput';
-  document: Scalars['String'];
-  documentType: Scalars['String'];
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  id: Scalars['String'];
-  lastName?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  userProfileId: Scalars['String'];
+  document: Scalars['String']['output'];
+  documentType: Scalars['String']['output'];
+  email: Scalars['String']['output'];
+  firstName: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  lastName?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
+  userProfileId: Scalars['String']['output'];
 };
 
 export type OrderDetailShippingData = {
@@ -628,47 +661,47 @@ export type OrderDetailShippingData = {
 
 export type OrderDetailShippingDataAddress = {
   __typename?: 'OrderDetailShippingDataAddress';
-  addressId?: Maybe<Scalars['String']>;
-  addressType?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  complement?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  geoCoordinates: Array<Scalars['Float']>;
-  neighborhood?: Maybe<Scalars['String']>;
-  number?: Maybe<Scalars['String']>;
-  postalCode?: Maybe<Scalars['String']>;
-  receiverName?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  street?: Maybe<Scalars['String']>;
+  addressId?: Maybe<Scalars['String']['output']>;
+  addressType?: Maybe<Scalars['String']['output']>;
+  city?: Maybe<Scalars['String']['output']>;
+  complement?: Maybe<Scalars['String']['output']>;
+  country?: Maybe<Scalars['String']['output']>;
+  geoCoordinates: Array<Scalars['Float']['output']>;
+  neighborhood?: Maybe<Scalars['String']['output']>;
+  number?: Maybe<Scalars['String']['output']>;
+  postalCode?: Maybe<Scalars['String']['output']>;
+  receiverName?: Maybe<Scalars['String']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  street?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderDetailTotalOutput = {
   __typename?: 'OrderDetailTotalOutput';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  value: Scalars['Int'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  value: Scalars['Int']['output'];
 };
 
 export type OrderOutput = {
   __typename?: 'OrderOutput';
-  ShippingEstimatedDateMax: Scalars['String'];
-  affiliateId: Scalars['String'];
-  clientName: Scalars['String'];
-  creationDate: Scalars['String'];
-  currencyCode: Scalars['String'];
-  lastMessageUnread: Scalars['String'];
-  orderFormId: Scalars['String'];
-  orderId: Scalars['String'];
-  origin: Scalars['String'];
-  paymentNames: Scalars['String'];
-  salesChannel: Scalars['String'];
-  sequence: Scalars['String'];
-  status: Scalars['String'];
-  statusDescription: Scalars['String'];
-  totalItems: Scalars['Int'];
-  totalValue: Scalars['Int'];
-  workflowInErrorState: Scalars['Boolean'];
-  workflowInRetry: Scalars['Boolean'];
+  ShippingEstimatedDateMax: Scalars['String']['output'];
+  affiliateId: Scalars['String']['output'];
+  clientName: Scalars['String']['output'];
+  creationDate: Scalars['String']['output'];
+  currencyCode: Scalars['String']['output'];
+  lastMessageUnread: Scalars['String']['output'];
+  orderFormId: Scalars['String']['output'];
+  orderId: Scalars['String']['output'];
+  origin: Scalars['String']['output'];
+  paymentNames: Scalars['String']['output'];
+  salesChannel: Scalars['String']['output'];
+  sequence: Scalars['String']['output'];
+  status: Scalars['String']['output'];
+  statusDescription: Scalars['String']['output'];
+  totalItems: Scalars['Int']['output'];
+  totalValue: Scalars['Int']['output'];
+  workflowInErrorState: Scalars['Boolean']['output'];
+  workflowInRetry: Scalars['Boolean']['output'];
 };
 
 export type OrderPaginationOutput = {
@@ -678,8 +711,12 @@ export type OrderPaginationOutput = {
 };
 
 export type OrderformAddCouponInput = {
-  coupon: Scalars['String'];
-  orderFormId: Scalars['String'];
+  coupon: Scalars['String']['input'];
+  orderFormId: Scalars['String']['input'];
+};
+
+export type OrderformAddItemGiftCardInfoInput = {
+  email: Scalars['String']['input'];
 };
 
 export type OrderformAddItemGiftCardInfoInput = {
@@ -688,264 +725,267 @@ export type OrderformAddItemGiftCardInfoInput = {
 
 export type OrderformAddItemInput = {
   giftCard?: InputMaybe<OrderformAddItemGiftCardInfoInput>;
-  id: Scalars['String'];
-  orderFormId: Scalars['String'];
-  quantity: Scalars['Int'];
-  seller: Scalars['String'];
+  id: Scalars['String']['input'];
+  orderFormId: Scalars['String']['input'];
+  quantity: Scalars['Int']['input'];
+  seller: Scalars['String']['input'];
 };
 
 export type OrderformAddressOutput = {
   __typename?: 'OrderformAddressOutput';
-  addressId?: Maybe<Scalars['String']>;
-  addressType?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  complement?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  geoCoordinates?: Maybe<Array<Scalars['Float']>>;
-  isDisposable: Scalars['Boolean'];
-  neighborhood?: Maybe<Scalars['String']>;
-  number?: Maybe<Scalars['String']>;
-  postalCode?: Maybe<Scalars['String']>;
-  receiverName?: Maybe<Scalars['String']>;
-  reference?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  street?: Maybe<Scalars['String']>;
+  addressId?: Maybe<Scalars['String']['output']>;
+  addressType?: Maybe<Scalars['String']['output']>;
+  city?: Maybe<Scalars['String']['output']>;
+  complement?: Maybe<Scalars['String']['output']>;
+  country?: Maybe<Scalars['String']['output']>;
+  geoCoordinates?: Maybe<Array<Scalars['Float']['output']>>;
+  isDisposable: Scalars['Boolean']['output'];
+  neighborhood?: Maybe<Scalars['String']['output']>;
+  number?: Maybe<Scalars['String']['output']>;
+  postalCode?: Maybe<Scalars['String']['output']>;
+  receiverName?: Maybe<Scalars['String']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  street?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderformAppTotalizersOutput = {
   __typename?: 'OrderformAppTotalizersOutput';
-  delivery: Scalars['Float'];
-  discount: Scalars['Float'];
-  items: Scalars['Float'];
-  total: Scalars['Float'];
+  delivery: Scalars['Float']['output'];
+  discount: Scalars['Float']['output'];
+  items: Scalars['Float']['output'];
+  total: Scalars['Float']['output'];
 };
 
 export type OrderformAttachClientByCookieInput = {
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformAttachClientByEmailInput = {
-  email: Scalars['String'];
-  orderFormId: Scalars['String'];
+  email: Scalars['String']['input'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformClientProfileDataOutput = {
   __typename?: 'OrderformClientProfileDataOutput';
-  corporateDocument?: Maybe<Scalars['String']>;
-  corporateName?: Maybe<Scalars['String']>;
-  corporatePhone?: Maybe<Scalars['String']>;
-  document?: Maybe<Scalars['String']>;
-  documentType?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  profileCompleteOnLoading?: Maybe<Scalars['String']>;
-  stateInscription?: Maybe<Scalars['String']>;
-  tradeName?: Maybe<Scalars['String']>;
+  corporateDocument?: Maybe<Scalars['String']['output']>;
+  corporateName?: Maybe<Scalars['String']['output']>;
+  corporatePhone?: Maybe<Scalars['String']['output']>;
+  document?: Maybe<Scalars['String']['output']>;
+  documentType?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  firstName?: Maybe<Scalars['String']['output']>;
+  lastName?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
+  profileCompleteOnLoading?: Maybe<Scalars['String']['output']>;
+  stateInscription?: Maybe<Scalars['String']['output']>;
+  tradeName?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderformGiftInput = {
   /** This is the offering id */
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
   /** Product index */
-  index: Scalars['Int'];
-  orderFormId: Scalars['String'];
+  index: Scalars['Int']['input'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformInput = {
-  orderFormId?: InputMaybe<Scalars['String']>;
+  orderFormId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type OrderformInstallmentInfoOutput = {
   __typename?: 'OrderformInstallmentInfoOutput';
-  installmentPrice: Scalars['Float'];
-  installmentsNumber: Scalars['Float'];
-  totalPrice: Scalars['Float'];
+  installmentPrice: Scalars['Float']['output'];
+  installmentsNumber: Scalars['Float']['output'];
+  totalPrice: Scalars['Float']['output'];
 };
 
 export type OrderformItemAdditionalInfoOutput = {
   __typename?: 'OrderformItemAdditionalInfoOutput';
-  brandName?: Maybe<Scalars['String']>;
+  brandName?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderformItemBundleItemOutput = {
   __typename?: 'OrderformItemBundleItemOutput';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  uniqueId: Scalars['ID'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  uniqueId: Scalars['ID']['output'];
 };
 
 export type OrderformItemOfferingAttachmentOutput = {
   __typename?: 'OrderformItemOfferingAttachmentOutput';
-  name: Scalars['String'];
-  required: Scalars['Boolean'];
+  name: Scalars['String']['output'];
+  required: Scalars['Boolean']['output'];
 };
 
 export type OrderformItemOfferingOutput = {
   __typename?: 'OrderformItemOfferingOutput';
-  allowGiftMessage: Scalars['Boolean'];
+  allowGiftMessage: Scalars['Boolean']['output'];
   attachmentOfferings: Array<OrderformItemOfferingAttachmentOutput>;
-  id: Scalars['String'];
-  name: Scalars['String'];
-  type: Scalars['String'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  type: Scalars['String']['output'];
 };
 
 export type OrderformItemOutput = {
   __typename?: 'OrderformItemOutput';
   additionalInfo?: Maybe<OrderformItemAdditionalInfoOutput>;
-  availability: Scalars['String'];
+  availability: Scalars['String']['output'];
   bundleItems: Array<OrderformItemBundleItemOutput>;
-  detailUrl?: Maybe<Scalars['String']>;
-  disableCounter: Scalars['Boolean'];
-  discountApi?: Maybe<Scalars['Float']>;
-  discountPercent: Scalars['Float'];
-  ean?: Maybe<Scalars['String']>;
-  giftOfferingId?: Maybe<Scalars['String']>;
-  hasPrimeDiscount: Scalars['Boolean'];
-  id: Scalars['String'];
-  imageSource: Scalars['String'];
-  imageUrl?: Maybe<Scalars['String']>;
-  isAddedAsGift: Scalars['Boolean'];
-  isAssinaturaSimples: Scalars['Boolean'];
-  isGift: Scalars['Boolean'];
-  isGiftable: Scalars['Boolean'];
-  isPrimeSubscription: Scalars['Boolean'];
-  itemColor: Scalars['String'];
-  itemSize: Scalars['String'];
-  key: Scalars['String'];
-  listPrice: Scalars['Int'];
-  measurementUnit: Scalars['String'];
-  name: Scalars['String'];
+  detailUrl?: Maybe<Scalars['String']['output']>;
+  disableCounter: Scalars['Boolean']['output'];
+  discountApi?: Maybe<Scalars['Float']['output']>;
+  discountPercent: Scalars['Float']['output'];
+  ean?: Maybe<Scalars['String']['output']>;
+  giftOfferingId?: Maybe<Scalars['String']['output']>;
+  hasPrimeDiscount: Scalars['Boolean']['output'];
+  id: Scalars['String']['output'];
+  imageSource: Scalars['String']['output'];
+  imageUrl?: Maybe<Scalars['String']['output']>;
+  isAddedAsGift: Scalars['Boolean']['output'];
+  isAssinaturaSimples: Scalars['Boolean']['output'];
+  isGift: Scalars['Boolean']['output'];
+  isGiftable: Scalars['Boolean']['output'];
+  isPrimeSubscription: Scalars['Boolean']['output'];
+  itemColor: Scalars['String']['output'];
+  itemSize: Scalars['String']['output'];
+  key: Scalars['String']['output'];
+  listPrice: Scalars['Int']['output'];
+  measurementUnit: Scalars['String']['output'];
+  name: Scalars['String']['output'];
   offerings: Array<OrderformItemOfferingOutput>;
-  price: Scalars['Int'];
-  priceValidUntil: Scalars['String'];
-  priceWithDiscount: Scalars['Float'];
-  productCategories: Array<Scalars['String']>;
-  productId: Scalars['String'];
-  productRefId?: Maybe<Scalars['String']>;
-  productTitle: Scalars['String'];
-  quantity: Scalars['Int'];
-  refId?: Maybe<Scalars['String']>;
-  rewardValue: Scalars['Int'];
-  seller: Scalars['String'];
-  sellingPrice: Scalars['Int'];
-  showFirstPurchaseDiscountMessage?: Maybe<Scalars['String']>;
-  showTotalDiscountFirstPurchaseValue?: Maybe<Scalars['Float']>;
-  skuName: Scalars['String'];
-  tax: Scalars['Int'];
-  uniqueId: Scalars['String'];
-  unitMultiplier: Scalars['Int'];
+  price: Scalars['Int']['output'];
+  priceValidUntil: Scalars['String']['output'];
+  priceWithDiscount: Scalars['Float']['output'];
+  productCategories: Array<Scalars['String']['output']>;
+  productId: Scalars['String']['output'];
+  productRefId?: Maybe<Scalars['String']['output']>;
+  productTitle: Scalars['String']['output'];
+  quantity: Scalars['Int']['output'];
+  refId?: Maybe<Scalars['String']['output']>;
+  rewardValue: Scalars['Int']['output'];
+  seller: Scalars['String']['output'];
+  sellingPrice: Scalars['Int']['output'];
+  showFirstPurchaseDiscountMessage?: Maybe<Scalars['String']['output']>;
+  showTotalDiscountFirstPurchaseValue?: Maybe<Scalars['Float']['output']>;
+  skuName: Scalars['String']['output'];
+  tax: Scalars['Int']['output'];
+  uniqueId: Scalars['String']['output'];
+  unitMultiplier: Scalars['Int']['output'];
 };
 
 export type OrderformMarketingDataOutput = {
   __typename?: 'OrderformMarketingDataOutput';
-  coupon?: Maybe<Scalars['String']>;
-  couponApplied?: Maybe<Scalars['Boolean']>;
-  couponDescription?: Maybe<Scalars['String']>;
-  couponDiscount: Scalars['Float'];
+  coupon?: Maybe<Scalars['String']['output']>;
+  couponApplied: Scalars['Boolean']['output'];
+  couponDescription?: Maybe<Scalars['String']['output']>;
+  couponDiscount: Scalars['Float']['output'];
   itemsWithCouponDiscount: Array<OrderformItemOutput>;
-  marketingTags: Array<Scalars['String']>;
-  sellerCoupon?: Maybe<Scalars['String']>;
-  sellerCouponApplied?: Maybe<Scalars['Boolean']>;
-  sellerCouponDiscount: Scalars['Float'];
-  sellerCouponName?: Maybe<Scalars['String']>;
-  utmCampaign?: Maybe<Scalars['String']>;
-  utmMedium?: Maybe<Scalars['String']>;
-  utmSource?: Maybe<Scalars['String']>;
-  utmiCampaign?: Maybe<Scalars['String']>;
-  utmiPart?: Maybe<Scalars['String']>;
-  utmipage?: Maybe<Scalars['String']>;
+  itemsWithProgressiveDiscount: Array<OrderformItemOutput>;
+  marketingTags: Array<Scalars['String']['output']>;
+  progressiveDiscount: Scalars['Float']['output'];
+  progressiveDiscountApplied: Scalars['Boolean']['output'];
+  sellerCoupon?: Maybe<Scalars['String']['output']>;
+  sellerCouponApplied: Scalars['Boolean']['output'];
+  sellerCouponDiscount: Scalars['Float']['output'];
+  sellerCouponName?: Maybe<Scalars['String']['output']>;
+  utmCampaign?: Maybe<Scalars['String']['output']>;
+  utmMedium?: Maybe<Scalars['String']['output']>;
+  utmSource?: Maybe<Scalars['String']['output']>;
+  utmiCampaign?: Maybe<Scalars['String']['output']>;
+  utmiPart?: Maybe<Scalars['String']['output']>;
+  utmipage?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderformMessageOutput = {
   __typename?: 'OrderformMessageOutput';
-  code?: Maybe<Scalars['String']>;
-  status?: Maybe<Scalars['String']>;
-  text?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  text?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderformOutput = {
   __typename?: 'OrderformOutput';
-  allItemsQuantity: Scalars['Int'];
+  allItemsQuantity: Scalars['Int']['output'];
   appTotalizers: OrderformAppTotalizersOutput;
   clientProfileData?: Maybe<OrderformClientProfileDataOutput>;
-  hasPrimeSubscriptionInCart: Scalars['Boolean'];
+  hasPrimeSubscriptionInCart: Scalars['Boolean']['output'];
   installmentInfo: OrderformInstallmentInfoOutput;
   items: Array<OrderformItemOutput>;
   marketingData?: Maybe<OrderformMarketingDataOutput>;
-  messages: Array<Scalars['String']>;
+  messages: Array<Scalars['String']['output']>;
   messagesDetailed: Array<OrderformMessageOutput>;
-  orderFormId: Scalars['ID'];
-  salesChannel: Scalars['String'];
+  orderFormId: Scalars['ID']['output'];
+  salesChannel: Scalars['String']['output'];
   selectableGift?: Maybe<OrderformSelectableGiftOutput>;
   shippingData?: Maybe<OrderformShippingDataOutput>;
 };
 
 export type OrderformRefreshDataInput = {
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformRemoveCouponInput = {
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformRemoveUnavailableItemsInput = {
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformResetInput = {
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformSelectAddressInput = {
-  addressId: Scalars['String'];
-  orderFormId: Scalars['String'];
+  addressId: Scalars['String']['input'];
+  orderFormId: Scalars['String']['input'];
 };
 
 export type OrderformSelectableGiftAvailableGiftOutput = {
   __typename?: 'OrderformSelectableGiftAvailableGiftOutput';
-  availability: Scalars['String'];
-  detailUrl: Scalars['String'];
-  ean: Scalars['String'];
-  id: Scalars['String'];
-  imageUrl?: Maybe<Scalars['String']>;
-  isGift?: Maybe<Scalars['Boolean']>;
-  isSelected: Scalars['Boolean'];
-  measurementUnit: Scalars['String'];
-  name: Scalars['String'];
-  productId: Scalars['String'];
-  productRefId: Scalars['String'];
-  refId: Scalars['String'];
-  rewardValue?: Maybe<Scalars['Float']>;
-  seller: Scalars['String'];
-  skuName: Scalars['String'];
-  tax?: Maybe<Scalars['Float']>;
-  uniqueId: Scalars['String'];
-  unitMultiplier: Scalars['Float'];
+  availability: Scalars['String']['output'];
+  detailUrl: Scalars['String']['output'];
+  ean: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  imageUrl?: Maybe<Scalars['String']['output']>;
+  isGift?: Maybe<Scalars['Boolean']['output']>;
+  isSelected: Scalars['Boolean']['output'];
+  measurementUnit: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  productId: Scalars['String']['output'];
+  productRefId: Scalars['String']['output'];
+  refId: Scalars['String']['output'];
+  rewardValue?: Maybe<Scalars['Float']['output']>;
+  seller: Scalars['String']['output'];
+  skuName: Scalars['String']['output'];
+  tax?: Maybe<Scalars['Float']['output']>;
+  uniqueId: Scalars['String']['output'];
+  unitMultiplier: Scalars['Float']['output'];
 };
 
 export type OrderformSelectableGiftOptionOutput = {
   __typename?: 'OrderformSelectableGiftOptionOutput';
-  color: Scalars['String'];
-  id: Scalars['ID'];
-  size: Scalars['String'];
+  color: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  size: Scalars['String']['output'];
 };
 
 export type OrderformSelectableGiftOutput = {
   __typename?: 'OrderformSelectableGiftOutput';
   availableGifts: Array<OrderformSelectableGiftAvailableGiftOutput>;
-  availableQuantity?: Maybe<Scalars['Int']>;
+  availableQuantity?: Maybe<Scalars['Int']['output']>;
   currentSelectableGift: OrderformSelectableGiftAvailableGiftOutput;
   giftOptions: Array<Maybe<OrderformSelectableGiftOptionOutput>>;
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
 };
 
 export type OrderformSetGiftSizeInput = {
-  giftId: Scalars['String'];
-  id: Scalars['String'];
-  orderFormId: Scalars['String'];
-  seller: Scalars['String'];
+  giftId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+  orderFormId: Scalars['String']['input'];
+  seller: Scalars['String']['input'];
 };
 
 export type OrderformShippingDataOutput = {
@@ -957,103 +997,119 @@ export type OrderformShippingDataOutput = {
 };
 
 export type OrderformUpdateItemInput = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
   /** Must be used if you want to set the remove the item from cart */
-  index?: InputMaybe<Scalars['Int']>;
-  orderFormId: Scalars['String'];
-  quantity: Scalars['Int'];
-  seller: Scalars['String'];
+  index?: InputMaybe<Scalars['Int']['input']>;
+  orderFormId: Scalars['String']['input'];
+  quantity: Scalars['Int']['input'];
+  seller: Scalars['String']['input'];
 };
 
 export type PaginationDetailOutput = {
   __typename?: 'PaginationDetailOutput';
-  currentPage: Scalars['Int'];
-  pages: Scalars['Int'];
-  perPage: Scalars['Int'];
-  total: Scalars['Int'];
+  currentPage: Scalars['Int']['output'];
+  pages: Scalars['Int']['output'];
+  perPage: Scalars['Int']['output'];
+  total: Scalars['Int']['output'];
 };
 
 export type PaginationInput = {
-  page: Scalars['Int'];
+  page: Scalars['Int']['input'];
 };
 
 export type PrimeConfigItemOutput = {
   __typename?: 'PrimeConfigItemOutput';
-  id: Scalars['String'];
-  name: Scalars['String'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type PrimeConfigOutput = {
   __typename?: 'PrimeConfigOutput';
   brands: Array<PrimeConfigItemOutput>;
-  brandsAreInclusive: Scalars['Boolean'];
+  brandsAreInclusive: Scalars['Boolean']['output'];
   categories: Array<PrimeConfigItemOutput>;
-  categoriesAreInclusive: Scalars['Boolean'];
+  categoriesAreInclusive: Scalars['Boolean']['output'];
   collections: Array<PrimeConfigItemOutput>;
-  collectionsIsInclusive: Scalars['Boolean'];
-  idCalculatorConfiguration: Scalars['String'];
-  idSeller: Scalars['String'];
-  idSellerIsInclusive: Scalars['Boolean'];
-  isActive: Scalars['Boolean'];
+  collectionsIsInclusive: Scalars['Boolean']['output'];
+  idCalculatorConfiguration: Scalars['String']['output'];
+  idSeller: Scalars['String']['output'];
+  idSellerIsInclusive: Scalars['Boolean']['output'];
+  isActive: Scalars['Boolean']['output'];
   marketingTags: Array<PrimeConfigItemOutput>;
-  name: Scalars['String'];
-  percentualDiscountValue: Scalars['Int'];
-  totalValueCeling: Scalars['Int'];
-  totalValueFloor: Scalars['Int'];
+  name: Scalars['String']['output'];
+  percentualDiscountValue: Scalars['Int']['output'];
+  totalValueCeling: Scalars['Int']['output'];
+  totalValueFloor: Scalars['Int']['output'];
 };
 
 export type PrimeDetailOutput = {
   __typename?: 'PrimeDetailOutput';
-  discountFrom: Scalars['Float'];
-  discountPercentage: Scalars['Int'];
-  installmentPrice: Scalars['Float'];
-  installmentQty: Scalars['Int'];
-  monthlyCashback: Scalars['Float'];
-  productId: Scalars['Int'];
-  productSeller: Scalars['String'];
-  skuId: Scalars['Int'];
+  discountFrom: Scalars['Float']['output'];
+  discountPercentage: Scalars['Int']['output'];
+  installmentPrice: Scalars['Float']['output'];
+  installmentQty: Scalars['Int']['output'];
+  monthlyCashback: Scalars['Float']['output'];
+  productId: Scalars['Int']['output'];
+  productSeller: Scalars['String']['output'];
+  skuId: Scalars['Int']['output'];
 };
 
 export type PrimeFaqOutput = {
   __typename?: 'PrimeFaqOutput';
-  body: Scalars['String'];
-  id: Scalars['ID'];
-  title: Scalars['String'];
+  body: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  title: Scalars['String']['output'];
 };
 
 export type PrimeInfoOutput = {
   __typename?: 'PrimeInfoOutput';
   installment: ProductPriceInstallmentOutput;
-  price: Scalars['Float'];
+  price: Scalars['Float']['output'];
 };
 
 export type ProductColorOutput = {
   __typename?: 'ProductColorOutput';
-  colorId: Scalars['String'];
-  colorName?: Maybe<Scalars['String']>;
-  colorUrl: Scalars['String'];
-  disabled: Scalars['Boolean'];
-  images: Array<Scalars['String']>;
+  colorId: Scalars['String']['output'];
+  colorName?: Maybe<Scalars['String']['output']>;
+  colorUrl: Scalars['String']['output'];
+  disabled: Scalars['Boolean']['output'];
+  images: Array<Scalars['String']['output']>;
   sizes: Array<ProductSizeOutput>;
 };
 
 export type ProductColorUrlOutput = {
   __typename?: 'ProductColorUrlOutput';
-  id: Scalars['ID'];
-  url: Scalars['String'];
+  id: Scalars['ID']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type ProductDeliveryTimeOutput = {
   __typename?: 'ProductDeliveryTimeOutput';
-  estimatedDay?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  price: Scalars['Float'];
+  estimatedDay?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  price: Scalars['Float']['output'];
 };
 
 export type ProductFacetOutput = {
   __typename?: 'ProductFacetOutput';
-  key: Scalars['String'];
-  value: Scalars['String'];
+  key: Scalars['String']['output'];
+  value: Scalars['String']['output'];
+};
+
+export type ProductGiftCardOptionOutput = {
+  __typename?: 'ProductGiftCardOptionOutput';
+  ean: Scalars['String']['output'];
+  images: Array<Scalars['String']['output']>;
+  itemId: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  seller: Scalars['String']['output'];
+};
+
+export type ProductGiftCardOutput = {
+  __typename?: 'ProductGiftCardOutput';
+  howItWorks: Scalars['String']['output'];
+  options: Array<ProductGiftCardOptionOutput>;
+  terms: Scalars['String']['output'];
 };
 
 export type ProductGiftCardOptionOutput = {
@@ -1074,113 +1130,113 @@ export type ProductGiftCardOutput = {
 
 export type ProductInput = {
   /** Initial selected color */
-  colorId?: InputMaybe<Scalars['String']>;
+  colorId?: InputMaybe<Scalars['String']['input']>;
   /** Initial selected variant ID */
-  itemId?: InputMaybe<Scalars['String']>;
+  itemId?: InputMaybe<Scalars['String']['input']>;
   type: GetProductTypeEnum;
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 export type ProductItemOutput = {
   __typename?: 'ProductItemOutput';
-  images: Array<Scalars['String']>;
-  itemId?: Maybe<Scalars['String']>;
+  images: Array<Scalars['String']['output']>;
+  itemId?: Maybe<Scalars['String']['output']>;
   sellers: Array<ProductItemSellerOutput>;
-  skuName?: Maybe<Scalars['String']>;
+  skuName?: Maybe<Scalars['String']['output']>;
   variations: Array<ProductItemVariationOutput>;
 };
 
 export type ProductItemSellerCommertialOfferInstallmentOutput = {
   __typename?: 'ProductItemSellerCommertialOfferInstallmentOutput';
-  numberOfInstallments: Scalars['Float'];
-  totalValuePlusInterestRate: Scalars['Float'];
-  value: Scalars['Float'];
+  numberOfInstallments: Scalars['Float']['output'];
+  totalValuePlusInterestRate: Scalars['Float']['output'];
+  value: Scalars['Float']['output'];
 };
 
 export type ProductItemSellerCommertialOfferOutput = {
   __typename?: 'ProductItemSellerCommertialOfferOutput';
-  availableQuantity: Scalars['Float'];
+  availableQuantity: Scalars['Float']['output'];
   installments: Array<ProductItemSellerCommertialOfferInstallmentOutput>;
-  listPrice: Scalars['Float'];
-  price: Scalars['Float'];
-  priceWithoutDiscount: Scalars['Float'];
-  spotPrice: Scalars['Float'];
-  tax: Scalars['Float'];
-  taxPercentage: Scalars['Float'];
+  listPrice: Scalars['Float']['output'];
+  price: Scalars['Float']['output'];
+  priceWithoutDiscount: Scalars['Float']['output'];
+  spotPrice: Scalars['Float']['output'];
+  tax: Scalars['Float']['output'];
+  taxPercentage: Scalars['Float']['output'];
 };
 
 export type ProductItemSellerOutput = {
   __typename?: 'ProductItemSellerOutput';
   commertialOffer?: Maybe<ProductItemSellerCommertialOfferOutput>;
-  sellerDefault?: Maybe<Scalars['Boolean']>;
-  sellerId?: Maybe<Scalars['String']>;
+  sellerDefault?: Maybe<Scalars['Boolean']['output']>;
+  sellerId?: Maybe<Scalars['String']['output']>;
 };
 
 export type ProductItemVariationOutput = {
   __typename?: 'ProductItemVariationOutput';
-  name?: Maybe<Scalars['String']>;
-  originalName?: Maybe<Scalars['String']>;
-  values?: Maybe<Array<Scalars['String']>>;
+  name?: Maybe<Scalars['String']['output']>;
+  originalName?: Maybe<Scalars['String']['output']>;
+  values?: Maybe<Array<Scalars['String']['output']>>;
 };
 
 export type ProductListOutput = {
   __typename?: 'ProductListOutput';
-  brand: Scalars['String'];
-  category?: Maybe<Scalars['String']>;
-  colorName?: Maybe<Scalars['String']>;
-  colors?: Maybe<Array<Scalars['String']>>;
-  currentPrice: Scalars['Float'];
-  discountPercentage: Scalars['Float'];
-  hasDiscount: Scalars['Boolean'];
-  image: Scalars['String'];
+  brand: Scalars['String']['output'];
+  category?: Maybe<Scalars['String']['output']>;
+  colorName?: Maybe<Scalars['String']['output']>;
+  colors?: Maybe<Array<Scalars['String']['output']>>;
+  currentPrice: Scalars['Float']['output'];
+  discountPercentage: Scalars['Float']['output'];
+  hasDiscount: Scalars['Boolean']['output'];
+  image: Scalars['String']['output'];
   installment: ProductPriceInstallmentOutput;
   installmentEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
-  listPrice: Scalars['Float'];
+  listPrice: Scalars['Float']['output'];
   prime?: Maybe<ProductListPrimeOutput>;
-  productId: Scalars['String'];
-  productName: Scalars['String'];
-  size?: Maybe<Scalars['String']>;
-  skuId: Scalars['String'];
-  skuName: Scalars['String'];
+  productId: Scalars['String']['output'];
+  productName: Scalars['String']['output'];
+  size?: Maybe<Scalars['String']['output']>;
+  skuId: Scalars['String']['output'];
+  skuName: Scalars['String']['output'];
 };
 
 export type ProductListPrimeOutput = {
   __typename?: 'ProductListPrimeOutput';
   installment: ProductPriceInstallmentOutput;
-  price: Scalars['Float'];
+  price: Scalars['Float']['output'];
 };
 
 export type ProductOutput = {
   __typename?: 'ProductOutput';
   action: ProductResultActionEnum;
-  categoryTree: Array<Scalars['String']>;
+  categoryTree: Array<Scalars['String']['output']>;
   colorUrls: Array<ProductColorUrlOutput>;
   colors: Array<ProductColorOutput>;
-  disabledColors: Array<Scalars['String']>;
+  disabledColors: Array<Scalars['String']['output']>;
   giftCard?: Maybe<ProductGiftCardOutput>;
   initialColor?: Maybe<ProductColorOutput>;
-  initialColorId?: Maybe<Scalars['String']>;
+  initialColorId?: Maybe<Scalars['String']['output']>;
   initialSize?: Maybe<ProductSizeOutput>;
-  initialSizeId?: Maybe<Scalars['String']>;
+  initialSizeId?: Maybe<Scalars['String']['output']>;
   priceRange?: Maybe<ProductPriceRangeOutput>;
-  productId: Scalars['ID'];
-  productName: Scalars['String'];
+  productId: Scalars['ID']['output'];
+  productName: Scalars['String']['output'];
   properties: ProductPropertiesOutput;
-  saleOff: Scalars['Boolean'];
+  saleOff: Scalars['Boolean']['output'];
   share: ProductShareOutput;
-  videoThumbnail?: Maybe<Scalars['String']>;
+  videoThumbnail?: Maybe<Scalars['String']['output']>;
 };
 
 export type ProductPriceInstallmentOutput = {
   __typename?: 'ProductPriceInstallmentOutput';
-  number: Scalars['Float'];
-  value: Scalars['Float'];
+  number: Scalars['Float']['output'];
+  value: Scalars['Float']['output'];
 };
 
 export type ProductPriceLevelOutput = {
   __typename?: 'ProductPriceLevelOutput';
-  highPrice: Scalars['Float'];
-  lowPrice: Scalars['Float'];
+  highPrice: Scalars['Float']['output'];
+  lowPrice: Scalars['Float']['output'];
 };
 
 export type ProductPriceRangeOutput = {
@@ -1191,18 +1247,18 @@ export type ProductPriceRangeOutput = {
 
 export type ProductPropertiesOutput = {
   __typename?: 'ProductPropertiesOutput';
-  composition?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  isAssinaturaSimples?: Maybe<Scalars['Boolean']>;
+  composition?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  isAssinaturaSimples?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ProductRecommendationOutput = {
   __typename?: 'ProductRecommendationOutput';
-  categoryTree?: Maybe<Array<Scalars['String']>>;
+  categoryTree?: Maybe<Array<Scalars['String']['output']>>;
   items: Array<ProductItemOutput>;
   priceRange: ProductPriceRangeOutput;
-  productId: Scalars['String'];
-  productName: Scalars['String'];
+  productId: Scalars['String']['output'];
+  productName: Scalars['String']['output'];
 };
 
 export enum ProductResultActionEnum {
@@ -1213,98 +1269,98 @@ export enum ProductResultActionEnum {
 
 export type ProductShareOutput = {
   __typename?: 'ProductShareOutput';
-  message: Scalars['String'];
-  title: Scalars['String'];
-  url: Scalars['String'];
+  message: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type ProductSizeInstallmentOutput = {
   __typename?: 'ProductSizeInstallmentOutput';
-  number: Scalars['Int'];
-  value: Scalars['Float'];
+  number: Scalars['Int']['output'];
+  value: Scalars['Float']['output'];
 };
 
 export type ProductSizeOutput = {
   __typename?: 'ProductSizeOutput';
-  availableQuantity: Scalars['Int'];
+  availableQuantity: Scalars['Int']['output'];
   /** Final price (if discount exists, it's already applied) */
-  currentPrice: Scalars['Float'];
-  disabled: Scalars['Boolean'];
-  discountPercent: Scalars['Float'];
-  ean: Scalars['String'];
-  hasDiscount: Scalars['Boolean'];
+  currentPrice: Scalars['Float']['output'];
+  disabled: Scalars['Boolean']['output'];
+  discountPercent: Scalars['Float']['output'];
+  ean: Scalars['String']['output'];
+  hasDiscount: Scalars['Boolean']['output'];
   installment: ProductSizeInstallmentOutput;
   installmentEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
-  itemId: Scalars['ID'];
+  itemId: Scalars['ID']['output'];
   /** Price without discount (original price) - may be null if the original price is equal to current price */
-  listPrice: Scalars['Float'];
+  listPrice: Scalars['Float']['output'];
   prime?: Maybe<PrimeInfoOutput>;
-  seller: Scalars['String'];
-  size: Scalars['String'];
-  skuName: Scalars['String'];
+  seller: Scalars['String']['output'];
+  size: Scalars['String']['output'];
+  skuName: Scalars['String']['output'];
 };
 
 export type ProfileAddressOutput = {
   __typename?: 'ProfileAddressOutput';
-  addressName?: Maybe<Scalars['String']>;
-  addressType?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  complement?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  neighborhood?: Maybe<Scalars['String']>;
-  number?: Maybe<Scalars['String']>;
-  postalCode?: Maybe<Scalars['String']>;
-  receiverName?: Maybe<Scalars['String']>;
-  reference?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  street?: Maybe<Scalars['String']>;
+  addressName?: Maybe<Scalars['String']['output']>;
+  addressType?: Maybe<Scalars['String']['output']>;
+  city?: Maybe<Scalars['String']['output']>;
+  complement?: Maybe<Scalars['String']['output']>;
+  country?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  neighborhood?: Maybe<Scalars['String']['output']>;
+  number?: Maybe<Scalars['String']['output']>;
+  postalCode?: Maybe<Scalars['String']['output']>;
+  receiverName?: Maybe<Scalars['String']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  street?: Maybe<Scalars['String']['output']>;
 };
 
 export type ProfileCustomFieldOutput = {
   __typename?: 'ProfileCustomFieldOutput';
-  cacheId?: Maybe<Scalars['String']>;
-  key?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
+  cacheId?: Maybe<Scalars['String']['output']>;
+  key?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
 };
 
 export type ProfileOutput = {
   __typename?: 'ProfileOutput';
   addresses: Array<Maybe<ProfileAddressOutput>>;
-  authCookie?: Maybe<Scalars['String']>;
-  birthDate?: Maybe<Scalars['String']>;
+  authCookie?: Maybe<Scalars['String']['output']>;
+  birthDate?: Maybe<Scalars['String']['output']>;
   customFields: Array<Maybe<ProfileCustomFieldOutput>>;
-  document?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
-  firstName?: Maybe<Scalars['String']>;
-  gender?: Maybe<Scalars['String']>;
-  homePhone?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  isComplete: Scalars['Boolean'];
-  isPrime: Scalars['Boolean'];
-  lastName?: Maybe<Scalars['String']>;
+  document?: Maybe<Scalars['String']['output']>;
+  email: Scalars['String']['output'];
+  firstName?: Maybe<Scalars['String']['output']>;
+  gender?: Maybe<Scalars['String']['output']>;
+  homePhone?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  isComplete: Scalars['Boolean']['output'];
+  isPrime: Scalars['Boolean']['output'];
+  lastName?: Maybe<Scalars['String']['output']>;
   payments: Array<Maybe<ProfilePaymentOutput>>;
 };
 
 export type ProfilePaymentOutput = {
   __typename?: 'ProfilePaymentOutput';
-  cardNumber?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
+  cardNumber?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
 };
 
 export type ProfileUpdateCustomFieldInput = {
-  key: Scalars['String'];
-  value?: InputMaybe<Scalars['String']>;
+  key: Scalars['String']['input'];
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProfileUpdateInput = {
-  birthDate: Scalars['String'];
+  birthDate: Scalars['String']['input'];
   customFields: Array<ProfileUpdateCustomFieldInput>;
-  document: Scalars['String'];
-  firstName: Scalars['String'];
-  gender: Scalars['String'];
-  homePhone: Scalars['String'];
-  lastName: Scalars['String'];
+  document: Scalars['String']['input'];
+  firstName: Scalars['String']['input'];
+  gender: Scalars['String']['input'];
+  homePhone: Scalars['String']['input'];
+  lastName: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -1313,9 +1369,9 @@ export type Query = {
   bannerCategory: Array<BannerCategoryOutput>;
   cashback: CashbackOutput;
   cep?: Maybe<CepOutput>;
-  checkIfUserExists: Scalars['Boolean'];
+  checkIfUserExists: Scalars['Boolean']['output'];
   /** @deprecated Use new query `search` */
-  checkSearchRedirect?: Maybe<Scalars['String']>;
+  checkSearchRedirect?: Maybe<Scalars['String']['output']>;
   config?: Maybe<ConfigOutput>;
   contentfulCategories: Array<ContentfulCategoryOutput>;
   contentfulCategory: ContentfulCategoryDetailOutput;
@@ -1327,9 +1383,10 @@ export type Query = {
   homeCarousels: Array<HomeCarouselOutput>;
   homeCountdown?: Maybe<HomeCountdownOutput>;
   homeMedias: Array<HomeMediaOutput>;
+  invoiceKey?: Maybe<InvoiceKeyOutput>;
   landingPagePrime: PrimeDetailOutput;
-  mktinStatus: Scalars['Boolean'];
-  mostSearchedWords: Array<Scalars['String']>;
+  mktinStatus: Scalars['Boolean']['output'];
+  mostSearchedWords: Array<Scalars['String']['output']>;
   order: OrderDetailOutput;
   orderForm: OrderformOutput;
   orders: OrderPaginationOutput;
@@ -1341,13 +1398,14 @@ export type Query = {
   profile: ProfileOutput;
   ronRedirect?: Maybe<RonRedirectOutput>;
   search: SearchOutput;
-  searchAutocompleteSuggestions: Array<Scalars['String']>;
+  searchAutocompleteSuggestions: Array<Scalars['String']['output']>;
   searchFacets: SearchFacetOutput;
   searchNews: Array<SearchNewsOutput>;
   sellerInfo?: Maybe<SellerInfoOutput>;
-  sellersMktin: Array<Scalars['String']>;
+  sellersMktin: Array<Scalars['String']['output']>;
+  trackingCode?: Maybe<TrackingCodeOutput>;
   updateInApp?: Maybe<UpdateInAppOutput>;
-  wishlist: Array<Scalars['String']>;
+  wishlist: Array<Scalars['String']['output']>;
   wishlistCheckProduct: WishlistCheckOutput;
 };
 
@@ -1368,27 +1426,27 @@ export type QueryCheckIfUserExistsArgs = {
 
 
 export type QueryCheckSearchRedirectArgs = {
-  q: Scalars['String'];
+  q: Scalars['String']['input'];
 };
 
 
 export type QueryContentfulCategoriesArgs = {
-  searchKey: Scalars['String'];
+  searchKey: Scalars['String']['input'];
 };
 
 
 export type QueryContentfulCategoryArgs = {
-  categoryId: Scalars['String'];
+  categoryId: Scalars['String']['input'];
 };
 
 
 export type QueryContentfulCollectionsArgs = {
-  searchKey: Scalars['String'];
+  searchKey: Scalars['String']['input'];
 };
 
 
 export type QueryContentfulProductsArgs = {
-  q: Scalars['String'];
+  q: Scalars['String']['input'];
 };
 
 
@@ -1399,6 +1457,11 @@ export type QueryCountdownArgs = {
 
 export type QueryDeeplinkPathArgs = {
   input: DeeplinkPathInput;
+};
+
+
+export type QueryInvoiceKeyArgs = {
+  input: InvoiceKeyInput;
 };
 
 
@@ -1444,7 +1507,7 @@ export type QuerySearchArgs = {
 
 export type QuerySearchAutocompleteSuggestionsArgs = {
   provider?: InputMaybe<SearchProviderInput>;
-  q: Scalars['String'];
+  q: Scalars['String']['input'];
 };
 
 
@@ -1458,45 +1521,50 @@ export type QuerySellerInfoArgs = {
 };
 
 
+export type QueryTrackingCodeArgs = {
+  input: TrackingCodeInput;
+};
+
+
 export type QueryWishlistCheckProductArgs = {
   input: WishlistCheckProductInput;
 };
 
 export type RedefineVtexPasswordInput = {
-  currentPassword: Scalars['String'];
-  newPassword: Scalars['String'];
+  currentPassword: Scalars['String']['input'];
+  newPassword: Scalars['String']['input'];
 };
 
 export type RemoveProfileAddressInput = {
-  addressId: Scalars['String'];
+  addressId: Scalars['String']['input'];
 };
 
 export type RequestCodeOutput = {
   __typename?: 'RequestCodeOutput';
-  cookies: Array<Scalars['String']>;
-  ok: Scalars['Boolean'];
+  cookies: Array<Scalars['String']['output']>;
+  ok: Scalars['Boolean']['output'];
 };
 
 export type RequestVerificationCodeInput = {
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
 };
 
 export type ResetVtexPasswordInput = {
-  code: Scalars['String'];
-  cookies: Array<Scalars['String']>;
-  email: Scalars['String'];
-  password: Scalars['String'];
+  code: Scalars['String']['input'];
+  cookies: Array<Scalars['String']['input']>;
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type RonRedirectInput = {
-  code: Scalars['String'];
+  code: Scalars['String']['input'];
 };
 
 export type RonRedirectOutput = {
   __typename?: 'RonRedirectOutput';
-  orderFormId?: Maybe<Scalars['String']>;
+  orderFormId?: Maybe<Scalars['String']['output']>;
   type: RonRedirectTypeEnum;
-  url?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']['output']>;
 };
 
 export enum RonRedirectTypeEnum {
@@ -1508,17 +1576,17 @@ export enum RonRedirectTypeEnum {
 
 export type SearchFacetColorItemOutput = {
   __typename?: 'SearchFacetColorItemOutput';
-  hex: Scalars['String'];
-  key: Scalars['String'];
-  name: Scalars['String'];
-  value: Scalars['String'];
+  hex: Scalars['String']['output'];
+  key: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 export type SearchFacetItemOutput = {
   __typename?: 'SearchFacetItemOutput';
-  key: Scalars['String'];
-  name: Scalars['String'];
-  value: Scalars['String'];
+  key: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 export type SearchFacetOutput = {
@@ -1531,22 +1599,22 @@ export type SearchFacetOutput = {
 
 export type SearchFacetRangeOutput = {
   __typename?: 'SearchFacetRangeOutput';
-  from: Scalars['Float'];
-  to: Scalars['Float'];
+  from: Scalars['Float']['output'];
+  to: Scalars['Float']['output'];
 };
 
 export type SearchFacetsInput = {
   facets?: InputMaybe<Array<SearchProductFacetInput>>;
   provider?: InputMaybe<SearchProviderEnum>;
-  q?: InputMaybe<Scalars['String']>;
+  q?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SearchNewsOutput = {
   __typename?: 'SearchNewsOutput';
   facets: Array<ProductFacetOutput>;
-  image: Scalars['String'];
-  orderBy?: Maybe<Scalars['String']>;
-  referenceId: Scalars['String'];
+  image: Scalars['String']['output'];
+  orderBy?: Maybe<Scalars['String']['output']>;
+  referenceId: Scalars['String']['output'];
 };
 
 export enum SearchOrderByEnum {
@@ -1562,29 +1630,29 @@ export enum SearchOrderByEnum {
 
 export type SearchOutput = {
   __typename?: 'SearchOutput';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   items: Array<ProductListOutput>;
-  redirect?: Maybe<Scalars['String']>;
+  redirect?: Maybe<Scalars['String']['output']>;
 };
 
 export type SearchProductFacetInput = {
-  key: Scalars['String'];
-  value: Scalars['String'];
+  key: Scalars['String']['input'];
+  value: Scalars['String']['input'];
 };
 
 export type SearchProductInput = {
   facets: Array<SearchProductFacetInput>;
   orderBy?: InputMaybe<SearchOrderByEnum>;
-  page: Scalars['Int'];
-  perPage?: InputMaybe<Scalars['Int']>;
+  page: Scalars['Int']['input'];
+  perPage?: InputMaybe<Scalars['Int']['input']>;
   priceRange?: InputMaybe<SearchProductPriceRangeInput>;
   provider?: InputMaybe<SearchProviderEnum>;
-  q?: InputMaybe<Scalars['String']>;
+  q?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SearchProductPriceRangeInput = {
-  from: Scalars['Float'];
-  to: Scalars['Float'];
+  from: Scalars['Float']['input'];
+  to: Scalars['Float']['input'];
 };
 
 export enum SearchProviderEnum {
@@ -1597,30 +1665,30 @@ export type SearchProviderInput = {
 };
 
 export type SellerInfoInput = {
-  sellerId: Scalars['String'];
+  sellerId: Scalars['String']['input'];
 };
 
 export type SellerInfoOutput = {
   __typename?: 'SellerInfoOutput';
-  bannerMobile?: Maybe<Scalars['String']>;
-  linkApp?: Maybe<Scalars['String']>;
-  logo?: Maybe<Scalars['String']>;
-  sellerId: Scalars['ID'];
-  sellerName?: Maybe<Scalars['String']>;
-  texto?: Maybe<Scalars['String']>;
+  bannerMobile?: Maybe<Scalars['String']['output']>;
+  linkApp?: Maybe<Scalars['String']['output']>;
+  logo?: Maybe<Scalars['String']['output']>;
+  sellerId: Scalars['ID']['output'];
+  sellerName?: Maybe<Scalars['String']['output']>;
+  texto?: Maybe<Scalars['String']['output']>;
 };
 
 export type SendLeadInput = {
-  email: Scalars['String'];
-  idCampanha: Scalars['String'];
-  name: Scalars['String'];
-  phone: Scalars['String'];
+  email: Scalars['String']['input'];
+  idCampanha: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  phone: Scalars['String']['input'];
 };
 
 export type SignInInput = {
-  email: Scalars['String'];
-  isNewUser?: InputMaybe<Scalars['Boolean']>;
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  isNewUser?: InputMaybe<Scalars['Boolean']['input']>;
+  password: Scalars['String']['input'];
 };
 
 export enum SignUpDocumentTypeEnum {
@@ -1629,62 +1697,139 @@ export enum SignUpDocumentTypeEnum {
 }
 
 export type SignUpUserInput = {
-  code: Scalars['String'];
-  cookies: Array<Scalars['String']>;
-  document?: InputMaybe<Scalars['String']>;
+  code: Scalars['String']['input'];
+  cookies: Array<Scalars['String']['input']>;
+  document?: InputMaybe<Scalars['String']['input']>;
   documentType?: InputMaybe<SignUpDocumentTypeEnum>;
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
+export enum SmarthintPageTypeEnum {
+  Cart = 'cart',
+  Category = 'category',
+  Checkout = 'checkout',
+  Emptycart = 'emptycart',
+  Home = 'home',
+  Notfound = 'notfound',
+  Other = 'other',
+  Product = 'product',
+  Search = 'search',
+  SearchWithResult = 'searchWithResult'
+}
+
 export type SubscribeNewsletterInput = {
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
+};
+
+export type TrackClickInput = {
+  /** In this field, it should be indicated in which SmartHint feature the product was clicked. The field can have the value 'search' when clicked within a search or the value of the 'nameRecommendation' field if the click occurs within a SmartHint recommendation showcase. */
+  clickFeature?: InputMaybe<Scalars['String']['input']>;
+  /** In this field, the position of the Recommendation where the product was clicked should be provided. The position should be the same as indicated in the return of the Recommendation by Page call, where values can vary from 1 to 5 */
+  locationRecs: Scalars['Int']['input'];
+  /** Page Identifier from which the Buyer is coming, the Source of it until reaching the current page/screen. (e.g. collection:1427, product:1924, home, checkout, bag, etc.) */
+  originIdentifier: Scalars['String']['input'];
+  /** Page Identifier that is being viewed by the Buyer (e.g. collection:1427, product:1924, home, checkout, bag, etc.) */
+  pageIdentifier: Scalars['String']['input'];
+  /** The pagetype is the identifier of the type of page the Buyer is on. */
+  pageType: SmarthintPageTypeEnum;
+  /** Field used for SmartHint to know the position of clicked products in the features, be it search or recommendation. When the Buyer clicks on a product, the value of the position in the product list should be provided */
+  position: Scalars['Int']['input'];
+  /** Product code clicked by the Buyer. It's important that this data is the same as what was sent to the Product Catalog. */
+  productId: Scalars['String']['input'];
+  providers: Array<TrackProvidersEnum>;
+  /** Session Value - A session is the period of time during which the user interacts with the application; the identifier of this session should be sent. */
+  session?: InputMaybe<Scalars['String']['input']>;
+  /** When the clickFeature field is equal to search, the term entered by the Buyer to generate the search should be sent. */
+  term?: InputMaybe<Scalars['String']['input']>;
+  /** Should be sent the user's email - That filed it'll be hashed and sent to providers */
+  userEmail?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TrackPageViewInput = {
+  /** Time in seconds that the Buyer spent on the page. */
+  elapsedTime?: InputMaybe<Scalars['Int']['input']>;
+  /** Page Identifier from which the Buyer is coming, the Source of it until reaching the current page/screen. (e.g. collection:1427, product:1924, home, checkout, bag, etc.) */
+  originIdentifier: Scalars['String']['input'];
+  /** Page Identifier that is being viewed by the Buyer (e.g. collection:1427, product:1924, home, checkout, bag, etc.) */
+  pageIdentifier: Scalars['String']['input'];
+  /** The pagetype is the identifier of the type of page the Buyer is on. */
+  pageType: SmarthintPageTypeEnum;
+  providers: Array<TrackProvidersEnum>;
+  /** Session Value - A session is the period of time during which the user interacts with the application; the identifier of this session should be sent. */
+  session?: InputMaybe<Scalars['String']['input']>;
+  /** Should be sent the user's email - That filed it'll be hashed and sent to providers */
+  userEmail?: InputMaybe<Scalars['String']['input']>;
+};
+
+export enum TrackProvidersEnum {
+  Smarthint = 'smarthint'
+}
+
+export type TrackingCodeInput = {
+  trackingCode: Scalars['String']['input'];
+};
+
+export type TrackingCodeOutput = {
+  __typename?: 'TrackingCodeOutput';
+  estimatedDeliveryDate?: Maybe<Scalars['Float']['output']>;
+  estimatedDeliveryDateFormated?: Maybe<Scalars['String']['output']>;
+  lastStatusCreated?: Maybe<Scalars['String']['output']>;
+  providerMessage?: Maybe<Scalars['String']['output']>;
+  shipmentOrderVolumeState?: Maybe<Scalars['String']['output']>;
+  shippingAdditional?: Maybe<Scalars['String']['output']>;
+  shippingAddress?: Maybe<Scalars['String']['output']>;
+  shippingCity?: Maybe<Scalars['String']['output']>;
+  shippingQuarter?: Maybe<Scalars['String']['output']>;
+  shippingReference?: Maybe<Scalars['String']['output']>;
+  shippingState?: Maybe<Scalars['String']['output']>;
+  trackingUrl?: Maybe<Scalars['String']['output']>;
 };
 
 export type UpdateInAppOutput = {
   __typename?: 'UpdateInAppOutput';
-  onlyPlatform?: Maybe<Scalars['String']>;
-  targetVersion?: Maybe<Scalars['String']>;
-  updateAllVersions?: Maybe<Scalars['Boolean']>;
-  updateDescription?: Maybe<Scalars['String']>;
-  updateTitle?: Maybe<Scalars['String']>;
-  updateType?: Maybe<Scalars['String']>;
+  onlyPlatform?: Maybe<Scalars['String']['output']>;
+  targetVersion?: Maybe<Scalars['String']['output']>;
+  updateAllVersions?: Maybe<Scalars['Boolean']['output']>;
+  updateDescription?: Maybe<Scalars['String']['output']>;
+  updateTitle?: Maybe<Scalars['String']['output']>;
+  updateType?: Maybe<Scalars['String']['output']>;
 };
 
 export type UpsertProfileAddressInput = {
-  addressId?: InputMaybe<Scalars['ID']>;
-  addressName?: InputMaybe<Scalars['String']>;
-  city: Scalars['String'];
-  complement?: InputMaybe<Scalars['String']>;
-  country: Scalars['String'];
-  mainAddress?: InputMaybe<Scalars['Boolean']>;
-  neighborhood: Scalars['String'];
-  number: Scalars['String'];
-  postalCode: Scalars['String'];
-  receiverName: Scalars['String'];
-  state: Scalars['String'];
-  street: Scalars['String'];
+  addressId?: InputMaybe<Scalars['ID']['input']>;
+  addressName?: InputMaybe<Scalars['String']['input']>;
+  city: Scalars['String']['input'];
+  complement?: InputMaybe<Scalars['String']['input']>;
+  country: Scalars['String']['input'];
+  mainAddress?: InputMaybe<Scalars['Boolean']['input']>;
+  neighborhood: Scalars['String']['input'];
+  number: Scalars['String']['input'];
+  postalCode: Scalars['String']['input'];
+  receiverName: Scalars['String']['input'];
+  state: Scalars['String']['input'];
+  street: Scalars['String']['input'];
 };
 
 export type WishlistAddProductInput = {
-  productId: Scalars['String'];
-  skuId: Scalars['String'];
+  productId: Scalars['String']['input'];
+  skuId: Scalars['String']['input'];
 };
 
 export type WishlistCheckOutput = {
   __typename?: 'WishlistCheckOutput';
-  inList: Scalars['Boolean'];
-  listIds: Array<Scalars['String']>;
+  inList: Scalars['Boolean']['output'];
+  listIds: Array<Scalars['String']['output']>;
 };
 
 export type WishlistCheckProductInput = {
-  productId: Scalars['String'];
-  skuId: Scalars['String'];
+  productId: Scalars['String']['input'];
+  skuId: Scalars['String']['input'];
 };
 
 export type WishlistRemoveProductInput = {
-  productId?: InputMaybe<Scalars['String']>;
-  skuId?: InputMaybe<Scalars['String']>;
+  productId?: InputMaybe<Scalars['String']['input']>;
+  skuId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type AvailableGiftsFragmentFragment = { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string };
@@ -1702,17 +1847,17 @@ export type ProductSizeFragmentFragment = { __typename?: 'ProductSizeOutput', it
 export type ProfileFragmentFragment = { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, isPrime: boolean, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null> };
 
 export type OrderFormAddDiscountCouponMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
-  coupon: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
+  coupon: Scalars['String']['input'];
 }>;
 
 
 export type OrderFormAddDiscountCouponMutation = { __typename?: 'Mutation', orderFormAddDiscountCoupon: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormAddGiftMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
-  index: Scalars['Int'];
-  id: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
+  index: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 }>;
 
 
@@ -1726,8 +1871,8 @@ export type OrderFormAddItemMutationVariables = Exact<{
 export type OrderFormAddItemMutation = { __typename?: 'Mutation', orderFormAddItem: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormAddSellerCouponMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
-  coupon: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
+  coupon: Scalars['String']['input'];
 }>;
 
 
@@ -1741,58 +1886,58 @@ export type OrderFormRefreshDataMutationVariables = Exact<{
 export type OrderFormRefreshDataMutation = { __typename?: 'Mutation', orderFormRefreshData: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormRemoveDiscountCouponMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 }>;
 
 
 export type OrderFormRemoveDiscountCouponMutation = { __typename?: 'Mutation', orderFormRemoveDiscountCoupon: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormRemoveGiftMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
-  index: Scalars['Int'];
-  id: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
+  index: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 }>;
 
 
 export type OrderFormRemoveGiftMutation = { __typename?: 'Mutation', orderFormRemoveGift: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormRemoveSellerCouponMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 }>;
 
 
 export type OrderFormRemoveSellerCouponMutation = { __typename?: 'Mutation', orderFormRemoveSellerCoupon: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormRemoveUnavailableItemsMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 }>;
 
 
 export type OrderFormRemoveUnavailableItemsMutation = { __typename?: 'Mutation', orderFormRemoveUnavailableItems: { __typename?: 'GenericOutput', message?: string | null, error: boolean } };
 
 export type OrderFormResetMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 }>;
 
 
 export type OrderFormResetMutation = { __typename?: 'Mutation', orderFormReset: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormSetGiftSizeMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
-  giftId: Scalars['String'];
-  id: Scalars['String'];
-  seller: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
+  giftId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+  seller: Scalars['String']['input'];
 }>;
 
 
 export type OrderFormSetGiftSizeMutation = { __typename?: 'Mutation', orderFormSetGiftSize: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormUpdateItemMutationVariables = Exact<{
-  orderFormId: Scalars['String'];
-  seller: Scalars['String'];
-  id: Scalars['String'];
-  quantity: Scalars['Int'];
-  index: Scalars['Int'];
+  orderFormId: Scalars['String']['input'];
+  seller: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+  quantity: Scalars['Int']['input'];
+  index: Scalars['Int']['input'];
 }>;
 
 
@@ -1846,17 +1991,17 @@ export type RefreshTokenMutationVariables = Exact<{ [key: string]: never; }>;
 export type RefreshTokenMutation = { __typename?: 'Mutation', refreshToken: { __typename?: 'LoggedInOutput', token: string, authCookie?: string | null } };
 
 export type RemoveUserMutationMutationVariables = Exact<{
-  customerId: Scalars['String'];
+  customerId: Scalars['String']['input'];
 }>;
 
 
 export type RemoveUserMutationMutation = { __typename?: 'Mutation', removeCustomer: boolean };
 
 export type SendLeadsMutationVariables = Exact<{
-  idCampanha: Scalars['String'];
-  email: Scalars['String'];
-  name: Scalars['String'];
-  phone: Scalars['String'];
+  idCampanha: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  phone: Scalars['String']['input'];
 }>;
 
 
@@ -1929,14 +2074,14 @@ export type CepQueryVariables = Exact<{
 export type CepQuery = { __typename?: 'Query', cep?: { __typename?: 'CepOutput', postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, neighborhood?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null } | null };
 
 export type CheckIfUserExistsQueryVariables = Exact<{
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
 }>;
 
 
 export type CheckIfUserExistsQuery = { __typename?: 'Query', checkIfUserExists: boolean };
 
 export type CheckSearchRedirectQueryVariables = Exact<{
-  q: Scalars['String'];
+  q: Scalars['String']['input'];
 }>;
 
 
@@ -1955,7 +2100,7 @@ export type CountdownQueryVariables = Exact<{
 export type CountdownQuery = { __typename?: 'Query', countdown?: { __typename?: 'CountdownClockCategoryOutput', textColor: string, bannerColor: string, buttonColor: string, backgroundColor: string, selectClockScreen: ClockScreenEnum, title: string, subtitle: string, titleButton: string, titleModal: string, remainingTime: string, reference: string, descriptionModal?: string | null } | null };
 
 export type DeeplinkPathQueryVariables = Exact<{
-  path: Scalars['String'];
+  path: Scalars['String']['input'];
 }>;
 
 
@@ -1981,6 +2126,13 @@ export type HomeMediasQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, orderBy: string, reference: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
 
+export type InvoiceKeyQueryVariables = Exact<{
+  invoiceKey: Scalars['String']['input'];
+}>;
+
+
+export type InvoiceKeyQuery = { __typename?: 'Query', invoiceKey?: { __typename?: 'InvoiceKeyOutput', estimatedDeliveryDate?: number | null, estimatedDeliveryDateFormated?: string | null, shippingReference?: string | null, shippingAdditional?: string | null, shippingAddress?: string | null, shippingQuarter?: string | null, shippingCity?: string | null, shippingState?: string | null, shipmentOrderVolumeState?: string | null, providerMessage?: string | null, lastStatusCreated?: string | null } | null };
+
 export type LandingPagePrimeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1997,7 +2149,7 @@ export type MostSearchedWordsQueryVariables = Exact<{ [key: string]: never; }>;
 export type MostSearchedWordsQuery = { __typename?: 'Query', mostSearchedWords: Array<string> };
 
 export type OrderFormQueryVariables = Exact<{
-  orderFormId: Scalars['String'];
+  orderFormId: Scalars['String']['input'];
 }>;
 
 
@@ -2038,7 +2190,7 @@ export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
 export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, isPrime: boolean, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null> } };
 
 export type RonRedirectQueryVariables = Exact<{
-  code: Scalars['String'];
+  code: Scalars['String']['input'];
 }>;
 
 
@@ -2052,7 +2204,7 @@ export type SearchQueryVariables = Exact<{
 export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'SearchOutput', count: number, items: Array<{ __typename?: 'ProductListOutput', productId: string, skuId: string, skuName: string, productName: string, colors?: Array<string> | null, brand: string, category?: string | null, size?: string | null, colorName?: string | null, image: string, listPrice: number, currentPrice: number, hasDiscount: boolean, discountPercentage: number, prime?: { __typename?: 'ProductListPrimeOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number }, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } };
 
 export type SearchAutocompleteSuggestionsQueryVariables = Exact<{
-  q: Scalars['String'];
+  q: Scalars['String']['input'];
   provider: SearchProviderInput;
 }>;
 
@@ -2070,6 +2222,13 @@ export type SearchNewsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type SearchNewsQuery = { __typename?: 'Query', searchNews: Array<{ __typename?: 'SearchNewsOutput', image: string, referenceId: string, orderBy?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> }> };
+
+export type TrackingCodeQueryVariables = Exact<{
+  trackingCode: Scalars['String']['input'];
+}>;
+
+
+export type TrackingCodeQuery = { __typename?: 'Query', trackingCode?: { __typename?: 'TrackingCodeOutput', trackingUrl?: string | null, estimatedDeliveryDate?: number | null, estimatedDeliveryDateFormated?: string | null, shippingReference?: string | null, shippingAddress?: string | null, shippingQuarter?: string | null, shippingCity?: string | null, shippingState?: string | null, shippingAdditional?: string | null, shipmentOrderVolumeState?: string | null, providerMessage?: string | null, lastStatusCreated?: string | null } | null };
 
 export type UpdateInAppQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3847,6 +4006,54 @@ export type HomeMediasQueryResult = Apollo.QueryResult<HomeMediasQuery, HomeMedi
 export function refetchHomeMediasQuery(variables?: HomeMediasQueryVariables) {
       return { query: HomeMediasDocument, variables: variables }
     }
+export const InvoiceKeyDocument = gql`
+    query InvoiceKey($invoiceKey: String!) {
+  invoiceKey(input: {invoiceKey: $invoiceKey}) {
+    estimatedDeliveryDate
+    estimatedDeliveryDateFormated
+    shippingReference
+    shippingAdditional
+    shippingAddress
+    shippingQuarter
+    shippingCity
+    shippingState
+    shipmentOrderVolumeState
+    providerMessage
+    lastStatusCreated
+  }
+}
+    `;
+
+/**
+ * __useInvoiceKeyQuery__
+ *
+ * To run a query within a React component, call `useInvoiceKeyQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInvoiceKeyQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useInvoiceKeyQuery({
+ *   variables: {
+ *      invoiceKey: // value for 'invoiceKey'
+ *   },
+ * });
+ */
+export function useInvoiceKeyQuery(baseOptions: Apollo.QueryHookOptions<InvoiceKeyQuery, InvoiceKeyQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<InvoiceKeyQuery, InvoiceKeyQueryVariables>(InvoiceKeyDocument, options);
+      }
+export function useInvoiceKeyLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<InvoiceKeyQuery, InvoiceKeyQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<InvoiceKeyQuery, InvoiceKeyQueryVariables>(InvoiceKeyDocument, options);
+        }
+export type InvoiceKeyQueryHookResult = ReturnType<typeof useInvoiceKeyQuery>;
+export type InvoiceKeyLazyQueryHookResult = ReturnType<typeof useInvoiceKeyLazyQuery>;
+export type InvoiceKeyQueryResult = Apollo.QueryResult<InvoiceKeyQuery, InvoiceKeyQueryVariables>;
+export function refetchInvoiceKeyQuery(variables: InvoiceKeyQueryVariables) {
+      return { query: InvoiceKeyDocument, variables: variables }
+    }
 export const LandingPagePrimeDocument = gql`
     query landingPagePrime {
   landingPagePrime {
@@ -4588,6 +4795,55 @@ export type SearchNewsLazyQueryHookResult = ReturnType<typeof useSearchNewsLazyQ
 export type SearchNewsQueryResult = Apollo.QueryResult<SearchNewsQuery, SearchNewsQueryVariables>;
 export function refetchSearchNewsQuery(variables?: SearchNewsQueryVariables) {
       return { query: SearchNewsDocument, variables: variables }
+    }
+export const TrackingCodeDocument = gql`
+    query TrackingCode($trackingCode: String!) {
+  trackingCode(input: {trackingCode: $trackingCode}) {
+    trackingUrl
+    estimatedDeliveryDate
+    estimatedDeliveryDateFormated
+    shippingReference
+    shippingAddress
+    shippingQuarter
+    shippingCity
+    shippingState
+    shippingAdditional
+    shipmentOrderVolumeState
+    providerMessage
+    lastStatusCreated
+  }
+}
+    `;
+
+/**
+ * __useTrackingCodeQuery__
+ *
+ * To run a query within a React component, call `useTrackingCodeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTrackingCodeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTrackingCodeQuery({
+ *   variables: {
+ *      trackingCode: // value for 'trackingCode'
+ *   },
+ * });
+ */
+export function useTrackingCodeQuery(baseOptions: Apollo.QueryHookOptions<TrackingCodeQuery, TrackingCodeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TrackingCodeQuery, TrackingCodeQueryVariables>(TrackingCodeDocument, options);
+      }
+export function useTrackingCodeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TrackingCodeQuery, TrackingCodeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TrackingCodeQuery, TrackingCodeQueryVariables>(TrackingCodeDocument, options);
+        }
+export type TrackingCodeQueryHookResult = ReturnType<typeof useTrackingCodeQuery>;
+export type TrackingCodeLazyQueryHookResult = ReturnType<typeof useTrackingCodeLazyQuery>;
+export type TrackingCodeQueryResult = Apollo.QueryResult<TrackingCodeQuery, TrackingCodeQueryVariables>;
+export function refetchTrackingCodeQuery(variables: TrackingCodeQueryVariables) {
+      return { query: TrackingCodeDocument, variables: variables }
     }
 export const UpdateInAppDocument = gql`
     query updateInApp {

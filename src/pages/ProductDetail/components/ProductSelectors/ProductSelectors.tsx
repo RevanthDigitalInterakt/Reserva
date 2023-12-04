@@ -25,6 +25,8 @@ import { type ProductGiftCardOptionOutput, ProductResultActionEnum } from '../..
 import { GiftCardRulesModal } from './components/GiftCardRulesModal';
 import { commons } from '../../../../base/styles';
 import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { RouletCouponCard } from '../../../Home/components/RouletCouponCard';
+import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
 function ProductSelectors() {
   const [showModal, setShowModal] = useState(false);
@@ -49,6 +51,9 @@ function ProductSelectors() {
     'selectedGiftCardEmail',
     'setGiftCardSelectedEmail',
   ]);
+
+  const { getBoolean } = useRemoteConfig();
+  const showRoulet = getBoolean('show_roulet');
 
   const doSelectSizeTrack = useCallback(() => {
     try {
@@ -122,7 +127,9 @@ function ProductSelectors() {
 
   const selectedGiftCardSkuAmount = useMemo(() => {
     if (!selectedGiftCardSku) return null;
-    return productDetail?.giftCard?.options.find((option) => option.itemId === selectedGiftCardSku)?.name;
+    return productDetail?.giftCard?.options.find(
+      (option) => option.itemId === selectedGiftCardSku,
+    )?.name;
   }, [selectedGiftCardSku, productDetail?.giftCard?.options]);
 
   const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
@@ -220,6 +227,10 @@ function ProductSelectors() {
             </BottomSheet>
           </>
         ) : <ProductAddToCart />}
+        {showRoulet ? (
+          <RouletCouponCard />
+        ) : null}
+        <ProductAddToCart />
 
         <Box mt="nano" flexDirection="row" />
 

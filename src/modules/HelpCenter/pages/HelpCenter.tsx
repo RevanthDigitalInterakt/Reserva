@@ -19,16 +19,20 @@ export function HelpCenter({ route }: Props) {
   const [, setSearch] = useState('');
   const data = [
     { title: 'Cuidados com a roupa', navigate: 'ClothingCare' },
-    { title: 'Trocas e devoluções', navigate: 'Exchanges' },
-    { title: 'Pedidos e entregas', navigate: 'OrdersAndDeliveries' },
-    { title: 'Formas de pagamento', navigate: 'HelpPaymentMethods' },
-    { title: 'Dúvidas Frequentes', navigate: 'FrequentDoubts' },
+    { title: 'PRIME', navigate: 'PrimeHelpInfo' },
+    { title: 'Cashback', navigate: 'CashbackHelpInfo' },
+    { title: 'Cadastro', navigate: 'SignupHelpInfo' },
+    { title: 'Compra', navigate: 'PurchaseHelpInfo' },
+    { title: 'Pagamento', navigate: 'PaymentHelpInfo' },
+    { title: 'Troca e devolução', navigate: 'ExchangeHelpInfo' },
+    { title: 'FAÇA VC', navigate: 'FacaVcHelpInfo' },
+    { title: 'Pedido', navigate: 'RequestHelpInfo' },
+    { title: 'Entrega', navigate: 'ShippingHelpInfo' },
     {
       title: 'Política de privacidade e Termos de Uso',
       navigate: 'PrivacyPolicy',
     },
-
-    { title: 'Fale Conosco', navigate: 'ContactUs' },
+    { title: 'Dúvidas Frequentes', navigate: 'FrequentDoubts' },
   ];
 
   const [filter, setFilter] = useState(data);
