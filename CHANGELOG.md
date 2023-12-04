@@ -3,13 +3,7 @@
 
 ## CHANGELOG
 
-### 2.1.4 (Android)
-
-- [21060 - Header nova home Android](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21060)
-
----
-
-### 2.0.24 (iOS)
+### 2.1.6
 
 - [21060 - Header nova home Android](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21060)
 
