@@ -16,11 +16,15 @@ import { usePageLoadingStore } from '../../../../zustand/usePageLoadingStore/use
 import { NewHomeCountDown } from '../NewHomeCountDown.tsx';
 import styles from './styles';
 import { Box } from '../../../../components/Box/Box';
+import { RouletCouponCard } from '../RouletCouponCard';
+import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
 export function NewHomeCarousels() {
   const { carousels, loading } = useHomeStore(['carousels', 'loading']);
   const navigation = useNavigation();
   const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
+  const { getBoolean } = useRemoteConfig();
+  const showRoulet = getBoolean('show_roulet');
 
   const handleSearchButtonPress = () => {
     EventProvider.logEvent('header_search_click', { open: 1 });
@@ -42,6 +46,11 @@ export function NewHomeCarousels() {
             onPress={handleSearchButtonPress}
             style={styles.searchButton}
           />
+          {showRoulet ? (
+            <View style={styles.rouletCouponCardWrapper}>
+              <RouletCouponCard />
+            </View>
+          ) : null}
         </>
       ),
       [HomePageSectionTypeEnum.Brands]: () => (

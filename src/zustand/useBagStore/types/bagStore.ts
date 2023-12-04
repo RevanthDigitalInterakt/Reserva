@@ -8,6 +8,13 @@ export type TItemBag = OrderFormQuery['orderForm']['items'][0];
 export interface IBagStore {
   initialized: boolean;
   topBarLoading: boolean;
+  rouletCoupon: {
+    code: string | null;
+    timestamp: string | null
+    blocked: boolean;
+  };
+  rouletIsOpen: boolean;
+  rouletIsLoading: boolean;
   loadingModal: boolean;
   initialLoad: boolean;
   productNotFound: string;
@@ -38,14 +45,21 @@ export interface IBagStore {
     INITIAL_LOAD: () => Promise<void>;
     REFETCH_ORDER_FORM: () => Promise<void>;
     REFRESH_ORDER_FORM: () => Promise<void>;
+    ROULET_COUPON_INITIAL_LOAD: () => Promise<void>;
     RESET_ORDER_FORM: () => Promise<void>;
     CREATE_NEW_ORDER_FORM: () => Promise<void>;
     COPY_ORDERFORM: () => boolean;
     ADD_SELLER_COUPON: (coupon: string) => Promise<void>;
     ADD_DISCOUNT_COUPON: (coupon: string) => Promise<void>;
     REMOVE_SELLER_COUPON: () => Promise<void>;
+    OPEN_ROULET: () => void;
+    CLOSE_ROULET: () => void;
+    SET_ROULET_LOADING: (loading: boolean) => void;
     REMOVE_DISCOUNT_COUPON: () => Promise<void>;
     ADD_ITEM: (seller: string, id: string, quantity: number) => Promise<void>;
+    SAVE_ROULET_COUPON: (coupon: string, timestamp: string) => void;
+    BLOCK_ROULET_COUPON: () => void;
+    UNBLOCK_ROULET_COUPON: () => void;
     ADD_AVAILABLE_GIFT: (
       gift: OrderformSelectableGiftAvailableGiftOutput,
       giftId: string,

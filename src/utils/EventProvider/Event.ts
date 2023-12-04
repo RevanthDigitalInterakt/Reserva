@@ -240,6 +240,16 @@ export type EventOptionsFn =
     type: 'add_payment_info_test';
     payload: {};
   }
+  |
+  {
+    type: 'click_na_roleta',
+    payload: {};
+  }
+  |
+  {
+    type: 'click_cupom_roleta',
+    payload: {};
+  }
   | {
     type: 'ron_open';
     payload: EventsOptions.RonOpen;

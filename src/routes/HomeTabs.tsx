@@ -4,60 +4,85 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native';
 
 import { theme } from '../base/usereservappLegacy/theme';
-import CallCenter from '../modules/CallCenter';
 import { MenuProfile } from '../modules/Profile/pages/MenuProfile';
 import Home from '../pages/Home';
 import NewProductCatalog from '../pages/ProductCatalog';
 import WishList from '../pages/WishList/WishList';
 import { TabBar } from './TabBar';
+import { useBagStore } from '../zustand/useBagStore/useBagStore';
+import { Modal } from '../components/Modal';
+import { BlockedRouletDescription } from '../components/Modal/components/BlockedRouletDescription';
+import { useRemoteConfig } from '../hooks/useRemoteConfig';
+import CallCenter from '../modules/CallCenter';
 
 const Tab = createBottomTabNavigator();
 
 export function HomeTabs() {
+  const { rouletCoupon, actions } = useBagStore(['rouletCoupon', 'actions']);
+  const { getBoolean } = useRemoteConfig();
+  const showRoulet = getBoolean('show_roulet');
+
   return (
-    <SafeAreaView
-      style={{ backgroundColor: theme.colors.white }}
-      flex={1}
-      testID="com.usereserva:id/home_tabs_buttons"
-    >
-      <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
-        <Tab.Screen
-          name="Home"
-          component={Home}
-          initialParams={{ label: 'Início' }}
-          options={{ headerShown: false }}
-        />
-        <Tab.Screen
-          name="Offers"
-          component={NewProductCatalog}
-          initialParams={{
-            safeArea: false,
-            label: 'Promoções',
-          }}
-          options={{ headerShown: false }}
-        />
-        <Tab.Screen
-          name="WishList"
-          component={WishList}
-          initialParams={{ label: 'Favoritos' }}
-          options={{ headerShown: false }}
-
-        />
-        <Tab.Screen
-          name="Profile"
-          component={MenuProfile}
-          initialParams={{ label: 'Perfil' }}
-          options={{ headerShown: false }}
-
-        />
-        <Tab.Screen
-          name="Call"
-          component={CallCenter}
-          initialParams={{ label: 'Central' }}
-          options={{ headerShown: false }}
-
-        />
-      </Tab.Navigator>
-    </SafeAreaView>
+    <>
+      <Modal
+        description={<BlockedRouletDescription onPress={() => actions.UNBLOCK_ROULET_COUPON()} />}
+        isVisible={rouletCoupon.blocked}
+        handleClose={() => actions.UNBLOCK_ROULET_COUPON()}
+        title="Roleta Reserva"
+      />
+      <SafeAreaView
+        style={{ backgroundColor: theme.colors.white }}
+        flex={1}
+        testID="com.usereserva:id/home_tabs_buttons"
+      >
+        <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
+          <Tab.Screen
+            name="Home"
+            component={Home}
+            initialParams={{ label: 'Início' }}
+            options={{ headerShown: false }}
+          />
+          <Tab.Screen
+            name="Offers"
+            component={NewProductCatalog}
+            initialParams={{
+              safeArea: false,
+              label: 'Promoções',
+            }}
+            options={{ headerShown: false }}
+          />
+          {showRoulet ? (
+            <Tab.Screen
+              name="Roulet"
+              component={Home}
+              initialParams={{ label: 'Roleta' }}
+              options={{
+                headerShown: false,
+              }}
+            />
+          ) : null}
+          <Tab.Screen
+            name="WishList"
+            component={WishList}
+            initialParams={{ label: 'Favoritos' }}
+            options={{ headerShown: false }}
+          />
+          <Tab.Screen
+            name="Profile"
+            component={MenuProfile}
+            initialParams={{ label: 'Perfil' }}
+            options={{ headerShown: false }}
+          />
+          {!showRoulet ? (
+            <Tab.Screen
+              name="Call"
+              component={CallCenter}
+              initialParams={{ label: 'Central' }}
+              options={{ headerShown: false }}
+            />
+          ) : null}
+        </Tab.Navigator>
+      </SafeAreaView>
+    </>
   );
 }

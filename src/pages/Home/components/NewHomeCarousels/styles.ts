@@ -6,6 +6,9 @@ const styles = StyleSheet.create({
     top: scale(-25),
     marginBottom: scale(-25),
   },
+  rouletCouponCardWrapper: {
+    paddingHorizontal: 12,
+  },
 });
 
 export default styles;
