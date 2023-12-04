@@ -719,10 +719,6 @@ export type OrderformAddItemGiftCardInfoInput = {
   email: Scalars['String']['input'];
 };
 
-export type OrderformAddItemGiftCardInfoInput = {
-  email: Scalars['String'];
-};
-
 export type OrderformAddItemInput = {
   giftCard?: InputMaybe<OrderformAddItemGiftCardInfoInput>;
   id: Scalars['String']['input'];
@@ -1110,22 +1106,6 @@ export type ProductGiftCardOutput = {
   howItWorks: Scalars['String']['output'];
   options: Array<ProductGiftCardOptionOutput>;
   terms: Scalars['String']['output'];
-};
-
-export type ProductGiftCardOptionOutput = {
-  __typename?: 'ProductGiftCardOptionOutput';
-  ean: Scalars['String'];
-  images: Array<Scalars['String']>;
-  itemId: Scalars['ID'];
-  name: Scalars['String'];
-  seller: Scalars['String'];
-};
-
-export type ProductGiftCardOutput = {
-  __typename?: 'ProductGiftCardOutput';
-  howItWorks: Scalars['String'];
-  options: Array<ProductGiftCardOptionOutput>;
-  terms: Scalars['String'];
 };
 
 export type ProductInput = {
