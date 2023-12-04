@@ -18,6 +18,12 @@
 
 ---
 
+### 2.1.6
+
+- [21060 - Header nova home Android](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21060)
+
+---
+
 ### 2.1.2 (Android)
 
 - [20881 - Bug valores no favoritos APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/20881)
