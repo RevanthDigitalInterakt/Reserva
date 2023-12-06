@@ -263,6 +263,11 @@ export type HealthcheckOutput = {
   version: Scalars['String']['output'];
 };
 
+export type HomeCarouselItemFiltersOutput = {
+  __typename?: 'HomeCarouselItemFiltersOutput';
+  priceFilter?: Maybe<HomeCarouselItemPricesFilterOutput>;
+};
+
 export type HomeCarouselItemImageOutput = {
   __typename?: 'HomeCarouselItemImageOutput';
   height?: Maybe<Scalars['Int']['output']>;
@@ -275,6 +280,7 @@ export type HomeCarouselItemOutput = {
   __typename?: 'HomeCarouselItemOutput';
   creativeName?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
+  filters?: Maybe<HomeCarouselItemFiltersOutput>;
   image: HomeCarouselItemImageOutput;
   linkMktIn?: Maybe<Scalars['String']['output']>;
   locationId?: Maybe<Scalars['String']['output']>;
@@ -285,6 +291,12 @@ export type HomeCarouselItemOutput = {
   reservaMini: Scalars['Boolean']['output'];
 };
 
+export type HomeCarouselItemPricesFilterOutput = {
+  __typename?: 'HomeCarouselItemPricesFilterOutput';
+  from?: Maybe<Scalars['Float']['output']>;
+  to?: Maybe<Scalars['Float']['output']>;
+};
+
 export type HomeCarouselOutput = {
   __typename?: 'HomeCarouselOutput';
   id: Scalars['ID']['output'];
@@ -293,12 +305,18 @@ export type HomeCarouselOutput = {
   type: HomePageSectionTypeEnum;
 };
 
+export type HomeCountdownFiltersOutput = {
+  __typename?: 'HomeCountdownFiltersOutput';
+  priceFilter?: Maybe<HomeCountdownPriceFilterOutput>;
+};
+
 export type HomeCountdownOutput = {
   __typename?: 'HomeCountdownOutput';
   countdown: Scalars['String']['output'];
   countdownStart?: Maybe<Scalars['String']['output']>;
   descriptionModal?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
+  filters?: Maybe<HomeCountdownFiltersOutput>;
   formattedValue?: Maybe<Scalars['String']['output']>;
   reference?: Maybe<Scalars['String']['output']>;
   subtitle?: Maybe<Scalars['String']['output']>;
@@ -308,6 +326,12 @@ export type HomeCountdownOutput = {
   titleModal?: Maybe<Scalars['String']['output']>;
   type?: Maybe<ClockScreenEnum>;
   watchType?: Maybe<Scalars['String']['output']>;
+};
+
+export type HomeCountdownPriceFilterOutput = {
+  __typename?: 'HomeCountdownPriceFilterOutput';
+  from?: Maybe<Scalars['Float']['output']>;
+  to?: Maybe<Scalars['Float']['output']>;
 };
 
 export type HomeCountdownThemeOutput = {
@@ -363,14 +387,26 @@ export type LoggedInOutput = {
   token: Scalars['String']['output'];
 };
 
+export type MenuCategoryItemFiltersOutput = {
+  __typename?: 'MenuCategoryItemFiltersOutput';
+  priceFilter?: Maybe<MenuCategoryItemPricesFilterOutput>;
+};
+
 export type MenuCategoryItemOutput = {
   __typename?: 'MenuCategoryItemOutput';
   deeplinkUrl?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
+  filters?: Maybe<MenuCategoryItemFiltersOutput>;
   highlight: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
   referenceId?: Maybe<Scalars['String']['output']>;
   type: MenuItemTypeEnum;
+};
+
+export type MenuCategoryItemPricesFilterOutput = {
+  __typename?: 'MenuCategoryItemPricesFilterOutput';
+  from?: Maybe<Scalars['Float']['output']>;
+  to?: Maybe<Scalars['Float']['output']>;
 };
 
 export type MenuCategoryOutput = {
@@ -423,6 +459,7 @@ export type Mutation = {
   signUpVerificationCode: RequestCodeOutput;
   subscribeNewsletter: Scalars['Boolean']['output'];
   trackClick: Scalars['Boolean']['output'];
+  trackOrder: Scalars['Boolean']['output'];
   trackPageView: Scalars['Boolean']['output'];
   wishlistAddProduct: Array<Scalars['String']['output']>;
   wishlistRemoveProduct: Array<Scalars['String']['output']>;
@@ -566,6 +603,11 @@ export type MutationSubscribeNewsletterArgs = {
 
 export type MutationTrackClickArgs = {
   input: TrackClickInput;
+};
+
+
+export type MutationTrackOrderArgs = {
+  input: TrackOrderInput;
 };
 
 
@@ -1719,11 +1761,34 @@ export type TrackClickInput = {
   productId: Scalars['String']['input'];
   providers: Array<TrackProvidersEnum>;
   /** Session Value - A session is the period of time during which the user interacts with the application; the identifier of this session should be sent. */
-  session?: InputMaybe<Scalars['String']['input']>;
+  session: Scalars['String']['input'];
   /** When the clickFeature field is equal to search, the term entered by the Buyer to generate the search should be sent. */
   term?: InputMaybe<Scalars['String']['input']>;
   /** Should be sent the user's email - That filed it'll be hashed and sent to providers */
   userEmail?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TrackOrderInput = {
+  /** Freight value */
+  freight: Scalars['Float']['input'];
+  items: Array<TrackOrderProductInput>;
+  /** Order ID */
+  orderId: Scalars['String']['input'];
+  providers: Array<TrackProvidersEnum>;
+  /** Session Value - A session is the period of time during which the user interacts with the application; the identifier of this session should be sent. */
+  session: Scalars['String']['input'];
+  /** Order total value */
+  total: Scalars['Float']['input'];
+  /** Should be sent the user's email - That filed it'll be hashed and sent to providers */
+  userEmail?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TrackOrderProductInput = {
+  /** Product name */
+  name: Scalars['String']['input'];
+  productId: Scalars['String']['input'];
+  quantity: Scalars['Int']['input'];
+  sku: Scalars['String']['input'];
 };
 
 export type TrackPageViewInput = {
@@ -1737,7 +1802,7 @@ export type TrackPageViewInput = {
   pageType: SmarthintPageTypeEnum;
   providers: Array<TrackProvidersEnum>;
   /** Session Value - A session is the period of time during which the user interacts with the application; the identifier of this session should be sent. */
-  session?: InputMaybe<Scalars['String']['input']>;
+  session: Scalars['String']['input'];
   /** Should be sent the user's email - That filed it'll be hashed and sent to providers */
   userEmail?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2032,7 +2097,7 @@ export type WishlistRemoveProductMutation = { __typename?: 'Mutation', wishlistR
 export type AppMenuQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AppMenuQuery = { __typename?: 'Query', appMenu: Array<{ __typename?: 'MenuCategoryOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, children: Array<{ __typename?: 'MenuCategoryItemOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> }> }> };
+export type AppMenuQuery = { __typename?: 'Query', appMenu: Array<{ __typename?: 'MenuCategoryOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, children: Array<{ __typename?: 'MenuCategoryItemOutput', name: string, type: MenuItemTypeEnum, deeplinkUrl?: string | null, highlight: boolean, referenceId?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, filters?: { __typename?: 'MenuCategoryItemFiltersOutput', priceFilter?: { __typename?: 'MenuCategoryItemPricesFilterOutput', from?: number | null, to?: number | null } | null } | null }> }> };
 
 export type BannerCategoryQueryVariables = Exact<{
   input: BannerCategoryInput;
@@ -2089,7 +2154,7 @@ export type DeeplinkPathQuery = { __typename?: 'Query', deeplinkPath?: { __typen
 export type HomeCarouselsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeCarouselsQuery = { __typename?: 'Query', homeCarousels: Array<{ __typename?: 'HomeCarouselOutput', id: string, type: HomePageSectionTypeEnum, showtime?: number | null, items: Array<{ __typename?: 'HomeCarouselItemOutput', mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, reference: string, orderBy: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string, height?: number | null, width?: number | null } }> }> };
+export type HomeCarouselsQuery = { __typename?: 'Query', homeCarousels: Array<{ __typename?: 'HomeCarouselOutput', id: string, type: HomePageSectionTypeEnum, showtime?: number | null, items: Array<{ __typename?: 'HomeCarouselItemOutput', mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, reference: string, orderBy: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string, height?: number | null, width?: number | null }, filters?: { __typename?: 'HomeCarouselItemFiltersOutput', priceFilter?: { __typename?: 'HomeCarouselItemPricesFilterOutput', from?: number | null, to?: number | null } | null } | null }> }> };
 
 export type HomeConfigQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2099,7 +2164,7 @@ export type HomeConfigQuery = { __typename?: 'Query', homeConfig?: { __typename?
 export type HomeCountdownQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeCountdownQuery = { __typename?: 'Query', homeCountdown?: { __typename?: 'HomeCountdownOutput', type?: ClockScreenEnum | null, title?: string | null, subtitle?: string | null, watchType?: string | null, countdown: string, countdownStart?: string | null, titleButton?: string | null, titleModal?: string | null, descriptionModal?: string | null, reference?: string | null, formattedValue?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, theme: { __typename?: 'HomeCountdownThemeOutput', colorBanner: string, colorButton: string, clockBackgroundColor: string } } | null };
+export type HomeCountdownQuery = { __typename?: 'Query', homeCountdown?: { __typename?: 'HomeCountdownOutput', type?: ClockScreenEnum | null, title?: string | null, subtitle?: string | null, watchType?: string | null, countdown: string, countdownStart?: string | null, titleButton?: string | null, titleModal?: string | null, descriptionModal?: string | null, reference?: string | null, formattedValue?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, theme: { __typename?: 'HomeCountdownThemeOutput', colorBanner: string, colorButton: string, clockBackgroundColor: string }, filters?: { __typename?: 'HomeCountdownFiltersOutput', priceFilter?: { __typename?: 'HomeCountdownPriceFilterOutput', from?: number | null, to?: number | null } | null } | null } | null };
 
 export type HomeMediasQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3403,6 +3468,12 @@ export const AppMenuDocument = gql`
         key
         value
       }
+      filters {
+        priceFilter {
+          from
+          to
+        }
+      }
     }
   }
 }
@@ -3798,6 +3869,12 @@ export const HomeCarouselsDocument = gql`
         height
         width
       }
+      filters {
+        priceFilter {
+          from
+          to
+        }
+      }
     }
   }
 }
@@ -3902,6 +3979,12 @@ export const HomeCountdownDocument = gql`
       colorBanner
       colorButton
       clockBackgroundColor
+    }
+    filters {
+      priceFilter {
+        from
+        to
+      }
     }
   }
 }

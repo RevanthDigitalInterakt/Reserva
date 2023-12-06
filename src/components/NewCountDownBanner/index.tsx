@@ -26,7 +26,29 @@ export function NewCountDownBanner({ data }: ICountDownBanner) {
   });
 
   const onPress = useCallback(() => {
-    navigation.navigate('ProductCatalog', { referenceId: data?.reference });
+    const navigateParams: {
+      referenceId?: string | null | undefined;
+      filters?: {
+        priceFilter: {
+          from: number;
+          to: number;
+        }
+      }
+    } = {
+      referenceId: data?.reference,
+    };
+    if (
+      (data?.filters?.priceFilter?.from || data?.filters?.priceFilter?.from === null)
+            && data?.filters?.priceFilter?.to) {
+      navigateParams.filters = {
+        priceFilter: {
+          from: data?.filters?.priceFilter?.from || 0,
+          to: data?.filters?.priceFilter?.to || 0,
+        },
+      };
+    }
+
+    navigation.navigate('ProductCatalog', navigateParams);
   }, [data]);
 
   const showClock = useMemo(() => {

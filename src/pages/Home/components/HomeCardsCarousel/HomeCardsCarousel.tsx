@@ -7,6 +7,7 @@ import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import testProps from '../../../../utils/testProps';
 import HomeCard from '../HomeCard';
 import { styles } from './HomeCardsCarousel.styles';
+import type { IPriceRange } from '../../../../utils/generateFacets';
 
 interface IHomeCardsCarousel {
   data: HomeCarouselOutput;
@@ -41,6 +42,9 @@ function HomeCardsCarousel({ data }: IHomeCardsCarousel) {
             reference={item.reference}
             reservaMini={item.reservaMini}
             orderBy={item.orderBy}
+            filters={{
+              priceFilter: item?.filters?.priceFilter as IPriceRange,
+            }}
           />
         )}
       />

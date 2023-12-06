@@ -19,6 +19,12 @@ query appMenu {
                 key
                 value
             }
+            filters {
+                priceFilter {
+                    from
+                    to
+                }
+            }
         }
     }
 }
