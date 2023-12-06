@@ -16,14 +16,14 @@ import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export interface IWishlistProduct {
   skuId: string;
-  skuName: string;
+  skuName?: string;
   productId: string;
   colorName?: string | null;
   size?: string | null;
   category?: string | null;
-  productName: string;
-  brand: string;
-  lowPrice: number;
+  productName?: string;
+  brand?: string;
+  lowPrice?: number;
 }
 
 interface IWishlistStore {

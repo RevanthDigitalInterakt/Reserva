@@ -37,7 +37,7 @@ const style = StyleSheet.create({
   },
 
   listItemActionsContainer: {
-    backgroundColor: COLORS.ACTION_BUTTON_COLOR,
+    backgroundColor: COLORS.LIGHT_BLACK,
     flexDirection: 'column',
     justifyContent: 'space-between',
     width: '13%',
@@ -78,7 +78,7 @@ const style = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalButton: {
-    backgroundColor: COLORS.ACTION_BUTTON_COLOR,
+    backgroundColor: COLORS.LIGHT_BLACK,
     padding: 20,
     width: '45%',
     justifyContent: 'center',

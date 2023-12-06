@@ -435,7 +435,7 @@ exports[`List Address snapshot 1`] = `
       <Text
         style={
           Object {
-            "color": "#333333",
+            "color": undefined,
             "fontFamily": "ReservaSans-Bold",
             "fontSize": 14,
             "lineHeight": 18,
@@ -479,7 +479,7 @@ exports[`List Address snapshot 1`] = `
         onLayout={[Function]}
         style={
           Object {
-            "color": "#333333",
+            "color": undefined,
             "fontFamily": "ReservaSans-Bold",
             "fontSize": 14,
             "lineHeight": 18,
@@ -513,7 +513,7 @@ exports[`List Address snapshot 1`] = `
       style={
         Object {
           "alignItems": "center",
-          "backgroundColor": "#333333",
+          "backgroundColor": undefined,
           "justifyContent": "center",
           "opacity": 1,
           "padding": 20,

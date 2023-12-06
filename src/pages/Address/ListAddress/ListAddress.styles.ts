@@ -21,7 +21,7 @@ const style = StyleSheet.create({
   },
 
   actionButton: {
-    backgroundColor: COLORS.ACTION_BUTTON_COLOR,
+    backgroundColor: COLORS.LIGHT_BLACK,
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
@@ -36,7 +36,7 @@ const style = StyleSheet.create({
   },
 
   emptyListAddressText: {
-    color: COLORS.ACTION_BUTTON_COLOR,
+    color: COLORS.LIGHT_BLACK,
     textTransform: 'uppercase',
     fontFamily: 'ReservaSans-Bold',
     fontSize: 14,
