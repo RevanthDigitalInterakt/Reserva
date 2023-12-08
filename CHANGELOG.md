@@ -1,8 +1,16 @@
 ## CHANGELOG
 
+### 2.1.7
+
+- [22094 - Ao voltar para PDC pela sacola, usuário retorna para início da result list](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22094)
+
+---
+
 ### 2.1.6
 
 - [Feature(21352) Filtro de preço Contentful](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_boards/board/t/Conteudo%20Downstream/Product%20Backlog)
+
+---
 
 ### 2.1.4
 
