@@ -25,12 +25,14 @@ import { Typography } from '../../../components/Typography/Typography';
 import { Button } from '../../../components/Button';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 import { useInvoiceKeyLazyQuery, useTrackingCodeLazyQuery } from '../../../base/graphql/generated';
+import { PriceCustom } from '../../Checkout/components/PriceCustom';
 
 function OrderList({ route }: any): React.ReactElement {
   const { order } = route.params;
   const navigation = useNavigation();
   const { orderDetail } = useCart();
   const [orderDetails, setOrderDetails] = useState<IOrderId>();
+  const installmentValue = (orderDetails?.value as number / 100) / orderDetails?.paymentData.transactions[0].payments[0].installments
   const [, setCopiedText] = useClipboard();
   const [loading, setLoading] = useState(true);
   const [clickedIcon, setClickedIcon] = useState(false);
@@ -343,10 +345,12 @@ function OrderList({ route }: any): React.ReactElement {
                 {' '}
               </Typography>
               <Typography fontSize={14} fontFamily="nunitoSemiBold">
-                R$
-                {' '}
-                {orderDetails.paymentData.transactions[0].payments[0].value
-                  / 100}
+                <PriceCustom
+                  fontFamily="nunitoSemiBold"
+                  sizeInterger={15}
+                  sizeDecimal={11}
+                  num={installmentValue}
+                />
               </Typography>
             </Box>
           </Box>
