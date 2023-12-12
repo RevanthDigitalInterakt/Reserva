@@ -1,8 +1,16 @@
 ## CHANGELOG
 
+### 2.1.8
+
+- [21551 - Contador não direciona para PDP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21551)
+
+---
+
 ### 2.1.6
 
 - [Feature(21352) Filtro de preço Contentful](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_boards/board/t/Conteudo%20Downstream/Product%20Backlog)
+
+---
 
 ### 2.1.4
 

@@ -26,16 +26,20 @@ export function NewCountDownBanner({ data }: ICountDownBanner) {
   });
 
   const onPress = useCallback(() => {
+    const reference = data?.reference || '';
+    const [categoryType, categoryData] = data?.reference ? reference.split(':') : [];
     const navigateParams: {
       referenceId?: string | null | undefined;
+      productId?: string | null | undefined;
       filters?: {
         priceFilter: {
           from: number;
           to: number;
         }
-      }
+      };
     } = {
-      referenceId: data?.reference,
+      referenceId: reference,
+      productId: categoryType === 'product' ? categoryData : undefined,
     };
     if (
       (data?.filters?.priceFilter?.from || data?.filters?.priceFilter?.from === null)
@@ -47,8 +51,7 @@ export function NewCountDownBanner({ data }: ICountDownBanner) {
         },
       };
     }
-
-    navigation.navigate('ProductCatalog', navigateParams);
+    navigation.navigate(categoryType === 'product' ? 'ProductDetail' : 'ProductCatalog', navigateParams);
   }, [data]);
 
   const showClock = useMemo(() => {
