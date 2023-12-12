@@ -25,6 +25,7 @@ import { Box } from '../../../components/Box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import { Button } from '../../../components/Button';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import FormLink from '../../../components/FormLink/FormLink';
 
 export function MenuProfile() {
   const navigation = useNavigation();
@@ -246,6 +247,8 @@ export function MenuProfile() {
                   onPress={() => navigation.navigate('EditPassword')}
                 />
               </Box>
+
+              <FormLink />
 
               <Box marginY="xs" justifyContent="flex-end">
                 <Button
