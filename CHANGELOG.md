@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.1.7
+
+- [Feature(22265) Visualização do parcelamento de compra do aplicativo > Meus pedidos](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22265)
+
 ### 2.1.6
 
 - [Feature(21352) Filtro de preço Contentful](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_boards/board/t/Conteudo%20Downstream/Product%20Backlog)

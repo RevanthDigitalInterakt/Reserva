@@ -5,6 +5,7 @@ import { ptBR } from 'date-fns/locale';
 import React, {
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import {
@@ -32,11 +33,19 @@ function OrderList({ route }: any): React.ReactElement {
   const navigation = useNavigation();
   const { orderDetail } = useCart();
   const [orderDetails, setOrderDetails] = useState<IOrderId>();
-  const installmentValue = (orderDetails?.value as number / 100) / orderDetails?.paymentData.transactions[0].payments[0].installments
   const [, setCopiedText] = useClipboard();
   const [loading, setLoading] = useState(true);
   const [clickedIcon, setClickedIcon] = useState(false);
   const { profile } = useAuthStore(['profile']);
+
+  const installmentValue = useMemo(() => {
+    const value = (orderDetails?.value as number / 100);
+
+    const [transaction] = orderDetails?.paymentData?.transactions || [];
+    const [payment] = transaction?.payments || [];
+
+    return value / (payment?.installments || 1);
+  }, [orderDetails?.paymentData]);   
 
   const [onVerifyInvoiceSLA, { data: invoiceData }] = useInvoiceKeyLazyQuery({
     context: { clientName: 'gateway' },
