@@ -1,6 +1,6 @@
 ## CHANGELOG
 
-### 2.1.6
+### 2.1.8
 
 - [21551 - Contador não direciona para PDP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21551)
 
