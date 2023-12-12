@@ -6,6 +6,12 @@
 
 ---
 
+### 2.1.6
+
+- [Feature(21352) Filtro de preço Contentful](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_boards/board/t/Conteudo%20Downstream/Product%20Backlog)
+
+---
+
 ### 2.1.4
 
 - [Feature(19072) Integrar intelipost](https://dev.azure.com/ARECO/Canal%20App%20e%20Omni/_git/app-v2/pullrequest/1591)
@@ -49,8 +55,8 @@
 ---
 
 ### 2.0.21
-- Correção Countdown
 
+- Correção Countdown
 
 ### 2.0.18
 

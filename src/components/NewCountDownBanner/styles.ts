@@ -1,6 +1,7 @@
 import { Platform, StyleSheet } from 'react-native';
 import { scale } from '../../utils/scale';
 import { platformType } from '../../utils/platformType';
+import { FONTS } from '../../base/styles';
 
 const styles = StyleSheet.create({
   dropShadow: {
@@ -33,7 +34,11 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontFamily: 'ReservaSerif-Bold',
+    fontFamily: FONTS.RESERVA_SANS_BOLD,
+  },
+
+  subtitle: {
+    fontFamily: FONTS.RESERVA_SANS_REGULAR,
     fontSize: scale(20),
     color: '#333',
     marginBottom: scale(14),

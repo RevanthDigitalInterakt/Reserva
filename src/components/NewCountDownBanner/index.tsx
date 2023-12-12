@@ -26,11 +26,33 @@ export function NewCountDownBanner({ data }: ICountDownBanner) {
   });
 
   const onPress = useCallback(() => {
+    const navigateParams: {
+      referenceId?: string | null | undefined;
+      filters?: {
+        priceFilter: {
+          from: number;
+          to: number;
+        }
+      }
+    } = {
+      referenceId: data?.reference,
+    };
+    if (
+      (data?.filters?.priceFilter?.from || data?.filters?.priceFilter?.from === null)
+            && data?.filters?.priceFilter?.to) {
+      navigateParams.filters = {
+        priceFilter: {
+          from: data?.filters?.priceFilter?.from || 0,
+          to: data?.filters?.priceFilter?.to || 0,
+        },
+      };
+    }
+
     const reference = data?.reference || '';
     const [categoryType, categoryData] = data?.reference ? reference.split(':') : [];
     navigation.navigate(
       categoryType === 'product' ? 'ProductDetail' : 'ProductCatalog',
-      categoryType === 'product' ? { productId: categoryData } : { referenceId: data?.reference }
+      categoryType === 'product' ? { productId: categoryData } : { referenceId: data?.reference },
     );
   }, [data]);
 
@@ -58,8 +80,14 @@ export function NewCountDownBanner({ data }: ICountDownBanner) {
     <DropShadow style={styles.dropShadow}>
       <View style={styles.container}>
         <View style={styles.contentWrapper}>
-          <Text style={styles.title}>{data.title ?? ''}</Text>
-
+          <Text style={styles.subtitle}>
+            <Text style={styles.title}>
+              {' '}
+              {data.title ?? ''}
+              {' '}
+            </Text>
+            {data.subtitle ?? ''}
+          </Text>
           <View style={styles.cronometerAndButtonsWrapper}>
             <NewCountDownFlipNumber />
             <View style={styles.buttonsWrapper}>

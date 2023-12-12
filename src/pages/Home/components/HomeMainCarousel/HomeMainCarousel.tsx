@@ -6,10 +6,7 @@ import { Pressable, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import Carousel, { type ICarouselInstance } from 'react-native-reanimated-carousel';
 
-import type {
-  HomeCarouselItemOutput,
-  HomeCarouselOutput,
-} from '../../../../base/graphql/generated';
+import type { HomeCarouselItemOutput, HomeCarouselOutput } from '../../../../base/graphql/generated';
 import { COLORS } from '../../../../base/styles';
 import { Box } from '../../../../components/Box/Box';
 import CarouselPaginationItem from '../../../../components/CarouselPaginationItem';
@@ -53,12 +50,36 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
     (item: HomeCarouselItemOutput) => {
       const { reservaMini, orderBy } = item;
 
-      return navigation.navigate('ProductCatalog', {
+      const navigateParams: {
+        facetInput: string;
+        referenceId: string;
+        reservaMini: boolean;
+        orderBy: string;
+        filters: {
+          priceFilter: {
+            from: number;
+            to: number;
+          }
+        }
+      } = {
         facetInput: item.facets,
         referenceId: item.reference,
         reservaMini,
         orderBy,
-      });
+      };
+      if (
+        (item.filters?.priceFilter?.from
+                    || item.filters?.priceFilter?.from === null)
+                && item.filters?.priceFilter?.to) {
+        navigateParams.filters = {
+          priceFilter: {
+            from: item.filters?.priceFilter?.from || 0,
+            to: item.filters?.priceFilter?.to || 0,
+          },
+        };
+      }
+
+      return navigation.navigate('ProductCatalog', navigateParams);
     },
     [navigation],
   );
