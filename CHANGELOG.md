@@ -4,6 +4,7 @@
 
 - [21551 - Contador não direciona para PDP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21551)
 - [22094 - Ao voltar para PDC pela sacola, usuário retorna para início da result list](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22094)
+- [22268 - Animação contador quebrada](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22268)
 
 ---
 
