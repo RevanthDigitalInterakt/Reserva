@@ -12,8 +12,9 @@ export const TopBarDefaultBackButton: React.FC<{
   showShadow?: Boolean;
   navigateGoBack?: Boolean;
   backButtonPress?: () => void;
+  cacheGoingBackRequest?: () => void;
 }> = ({
-  showShadow = true, loading = false, navigateGoBack = false, backButtonPress,
+  showShadow = true, loading = false, navigateGoBack = false, backButtonPress, cacheGoingBackRequest,
 }) => {
   const navigation = useNavigation();
   const { allItemsQuantity } = useBagStore(['allItemsQuantity']);
@@ -51,7 +52,12 @@ export const TopBarDefaultBackButton: React.FC<{
         testID: 'com.usereserva:id/top_bar_button_handbag',
         name: 'Handbag',
         size: 24,
-        onPress: () => navigation.navigate('BagScreen'),
+        onPress: () => {
+          if (cacheGoingBackRequest) {
+            cacheGoingBackRequest();
+          }
+          navigation.navigate('BagScreen')
+        },
         badgeCount: allItemsQuantity,
       }}
       height={50}
