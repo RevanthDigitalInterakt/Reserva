@@ -7,16 +7,18 @@ interface ICard {
   type: 'upper' | 'lower';
   number: any;
   testID: string;
+  colorDivider?: string;
 }
 
-export function Card({ type, number, testID }: ICard) {
+export function Card({ type, number, testID, colorDivider }: ICard) {
+  const style = styles({ upper: type === 'upper' }).card;
   return (
     <View
-      style={
-        styles({
-          upper: type === 'upper',
-        }).card
-      }
+      style={{
+        ...style,
+        borderColor: colorDivider || style.borderColor,
+        borderBottomColor: colorDivider || style.borderBottomColor,
+      }}
       {...testProps(testID)}
     >
       <Text

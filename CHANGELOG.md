@@ -1,8 +1,20 @@
 ## CHANGELOG
 
+### 2.1.8
+
+- [21551 - Contador não direciona para PDP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21551)
+- [22094 - Ao voltar para PDC pela sacola, usuário retorna para início da result list](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22094)
+- [22268 - Animação contador quebrada](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22268)
+
+---
+
 ### 2.1.6
 
+- [21060 - Header nova home Android](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21060)
+- [19882 - Ao setar o contador para todas a telas, o mesmo só aparece na home [app]](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19882/)
 - [Feature(21352) Filtro de preço Contentful](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_boards/board/t/Conteudo%20Downstream/Product%20Backlog)
+
+---
 
 ### 2.1.4
 

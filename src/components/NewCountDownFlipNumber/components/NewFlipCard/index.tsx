@@ -7,33 +7,39 @@ interface IFlipCard {
   type: 'front' | 'back';
   number: string;
   testID: string;
+  clockBackgroundColor?: string;
+  colorDivider?: string;
 }
 
-export const NewFlipCard = forwardRef((props: IFlipCard, ref) => {
-  const { type, number, testID } = props;
+export const NewFlipCard = forwardRef(
+  ({
+    type, number, testID, clockBackgroundColor, colorDivider,
+  }: IFlipCard, ref) => {
+    const containerStyle = styles({ isFront: type === 'front' }).container;
 
-  return (
-    <Animated.View
-      {...testProps(testID)}
-      ref={ref}
-      style={
-        styles({
-          isFront: type === 'front',
-        }).container
-      }
-    >
-      <View style={styles({}).overflowContainer}>
-        <Text
-          {...testProps(`com.usereserva:id/flip_card_number_${type}`)}
-          style={
+    return (
+      <Animated.View
+        {...testProps(testID)}
+        ref={ref}
+        style={{
+          ...containerStyle,
+          backgroundColor: clockBackgroundColor || containerStyle.backgroundColor,
+          borderColor: colorDivider || containerStyle.borderColor,
+        }}
+      >
+        <View style={styles({}).overflowContainer}>
+          <Text
+            {...testProps(`com.usereserva:id/flip_card_number_${type}`)}
+            style={
             styles({
               isFront: type === 'front',
             }).number
           }
-        >
-          {number}
-        </Text>
-      </View>
-    </Animated.View>
-  );
-});
+          >
+            {number}
+          </Text>
+        </View>
+      </Animated.View>
+    );
+  },
+);
