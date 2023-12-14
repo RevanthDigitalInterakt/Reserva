@@ -1,5 +1,6 @@
 ## CHANGELOG
 
+
 ### 2.1.8
 
 - [21551 - Contador não direciona para PDP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21551)
@@ -7,6 +8,11 @@
 - [22268 - Animação contador quebrada](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22268)
 
 ---
+
+### 2.1.7
+
+- [Feature(22265) Visualização do parcelamento de compra do aplicativo > Meus pedidos](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22265)
+
 
 ### 2.1.6
 
