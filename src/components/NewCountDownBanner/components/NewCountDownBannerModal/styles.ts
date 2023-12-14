@@ -15,14 +15,14 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: FONTS.RESERVA_SERIF_BOLD,
     fontSize: scale(20),
-    color: COLORS.ACTION_BUTTON_COLOR,
+    color: COLORS.LIGHT_BLACK,
     textAlign: 'left',
     width: '100%',
   },
   rules: {
     lineHeight: scale(18),
     fontFamily: FONTS.RESERVA_SANS_REGULAR,
-    color: COLORS.ACTION_BUTTON_COLOR,
+    color: COLORS.LIGHT_BLACK,
     marginTop: scale(24),
     width: '100%',
   },

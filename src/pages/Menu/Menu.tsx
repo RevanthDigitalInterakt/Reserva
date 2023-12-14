@@ -14,7 +14,12 @@ import { TopBarMenu } from '../../modules/Menu/components/TopBarMenu';
 import testProps from '../../utils/testProps';
 import EventProvider from '../../utils/EventProvider';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
-import { type MenuCategoryItemOutput, MenuItemTypeEnum, useAppMenuQuery } from '../../base/graphql/generated';
+import {
+  type Maybe,
+  type MenuCategoryItemOutput,
+  MenuItemTypeEnum,
+  useAppMenuQuery,
+} from '../../base/graphql/generated';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import MenuItem from './components/MenuItem';
@@ -44,7 +49,6 @@ function Menu() {
     notifyOnNetworkStatusChange: true,
     context: { clientName: 'gateway' },
   });
-
   const regionalizationActive = useMemo(() => getBoolean('regionalization'), [getBoolean]);
 
   const trackEventAccessedDepartmentDito = useCallback(async (openedCategories: string) => {
@@ -91,15 +95,41 @@ function Menu() {
 
     if (
       selectedItem.type === MenuItemTypeEnum.Category
-      || selectedItem.type === MenuItemTypeEnum.Collection
+            || selectedItem.type === MenuItemTypeEnum.Collection
     ) {
-      navigation.navigate('ProductCatalog', {
+      const navigateParams: {
+        facetInput: MenuCategoryItemOutput['facets'];
+        referenceId: Maybe<string> | undefined;
+        title: string;
+        comeFrom: string;
+        indexMenuOpened: number;
+        filters?: {
+          priceFilter: {
+            from: number;
+            to: number;
+          };
+        };
+      } = {
         facetInput: selectedItem.facets,
         referenceId: selectedItem.referenceId,
         title: selectedItem.name,
         comeFrom: 'Menu',
         indexMenuOpened: index,
-      });
+      };
+
+      if (
+        (selectedItem.filters?.priceFilter?.from
+                    || selectedItem.filters?.priceFilter?.from === null)
+                && selectedItem.filters?.priceFilter?.to) {
+        navigateParams.filters = {
+          priceFilter: {
+            from: selectedItem.filters?.priceFilter?.from || 0,
+            to: selectedItem.filters?.priceFilter?.to || 0,
+          },
+        };
+      }
+
+      navigation.navigate('ProductCatalog', navigateParams);
 
       return;
     }
@@ -114,7 +144,10 @@ function Menu() {
   }, [getTestEnvironment]);
 
   return (
-    <SafeAreaView style={{ backgroundColor: theme.colors.white, flex: 1 }} {...testProps('com.usereserva:id/menu_container')}>
+    <SafeAreaView
+      style={{ backgroundColor: theme.colors.white, flex: 1 }}
+      {...testProps('com.usereserva:id/menu_container')}
+    >
       <Box flex={1} backgroundColor="backgroundApp">
         <TopBarMenu loading={loadingMenu} />
 
@@ -142,12 +175,12 @@ function Menu() {
               <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
 
               {regionalizationActive && (
-                <FixedMenuItem
-                  iconName="Pin"
-                  testID="com.usereserva:id/menu_button_cep"
-                  title="Inserir ou alterar CEP"
-                  onPress={() => navigation.navigate('ChangeRegionalization')}
-                />
+              <FixedMenuItem
+                iconName="Pin"
+                testID="com.usereserva:id/menu_button_cep"
+                title="Inserir ou alterar CEP"
+                onPress={() => navigation.navigate('ChangeRegionalization')}
+              />
               )}
 
               <NewFixedMenuItem

@@ -2,9 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect } from 'react';
 import { Alert, View } from 'react-native';
-
-import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
-import { ProductResultActionEnum, useProductLazyQuery, type ProductQuery } from '../../base/graphql/generated';
+import { type ProductQuery, ProductResultActionEnum, useProductLazyQuery } from '../../base/graphql/generated';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { Box } from '../../components/Box/Box';
 import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
@@ -14,6 +12,7 @@ import type { IProductDetailRouteParams } from '../../utils/createNavigateToProd
 import { getProductCategories } from '../../utils/getProductCategories';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
+import { GiftCardAddToCart } from './components/GiftCardAddToCart';
 import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
 import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
 import { Recommendation } from '../Bag/components/Recommendation';
@@ -25,10 +24,13 @@ import ProductSLA from './components/ProductSLA';
 import ProductSelectors from './components/ProductSelectors';
 import ProductSummary from './components/ProductSummary';
 import { getProductLoadType } from './utils/getProductLoadType';
+import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
+import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
 function ProductDetail({ route, navigation }: IProductDetailNew) {
+  const { getBoolean } = useRemoteConfig();
   const { getItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
@@ -37,6 +39,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
     'resetProduct',
     'productDetail',
   ]);
+
+  const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
 
   const [getProduct, { loading }] = useProductLazyQuery({
     fetchPolicy: getFetchPolicyPerKey('productDetail'),
@@ -80,7 +84,6 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       }
 
       const { product } = data;
-
       trackEventDitoAccessProduct(data);
 
       EventProvider.logEvent('product_view', {
@@ -90,7 +93,12 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         product_currency: 'BRL',
       });
 
-      if (product.action !== ProductResultActionEnum.ShowProduct) {
+      const pdpShowGiftCard = getBoolean('pdp_show_gift_card');
+      if (
+        (product.action !== ProductResultActionEnum.ShowProduct
+                    && product.action !== ProductResultActionEnum.ShowGiftCard)
+                || (product.action === ProductResultActionEnum.ShowGiftCard && !pdpShowGiftCard)
+      ) {
         await DeepLinkPathModule.openUrlInBrowser({
           closeCurrentAppInstance: false,
           url: product.share.url,
@@ -126,8 +134,9 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   }, [loading, onFinishLoad, startLoadingTime]);
 
   return (
-    <ProductDetailWrapper loading={loading}>
-      {!!productDetail && (
+    <>
+      <ProductDetailWrapper loading={loading}>
+        {!!productDetail && (
         <View>
           <ProductSummary />
 
@@ -147,9 +156,12 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
           <Box px="xxxs">
             <FormNewsletter />
           </Box>
+
         </View>
-      )}
-    </ProductDetailWrapper>
+        )}
+      </ProductDetailWrapper>
+      {isGiftCard && <GiftCardAddToCart />}
+    </>
   );
 }
 

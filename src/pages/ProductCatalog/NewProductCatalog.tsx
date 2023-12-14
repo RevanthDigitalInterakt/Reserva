@@ -48,6 +48,9 @@ function NewProductCatalog({ navigation, route }: Props) {
     [referenceId, offersPage],
   );
 
+  const countdownType = reference === offersPage
+    ? ClockScreenEnum.Offers : ClockScreenEnum.Category;
+
   const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
   const defaultFacets = useMemo(() => generateFacets({
     ...filters,
@@ -95,10 +98,11 @@ function NewProductCatalog({ navigation, route }: Props) {
         cacheGoingBackRequest={() => setIsGoingBack(true)}
         headerComponent={(
           <>
-            <NewCountdown
-              reference={reference}
-              selectClockScreen={ClockScreenEnum.Category}
-            />
+            {countdownType === 'CATEGORY' ? (
+              <NewCountdown reference={reference} selectClockScreen={countdownType} />
+            ) : (
+              <NewCountdown selectClockScreen={countdownType} />
+            )}
             <Banner
               setLoading={setLoadingMedias}
               reference={reference}
@@ -126,7 +130,10 @@ function NewProductCatalog({ navigation, route }: Props) {
 
   return (
     <Box flex={1} backgroundColor="white" height={800}>
-      <TopBarDefaultBackButton loading={loading} />
+      <TopBarDefaultBackButton
+        loading={loading}
+        cacheGoingBackRequest={() => setIsGoingBack(true)}
+      />
 
       {renderList}
     </Box>

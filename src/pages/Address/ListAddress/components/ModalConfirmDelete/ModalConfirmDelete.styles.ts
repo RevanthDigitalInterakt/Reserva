@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   modalButton: {
-    backgroundColor: COLORS.ACTION_BUTTON_COLOR,
+    backgroundColor: COLORS.LIGHT_BLACK,
     padding: 20,
     width: '45%',
     justifyContent: 'center',

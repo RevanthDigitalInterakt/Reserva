@@ -8,12 +8,14 @@ import EventProvider from '../../../../utils/EventProvider';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import testProps from '../../../../utils/testProps';
+import type { IFilters } from '../../../../utils/generateFacets';
 
 export interface IHomeCard {
   imageUrl: string;
   reference: string;
   reservaMini: boolean;
   orderBy: string;
+  filters?: IFilters;
 }
 
 function HomeCard({
@@ -21,6 +23,7 @@ function HomeCard({
   reference,
   reservaMini,
   orderBy,
+  filters,
 }: IHomeCard) {
   const navigation = useNavigation();
 
@@ -47,11 +50,32 @@ function HomeCard({
       return;
     }
 
-    navigation.navigate('ProductCatalog', {
+    let navigateParams: {
+      referenceId: string;
+      reservaMini: boolean;
+      orderBy: string;
+      filters?: IFilters;
+    } = {
       referenceId: reference,
       reservaMini,
       orderBy,
-    });
+    };
+
+    if ((filters?.priceFilter?.from
+                || filters?.priceFilter?.from === null)
+            && filters?.priceFilter?.to) {
+      navigateParams = {
+        ...navigateParams,
+        filters: {
+          priceFilter: {
+            from: filters?.priceFilter?.from || 0,
+            to: filters?.priceFilter?.to || 0,
+          },
+        },
+      };
+    }
+
+    navigation.navigate('ProductCatalog', navigateParams);
   };
 
   if (!imageUrl) return null;
