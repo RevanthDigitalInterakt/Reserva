@@ -5,6 +5,7 @@ import { ptBR } from 'date-fns/locale';
 import React, {
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import {
@@ -25,6 +26,7 @@ import { Typography } from '../../../components/Typography/Typography';
 import { Button } from '../../../components/Button';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 import { useInvoiceKeyLazyQuery, useTrackingCodeLazyQuery } from '../../../base/graphql/generated';
+import { PriceCustom } from '../../Checkout/components/PriceCustom';
 
 function OrderList({ route }: any): React.ReactElement {
   const { order } = route.params;
@@ -35,6 +37,15 @@ function OrderList({ route }: any): React.ReactElement {
   const [loading, setLoading] = useState(true);
   const [clickedIcon, setClickedIcon] = useState(false);
   const { profile } = useAuthStore(['profile']);
+
+  const installmentValue = useMemo(() => {
+    const value = (orderDetails?.value as number / 100);
+
+    const [transaction] = orderDetails?.paymentData?.transactions || [];
+    const [payment] = transaction?.payments || [];
+
+    return value / (payment?.installments || 1);
+  }, [orderDetails?.paymentData]);   
 
   const [onVerifyInvoiceSLA, { data: invoiceData }] = useInvoiceKeyLazyQuery({
     context: { clientName: 'gateway' },
@@ -343,10 +354,12 @@ function OrderList({ route }: any): React.ReactElement {
                 {' '}
               </Typography>
               <Typography fontSize={14} fontFamily="nunitoSemiBold">
-                R$
-                {' '}
-                {orderDetails.paymentData.transactions[0].payments[0].value
-                  / 100}
+                <PriceCustom
+                  fontFamily="nunitoSemiBold"
+                  sizeInterger={15}
+                  sizeDecimal={11}
+                  num={installmentValue}
+                />
               </Typography>
             </Box>
           </Box>
