@@ -5,7 +5,11 @@ import {
 import { Divider } from '../Divider/Divider';
 import styles from './styles';
 
-function FormLink({ link }) {
+interface FormLinkProps {
+  link: string;
+}
+
+function FormLink({ link }: FormLinkProps) {
   const handleButtonPress = () => {
     Linking.openURL(link);
   };
