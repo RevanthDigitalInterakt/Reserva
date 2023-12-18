@@ -250,7 +250,7 @@ export function MenuProfile() {
                 />
               </Box>
 
-              {showForm === 'profile' ? <FormLink /> : null}
+              {showForm === 'profile' ? <FormLink link="https://forms.gle/rpPP8aStXcGA63UdA" /> : null}
 
               <Box marginY="xs" justifyContent="flex-end">
                 <Button

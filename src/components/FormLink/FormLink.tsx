@@ -5,10 +5,9 @@ import {
 import { Divider } from '../Divider/Divider';
 import styles from './styles';
 
-function FormLink() {
+function FormLink({ link }) {
   const handleButtonPress = () => {
-    const externalLink = 'https://google.com';
-    Linking.openURL(externalLink);
+    Linking.openURL(link);
   };
   return (
     <>
