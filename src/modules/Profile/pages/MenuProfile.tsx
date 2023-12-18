@@ -41,9 +41,11 @@ export function MenuProfile() {
 
   const { handleLogout } = useAuthentication({});
 
-  const { getBoolean } = useRemoteConfig();
+  const { getBoolean, getString } = useRemoteConfig();
 
   const isLoading = useMemo(() => !authStore.initialized, [authStore.initialized]);
+
+  const showForm = getString('show_form');
 
   const setImageUrl = useCallback(async (path?: string) => {
     try {
@@ -248,7 +250,7 @@ export function MenuProfile() {
                 />
               </Box>
 
-              <FormLink />
+              {showForm === 'profile' ? <FormLink /> : null}
 
               <Box marginY="xs" justifyContent="flex-end">
                 <Button

@@ -1,8 +1,9 @@
 import React from 'react';
 import {
-  View, Text, TouchableOpacity, StyleSheet, Linking,
+  View, Text, TouchableOpacity, Linking,
 } from 'react-native';
-import { FONTS } from '../../base/styles';
+import { Divider } from '../Divider/Divider';
+import styles from './styles';
 
 function FormLink() {
   const handleButtonPress = () => {
@@ -10,44 +11,17 @@ function FormLink() {
     Linking.openURL(externalLink);
   };
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>O que você tá achando do app?</Text>
-      <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
-        <Text style={styles.buttonText}>CONTA AÍ</Text>
-      </TouchableOpacity>
-    </View>
+    <>
+      <View style={styles.container}>
+        <Text style={styles.text}>O que você tá achando do app?</Text>
+        <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
+          <Text style={styles.buttonText}>CONTA AÍ</Text>
+        </TouchableOpacity>
+      </View>
+      <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" marginX="micro" />
+
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    margin: 20,
-    padding: 10,
-    paddingHorizontal: 20,
-    backgroundColor: 'black',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  text: {
-    color: 'white',
-    fontFamily: FONTS.RESERVA_SANS_REGULAR,
-    fontSize: 16,
-  },
-  button: {
-    width: 94,
-    height: 28,
-    backgroundColor: 'white',
-    borderRadius: 16,
-    marginLeft: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'black',
-    fontFamily: FONTS.RESERVA_SANS_REGULAR,
-    fontSize: 16,
-  },
-});
 
 export default FormLink;

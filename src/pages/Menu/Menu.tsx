@@ -42,10 +42,10 @@ function Menu() {
 
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { profile } = useAuthStore(['profile']);
-  const { getBoolean } = useRemoteConfig();
+  const { getBoolean, getString } = useRemoteConfig();
   const linkTo = useLinkTo();
 
-  const formlink = true// getBoolean('show_form_link');
+  const showForm = getString('show_form');
 
   const { data, loading: loadingMenu } = useAppMenuQuery({
     fetchPolicy: getFetchPolicyPerKey('appMenu'),
@@ -236,7 +236,12 @@ function Menu() {
                   onPress={() => navigateFromMenu('PrivacyPolicy')}
                 />
               </View>
-              {formlink && <FormLink />}
+              {showForm === 'menu' ? (
+                <>
+                  <Divider variant="fullWidth" marginBottom="nano" marginTop="xxs" marginX="micro" />
+                  <FormLink />
+                </>
+              ) : null}
             </>
           )}
 
