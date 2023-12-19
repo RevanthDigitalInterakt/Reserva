@@ -45,7 +45,7 @@ export function MenuProfile() {
 
   const isLoading = useMemo(() => !authStore.initialized, [authStore.initialized]);
 
-  const showForm = getString('show_form');
+  const showForm = useMemo(() => getString('show_form'), []);
 
   const setImageUrl = useCallback(async (path?: string) => {
     try {

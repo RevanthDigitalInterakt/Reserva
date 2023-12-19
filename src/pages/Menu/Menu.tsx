@@ -45,7 +45,7 @@ function Menu() {
   const { getBoolean, getString } = useRemoteConfig();
   const linkTo = useLinkTo();
 
-  const showForm = getString('show_form');
+  const showForm = useMemo(() => getString('show_form'), []);
 
   const { data, loading: loadingMenu } = useAppMenuQuery({
     fetchPolicy: getFetchPolicyPerKey('appMenu'),

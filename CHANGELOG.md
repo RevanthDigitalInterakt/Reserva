@@ -1,6 +1,12 @@
 ## CHANGELOG
 
 
+### 2.1.9
+
+- [23364 - Formulário pesquisa [app]](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/23364)
+
+---
+
 ### 2.1.8
 
 - [21551 - Contador não direciona para PDP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21551)
