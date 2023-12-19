@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   View, Text, TouchableOpacity, Linking,
 } from 'react-native';
 import { Divider } from '../Divider/Divider';
 import styles from './styles';
 
-interface FormLinkProps {
+interface IFormLink {
   link: string;
 }
 
-function FormLink({ link }: FormLinkProps) {
-  const handleButtonPress = () => {
+function FormLink({ link }: IFormLink) {
+  const handleButtonPress = useCallback(() => {
     Linking.openURL(link);
-  };
+  }, [link]);
   return (
     <>
       <View style={styles.container}>
