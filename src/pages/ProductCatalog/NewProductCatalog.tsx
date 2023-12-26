@@ -14,6 +14,7 @@ import { CatalogSkeleton } from './components/CatalogSkeleton/CatalogSkeleton';
 import { Box } from '../../components/Box/Box';
 import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
 import { useHomeStore } from '../../zustand/useHomeStore';
+import EventProvider from '../../utils/EventProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -56,6 +57,16 @@ function NewProductCatalog({ navigation, route }: Props) {
     ...filters,
     reference,
   }), [filters, reference]);
+
+  useEffect(() => {
+    EventProvider.logEvent('view_item_list', {
+      items: result.map((item) => ({
+        price: item?.currentPrice,
+        item_id: item?.productId,
+        item_name: item?.productName,
+      })),
+    });
+  }, []);
 
   useEffect(() => {
     if (!loading && startLoadingTime > 0) {
@@ -111,7 +122,7 @@ function NewProductCatalog({ navigation, route }: Props) {
               defaultFacets={defaultFacets}
             />
           </>
-        )}
+                )}
         marginBottom={0}
         onFetchMore={doFetchMore}
         total={resultCount}
