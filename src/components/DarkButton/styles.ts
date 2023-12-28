@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    color: '#FFF',
+    color: COLORS.WHITE,
     textAlign: 'center',
     fontFamily: FONTS.NUNITO_SEMI_BOLD,
     fontSize: 14,
