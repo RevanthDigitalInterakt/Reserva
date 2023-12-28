@@ -811,7 +811,7 @@ exports[`ModalSignIn should match with the snapshot 1`] = `
                 Array [
                   Object {
                     "color": "#8A8C8E",
-                    "fontFamily": "ReservaSans-Regular",
+                    "": "ReservaSans-Regular",
                     "fontSize": 14,
                   },
                   Object {

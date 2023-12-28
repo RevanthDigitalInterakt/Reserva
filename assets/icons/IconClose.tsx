@@ -2,7 +2,7 @@ import React from 'react';
 import Svg, {
   G,
   Path,
-  SvgProps,
+  type SvgProps,
 } from 'react-native-svg';
 
 export default function IconClose(props: SvgProps) {

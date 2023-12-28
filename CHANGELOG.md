@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### 2.1.9
+
+- [21472 - Informativo de indisponibilidade de produtos na sacola](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21472)
+
+---
 
 ### 2.1.8
 

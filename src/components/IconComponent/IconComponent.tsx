@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import AutoHeightImage from 'react-native-auto-height-image';
-import icons, { TIcons, svgs } from '../../base/styles/icons';
+import icons, { type TIcons, svgs } from '../../base/styles/icons';
 
 export interface TSource {
   uri: string;

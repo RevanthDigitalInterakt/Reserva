@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
@@ -15,6 +15,8 @@ export default function BagProductList() {
   const { orderForm } = useCart();
   const { actions, items } = useBagStore(['actions', 'items']);
   const navigation = useNavigation();
+
+  const availableList = useMemo(() => items.filter((item) => item.availability === 'available'), [items]);
 
   const handleAddProductToGift = useCallback(async (
     isAddedAsGift: boolean,
@@ -99,7 +101,7 @@ export default function BagProductList() {
 
   return (
     <>
-      {items.map((item, index: number) => {
+      {availableList.map((item, index: number) => {
         if (item.sellingPrice !== 0 && item.isGift === false) {
           return item.isPrimeSubscription ? (
             <ProductListItemPrime
