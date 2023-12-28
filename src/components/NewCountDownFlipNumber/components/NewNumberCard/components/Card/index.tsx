@@ -10,7 +10,9 @@ interface ICard {
   colorDivider?: string;
 }
 
-export function Card({ type, number, testID, colorDivider }: ICard) {
+export function Card({
+  type, number, testID, colorDivider,
+}: ICard) {
   const style = styles({ upper: type === 'upper' }).card;
   return (
     <View

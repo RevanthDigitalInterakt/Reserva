@@ -5,16 +5,18 @@ import React from 'react';
 import type { GiftCardListProps, GiftCardOptionProps } from './types';
 import styles from './styles';
 
-const GiftCardOption = ({ onSelect, option }: GiftCardOptionProps) => (
-  <TouchableOpacity
-    onPress={() => onSelect(option)}
-    style={styles.cardOption}
-  >
-    <Text style={styles.cardOptionText}>
-      {option.name}
-    </Text>
-  </TouchableOpacity>
-);
+function GiftCardOption({ onSelect, option }: GiftCardOptionProps) {
+  return (
+    <TouchableOpacity
+      onPress={() => onSelect(option)}
+      style={styles.cardOption}
+    >
+      <Text style={styles.cardOptionText}>
+        {option.name}
+      </Text>
+    </TouchableOpacity>
+  );
+}
 
 export function GiftCardList({ list, onSelect }: GiftCardListProps) {
   return (

@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Alert, View } from 'react-native';
 import LottieView from 'lottie-react-native';
-import { loadingSpinner } from '../../../../../assets/animations';
 import DropShadow from 'react-native-drop-shadow';
+import { loadingSpinner } from '../../../../../assets/animations';
 import { useCart } from '../../../../context/CartContext';
 import EventProvider from '../../../../utils/EventProvider';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';

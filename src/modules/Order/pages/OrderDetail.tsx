@@ -45,7 +45,7 @@ function OrderList({ route }: any): React.ReactElement {
     const [payment] = transaction?.payments || [];
 
     return value / (payment?.installments || 1);
-  }, [orderDetails?.paymentData]);   
+  }, [orderDetails?.paymentData]);
 
   const [onVerifyInvoiceSLA, { data: invoiceData }] = useInvoiceKeyLazyQuery({
     context: { clientName: 'gateway' },
