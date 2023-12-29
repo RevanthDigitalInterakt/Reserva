@@ -15,7 +15,7 @@ steps:
 # Etapas para iOS
 - task: InstallAppleCertificate@2
   inputs:
-    certSecureFile: '$(p12.secureFilePath)'
+    certSecureFile: '$(certificate.secureFilePath)'
     certPwd: '$(P12password)'
   displayName: 'Install Apple Certificate'
 
