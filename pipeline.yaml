@@ -5,7 +5,8 @@ pr: none
 variables:
   - group: mobile-variable-group
 
-pool: Reserva_Pool_Mac
+pool:
+  vmImage: 'macOS-latest'
 
 steps:
 - checkout: self
