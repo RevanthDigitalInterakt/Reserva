@@ -15,20 +15,20 @@ steps:
 # Etapas para iOS
 - task: InstallAppleCertificate@2
   inputs:
-    certSecureFile: '$(certificate.p12)'
+    certSecureFile: 'certificate.p12'
     certPwd: '$(P12password)'
   displayName: 'Install Apple Certificate'
 
 - task: InstallAppleProvisioningProfile@1
   inputs:
     provisioningProfileLocation: 'secureFiles'
-    provProfileSecureFile: '$(mainAppProvisioningProfile.mobileprovision)'
+    provProfileSecureFile: 'mainAppProvisioningProfile.mobileprovision'
   displayName: 'Install Main App Provisioning Profile'
 
 - task: InstallAppleProvisioningProfile@1
   inputs:
     provisioningProfileLocation: 'secureFiles'
-    provProfileSecureFile: '$(oneSignalExtensionProvisioningProfile.mobileprovision)'
+    provProfileSecureFile: 'oneSignalExtensionProvisioningProfile.mobileprovision'
   displayName: 'Install OneSignal Extension Provisioning Profile'
 
 - script: |
