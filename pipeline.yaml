@@ -1,0 +1,53 @@
+trigger: none
+
+pr: none
+
+variables:
+  - group: mobile-variable-group
+
+pool: Reserva_Pool_Mac
+
+steps:
+- checkout: self
+  persistCredentials: true
+  clean: true
+
+# Etapas para iOS
+- task: InstallAppleCertificate@2
+  inputs:
+    certSecureFile: '$(p12.secureFilePath)'
+    certPwd: '$(P12password)'
+  displayName: 'Install Apple Certificate'
+
+- task: InstallAppleProvisioningProfile@1
+  inputs:
+    provisioningProfileLocation: 'secureFiles'
+    provProfileSecureFile: '$(mainAppProvisioningProfile.secureFilePath)'
+  displayName: 'Install Main App Provisioning Profile'
+
+- task: InstallAppleProvisioningProfile@1
+  inputs:
+    provisioningProfileLocation: 'secureFiles'
+    provProfileSecureFile: '$(oneSignalExtensionProvisioningProfile.secureFilePath)'
+  displayName: 'Install OneSignal Extension Provisioning Profile'
+
+- script: |
+    sudo gem install fastlane
+  displayName: 'Install Fastlane'
+
+- script: |
+    fastlane ios beta
+  displayName: 'Deploy to Apple Store Beta'
+  workingDirectory: ios
+
+# Etapas para Android
+#- script: |
+#    echo "Y" | sudo sdkmanager --install "build-tools;29.0.2" "platforms;android-29"
+#  displayName: 'Install Android SDK Build Tools'
+
+#- script: |
+#    fastlane android beta
+#  displayName: 'Deploy to Play Store Beta'
+#  env:
+#    PLAY_STORE_JSON_KEY: $(playStoreJsonKey)
+#  workingDirectory: android
