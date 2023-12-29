@@ -28,7 +28,7 @@ steps:
 - task: InstallAppleProvisioningProfile@1
   inputs:
     provisioningProfileLocation: 'secureFiles'
-    provProfileSecureFile: '$(oneSignalExtensionProvisioningProfile.secureFilePath)'
+    provProfileSecureFile: '$(oneSignalExtensionProvisioningProfile.mobileprovision)'
   displayName: 'Install OneSignal Extension Provisioning Profile'
 
 - script: |
