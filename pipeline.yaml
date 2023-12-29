@@ -37,6 +37,10 @@ steps:
   displayName: 'Install Fastlane'
 
 - script: |
+    fastlane fastlane-credentials add --username '$(FASTLANE_USER)' --password '$(FASTLANE_PASSWORD)'
+  displayName: 'Login Fastlane'
+
+- script: |
     fastlane ios beta
   displayName: 'Deploy to Apple Store Beta'
   workingDirectory: ios
