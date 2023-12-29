@@ -37,7 +37,7 @@ steps:
   displayName: 'Install Fastlane'
 
 - script: |
-    bundle exec fastlane ios beta
+    fastlane ios beta
   displayName: 'Deploy to Apple Store Beta'
   workingDirectory: ios
 
