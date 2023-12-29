@@ -18,6 +18,16 @@ default_platform(:ios)
 platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
+    produce(
+        app_identifier: "com.globalsys.reserva.OneSignalNotificationServiceExtension",
+        app_name: "OneSignalNotificationServiceExtension",
+        skip_itc: true
+    )
+    match(
+        app_identifier: ["com.globalsys.reserva","com.globalsys.reserva.OneSignalNotificationServiceExtension"],
+        type: "appstore",
+    )
+    cocoapods
     increment_build_number(xcodeproj: "reserva.xcodeproj")
     build_app(workspace: "reserva.xcworkspace", scheme: "reserva")
     upload_to_testflight
