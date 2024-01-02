@@ -162,39 +162,39 @@ function ProductSelectors() {
 
       <Box px="xxxs">
         {productDetailsHasColors && (
-          <>
-            <Box mt="xxxs">
-              <Box flexDirection="row" justifyContent="space-between" alignItems="center">
-                <Typography variant="subtituloSessoes">Tamanhos:</Typography>
+        <>
+          <Box mt="xxxs">
+            <Box flexDirection="row" justifyContent="space-between" alignItems="center">
+              <Typography variant="subtituloSessoes">Tamanhos:</Typography>
 
-                {!!categoryTree?.length && (
-                  <SizeGuide categoryTree={categoryTree} productId={productDetail.productId} />
-                )}
-              </Box>
-
-              <Box alignItems="flex-start" mt="xxxs">
-                <RadioButtons
-                  size={38}
-                  fontSize={12}
-                  disbledOptions={disabledSizes}
-                  onSelectedChange={(val) => setSelectedSize(`${val}`)}
-                  optionsList={sizes}
-                  defaultSelectedItem=""
-                  selectedItem={selectedSize?.size || ''}
-                />
-              </Box>
+              {!!categoryTree?.length && (
+              <SizeGuide categoryTree={categoryTree} productId={productDetail.productId} />
+              )}
             </Box>
 
-            {!selectedSize?.availableQuantity && (
-              <Box mt="xxs" flexDirection="row" alignItems="center">
-                <IconLegacy name="Alert" size={20} color="vermelhoRSV" mr="nano" />
+            <Box alignItems="flex-start" mt="xxxs">
+              <RadioButtons
+                size={38}
+                fontSize={12}
+                disbledOptions={disabledSizes}
+                onSelectedChange={(val) => setSelectedSize(`${val}`)}
+                optionsList={sizes}
+                defaultSelectedItem=""
+                selectedItem={selectedSize?.size || ''}
+              />
+            </Box>
+          </Box>
 
-                <Typography fontFamily="reservaSansBold" fontSize={15} color="vermelhoRSV">
-                  Produto Esgotado
-                </Typography>
-              </Box>
-            )}
-          </>
+          {!selectedSize?.availableQuantity && (
+          <Box mt="xxs" flexDirection="row" alignItems="center">
+            <IconLegacy name="Alert" size={20} color="vermelhoRSV" mr="nano" />
+
+            <Typography fontFamily="reservaSansBold" fontSize={15} color="vermelhoRSV">
+              Produto Esgotado
+            </Typography>
+          </Box>
+          )}
+        </>
         )}
 
         {isGiftCard ? (
@@ -230,7 +230,6 @@ function ProductSelectors() {
         {showRoulet ? (
           <RouletCouponCard />
         ) : null}
-        <ProductAddToCart />
 
         <Box mt="nano" flexDirection="row" />
 
