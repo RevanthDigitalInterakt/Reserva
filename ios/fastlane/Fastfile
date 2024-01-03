@@ -17,19 +17,47 @@ default_platform(:ios)
 
 platform :ios do
   desc "Push a new beta build to TestFlight"
+
   lane :beta do
-    produce(
-        app_identifier: "com.globalsys.reserva.OneSignalNotificationServiceExtension",
-        app_name: "OneSignalNotificationServiceExtension",
-        skip_itc: true
-    )
-    match(
-        app_identifier: ["com.globalsys.reserva","com.globalsys.reserva.OneSignalNotificationServiceExtension"],
-        type: "appstore",
-    )
-    cocoapods
-    increment_build_number(xcodeproj: "reserva.xcodeproj")
-    build_app(workspace: "reserva.xcworkspace", scheme: "reserva")
-    #upload_to_testflight
+
+  cocoapods(
+    podfile: "reserva",
+    use_bundle_exec: false
+  )
+
+  app_store_connect_api_key(
+    key_id: "DD8P34TT2Q",
+    issuer_id: "1694feb0-01bc-43e2-ae9a-51e7b25e810c",
+    key_filepath: "fastlane/AuthKey_DD8P34TT2Q.p8",
+    duration: 1200, # optional (maximum 1200)
+    in_house: false # optional but may be required if using match/sigh
+  )
+
+  produce(
+    app_identifier: "com.globalsys.reserva.OneSignalNotificationServiceExtension",
+    app_name: "OneSignalNotificationServiceExtension",
+    skip_itc: true,
+    enable_services: {
+      "associated_domains": "on",
+      "app_group": "on",
+      "app_attest": "on",
+      "push_notification": "on",
+    }
+  )
+
+  gym(
+    scheme: "reserva",
+    workspace: "reserva.xcworkspace",
+    export_method: "app-store",
+    configuration: "Release",
+    clean: true,
+    output_directory: "build"
+  )
+
+  testflight(
+    ipa: "build/reserva.ipa", 
+    skip_waiting_for_build_processing: true
+  )
+
   end
 end
