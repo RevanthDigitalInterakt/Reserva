@@ -10,12 +10,12 @@ import EventProvider from '../../utils/EventProvider';
 function FormLink() {
   const { getString } = useRemoteConfig();
 
-  const showForm = useMemo(() => getString('show_form'), []);
+  const showForm = useMemo(() => getString('show_user_feedback_form'), []);
 
   const handleButtonPress = useCallback(() => {
     EventProvider.logEvent(showForm === 'menu' ? 'click_form_menu' : 'click_form_profile', {});
     Linking.openURL(showForm === 'menu' ? 'https://forms.gle/bfA1UXHteCs36HjRA' : 'https://forms.gle/rpPP8aStXcGA63UdA');
-  }, []);
+  }, [showForm]);
   return (
     <>
       <View style={styles.container}>

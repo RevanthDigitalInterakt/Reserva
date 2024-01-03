@@ -47,7 +47,7 @@ export interface IRemoteConfigKeys {
   show_item_price: boolean;
   show_item_price_tester: boolean;
   pdp_show_gift_card: boolean;
-  show_form: string;
+  show_user_feedback_form: string;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -92,7 +92,7 @@ export const defaults: IRemoteConfigKeys = {
   show_on_smart_hint: false,
   show_item_price: false,
   show_item_price_tester: true,
-  show_form: 'none',
+  show_user_feedback_form: 'none',
 };
 
 const FIVE_MINUTES_IN_MS = 300000;
