@@ -33,7 +33,11 @@ const data = [
       + '\n\nCosméticos: Somente aceitamos a troca de produtos que não tiverem a embalagem violada e estiverem dentro da validade.'
       + '\n\nRelógios: Para troca por defeito, entre em contato com nossa central de atendimento informando os dados da compra e enviando uma foto da garantia do produto e da nota fiscal de compra. Iremos abrir uma solicitação junto à fabricante do relógio.'
       + '\n\nProdutos comprados em multimarcas ou marketplaces: Para troca desses produtos é necessário entrar em contato com a loja/site onde o produto foi adquirido.'
-      + 'Produtos personalizados pelo Faça Você: Como esses produtos são personalizados exclusivamente para você, eles não podem ser trocados. Essa informação está localizada no termo de uso da ferramenta e precisa ser aceita antes de começar a personalização.',
+      + 'Produtos personalizados pelo Faça Você: Como esses produtos são personalizados exclusivamente para você, eles não podem ser trocados. Essa informação está localizada no termo de uso da ferramenta e precisa ser aceita antes de começar a personalização.'
+      + '\n\nAlguns produtos do site/app não temos nas lojas, mas se for esse o caso, você poderá trocar por qualquer outro item, utilizando o valor pago no site como um crédito na nova compra.'
+      + '\n\nCaso você tenha comprado em alguma promoção, ação específica do site/app ou coleção antiga que não esteja vigente em loja, o valor disponível para a troca será o que foi pago originalmente no site, e não o preço cheio da loja.'
+      + '\n\nExemplo: se você comprou uma camiseta de R$99 no site, de alguma coleção passada ou promoção, e vai trocar por outra camiseta de coleção atual, que custe R$199 em loja, será necessário complementar a diferença de R$100.'
+      + '\n\nO que vale como crédito na troca é o valor que foi pago na peça.',
     id: 1,
   },
   {
