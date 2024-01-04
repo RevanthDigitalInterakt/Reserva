@@ -1,9 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useEffect, useMemo, useRef, useState,
+} from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
+import { Animated } from 'react-native';
 import NewListVerticalProducts from '../../components/NewListVerticalProducts/NewListVerticalProducts';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { generateFacets } from '../../utils/generateFacets';
-import ProductCatalogHeader from './components/ProductCatalogHeader/ProductCatalogHeader';
 import useSearchStore, { SearchType } from '../../zustand/useSearchStore';
 import { TopBarDefaultBackButton } from '../../modules/Menu/components/TopBarDefaultBackButton';
 import NewCountdown from './components/NewCountdown/NewCountdown';
@@ -14,6 +16,8 @@ import { CatalogSkeleton } from './components/CatalogSkeleton/CatalogSkeleton';
 import { Box } from '../../components/Box/Box';
 import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
 import { useHomeStore } from '../../zustand/useHomeStore';
+import SearchResultHeader from '../Search/components/SearchResultHeader';
+import { styles } from './styles';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -38,8 +42,10 @@ function NewProductCatalog({ navigation, route }: Props) {
     'onInit',
   ]);
 
+  const [shouldShowFilters, setShouldShowFilters] = useState(false);
   const [isGoingBack, setIsGoingBack] = useState(false);
   const [loadingMedias, setLoadingMedias] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const { referenceId, filters } = route.params;
   const { offersPage } = useHomeStore(['offersPage']);
 
@@ -56,6 +62,24 @@ function NewProductCatalog({ navigation, route }: Props) {
     ...filters,
     reference,
   }), [filters, reference]);
+
+  const handleShowFilters = (screenVerticalPosition: number) => {
+    if (screenVerticalPosition > 50) {
+      setShouldShowFilters(true);
+    }
+
+    if (screenVerticalPosition <= 50) {
+      setShouldShowFilters(false);
+    }
+  };
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: shouldShowFilters ? 1 : 0, // Anima para opacidade 1 (visível) ou 0 (invisível)
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  }, [shouldShowFilters]);
 
   useEffect(() => {
     if (!loading && startLoadingTime > 0) {
@@ -92,30 +116,35 @@ function NewProductCatalog({ navigation, route }: Props) {
     }
 
     return (
-      <NewListVerticalProducts
-        data={result}
-        loading={loading}
-        cacheGoingBackRequest={() => setIsGoingBack(true)}
-        headerComponent={(
-          <>
-            {countdownType === 'CATEGORY' ? (
-              <NewCountdown reference={reference} selectClockScreen={countdownType} />
-            ) : (
-              <NewCountdown selectClockScreen={countdownType} />
-            )}
-            <Banner
-              setLoading={setLoadingMedias}
-              reference={reference}
-            />
-            <ProductCatalogHeader
-              defaultFacets={defaultFacets}
-            />
-          </>
+      <>
+        <Animated.View style={styles(fadeAnim).filtersWrapper}>
+          <SearchResultHeader defaultFacets={defaultFacets} />
+        </Animated.View>
+        <NewListVerticalProducts
+          data={result}
+          loading={loading}
+          cacheGoingBackRequest={() => setIsGoingBack(true)}
+          onScroll={(scrollEvent) => {
+            handleShowFilters(scrollEvent.nativeEvent.contentOffset.y);
+          }}
+          headerComponent={(
+            <>
+              {countdownType === 'CATEGORY' ? (
+                <NewCountdown reference={reference} selectClockScreen={countdownType} />
+              ) : (
+                <NewCountdown selectClockScreen={countdownType} />
+              )}
+              <Banner
+                setLoading={setLoadingMedias}
+                reference={reference}
+              />
+            </>
         )}
-        marginBottom={0}
-        onFetchMore={doFetchMore}
-        total={resultCount}
-      />
+          marginBottom={0}
+          onFetchMore={doFetchMore}
+          total={resultCount}
+        />
+      </>
     );
   }, [
     loadingMedias,
@@ -126,6 +155,7 @@ function NewProductCatalog({ navigation, route }: Props) {
     defaultFacets,
     doFetchMore,
     resultCount,
+    shouldShowFilters,
   ]);
 
   return (

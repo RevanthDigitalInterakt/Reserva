@@ -1,6 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useMemo } from 'react';
-import { ActivityIndicator, FlatList } from 'react-native';
+import {
+  ActivityIndicator, FlatList, type NativeScrollEvent, type NativeSyntheticEvent,
+} from 'react-native';
 import type { ProductListOutput } from '../../base/graphql/generated';
 import { COLORS } from '../../base/styles/colors';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
@@ -20,6 +22,7 @@ interface ListProductsProps {
   headerComponent?: React.ReactNode[]
   onFetchMore: () => void;
   cacheGoingBackRequest?: () => void;
+  onScroll?: (scrollEvent: NativeSyntheticEvent<NativeScrollEvent>) => void;
 }
 
 function NewListVerticalProducts({
@@ -30,6 +33,7 @@ function NewListVerticalProducts({
   headerComponent,
   onFetchMore,
   cacheGoingBackRequest,
+  onScroll,
 }: ListProductsProps) {
   const navigation = useNavigation();
   const { getBoolean } = useRemoteConfig();
@@ -47,7 +51,7 @@ function NewListVerticalProducts({
       flex={1}
       alignItems="center"
       justifyContent="center"
-      marginBottom="xs"
+      marginY="xs"
       height={showThumbColors ? 375 : 353}
     >
       <ProductVerticalListCard
@@ -133,6 +137,7 @@ function NewListVerticalProducts({
       style={{ marginBottom }}
       data={data}
       bounces={false}
+      onScroll={onScroll}
       testID="com.usereserva:id/list_vertical_flat_list"
       keyExtractor={(item) => `${item.skuId}-${item.productName}`}
       numColumns={2}
