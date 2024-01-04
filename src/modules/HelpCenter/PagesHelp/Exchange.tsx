@@ -16,6 +16,10 @@ const data = [
       'TROCA EM LOJA'
       + '\nPara a sua comodidade todos os produtos adquiridos em nosso site poderão ser trocados em nossas lojas físicas próprias dentro de até 7 dias corridos desde o recebimento do pedido, porém não devolvidos.'
       + '\n\nLembramos que produtos comprados em lojas físicas não poderão ser trocados no site, é necessário ir até as lojas para realizar a troca.'
+      + '\n\nAlguns produtos do site/app não temos nas lojas, mas se for esse o caso, você poderá trocar por qualquer outro item, utilizando o valor pago no site como um crédito na nova compra.'
+      + '\n\nCaso você tenha comprado em alguma promoção, ação específica do site/app ou coleção antiga que não esteja vigente em loja, o valor disponível para a troca será o que foi pago originalmente no site, e não o preço cheio da loja.'
+      + '\n\nExemplo: se você comprou uma camiseta de R$99 no site, de alguma coleção passada ou promoção, e vai trocar por outra camiseta de coleção atual, que custe R$199 em loja, será necessário complementar a diferença de R$100.'
+      + '\n\nO que vale como crédito na troca é o valor que foi pago na peça.'
       + '\n\n\nPROCESSO PELO SITE'
       + '\nO prazo para a troca e devolução serem solicitadas é de até 60 dias corridos após o recebimento do produto. Nos casos de defeito o prazo é de 120 dias após o recebimento.'
       + '\n\nPara solicitar, basta clicar no link: https://lojausereserva.troquefacil.com.br/order, inserir o número completo do seu pedido e o e-mail utilizado para fazer a compra. '
@@ -33,11 +37,7 @@ const data = [
       + '\n\nCosméticos: Somente aceitamos a troca de produtos que não tiverem a embalagem violada e estiverem dentro da validade.'
       + '\n\nRelógios: Para troca por defeito, entre em contato com nossa central de atendimento informando os dados da compra e enviando uma foto da garantia do produto e da nota fiscal de compra. Iremos abrir uma solicitação junto à fabricante do relógio.'
       + '\n\nProdutos comprados em multimarcas ou marketplaces: Para troca desses produtos é necessário entrar em contato com a loja/site onde o produto foi adquirido.'
-      + 'Produtos personalizados pelo Faça Você: Como esses produtos são personalizados exclusivamente para você, eles não podem ser trocados. Essa informação está localizada no termo de uso da ferramenta e precisa ser aceita antes de começar a personalização.'
-      + '\n\nAlguns produtos do site/app não temos nas lojas, mas se for esse o caso, você poderá trocar por qualquer outro item, utilizando o valor pago no site como um crédito na nova compra.'
-      + '\n\nCaso você tenha comprado em alguma promoção, ação específica do site/app ou coleção antiga que não esteja vigente em loja, o valor disponível para a troca será o que foi pago originalmente no site, e não o preço cheio da loja.'
-      + '\n\nExemplo: se você comprou uma camiseta de R$99 no site, de alguma coleção passada ou promoção, e vai trocar por outra camiseta de coleção atual, que custe R$199 em loja, será necessário complementar a diferença de R$100.'
-      + '\n\nO que vale como crédito na troca é o valor que foi pago na peça.',
+      + 'Produtos personalizados pelo Faça Você: Como esses produtos são personalizados exclusivamente para você, eles não podem ser trocados. Essa informação está localizada no termo de uso da ferramenta e precisa ser aceita antes de começar a personalização.',
     id: 1,
   },
   {
