@@ -76,7 +76,7 @@ function NewProductCatalog({ navigation, route }: Props) {
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
-      toValue: shouldShowFilters ? 1 : 0, // Anima para opacidade 1 (visível) ou 0 (invisível)
+      toValue: shouldShowFilters ? 1 : 0,
       duration: 500,
       useNativeDriver: true,
     }).start();
