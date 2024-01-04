@@ -1,12 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import {
-  ActivityIndicator,
-  Animated,
-  FlatList,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
+  ActivityIndicator, Animated, FlatList, SafeAreaView, Text, TouchableOpacity, View,
 } from 'react-native';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
@@ -36,6 +30,7 @@ import { NewHomeCarousels } from './components/NewHomeCarousels';
 import useHomeHeader from './hooks/useHomeHeader';
 import styles from './styles';
 import { useBagStore } from '../../zustand/useBagStore/useBagStore';
+import { ActivityTracking } from '../../components/ActivityTracking';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -179,33 +174,36 @@ function Home() {
   }
 
   return (
-    <Box flex={1} bg="white" {...testProps('home_container')}>
-      {newHeaderIsActive ? renderHeader() : <TopBarDefault />}
-      {!newHeaderIsActive ? <HomeDiscountModal /> : null}
-      <SafeAreaView {...testProps('home_count_down_container')}>
-        <RouletWebview />
-        <FlatList
-          ListHeaderComponent={
-            <ListHeader newHeaderIsActive={newHeaderIsActive} />
-          }
-          bounces
-          onScroll={handleScroll}
-          contentContainerStyle={{ paddingBottom: 100 }}
-          keyExtractor={(item) => `home-media-${item.image.url.toString()}-${item.image.title}`}
-          data={medias}
-          renderItem={({ item }) => (
-            <NewBanner
-              facets={item.facets}
-              image={item.image.url}
-              orderBy={item.orderBy}
-              reference={item.reference}
-              reservaMini={item.reservaMini}
-            />
-          )}
-        />
-      </SafeAreaView>
-      {!!showModalSignUpComplete && <ModalSignUpComplete />}
-    </Box>
+    <>
+      <ActivityTracking />
+      <Box flex={1} bg="white" {...testProps('home_container')}>
+        {newHeaderIsActive ? renderHeader() : <TopBarDefault />}
+        {!newHeaderIsActive ? <HomeDiscountModal /> : null}
+        <SafeAreaView {...testProps('home_count_down_container')}>
+          <RouletWebview />
+          <FlatList
+            ListHeaderComponent={
+              <ListHeader newHeaderIsActive={newHeaderIsActive} />
+                        }
+            bounces
+            onScroll={handleScroll}
+            contentContainerStyle={{ paddingBottom: 100 }}
+            keyExtractor={(item) => `home-media-${item.image.url.toString()}-${item.image.title}`}
+            data={medias}
+            renderItem={({ item }) => (
+              <NewBanner
+                facets={item.facets}
+                image={item.image.url}
+                orderBy={item.orderBy}
+                reference={item.reference}
+                reservaMini={item.reservaMini}
+              />
+            )}
+          />
+        </SafeAreaView>
+        {!!showModalSignUpComplete && <ModalSignUpComplete />}
+      </Box>
+    </>
   );
 }
 

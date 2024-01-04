@@ -4,7 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import 'react-native-gesture-handler';
-import { requestTrackingPermission } from 'react-native-tracking-transparency';
 import { ThemeProvider } from 'styled-components/native';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { linkingConfig } from './config/linking';
@@ -71,10 +70,6 @@ function App() {
   }, [getTestEnvironment]);
 
   useEffect(() => {
-    (async () => {
-      await requestTrackingPermission();
-    })();
-
     EventProvider.initializeModules();
   }, []);
 
@@ -104,12 +99,12 @@ function App() {
                 <ContentfullContextProvider>
                   <RegionalSearchContextProvider>
                     <FirebaseContextProvider>
-                      <ChronometerContextProvider>
-                        <InitialScreen>
-                          <AppRouting />
-                        </InitialScreen>
-                      </ChronometerContextProvider>
-                    </FirebaseContextProvider>
+                        <ChronometerContextProvider>
+                            <InitialScreen>
+                                <AppRouting />
+                              </InitialScreen>
+                          </ChronometerContextProvider>
+                      </FirebaseContextProvider>
                   </RegionalSearchContextProvider>
                 </ContentfullContextProvider>
               </CartContextProvider>

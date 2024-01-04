@@ -18,6 +18,7 @@ import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLo
 import { useHomeStore } from '../../zustand/useHomeStore';
 import SearchResultHeader from '../Search/components/SearchResultHeader';
 import { styles } from './styles';
+import EventProvider from '../../utils/EventProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -64,11 +65,11 @@ function NewProductCatalog({ navigation, route }: Props) {
   }), [filters, reference]);
 
   const handleShowFilters = (screenVerticalPosition: number) => {
-    if (screenVerticalPosition > 50) {
+    if (screenVerticalPosition > 70) {
       setShouldShowFilters(true);
     }
 
-    if (screenVerticalPosition <= 50) {
+    if (screenVerticalPosition <= 70) {
       setShouldShowFilters(false);
     }
   };
@@ -80,6 +81,16 @@ function NewProductCatalog({ navigation, route }: Props) {
       useNativeDriver: true,
     }).start();
   }, [shouldShowFilters]);
+
+  useEffect(() => {
+    EventProvider.logEvent('view_item_list', {
+      items: result.map((item) => ({
+        price: item?.currentPrice,
+        item_id: item?.productId,
+        item_name: item?.productName,
+      })),
+    });
+  }, []);
 
   useEffect(() => {
     if (!loading && startLoadingTime > 0) {
