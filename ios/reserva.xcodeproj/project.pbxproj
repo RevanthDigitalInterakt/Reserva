@@ -89,14 +89,14 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		39A33485265165DD00206E04 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
 				80F6B00D278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 		80AA37EC28A5460F00A1094F /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
