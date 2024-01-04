@@ -1,5 +1,8 @@
 ## CHANGELOG
 
+### 2.1.10
+- [24417 - Desenvolvimento layout tracking ATT](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24417)
+
 ### 2.1.9
 - [22790 - Desenvolvimento layout tracking ATT](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22790)
 
