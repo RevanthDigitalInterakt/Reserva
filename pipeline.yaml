@@ -5,8 +5,9 @@ pr: none
 variables:
   - group: mobile-variable-group
 
-pool:
-  vmImage: 'macOS-latest'
+pool: Reserva_Pool_Mac
+demands:
+- agent.name -equals mac_agent_m1
 
 steps:
 - checkout: self
