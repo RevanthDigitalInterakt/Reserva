@@ -33,29 +33,24 @@ platform :ios do
     in_house: false # optional but may be required if using match/sigh
   )
 
-  enable_automatic_code_signing(
-    path: "reserva.xcodeproj"
-    )
-
-  produce(
-    app_identifier: "com.globalsys.reserva.OneSignalNotificationServiceExtension",
-    app_name: "OneSignalNotificationServiceExtension",
-    skip_itc: true,
-    enable_services: {
-      "associated_domains": "on",
-      "app_group": "on",
-      "app_attest": "on",
-      "push_notification": "on",
-    }
-  )
-
   gym(
     scheme: "reserva",
     workspace: "reserva.xcworkspace",
-    export_method: "app-store",
+    export_method: "development",
     configuration: "Release",
+    output_directory: "build",
+    include_bitcode: false,
+    include_symbols: false,
+    skip_profile_detection: true,
+    silent: true,
     clean: true,
-    output_directory: "build"
+    codesigning_identity: "Apple Development: Leonardo Henrique Nogueira Espirito Santo (3H5QP22TAD)",
+    export_options: {
+      provisioningProfiles: {
+        "com.globalsys.reserva" => "match.com.globalsys.reserva.development",
+        "com.globalsys.reserva.OneSignalNotificationServiceExtension" => "match.com.globalsys.reserva.onesignal.development"
+      }
+    }
   )
 
   testflight(
