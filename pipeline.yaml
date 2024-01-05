@@ -9,40 +9,11 @@ pool:
   name: Reserva_Pool_Mac
   demands:
   - agent.name -equals mac_agent_m1
-# pool:
-  # vmImage: 'macOS-13'
 
 steps:
 - checkout: self
   persistCredentials: true
   clean: true
-
-# Etapas para iOS
-- task: InstallAppleCertificate@2
-  inputs:
-    certSecureFile: 'certificate.p12'
-    certPwd: '$(P12password)'
-  displayName: 'Install Apple Certificate'
-
-- task: InstallAppleProvisioningProfile@1
-  inputs:
-    provisioningProfileLocation: 'secureFiles'
-    provProfileSecureFile: 'mainAppProvisioningProfile.mobileprovision'
-  displayName: 'Install Main App Provisioning Profile'
-
-- task: InstallAppleProvisioningProfile@1
-  inputs:
-    provisioningProfileLocation: 'secureFiles'
-    provProfileSecureFile: 'oneSignalExtensionProvisioningProfile.mobileprovision'
-  displayName: 'Install OneSignal Extension Provisioning Profile'
-
-- script: |
-    sudo gem install fastlane
-  displayName: 'Install Fastlane'
-
-- script: |
-    fastlane fastlane-credentials add --username '$(FASTLANE_USER)' --password '$(FASTLANE_PASSWORD)'
-  displayName: 'Login Fastlane'
 
 - script: |
     fastlane ios beta
