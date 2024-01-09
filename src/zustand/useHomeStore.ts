@@ -24,7 +24,7 @@ interface IHomeStore {
   discountBar: ConfigOutput['discountCodeBar'];
   offersPage?: string;
   onLoad: () => Promise<void>;
-  setTabBar: (hasTabBar: boolean) => void;
+  setHasTabBar: (hasTabBar: boolean) => void;
 }
 
 const homeStore = create<IHomeStore>((set, getState) => ({
@@ -35,7 +35,7 @@ const homeStore = create<IHomeStore>((set, getState) => ({
   discountBar: undefined,
   offersPage: undefined,
   medias: [],
-  setTabBar: (hasTabBar) => set(() => ({ hasTabBar })),
+  setHasTabBar: (hasTabBar) => set(() => ({ hasTabBar })),
   onLoad: async () => {
     const client = getApolloClient();
 
