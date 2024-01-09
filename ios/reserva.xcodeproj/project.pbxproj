@@ -988,9 +988,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = reserva/reserva.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = N3UDSXJ25B;
 				ENABLE_BITCODE = NO;
@@ -1057,7 +1057,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/JWT\"",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 2.1.6;
+				MARKETING_VERSION = 2.1.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1066,7 +1066,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva;
 				PRODUCT_NAME = reserva;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = match.com.globalsys.reserva.development;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = match.com.globalsys.reserva;
 				SWIFT_OBJC_BRIDGING_HEADER = "reserva-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1086,9 +1086,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = reserva/reserva.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
@@ -1154,7 +1154,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/JWT\"",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 2.1.6;
+				MARKETING_VERSION = 2.1.9;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1164,7 +1164,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva;
 				PRODUCT_NAME = reserva;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = match.com.globalsys.reserva.development;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = match.com.globalsys.reserva;
 				SWIFT_OBJC_BRIDGING_HEADER = "reserva-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_WORKSPACE = YES;
@@ -1184,9 +1184,9 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 18;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = N3UDSXJ25B;
@@ -1213,7 +1213,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = match.com.globalsys.reserva.onesignal.development;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = match.com.globalsys.reserva.oneSignal;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1232,10 +1232,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 18;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = N3UDSXJ25B;
@@ -1261,7 +1261,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = match.com.globalsys.reserva.onesignal.development;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = match.com.globalsys.reserva.oneSignal;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";

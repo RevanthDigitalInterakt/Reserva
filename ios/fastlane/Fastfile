@@ -35,31 +35,33 @@ platform :ios do
     duration: 1200, # optional (maximum 1200)
     in_house: false # optional but may be required if using match/sigh
   )
-
+ 
   gym(
     scheme: "reserva",
+    xcargs: "-jobs 4",
     workspace: "reserva.xcworkspace",
-    export_method: "development",
-    configuration: "Release",
+    export_method: "app-store",
+    configuration: "Debug",
     output_directory: "build",
     include_bitcode: false,
     include_symbols: false,
     skip_profile_detection: true,
-    silent: true,
-    clean: true,
-    codesigning_identity: "Apple Development: Leonardo Henrique Nogueira Espirito Santo (3H5QP22TAD)",
+    silent: false,
+    clean: false,
+    codesigning_identity: "iPhone Distribution: Tiferet Comercio de Roupas LTDA (N3UDSXJ25B)",
     export_options: {
+      method: "app-store",
       provisioningProfiles: {
-        "com.globalsys.reserva" => "match.com.globalsys.reserva.development",
-        "com.globalsys.reserva.OneSignalNotificationServiceExtension" => "match.com.globalsys.reserva.onesignal.development"
+        "com.globalsys.reserva" => "match.com.globalsys.reserva",
+        "com.globalsys.reserva.OneSignalNotificationServiceExtension" => "match.com.globalsys.reserva.oneSignal"
       }
     }
   )
 
-  testflight(
-    ipa: "build/reserva.ipa", 
-    skip_waiting_for_build_processing: true
-  )
+  pilot(
+      api_key_path: "fastlane/fastlane_DD8P34TT2Q.json",
+      ipa: "build/reserva.ipa"
+    )
 
   end
 end
