@@ -1,5 +1,5 @@
 import {
-  Image, ImageBackground, ScrollView, Text, TouchableOpacity, View,
+  Image, ImageBackground, Platform, ScrollView, Text, TouchableOpacity, View,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
@@ -10,6 +10,7 @@ import { scale } from '../../utils/scale';
 import { DarkButton } from '../DarkButton';
 import testProps from '../../utils/testProps';
 import { useHomeStore } from '../../zustand/useHomeStore';
+import { platformType } from '../../utils/platformType';
 
 const infos = [
   {
@@ -40,12 +41,14 @@ function Infos() {
 
 export function ActivityTracking() {
   const [isOpen, setIsOpen] = useState(false);
-  const { setTabBar } = useHomeStore(['setTabBar']);
+  const { setHasTabBar } = useHomeStore(['setHasTabBar']);
   const handleTrackingPermission = async () => {
+    const isIOS = Platform.OS === platformType.IOS;
+    if (!isIOS) return;
     const trackingStatus = await getTrackingStatus();
     if (trackingStatus !== 'not-determined') setIsOpen(false);
     if (trackingStatus === 'not-determined') {
-      setTabBar(false);
+      setHasTabBar(false);
       setIsOpen(true);
     }
   };
@@ -53,7 +56,7 @@ export function ActivityTracking() {
   const handleSelectTrackingPermission = async () => {
     await requestTrackingPermission();
     setIsOpen(false);
-    setTabBar(true);
+    setHasTabBar(true);
   };
 
   useEffect(() => {
