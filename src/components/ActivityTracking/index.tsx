@@ -9,6 +9,7 @@ import { commons } from '../../base/styles';
 import { scale } from '../../utils/scale';
 import { DarkButton } from '../DarkButton';
 import testProps from '../../utils/testProps';
+import { useHomeStore } from '../../zustand/useHomeStore';
 
 const infos = [
   {
@@ -39,10 +40,12 @@ function Infos() {
 
 export function ActivityTracking() {
   const [isOpen, setIsOpen] = useState(false);
+  const { setTabBar } = useHomeStore(['setTabBar']);
   const handleTrackingPermission = async () => {
     const trackingStatus = await getTrackingStatus();
     if (trackingStatus !== 'not-determined') setIsOpen(false);
     if (trackingStatus === 'not-determined') {
+      setTabBar(false);
       setIsOpen(true);
     }
   };
@@ -50,6 +53,7 @@ export function ActivityTracking() {
   const handleSelectTrackingPermission = async () => {
     await requestTrackingPermission();
     setIsOpen(false);
+    setTabBar(true);
   };
 
   useEffect(() => {
