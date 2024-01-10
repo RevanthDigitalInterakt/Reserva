@@ -333,4 +333,12 @@ export type EventOptionsFn =
   | {
     type: 'add_to_wishlist',
     payload: EventsOptions.Wishlist
+  }
+  | {
+    type: 'click_form_menu',
+    payload: {}
+  }
+  | {
+    type: 'click_form_profile',
+    payload: {}
   };
