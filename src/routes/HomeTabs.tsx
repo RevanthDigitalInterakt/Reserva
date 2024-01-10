@@ -14,6 +14,7 @@ import { Modal } from '../components/Modal';
 import { BlockedRouletDescription } from '../components/Modal/components/BlockedRouletDescription';
 import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import CallCenter from '../modules/CallCenter';
+import { useHomeStore } from '../zustand/useHomeStore';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,6 +22,7 @@ export function HomeTabs() {
   const { rouletCoupon, actions } = useBagStore(['rouletCoupon', 'actions']);
   const { getBoolean } = useRemoteConfig();
   const showRoulet = getBoolean('show_roulet');
+  const { hasTabBar } = useHomeStore(['hasTabBar']);
 
   return (
     <>
@@ -35,7 +37,7 @@ export function HomeTabs() {
         flex={1}
         testID="com.usereserva:id/home_tabs_buttons"
       >
-        <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
+        <Tab.Navigator tabBar={(props) => (hasTabBar ? <TabBar {...props} /> : null)}>
           <Tab.Screen
             name="Home"
             component={Home}
