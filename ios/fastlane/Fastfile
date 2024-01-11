@@ -23,8 +23,7 @@ platform :ios do
     include_bitcode: false,
     include_symbols: false,
     skip_profile_detection: true,
-    silent: false,
-    clean: false,
+    clean: true,
     codesigning_identity: "iPhone Distribution: Tiferet Comercio de Roupas LTDA (N3UDSXJ25B)",
     export_options: {
       method: "app-store",
@@ -36,7 +35,7 @@ platform :ios do
   )
 
   pilot(
-      api_key_path: "fastlane/fastlane_DD8P34TT2Q.json",
+      api_key_path: options[:api_key_path],
       ipa: "build/reserva.ipa",
       skip_waiting_for_build_processing: true	 
   )

@@ -15,9 +15,14 @@ steps:
   persistCredentials: true
   clean: true
 
+- task: DownloadSecureFile@1
+  name: apiKeyFile
+  inputs:
+    secureFile: 'fastlane_DD8P34TT2Q.json'
+
 - script: |
-    fastlane ios beta
-  displayName: 'Deploy to Apple Store Beta'
+    fastlane ios beta api_key_path:$(apiKeyPath)
+  displayName: 'Deploy to TestFlight'
   workingDirectory: ios
 
 # Etapas para Android
