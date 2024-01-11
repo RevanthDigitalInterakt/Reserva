@@ -41,13 +41,7 @@ steps:
   workingDirectory: $(Build.SourcesDirectory)
 
 - script: |
-    netstat -an | grep 8081
-    # npx react-native start --reset-cache
-  displayName: 'Start React Native Bundler'
-  workingDirectory: $(Build.SourcesDirectory)
-
-- script: |
-    fastlane ios beta api_key_path:$(apiKeyPath)
+    fastlane ios beta api_key_path:$(apiKeyFile.secureFilePath)
   displayName: 'Deploy to TestFlight'
   workingDirectory: ios
 
