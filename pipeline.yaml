@@ -15,6 +15,11 @@ steps:
   persistCredentials: true
   clean: true
 
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.17.0'
+  displayName: 'Install Node.js'
+
 - task: DownloadSecureFile@1
   name: apiKeyFile
   inputs:
