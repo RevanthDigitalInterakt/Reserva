@@ -99,6 +99,8 @@ export const commons = {
 export const svgs = {
   logoPrime: require('../svgs/LogoPrime').default,
   chevronRight: require('../svgs/ChevronRight').default,
+  info: require('../svgs/Info').default,
+  trash: require('../svgs/Trash').default,
 };
 
 type TIconsKeys = keyof typeof commons;

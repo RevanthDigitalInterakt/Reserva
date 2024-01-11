@@ -4,6 +4,7 @@
 
 - [22790 - Desenvolvimento layout tracking ATT](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22790)
 - [23364 - Formulário pesquisa [app]](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/23364)
+- [21472 - Informativo de indisponibilidade de produtos na sacola](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21472)
 
 ---
 

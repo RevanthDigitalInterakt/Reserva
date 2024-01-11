@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { bagStyles } from './styles/bagStyles';
@@ -27,6 +27,7 @@ import { trackAccessBag } from '../../utils/trackAccessBag';
 import { getBrands } from '../../utils/getBrands';
 import { trackViewCart } from '../../utils/trackViewCart';
 import CouponComponent from './components/Coupon';
+import { UnavailableList } from './components/ProductUnavailableList/UnavailableList';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -90,6 +91,8 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
       product_image: '',
     });
   }, [items]);
+
+  const hasUnavailableItems = useMemo(() => items.some((item) => item.availability !== 'available'), [items]);
 
   useEffect(() => {
     if (initialized) {
@@ -163,6 +166,8 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
 
                   <BagProductList />
                 </Box>
+
+                {hasUnavailableItems && <UnavailableList />}
 
                 <Recommendation />
 

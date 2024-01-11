@@ -13,14 +13,14 @@ import type { ImageSliderProps } from './types';
 import { Box } from '../../../Box/Box';
 import { IconLegacy } from '../../../IconLegacy/IconLegacy';
 
-export const ImageSlider = ({
+export function ImageSlider({
   images,
   width = 360,
   height = 374,
   onGoBack,
   onGoNext,
   imageIndexActual,
-}: ImageSliderProps) => {
+}: ImageSliderProps) {
   const [actualImage, setActualImage] = useState(0);
 
   const scrollRef = useRef<ScrollView>(null);
@@ -126,4 +126,4 @@ export const ImageSlider = ({
       </ScrollView>
     </Box>
   );
-};
+}
