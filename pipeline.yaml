@@ -20,10 +20,25 @@ steps:
     versionSpec: '18.17.0'
   displayName: 'Install Node.js'
 
+- script: |
+    yarn
+  displayName: 'Install dependencies'
+  workingDirectory: $(Build.SourcesDirectory)
+
 - task: DownloadSecureFile@1
   name: apiKeyFile
   inputs:
     secureFile: 'fastlane_DD8P34TT2Q.json'
+
+- script: |
+    cd ios && pod install
+  displayName: 'Install CocoaPods dependencies'
+  workingDirectory: $(Build.SourcesDirectory)
+
+- script: |
+    npx react-native start --reset-cache
+  displayName: 'Start React Native Bundler'
+  workingDirectory: $(Build.SourcesDirectory)
 
 - script: |
     fastlane ios beta api_key_path:$(apiKeyPath)

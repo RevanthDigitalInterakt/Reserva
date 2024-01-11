@@ -8,10 +8,10 @@ platform :ios do
   increment_build_number(xcodeproj: "reserva.xcodeproj")
   increment_version_number(version_number: "999999")
 
-  cocoapods(
-    podfile: "reserva",
-    use_bundle_exec: false
-  )
+  #cocoapods(
+  #  podfile: "reserva",
+  #  use_bundle_exec: false
+  #)
 
   gym(
     scheme: "reserva",
