@@ -41,6 +41,7 @@ steps:
   workingDirectory: $(Build.SourcesDirectory)
 
 - script: |
+    netstat | grep 8081
     npx react-native start --reset-cache
   displayName: 'Start React Native Bundler'
   workingDirectory: $(Build.SourcesDirectory)
