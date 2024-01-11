@@ -21,6 +21,11 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    brew install cocoapods
+  displayName: 'Install Cocoapods'
+  workingDirectory: $(Build.SourcesDirectory)
+
+- script: |
     yarn
   displayName: 'Install dependencies'
   workingDirectory: $(Build.SourcesDirectory)
