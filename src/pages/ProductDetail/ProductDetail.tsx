@@ -2,7 +2,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect } from 'react';
 import { Alert, View } from 'react-native';
-import { type ProductQuery, ProductResultActionEnum, useProductLazyQuery } from '../../base/graphql/generated';
+import {
+  type ProductQuery,
+  ProductResultActionEnum,
+  TrackPageTypeEnum,
+  useProductLazyQuery,
+} from '../../base/graphql/generated';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { Box } from '../../components/Box/Box';
 import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
@@ -26,6 +31,7 @@ import ProductSummary from './components/ProductSummary';
 import { getProductLoadType } from './utils/getProductLoadType';
 import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
+import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -86,6 +92,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       const { product } = data;
       trackEventDitoAccessProduct(data);
 
+      trackPageViewStore.getState().onTrackPageView(product.identifier || '', TrackPageTypeEnum.Product);
+
       EventProvider.logEvent('product_view', {
         product_id: product.productId,
         product_category: 'product_group',
@@ -95,9 +103,11 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
       const pdpShowGiftCard = getBoolean('pdp_show_gift_card');
       if (
-        (product.action !== ProductResultActionEnum.ShowProduct
-                    && product.action !== ProductResultActionEnum.ShowGiftCard)
-                || (product.action === ProductResultActionEnum.ShowGiftCard && !pdpShowGiftCard)
+        (
+          product.action !== ProductResultActionEnum.ShowProduct
+          && product.action !== ProductResultActionEnum.ShowGiftCard
+        )
+        || (product.action === ProductResultActionEnum.ShowGiftCard && !pdpShowGiftCard)
       ) {
         await DeepLinkPathModule.openUrlInBrowser({
           closeCurrentAppInstance: false,

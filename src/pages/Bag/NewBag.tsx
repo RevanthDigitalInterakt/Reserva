@@ -28,6 +28,8 @@ import { getBrands } from '../../utils/getBrands';
 import { trackViewCart } from '../../utils/trackViewCart';
 import CouponComponent from './components/Coupon';
 import { UnavailableList } from './components/ProductUnavailableList/UnavailableList';
+import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
+import { TrackPageTypeEnum } from '../../base/graphql/generated';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -97,6 +99,9 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   useEffect(() => {
     if (initialized) {
       handleAbandonedCartTags();
+
+      const type = items.length ? TrackPageTypeEnum.Cart : TrackPageTypeEnum.Emptycart;
+      trackPageViewStore.getState().onTrackPageView('bag', type);
     }
   }, [initialized, items.length, handleAbandonedCartTags]);
 

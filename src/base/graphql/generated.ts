@@ -1261,6 +1261,7 @@ export type ProductOutput = {
   colors: Array<ProductColorOutput>;
   disabledColors: Array<Scalars['String']['output']>;
   giftCard?: Maybe<ProductGiftCardOutput>;
+  identifier?: Maybe<Scalars['String']['output']>;
   initialColor?: Maybe<ProductColorOutput>;
   initialColorId?: Maybe<Scalars['String']['output']>;
   initialSize?: Maybe<ProductSizeOutput>;
@@ -1680,6 +1681,7 @@ export enum SearchOrderByEnum {
 export type SearchOutput = {
   __typename?: 'SearchOutput';
   count: Scalars['Int']['output'];
+  identifier?: Maybe<Scalars['String']['output']>;
   items: Array<ProductListOutput>;
   redirect?: Maybe<Scalars['String']['output']>;
 };
@@ -1754,19 +1756,6 @@ export type SignUpUserInput = {
   password: Scalars['String']['input'];
 };
 
-export enum SmarthintPageTypeEnum {
-  Cart = 'cart',
-  Category = 'category',
-  Checkout = 'checkout',
-  Emptycart = 'emptycart',
-  Home = 'home',
-  Notfound = 'notfound',
-  Other = 'other',
-  Product = 'product',
-  Search = 'search',
-  SearchWithResult = 'searchWithResult'
-}
-
 export type SubscribeNewsletterInput = {
   email: Scalars['String']['input'];
 };
@@ -1781,7 +1770,7 @@ export type TrackClickInput = {
   /** Page Identifier that is being viewed by the Buyer (e.g. collection:1427, product:1924, home, checkout, bag, etc.) */
   pageIdentifier: Scalars['String']['input'];
   /** The pagetype is the identifier of the type of page the Buyer is on. */
-  pageType: SmarthintPageTypeEnum;
+  pageType: TrackPageTypeEnum;
   /** Field used for SmartHint to know the position of clicked products in the features, be it search or recommendation. When the Buyer clicks on a product, the value of the position in the product list should be provided */
   position: Scalars['Int']['input'];
   /** Product code clicked by the Buyer. It's important that this data is the same as what was sent to the Product Catalog. */
@@ -1818,6 +1807,19 @@ export type TrackOrderProductInput = {
   sku: Scalars['String']['input'];
 };
 
+export enum TrackPageTypeEnum {
+  Cart = 'cart',
+  Category = 'category',
+  Checkout = 'checkout',
+  Emptycart = 'emptycart',
+  Home = 'home',
+  Notfound = 'notfound',
+  Other = 'other',
+  Product = 'product',
+  Search = 'search',
+  SearchWithResult = 'searchWithResult'
+}
+
 export type TrackPageViewInput = {
   /** Time in seconds that the Buyer spent on the page. */
   elapsedTime?: InputMaybe<Scalars['Int']['input']>;
@@ -1826,7 +1828,7 @@ export type TrackPageViewInput = {
   /** Page Identifier that is being viewed by the Buyer (e.g. collection:1427, product:1924, home, checkout, bag, etc.) */
   pageIdentifier: Scalars['String']['input'];
   /** The pagetype is the identifier of the type of page the Buyer is on. */
-  pageType: SmarthintPageTypeEnum;
+  pageType: TrackPageTypeEnum;
   providers: Array<TrackProvidersEnum>;
   /** Session Value - A session is the period of time during which the user interacts with the application; the identifier of this session should be sent. */
   session: Scalars['String']['input'];
@@ -2107,6 +2109,13 @@ export type SubscribeNewsletterMutationVariables = Exact<{
 
 export type SubscribeNewsletterMutation = { __typename?: 'Mutation', subscribeNewsletter: boolean };
 
+export type TrackPageViewMutationVariables = Exact<{
+  input: TrackPageViewInput;
+}>;
+
+
+export type TrackPageViewMutation = { __typename?: 'Mutation', trackPageView: boolean };
+
 export type WishlistAddProductMutationVariables = Exact<{
   input: WishlistAddProductInput;
 }>;
@@ -2242,7 +2251,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, videoThumbnail?: string | null, giftCard?: { __typename?: 'ProductGiftCardOutput', terms: string, howItWorks: string, options: Array<{ __typename?: 'ProductGiftCardOptionOutput', itemId: string, name: string, ean: string, seller: string, images: Array<string> }> } | null, priceRange?: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } } | null, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null } | null } };
+export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, identifier?: string | null, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, videoThumbnail?: string | null, giftCard?: { __typename?: 'ProductGiftCardOutput', terms: string, howItWorks: string, options: Array<{ __typename?: 'ProductGiftCardOptionOutput', itemId: string, name: string, ean: string, seller: string, images: Array<string> }> } | null, priceRange?: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } } | null, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null } | null } };
 
 export type ProductDeliveryTimeQueryVariables = Exact<{
   input: CheckDeliveryTimeByProductInput;
@@ -2273,7 +2282,7 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'SearchOutput', count: number, items: Array<{ __typename?: 'ProductListOutput', productId: string, skuId: string, skuName: string, productName: string, colors?: Array<string> | null, brand: string, category?: string | null, size?: string | null, colorName?: string | null, image: string, listPrice: number, currentPrice: number, hasDiscount: boolean, discountPercentage: number, prime?: { __typename?: 'ProductListPrimeOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number }, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } };
+export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'SearchOutput', identifier?: string | null, count: number, items: Array<{ __typename?: 'ProductListOutput', productId: string, skuId: string, skuName: string, productName: string, colors?: Array<string> | null, brand: string, category?: string | null, size?: string | null, colorName?: string | null, image: string, listPrice: number, currentPrice: number, hasDiscount: boolean, discountPercentage: number, prime?: { __typename?: 'ProductListPrimeOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number }, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } };
 
 export type SearchAutocompleteSuggestionsQueryVariables = Exact<{
   q: Scalars['String']['input'];
@@ -3412,6 +3421,37 @@ export function useSubscribeNewsletterMutation(baseOptions?: Apollo.MutationHook
 export type SubscribeNewsletterMutationHookResult = ReturnType<typeof useSubscribeNewsletterMutation>;
 export type SubscribeNewsletterMutationResult = Apollo.MutationResult<SubscribeNewsletterMutation>;
 export type SubscribeNewsletterMutationOptions = Apollo.BaseMutationOptions<SubscribeNewsletterMutation, SubscribeNewsletterMutationVariables>;
+export const TrackPageViewDocument = gql`
+    mutation trackPageView($input: TrackPageViewInput!) {
+  trackPageView(input: $input)
+}
+    `;
+export type TrackPageViewMutationFn = Apollo.MutationFunction<TrackPageViewMutation, TrackPageViewMutationVariables>;
+
+/**
+ * __useTrackPageViewMutation__
+ *
+ * To run a mutation, you first call `useTrackPageViewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTrackPageViewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [trackPageViewMutation, { data, loading, error }] = useTrackPageViewMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTrackPageViewMutation(baseOptions?: Apollo.MutationHookOptions<TrackPageViewMutation, TrackPageViewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TrackPageViewMutation, TrackPageViewMutationVariables>(TrackPageViewDocument, options);
+      }
+export type TrackPageViewMutationHookResult = ReturnType<typeof useTrackPageViewMutation>;
+export type TrackPageViewMutationResult = Apollo.MutationResult<TrackPageViewMutation>;
+export type TrackPageViewMutationOptions = Apollo.BaseMutationOptions<TrackPageViewMutation, TrackPageViewMutationVariables>;
 export const WishlistAddProductDocument = gql`
     mutation wishlistAddProduct($input: WishlistAddProductInput!) {
   wishlistAddProduct(input: $input)
@@ -4405,6 +4445,7 @@ export const ProductDocument = gql`
     action
     productId
     productName
+    identifier
     categoryTree
     disabledColors
     saleOff
@@ -4684,6 +4725,7 @@ export function refetchRonRedirectQuery(variables: RonRedirectQueryVariables) {
 export const SearchDocument = gql`
     query search($input: SearchProductInput!) {
   search(input: $input) {
+    identifier
     count
     items {
       productId

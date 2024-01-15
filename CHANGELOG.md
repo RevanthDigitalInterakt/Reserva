@@ -2,6 +2,9 @@
 
 ### 2.1.10
 - [24417 - Desenvolvimento layout tracking ATT](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24417)
+- [21862 - PageView tracking](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21862)
+
+---
 
 ### 2.1.9
 
@@ -23,6 +26,7 @@
 
 - [Feature(22265) Visualização do parcelamento de compra do aplicativo > Meus pedidos](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22265)
 
+---
 
 ### 2.1.6
 

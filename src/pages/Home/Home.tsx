@@ -1,6 +1,12 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import {
-  ActivityIndicator, Animated, FlatList, SafeAreaView, Text, TouchableOpacity, View,
+  ActivityIndicator,
+  Animated,
+  FlatList,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
@@ -15,7 +21,9 @@ import WithoutInternet from '../../components/WithoutInternet';
 import { useConnectivityStore } from '../../zustand/useConnectivityStore';
 import { COLORS } from '../../base/styles/colors';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
-import { NewTransparentTopBarDefault } from '../../modules/Menu/components/NewTransparentTopBarDefault';
+import {
+  NewTransparentTopBarDefault,
+} from '../../modules/Menu/components/NewTransparentTopBarDefault';
 import { NewWhiteTopBarDefault } from '../../modules/Menu/components/NewWhiteTopBarDefault';
 import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
 import EventProvider from '../../utils/EventProvider';
@@ -31,6 +39,8 @@ import useHomeHeader from './hooks/useHomeHeader';
 import styles from './styles';
 import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { ActivityTracking } from '../../components/ActivityTracking';
+import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
+import { TrackPageTypeEnum } from '../../base/graphql/generated';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -155,6 +165,8 @@ function Home() {
   useEffect(() => {
     if (isConnected && !loaded) {
       onLoad();
+
+      trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);
 
       EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
     }

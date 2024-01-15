@@ -99,12 +99,12 @@ function App() {
                 <ContentfullContextProvider>
                   <RegionalSearchContextProvider>
                     <FirebaseContextProvider>
-                        <ChronometerContextProvider>
-                            <InitialScreen>
-                                <AppRouting />
-                              </InitialScreen>
-                          </ChronometerContextProvider>
-                      </FirebaseContextProvider>
+                      <ChronometerContextProvider>
+                        <InitialScreen>
+                          <AppRouting />
+                        </InitialScreen>
+                      </ChronometerContextProvider>
+                    </FirebaseContextProvider>
                   </RegionalSearchContextProvider>
                 </ContentfullContextProvider>
               </CartContextProvider>
