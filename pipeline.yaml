@@ -46,10 +46,10 @@ steps:
   workingDirectory: $(Build.SourcesDirectory)
 
 # Build iOS
-- script: |
-    fastlane ios beta api_key_path:$(apiKeyFileIOS.secureFilePath)
-  displayName: 'Deploy to TestFlight'
-  workingDirectory: ios
+#- script: |
+#    fastlane ios beta api_key_path:$(apiKeyFileIOS.secureFilePath)
+#  displayName: 'Deploy to TestFlight'
+#  workingDirectory: ios
 
 # Build Android
 - script: |
