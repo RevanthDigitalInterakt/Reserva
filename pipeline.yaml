@@ -31,28 +31,26 @@ steps:
   workingDirectory: $(Build.SourcesDirectory)
 
 - task: DownloadSecureFile@1
-  name: apiKeyFile
+  name: apiKeyFileIOS
   inputs:
     secureFile: 'fastlane_DD8P34TT2Q.json'
+  name: apiKeyFileAndroid
+  inputs:
+    secureFile: 'play-store-credentials.json'
 
 - script: |
     cd ios && pod install
   displayName: 'Install CocoaPods dependencies'
   workingDirectory: $(Build.SourcesDirectory)
 
+# Build iOS
 - script: |
-    fastlane ios beta api_key_path:$(apiKeyFile.secureFilePath)
+    fastlane ios beta api_key_path:$(apiKeyFileIOS.secureFilePath)
   displayName: 'Deploy to TestFlight'
   workingDirectory: ios
 
-# Etapas para Android
-#- script: |
-#    echo "Y" | sudo sdkmanager --install "build-tools;29.0.2" "platforms;android-29"
-#  displayName: 'Install Android SDK Build Tools'
-
-#- script: |
-#    fastlane android beta
-#  displayName: 'Deploy to Play Store Beta'
-#  env:
-#    PLAY_STORE_JSON_KEY: $(playStoreJsonKey)
-#  workingDirectory: android
+# Build Android
+- script: |
+    fastlane android beta api_key_path:$(apiKeyFileAndroid.secureFilePath)
+  displayName: 'Deploy to Play Store Beta'
+  workingDirectory: android
