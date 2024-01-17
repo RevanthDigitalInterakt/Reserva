@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     display: 'flex',
     justifyContent: 'space-between',
-    paddingBottom: 24
+    paddingBottom: 24,
   },
   loader: {
     position: 'absolute',

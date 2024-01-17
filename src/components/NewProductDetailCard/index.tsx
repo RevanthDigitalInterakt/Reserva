@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import LottieView from 'lottie-react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { loadingSpinner } from '../../../assets/animations';
 
-import { Text, TouchableOpacity, View } from 'react-native';
 import { ImageSlider } from './components/ImageSlider';
 import IconComponent from '../IconComponent/IconComponent';
 import { FlagDiscount } from '../FlagDiscount/FlagDiscount';
@@ -14,7 +14,7 @@ import { CarrouselMedias } from '../ProductDetailCardLegacy/components/Carrousel
 import styles from './styles';
 import { Box } from '../Box/Box';
 
-export const NewProductDetailCard = ({
+export function NewProductDetailCard({
   images,
   discountTag,
   saleOff,
@@ -34,7 +34,7 @@ export const NewProductDetailCard = ({
   showZoomButton,
   videoThumbnail,
   testID,
-}: ProductDetailCardProps) => {
+}: ProductDetailCardProps) {
   const isTester = useIsTester();
   const { getBoolean } = useRemoteConfig();
 
@@ -47,8 +47,10 @@ export const NewProductDetailCard = ({
     videoActive ? showZoomButton : true
   ), [videoActive, showZoomButton]);
 
-  const isTheLastUnits = useMemo(() => avaibleUnits && avaibleUnits !== 0 && avaibleUnits <= 5,
-    [avaibleUnits]);
+  const isTheLastUnits = useMemo(
+    () => avaibleUnits && avaibleUnits !== 0 && avaibleUnits <= 5,
+    [avaibleUnits],
+  );
 
   return (
     <View style={styles(!!discountTag).container}>
@@ -192,4 +194,4 @@ export const NewProductDetailCard = ({
       </View>
     </View>
   );
-};
+}

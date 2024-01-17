@@ -56,7 +56,7 @@ export const TopBarDefaultBackButton: React.FC<{
           if (cacheGoingBackRequest) {
             cacheGoingBackRequest();
           }
-          navigation.navigate('BagScreen')
+          navigation.navigate('BagScreen');
         },
         badgeCount: allItemsQuantity,
       }}
