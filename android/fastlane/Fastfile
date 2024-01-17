@@ -22,14 +22,13 @@ platform :android do
   lane :beta do |options|
     
     gradle(
-      task: "clean bundleRelease"
-      properties: {
-        "android.injected.version.code" => 2023000123, #[increment + 1] app/src/build.grade.defaultConfig.versionCode
-        "android.injected.version.name" => "2.1.10", #CI[tag]
-      }
-      )
+      task: "clean bundleRelease",
+    )
+
     upload_to_play_store(
       json_key: options[:api_key_path],
+      aab: 'app/build/outputs/bundle/release/app-release.aab',
+      track: 'internal',
     )
   end
 end

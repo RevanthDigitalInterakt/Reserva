@@ -1,0 +1,6 @@
+{
+  "branches": ["main", "feat/onesignal-updated-v3"],
+    "plugins": [
+      "semantic-release-react-native"
+    ]
+}

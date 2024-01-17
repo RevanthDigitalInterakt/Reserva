@@ -21,7 +21,8 @@
     "bundle:view": "visualize-bundle",
     "codegen": "graphql-codegen --config codegen.ts",
     "check-dependencies": "rnx-align-deps",
-    "fix-dependencies": "rnx-align-deps --write"
+    "fix-dependencies": "rnx-align-deps --write",
+    "update-version-release": "semantic-release -d true --no-ci --debug"
   },
   "dependencies": {
     "@apollo/client": "^3.7.17",
@@ -161,6 +162,8 @@
     "pod-install": "^0.1.39",
     "postinstall-postinstall": "^2.1.0",
     "react-test-renderer": "18.2.0",
+    "semantic-release": "^23.0.0",
+    "semantic-release-react-native": "^1.8.2",
     "ts-node-dev": "^2.0.0",
     "typedoc": "^0.24.8",
     "typescript": "^5.1.6",
@@ -255,6 +258,6 @@
     }
   },
   "engines": {
-    "node": ">=16"
+    "node": "20.9.0"
   }
 }
