@@ -3,7 +3,14 @@
     "plugins": [
       "semantic-release-react-native",
       ["@semantic-release/git", {
-        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+        "assets": [
+          "ios/reserva/Info.plist",
+          "ios/OneSignalNotificationServiceExtension",
+          "ios/reserva.xcodeproj",
+          "ios/reservaTests",
+          "android/app/build.gradle"
+        ]
       }]
     ]
 }
