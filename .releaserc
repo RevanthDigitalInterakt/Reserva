@@ -3,9 +3,6 @@
     "plugins": [
       "semantic-release-react-native",
       "@semantic-release/release-notes-generator",
-      ["@semantic-release/exec", {
-        "prepareCmd": "node ./scripts/updateVersion.js"
-      }],
       ["@semantic-release/git", {
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
         "assets": [
