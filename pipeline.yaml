@@ -47,7 +47,7 @@ steps:
 
 - script: |
     yarn pipeline:semantic-release-update-version:prod
-  displayName: 'Incremet version'
+  displayName: 'Increment version'
   workingDirectory: $(Build.SourcesDirectory)
 
 # Build iOS
