@@ -7,13 +7,13 @@ const PACKAGE_JSON_PATH = path.join(__dirname, '../package.json');
 
 fs.readFile(BUILD_GRADLE_PATH, 'utf8', (err, data) => {
   if (err) {
-    console.error('Erro ao ler o build.gradle:', err);
+    console.error('Error reading build.gradle:', err);
     process.exit(1);
   }
 
   const versionMatch = data.match(/versionName\s+"([^"]+)"/);
   if (!versionMatch) {
-    console.error('Versão não encontrada no build.gradle');
+    console.error('Version not found in build.gradle');
     process.exit(1);
   }
 
@@ -21,7 +21,7 @@ fs.readFile(BUILD_GRADLE_PATH, 'utf8', (err, data) => {
 
   fs.readFile(PACKAGE_JSON_PATH, 'utf8', (err, data) => {
     if (err) {
-      console.error('Erro ao ler o package.json:', err);
+      console.error('Error reading package.json:', err);
       process.exit(1);
     }
 
@@ -30,11 +30,11 @@ fs.readFile(BUILD_GRADLE_PATH, 'utf8', (err, data) => {
 
     fs.writeFile(PACKAGE_JSON_PATH, JSON.stringify(packageJson, null, 2), 'utf8', (err) => {
       if (err) {
-        console.error('Erro ao escrever no package.json:', err);
+        console.error('Error writing to package.json:', err);
         process.exit(1);
       }
 
-      console.log(`Versão atualizada para ${version} no package.json`);
+      console.log(`Version updated to ${version} in package.json`);
     });
   });
 });
