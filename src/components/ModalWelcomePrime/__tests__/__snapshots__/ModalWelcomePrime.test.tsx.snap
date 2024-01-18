@@ -18,8 +18,9 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
   scrollOffset={0}
   scrollOffsetMax={0}
   scrollTo={null}
+  statusBarTranslucent={false}
   supportedOrientations={
-    Array [
+    [
       "portrait",
       "landscape",
     ]
@@ -30,9 +31,18 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
   visible={true}
 >
   <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
     accessible={true}
+    collapsable={false}
     focusable={true}
-    forwardedRef={[Function]}
     onClick={[Function]}
     onResponderGrant={[Function]}
     onResponderMove={[Function]}
@@ -41,7 +51,7 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Object {
+      {
         "backgroundColor": "black",
         "bottom": 0,
         "height": 1334,
@@ -56,9 +66,9 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
   />
   <View
     accessibilityLabel="com.usereserva:id/modal_welcome_prime"
+    collapsable={false}
     deviceHeight={null}
     deviceWidth={null}
-    forwardedRef={[Function]}
     hideModalContentWhileAnimating={false}
     onBackdropPress={[MockFunction]}
     onModalHide={[Function]}
@@ -70,22 +80,23 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
     scrollOffset={0}
     scrollOffsetMax={0}
     scrollTo={null}
+    statusBarTranslucent={false}
     style={
-      Object {
+      {
         "alignItems": "center",
         "flex": 1,
         "justifyContent": "center",
         "margin": 37.5,
         "opacity": 0,
-        "transform": Array [
-          Object {
+        "transform": [
+          {
             "translateY": 0,
           },
         ],
       }
     }
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]
@@ -95,7 +106,7 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
     <View
       accessibilityLabel="com.usereserva:id/modal_sign_in_container"
       style={
-        Object {
+        {
           "backgroundColor": "#ffffff",
           "padding": 32,
           "width": 726,
@@ -106,7 +117,7 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
       <Text
         accessibilityLabel="com.usereserva:id/title"
         style={
-          Object {
+          {
             "color": "#000000",
             "fontFamily": "ReservaDisplay-Regular",
             "fontSize": 26,
@@ -120,7 +131,7 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
       <View>
         <Text
           style={
-            Object {
+            {
               "color": "#767676",
               "fontFamily": "ReservaSans-Regular",
               "fontSize": 16,
@@ -132,7 +143,7 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
            
           <Text
             style={
-              Object {
+              {
                 "color": "#000000",
                 "fontFamily": "ReservaDisplay-Regular",
                 "fontSize": 16,
@@ -146,7 +157,7 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
            
           <Text
             style={
-              Object {
+              {
                 "color": "#000000",
                 "fontFamily": "ReservaSans-Bold",
                 "fontSize": 16,
@@ -167,15 +178,31 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
           <View
             alignItems="stretch"
             style={
-              Array [
-                Object {
-                  "alignItems": "stretch",
-                },
-              ]
+              {
+                "alignItems": "stretch",
+              }
             }
           >
             <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
               accessible={true}
+              collapsable={false}
               focusable={true}
               onClick={[Function]}
               onResponderGrant={[Function]}
@@ -185,7 +212,7 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
+                {
                   "alignItems": "center",
                   "backgroundColor": "#333333",
                   "color": "#FFF",
@@ -208,23 +235,19 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
                 flexDirection="row"
                 justifyContent="center"
                 style={
-                  Array [
-                    Object {
-                      "alignItems": "center",
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                    },
-                  ]
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  }
                 }
               >
                 <View
                   justifyContent="center"
                   style={
-                    Array [
-                      Object {
-                        "justifyContent": "center",
-                      },
-                    ]
+                    {
+                      "justifyContent": "center",
+                    }
                   }
                 >
                   <Text
@@ -233,14 +256,12 @@ exports[`ModalWelcomePrime should match to snapshot 1`] = `
                     fontSize={13}
                     letterSpacing={1.6}
                     style={
-                      Array [
-                        Object {
-                          "color": "#FFF",
-                          "fontFamily": "Nunito-Bold",
-                          "fontSize": 13,
-                          "letterSpacing": 1.6,
-                        },
-                      ]
+                      {
+                        "color": "#FFF",
+                        "fontFamily": "Nunito-Bold",
+                        "fontSize": 13,
+                        "letterSpacing": 1.6,
+                      }
                     }
                   >
                     CONTINUAR COMPRANDO

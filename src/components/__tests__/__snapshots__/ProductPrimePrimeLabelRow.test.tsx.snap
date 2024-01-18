@@ -3,7 +3,7 @@
 exports[`ProductPrimePrimeLabelRow should match with the snapshot 1`] = `
 <View
   style={
-    Object {
+    {
       "alignItems": "center",
       "flexDirection": "row",
       "justifyContent": "space-between",
@@ -12,7 +12,7 @@ exports[`ProductPrimePrimeLabelRow should match with the snapshot 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
       }
@@ -20,7 +20,7 @@ exports[`ProductPrimePrimeLabelRow should match with the snapshot 1`] = `
   >
     <Text
       style={
-        Object {
+        {
           "color": "#A01E21",
           "fontFamily": "ReservaSans-Medium",
           "fontSize": 12,
@@ -32,7 +32,7 @@ exports[`ProductPrimePrimeLabelRow should match with the snapshot 1`] = `
     </Text>
     <Text
       style={
-        Object {
+        {
           "color": "#A01E21",
           "fontFamily": "ReservaSans-Medium",
           "fontSize": 12,
@@ -44,7 +44,7 @@ exports[`ProductPrimePrimeLabelRow should match with the snapshot 1`] = `
     </Text>
     <Text
       style={
-        Object {
+        {
           "color": "#A01E21",
           "fontFamily": "ReservaSans-Medium",
           "fontSize": 12,
@@ -56,12 +56,12 @@ exports[`ProductPrimePrimeLabelRow should match with the snapshot 1`] = `
     </Text>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "backgroundColor": "#A01E21",
             "padding": 2,
           },
-          Object {
+          {
             "marginLeft": 5,
           },
         ]
@@ -69,7 +69,7 @@ exports[`ProductPrimePrimeLabelRow should match with the snapshot 1`] = `
     >
       <Text
         style={
-          Object {
+          {
             "color": "#ffffff",
             "fontFamily": "ReservaDisplay-Regular",
             "fontSize": 8,
