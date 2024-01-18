@@ -22,9 +22,8 @@
     "codegen": "graphql-codegen --config codegen.ts",
     "check-dependencies": "rnx-align-deps",
     "fix-dependencies": "rnx-align-deps --write",
-    "pipeline:semantic-release-update-version:prod": "semantic-release  -c .releaserc-update-version.json --no-ci --debug",
-    "pipeline:semantic-release-commit:prod": "semantic-release  -c .releaserc-commit.json --no-ci --debug"
-
+    "pipeline:semantic-release-pre:prod": "semantic-release --extends ./semantic-release-pre.js --no-ci --debug",
+    "pipeline:semantic-release-post:prod": "semantic-release --extends ./semantic-release-post.js  --no-ci --debug"
   },
   "dependencies": {
     "@apollo/client": "^3.7.17",

@@ -1,0 +1,10 @@
+module.exports = {
+  branches: ['main', 'feat/onesignal-updated-v3'],
+  plugins: [
+    'semantic-release-react-native',
+    '@semantic-release/release-notes-generator',
+    ['@semantic-release/npm', {
+      npmPublish: false,
+    }],
+  ],
+};
