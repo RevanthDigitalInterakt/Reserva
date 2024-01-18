@@ -123,6 +123,7 @@
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@react-native/metro-config": "^0.72.11",
     "@rnx-kit/align-deps": "^2.2.4",
+    "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@testing-library/jest-native": "^5.4.2",
     "@testing-library/react-hooks": "^8.0.1",
