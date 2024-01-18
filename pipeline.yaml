@@ -1,4 +1,7 @@
-trigger: none
+trigger:
+  branches:
+    include:
+      - feat/onesignal-updated-v3
 
 pr: none
 
