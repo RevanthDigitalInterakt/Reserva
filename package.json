@@ -22,7 +22,7 @@
     "codegen": "graphql-codegen --config codegen.ts",
     "check-dependencies": "rnx-align-deps",
     "fix-dependencies": "rnx-align-deps --write",
-    "update-version-release": "semantic-release -d true --no-ci --debug"
+    "update-version-release": "semantic-release --no-ci --debug"
   },
   "dependencies": {
     "@apollo/client": "^3.7.17",
