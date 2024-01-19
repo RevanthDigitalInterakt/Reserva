@@ -61,6 +61,7 @@ steps:
 
 - script: |
     yarn pipeline:semantic-release-pre:prod
+    bash scripts/deleteTag.sh
   displayName: 'Increment version'
   workingDirectory: $(Build.SourcesDirectory)
 
