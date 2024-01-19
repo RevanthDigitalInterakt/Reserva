@@ -1,8 +1,8 @@
 import React, {
-  useEffect, useMemo, useRef, useState,
+  useEffect, useMemo, useState,
 } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
-import { Animated } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import NewListVerticalProducts from '../../components/NewListVerticalProducts/NewListVerticalProducts';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { generateFacets } from '../../utils/generateFacets';
@@ -16,9 +16,9 @@ import { CatalogSkeleton } from './components/CatalogSkeleton/CatalogSkeleton';
 import { Box } from '../../components/Box/Box';
 import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
 import { useHomeStore } from '../../zustand/useHomeStore';
-import SearchResultHeader from '../Search/components/SearchResultHeader';
-import { styles } from './styles';
 import EventProvider from '../../utils/EventProvider';
+import ProductCatalogHeader from './components/ProductCatalogHeader/ProductCatalogHeader';
+import { scale } from '../../utils/scale';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -43,10 +43,8 @@ function NewProductCatalog({ navigation, route }: Props) {
     'onInit',
   ]);
 
-  const [shouldShowFilters, setShouldShowFilters] = useState(false);
   const [isGoingBack, setIsGoingBack] = useState(false);
   const [loadingMedias, setLoadingMedias] = useState(false);
-  const fadeAnim = useRef(new Animated.Value(0)).current;
   const { referenceId, filters } = route.params;
   const { offersPage } = useHomeStore(['offersPage']);
 
@@ -63,24 +61,6 @@ function NewProductCatalog({ navigation, route }: Props) {
     ...filters,
     reference,
   }), [filters, reference]);
-
-  const handleShowFilters = (screenVerticalPosition: number) => {
-    if (screenVerticalPosition > 70) {
-      setShouldShowFilters(true);
-    }
-
-    if (screenVerticalPosition <= 70) {
-      setShouldShowFilters(false);
-    }
-  };
-
-  useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: shouldShowFilters ? 1 : 0,
-      duration: 500,
-      useNativeDriver: true,
-    }).start();
-  }, [shouldShowFilters]);
 
   useEffect(() => {
     EventProvider.logEvent('view_item_list', {
@@ -127,19 +107,20 @@ function NewProductCatalog({ navigation, route }: Props) {
     }
 
     return (
-      <>
-        <Animated.View style={styles(fadeAnim).filtersWrapper}>
-          <SearchResultHeader defaultFacets={defaultFacets} />
-        </Animated.View>
+      <SafeAreaView>
+        <ProductCatalogHeader
+          defaultFacets={defaultFacets}
+        />
         <NewListVerticalProducts
           data={result}
           loading={loading}
           cacheGoingBackRequest={() => setIsGoingBack(true)}
-          onScroll={(scrollEvent) => {
-            handleShowFilters(scrollEvent.nativeEvent.contentOffset.y);
-          }}
           headerComponent={(
             <>
+              <View style={{
+                marginTop: scale(120),
+              }}
+              />
               {countdownType === 'CATEGORY' ? (
                 <NewCountdown reference={reference} selectClockScreen={countdownType} />
               ) : (
@@ -151,11 +132,11 @@ function NewProductCatalog({ navigation, route }: Props) {
               />
             </>
         )}
-          marginBottom={0}
+          marginBottom={90}
           onFetchMore={doFetchMore}
           total={resultCount}
         />
-      </>
+      </SafeAreaView>
     );
   }, [
     loadingMedias,
@@ -166,7 +147,6 @@ function NewProductCatalog({ navigation, route }: Props) {
     defaultFacets,
     doFetchMore,
     resultCount,
-    shouldShowFilters,
   ]);
 
   return (

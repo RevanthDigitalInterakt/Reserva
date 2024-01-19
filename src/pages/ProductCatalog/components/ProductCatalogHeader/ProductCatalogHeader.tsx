@@ -8,9 +8,10 @@ import useSearchStore from '../../../../zustand/useSearchStore';
 import testProps from '../../../../utils/testProps';
 import { Box } from '../../../../components/Box/Box';
 import { Button } from '../../../../components/Button';
-import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../../components/Typography/Typography';
 import { Picker } from '../../../../components/Picker/Picker';
+import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
+import { styles } from './styles';
 
 const SHOW_FILTER_BUTTON = true;
 
@@ -48,7 +49,7 @@ function ProductCatalogHeader({ defaultFacets }: ProductCatalogHeaderProps) {
   }, []);
 
   return (
-    <View>
+    <View style={styles.container}>
       <Box bg="dropDownBorderColor">
         <Button
           p="nano"
