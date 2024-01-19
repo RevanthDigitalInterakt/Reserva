@@ -49,6 +49,11 @@ steps:
   workingDirectory: $(Build.SourcesDirectory)
 
 - script: |
+    java -version
+    echo $JAVA_HOME
+  displayName: 'Java Version'
+
+- script: |
     yarn pipeline:semantic-release-pre:prod
   displayName: 'Increment version'
   workingDirectory: $(Build.SourcesDirectory)
