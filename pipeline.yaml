@@ -49,7 +49,7 @@ steps:
   workingDirectory: $(Build.SourcesDirectory)
 
 - script: |
-    export JAVA_HOME=usr/bin/java
+    export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
     java -version
   displayName: 'Java Version'
 
