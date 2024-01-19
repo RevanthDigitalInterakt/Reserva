@@ -49,6 +49,7 @@ steps:
   workingDirectory: $(Build.SourcesDirectory)
 
 - script: |
+    export JAVA_HOME=usr/bin/java
     java -version
   displayName: 'Java Version'
 
