@@ -1,5 +1,5 @@
 module.exports = {
-  branches: ['main', 'feat/onesignal-updated-v3'],
+  branches: ['main', 'feat/onesignal-updated-v3', 'feat/final-branch'],
   plugins: [
     ['@semantic-release/git', {
       // eslint-disable-next-line no-template-curly-in-string
