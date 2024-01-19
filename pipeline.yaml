@@ -49,9 +49,7 @@ steps:
   workingDirectory: $(Build.SourcesDirectory)
 
 - script: |
-    export JAVA_HOME=/Users/ec2-user/.sdkman/candidates/java/11.0.21-zulu
     java -version
-    echo $JAVA_HOME
   displayName: 'Java Version'
 
 - script: |
