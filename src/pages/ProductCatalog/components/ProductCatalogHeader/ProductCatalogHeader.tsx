@@ -22,7 +22,7 @@ interface ProductCatalogHeaderProps {
 function ProductCatalogHeader({ defaultFacets }: ProductCatalogHeaderProps) {
   const [filterVisible, setFilterVisible] = useState(false);
   const [sortVisible, setSortVisible] = useState(false);
-  const { resultCount, filters } = useSearchStore(['resultCount', 'filters']);
+  const { resultCount } = useSearchStore(['resultCount', 'filters']);
   const {
     onSearch,
     parameters,
