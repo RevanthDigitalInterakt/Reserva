@@ -5,13 +5,11 @@ exports[`NewsLetter Component renders without error and match snapshot 1`] = `
   flexDirection="row"
   mb="xs"
   style={
-    Array [
-      Object {
-        "flexDirection": "row",
-        "marginBottom": 32,
-        "zIndex": 2,
-      },
-    ]
+    {
+      "flexDirection": "row",
+      "marginBottom": 32,
+      "zIndex": 2,
+    }
   }
   zIndex={2}
 >
@@ -19,31 +17,45 @@ exports[`NewsLetter Component renders without error and match snapshot 1`] = `
     alignItems="center"
     flexDirection="row"
     style={
-      Array [
-        Object {
-          "alignItems": "center",
-          "flexDirection": "row",
-          "width": "100%",
-        },
-      ]
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "width": "100%",
+      }
     }
     width="100%"
   >
     <View
       alignItems="center"
       style={
-        Array [
-          Object {
-            "alignItems": "center",
-          },
-        ]
+        {
+          "alignItems": "center",
+        }
       }
     >
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
+        collapsable={false}
         focusable={true}
         hitSlop={
-          Object {
+          {
             "bottom": 10,
             "left": 10,
             "right": 10,
@@ -58,7 +70,7 @@ exports[`NewsLetter Component renders without error and match snapshot 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Object {
+          {
             "alignItems": "center",
             "justifyContent": "center",
             "opacity": 1,
@@ -67,33 +79,39 @@ exports[`NewsLetter Component renders without error and match snapshot 1`] = `
         testID="com.usereserva:id/newsletter_button"
       >
         <RNSVGSvgView
-          bbHeight={15}
-          bbWidth={15}
+          bbHeight="15"
+          bbWidth="15"
           color="dropDownBorderColor"
           focusable={false}
           size={15}
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "transparent",
                 "borderWidth": 0,
               },
-              Array [
-                Object {
-                  "color": "#DDDDDD",
-                  "height": 15,
-                  "width": 15,
-                },
-              ],
-              Object {
+              {
+                "color": "#DDDDDD",
+                "height": 15,
+                "width": 15,
+              },
+              {
                 "flex": 0,
                 "height": 15,
                 "width": 15,
               },
             ]
           }
+          tintColor="dropDownBorderColor"
         >
-          <RNSVGGroup>
+          <RNSVGGroup
+            fill={
+              {
+                "payload": 4278190080,
+                "type": 0,
+              }
+            }
+          >
             <RNSVGSvgView
               align="xMidYMid"
               bbHeight="100%"
@@ -104,18 +122,16 @@ exports[`NewsLetter Component renders without error and match snapshot 1`] = `
               minX={0}
               minY={0}
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "backgroundColor": "transparent",
                     "borderWidth": 0,
                   },
-                  Array [
-                    Object {
-                      "height": "100%",
-                      "width": "100%",
-                    },
-                  ],
-                  Object {
+                  {
+                    "height": "100%",
+                    "width": "100%",
+                  },
+                  {
                     "flex": 0,
                     "height": "100%",
                     "width": "100%",
@@ -126,42 +142,65 @@ exports[`NewsLetter Component renders without error and match snapshot 1`] = `
               vbWidth={15}
               width="100%"
             >
-              <RNSVGGroup>
+              <RNSVGGroup
+                fill={
+                  {
+                    "payload": 4278190080,
+                    "type": 0,
+                  }
+                }
+              >
                 <RNSVGGroup
-                  fill={4294967295}
+                  fill={
+                    {
+                      "payload": 4294967295,
+                      "type": 0,
+                    }
+                  }
                   propList={
-                    Array [
+                    [
                       "fill",
                       "stroke",
                     ]
                   }
-                  stroke={4292730333}
+                  stroke={
+                    {
+                      "payload": 4292730333,
+                      "type": 0,
+                    }
+                  }
                 >
                   <RNSVGRect
-                    height={15}
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    height="15"
                     propList={
-                      Array [
+                      [
                         "stroke",
                       ]
                     }
-                    rx={2}
+                    rx="2"
                     stroke={null}
-                    width={15}
-                    x={0}
-                    y={0}
+                    width="15"
+                    x="0"
+                    y="0"
                   />
                   <RNSVGRect
                     fill={null}
-                    height={14}
+                    height="14"
                     propList={
-                      Array [
+                      [
                         "fill",
                       ]
                     }
-                    rx={1.5}
-                    width={14}
-                    x={0.5}
-                    y={0.5}
+                    rx="1.5"
+                    width="14"
+                    x="0.5"
+                    y="0.5"
                   />
                 </RNSVGGroup>
               </RNSVGGroup>
@@ -173,23 +212,19 @@ exports[`NewsLetter Component renders without error and match snapshot 1`] = `
     <View
       ml="nano"
       style={
-        Array [
-          Object {
-            "marginLeft": 8,
-          },
-        ]
+        {
+          "marginLeft": 8,
+        }
       }
     >
       <Text
         fontFamily="nunitoRegular"
         fontSize={12}
         style={
-          Array [
-            Object {
-              "fontFamily": "Nunito-Regular",
-              "fontSize": 12,
-            },
-          ]
+          {
+            "fontFamily": "Nunito-Regular",
+            "fontSize": 12,
+          }
         }
         variant="botaoFiltrarEOrdenarProdutos"
       >

@@ -3,33 +3,30 @@
 exports[`HomeCardsCarousel should match to snapshot 1`] = `
 <View
   accessibilityLabel="com.usereserva:id/cards_carrousel_container"
-  style={
-    Array [
-      Object {},
-    ]
-  }
+  style={{}}
   testID="com.usereserva:id/cards_carrousel_container"
 >
   <RCTScrollView
     accessibilityLabel="com.usereserva:id/cards_carrousel_animated_flat_list"
     bounces={false}
+    collapsable={false}
     contentContainerStyle={
-      Object {
+      {
         "paddingLeft": 4,
         "paddingRight": 4,
       }
     }
     data={
-      Array [
-        Object {
-          "facets": Array [
-            Object {
+      [
+        {
+          "facets": [
+            {
               "__typename": "ProductFacetOutput",
               "key": "productClusterIds",
               "value": "2894",
             },
           ],
-          "image": Object {
+          "image": {
             "__typename": "HomeCarouselItemImageOutput",
             "height": 1400,
             "title": "Liqui para Todos Agosto 2023",
@@ -42,15 +39,15 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
           "reference": "collection:2894",
           "reservaMini": false,
         },
-        Object {
-          "facets": Array [
-            Object {
+        {
+          "facets": [
+            {
               "__typename": "ProductFacetOutput",
               "key": "productClusterIds",
               "value": "2648",
             },
           ],
-          "image": Object {
+          "image": {
             "__typename": "HomeCarouselItemImageOutput",
             "height": 1400,
             "title": "Camisetas até R$129",
@@ -63,15 +60,15 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
           "reference": "collection:2648",
           "reservaMini": false,
         },
-        Object {
-          "facets": Array [
-            Object {
+        {
+          "facets": [
+            {
               "__typename": "ProductFacetOutput",
               "key": "productClusterIds",
               "value": "2772",
             },
           ],
-          "image": Object {
+          "image": {
             "__typename": "HomeCarouselItemImageOutput",
             "height": 1400,
             "title": "Home 2772 Ofertas Reserva",
@@ -87,16 +84,13 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
       ]
     }
     decelerationRate="fast"
-    disableVirtualization={false}
     getItem={[Function]}
     getItemCount={[Function]}
     horizontal={true}
-    initialNumToRender={10}
     keyExtractor={[Function]}
-    maxToRenderPerBatch={10}
     onContentSizeChange={[Function]}
-    onEndReachedThreshold={2}
     onLayout={[Function]}
+    onMomentumScrollBegin={[Function]}
     onMomentumScrollEnd={[Function]}
     onScroll={[Function]}
     onScrollBeginDrag={[Function]}
@@ -107,25 +101,24 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
     showsHorizontalScrollIndicator={false}
     snapToAlignment="start"
     snapToOffsets={
-      Array [
+      [
         -48,
         589.5,
         1227,
       ]
     }
-    stickyHeaderIndices={Array []}
-    style={Object {}}
+    stickyHeaderIndices={[]}
+    style={{}}
     testID="com.usereserva:id/cards_carrousel_animated_flat_list"
-    updateCellsBatchingPeriod={50}
-    viewabilityConfigCallbackPairs={Array []}
-    windowSize={21}
+    viewabilityConfigCallbackPairs={[]}
   >
     <View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
             },
             null,
@@ -134,26 +127,38 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
       >
         <View
           accessibilityLabel="com.usereserva:id/card_container_collection:2894"
-          style={
-            Array [
-              Object {},
-            ]
-          }
+          style={{}}
           testID="com.usereserva:id/card_container_collection:2894"
         >
           <View
             alignItems="center"
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                },
-              ]
+              {
+                "alignItems": "center",
+              }
             }
           >
             <View
               accessibilityLabel="com.usereserva:id/card_button_collection:2894"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
               accessible={true}
+              collapsable={false}
               focusable={true}
               onClick={[Function]}
               onResponderGrant={[Function]}
@@ -163,7 +168,7 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                   "opacity": 1,
@@ -175,14 +180,14 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
                 height={280}
                 resizeMode="contain"
                 source={
-                  Object {
+                  {
                     "uri": "https://images.ctfassets.net/6jsfqc13oxv4/RYtXBnHIjoNdgmEvoO9Km/d06af9b5124eca415b7dfbf56fad7163/banner-home-app-liqui_para_todos.gif",
                   }
                 }
                 style={
-                  Array [
-                    Object {
-                      "height": 0,
+                  [
+                    {
+                      "height": 466.125,
                       "width": 621.5,
                     },
                     undefined,
@@ -194,10 +199,11 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
             },
             null,
@@ -206,26 +212,38 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
       >
         <View
           accessibilityLabel="com.usereserva:id/card_container_collection:2648"
-          style={
-            Array [
-              Object {},
-            ]
-          }
+          style={{}}
           testID="com.usereserva:id/card_container_collection:2648"
         >
           <View
             alignItems="center"
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                },
-              ]
+              {
+                "alignItems": "center",
+              }
             }
           >
             <View
               accessibilityLabel="com.usereserva:id/card_button_collection:2648"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
               accessible={true}
+              collapsable={false}
               focusable={true}
               onClick={[Function]}
               onResponderGrant={[Function]}
@@ -235,7 +253,7 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                   "opacity": 1,
@@ -247,14 +265,14 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
                 height={280}
                 resizeMode="contain"
                 source={
-                  Object {
+                  {
                     "uri": "https://images.ctfassets.net/6jsfqc13oxv4/4TFpt2F0YWUdrb2lZ2SYak/09ad88e0d507be9079da04be0733bd05/banner-home-app-od_ate129.jpg",
                   }
                 }
                 style={
-                  Array [
-                    Object {
-                      "height": 0,
+                  [
+                    {
+                      "height": 466.125,
                       "width": 621.5,
                     },
                     undefined,
@@ -266,10 +284,11 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
             },
             null,
@@ -278,26 +297,38 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
       >
         <View
           accessibilityLabel="com.usereserva:id/card_container_collection:2772"
-          style={
-            Array [
-              Object {},
-            ]
-          }
+          style={{}}
           testID="com.usereserva:id/card_container_collection:2772"
         >
           <View
             alignItems="center"
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                },
-              ]
+              {
+                "alignItems": "center",
+              }
             }
           >
             <View
               accessibilityLabel="com.usereserva:id/card_button_collection:2772"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
               accessible={true}
+              collapsable={false}
               focusable={true}
               onClick={[Function]}
               onResponderGrant={[Function]}
@@ -307,7 +338,7 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                   "opacity": 1,
@@ -319,14 +350,14 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
                 height={280}
                 resizeMode="contain"
                 source={
-                  Object {
+                  {
                     "uri": "https://images.ctfassets.net/6jsfqc13oxv4/2PZVKTj8T4Vkf0rGIw3NsK/2a8f32e7fe4e14ceaec20157001d328f/banner-home-app-ofertas_ate60.gif",
                   }
                 }
                 style={
-                  Array [
-                    Object {
-                      "height": 0,
+                  [
+                    {
+                      "height": 466.125,
                       "width": 621.5,
                     },
                     undefined,
@@ -344,26 +375,25 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
     flexDirection="row"
     height={24}
     style={
-      Array [
-        Object {
-          "alignSelf": "center",
-          "flexDirection": "row",
-          "height": 24,
-        },
-      ]
+      {
+        "alignSelf": "center",
+        "flexDirection": "row",
+        "height": 24,
+      }
     }
   >
     <View
       accessibilityLabel="com.usereserva:id/cards_carrousel_animated_view"
+      collapsable={false}
       style={
-        Object {
+        {
           "alignSelf": "center",
           "backgroundColor": "#6F6F6F",
           "borderRadius": 7,
           "height": 7,
           "position": "absolute",
-          "transform": Array [
-            Object {
+          "transform": [
+            {
               "translateX": 6,
             },
           ],
@@ -375,7 +405,7 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
     />
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "justifyContent": "center",
           "width": 19,
@@ -384,7 +414,7 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
     >
       <View
         style={
-          Object {
+          {
             "borderColor": "#6F6F6F",
             "borderRadius": 7,
             "borderWidth": 1,
@@ -396,7 +426,7 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
     </View>
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "justifyContent": "center",
           "width": 19,
@@ -405,7 +435,7 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
     >
       <View
         style={
-          Object {
+          {
             "borderColor": "#6F6F6F",
             "borderRadius": 7,
             "borderWidth": 1,
@@ -417,7 +447,7 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
     </View>
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "justifyContent": "center",
           "width": 19,
@@ -426,7 +456,7 @@ exports[`HomeCardsCarousel should match to snapshot 1`] = `
     >
       <View
         style={
-          Object {
+          {
             "borderColor": "#6F6F6F",
             "borderRadius": 7,
             "borderWidth": 1,

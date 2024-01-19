@@ -4,7 +4,7 @@ exports[`PrimeIntro should render properly and match to snapshot 1`] = `
 <View
   accessibilityLabel="com.usereserva:id/PrimeIntro_wrapper"
   style={
-    Object {
+    {
       "alignItems": "center",
       "backgroundColor": "#F7F7F7",
       "justifyContent": "center",
@@ -15,7 +15,7 @@ exports[`PrimeIntro should render properly and match to snapshot 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "backgroundColor": "#ffffff",
         "elevation": 4,
@@ -26,7 +26,7 @@ exports[`PrimeIntro should render properly and match to snapshot 1`] = `
         "paddingHorizontal": 16,
         "paddingTop": 32,
         "shadowColor": "#000",
-        "shadowOffset": Object {
+        "shadowOffset": {
           "height": 2,
           "width": 0,
         },
@@ -38,12 +38,12 @@ exports[`PrimeIntro should render properly and match to snapshot 1`] = `
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "fontFamily": "ReservaSerif-Regular",
             "fontSize": 28,
           },
-          Object {
+          {
             "color": "#000000",
             "fontSize": 20,
             "lineHeight": 26,
@@ -56,12 +56,12 @@ exports[`PrimeIntro should render properly and match to snapshot 1`] = `
       A experiência
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "fontFamily": "ReservaSerif-Bold",
               "fontSize": 27,
             },
-            Object {
+            {
               "color": "#000000",
               "fontSize": 20,
               "lineHeight": 26,
@@ -77,12 +77,12 @@ exports[`PrimeIntro should render properly and match to snapshot 1`] = `
       em seu modo
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "fontFamily": "ReservaSerif-Bold",
               "fontSize": 27,
             },
-            Object {
+            {
               "color": "#000000",
               "fontSize": 20,
               "lineHeight": 26,
@@ -96,12 +96,12 @@ exports[`PrimeIntro should render properly and match to snapshot 1`] = `
     </Text>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "fontFamily": "Nunito-Regular",
             "fontSize": 15,
           },
-          Object {
+          {
             "color": "#848484",
             "fontSize": 16,
             "lineHeight": 20,
@@ -116,12 +116,12 @@ exports[`PrimeIntro should render properly and match to snapshot 1`] = `
     </Text>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "fontFamily": "Nunito-Regular",
             "fontSize": 15,
           },
-          Object {
+          {
             "color": "#848484",
             "fontSize": 16,
             "lineHeight": 20,
@@ -135,12 +135,12 @@ exports[`PrimeIntro should render properly and match to snapshot 1`] = `
       Assine em até
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "fontFamily": "Nunito-Bold",
               "fontSize": 20,
             },
-            Object {
+            {
               "color": "#000000",
               "fontSize": 16,
               "lineHeight": 20,
