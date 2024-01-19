@@ -50,7 +50,7 @@ steps:
 
 - script: |
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
-    export ANDROID_HOME=$HOME/Library/Android/sdk
+    export ANDROID_HOME=/Users/ec2-user/Library/Android/sdk
     export PATH=$PATH:$ANDROID_HOME/emulator
     export PATH=$PATH:$ANDROID_HOME/tools
     export PATH=$PATH:$ANDROID_HOME/tools/bin
@@ -72,6 +72,7 @@ steps:
 
 # Build Android
 - script: |
+    export ANDROID_HOME=/Users/ec2-user/Library/Android/sdk
     fastlane android beta api_key_path:$(apiKeyFileAndroid.secureFilePath)
   displayName: 'Deploy to Play Store Beta'
   workingDirectory: android
