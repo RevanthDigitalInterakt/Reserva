@@ -55,6 +55,6 @@ yarn codegen
 
 ## Acknowledgments
 
-## inclusao do semantic release
+## Remoção do comentario que estava aqui
 
 
