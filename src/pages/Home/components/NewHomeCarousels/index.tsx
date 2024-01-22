@@ -18,6 +18,7 @@ import styles from './styles';
 import { Box } from '../../../../components/Box/Box';
 import { RouletCouponCard } from '../RouletCouponCard';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
+import CommercialBanner from '../CommercialBanner/CommercialBanner';
 
 export function NewHomeCarousels() {
   const { carousels, loading } = useHomeStore(['carousels', 'loading']);
@@ -56,6 +57,7 @@ export function NewHomeCarousels() {
       [HomePageSectionTypeEnum.Brands]: () => (
         <>
           <HomeBrandsCarousel data={item} />
+          <CommercialBanner />
           <NewHomeCountDown />
         </>
       ),

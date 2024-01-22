@@ -1,5 +1,3 @@
-// @ts-nocheck
-/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -114,6 +112,20 @@ export enum ClockScreenEnum {
   Offers = 'OFFERS'
 }
 
+export type ConfigCommercialBannerOutput = {
+  __typename?: 'ConfigCommercialBannerOutput';
+  endingDate?: Maybe<Scalars['String']['output']>;
+  hasModal: Scalars['Boolean']['output'];
+  mainText?: Maybe<Scalars['String']['output']>;
+  modalButton: Scalars['Boolean']['output'];
+  modalButtonLink?: Maybe<Scalars['String']['output']>;
+  modalButtonText?: Maybe<Scalars['String']['output']>;
+  modalDescription?: Maybe<Scalars['String']['output']>;
+  modalTitle?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  startingDate?: Maybe<Scalars['String']['output']>;
+};
+
 export type ConfigCountdownClockOutput = {
   __typename?: 'ConfigCountdownClockOutput';
   countdown?: Maybe<Scalars['String']['output']>;
@@ -153,6 +165,7 @@ export type ConfigDiscountBarOutput = {
 
 export type ConfigOutput = {
   __typename?: 'ConfigOutput';
+  commercialBannerCollection: Array<ConfigCommercialBannerOutput>;
   countDownClock?: Maybe<ConfigCountdownClockOutput>;
   countDownClockReservaMini?: Maybe<ConfigCountdownClockReservaOutput>;
   discountCodeBar?: Maybe<ConfigDiscountBarOutput>;
@@ -2195,7 +2208,7 @@ export type HomeCarouselsQuery = { __typename?: 'Query', homeCarousels: Array<{ 
 export type HomeConfigQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeConfigQuery = { __typename?: 'Query', homeConfig?: { __typename?: 'ConfigOutput', id: string, offersPage?: string | null, discountCodeBar?: { __typename?: 'ConfigDiscountBarOutput', titleBar?: string | null, colorBar?: string | null, titleModal?: string | null, descriptionModal?: string | null, titleButton?: string | null, colorButton?: string | null, shareMessage?: string | null, coupon?: string | null } | null } | null };
+export type HomeConfigQuery = { __typename?: 'Query', homeConfig?: { __typename?: 'ConfigOutput', id: string, offersPage?: string | null, discountCodeBar?: { __typename?: 'ConfigDiscountBarOutput', titleBar?: string | null, colorBar?: string | null, titleModal?: string | null, descriptionModal?: string | null, titleButton?: string | null, colorButton?: string | null, shareMessage?: string | null, coupon?: string | null } | null, commercialBannerCollection: Array<{ __typename?: 'ConfigCommercialBannerOutput', name?: string | null, startingDate?: string | null, endingDate?: string | null, mainText?: string | null, hasModal: boolean, modalTitle?: string | null, modalDescription?: string | null, modalButton: boolean, modalButtonText?: string | null, modalButtonLink?: string | null }> } | null };
 
 export type HomeCountdownQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3991,6 +4004,18 @@ export const HomeConfigDocument = gql`
       colorButton
       shareMessage
       coupon
+    }
+    commercialBannerCollection {
+      name
+      startingDate
+      endingDate
+      mainText
+      hasModal
+      modalTitle
+      modalDescription
+      modalButton
+      modalButtonText
+      modalButtonLink
     }
   }
 }

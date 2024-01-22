@@ -10,6 +10,7 @@ export const refreshTokenLink = onError(({
   operation,
   response,
 }) => {
+  console.log(graphQLErrors, operation);
   if (graphQLErrors?.length) {
     return new Observable((observer) => {
       refreshTokenMiddleware({
@@ -38,7 +39,7 @@ export const refreshTokenLink = onError(({
 const gatewayLink = errorLinks.concat(
   refreshTokenLink.concat(
     transactionIdLink.concat(
-      new HttpLink({ uri: Config.URL_GATEWAY_CLIENT }),
+      new HttpLink({ uri: 'http://localhost:3000/graphql' }),
     ),
   ),
 );
