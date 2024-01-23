@@ -1,51 +1,62 @@
-import React, { useMemo, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { Box } from '../../../../../../components/Box/Box';
-import styles from '../styles';
-import ImageComponent from '../../../../../../components/ImageComponent/ImageComponent';
-import { PriceCustom } from '../../../../../../modules/Checkout/components/PriceCustom';
-import IconComponent from '../../../../../../components/IconComponent/IconComponent';
+import React, {
+  useCallback, useEffect, useState,
+} from 'react';
+import { View } from 'react-native';
 
 import { useProductDetailStore } from '../../../../../../zustand/useProductDetail/useProductDetail';
 
-import { RadioButtons } from '../RadioButtons';
-import { ColorsButtons } from '../ColorsButtons';
-import ItemsCard from '../ItemsCard';
+import ItemsCard, { type ISelectedItem } from '../ItemsCard';
 
 function ItemsCardWrapper() {
-  const [selectedItem, setSelectedItem] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<ISelectedItem[]>([]);
+  const { kit } = useProductDetailStore(['kit']);
 
-  const {
-    productDetail,
-    selectedColor,
-    setSelectedColor,
-    selectedSize,
-    setSelectedSize,
-    kit,
-  } = useProductDetailStore([
-    'productDetail',
-    'selectedSize',
-    'setSelectedSize',
-    'selectedColor',
-    'setSelectedColor',
-    'kit',
-  ]);
+  const onSetInitialItems = useCallback(() => {
+    const tempArr: ISelectedItem[] = [];
 
-  const disabledSizes = useMemo(() => (
-    (selectedColor?.sizes || []).filter((item) => item.disabled).map((item) => item.size || '')
-  ), [selectedColor]);
+    kit?.map((item) => {
+      const [color] = item.colors;
+      const [size] = color?.sizes || [];
 
-  const sizes: string[] = useMemo(() => (
-    (selectedColor?.sizes || []).map((item) => item.size || '')
-  ), [selectedColor]);
+      tempArr.push({
+        checked: false,
+        productId: item.productId,
+        colorId: color?.colorId || '',
+        itemId: size?.itemId || '',
+      });
 
-  if (!productDetail) return null;
+      return item;
+    });
+
+    setSelectedItems(tempArr);
+  }, [kit]);
+
+  useEffect(() => {
+    if (kit?.length) {
+      onSetInitialItems();
+    }
+  }, [kit]);
 
   return (
     <View>
-      {kit?.map((item) => (
-        <ItemsCard key={item.productId} item={item} />
-      ))}
+      {kit?.map((item, i) => {
+        if (!selectedItems[i]) {
+          return null;
+        }
+
+        return (
+          <ItemsCard
+            key={item.productId}
+            item={item}
+            selectedItem={selectedItems[i]!}
+            onSelectItem={(updatedItem) => {
+              const tempArr = [...selectedItems];
+              tempArr[i] = updatedItem;
+              setSelectedItems(tempArr);
+            }}
+          />
+        );
+      })}
     </View>
   );
 }

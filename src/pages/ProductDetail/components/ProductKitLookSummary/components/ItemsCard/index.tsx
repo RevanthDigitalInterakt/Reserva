@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Box } from '../../../../../../components/Box/Box';
 import styles from '../styles';
@@ -6,50 +6,56 @@ import ImageComponent from '../../../../../../components/ImageComponent/ImageCom
 import { PriceCustom } from '../../../../../../modules/Checkout/components/PriceCustom';
 import IconComponent from '../../../../../../components/IconComponent/IconComponent';
 
-import { useProductDetailStore } from '../../../../../../zustand/useProductDetail/useProductDetail';
-
+import type { ProductKitOutput } from '../../../../../../base/graphql/generated';
 import { RadioButtons } from '../RadioButtons';
 import { ColorsButtons } from '../ColorsButtons';
-import type { ProductKitOutput } from '../../../../../../base/graphql/generated';
+
+export interface ISelectedItem {
+  checked: boolean;
+  productId: string;
+  colorId: string;
+  itemId: string; // skuId
+}
 
 interface IItemsCard {
   item: ProductKitOutput;
+  selectedItem: ISelectedItem;
+  onSelectItem: (item: ISelectedItem) => void;
 }
 
-function ItemsCard({ item }: IItemsCard) {
-  const [selectedItem, setSelectedItem] = useState(false);
+function ItemsCard({ item, selectedItem, onSelectItem }: IItemsCard) {
+  const listColors = useMemo(() => item.colors.map((color) => ({
+    id: color.colorId,
+    url: color.colorUrl,
+  })), [item.colors]);
 
-  const {
-    productDetail,
-    selectedColor,
-    setSelectedColor,
-    selectedSize,
-    setSelectedSize,
-    kit,
-  } = useProductDetailStore([
-    'productDetail',
-    'selectedSize',
-    'setSelectedSize',
-    'selectedColor',
-    'setSelectedColor',
-    'kit',
-  ]);
+  const selectedColor = useMemo(() => (
+    item.colors.find((color) => color.colorId === selectedItem.colorId)
+  ), [item, selectedItem]);
 
-  const disabledSizes = useMemo(() => (
-    (selectedColor?.sizes || []).filter((x) => x.disabled).map((t) => t.size || '')
-  ), [selectedColor]);
+  const selectedSize = useMemo(() => (
+    selectedColor?.sizes.find((size) => size.itemId === selectedItem.itemId)
+  ), [item, selectedItem]);
 
-  const sizes: string[] = useMemo(() => (
-    (selectedColor?.sizes || []).map((y) => y.size || '')
-  ), [selectedColor]);
+  const onSelectedChange = useCallback((obj: Partial<ISelectedItem>) => {
+    onSelectItem({ ...selectedItem, ...obj });
+  }, [onSelectItem, selectedItem]);
 
-  if (!productDetail) return null;
+  // const disabledSizes = useMemo(() => (
+  //   (selectedColor?.sizes || []).filter((x) => x.disabled).map((t) => t.size || '')
+  // ), [selectedColor]);
+  //
+  // const sizes: string[] = useMemo(() => (
+  //   (selectedColor?.sizes || []).map((y) => y.size || '')
+  // ), [selectedColor]);
+
+  // if (!productDetail) return null;
 
   if (!item) return null;
 
   const image = item?.colors.map((i) => i.images[0]);
 
-  const price = item?.colors.map((i) => i.sizes.map((p) => p.currentPrice)) || 0;
+  // const price = item?.colors.map((i) => i.sizes.map((p) => p.currentPrice)) || 0;
 
   return (
     <View>
@@ -58,13 +64,9 @@ function ItemsCard({ item }: IItemsCard) {
         style={styles.container}
       >
         <Box style={styles.containerIcon}>
-          <TouchableOpacity
-            onPress={() => {
-              setSelectedItem(!selectedItem);
-            }}
-          >
+          <TouchableOpacity onPress={() => onSelectedChange({ checked: !selectedItem.checked })}>
             <IconComponent
-              icon={selectedItem ? 'checkedBox' : 'uncheckedBox'}
+              icon={selectedItem.checked ? 'checkedBox' : 'uncheckedBox'}
               height={24}
               width={24}
             />
@@ -98,7 +100,7 @@ function ItemsCard({ item }: IItemsCard) {
             fontFamily="reservaSansBold"
             sizeInterger={15}
             sizeDecimal={11}
-            num={300}
+            num={selectedSize?.currentPrice || 0}
           />
 
           <Box style={styles.containerColors}>
@@ -107,25 +109,27 @@ function ItemsCard({ item }: IItemsCard) {
               <Text style={styles.textColor}>{selectedColor?.colorName}</Text>
             </View>
             <ColorsButtons
-              onPress={setSelectedColor}
-              disabledColors={productDetail?.disabledColors}
-              listColors={productDetail?.colorUrls}
+              onPress={console.log}
+              disabledColors={[]}
+              listColors={listColors}
               selectedColors={selectedColor?.colorId || ''}
             />
           </Box>
 
-          <Box style={styles.containerSize}>
-            <View style={styles.containerTexts}>
-              <Text style={styles.textBold}>Tamanho:</Text>
-              <Text style={styles.textColor}>{selectedSize?.size}</Text>
-            </View>
-            <RadioButtons
-              disabledOptions={disabledSizes}
-              onSelectedChange={(val) => setSelectedSize(`${val}`)}
-              optionsList={sizes}
-              selectedItem={selectedSize?.size || ''}
-            />
-          </Box>
+          {!!selectedColor?.sizes.length && (
+            <Box style={styles.containerSize}>
+              <View style={styles.containerTexts}>
+                <Text style={styles.textBold}>Tamanho:</Text>
+                <Text style={styles.textColor}>{selectedItem.itemId}</Text>
+              </View>
+              <RadioButtons
+                disabledOptions={[]}
+                onSelectedChange={(val) => console.log('VAL', val)}
+                optionsList={selectedColor.sizes.map((size) => size.size)}
+                selectedItem={selectedItem.itemId || ''}
+              />
+            </Box>
+          )}
         </Box>
       </Box>
     </View>
