@@ -93,6 +93,10 @@ export const commons = {
   reservaIcon: require('../../../assets/common/reserva-icon.png'),
   greenCheck: require('../../../assets/common/green-check.png'),
   config: require('../../../assets/common/config.png'),
+  chevronLeftFill: require('../../../assets/common/chevronLeftFill.png'),
+  chevronRightFill: require('../../../assets/common/chevronRightFill.png'),
+  addition: require('../../../assets/common/addition.png'),
+  subtraction: require('../../../assets/common/subtraction.png'),
 };
 
 /* mapping of svgs used as icons */

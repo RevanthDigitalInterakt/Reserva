@@ -1,12 +1,13 @@
 import { create } from 'zustand';
 import type {
-  ProductColorOutput, ProductQuery, ProductSizeOutput,
+  ProductColorOutput, ProductKitOutput, ProductQuery, ProductSizeOutput,
 } from '../../base/graphql/generated';
 import type { IProductDetailRouteParams } from '../../utils/createNavigateToProductParams';
 import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
 
 interface IUseProductDetailStore {
   productDetail: ProductQuery['product'] | null;
+  kit?: ProductKitOutput[] | null,
   selectedColor: ProductColorOutput | null;
   selectedSize: ProductSizeOutput | null;
   selectedGiftCardSku: string | undefined;
@@ -26,6 +27,7 @@ interface IUseProductDetailStore {
 
 export const productDetailStore = create<IUseProductDetailStore>((set, getState) => ({
   productDetail: null,
+  kit: null,
   selectedColor: null,
   selectedGiftCardEmail: undefined,
   selectedSize: null,
@@ -55,11 +57,12 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
     });
   },
   setProduct: (data: ProductQuery['product'], routeParams?: IProductDetailRouteParams) => {
-    const { initialColor, initialSize } = data;
+    const { initialColor, initialSize, kit } = data;
 
     set({
       ...getState(),
       productDetail: data,
+      kit,
       selectedColor: initialColor,
       selectedSize: initialSize,
       selectedGiftCardSku: routeParams?.skuId,
