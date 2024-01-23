@@ -60,6 +60,7 @@ steps:
   displayName: 'Set envs'
 
 - script: |
+    git tag
     yarn pipeline:semantic-release-pre:prod
     bash scripts/deleteTag.sh
   displayName: 'Increment version'
