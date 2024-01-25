@@ -89,12 +89,18 @@ export const commons = {
   signup3: require('../../../assets/help/signup3.png'),
   signup4: require('../../../assets/help/signup4.png'),
   signup5: require('../../../assets/help/signup5.png'),
+  ios14: require('../../../assets/common/ios-14.png'),
+  reservaIcon: require('../../../assets/common/reserva-icon.png'),
+  greenCheck: require('../../../assets/common/green-check.png'),
+  config: require('../../../assets/common/config.png'),
 };
 
 /* mapping of svgs used as icons */
 export const svgs = {
   logoPrime: require('../svgs/LogoPrime').default,
   chevronRight: require('../svgs/ChevronRight').default,
+  info: require('../svgs/Info').default,
+  trash: require('../svgs/Trash').default,
 };
 
 type TIconsKeys = keyof typeof commons;

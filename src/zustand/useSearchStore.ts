@@ -1,15 +1,16 @@
 import { create } from 'zustand';
 import { Keyboard } from 'react-native';
 import { createZustandStoreWithSelectors } from '../utils/createZustandStoreWithSelectors';
-import type {
-  ProductListOutput,
-  SearchFacetColorItemOutput,
-  SearchProductInput,
-  SearchQuery,
-  SearchQueryVariables,
-} from '../base/graphql/generated';
 import {
-  SearchDocument, SearchFacetItemOutput, SearchOrderByEnum, SearchProviderEnum,
+  type ProductListOutput,
+  type SearchFacetColorItemOutput,
+  type SearchProductInput,
+  type SearchQuery,
+  type SearchQueryVariables, TrackPageTypeEnum,
+  type SearchFacetItemOutput,
+  SearchDocument,
+  SearchOrderByEnum,
+  SearchProviderEnum,
 } from '../base/graphql/generated';
 import { getApolloClient } from '../utils/getApolloClient';
 import { trackEventSearchDito } from '../utils/trackEventSearchDito';
@@ -19,6 +20,7 @@ import { trackEventAccessedCategoryDito } from '../utils/trackEventAccessedCateg
 import { getCollectionFacetsValue } from '../utils/getCollectionFacetsValue';
 import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
+import { trackPageViewStore } from './useTrackPageViewStore/useTrackPageViewStore';
 
 export enum SearchStatusEnum {
   INITIAL,
@@ -149,12 +151,21 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
 
       const { searchType } = getState();
 
+      const trackStore = trackPageViewStore.getState();
+
       if (searchType === SearchType.SEARCH) {
+        const type = data.search.count
+          ? TrackPageTypeEnum.SearchWithResult
+          : TrackPageTypeEnum.Search;
+
+        trackStore.onTrackPageView(data.search.identifier || '', type);
         trackEventSearchDito(newParameters.q, data.search.count);
         EventProvider.logEvent('view_search_results', { search_term: newParameters.q });
       }
 
       if (searchType === SearchType.CATALOG) {
+        trackStore.onTrackPageView(data.search.identifier || '', TrackPageTypeEnum.Category);
+
         trackEventAccessedCategoryDito(getCollectionFacetsValue(newParameters.facets));
         EventProvider.logEvent('product_list_view', {
           content_type: 'product_group',

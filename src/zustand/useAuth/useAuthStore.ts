@@ -42,7 +42,7 @@ export interface IAuthStore {
   onSignOut: () => Promise<void>;
 }
 
-const authStore = create<IAuthStore>((set, getState) => ({
+export const authStore = create<IAuthStore>((set, getState) => ({
   initialized: false,
   profile: undefined,
   isAnonymousUser: true,

@@ -2,22 +2,18 @@
 
 exports[`NotFoundProduct component should match with the snapshot 1`] = `
 <View
-  forwardedRef={[Function]}
+  animation="slideInDown"
   style={
-    Object {
+    {
       "elevation": 10,
       "left": 0,
       "position": "absolute",
       "right": 0,
-      "transform": Array [
-        Object {
-          "translateY": -1334,
-        },
-      ],
       "zIndex": 2,
     }
   }
   testID="com.usereserva:id/NotFoundProduct_container"
+  useNativeDriver={true}
 >
   <View
     alignItems="center"
@@ -29,8 +25,8 @@ exports[`NotFoundProduct component should match with the snapshot 1`] = `
     paddingRight="xxxs"
     py="micro"
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "backgroundColor": "#FFF",
           "flexDirection": "row",
@@ -40,14 +36,14 @@ exports[`NotFoundProduct component should match with the snapshot 1`] = `
           "paddingRight": 16,
           "paddingTop": 12,
           "shadowColor": "rgba(0,0,0,0.1)",
-          "shadowOffset": Object {
+          "shadowOffset": {
             "height": 3,
             "width": 0,
           },
           "shadowOpacity": 1,
           "shadowRadius": 2,
         },
-        Object {
+        {
           "elevation": 10,
         },
       ]
@@ -56,13 +52,11 @@ exports[`NotFoundProduct component should match with the snapshot 1`] = `
     <View
       flex={1}
       style={
-        Array [
-          Object {
-            "flexBasis": 0,
-            "flexGrow": 1,
-            "flexShrink": 1,
-          },
-        ]
+        {
+          "flexBasis": 0,
+          "flexGrow": 1,
+          "flexShrink": 1,
+        }
       }
     >
       <Text
@@ -70,13 +64,11 @@ exports[`NotFoundProduct component should match with the snapshot 1`] = `
         fontFamily="nunitoRegular"
         fontSize={13}
         style={
-          Array [
-            Object {
-              "color": "#333333",
-              "fontFamily": "Nunito-Regular",
-              "fontSize": 13,
-            },
-          ]
+          {
+            "color": "#333333",
+            "fontFamily": "Nunito-Regular",
+            "fontSize": 13,
+          }
         }
       >
         Product not found
@@ -85,15 +77,31 @@ exports[`NotFoundProduct component should match with the snapshot 1`] = `
     <View
       alignItems="center"
       style={
-        Array [
-          Object {
-            "alignItems": "center",
-          },
-        ]
+        {
+          "alignItems": "center",
+        }
       }
     >
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
+        collapsable={false}
         focusable={true}
         onClick={[Function]}
         onResponderGrant={[Function]}
@@ -103,7 +111,7 @@ exports[`NotFoundProduct component should match with the snapshot 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Object {
+          {
             "alignItems": "center",
             "flexBasis": 0,
             "flexGrow": 1,
@@ -115,35 +123,41 @@ exports[`NotFoundProduct component should match with the snapshot 1`] = `
         testID="com.usereserva:id/NotFoundProduct_setProduct"
       >
         <RNSVGSvgView
-          bbHeight={15}
-          bbWidth={15}
+          bbHeight="15"
+          bbWidth="15"
           color="preto"
           focusable={false}
           ml="xxxs"
           size={15}
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "transparent",
                 "borderWidth": 0,
               },
-              Array [
-                Object {
-                  "color": "#333333",
-                  "height": 15,
-                  "marginLeft": 16,
-                  "width": 15,
-                },
-              ],
-              Object {
+              {
+                "color": "#333333",
+                "height": 15,
+                "marginLeft": 16,
+                "width": 15,
+              },
+              {
                 "flex": 0,
                 "height": 15,
                 "width": 15,
               },
             ]
           }
+          tintColor="preto"
         >
-          <RNSVGGroup>
+          <RNSVGGroup
+            fill={
+              {
+                "payload": 4278190080,
+                "type": 0,
+              }
+            }
+          >
             <RNSVGSvgView
               align="xMidYMid"
               bbHeight="100%"
@@ -154,18 +168,16 @@ exports[`NotFoundProduct component should match with the snapshot 1`] = `
               minX={0}
               minY={0}
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "backgroundColor": "transparent",
                     "borderWidth": 0,
                   },
-                  Array [
-                    Object {
-                      "height": "100%",
-                      "width": "100%",
-                    },
-                  ],
-                  Object {
+                  {
+                    "height": "100%",
+                    "width": "100%",
+                  },
+                  {
                     "flex": 0,
                     "height": "100%",
                     "width": "100%",
@@ -176,12 +188,24 @@ exports[`NotFoundProduct component should match with the snapshot 1`] = `
               vbWidth={8.242}
               width="100%"
             >
-              <RNSVGGroup>
+              <RNSVGGroup
+                fill={
+                  {
+                    "payload": 4278190080,
+                    "type": 0,
+                  }
+                }
+              >
                 <RNSVGPath
                   d="M5.098 4.12l2.944-2.944A.69.69 0 007.066.2L4.122 3.144 1.178.2a.69.69 0 10-.976.976L3.146 4.12.202 7.064a.69.69 0 00.976.976l2.944-2.944L7.066 8.04a.69.69 0 00.976-.976z"
-                  fill={4281545523}
+                  fill={
+                    {
+                      "payload": 4281545523,
+                      "type": 0,
+                    }
+                  }
                   propList={
-                    Array [
+                    [
                       "fill",
                     ]
                   }

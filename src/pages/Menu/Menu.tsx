@@ -31,6 +31,7 @@ import { Divider } from '../../components/Divider/Divider';
 import { Typography } from '../../components/Typography/Typography';
 import { theme } from '../../base/usereservappLegacy/theme';
 import NewFixedMenuItem from './components/NewMenuFixedItem';
+import FormLink from '../../components/FormLink/FormLink';
 
 export type MenuProps = StackScreenProps<RootStackParamList, 'Menu'>;
 
@@ -41,8 +42,10 @@ function Menu() {
 
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { profile } = useAuthStore(['profile']);
-  const { getBoolean } = useRemoteConfig();
+  const { getBoolean, getString } = useRemoteConfig();
   const linkTo = useLinkTo();
+
+  const showForm = useMemo(() => getString('show_user_feedback_form'), []);
 
   const { data, loading: loadingMenu } = useAppMenuQuery({
     fetchPolicy: getFetchPolicyPerKey('appMenu'),
@@ -162,76 +165,84 @@ function Menu() {
           <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
 
           {data?.appMenu?.length && (
-            <View>
-              {data.appMenu.map((item, index) => (
-                <MenuItem
-                  key={`${item.name}-${item.type}-${item.children.length}`}
-                  data={item}
-                  onPress={(pressedItem) => onSelectMenuItem(index, pressedItem)}
-                  opened={openedIndex === index}
+            <>
+              <View>
+                {data.appMenu.map((item, index) => (
+                  <MenuItem
+                    key={`${item.name}-${item.type}-${item.children.length}`}
+                    data={item}
+                    onPress={(pressedItem) => onSelectMenuItem(index, pressedItem)}
+                    opened={openedIndex === index}
+                  />
+                ))}
+
+                <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
+
+                {regionalizationActive && (
+                <FixedMenuItem
+                  iconName="Pin"
+                  testID="com.usereserva:id/menu_button_cep"
+                  title="Inserir ou alterar CEP"
+                  onPress={() => navigation.navigate('ChangeRegionalization')}
                 />
-              ))}
+                )}
 
-              <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
+                <NewFixedMenuItem
+                  iconName="profile"
+                  testID="com.usereserva:id/menu_button_account"
+                  title={profile?.email ? `Olá, ${profile?.firstName || profile?.email}` : 'Acessar Conta'}
+                  onPress={() => {
+                    if (profile?.email) {
+                      navigation.navigate('Profile');
+                      return;
+                    }
 
-              {regionalizationActive && (
-              <FixedMenuItem
-                iconName="Pin"
-                testID="com.usereserva:id/menu_button_cep"
-                title="Inserir ou alterar CEP"
-                onPress={() => navigation.navigate('ChangeRegionalization')}
-              />
-              )}
+                    navigation.navigate('Login', { comeFrom: 'Profile' });
+                  }}
+                />
 
-              <NewFixedMenuItem
-                iconName="profile"
-                testID="com.usereserva:id/menu_button_account"
-                title={profile?.email ? `Olá, ${profile?.firstName || profile?.email}` : 'Acessar Conta'}
-                onPress={() => {
-                  if (profile?.email) {
-                    navigation.navigate('Profile');
-                    return;
-                  }
+                <NewFixedMenuItem
+                  iconName="heart"
+                  testID="com.usereserva:id/menu_button_favorites"
+                  title="Favoritos"
+                  onPress={() => navigation.navigate('WishList')}
+                />
 
-                  navigation.navigate('Login', { comeFrom: 'Profile' });
-                }}
-              />
+                <NewFixedMenuItem
+                  iconName="faq"
+                  testID="com.usereserva:id/menu_button_callcenter"
+                  title="Dúvidas Frequentes"
+                  onPress={() => navigateFromMenu('HelpCenter')}
+                />
 
-              <NewFixedMenuItem
-                iconName="heart"
-                testID="com.usereserva:id/menu_button_favorites"
-                title="Favoritos"
-                onPress={() => navigation.navigate('WishList')}
-              />
+                <NewFixedMenuItem
+                  iconName="chat"
+                  testID="com.usereserva:id/menu_button_callcenter"
+                  title="Central de Atendimento"
+                  onPress={() => navigateFromMenu('CallCenter')}
+                />
 
-              <NewFixedMenuItem
-                iconName="faq"
-                testID="com.usereserva:id/menu_button_callcenter"
-                title="Dúvidas Frequentes"
-                onPress={() => navigateFromMenu('HelpCenter')}
-              />
+                <NewFixedMenuItem
+                  iconName="pinPlace"
+                  testID="com.usereserva:id/menu_button_stores"
+                  title="Lojas"
+                  onPress={() => Linking.openURL('https://whts.co/reserva')}
+                />
 
-              <NewFixedMenuItem
-                iconName="chat"
-                testID="com.usereserva:id/menu_button_callcenter"
-                title="Central de Atendimento"
-                onPress={() => navigateFromMenu('CallCenter')}
-              />
-
-              <NewFixedMenuItem
-                iconName="pinPlace"
-                testID="com.usereserva:id/menu_button_stores"
-                title="Lojas"
-                onPress={() => Linking.openURL('https://whts.co/reserva')}
-              />
-
-              <NewFixedMenuItem
-                iconName="document"
-                testID="com.usereserva:id/menu_button_privacy"
-                title="Política de Privacidade"
-                onPress={() => navigateFromMenu('PrivacyPolicy')}
-              />
-            </View>
+                <NewFixedMenuItem
+                  iconName="document"
+                  testID="com.usereserva:id/menu_button_privacy"
+                  title="Política de Privacidade"
+                  onPress={() => navigateFromMenu('PrivacyPolicy')}
+                />
+              </View>
+              {showForm === 'menu' ? (
+                <>
+                  <Divider variant="fullWidth" marginBottom="nano" marginTop="xxs" marginX="micro" />
+                  <FormLink />
+                </>
+              ) : null}
+            </>
           )}
 
           <Box mt="xs" alignItems="center">

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { bagStyles } from './styles/bagStyles';
@@ -27,6 +27,9 @@ import { trackAccessBag } from '../../utils/trackAccessBag';
 import { getBrands } from '../../utils/getBrands';
 import { trackViewCart } from '../../utils/trackViewCart';
 import CouponComponent from './components/Coupon';
+import { UnavailableList } from './components/ProductUnavailableList/UnavailableList';
+import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
+import { TrackPageTypeEnum } from '../../base/graphql/generated';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -91,9 +94,14 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
     });
   }, [items]);
 
+  const hasUnavailableItems = useMemo(() => items.some((item) => item.availability !== 'available'), [items]);
+
   useEffect(() => {
     if (initialized) {
       handleAbandonedCartTags();
+
+      const type = items.length ? TrackPageTypeEnum.Cart : TrackPageTypeEnum.Emptycart;
+      trackPageViewStore.getState().onTrackPageView('bag', type);
     }
   }, [initialized, items.length, handleAbandonedCartTags]);
 
@@ -163,6 +171,8 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
 
                   <BagProductList />
                 </Box>
+
+                {hasUnavailableItems && <UnavailableList />}
 
                 <Recommendation />
 

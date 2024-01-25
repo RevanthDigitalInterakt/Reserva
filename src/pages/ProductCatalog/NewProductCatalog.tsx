@@ -1,9 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useEffect, useMemo, useState,
+} from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
+import { SafeAreaView, View } from 'react-native';
 import NewListVerticalProducts from '../../components/NewListVerticalProducts/NewListVerticalProducts';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { generateFacets } from '../../utils/generateFacets';
-import ProductCatalogHeader from './components/ProductCatalogHeader/ProductCatalogHeader';
 import useSearchStore, { SearchType } from '../../zustand/useSearchStore';
 import { TopBarDefaultBackButton } from '../../modules/Menu/components/TopBarDefaultBackButton';
 import NewCountdown from './components/NewCountdown/NewCountdown';
@@ -14,6 +16,9 @@ import { CatalogSkeleton } from './components/CatalogSkeleton/CatalogSkeleton';
 import { Box } from '../../components/Box/Box';
 import { usePageLoadingStore } from '../../zustand/usePageLoadingStore/usePageLoadingStore';
 import { useHomeStore } from '../../zustand/useHomeStore';
+import EventProvider from '../../utils/EventProvider';
+import ProductCatalogHeader from './components/ProductCatalogHeader/ProductCatalogHeader';
+import { scale } from '../../utils/scale';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
@@ -58,6 +63,16 @@ function NewProductCatalog({ navigation, route }: Props) {
   }), [filters, reference]);
 
   useEffect(() => {
+    EventProvider.logEvent('view_item_list', {
+      items: result.map((item) => ({
+        price: item?.currentPrice,
+        item_id: item?.productId,
+        item_name: item?.productName,
+      })),
+    });
+  }, []);
+
+  useEffect(() => {
     if (!loading && startLoadingTime > 0) {
       onFinishLoad();
     }
@@ -92,30 +107,36 @@ function NewProductCatalog({ navigation, route }: Props) {
     }
 
     return (
-      <NewListVerticalProducts
-        data={result}
-        loading={loading}
-        cacheGoingBackRequest={() => setIsGoingBack(true)}
-        headerComponent={(
-          <>
-            {countdownType === 'CATEGORY' ? (
-              <NewCountdown reference={reference} selectClockScreen={countdownType} />
-            ) : (
-              <NewCountdown selectClockScreen={countdownType} />
-            )}
-            <Banner
-              setLoading={setLoadingMedias}
-              reference={reference}
-            />
-            <ProductCatalogHeader
-              defaultFacets={defaultFacets}
-            />
-          </>
+      <SafeAreaView>
+        <ProductCatalogHeader
+          defaultFacets={defaultFacets}
+        />
+        <NewListVerticalProducts
+          data={result}
+          loading={loading}
+          cacheGoingBackRequest={() => setIsGoingBack(true)}
+          headerComponent={(
+            <>
+              <View style={{
+                marginTop: scale(120),
+              }}
+              />
+              {countdownType === 'CATEGORY' ? (
+                <NewCountdown reference={reference} selectClockScreen={countdownType} />
+              ) : (
+                <NewCountdown selectClockScreen={countdownType} />
+              )}
+              <Banner
+                setLoading={setLoadingMedias}
+                reference={reference}
+              />
+            </>
         )}
-        marginBottom={0}
-        onFetchMore={doFetchMore}
-        total={resultCount}
-      />
+          marginBottom={90}
+          onFetchMore={doFetchMore}
+          total={resultCount}
+        />
+      </SafeAreaView>
     );
   }, [
     loadingMedias,

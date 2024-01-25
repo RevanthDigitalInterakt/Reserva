@@ -21,7 +21,9 @@ import WithoutInternet from '../../components/WithoutInternet';
 import { useConnectivityStore } from '../../zustand/useConnectivityStore';
 import { COLORS } from '../../base/styles/colors';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
-import { NewTransparentTopBarDefault } from '../../modules/Menu/components/NewTransparentTopBarDefault';
+import {
+  NewTransparentTopBarDefault,
+} from '../../modules/Menu/components/NewTransparentTopBarDefault';
 import { NewWhiteTopBarDefault } from '../../modules/Menu/components/NewWhiteTopBarDefault';
 import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
 import EventProvider from '../../utils/EventProvider';
@@ -36,6 +38,9 @@ import { NewHomeCarousels } from './components/NewHomeCarousels';
 import useHomeHeader from './hooks/useHomeHeader';
 import styles from './styles';
 import { useBagStore } from '../../zustand/useBagStore/useBagStore';
+import { ActivityTracking } from '../../components/ActivityTracking';
+import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
+import { TrackPageTypeEnum } from '../../base/graphql/generated';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -161,6 +166,8 @@ function Home() {
     if (isConnected && !loaded) {
       onLoad();
 
+      trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);
+
       EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
     }
   }, [isConnected, loaded]);
@@ -179,33 +186,36 @@ function Home() {
   }
 
   return (
-    <Box flex={1} bg="white" {...testProps('home_container')}>
-      {newHeaderIsActive ? renderHeader() : <TopBarDefault />}
-      {!newHeaderIsActive ? <HomeDiscountModal /> : null}
-      <SafeAreaView {...testProps('home_count_down_container')}>
-        <RouletWebview />
-        <FlatList
-          ListHeaderComponent={
-            <ListHeader newHeaderIsActive={newHeaderIsActive} />
-          }
-          bounces
-          onScroll={handleScroll}
-          contentContainerStyle={{ paddingBottom: 100 }}
-          keyExtractor={(item) => `home-media-${item.image.url.toString()}-${item.image.title}`}
-          data={medias}
-          renderItem={({ item }) => (
-            <NewBanner
-              facets={item.facets}
-              image={item.image.url}
-              orderBy={item.orderBy}
-              reference={item.reference}
-              reservaMini={item.reservaMini}
-            />
-          )}
-        />
-      </SafeAreaView>
-      {!!showModalSignUpComplete && <ModalSignUpComplete />}
-    </Box>
+    <>
+      <ActivityTracking />
+      <Box flex={1} bg="white" {...testProps('home_container')}>
+        {newHeaderIsActive ? renderHeader() : <TopBarDefault />}
+        {!newHeaderIsActive ? <HomeDiscountModal /> : null}
+        <SafeAreaView {...testProps('home_count_down_container')}>
+          <RouletWebview />
+          <FlatList
+            ListHeaderComponent={
+              <ListHeader newHeaderIsActive={newHeaderIsActive} />
+                        }
+            bounces
+            onScroll={handleScroll}
+            contentContainerStyle={{ paddingBottom: 100 }}
+            keyExtractor={(item) => `home-media-${item.image.url.toString()}-${item.image.title}`}
+            data={medias}
+            renderItem={({ item }) => (
+              <NewBanner
+                facets={item.facets}
+                image={item.image.url}
+                orderBy={item.orderBy}
+                reference={item.reference}
+                reservaMini={item.reservaMini}
+              />
+            )}
+          />
+        </SafeAreaView>
+        {!!showModalSignUpComplete && <ModalSignUpComplete />}
+      </Box>
+    </>
   );
 }
 

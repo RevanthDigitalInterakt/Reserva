@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 
-import type { SearchOrderByEnum } from '../../../../base/graphql/generated';
+import type { SearchOrderByEnum, SearchProductFacetInput } from '../../../../base/graphql/generated';
 import { Box } from '../../../../components/Box/Box';
 import { Button } from '../../../../components/Button';
 import { Picker } from '../../../../components/Picker/Picker';
@@ -10,7 +10,10 @@ import useSearchStore from '../../../../zustand/useSearchStore';
 import FilterModal from '../../../../components/FilterModal';
 import { orderByTypes } from './SearchResultHeader.helper';
 
-function SearchResultHeader() {
+interface SearchResultHeaderProps {
+  defaultFacets?: SearchProductFacetInput[];
+}
+function SearchResultHeader({ defaultFacets } : SearchResultHeaderProps) {
   const [filterVisible, setFilterVisible] = useState(false);
   const [sortVisible, setSortVisible] = useState(false);
   const { onSearch } = useSearchStore(['onSearch', 'parameters']);
@@ -58,6 +61,7 @@ function SearchResultHeader() {
       <FilterModal
         visible={filterVisible}
         onClose={() => setFilterVisible(false)}
+        defaultFacets={defaultFacets}
       />
 
       <Picker

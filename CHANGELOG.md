@@ -1,5 +1,18 @@
 ## CHANGELOG
 
+### 2.1.10
+- Remove unused files
+
+---
+
+### 2.1.9
+- [24417 - Desenvolvimento layout tracking ATT](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24417)
+- [21862 - PageView tracking](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21862)
+- [22790 - Desenvolvimento layout tracking ATT](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22790)
+- [23364 - Formulário pesquisa [app]](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/23364)
+- [21472 - Informativo de indisponibilidade de produtos na sacola](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21472)
+
+---
 
 ### 2.1.8
 
@@ -13,6 +26,7 @@
 
 - [Feature(22265) Visualização do parcelamento de compra do aplicativo > Meus pedidos](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22265)
 
+---
 
 ### 2.1.6
 

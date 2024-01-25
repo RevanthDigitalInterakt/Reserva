@@ -17,21 +17,25 @@ import { apolloFetchPolicyStore } from './useApolloFetchPolicyStore';
 
 interface IHomeStore {
   loading: boolean;
+  hasTabBar: boolean;
   loaded: boolean;
   carousels: HomeCarouselOutput[];
   medias: HomeMediaOutput[];
   discountBar: ConfigOutput['discountCodeBar'];
   offersPage?: string;
   onLoad: () => Promise<void>;
+  setHasTabBar: (hasTabBar: boolean) => void;
 }
 
 const homeStore = create<IHomeStore>((set, getState) => ({
   loading: false,
+  hasTabBar: true,
   loaded: false,
   carousels: [],
   discountBar: undefined,
   offersPage: undefined,
   medias: [],
+  setHasTabBar: (hasTabBar) => set(() => ({ hasTabBar })),
   onLoad: async () => {
     const client = getApolloClient();
 

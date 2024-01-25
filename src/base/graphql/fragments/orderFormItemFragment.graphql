@@ -15,6 +15,7 @@ fragment OrderformItemFragment on OrderformItemOutput {
     productCategories
     price
     productId
+    availability
     id
     listPrice
     giftOfferingId
