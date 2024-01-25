@@ -1,7 +1,4 @@
-trigger:
-  branches:
-    include:
-      - feat/onesignal-updated-v3
+trigger: none
 
 pr: none
 
@@ -60,16 +57,17 @@ steps:
   displayName: 'Set envs'
 
 - script: |
+    git tag
     yarn pipeline:semantic-release-pre:prod
     bash scripts/deleteTag.sh
   displayName: 'Increment version'
   workingDirectory: $(Build.SourcesDirectory)
 
 # Build iOS
-#- script: |
-#    fastlane ios beta api_key_path:$(apiKeyFileIOS.secureFilePath)
-#  displayName: 'Deploy to TestFlight'
-#  workingDirectory: ios
+- script: |
+    fastlane ios beta api_key_path:$(apiKeyFileIOS.secureFilePath)
+  displayName: 'Deploy to TestFlight'
+  workingDirectory: ios
 
 # Build Android
 - script: |

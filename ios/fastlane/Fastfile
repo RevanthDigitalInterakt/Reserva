@@ -5,9 +5,6 @@ platform :ios do
 
   lane :beta do |options|
 
-  increment_build_number(xcodeproj: "reserva.xcodeproj") #automatico mais precisa commitar
-  increment_version_number(version_number: "999999") #CI[tag]
-
   gym(
     scheme: "reserva",
     xcargs: "-jobs 4",

@@ -54,7 +54,3 @@ yarn codegen
 * **Reserva** - [usereserva.com](usereserva.com)
 
 ## Acknowledgments
-
-## Remoção do comentario que estava aqui
-
-
