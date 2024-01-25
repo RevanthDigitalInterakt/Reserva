@@ -9,6 +9,7 @@ import { HomePageSectionTypeEnum } from '../../../../base/graphql/generated';
 import HomeMainCarousel from '../HomeMainCarousel';
 import HomeBrandsCarousel from '../HomeBrandsCarousel';
 import HomeCardsCarousel from '../HomeCardsCarousel';
+import CommercialBanner from '../CommercialBanner/CommercialBanner';
 import testProps from '../../../../utils/testProps';
 import { SearchButton } from '../../../../components/SearchButton';
 import EventProvider from '../../../../utils/EventProvider';
@@ -18,7 +19,6 @@ import styles from './styles';
 import { Box } from '../../../../components/Box/Box';
 import { RouletCouponCard } from '../RouletCouponCard';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
-import CommercialBanner from '../CommercialBanner/CommercialBanner';
 
 export function NewHomeCarousels() {
   const { carousels, loading } = useHomeStore(['carousels', 'loading']);

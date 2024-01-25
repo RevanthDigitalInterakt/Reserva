@@ -14,18 +14,17 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   innerContainer: {
+    flex: 1,
     alignItems: 'center',
-    flexDirection: 'row',
     marginHorizontal: 10,
   },
   text: {
-    marginHorizontal: 10,
-    fontSize: 14,
+    fontSize: 12,
     color: 'white',
   },
   underlinedText: {
     marginHorizontal: 10,
-    fontSize: 14,
+    fontSize: 12,
     textDecorationLine: 'underline',
     textDecorationColor: 'white',
     textDecorationStyle: 'solid',
@@ -33,6 +32,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   icons: {
+    flex: 1,
     padding: 5,
   },
   modalContainer: {

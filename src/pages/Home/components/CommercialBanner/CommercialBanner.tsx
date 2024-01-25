@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
 import {
-  View, Text, TouchableOpacity, Modal,
+  View, Text, TouchableOpacity, Modal, Animated, Easing,
 } from 'react-native';
 import { useHomeStore } from '../../../../zustand/useHomeStore';
 import { styles } from './CommercialBanner.styles';
@@ -12,48 +13,95 @@ function CommercialBanner() {
   const { commercialBannerCollection } = useHomeStore(['commercialBannerCollection']);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const navigation = useNavigation();
 
-  const prevItem = () => {
-    setCurrentIndex((prevIndex) => (
-      prevIndex - 1 + commercialBannerCollection?.length) % (
-      commercialBannerCollection?.length || 1));
-  };
-
-  const nextItem = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % (commercialBannerCollection?.length || 1));
-  };
+  const fadeIn = new Animated.Value(0);
+  const fadeOut = new Animated.Value(1);
 
   const currentItem = commercialBannerCollection?.[currentIndex] || {};
 
-  const toggleModal = () => {
-    setIsModalVisible(!isModalVisible);
+  const fadeInAnimation = () => {
+    Animated.timing(fadeIn, {
+      toValue: 1,
+      duration: 200,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start();
   };
+
+  const fadeOutAnimation = (callback) => {
+    Animated.timing(fadeOut, {
+      toValue: 0,
+      duration: 200,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start(() => {
+      if (callback) callback();
+    });
+  };
+
+  const prevItem = useCallback(() => {
+    fadeOutAnimation(() => {
+      setCurrentIndex((prevIndex) => (
+        prevIndex - 1 + commercialBannerCollection?.length) % (
+        commercialBannerCollection?.length || 1));
+      fadeInAnimation();
+    });
+  }, [currentItem]);
+
+  const nextItem = useCallback(() => {
+    fadeOutAnimation(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % (commercialBannerCollection?.length || 1));
+      fadeInAnimation();
+    });
+  }, [currentItem]);
+
+  const toggleModal = useCallback(() => {
+    setIsModalVisible(!isModalVisible);
+  }, [isModalVisible]);
+
+  const onPress = useCallback(() => {
+    const reference = currentItem?.modalButtonLink || '';
+    const [categoryType, categoryData] = currentItem?.modalButtonLink ? reference.split(':') : [];
+    const navigateParams: {
+      referenceId?: string | null | undefined;
+      productId?: string | null | undefined;
+    } = {
+      referenceId: reference,
+      productId: categoryType === 'product' ? categoryData : undefined,
+    };
+    toggleModal();
+    navigation.navigate(categoryType === 'product' ? 'ProductDetail' : 'ProductCatalog', navigateParams);
+  }, [currentItem, toggleModal]);
 
   if (!commercialBannerCollection?.length) {
     return null;
   }
 
   return (
-    <View style={styles.container}>
-      {currentItem ? (
-        <>
-          <IconPrevious style={styles.icons} onPress={prevItem} />
-          <View style={styles.innerContainer}>
-            {currentItem.hasModal ? (
-              <TouchableOpacity onPress={toggleModal}>
-                <Text style={styles.underlinedText}>
-                  {currentItem.mainText}
-                </Text>
-              </TouchableOpacity>
-            ) : (
-              <Text style={styles.text}>{currentItem.mainText}</Text>
-            )}
-          </View>
-          <IconNext style={styles.icons} onPress={nextItem} />
-        </>
-      ) : (
-        <Text style={styles.text}>{currentItem && currentItem.mainText}</Text>
-      )}
+    <View>
+
+      <Animated.View style={[styles.container, { opacity: fadeOut }]}>
+        {currentItem ? (
+          <>
+            <IconPrevious style={styles.icons} onPress={prevItem} />
+            <Animated.View style={[styles.innerContainer]}>
+              {currentItem.hasModal ? (
+                <TouchableOpacity onPress={toggleModal}>
+                  <Text style={styles.underlinedText}>
+                    {currentItem.mainText}
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <Text style={styles.text}>{currentItem.mainText}</Text>
+              )}
+            </Animated.View>
+            <IconNext style={styles.icons} onPress={nextItem} />
+          </>
+        ) : (
+          <Text style={styles.text}>{currentItem.mainText}</Text>
+        )}
+      </Animated.View>
       <Modal
         visible={isModalVisible}
         onRequestClose={toggleModal}
@@ -70,11 +118,13 @@ function CommercialBanner() {
             <Text style={styles.modalDescription}>
               {currentItem && currentItem.modalDescription}
             </Text>
-            {currentItem && currentItem.modalButton && (
-              <TouchableOpacity style={styles.modalButton}>
+            <View>
+              {currentItem && currentItem.modalButton && (
+              <TouchableOpacity style={styles.modalButton} onPress={onPress}>
                 <Text style={styles.modalButtonText}>{currentItem.modalButtonText}</Text>
               </TouchableOpacity>
-            )}
+              )}
+            </View>
           </View>
         </View>
       </Modal>

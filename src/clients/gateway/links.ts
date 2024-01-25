@@ -14,7 +14,7 @@ export const transactionIdLink = setContext(async (_, { headers }) => {
     headers: {
       ...headers,
       'x-transaction-id': v4(),
-      'x-api-key': 'Q2vB7nPV7eJra8sk5rWyU68khS7LYaDpyap9fTVCTDhqgrXjCP',
+      'x-api-key': Config.API_KEY_GATEWAY,
       Authorization,
     },
   });
