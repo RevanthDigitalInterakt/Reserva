@@ -475,8 +475,10 @@ export type Mutation = {
   signUpVerificationCode: RequestCodeOutput;
   subscribeNewsletter: Scalars['Boolean']['output'];
   trackClick: Scalars['Boolean']['output'];
+  trackClickV2: Array<Scalars['String']['output']>;
   trackOrder: Scalars['Boolean']['output'];
   trackPageView: Scalars['Boolean']['output'];
+  trackPageViewV2: Array<Scalars['String']['output']>;
   wishlistAddProduct: Array<Scalars['String']['output']>;
   wishlistRemoveProduct: Array<Scalars['String']['output']>;
 };
@@ -627,12 +629,22 @@ export type MutationTrackClickArgs = {
 };
 
 
+export type MutationTrackClickV2Args = {
+  input: TrackClickInput;
+};
+
+
 export type MutationTrackOrderArgs = {
   input: TrackOrderInput;
 };
 
 
 export type MutationTrackPageViewArgs = {
+  input: TrackPageViewInput;
+};
+
+
+export type MutationTrackPageViewV2Args = {
   input: TrackPageViewInput;
 };
 

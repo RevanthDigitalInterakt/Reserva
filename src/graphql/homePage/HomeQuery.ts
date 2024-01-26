@@ -86,17 +86,6 @@ export interface ICountDownClock {
   reference: string;
   formattedValue?: string | undefined;
 }
-export interface ICommercialBanner {
-  name: string;
-  startingDate: string;
-  endingDate: string;
-  mainText: string;
-  hasModal: boolean;
-  modalTitle: string;
-  modalDescription: string;
-  modalButton: boolean;
-  modalButtonText: string;
-}
 
 export const homeQuery = gql`
   query homePageCollection {
@@ -258,20 +247,6 @@ export const configCollection = gql`
             name
           }
         }
-        commercialBannerCollection(limit: 10) {
-          items {
-              name
-              startingDate
-              endingDate
-              mainText
-              hasModal
-              modalTitle
-              modalDescription
-              modalButton
-              modalButtonText
-              modalButtonLink
-          }
-      }
       }
     }
   }

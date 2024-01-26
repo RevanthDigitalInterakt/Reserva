@@ -20,6 +20,8 @@ function CommercialBanner() {
 
   const currentItem = commercialBannerCollection?.[currentIndex] || {};
 
+  const hasMultipleItems = commercialBannerCollection?.length > 1;
+
   const fadeInAnimation = () => {
     Animated.timing(fadeIn, {
       toValue: 1,
@@ -84,7 +86,11 @@ function CommercialBanner() {
       <Animated.View style={[styles.container, { opacity: fadeOut }]}>
         {currentItem ? (
           <>
-            <IconPrevious style={styles.icons} onPress={prevItem} />
+            {
+              hasMultipleItems ? (
+                <IconPrevious style={styles.icons} onPress={prevItem} />
+              ) : null
+            }
             <Animated.View style={[styles.innerContainer]}>
               {currentItem.hasModal ? (
                 <TouchableOpacity onPress={toggleModal}>
@@ -96,7 +102,11 @@ function CommercialBanner() {
                 <Text style={styles.text}>{currentItem.mainText}</Text>
               )}
             </Animated.View>
-            <IconNext style={styles.icons} onPress={nextItem} />
+            {
+              hasMultipleItems ? (
+                <IconNext style={styles.icons} onPress={nextItem} />
+              ) : null
+            }
           </>
         ) : (
           <Text style={styles.text}>{currentItem.mainText}</Text>

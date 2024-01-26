@@ -13,16 +13,16 @@ query homeConfig {
       coupon
     }
     commercialBannerCollection {
-              name
-              startingDate
-              endingDate
-              mainText
-              hasModal
-              modalTitle
-              modalDescription
-              modalButton
-              modalButtonText
-              modalButtonLink
+      name
+      startingDate
+      endingDate
+      mainText
+      hasModal
+      modalTitle
+      modalDescription
+      modalButton
+      modalButtonText
+      modalButtonLink
       }
   }
 }
