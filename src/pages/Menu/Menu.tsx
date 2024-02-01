@@ -9,6 +9,7 @@ import { StackActions, useLinkTo, useNavigation } from '@react-navigation/native
 import type { StackScreenProps } from '@react-navigation/stack';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import WebView from 'react-native-webview';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { TopBarMenu } from '../../modules/Menu/components/TopBarMenu';
 import testProps from '../../utils/testProps';
@@ -39,6 +40,7 @@ function Menu() {
   const navigation = useNavigation();
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [openedIndex, setOpenedIndex] = useState<number>();
+  const [show1P5PWebview, setShow1P5PWebview] = useState(false);
 
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { profile } = useAuthStore(['profile']);
@@ -53,6 +55,14 @@ function Menu() {
     context: { clientName: 'gateway' },
   });
   const regionalizationActive = useMemo(() => getBoolean('regionalization'), [getBoolean]);
+
+  const handleShow1P5PWebview = useCallback(() => {
+    setShow1P5PWebview(true);
+  }, [show1P5PWebview]);
+
+  const handleClose1P5PWebview = useCallback(() => {
+    setShow1P5PWebview(false);
+  }, [show1P5PWebview]);
 
   const trackEventAccessedDepartmentDito = useCallback(async (openedCategories: string) => {
     if (!openedCategories) return;
@@ -146,6 +156,16 @@ function Menu() {
     getTestEnvironment();
   }, [getTestEnvironment]);
 
+  if (show1P5PWebview) {
+    return (
+      <WebView
+        source={{ uri: 'https://www.google.com.br/' }}
+        style={{ flex: 1 }}
+        onNavigationStateChange={(navState) => navState.url !== 'https://www.google.com.br/' && handleClose1P5PWebview()}
+      />
+    );
+  }
+
   return (
     <SafeAreaView
       style={{ backgroundColor: theme.colors.white, flex: 1 }}
@@ -234,6 +254,12 @@ function Menu() {
                   testID="com.usereserva:id/menu_button_privacy"
                   title="Política de Privacidade"
                   onPress={() => navigateFromMenu('PrivacyPolicy')}
+                />
+                <NewFixedMenuItem
+                  iconName="cutlery"
+                  testID="com.usereserva:id/menu_button_privacy"
+                  title="1P=5P"
+                  onPress={() => handleShow1P5PWebview()}
                 />
               </View>
               {showForm === 'menu' ? (

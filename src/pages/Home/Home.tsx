@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   ActivityIndicator,
   Animated,
+  BackHandler,
   FlatList,
   SafeAreaView,
   Text,
@@ -41,9 +42,41 @@ import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { ActivityTracking } from '../../components/ActivityTracking';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { TrackPageTypeEnum } from '../../base/graphql/generated';
+import Home1P5P from '../../components/Home1P5P/Home1P5P';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+
+function Home1p5pWebview() {
+  const { actions, webview1p5pIsOpen } = useBagStore([
+    'actions',
+    'webview1p5pIsOpen',
+  ]);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      actions.CLOSE_1P5P_WEBVIEW();
+      return true;
+    });
+  }, [webview1p5pIsOpen]);
+
+  return webview1p5pIsOpen ? (
+    <View
+      style={{
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        zIndex: 999,
+      }}
+    >
+      <WebView
+        source={{ uri: 'https://www.google.com.br/' }}
+        onNavigationStateChange={(navState) => navState.url !== 'https://www.google.com.br/' && actions.CLOSE_1P5P_WEBVIEW()}
+      />
+    </View>
+
+  ) : null;
+}
 
 function RouletWebview() {
   const { actions, rouletIsOpen, rouletIsLoading } = useBagStore([
@@ -196,7 +229,7 @@ function Home() {
           <FlatList
             ListHeaderComponent={
               <ListHeader newHeaderIsActive={newHeaderIsActive} />
-                        }
+            }
             bounces
             onScroll={handleScroll}
             contentContainerStyle={{ paddingBottom: 100 }}
@@ -211,10 +244,14 @@ function Home() {
                 reservaMini={item.reservaMini}
               />
             )}
+            ListFooterComponent={
+              <Home1P5P comingFrom="home" />
+              }
           />
         </SafeAreaView>
         {!!showModalSignUpComplete && <ModalSignUpComplete />}
       </Box>
+      <Home1p5pWebview />
     </>
   );
 }

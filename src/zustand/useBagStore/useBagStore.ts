@@ -64,6 +64,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
   rouletIsOpen: false,
   rouletIsLoading: false,
   initialLoad: false,
+  webview1p5pIsOpen: false,
   productNotFound: '',
   error: '',
   deleteProductModal: {
@@ -789,6 +790,12 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           blocked: false,
         },
       }));
+    },
+    OPEN_1P5P_WEBVIEW: () => {
+      set(() => ({ webview1p5pIsOpen: true }));
+    },
+    CLOSE_1P5P_WEBVIEW: () => {
+      set(() => ({ webview1p5pIsOpen: false }));
     },
   },
 }));

@@ -17,6 +17,7 @@ export interface IBagStore {
   rouletIsLoading: boolean;
   loadingModal: boolean;
   initialLoad: boolean;
+  webview1p5pIsOpen: boolean;
   productNotFound: string;
   error: string;
   deleteProductModal: {
@@ -60,6 +61,8 @@ export interface IBagStore {
     SAVE_ROULET_COUPON: (coupon: string, timestamp: string) => void;
     BLOCK_ROULET_COUPON: () => void;
     UNBLOCK_ROULET_COUPON: () => void;
+    OPEN_1P5P_WEBVIEW: () => void;
+    CLOSE_1P5P_WEBVIEW: () => void;
     ADD_AVAILABLE_GIFT: (
       gift: OrderformSelectableGiftAvailableGiftOutput,
       giftId: string,
