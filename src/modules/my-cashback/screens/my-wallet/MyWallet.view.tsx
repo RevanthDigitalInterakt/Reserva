@@ -74,6 +74,8 @@ const tranlateStatus = (status: string) => {
   }
 };
 
+const fontWeights = 13.3;
+
 export function MyWalletView({
   balanceVisible,
   balance,
@@ -311,13 +313,13 @@ export function MyWalletView({
         {/* <Typography fontFamily="reservaSerifMedium" fontSize={19} color="preto">
           Status
         </Typography> */}
-        <Box style={{ marginTop: 12, display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', flexShrink: 1 }}>
+        <Box style={{ marginTop: 12, display: 'flex', flexDirection: 'row', justifyContent: 'center',  }}>
           <Box style={[styles.tab, {
             backgroundColor: operationFilter === FilterOptions.ALL ? '#FFF' : '#EFEFEF',
           }]}
           >
             <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.ALL)} >
-              <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
+              <Typography fontFamily="reservaSansRegular" fontSize={15} color="preto">
                 Tudo
               </Typography>
             </TouchableOpacity>
@@ -327,7 +329,7 @@ export function MyWalletView({
           }]}
           >
             <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.CONFIRMED)}>
-              <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
+              <Typography fontFamily="reservaSansRegular" fontSize={fontWeights} color="preto">
                 Confirmado
               </Typography>
             </TouchableOpacity>
@@ -337,7 +339,7 @@ export function MyWalletView({
           }]}
           >
             <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.PENDING)}>
-              <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
+              <Typography fontFamily="reservaSansRegular" fontSize={fontWeights} color="preto">
                 Pendente
               </Typography>
             </TouchableOpacity>
@@ -347,7 +349,7 @@ export function MyWalletView({
           }]}
           >
             <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.CANCELED)}>
-              <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
+              <Typography fontFamily="reservaSansRegular" fontSize={fontWeights} color="preto">
                 Cancelado
               </Typography>
             </TouchableOpacity>
@@ -357,7 +359,7 @@ export function MyWalletView({
           }]}
           >
             <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.EXPIRED)} >
-              <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
+              <Typography fontFamily="reservaSansRegular" fontSize={fontWeights} color="preto">
                 Expirado
               </Typography>
             </TouchableOpacity>
