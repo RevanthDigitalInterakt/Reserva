@@ -32,7 +32,7 @@ const defaultCustomMethodReturn: ICustomMethodReturnParams = {
 };
 
 export const urlRon = (initialUrl: string): ICustomMethodReturnParams => {
-  const isRonDomain = initialUrl.startsWith('https://usereserva.io/');
+  const isRonDomain = initialUrl.startsWith('https://now.usereserva.io/');
 
   if (isRonDomain) {
     return {
@@ -62,7 +62,9 @@ const urlSiteCase = (initialUrl: string): ICustomMethodReturnParams => {
     || initialUrl === 'www.usereserva.com'
     || initialUrl === 'http://usereserva.com'
     || initialUrl === 'https://usereserva.io'
-    || initialUrl === 'http://usereserva.io';
+    || initialUrl === 'http://usereserva.io'
+    || initialUrl === 'https://now.usereserva.io'
+    || initialUrl === 'http://now.usereserva.io';
 
   if (isUrlSiteCase) {
     return {

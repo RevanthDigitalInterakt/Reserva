@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### 2.2.5
+- [24999 - Ajuste link RON´s checkout](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24999)
+
+---
+
 ### 2.1.10
 - Remove unused files
 
