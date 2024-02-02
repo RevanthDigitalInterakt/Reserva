@@ -61,6 +61,19 @@ const styles = StyleSheet.create({
   },
 });
 
+const tranlateStatus = (status: string) => {
+  switch (status) {
+    case 'fulfilled':
+      return 'Finalizado';
+    case 'available':
+      return 'Finalizado';
+    case 'expired':
+      return 'Expirado';
+    case 'canceled':
+      return 'Cancelado';
+  }
+};
+
 export function MyWalletView({
   balanceVisible,
   balance,
@@ -295,37 +308,57 @@ export function MyWalletView({
       )}
       {selectedBalance === BalanceType.ACTIVE && (
       <Box ml="xxxs" mr="xxxs">
-        <Typography fontFamily="reservaSerifMedium" fontSize={19} color="preto">
-          Extrato de cashback
-        </Typography>
-        <Box style={{ marginTop: 12, display: 'flex', flexDirection: 'row' }}>
+        {/* <Typography fontFamily="reservaSerifMedium" fontSize={19} color="preto">
+          Status
+        </Typography> */}
+        <Box style={{ marginTop: 12, display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', flexShrink: 1 }}>
           <Box style={[styles.tab, {
             backgroundColor: operationFilter === FilterOptions.ALL ? '#FFF' : '#EFEFEF',
           }]}
           >
-            <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.ALL)}>
+            <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.ALL)} >
               <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
                 Tudo
               </Typography>
             </TouchableOpacity>
           </Box>
           <Box style={[styles.tab, {
-            backgroundColor: operationFilter === FilterOptions.CREDIT ? '#FFF' : '#EFEFEF',
+            backgroundColor: operationFilter === FilterOptions.CONFIRMED ? '#FFF' : '#EFEFEF',
           }]}
           >
-            <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.CREDIT)}>
+            <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.CONFIRMED)}>
               <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
-                Entrada
+                Confirmado
               </Typography>
             </TouchableOpacity>
           </Box>
           <Box style={[styles.tab, {
-            backgroundColor: operationFilter === FilterOptions.DEBIT ? '#FFF' : '#EFEFEF',
+            backgroundColor: operationFilter === FilterOptions.PENDING ? '#FFF' : '#EFEFEF',
           }]}
           >
-            <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.DEBIT)}>
+            <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.PENDING)}>
               <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
-                Saída
+                Pendente
+              </Typography>
+            </TouchableOpacity>
+          </Box>
+          <Box style={[styles.tab, {
+            backgroundColor: operationFilter === FilterOptions.CANCELED ? '#FFF' : '#EFEFEF',
+          }]}
+          >
+            <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.CANCELED)}>
+              <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
+                Cancelado
+              </Typography>
+            </TouchableOpacity>
+          </Box>
+          <Box style={[styles.tab, {
+            backgroundColor: operationFilter === FilterOptions.EXPIRED ? '#FFF' : '#EFEFEF',
+          }]}
+          >
+            <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.EXPIRED)} >
+              <Typography fontFamily="reservaSansRegular" fontSize={16} color="preto">
+                Expirado
               </Typography>
             </TouchableOpacity>
           </Box>
@@ -358,6 +391,11 @@ export function MyWalletView({
                 Tipo
               </Typography>
             </Box>
+            {/* <Box style={{ flex: 1 }}>
+              <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
+                ID da transação
+              </Typography>
+            </Box> */}
             <Box style={{ flex: 1 }}>
               <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
                 Cashback
@@ -368,8 +406,14 @@ export function MyWalletView({
                 Data
               </Typography>
             </Box>
+            <Box style={{ flex: 1 }}>
+              <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
+                Status
+              </Typography>
+            </Box>
           </Box>
           { userOperationsFiltered && userOperationsFiltered.map((operation: any) => (
+            console.log(operation),
             <Box
               display="flex"
               flexDirection="row"
@@ -379,7 +423,7 @@ export function MyWalletView({
               }}
             >
               <Box style={{ flex: 1 }}>
-                {operation.cashbackAmountInCents > 0 && operationFilter !== FilterOptions.DEBIT ? (
+                {operation.status == 'available' ? (
                   <Typography fontFamily="nunitoRegular" fontSize={14} color="#38A238">
                     Crédito
                   </Typography>
@@ -389,31 +433,32 @@ export function MyWalletView({
                   </Typography>
                 )}
               </Box>
-              <Box style={{ flex: 1 }}>
-                { operationFilter === FilterOptions.ALL && (
-                <Box display="flex" flexDirection="row">
-                  <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
-                    {operation?.cashbackAmountInCents > 0 && `+ ${operation.cashbackAmountInCents}`}
+              {/* <Box style={{ flex: 1 }}>
+                {operation.id > 0 && operationFilter !== FilterOptions.DEBIT ? (
+                  <Typography fontFamily="nunitoRegular" fontSize={14} color="#38A238">
+                    Crédito
                   </Typography>
+                ) : (
                   <Typography fontFamily="nunitoRegular" fontSize={14} color="#D71921">
-                    {operation?.appliedBalanceInCents > 0 && ` - ${operation.appliedBalanceInCents}`}
+                    Débito
                   </Typography>
-                </Box>
                 )}
-                { operationFilter === FilterOptions.CREDIT && (
+              </Box> */}
+              <Box style={{ flex: 1 }}>
+                {(
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
-                  {operation?.cashbackAmountInCents > 0 && `+ R$ ${operation.cashbackAmountInCents}`}
-                </Typography>
-                )}
-                { operationFilter === FilterOptions.DEBIT && (
-                <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
-                  {operation?.appliedBalanceInCents > 0 && ` - R$ ${operation.appliedBalanceInCents}`}
+                  {operation?.cashbackAmountInCents > 0 && `R$ ${operation.cashbackAmountInCents}`}
                 </Typography>
                 )}
               </Box>
               <Box style={{ flex: 1 }}>
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
-                  {formatDate(operation.createdAt)}
+                  {formatDate(operation.settlementDate)}
+                </Typography>
+              </Box>
+              <Box style={{ flex: 1 }}>
+                <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
+                  {tranlateStatus(operation.status)}
                 </Typography>
               </Box>
             </Box>
@@ -428,7 +473,7 @@ export function MyWalletView({
               changeSelectedBalance(BalanceType.ACTIVE);
               changeOperationFilter(FilterOptions.ALL);
             }}
-            title="VOLTAR PARA EXTRATO"
+            title="VOLTAR PARA STATUS"
             style={{
               borderColor: '#333333',
               borderWidth: 1,
