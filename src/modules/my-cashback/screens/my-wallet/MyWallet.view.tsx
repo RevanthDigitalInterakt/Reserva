@@ -313,7 +313,7 @@ export function MyWalletView({
         {/* <Typography fontFamily="reservaSerifMedium" fontSize={19} color="preto">
           Status
         </Typography> */}
-        <Box style={{ marginTop: 12, display: 'flex', flexDirection: 'row', justifyContent: 'center',  }}>
+        <Box style={{ marginTop: 12, display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap'  }}>
           <Box style={[styles.tab, {
             backgroundColor: operationFilter === FilterOptions.ALL ? '#FFF' : '#EFEFEF',
           }]}
