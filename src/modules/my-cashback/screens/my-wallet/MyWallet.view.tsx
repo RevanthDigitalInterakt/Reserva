@@ -9,6 +9,7 @@ import { Box } from '../../../../components/Box/Box';
 import { Typography } from '../../../../components/Typography/Typography';
 import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { Button } from '../../../../components/Button';
+import { convertStatus } from '../../../../utils/convertStatus.ts';
 
 export interface MyWalletViewProps {
   balanceVisible: boolean;
@@ -60,19 +61,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 });
-
-const tranlateStatus = (status: string) => {
-  switch (status) {
-    case 'fulfilled':
-      return 'Finalizado';
-    case 'available':
-      return 'Finalizado';
-    case 'expired':
-      return 'Expirado';
-    case 'canceled':
-      return 'Cancelado';
-  }
-};
 
 const fontWeights = 13.3;
 
@@ -310,10 +298,7 @@ export function MyWalletView({
       )}
       {selectedBalance === BalanceType.ACTIVE && (
       <Box ml="xxxs" mr="xxxs">
-        {/* <Typography fontFamily="reservaSerifMedium" fontSize={19} color="preto">
-          Status
-        </Typography> */}
-        <Box style={{ marginTop: 12, display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap'  }}>
+        <Box style={{ marginTop: 12, display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: ''  }}>
           <Box style={[styles.tab, {
             backgroundColor: operationFilter === FilterOptions.ALL ? '#FFF' : '#EFEFEF',
           }]}
@@ -393,11 +378,6 @@ export function MyWalletView({
                 Tipo
               </Typography>
             </Box>
-            {/* <Box style={{ flex: 1 }}>
-              <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
-                ID da transação
-              </Typography>
-            </Box> */}
             <Box style={{ flex: 1 }}>
               <Typography fontFamily="nunitoBold" fontSize={14} color="preto">
                 Cashback
@@ -415,7 +395,6 @@ export function MyWalletView({
             </Box>
           </Box>
           { userOperationsFiltered && userOperationsFiltered.map((operation: any) => (
-            console.log(operation),
             <Box
               display="flex"
               flexDirection="row"
@@ -435,17 +414,6 @@ export function MyWalletView({
                   </Typography>
                 )}
               </Box>
-              {/* <Box style={{ flex: 1 }}>
-                {operation.id > 0 && operationFilter !== FilterOptions.DEBIT ? (
-                  <Typography fontFamily="nunitoRegular" fontSize={14} color="#38A238">
-                    Crédito
-                  </Typography>
-                ) : (
-                  <Typography fontFamily="nunitoRegular" fontSize={14} color="#D71921">
-                    Débito
-                  </Typography>
-                )}
-              </Box> */}
               <Box style={{ flex: 1 }}>
                 {(
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
@@ -460,7 +428,7 @@ export function MyWalletView({
               </Box>
               <Box style={{ flex: 1 }}>
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
-                  {tranlateStatus(operation.status)}
+                  {convertStatus(operation.status)}
                 </Typography>
               </Box>
             </Box>
