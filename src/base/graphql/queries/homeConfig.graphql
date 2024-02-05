@@ -12,17 +12,5 @@ query homeConfig {
       shareMessage
       coupon
     }
-    commercialBannerCollection {
-      name
-      startingDate
-      endingDate
-      mainText
-      hasModal
-      modalTitle
-      modalDescription
-      modalButton
-      modalButtonText
-      modalButtonLink
-      }
   }
 }
