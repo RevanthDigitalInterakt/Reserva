@@ -9,6 +9,7 @@ import { HomePageSectionTypeEnum } from '../../../../base/graphql/generated';
 import HomeMainCarousel from '../HomeMainCarousel';
 import HomeBrandsCarousel from '../HomeBrandsCarousel';
 import HomeCardsCarousel from '../HomeCardsCarousel';
+import CommercialBanner from '../CommercialBanner/CommercialBanner';
 import testProps from '../../../../utils/testProps';
 import { SearchButton } from '../../../../components/SearchButton';
 import EventProvider from '../../../../utils/EventProvider';
@@ -56,6 +57,7 @@ export function NewHomeCarousels() {
       [HomePageSectionTypeEnum.Brands]: () => (
         <>
           <HomeBrandsCarousel data={item} />
+          <CommercialBanner />
           <NewHomeCountDown />
         </>
       ),
