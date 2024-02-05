@@ -1,4 +1,7 @@
 ## CHANGELOG
+### 2.1.11
+- [2589 - Implementação do status do cashback](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_git/mobile.reserva.app/pullrequest/2589)
+
 
 ### 2.1.10
 - Remove unused files
