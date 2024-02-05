@@ -417,7 +417,12 @@ export function MyWalletView({
               <Box style={{ flex: 1 }}>
                 {(
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
-                  {operation?.cashbackAmountInCents > 0 && `R$ ${operation.cashbackAmountInCents}`}
+                  {operation?.cashbackAmountInCents > 0 && <PriceCustom
+                  fontFamily="nunitoRegular"
+                  sizeInterger={14}
+                  sizeDecimal={11}
+                  num={operation.cashbackAmountInCents || 0}
+                />}
                 </Typography>
                 )}
               </Box>
