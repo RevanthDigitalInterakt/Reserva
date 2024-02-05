@@ -21,8 +21,6 @@ function CommercialBanner() {
     getBoolean('show_home_commercial_banner')
   ), []);
 
-  console.log(showBanner);
-
   const fadeIn = new Animated.Value(0);
   const fadeOut = new Animated.Value(1);
 
