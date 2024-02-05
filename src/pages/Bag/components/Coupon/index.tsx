@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { CouponBadge } from '../CouponBadge';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import { Box } from '../../../../components/Box/Box';
@@ -31,10 +31,24 @@ export default function CouponComponent() {
     setSellerCouponError(false);
 
     await actions.ADD_SELLER_COUPON(couponsValue.seller)
-      .catch(() => setSellerCouponError(true));
+      .catch(() => {
+        setSellerCouponError(true);
+      });
 
     handleSetCouponValue('seller', '');
   }, [actions, couponsValue.seller, handleSetCouponValue]);
+
+  useEffect(() => {
+    const doAction = async () => {
+      if (!marketingData?.sellerCouponName && marketingData?.sellerCoupon) {
+        await actions.ADD_SELLER_COUPON(marketingData?.sellerCoupon)
+          .catch(() => {
+            setSellerCouponError(true);
+          });
+      }
+    };
+    doAction();
+  }, [marketingData?.sellerCouponName, marketingData?.sellerCoupon]);
 
   const handleAddDiscountCoupon = useCallback(async () => {
     setDiscountCouponError(false);
