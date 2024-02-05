@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   View, Text, TouchableOpacity, Modal, Animated, Easing,
 } from 'react-native';
@@ -8,12 +8,20 @@ import { styles } from './CommercialBanner.styles';
 import IconNext from '../../../../../assets/icons/IconNext';
 import IconPrevious from '../../../../../assets/icons/IconPrevious';
 import IconClose from '../../../../../assets/icons/IconClose';
+import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
 function CommercialBanner() {
   const { commercialBannerCollection } = useHomeStore(['commercialBannerCollection']);
+  const { getBoolean } = useRemoteConfig();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigation = useNavigation();
+
+  const showBanner = useMemo(() => (
+    getBoolean('show_home_commercial_banner')
+  ), []);
+
+  console.log(showBanner);
 
   const fadeIn = new Animated.Value(0);
   const fadeOut = new Animated.Value(1);
@@ -76,7 +84,7 @@ function CommercialBanner() {
     navigation.navigate(categoryType === 'product' ? 'ProductDetail' : 'ProductCatalog', navigateParams);
   }, [currentItem, toggleModal]);
 
-  if (!commercialBannerCollection?.length) {
+  if (!commercialBannerCollection?.length || !showBanner) {
     return null;
   }
 
