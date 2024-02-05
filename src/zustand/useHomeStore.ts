@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { createZustandStoreWithSelectors } from '../utils/createZustandStoreWithSelectors';
 import type {
-  ConfigCommercialBannerOutput,
   ConfigOutput,
   HomeCarouselOutput,
   HomeCarouselsQuery,
@@ -24,7 +23,6 @@ interface IHomeStore {
   medias: HomeMediaOutput[];
   discountBar: ConfigOutput['discountCodeBar'];
   offersPage?: string;
-  commercialBannerCollection?: ConfigCommercialBannerOutput[],
   onLoad: () => Promise<void>;
   setHasTabBar: (hasTabBar: boolean) => void;
 }
@@ -36,7 +34,6 @@ const homeStore = create<IHomeStore>((set, getState) => ({
   carousels: [],
   discountBar: undefined,
   offersPage: undefined,
-  commercialBannerCollection: undefined,
   medias: [],
   setHasTabBar: (hasTabBar) => set(() => ({ hasTabBar })),
   onLoad: async () => {
@@ -76,7 +73,6 @@ const homeStore = create<IHomeStore>((set, getState) => ({
       medias: medias.data.homeMedias || [],
       discountBar: config.data.homeConfig?.discountCodeBar,
       offersPage: config.data.homeConfig?.offersPage || undefined,
-      commercialBannerCollection: config.data.homeConfig?.commercialBannerCollection || undefined,
       loaded: true,
     }));
   },
