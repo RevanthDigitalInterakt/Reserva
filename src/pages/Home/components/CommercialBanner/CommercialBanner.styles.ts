@@ -11,12 +11,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 10,
     borderRadius: 6,
-    padding: 8,
+    paddingVertical: 8,
   },
   innerContainer: {
     flex: 1,
     alignItems: 'center',
     marginHorizontal: 10,
+  },
+  iconContainer: {
+    width: 20,
+    height: '175%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   text: {
     fontSize: 12,

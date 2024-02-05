@@ -88,10 +88,12 @@ function CommercialBanner() {
           <>
             {
               hasMultipleItems ? (
-                <IconPrevious style={styles.icons} onPress={prevItem} />
+                <TouchableOpacity style={styles.iconContainer} onPress={prevItem}>
+                  <IconPrevious style={styles.icons} onPress={prevItem} />
+                </TouchableOpacity>
               ) : null
             }
-            <Animated.View style={[styles.innerContainer]}>
+            <Animated.View style={styles.innerContainer}>
               {currentItem.hasModal ? (
                 <TouchableOpacity onPress={toggleModal}>
                   <Text style={styles.underlinedText}>
@@ -104,7 +106,9 @@ function CommercialBanner() {
             </Animated.View>
             {
               hasMultipleItems ? (
-                <IconNext style={styles.icons} onPress={nextItem} />
+                <TouchableOpacity style={styles.iconContainer} onPress={prevItem}>
+                  <IconNext style={styles.icons} onPress={nextItem} />
+                </TouchableOpacity>
               ) : null
             }
           </>
