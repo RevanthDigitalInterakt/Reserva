@@ -9,7 +9,7 @@ import { Box } from '../../../../components/Box/Box';
 import { Typography } from '../../../../components/Typography/Typography';
 import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { Button } from '../../../../components/Button';
-import { convertStatus } from '../../../../utils/convertStatus.ts';
+import { convertCashbackStatus } from '../../../../utils/convertCashbackStatus';
 
 export interface MyWalletViewProps {
   balanceVisible: boolean;
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const fontWeights = 13.3;
+const defaultFontSize = 13.3;
 
 export function MyWalletView({
   balanceVisible,
@@ -314,7 +314,7 @@ export function MyWalletView({
           }]}
           >
             <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.CONFIRMED)}>
-              <Typography fontFamily="reservaSansRegular" fontSize={fontWeights} color="preto">
+              <Typography fontFamily="reservaSansRegular" fontSize={defaultFontSize} color="preto">
                 Confirmado
               </Typography>
             </TouchableOpacity>
@@ -324,7 +324,7 @@ export function MyWalletView({
           }]}
           >
             <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.PENDING)}>
-              <Typography fontFamily="reservaSansRegular" fontSize={fontWeights} color="preto">
+              <Typography fontFamily="reservaSansRegular" fontSize={defaultFontSize} color="preto">
                 Pendente
               </Typography>
             </TouchableOpacity>
@@ -334,7 +334,7 @@ export function MyWalletView({
           }]}
           >
             <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.CANCELED)}>
-              <Typography fontFamily="reservaSansRegular" fontSize={fontWeights} color="preto">
+              <Typography fontFamily="reservaSansRegular" fontSize={defaultFontSize} color="preto">
                 Cancelado
               </Typography>
             </TouchableOpacity>
@@ -344,7 +344,7 @@ export function MyWalletView({
           }]}
           >
             <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.EXPIRED)} >
-              <Typography fontFamily="reservaSansRegular" fontSize={fontWeights} color="preto">
+              <Typography fontFamily="reservaSansRegular" fontSize={defaultFontSize} color="preto">
                 Expirado
               </Typography>
             </TouchableOpacity>
@@ -428,7 +428,7 @@ export function MyWalletView({
               </Box>
               <Box style={{ flex: 1 }}>
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
-                  {convertStatus(operation.status)}
+                  {convertCashbackStatus(operation.status)}
                 </Typography>
               </Box>
             </Box>

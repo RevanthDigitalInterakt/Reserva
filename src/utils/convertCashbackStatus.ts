@@ -1,4 +1,4 @@
-export const convertStatus = (status: string) => {
+export const convertCashbackStatus = (status: string) => {
     switch (status) {
       case 'fulfilled':
         return 'Finalizado';
