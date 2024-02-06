@@ -1,3 +1,4 @@
+import { Linking } from 'react-native';
 import { deepLinkHelper } from '../linkingUtils';
 import {
   baseTabUrl,
@@ -16,6 +17,10 @@ jest.mock('react-native/Libraries/Utilities/Platform', () => {
   Platform.OS = 'android';
   return Platform;
 });
+
+jest.mock('react-native/Libraries/Linking/Linking', () => ({
+  openURL: jest.fn(() => Promise.resolve('mockResolve')),
+}));
 
 const gclidMock = 'CjwKCAjwscGjBhAXEiwAswQqNA0NVqJjj06ySZzHJSIPweMbdI3WvOI494VVhr3vequoTkfLDf15TBoCy2AQAvD_BwE';
 
@@ -69,6 +74,18 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
     test('without any params on url and slash at end', async () => {
       const result = await deepLinkHelper(`${URL_HOME_VARIANT_3}`);
       expect(result).toEqual(defaultInitialUrl);
+    });
+  });
+
+  describe('test cartAddItemUseCase ', () => {
+    test('with correct params', async () => {
+      const expectedUrl = `${URL_HOME}/checkout/cart/add/?sku=66155&qty=1&seller=1&sc=1`;
+
+      const result = await deepLinkHelper(expectedUrl);
+
+      expect(result).toEqual(defaultInitialUrl);
+      expect(Linking.openURL).toHaveBeenCalledTimes(1);
+      expect(Linking.openURL).toBeCalledWith(expectedUrl);
     });
   });
 
