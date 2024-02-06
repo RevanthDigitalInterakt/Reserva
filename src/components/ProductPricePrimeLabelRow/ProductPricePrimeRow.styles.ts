@@ -6,24 +6,24 @@ export const styles = StyleSheet.create({
   textPrice: {
     fontFamily: 'ReservaSans-Medium',
     fontSize: 12,
-    color: COLORS.GOLD,
+    color: COLORS.RED,
     letterSpacing: 0.05,
   },
   textInstallments: {
     fontFamily: 'ReservaSans-Medium',
     fontSize: 12,
-    color: COLORS.GOLD,
+    color: COLORS.RED,
     letterSpacing: 0.05,
   },
   divider: {
-    backgroundColor: COLORS.GOLD,
+    backgroundColor: COLORS.RED,
     width: 1,
     height: 16,
     marginHorizontal: configDeviceSizes.DEVICE_WIDTH > 320 ? 6 : 4,
   },
   containerPrime: {
     padding: 2,
-    backgroundColor: COLORS.GOLD,
+    backgroundColor: COLORS.RED,
   },
   labelPrime: {
     fontFamily: 'ReservaDisplay-Regular',
