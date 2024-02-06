@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: 'black',
+    backgroundColor: COLORS.BLACK,
     justifyContent: 'space-between',
     alignItems: 'center',
     marginHorizontal: 10,
@@ -26,16 +26,16 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 12,
-    color: 'white',
+    color: COLORS.WHITE,
   },
   underlinedText: {
     marginHorizontal: 10,
     fontSize: 12,
     textDecorationLine: 'underline',
-    textDecorationColor: 'white',
+    textDecorationColor: COLORS.WHITE,
     textDecorationStyle: 'solid',
     fontWeight: 'bold',
-    color: 'white',
+    color: COLORS.WHITE,
   },
   icons: {
     flex: 1,
@@ -45,13 +45,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: COLORS.MODAL_BACKGROUND_COLOR,
   },
   modalContent: {
     width: 300,
     height: 350,
     padding: 20,
-    backgroundColor: 'white',
+    backgroundColor: COLORS.WHITE,
     borderRadius: 10,
     justifyContent: 'space-between',
   },
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   modalButtonText: {
-    color: 'white',
+    color: COLORS.WHITE,
     textAlign: 'center',
   },
 });
