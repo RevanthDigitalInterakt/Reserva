@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.1.11
+
+- [Feature(25762) Alteração da cor dos preços na PDP e PDC no APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/25762)
+
+---
+
 ### 2.1.10
 - Remove unused files
 
