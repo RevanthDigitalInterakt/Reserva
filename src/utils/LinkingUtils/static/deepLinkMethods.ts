@@ -1,5 +1,5 @@
 import { URL } from 'react-native-url-polyfill';
-import { Platform } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import { platformType } from '../../platformType';
 import { removeProtocol } from '../../removeProtocol';
 
@@ -188,6 +188,19 @@ const cartUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
+const cartAddItemUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+  if (initialUrl.includes('/checkout/cart/add/?sku=')) {
+    // TODO open the bag and add the product according to the SKU and quantity
+    Linking.openURL(initialUrl);
+    return {
+      match: true,
+      strUrl: defaultInitialUrl,
+    };
+  }
+
+  return defaultCustomMethodReturn;
+};
+
 const abandonedBagUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   if (initialUrl.includes('bag')) {
     return {
@@ -252,6 +265,7 @@ const registerMethods = [
   accountWishListUseCase,
   accountUseCase,
   cartUseCase,
+  cartAddItemUseCase,
   catalogCollectionUseCase,
   abandonedBagUseCase,
   webCatalogCollectionUseCase,
