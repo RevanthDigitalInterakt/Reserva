@@ -2,61 +2,80 @@ import React from 'react';
 import {
   View, FlatList, Text, Image, TouchableOpacity,
 } from 'react-native';
-import { trackClickSmartHintStore } from '../../../../zustand/useTrackClickSmartHint/useTrackClickSmartHint';
+import { trackClickSmartHintStore, type IData } from '../../../../zustand/useTrackClickSmartHint/useTrackClickSmartHint';
 import { TrackPageTypeEnum } from '../../../../base/graphql/generated';
 
-interface IData {
+interface IMockData {
   id: string;
   image: string;
   name: string;
   price: number;
+  productId: string;
+  identifier: string;
 }
 
 export function HomeShowcase() {
-  const data: IData[] = [
+  const data: IMockData[] = [
     {
-      id: '1',
-      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
+      id: '1670215',
+      productId: '1670215',
+      image: 'https://lojausereservaqa.vteximg.com.br/arquivos/ids/782287-300-300/0081662040_03.jpg?v=638283167831030000',
       name: 'Camisa Reserva Linho',
       price: 84,
+      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
     },
     {
       id: '2',
+      productId: '1670215',
       image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
       name: 'Camisa Reserva Linho',
       price: 84,
+      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
     },
     {
       id: '3',
+      productId: '1670215',
       image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
       name: 'Camisa Reserva Linho',
       price: 84,
+      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
     },
     {
       id: '4',
+      productId: '1670215',
       image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
       name: 'Camisa Reserva Linho',
       price: 84,
+      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
     },
     {
       id: '5',
+      productId: '1670215',
       image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
       name: 'Camisa Reserva Linho',
+      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
       price: 84,
     },
     {
       id: '6',
+      productId: '1670215',
       image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
       name: 'Camisa Reserva Linho',
       price: 84,
+      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
     },
   ];
 
-  const renderItem = (item: IData) => (
+  const newData: IData = {
+    identifier: data[0]?.identifier || '',
+    productId: data[0]?.productId || '',
+  };
+
+  const renderItem = (item: IMockData) => (
     <TouchableOpacity
       style={{ padding: 10 }}
       onPress={
-        () => trackClickSmartHintStore.getState().onSendTrackClick(item.id, TrackPageTypeEnum.Home)
+        () => trackClickSmartHintStore.getState().onTrackClick(newData, 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p', TrackPageTypeEnum.Home)
       }
     >
       <Image
