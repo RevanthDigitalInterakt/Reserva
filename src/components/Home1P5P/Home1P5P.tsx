@@ -1,11 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
-import WebView from 'react-native-webview';
+import { useNavigation } from '@react-navigation/native';
 import ImageComponent from '../ImageComponent/ImageComponent';
 import images from '../../base/styles/icons';
 import { FONTS } from '../../base/styles/fonts';
 import { COLORS } from '../../base/styles/colors';
-import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 
 interface I1P5PProps {
   comingFrom: string;
@@ -13,9 +12,7 @@ interface I1P5PProps {
 }
 
 function Home1P5P({ comingFrom, itemQuantity }: I1P5PProps) {
-  const { actions } = useBagStore([
-    'actions',
-  ]);
+  const { navigate } = useNavigation();
 
   const platesAmount = itemQuantity ? itemQuantity * 5 : 0;
 
@@ -42,7 +39,7 @@ function Home1P5P({ comingFrom, itemQuantity }: I1P5PProps) {
             borderRadius: 8,
             marginTop: -30,
           }}
-          onPress={() => actions.OPEN_1P5P_WEBVIEW()}
+          onPress={() => navigate('OneP5P')}
         >
           <Text style={{ fontSize: 14, fontFamily: FONTS.RESERVA_SANS_BOLD, textAlign: 'center' }}>Saiba mais sobre o projeto</Text>
         </TouchableOpacity>

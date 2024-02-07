@@ -40,7 +40,6 @@ function Menu() {
   const navigation = useNavigation();
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [openedIndex, setOpenedIndex] = useState<number>();
-  const [show1P5PWebview, setShow1P5PWebview] = useState(false);
 
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { profile } = useAuthStore(['profile']);
@@ -55,14 +54,6 @@ function Menu() {
     context: { clientName: 'gateway' },
   });
   const regionalizationActive = useMemo(() => getBoolean('regionalization'), [getBoolean]);
-
-  const handleShow1P5PWebview = useCallback(() => {
-    setShow1P5PWebview(true);
-  }, [show1P5PWebview]);
-
-  const handleClose1P5PWebview = useCallback(() => {
-    setShow1P5PWebview(false);
-  }, [show1P5PWebview]);
 
   const trackEventAccessedDepartmentDito = useCallback(async (openedCategories: string) => {
     if (!openedCategories) return;
@@ -155,16 +146,6 @@ function Menu() {
   useEffect(() => {
     getTestEnvironment();
   }, [getTestEnvironment]);
-
-  if (show1P5PWebview) {
-    return (
-      <WebView
-        source={{ uri: 'https://www.google.com.br/' }}
-        style={{ flex: 1 }}
-        onNavigationStateChange={(navState) => navState.url !== 'https://www.google.com.br/' && handleClose1P5PWebview()}
-      />
-    );
-  }
 
   return (
     <SafeAreaView
@@ -259,7 +240,7 @@ function Menu() {
                   iconName="cutlery"
                   testID="com.usereserva:id/menu_button_privacy"
                   title="1P=5P"
-                  onPress={() => handleShow1P5PWebview()}
+                  onPress={() => navigation.navigate('OneP5P')}
                 />
               </View>
               {showForm === 'menu' ? (
