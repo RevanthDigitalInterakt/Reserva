@@ -4,9 +4,9 @@ import { v4 } from 'uuid';
 import {
   TrackProvidersEnum,
   TrackPageTypeEnum,
-  TrackClickDocument,
-  type TrackClickMutationVariables,
-  type TrackClickMutation,
+  type TrackClickV2Mutation,
+  type TrackClickV2MutationVariables,
+  TrackClickV2Document,
 } from '../../base/graphql/generated';
 import { getApolloClient } from '../../utils/getApolloClient';
 import { trackPageViewStore } from '../useTrackPageViewStore/useTrackPageViewStore';
@@ -30,7 +30,7 @@ interface ITrackClickSmartHintStore {
 export const trackClickSmartHintStore = create<ITrackClickSmartHintStore>((_, getState) => ({
   sessionId: v4(),
   onSendTrackClick: async (data, navigation) => {
-    const variables: TrackClickMutationVariables = {
+    const variables: TrackClickV2MutationVariables = {
       input: {
         providers: [TrackProvidersEnum.Smarthint],
         userEmail: await AsyncStorage.getItem('@Dito:anonymousID'),
@@ -47,8 +47,8 @@ export const trackClickSmartHintStore = create<ITrackClickSmartHintStore>((_, ge
     };
 
     await
-    getApolloClient().mutate<TrackClickMutation, TrackClickMutationVariables>({
-      mutation: TrackClickDocument,
+    getApolloClient().mutate<TrackClickV2Mutation, TrackClickV2MutationVariables>({
+      mutation: TrackClickV2Document,
       context: { clientName: 'gateway' },
       variables,
     });
