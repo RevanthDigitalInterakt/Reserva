@@ -1,13 +1,13 @@
 ## CHANGELOG
-### 2.1.12
-- [24999 - Ajuste link RON´s checkout](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24999)
-
 ### 2.1.11
 - [23715 - Exibição modal componente de negócio na home](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/23715)
 
+- [24999 - Ajuste link RON´s checkout](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24999)
+
+- [Feature(25762) Alteração da cor dos preços na PDP e PDC no APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/25762)
 
 ---
----
+
 ### 2.1.10
 - Remove unused files
 
