@@ -3,7 +3,7 @@
 exports[`ProductPriceRow should match with the snapshot 1`] = `
 <View
   style={
-    Object {
+    {
       "alignItems": "center",
       "flexDirection": "row",
     }
@@ -11,7 +11,7 @@ exports[`ProductPriceRow should match with the snapshot 1`] = `
 >
   <Text
     style={
-      Object {
+      {
         "color": "#8A8C8E",
         "fontFamily": "ReservaSans-Medium",
         "fontSize": 12,
@@ -23,7 +23,7 @@ exports[`ProductPriceRow should match with the snapshot 1`] = `
   </Text>
   <Text
     style={
-      Object {
+      {
         "color": "#8A8C8E",
         "fontFamily": "ReservaSans-Medium",
         "fontSize": 12,
@@ -35,7 +35,7 @@ exports[`ProductPriceRow should match with the snapshot 1`] = `
   </Text>
   <Text
     style={
-      Object {
+      {
         "color": "#8A8C8E",
         "fontFamily": "ReservaSans-Medium",
         "fontSize": 12,

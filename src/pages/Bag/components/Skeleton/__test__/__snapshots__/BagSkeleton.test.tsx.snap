@@ -2,8 +2,9 @@
 
 exports[`BagSkeleton should render properly and match with snapshot 1`] = `
 <View
+  collapsable={false}
   style={
-    Object {
+    {
       "opacity": 1,
     }
   }
@@ -13,12 +14,10 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
     marginLeft="xxs"
     marginRight="xs"
     style={
-      Array [
-        Object {
-          "marginLeft": 24,
-          "marginRight": 32,
-        },
-      ]
+      {
+        "marginLeft": 24,
+        "marginRight": 32,
+      }
     }
   >
     <View
@@ -26,14 +25,12 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
       height={35}
       marginTop="xxs"
       style={
-        Array [
-          Object {
-            "backgroundColor": "#D8D9DA",
-            "height": 35,
-            "marginTop": 24,
-            "width": 175,
-          },
-        ]
+        {
+          "backgroundColor": "#D8D9DA",
+          "height": 35,
+          "marginTop": 24,
+          "width": 175,
+        }
       }
       width={175}
     />
@@ -41,12 +38,10 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
       flexDirection="row"
       marginTop="xxs"
       style={
-        Array [
-          Object {
-            "flexDirection": "row",
-            "marginTop": 24,
-          },
-        ]
+        {
+          "flexDirection": "row",
+          "marginTop": 24,
+        }
       }
     >
       <View
@@ -54,26 +49,22 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
         height={148}
         marginRight="nano"
         style={
-          Array [
-            Object {
-              "backgroundColor": "#D8D9DA",
-              "height": 148,
-              "marginRight": 8,
-              "width": 99,
-            },
-          ]
+          {
+            "backgroundColor": "#D8D9DA",
+            "height": 148,
+            "marginRight": 8,
+            "width": 99,
+          }
         }
         width={99}
       />
       <View
         height={148}
         style={
-          Array [
-            Object {
-              "height": 148,
-              "width": 217,
-            },
-          ]
+          {
+            "height": 148,
+            "width": 217,
+          }
         }
         width={217}
       >
@@ -81,25 +72,21 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
           bg="neutroFrio1"
           height={22}
           style={
-            Array [
-              Object {
-                "backgroundColor": "#D8D9DA",
-                "height": 22,
-                "width": 217,
-              },
-            ]
+            {
+              "backgroundColor": "#D8D9DA",
+              "height": 22,
+              "width": 217,
+            }
           }
           width={217}
         />
         <View
           flexDirection="row"
           style={
-            Array [
-              Object {
-                "flexDirection": "row",
-                "width": "100%",
-              },
-            ]
+            {
+              "flexDirection": "row",
+              "width": "100%",
+            }
           }
           width="100%"
         >
@@ -109,15 +96,13 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
             marginRight="nano"
             marginTop="nano"
             style={
-              Array [
-                Object {
-                  "backgroundColor": "#D8D9DA",
-                  "height": 18,
-                  "marginRight": 8,
-                  "marginTop": 8,
-                  "width": 79,
-                },
-              ]
+              {
+                "backgroundColor": "#D8D9DA",
+                "height": 18,
+                "marginRight": 8,
+                "marginTop": 8,
+                "width": 79,
+              }
             }
             width={79}
           />
@@ -126,14 +111,12 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
             height={18}
             marginTop="nano"
             style={
-              Array [
-                Object {
-                  "backgroundColor": "#D8D9DA",
-                  "height": 18,
-                  "marginTop": 8,
-                  "width": 79,
-                },
-              ]
+              {
+                "backgroundColor": "#D8D9DA",
+                "height": 18,
+                "marginTop": 8,
+                "width": 79,
+              }
             }
             width={79}
           />
@@ -143,14 +126,12 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
           height={18}
           marginTop="nano"
           style={
-            Array [
-              Object {
-                "backgroundColor": "#D8D9DA",
-                "height": 18,
-                "marginTop": 8,
-                "width": 167,
-              },
-            ]
+            {
+              "backgroundColor": "#D8D9DA",
+              "height": 18,
+              "marginTop": 8,
+              "width": 167,
+            }
           }
           width={167}
         />
@@ -159,14 +140,12 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
           height={18}
           marginTop="nano"
           style={
-            Array [
-              Object {
-                "backgroundColor": "#D8D9DA",
-                "height": 18,
-                "marginTop": 8,
-                "width": 221,
-              },
-            ]
+            {
+              "backgroundColor": "#D8D9DA",
+              "height": 18,
+              "marginTop": 8,
+              "width": 221,
+            }
           }
           width={221}
         />
@@ -175,14 +154,12 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
           height={22}
           marginTop="nano"
           style={
-            Array [
-              Object {
-                "backgroundColor": "#D8D9DA",
-                "height": 22,
-                "marginTop": 8,
-                "width": 115,
-              },
-            ]
+            {
+              "backgroundColor": "#D8D9DA",
+              "height": 22,
+              "marginTop": 8,
+              "width": 115,
+            }
           }
           width={115}
         />
@@ -194,26 +171,22 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
       marginBottom="xxs"
       marginTop="xxs"
       style={
-        Array [
-          Object {
-            "backgroundColor": "#D8D9DA",
-            "height": 2,
-            "marginBottom": 24,
-            "marginTop": 24,
-            "width": "100%",
-          },
-        ]
+        {
+          "backgroundColor": "#D8D9DA",
+          "height": 2,
+          "marginBottom": 24,
+          "marginTop": 24,
+          "width": "100%",
+        }
       }
       width="100%"
     />
     <View
       flexDirection="row"
       style={
-        Array [
-          Object {
-            "flexDirection": "row",
-          },
-        ]
+        {
+          "flexDirection": "row",
+        }
       }
     >
       <View
@@ -221,14 +194,12 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
         height={22}
         marginRight="xxxs"
         style={
-          Array [
-            Object {
-              "backgroundColor": "#D8D9DA",
-              "height": 22,
-              "marginRight": 16,
-              "width": 232,
-            },
-          ]
+          {
+            "backgroundColor": "#D8D9DA",
+            "height": 22,
+            "marginRight": 16,
+            "width": 232,
+          }
         }
         width={232}
       />
@@ -236,13 +207,11 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
         bg="neutroFrio1"
         height={22}
         style={
-          Array [
-            Object {
-              "backgroundColor": "#D8D9DA",
-              "height": 22,
-              "width": 77,
-            },
-          ]
+          {
+            "backgroundColor": "#D8D9DA",
+            "height": 22,
+            "width": 77,
+          }
         }
         width={77}
       />
@@ -253,15 +222,13 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
       marginBottom="xxs"
       marginTop="xxs"
       style={
-        Array [
-          Object {
-            "backgroundColor": "#D8D9DA",
-            "height": 2,
-            "marginBottom": 24,
-            "marginTop": 24,
-            "width": "100%",
-          },
-        ]
+        {
+          "backgroundColor": "#D8D9DA",
+          "height": 2,
+          "marginBottom": 24,
+          "marginTop": 24,
+          "width": "100%",
+        }
       }
       width="100%"
     />
@@ -269,13 +236,11 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
       bg="neutroFrio1"
       height={22}
       style={
-        Array [
-          Object {
-            "backgroundColor": "#D8D9DA",
-            "height": 22,
-            "width": 232,
-          },
-        ]
+        {
+          "backgroundColor": "#D8D9DA",
+          "height": 22,
+          "width": 232,
+        }
       }
       width={232}
     />
@@ -284,14 +249,12 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
       height={47}
       marginTop="xxs"
       style={
-        Array [
-          Object {
-            "backgroundColor": "#D8D9DA",
-            "height": 47,
-            "marginTop": 24,
-            "width": "100%",
-          },
-        ]
+        {
+          "backgroundColor": "#D8D9DA",
+          "height": 47,
+          "marginTop": 24,
+          "width": "100%",
+        }
       }
       width="100%"
     />
@@ -299,13 +262,11 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
       flexDirection="row"
       marginTop="xxxs"
       style={
-        Array [
-          Object {
-            "flexDirection": "row",
-            "marginTop": 16,
-            "width": "100%",
-          },
-        ]
+        {
+          "flexDirection": "row",
+          "marginTop": 16,
+          "width": "100%",
+        }
       }
       width="100%"
     >
@@ -314,14 +275,12 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
         height={50}
         marginRight="micro"
         style={
-          Array [
-            Object {
-              "backgroundColor": "#D8D9DA",
-              "height": 50,
-              "marginRight": 12,
-              "width": 200,
-            },
-          ]
+          {
+            "backgroundColor": "#D8D9DA",
+            "height": 50,
+            "marginRight": 12,
+            "width": 200,
+          }
         }
         width={200}
       />
@@ -329,13 +288,11 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
         bg="neutroFrio1"
         height={50}
         style={
-          Array [
-            Object {
-              "backgroundColor": "#D8D9DA",
-              "height": 50,
-              "width": 122,
-            },
-          ]
+          {
+            "backgroundColor": "#D8D9DA",
+            "height": 50,
+            "width": 122,
+          }
         }
         width={122}
       />
@@ -344,13 +301,11 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
       flexDirection="row"
       marginTop="xxxs"
       style={
-        Array [
-          Object {
-            "flexDirection": "row",
-            "marginTop": 16,
-            "width": "100%",
-          },
-        ]
+        {
+          "flexDirection": "row",
+          "marginTop": 16,
+          "width": "100%",
+        }
       }
       width="100%"
     >
@@ -359,14 +314,12 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
         height={50}
         marginRight="micro"
         style={
-          Array [
-            Object {
-              "backgroundColor": "#D8D9DA",
-              "height": 50,
-              "marginRight": 12,
-              "width": 200,
-            },
-          ]
+          {
+            "backgroundColor": "#D8D9DA",
+            "height": 50,
+            "marginRight": 12,
+            "width": 200,
+          }
         }
         width={200}
       />
@@ -374,13 +327,11 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
         bg="neutroFrio1"
         height={50}
         style={
-          Array [
-            Object {
-              "backgroundColor": "#D8D9DA",
-              "height": 50,
-              "width": 122,
-            },
-          ]
+          {
+            "backgroundColor": "#D8D9DA",
+            "height": 50,
+            "width": 122,
+          }
         }
         width={122}
       />
@@ -389,13 +340,11 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
       flexDirection="row"
       marginTop="xxxs"
       style={
-        Array [
-          Object {
-            "flexDirection": "row",
-            "marginTop": 16,
-            "width": "100%",
-          },
-        ]
+        {
+          "flexDirection": "row",
+          "marginTop": 16,
+          "width": "100%",
+        }
       }
       width="100%"
     >
@@ -404,14 +353,12 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
         height={50}
         marginRight="micro"
         style={
-          Array [
-            Object {
-              "backgroundColor": "#D8D9DA",
-              "height": 50,
-              "marginRight": 12,
-              "width": 200,
-            },
-          ]
+          {
+            "backgroundColor": "#D8D9DA",
+            "height": 50,
+            "marginRight": 12,
+            "width": 200,
+          }
         }
         width={200}
       />
@@ -419,13 +366,11 @@ exports[`BagSkeleton should render properly and match with snapshot 1`] = `
         bg="neutroFrio1"
         height={50}
         style={
-          Array [
-            Object {
-              "backgroundColor": "#D8D9DA",
-              "height": 50,
-              "width": 122,
-            },
-          ]
+          {
+            "backgroundColor": "#D8D9DA",
+            "height": 50,
+            "width": 122,
+          }
         }
         width={122}
       />

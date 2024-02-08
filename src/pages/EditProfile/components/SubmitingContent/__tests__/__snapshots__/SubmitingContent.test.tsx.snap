@@ -10,8 +10,8 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
   justifyContent="space-between"
   paddingX="xxxs"
   style={
-    Array [
-      Object {
+    [
+      {
         "alignItems": "center",
         "backgroundColor": "#FFF",
         "flexBasis": 0,
@@ -24,7 +24,7 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
         "paddingRight": 16,
         "width": 750,
       },
-      Object {
+      {
         "bottom": 42.5,
         "elevation": 10,
         "left": 0,
@@ -38,27 +38,41 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
   <View
     paddingRight="nano"
     style={
-      Array [
-        Object {
-          "paddingRight": 8,
-          "width": "45.45454545454545%",
-        },
-      ]
+      {
+        "paddingRight": 8,
+        "width": "45.45454545454545%",
+      }
     }
     width={0.45454545454545453}
   >
     <View
       alignItems="stretch"
       style={
-        Array [
-          Object {
-            "alignItems": "stretch",
-          },
-        ]
+        {
+          "alignItems": "stretch",
+        }
       }
     >
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
+        collapsable={false}
         focusable={true}
         onClick={[Function]}
         onResponderGrant={[Function]}
@@ -68,7 +82,7 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Object {
+          {
             "alignItems": "center",
             "borderColor": "#333333",
             "borderWidth": 1,
@@ -91,23 +105,19 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
           flexDirection="row"
           justifyContent="center"
           style={
-            Array [
-              Object {
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "center",
-              },
-            ]
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            }
           }
         >
           <View
             justifyContent="center"
             style={
-              Array [
-                Object {
-                  "justifyContent": "center",
-                },
-              ]
+              {
+                "justifyContent": "center",
+              }
             }
           >
             <Text
@@ -116,14 +126,12 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
               fontSize={13}
               letterSpacing={1.6}
               style={
-                Array [
-                  Object {
-                    "color": "#333333",
-                    "fontFamily": "Nunito-Bold",
-                    "fontSize": 13,
-                    "letterSpacing": 1.6,
-                  },
-                ]
+                {
+                  "color": "#333333",
+                  "fontFamily": "Nunito-Bold",
+                  "fontSize": 13,
+                  "letterSpacing": 1.6,
+                }
               }
             >
               CANCELAR
@@ -136,27 +144,41 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
   <View
     paddingLeft="nano"
     style={
-      Array [
-        Object {
-          "paddingLeft": 8,
-          "width": "45.45454545454545%",
-        },
-      ]
+      {
+        "paddingLeft": 8,
+        "width": "45.45454545454545%",
+      }
     }
     width={0.45454545454545453}
   >
     <View
       alignItems="stretch"
       style={
-        Array [
-          Object {
-            "alignItems": "stretch",
-          },
-        ]
+        {
+          "alignItems": "stretch",
+        }
       }
     >
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
+        collapsable={false}
         focusable={true}
         onClick={[Function]}
         onResponderGrant={[Function]}
@@ -166,7 +188,7 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Object {
+          {
             "alignItems": "center",
             "backgroundColor": "#333333",
             "color": "#FFF",
@@ -188,23 +210,19 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
           flexDirection="row"
           justifyContent="center"
           style={
-            Array [
-              Object {
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "center",
-              },
-            ]
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            }
           }
         >
           <View
             justifyContent="center"
             style={
-              Array [
-                Object {
-                  "justifyContent": "center",
-                },
-              ]
+              {
+                "justifyContent": "center",
+              }
             }
           >
             <Text
@@ -213,14 +231,12 @@ exports[`Submiting Content renders without error and match snapshot 1`] = `
               fontSize={13}
               letterSpacing={1.6}
               style={
-                Array [
-                  Object {
-                    "color": "#FFF",
-                    "fontFamily": "Nunito-Bold",
-                    "fontSize": 13,
-                    "letterSpacing": 1.6,
-                  },
-                ]
+                {
+                  "color": "#FFF",
+                  "fontFamily": "Nunito-Bold",
+                  "fontSize": 13,
+                  "letterSpacing": 1.6,
+                }
               }
             >
               SALVAR

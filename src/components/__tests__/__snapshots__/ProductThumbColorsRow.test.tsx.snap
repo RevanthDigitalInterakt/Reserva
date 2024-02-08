@@ -3,7 +3,7 @@
 exports[`ProductThumbColorsRow should match with the snapshot 1`] = `
 <View
   style={
-    Object {
+    {
       "flexDirection": "row",
       "height": 25,
       "marginBottom": -5,
@@ -13,8 +13,8 @@ exports[`ProductThumbColorsRow should match with the snapshot 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "borderRadius": 100,
           "height": 15,
@@ -22,7 +22,7 @@ exports[`ProductThumbColorsRow should match with the snapshot 1`] = `
           "marginRight": 8,
           "width": 15,
         },
-        Object {
+        {
           "backgroundColor": "#fff",
         },
       ]
@@ -30,15 +30,15 @@ exports[`ProductThumbColorsRow should match with the snapshot 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "borderColor": "#ffffff",
             "borderRadius": 100,
             "borderWidth": 1.5,
             "height": 12,
             "width": 12,
           },
-          Object {
+          {
             "backgroundColor": "#fff",
           },
         ]
@@ -47,8 +47,8 @@ exports[`ProductThumbColorsRow should match with the snapshot 1`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "borderRadius": 100,
           "height": 15,
@@ -56,7 +56,7 @@ exports[`ProductThumbColorsRow should match with the snapshot 1`] = `
           "marginRight": 8,
           "width": 15,
         },
-        Object {
+        {
           "backgroundColor": "#000",
         },
       ]
@@ -64,15 +64,15 @@ exports[`ProductThumbColorsRow should match with the snapshot 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "borderColor": "#ffffff",
             "borderRadius": 100,
             "borderWidth": 1.5,
             "height": 12,
             "width": 12,
           },
-          Object {
+          {
             "backgroundColor": "#000",
           },
         ]

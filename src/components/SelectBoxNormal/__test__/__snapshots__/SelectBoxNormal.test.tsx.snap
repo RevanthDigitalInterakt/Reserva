@@ -3,7 +3,25 @@
 exports[`SelectBoxNormal should match with the snapshot 1`] = `
 <View
   accessibilityLabel="com.usereserva:id/select_box_price_normal"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
   accessible={true}
+  collapsable={false}
   focusable={true}
   onClick={[Function]}
   onResponderGrant={[Function]}
@@ -13,7 +31,7 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Object {
+    {
       "marginHorizontal": 16,
       "marginVertical": 12,
       "opacity": 1,
@@ -23,7 +41,7 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "borderColor": "#8D8D8D",
         "borderWidth": 1,
@@ -35,7 +53,7 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "borderColor": "#000000",
           "borderRadius": 11,
@@ -50,7 +68,7 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
     />
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "justifyContent": "flex-end",
           "paddingVertical": 10,
@@ -60,11 +78,11 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
       <Text
         fontFamily="reservaSansRegular"
         style={
-          Array [
-            Object {
+          [
+            {
               "fontFamily": "ReservaSans-Regular",
             },
-            Object {
+            {
               "color": "#8D8D8D",
               "fontSize": 18,
               "fontWeight": "400",
@@ -76,7 +94,7 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
       </Text>
       <View
         style={
-          Object {
+          {
             "alignItems": "baseline",
             "flexDirection": "row",
             "justifyContent": "flex-start",
@@ -87,11 +105,11 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
         <Text
           fontFamily="reservaSansRegular"
           style={
-            Array [
-              Object {
+            [
+              {
                 "fontFamily": "ReservaSans-Regular",
               },
-              Object {
+              {
                 "color": "#8D8D8D",
                 "fontSize": 18,
                 "fontWeight": "400",
@@ -106,11 +124,11 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
         <Text
           fontFamily="reservaSansRegular"
           style={
-            Array [
-              Object {
+            [
+              {
                 "fontFamily": "ReservaSans-Regular",
               },
-              Object {
+              {
                 "color": "#8D8D8D",
                 "fontSize": 24,
                 "fontWeight": "700",
@@ -125,11 +143,11 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
         <Text
           fontFamily="reservaSansRegular"
           style={
-            Array [
-              Object {
+            [
+              {
                 "fontFamily": "ReservaSans-Regular",
               },
-              Object {
+              {
                 "color": "#8D8D8D",
                 "fontWeight": "700",
               },
@@ -142,7 +160,7 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
     </View>
     <View
       style={
-        Object {
+        {
           "alignSelf": "center",
           "backgroundColor": "#8D8D8D",
           "height": 30,
@@ -154,7 +172,7 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
     />
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "justifyContent": "flex-end",
           "paddingVertical": 10,
@@ -163,7 +181,7 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
     >
       <View
         style={
-          Object {
+          {
             "alignItems": "baseline",
             "flexDirection": "row",
             "justifyContent": "flex-start",
@@ -175,16 +193,16 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
         <Text
           fontFamily="reservaSansRegular"
           style={
-            Array [
-              Object {
+            [
+              {
                 "fontFamily": "ReservaSans-Regular",
               },
-              Object {
+              {
                 "color": "#8D8D8D",
                 "fontSize": 24,
                 "fontWeight": "700",
               },
-              Object {
+              {
                 "color": "#000000",
               },
             ]
@@ -198,12 +216,12 @@ exports[`SelectBoxNormal should match with the snapshot 1`] = `
           fontFamily="reservaSansRegular"
           fontWeight="bold"
           style={
-            Array [
-              Object {
+            [
+              {
                 "fontFamily": "ReservaSans-Regular",
                 "fontWeight": "700",
               },
-              Object {
+              {
                 "color": "#000000",
               },
             ]
