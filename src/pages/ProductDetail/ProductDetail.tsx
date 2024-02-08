@@ -32,7 +32,7 @@ import { getProductLoadType } from './utils/getProductLoadType';
 import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
-import { trackClickSmartHintStore, type IData } from '../../zustand/useTrackClickSmartHint/useTrackClickSmartHint';
+import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/useTrackClickStore';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -98,7 +98,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         productId: product.productId,
       };
 
-      trackClickSmartHintStore.getState()
+      trackClickStore.getState()
         .onTrackClick(newData, product.identifier || '', TrackPageTypeEnum.Product);
       trackPageViewStore.getState().onTrackPageView(product.identifier || '', TrackPageTypeEnum.Product);
 

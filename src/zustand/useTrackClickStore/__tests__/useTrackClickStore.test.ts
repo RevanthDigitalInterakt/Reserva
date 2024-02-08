@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { trackClickSmartHintStore, type IData } from '../useTrackClickSmartHint';
+import { trackClickStore, type IData } from '../useTrackClickStore';
 import { TrackPageTypeEnum } from '../../../base/graphql/generated';
 
 jest.mock('../../../utils/getApolloClient', () => ({
@@ -10,7 +10,7 @@ jest.mock('../../../utils/getApolloClient', () => ({
 
 describe('trackPageViewStore', () => {
   it('should render initial state', () => {
-    const { result } = renderHook(() => trackClickSmartHintStore.getState());
+    const { result } = renderHook(() => trackClickStore.getState());
 
     expect(result.current.sessionId.length).toBe(36);
   });
@@ -21,7 +21,7 @@ describe('trackPageViewStore', () => {
       productId: '1670215',
     };
 
-    const { result } = renderHook(() => trackClickSmartHintStore.getState());
+    const { result } = renderHook(() => trackClickStore.getState());
     const payload = await result.current.onSendTrackClick(data, TrackPageTypeEnum.Home);
 
     expect(payload).toBe(undefined);

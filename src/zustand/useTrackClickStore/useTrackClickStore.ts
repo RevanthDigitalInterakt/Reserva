@@ -23,11 +23,14 @@ interface ITrackClickSmartHintStore {
     data: IData,
     navigation: any,
   ) => Promise<void>;
-  onTrackClick: (data: IData, identifier: TPageIdentifier, type: TrackPageTypeEnum) => void;
+  onTrackClick: (
+    data: IData,
+    identifier: TPageIdentifier,
+    type: TrackPageTypeEnum) => void;
   sessionId: string;
 }
 
-export const trackClickSmartHintStore = create<ITrackClickSmartHintStore>((_, getState) => ({
+export const trackClickStore = create<ITrackClickSmartHintStore>((_, getState) => ({
   sessionId: v4(),
   onSendTrackClick: async (data, navigation) => {
     const variables: TrackClickV2MutationVariables = {
@@ -35,14 +38,14 @@ export const trackClickSmartHintStore = create<ITrackClickSmartHintStore>((_, ge
         providers: [TrackProvidersEnum.Smarthint],
         userEmail: await AsyncStorage.getItem('@Dito:anonymousID'),
         originIdentifier: navigation.origin,
-        pageIdentifier: data.identifier,
+        pageIdentifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
         pageType: navigation.type,
         session: getState().sessionId,
         locationRecs: 1,
         position: 1,
-        productId: data.productId,
-        clickFeature: 'News',
-        term: '',
+        productId: '1670215',
+        clickFeature: navigation.type === 'searchWithResult' ? 'search' : 'News',
+        term: navigation.identifier !== '' ? navigation.identifier : '',
       },
     };
 

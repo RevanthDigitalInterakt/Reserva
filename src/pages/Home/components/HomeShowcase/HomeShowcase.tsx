@@ -2,7 +2,7 @@ import React from 'react';
 import {
   View, FlatList, Text, Image, TouchableOpacity,
 } from 'react-native';
-import { trackClickSmartHintStore, type IData } from '../../../../zustand/useTrackClickSmartHint/useTrackClickSmartHint';
+import { trackClickStore, type IData } from '../../../../zustand/useTrackClickStore/useTrackClickStore';
 import { TrackPageTypeEnum } from '../../../../base/graphql/generated';
 
 interface IMockData {
@@ -75,7 +75,7 @@ export function HomeShowcase() {
     <TouchableOpacity
       style={{ padding: 10 }}
       onPress={
-        () => trackClickSmartHintStore.getState().onTrackClick(newData, 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p', TrackPageTypeEnum.Home)
+        () => trackClickStore.getState().onTrackClick(newData, 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p', TrackPageTypeEnum.Home)
       }
     >
       <Image

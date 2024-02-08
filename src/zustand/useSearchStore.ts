@@ -21,7 +21,7 @@ import { getCollectionFacetsValue } from '../utils/getCollectionFacetsValue';
 import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { trackPageViewStore } from './useTrackPageViewStore/useTrackPageViewStore';
-import { trackClickSmartHintStore } from './useTrackClickSmartHint/useTrackClickSmartHint';
+import { trackClickStore, type IData } from './useTrackClickStore/useTrackClickStore';
 
 export enum SearchStatusEnum {
   INITIAL,
@@ -153,14 +153,19 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
       const { searchType } = getState();
 
       const trackStore = trackPageViewStore.getState();
-      const trackClickStore = trackClickSmartHintStore.getState();
+      const trackClick = trackClickStore.getState();
 
       if (searchType === SearchType.SEARCH) {
         const type = data.search.count
           ? TrackPageTypeEnum.SearchWithResult
           : TrackPageTypeEnum.Search;
 
-        trackClickStore.onTrackClick(data.search.identifier || '', type);
+        const newData: IData = {
+          productId: '',
+          identifier: '',
+        };
+
+        trackClick.onTrackClick(newData, data.search.identifier || '', type);
         trackStore.onTrackPageView(data.search.identifier || '', type);
         trackEventSearchDito(newParameters.q, data.search.count);
         EventProvider.logEvent('view_search_results', { search_term: newParameters.q });
