@@ -3,13 +3,15 @@ import { Text, TouchableOpacity, View } from 'react-native';
 
 import IconComponent from '../../../../../../components/IconComponent/IconComponent';
 import styles from './styles';
+import { useProductDetailStore } from '../../../../../../zustand/useProductDetail/useProductDetail';
 
-interface IDescription {
-  description?: string | null;
-}
-
-function Description({ description }: IDescription) {
+function Description() {
+  const { productDetail } = useProductDetailStore(['productDetail']);
+  const description = productDetail?.properties.description;
   const [expand, setExpand] = useState<boolean>(false);
+
+  if (!description) return null;
+
   return (
     <View style={styles.mainContainer}>
       <TouchableOpacity

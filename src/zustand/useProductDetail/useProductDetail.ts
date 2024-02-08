@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type {
+  OrderformAddMultipleItemInput,
   ProductColorOutput, ProductKitOutput, ProductQuery, ProductSizeOutput,
 } from '../../base/graphql/generated';
 import type { IProductDetailRouteParams } from '../../utils/createNavigateToProductParams';
@@ -12,6 +13,8 @@ interface IUseProductDetailStore {
   selectedSize: ProductSizeOutput | null;
   selectedGiftCardSku: string | undefined;
   selectedGiftCardEmail: string | undefined;
+  selectedKitItems: OrderformAddMultipleItemInput | null;
+  itemsTotalizer: number;
   initialCep?: string;
   assinaturaSimples: {
     accepted: boolean;
@@ -23,6 +26,7 @@ interface IUseProductDetailStore {
   setSelectedSize: (variantId: string) => void;
   setGiftCardSelectedAmount: (giftCardSku: string) => void;
   setGiftCardSelectedEmail: (giftCardEmail: string) => void;
+  setSelectedKitItems: (kitItems: OrderformAddMultipleItemInput, itemsTotalizer: number) => void;
 }
 
 export const productDetailStore = create<IUseProductDetailStore>((set, getState) => ({
@@ -32,6 +36,8 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
   selectedGiftCardEmail: undefined,
   selectedSize: null,
   selectedGiftCardSku: undefined,
+  selectedKitItems: null,
+  itemsTotalizer: 0,
   initialCep: '',
   assinaturaSimples: {
     accepted: true,
@@ -107,6 +113,15 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
     const state = getState();
 
     set({ ...state, selectedGiftCardEmail: giftCardEmail });
+  },
+
+  setSelectedKitItems: (
+    selectedKitItems: OrderformAddMultipleItemInput,
+    itemsTotalizer: number,
+  ) => {
+    const state = getState();
+
+    set({ ...state, selectedKitItems, itemsTotalizer });
   },
 }));
 

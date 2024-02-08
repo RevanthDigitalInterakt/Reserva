@@ -6,15 +6,17 @@ import { View } from 'react-native';
 import { useProductDetailStore } from '../../../../../../zustand/useProductDetail/useProductDetail';
 
 import ItemsCard, { type ISelectedItem } from '../ItemsCard';
+import { useBagStore } from '../../../../../../zustand/useBagStore/useBagStore';
 
 function ItemsCardWrapper() {
   const [selectedItems, setSelectedItems] = useState<ISelectedItem[]>([]);
-  const { kit } = useProductDetailStore(['kit']);
+  const { kit, setSelectedKitItems } = useProductDetailStore(['kit', 'setSelectedKitItems']);
+  const { actions, orderFormId } = useBagStore(['actions', 'orderFormId']);
 
   const onSetInitialItems = useCallback(() => {
     const tempArr: ISelectedItem[] = [];
 
-    kit?.map((item) => {
+    kit?.map((item, index) => {
       const [color] = item.colors;
       const [size] = color?.sizes || [];
 
@@ -23,6 +25,10 @@ function ItemsCardWrapper() {
         productId: item.productId,
         colorId: color?.colorId || '',
         itemId: size?.itemId || '',
+        size: size?.size || '',
+        seller: size?.seller || '',
+        price: size?.currentPrice || 0,
+        index,
       });
 
       return item;
@@ -36,6 +42,25 @@ function ItemsCardWrapper() {
       onSetInitialItems();
     }
   }, [kit]);
+
+  const updatedSelectedKitItems = useCallback(async () => {
+    const itemsSelected = selectedItems.filter((item) => item.checked);
+
+    const itemsTotalizer = itemsSelected.reduce((acc, value) => acc + value.price, 0);
+
+    const orderItems = itemsSelected.map((newItemSelected) => ({
+      id: newItemSelected.itemId,
+      seller: newItemSelected.seller,
+      quantity: 1,
+    }));
+
+    setSelectedKitItems({
+      orderFormId,
+      orderItems,
+    }, itemsTotalizer);
+  }, [selectedItems, orderFormId]);
+
+  useEffect(() => { updatedSelectedKitItems(); }, [selectedItems]);
 
   return (
     <View>

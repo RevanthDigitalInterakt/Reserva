@@ -46,7 +46,7 @@ export function ColorsButtons({
     }
   };
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <View
         style={styles(false).mainContainer}
       >
@@ -60,11 +60,11 @@ export function ColorsButtons({
         >
           {listColors.map((item) => (
             <View
-              key={`color-option-${item.id}`}
               style={
                 styles(!!selectedColors?.includes(item.id)
                   || selectedColors === item.id).boxContainer
               }
+              key={`option-${item.id}`}
             >
               <Button
                 disabled={disabledColors.includes(item.id)}

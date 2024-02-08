@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Alert, View } from 'react-native';
 import {
   type ProductQuery,
@@ -33,7 +33,6 @@ import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import KitLookSummary from './components/ProductKitLookSummary/KitLookSummary';
-import ItemsCard from './components/ProductKitLookSummary/components/ItemsCardWrapper';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -46,12 +45,10 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
     setProduct,
     resetProduct,
     productDetail,
-    kit,
   } = useProductDetailStore([
     'setProduct',
     'resetProduct',
     'productDetail',
-    'kit',
   ]);
 
   const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
@@ -89,6 +86,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       ExceptionProvider.captureException(error);
     }
   }, [getItem, profile?.email]);
+
+  const showKitlook = useMemo(() => getBoolean('show_kitlook'), [getBoolean]);
 
   const onInitialLoad = useCallback(async (params: IProductDetailRouteParams) => {
     try {
@@ -178,7 +177,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
           </View>
         )}
-        {isKitLook && <KitLookSummary />}
+        {isKitLook && showKitlook && <KitLookSummary />}
       </ProductDetailWrapper>
       {isGiftCard && <GiftCardAddToCart />}
     </>

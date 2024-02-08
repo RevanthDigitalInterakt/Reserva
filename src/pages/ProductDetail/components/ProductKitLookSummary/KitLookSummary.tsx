@@ -1,6 +1,8 @@
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
+import { SafeAreaView } from 'react-native';
+
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { onShare } from '../../../../utils/onShare';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
@@ -13,6 +15,7 @@ import { useWishlistActions } from '../../../../hooks/useWishlistActions';
 import ItemsCardWrapper from './components/ItemsCardWrapper';
 import KitLookFooter from './components/KitLookFooter';
 import Description from './components/Description';
+import styles from './styles';
 
 function KitLookSummary() {
   const {
@@ -29,7 +32,6 @@ function KitLookSummary() {
 
   const [imageIndex, setImageIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
-  const description = productDetail?.properties.description;
 
   const {
     loadingSkuId,
@@ -107,7 +109,7 @@ function KitLookSummary() {
   const isFavorite = checkIsFavorite(isGiftCard ? selectedGiftCardSku! : selectedSize?.itemId || '');
 
   return (
-    <>
+    <SafeAreaView style={styles.safeArea}>
       <ModalZoomImage
         isVisible={showModal}
         image={isGiftCard ? giftCardImage! : selectedColor?.images || []}
@@ -145,10 +147,10 @@ function KitLookSummary() {
 
       <ItemsCardWrapper />
 
-      <Description description={description} />
+      <Description />
 
       <KitLookFooter />
-    </>
+    </SafeAreaView>
   );
 }
 

@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { Box } from '../../../../../../components/Box/Box';
 import styles from '../styles';
 import ImageComponent from '../../../../../../components/ImageComponent/ImageComponent';
@@ -9,12 +9,20 @@ import IconComponent from '../../../../../../components/IconComponent/IconCompon
 import type { ProductKitOutput } from '../../../../../../base/graphql/generated';
 import { RadioButtons } from '../RadioButtons';
 import { ColorsButtons } from '../ColorsButtons';
+import configDeviceSizes from '../../../../../../utils/configDeviceSizes';
+import { FONTS } from '../../../../../../base/styles';
+import { ExceptionProvider } from '../../../../../../base/providers/ExceptionProvider';
+import { useBagStore } from '../../../../../../zustand/useBagStore/useBagStore';
 
 export interface ISelectedItem {
   checked: boolean;
   productId: string;
   colorId: string;
   itemId: string; // skuId
+  size?: string | number;
+  seller: string;
+  price: number;
+  index: number;
 }
 
 interface IItemsCard {
@@ -35,103 +43,113 @@ function ItemsCard({ item, selectedItem, onSelectItem }: IItemsCard) {
 
   const selectedSize = useMemo(() => (
     selectedColor?.sizes.find((size) => size.itemId === selectedItem.itemId)
-  ), [item, selectedItem]);
+  ), [selectedColor, selectedItem]);
 
   const onSelectedChange = useCallback((obj: Partial<ISelectedItem>) => {
     onSelectItem({ ...selectedItem, ...obj });
   }, [onSelectItem, selectedItem]);
 
-  // const disabledSizes = useMemo(() => (
-  //   (selectedColor?.sizes || []).filter((x) => x.disabled).map((t) => t.size || '')
-  // ), [selectedColor]);
-  //
-  // const sizes: string[] = useMemo(() => (
-  //   (selectedColor?.sizes || []).map((y) => y.size || '')
-  // ), [selectedColor]);
-
-  // if (!productDetail) return null;
+  const disabledSizes = useMemo(() => (
+    (selectedColor?.sizes || []).filter((x) => x.disabled).map((t) => t.size || '')
+  ), [selectedColor]);
 
   if (!item) return null;
 
   const image = item?.colors.map((i) => i.images[0]);
 
-  // const price = item?.colors.map((i) => i.sizes.map((p) => p.currentPrice)) || 0;
-
   return (
-    <View>
-      <Box
-        key={item?.productId}
-        style={styles.container}
-      >
-        <Box style={styles.containerIcon}>
-          <TouchableOpacity onPress={() => onSelectedChange({ checked: !selectedItem.checked })}>
-            <IconComponent
-              icon={selectedItem.checked ? 'checkedBox' : 'uncheckedBox'}
-              height={24}
-              width={24}
-            />
-          </TouchableOpacity>
-        </Box>
-
-        <Box style={styles.containerImage}>
-          <TouchableOpacity
-            onPress={() => { }}
-          >
-
-            <ImageComponent
-              key={item?.productId}
-              source={{ uri: image.toString() }}
-              width={100}
-              height={154}
-              resizeMode="contain"
-            />
-
-          </TouchableOpacity>
-        </Box>
-
-        <Box
-          key={item?.productId}
-          style={styles.containerColor}
+    <View style={styles.container}>
+      <View style={styles.containerIcon}>
+        <TouchableOpacity
+          onPress={() => onSelectedChange({ checked: !selectedItem.checked })}
         >
-          <Text style={styles.title}>{item?.productName}</Text>
+          <IconComponent
+            icon={selectedItem.checked ? 'checkedBox' : 'uncheckedBox'}
+            height={24}
+            width={24}
+          />
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.containerImage}>
+        <ImageComponent
+          source={{ uri: image.toString() }}
+          width={100}
+          height={154}
+          resizeMode="contain"
+        />
+      </View>
+
+      <View style={styles.containerColor}>
+        <Text numberOfLines={1} style={styles.title}>
+          {item?.productName}
+        </Text>
+
+        <View style={styles.containerInstallments}>
+          {
+            selectedSize?.installment
+            && selectedSize?.installment.number > 1 && (
+              <>
+                <Text style={styles.textInstallments}>
+                  {selectedSize?.installment.number}
+                  x
+                  {' '}
+                </Text>
+                <PriceCustom
+                  fontFamily="reservaSansBold"
+                  sizeInterger={15}
+                  sizeDecimal={11}
+                  num={selectedSize?.installment.value || 0}
+                />
+
+                <View style={styles.divider} />
+              </>
+            )
+          }
 
           <PriceCustom
-            key={item?.productId}
             fontFamily="reservaSansBold"
             sizeInterger={15}
             sizeDecimal={11}
             num={selectedSize?.currentPrice || 0}
           />
+        </View>
 
-          <Box style={styles.containerColors}>
+        <View style={styles.containerColors}>
+          <View style={styles.containerTexts}>
+            <Text style={styles.textBold}>Cor:</Text>
+            <Text style={styles.textColor}>{selectedColor?.colorName}</Text>
+          </View>
+          <ColorsButtons
+            onPress={(color) => onSelectedChange({ colorId: color })}
+            disabledColors={disabledSizes}
+            listColors={listColors}
+            selectedColors={selectedColor?.colorId || ''}
+          />
+        </View>
+
+        {!!selectedColor?.sizes.length && (
+          <View style={styles.containerSize}>
             <View style={styles.containerTexts}>
-              <Text style={styles.textBold}>Cor:</Text>
-              <Text style={styles.textColor}>{selectedColor?.colorName}</Text>
+              <Text style={styles.textBold}>Tamanho:</Text>
+              <Text style={styles.textSize}>{selectedItem.size}</Text>
             </View>
-            <ColorsButtons
-              onPress={console.log}
-              disabledColors={[]}
-              listColors={listColors}
-              selectedColors={selectedColor?.colorId || ''}
+            <RadioButtons
+              disabledOptions={disabledSizes}
+              onSelectedChange={
+                (val) => onSelectedChange({
+                  itemId: `${val.item}`,
+                  size: `${val.size}`,
+                  seller: `${val.seller}`,
+                  price: val.price,
+                })
+              }
+              optionsList={selectedColor.sizes.map((size) => size)}
+              selectedItem={selectedItem.itemId || ''}
             />
-          </Box>
-
-          {!!selectedColor?.sizes.length && (
-            <Box style={styles.containerSize}>
-              <View style={styles.containerTexts}>
-                <Text style={styles.textBold}>Tamanho:</Text>
-                <Text style={styles.textColor}>{selectedItem.itemId}</Text>
-              </View>
-              <RadioButtons
-                disabledOptions={[]}
-                onSelectedChange={(val) => console.log('VAL', val)}
-                optionsList={selectedColor.sizes.map((size) => size.size)}
-                selectedItem={selectedItem.itemId || ''}
-              />
-            </Box>
-          )}
-        </Box>
-      </Box>
+          </View>
+        )}
+      </View>
     </View>
   );
 }

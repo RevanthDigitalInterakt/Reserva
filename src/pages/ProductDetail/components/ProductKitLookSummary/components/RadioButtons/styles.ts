@@ -5,7 +5,7 @@ const styles = (isSelected: boolean) => StyleSheet.create({
   mainContainer: {
     justifyContent: 'center',
     flexDirection: 'row',
-    width: 194,
+    width: 196,
   },
 
   btnContainer: {

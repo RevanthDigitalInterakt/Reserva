@@ -10,12 +10,25 @@ import {
 
 import styles from './styles';
 import { Button } from '../../../../../../components/Button';
+import IconComponent from '../../../../../../components/IconComponent/IconComponent';
+import type { ProductSizeOutput } from '../../../../../../base/graphql/generated';
 
+interface IOnSelectedChange {
+  item: string | number;
+  size: string | number;
+  seller?: string;
+  price?: number;
+}
 interface RadioButtonsProps {
-  optionsList: string[] | number[];
+  optionsList: ProductSizeOutput[];
   disabledOptions: string[];
   selectedItem?: string | number;
-  onSelectedChange: (item: string | number) => void;
+  onSelectedChange: ({
+    item,
+    size,
+    seller,
+    price,
+  }: IOnSelectedChange) => void;
   testID?: string;
 }
 
@@ -44,9 +57,11 @@ export function RadioButtons({
       setIndexScroll(actualIndexScroll);
     }
   };
+
   if (!optionsList || optionsList.length === 0) return null;
+
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <View style={styles(false).mainContainer}>
         <Animated.ScrollView
           horizontal
@@ -55,12 +70,13 @@ export function RadioButtons({
             onScrollEvent(event);
           }}
           ref={scrollRef}
+          scrollEnabled={optionsList.length > 6}
         >
           {optionsList.map((item) => {
-            const isSelected = selectedItem === item && !disabledOptions.includes(`${selectedItem}`);
+            const isSelected = selectedItem === item.itemId && !disabledOptions.includes(`${selectedItem}`);
             return (
               <View
-                key={`option-${item}`}
+                key={`option-${item.itemId}`}
                 hitSlop={{
                   top: 15, bottom: 15, left: 15, right: 15,
                 }}
@@ -72,14 +88,19 @@ export function RadioButtons({
                   }}
                   disabled={disabledOptions.includes(`${item}`)}
                   onPress={() => {
-                    onSelectedChange(item);
+                    onSelectedChange({
+                      item: item.itemId,
+                      size: item.size,
+                      seller: item.seller,
+                      price: item.currentPrice,
+                    });
                   }}
                   testID={testID}
                   style={styles(false).btnSelectColor}
                 >
                   <View style={styles(isSelected).btnContent}>
                     <Text style={styles(isSelected).btnText}>
-                      {item}
+                      {item.size}
                     </Text>
                   </View>
                 </Button>
@@ -89,10 +110,10 @@ export function RadioButtons({
 
         </Animated.ScrollView>
       </View>
-      {optionsList.length > 5 && (
+      {optionsList.length > 6 && (
         <Animated.View
           style={{
-            transform: [{ rotate: indexScroll < 6 ? '0deg' : '180deg' }],
+            transform: [{ rotate: indexScroll < 1 ? '0deg' : '180deg' }],
             marginLeft: 4,
           }}
         >

@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { FONTS } from '../../../../../base/styles';
+import configDeviceSizes from '../../../../../utils/configDeviceSizes';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,7 +13,6 @@ const styles = StyleSheet.create({
   },
 
   containerIcon: {
-    margin: 2,
     width: 24,
     height: 24,
   },
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
 
   containerColors: {
-    marginTop: 8,
+    marginTop: 4,
   },
 
   containerTexts: {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     lineHeight: 19.6,
     fontSize: 14,
-    marginBottom: 8,
+    marginBottom: 4,
   },
 
   textBold: {
@@ -54,12 +54,40 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
 
+  textSize: {
+    fontFamily: FONTS.RESERVA_SANS_REGULAR,
+    fontWeight: '500',
+    lineHeight: 14,
+    fontSize: 12,
+    textTransform: 'uppercase',
+  },
+
   containerColor: {
     flexDirection: 'column',
+    flex: 1,
+  },
+
+  containerInstallments: {
+    flexDirection: 'row',
+    alignContent: 'center',
+  },
+
+  textInstallments: {
+    fontFamily: FONTS.RESERVA_SANS_BOLD,
+    fontWeight: '700',
+    fontSize: 14,
+    lineHeight: 19.6,
+  },
+
+  divider: {
+    backgroundColor: '#8A8C8E',
+    width: 2,
+    height: 16,
+    marginHorizontal: configDeviceSizes.DEVICE_WIDTH > 320 ? 6 : 4,
   },
 
   containerSize: {
-    marginTop: 8,
+    marginTop: 4,
   },
 });
 
