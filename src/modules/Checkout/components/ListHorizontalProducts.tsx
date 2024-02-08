@@ -272,10 +272,11 @@ export function ListHorizontalProducts({
         flexDirection="row"
         alignSelf="center"
       >
-        {Array(3).fill(0).map((_, index) => (
+        {['1', '2', '3'].map((key, index) => (
           index !== 0
             ? (
               <Box
+                key={key}
                 width={8}
                 height={8}
                 bg="divider"
@@ -285,6 +286,7 @@ export function ListHorizontalProducts({
             )
             : (
               <Box
+                key={key}
                 width={8}
                 height={8}
                 bg="divider"

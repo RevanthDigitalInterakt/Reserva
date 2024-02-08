@@ -219,7 +219,7 @@ describe('RonRedirectToBag', () => {
     );
 
     await waitFor(() => render(ComponentForSnapShot));
-    expect(replaceFn).toHaveBeenCalledWith('Home');
+    expect(replaceFn).toHaveBeenCalledWith('HomeTabs');
   });
 
   it('must load a ron with product url', async () => {
