@@ -9,7 +9,6 @@ import { StackActions, useLinkTo, useNavigation } from '@react-navigation/native
 import type { StackScreenProps } from '@react-navigation/stack';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import WebView from 'react-native-webview';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { TopBarMenu } from '../../modules/Menu/components/TopBarMenu';
 import testProps from '../../utils/testProps';
