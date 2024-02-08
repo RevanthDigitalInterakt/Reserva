@@ -11,7 +11,7 @@ interface I1P5PProps {
   itemQuantity?: number;
 }
 
-function Home1P5P({ comingFrom, itemQuantity }: I1P5PProps) {
+function OneP5P({ comingFrom, itemQuantity }: I1P5PProps) {
   const { navigate } = useNavigation();
 
   const platesAmount = itemQuantity ? itemQuantity * 5 : 0;
@@ -81,4 +81,4 @@ function Home1P5P({ comingFrom, itemQuantity }: I1P5PProps) {
   );
 }
 
-export default Home1P5P;
+export default OneP5P;

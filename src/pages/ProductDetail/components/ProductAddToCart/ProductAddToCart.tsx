@@ -12,7 +12,7 @@ import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import { Button } from '../../../../components/Button';
 import { loadingSpinner } from '../../../../../assets/animations';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
-import Home1P5P from '../../../../components/Home1P5P/Home1P5P';
+import OneP5P from '../../../../components/OneP5P/OneP5P';
 
 function ProductAddToCart() {
   const { getString } = useRemoteConfig();
@@ -109,7 +109,7 @@ function ProductAddToCart() {
         {...testProps('com.usereserva:id/button_add_to_bag')}
       />
 
-      <Home1P5P comingFrom="PDP" />
+      <OneP5P comingFrom="PDP" />
 
       {!!loading && (
         <View style={styles.containerLoading}>

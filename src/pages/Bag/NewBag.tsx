@@ -30,7 +30,7 @@ import CouponComponent from './components/Coupon';
 import { UnavailableList } from './components/ProductUnavailableList/UnavailableList';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { TrackPageTypeEnum } from '../../base/graphql/generated';
-import Home1P5P from '../../components/Home1P5P/Home1P5P';
+import OneP5P from '../../components/OneP5P/OneP5P';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -171,7 +171,7 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
                   )}
 
                   <BagProductList />
-                  <Home1P5P comingFrom="bag" itemQuantity={allItemsQuantity} />
+                  <OneP5P comingFrom="bag" itemQuantity={allItemsQuantity} />
                 </Box>
 
                 {hasUnavailableItems && <UnavailableList />}

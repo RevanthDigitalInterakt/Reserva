@@ -41,7 +41,7 @@ import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { ActivityTracking } from '../../components/ActivityTracking';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { TrackPageTypeEnum } from '../../base/graphql/generated';
-import Home1P5P from '../../components/Home1P5P/Home1P5P';
+import OneP5P from '../../components/OneP5P/OneP5P';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -213,7 +213,7 @@ function Home() {
               />
             )}
             ListFooterComponent={
-              <Home1P5P comingFrom="home" />
+              <OneP5P comingFrom="home" />
               }
           />
         </SafeAreaView>
