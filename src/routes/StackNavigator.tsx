@@ -17,7 +17,7 @@ import { MyCreditsRoutes } from '../modules/my-credits/navigation/MyCreditsNavig
 import NewBag from '../pages/Bag/NewBag';
 import EditProfile from '../pages/EditProfile/EditProfile';
 import PrimeLP from '../pages/PrimeLP';
-import OneP5P from '../pages/OneP5P/OneP5P';
+import PageOneP5P from '../pages/PageOneP5P/PageOneP5P';
 import RonRedirectToBag from '../pages/RonRedirectToBag';
 import NewSearch from '../pages/Search';
 import { AsyncDeepLinkScreenLoading } from '../pages/WebRedirectToCatalog/AsyncDeepLinkScreenLoading';
@@ -49,7 +49,7 @@ export type RootStackParamList = {
     slug?: string;
   };
   PrimeLP: undefined;
-  OneP5P: undefined;
+  PageOneP5P: undefined;
   HelpCenter: { comeFrom?: 'Menu' | 'Other' };
   Checkout: { url: string };
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
@@ -189,7 +189,7 @@ export function MainStackScreen() {
       <MainStack.Screen name="CallCenter" component={CallCenter} />
       <MainStack.Screen name="WebviewZendesk" component={WebviewZendesk} />
       <MainStack.Screen name="PrimeLP" component={PrimeLP} />
-      <MainStack.Screen name="OneP5P" component={OneP5P} />
+      <MainStack.Screen name="PageOneP5P" component={PageOneP5P} />
     </MainStack.Navigator>
   );
 }

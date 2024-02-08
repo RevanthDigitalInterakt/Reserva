@@ -39,7 +39,7 @@ function OneP5P({ comingFrom, itemQuantity }: I1P5PProps) {
             borderRadius: 8,
             marginTop: -30,
           }}
-          onPress={() => navigate('OneP5P')}
+          onPress={() => navigate('PageOneP5P')}
         >
           <Text style={{ fontSize: 14, fontFamily: FONTS.RESERVA_SANS_BOLD, textAlign: 'center' }}>Saiba mais sobre o projeto</Text>
         </TouchableOpacity>

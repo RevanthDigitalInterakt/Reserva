@@ -240,7 +240,7 @@ function Menu() {
                   iconName="cutlery"
                   testID="com.usereserva:id/menu_button_privacy"
                   title="1P=5P"
-                  onPress={() => navigation.navigate('OneP5P')}
+                  onPress={() => navigation.navigate('PageOneP5P')}
                 />
               </View>
               {showForm === 'menu' ? (

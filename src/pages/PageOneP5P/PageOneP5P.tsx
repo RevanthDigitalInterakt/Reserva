@@ -5,9 +5,9 @@ import type { RootStackParamList } from '../../routes/StackNavigator';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
 import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 
-type IOneP5P = StackScreenProps<RootStackParamList, 'OneP5P'>;
+type IPageOneP5P = StackScreenProps<RootStackParamList, 'PageOneP5P'>;
 
-function OneP5P({ navigation }: IOneP5P) {
+function PageOneP5P({ navigation }: IPageOneP5P) {
   const { topBarLoading } = useBagStore(['topBarLoading']);
   const handleBackTopBarButtonPress = useCallback(() => {
     navigation.goBack();
@@ -26,4 +26,4 @@ function OneP5P({ navigation }: IOneP5P) {
   );
 }
 
-export default OneP5P;
+export default PageOneP5P;
