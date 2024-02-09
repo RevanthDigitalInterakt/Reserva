@@ -98,6 +98,42 @@ export function HomeShowcaseCards({ products }: IHomeShowcaseCardsProps) {
           </>
         ) : null}
       </View>
+      {product.flags.map((flag) => {
+        if (flag.type === 'savings') {
+          return (
+            <View style={styles.discountContainerFlag}>
+              <Text
+                key={flag.type}
+                style={styles.discountFlag}
+              >
+                {`${flag.value}%`}
+              </Text>
+              <Text style={styles.discountTextFlag}>
+                OFF
+              </Text>
+            </View>
+          );
+        }
+        if (flag.type === 'cashback') {
+          return (
+            <View style={styles.cashbackContainerFlag}>
+              <Text
+                key={flag.type}
+                style={styles.cashbackFlag}
+              >
+                {`Ganhe ${flag.value}%`}
+              </Text>
+              <Text
+                key={flag.type}
+                style={styles.cashbackTextFlag}
+              >
+                {' de cashback'}
+              </Text>
+            </View>
+          );
+        }
+        return null;
+      })}
     </TouchableOpacity>
   );
 

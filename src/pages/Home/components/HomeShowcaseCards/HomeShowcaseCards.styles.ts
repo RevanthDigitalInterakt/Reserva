@@ -44,4 +44,54 @@ export const styles = StyleSheet.create({
     lineHeight: 17,
     fontSize: 11,
   },
+
+  discountContainerFlag: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    top: 245,
+    left: 20,
+    backgroundColor: COLORS.BLACK,
+    width: 71,
+    height: 30,
+    borderRadius: 30,
+  },
+  discountFlag: {
+    color: COLORS.WHITE,
+    fontFamily: FONTS.WORK_SANS_BOLD_ITALIC,
+    fontSize: 13,
+    lineHeight: 15,
+  },
+
+  discountTextFlag: {
+    color: COLORS.WHITE,
+    fontFamily: FONTS.WORK_SANS_ITALIC,
+    fontSize: 13,
+    lineHeight: 15,
+    letterSpacing: -1.5,
+    marginLeft: 5,
+  },
+
+  cashbackContainerFlag: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS.LIGHT_GREY_BLUE,
+    width: 150,
+    height: 15,
+    borderRadius: 30,
+    flexDirection: 'row',
+  },
+  cashbackFlag: {
+    color: COLORS.BLACK,
+    fontFamily: FONTS.WORK_SANS_BOLD,
+    fontSize: 12,
+    lineHeight: 15,
+  },
+  cashbackTextFlag: {
+    color: COLORS.BLACK,
+    fontFamily: FONTS.WORK_SANS_REGULAR,
+    fontSize: 12,
+    lineHeight: 15,
+  },
 });
