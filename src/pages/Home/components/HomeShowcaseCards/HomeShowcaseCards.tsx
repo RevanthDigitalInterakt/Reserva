@@ -65,7 +65,7 @@ export function HomeShowcaseCards({ products }: IHomeShowcaseCardsProps) {
         style={styles.productImage}
       />
       <Text style={styles.productName}>
-        {product.productName.length > 22 ? `${product.productName.substring(0, 20).trim()}..` : product.productName}
+        {product.productName.length > 24 ? `${product.productName.substring(0, 22).trim()}..` : product.productName}
       </Text>
       <View style={styles.priceContainer}>
         {product.prices.salePrice !== 0 ? (

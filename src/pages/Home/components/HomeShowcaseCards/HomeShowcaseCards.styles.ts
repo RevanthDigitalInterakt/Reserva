@@ -3,33 +3,40 @@ import { FONTS, COLORS } from '../../../../base/styles';
 
 export const styles = StyleSheet.create({
   cardContainer: {
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 5,
     borderRadius: 10,
   },
+
   productImage: {
-    width: 155,
+    width: 165,
     height: 270,
     borderRadius: 10,
   },
+
   productName: {
     fontFamily: FONTS.RESERVA_SANS_BOLD,
     fontSize: 15,
     lineHeight: 20,
   },
+
   priceContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
+
   salePrice: {
     fontSize: 17,
     lineHeight: 23,
     fontFamily: FONTS.RESERVA_SANS_BOLD,
   },
+
   decimalPart: {
     fontSize: 11,
     fontFamily: FONTS.RESERVA_SANS_BOLD,
     marginTop: -4,
   },
+
   listPrice: {
     marginLeft: 10,
     color: COLORS.LIGHT_GRAY,
@@ -38,6 +45,7 @@ export const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 23,
   },
+
   listPriceDecimal: {
     color: COLORS.LIGHT_GRAY,
     fontFamily: FONTS.NUNITO_REGULAR,
@@ -50,13 +58,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    top: 245,
+    top: 240,
     left: 20,
     backgroundColor: COLORS.BLACK,
     width: 71,
     height: 30,
     borderRadius: 30,
   },
+
   discountFlag: {
     color: COLORS.WHITE,
     fontFamily: FONTS.WORK_SANS_BOLD_ITALIC,
@@ -76,22 +85,25 @@ export const styles = StyleSheet.create({
   cashbackContainerFlag: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.LIGHT_GREY_BLUE,
-    width: 150,
+    backgroundColor: COLORS.BACKGROUND_LICHT_GRAY,
+    width: 165,
     height: 15,
     borderRadius: 30,
     flexDirection: 'row',
   },
+
   cashbackFlag: {
     color: COLORS.BLACK,
     fontFamily: FONTS.WORK_SANS_BOLD,
     fontSize: 12,
     lineHeight: 15,
   },
+
   cashbackTextFlag: {
     color: COLORS.BLACK,
     fontFamily: FONTS.WORK_SANS_REGULAR,
     fontSize: 12,
     lineHeight: 15,
   },
+
 });
