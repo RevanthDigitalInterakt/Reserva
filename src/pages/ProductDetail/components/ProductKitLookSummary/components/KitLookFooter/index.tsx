@@ -1,7 +1,6 @@
 import React, {
   useCallback,
   useEffect,
-  useMemo,
   useState,
 } from 'react';
 import {
@@ -70,17 +69,9 @@ export default function KitLookFooter() {
     setBtnDisabled(selectedKitItems?.orderItems.length === 0);
   }, [selectedKitItems]);
 
-  const hasItemsSelected = useMemo(() => (
-    selectedKitItems?.orderItems.length || 0
-  ), [selectedKitItems]);
-
   useEffect(() => {
     disabledBtn();
   }, [selectedKitItems]);
-
-  useEffect(() => {
-    console.log('AUHSHUASHUASHUHUSAHUUHSAUHAS', hasItemsSelected);
-  }, [hasItemsSelected]);
 
   return (
     <View
@@ -135,10 +126,14 @@ export default function KitLookFooter() {
       </View>
 
       <TouchableOpacity
-        disabled={btnDisabled}
+        disabled={btnDisabled || isClick || loading}
         testID="com.usereserva:id/bag_button_go_to_delivery"
         onPress={() => onAddProductToCart()}
-        style={btnDisabled ? styles.btnTouchAddToBagDisabled : styles.btnTouchAddToBag}
+        style={
+          btnDisabled || isClick || loading
+            ? styles.btnTouchAddToBagDisabled
+            : styles.btnTouchAddToBag
+        }
       >
         <Text
           style={styles.btnTextAddToBag}

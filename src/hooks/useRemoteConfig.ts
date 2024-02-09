@@ -96,7 +96,7 @@ export const defaults: IRemoteConfigKeys = {
   show_item_price_tester: true,
   show_user_feedback_form: 'none',
   show_home_commercial_banner: false,
-  show_kitlook: true,
+  show_kitlook: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;

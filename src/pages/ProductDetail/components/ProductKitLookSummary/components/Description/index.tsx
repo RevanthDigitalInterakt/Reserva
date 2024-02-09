@@ -14,6 +14,8 @@ function Description() {
 
   return (
     <View style={styles.mainContainer}>
+
+      <View style={styles.divider} />
       <TouchableOpacity
         onPress={() => {
           setExpand(!expand);

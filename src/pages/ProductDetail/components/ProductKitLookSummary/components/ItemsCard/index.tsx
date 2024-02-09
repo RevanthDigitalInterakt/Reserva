@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { Alert, Text, TouchableOpacity, View } from 'react-native';
-import { Box } from '../../../../../../components/Box/Box';
+import { Text, TouchableOpacity, View } from 'react-native';
 import styles from '../styles';
 import ImageComponent from '../../../../../../components/ImageComponent/ImageComponent';
 import { PriceCustom } from '../../../../../../modules/Checkout/components/PriceCustom';
@@ -9,10 +8,10 @@ import IconComponent from '../../../../../../components/IconComponent/IconCompon
 import type { ProductKitOutput } from '../../../../../../base/graphql/generated';
 import { RadioButtons } from '../RadioButtons';
 import { ColorsButtons } from '../ColorsButtons';
-import configDeviceSizes from '../../../../../../utils/configDeviceSizes';
-import { FONTS } from '../../../../../../base/styles';
+import { defaultBrand } from '../../../../../../utils/defaultWBrand';
+import EventProvider from '../../../../../../utils/EventProvider';
 import { ExceptionProvider } from '../../../../../../base/providers/ExceptionProvider';
-import { useBagStore } from '../../../../../../zustand/useBagStore/useBagStore';
+import { useProductDetailStore } from '../../../../../../zustand/useProductDetail/useProductDetail';
 
 export interface ISelectedItem {
   checked: boolean;
@@ -32,6 +31,7 @@ interface IItemsCard {
 }
 
 function ItemsCard({ item, selectedItem, onSelectItem }: IItemsCard) {
+  const { productDetail } = useProductDetailStore(['productDetail']);
   const listColors = useMemo(() => item.colors.map((color) => ({
     id: color.colorId,
     url: color.colorUrl,
@@ -49,6 +49,38 @@ function ItemsCard({ item, selectedItem, onSelectItem }: IItemsCard) {
     onSelectItem({ ...selectedItem, ...obj });
   }, [onSelectItem, selectedItem]);
 
+  const doSelectSizeTrack = useCallback(() => {
+    try {
+      if (!selectedSize || !selectedItem.checked) return;
+
+      EventProvider.logEvent('page_view', {
+        item_brand: defaultBrand.picapau,
+      });
+
+      EventProvider.logEvent('view_item', {
+        currency: 'BRL',
+        items: [
+          {
+            item_id: selectedSize?.itemId,
+            price: selectedItem.price || 0,
+            quantity: 1,
+            item_variant: '',
+            item_name: selectedSize.skuName,
+            item_category: 'product_group',
+          },
+        ],
+        value: selectedItem.price || 0,
+        item_brand: `${productDetail?.categoryTree[0]?.toUpperCase()},`,
+      });
+    } catch (err) {
+      ExceptionProvider.captureException(err);
+    }
+  }, [productDetail, selectedSize, selectedItem]);
+
+  useEffect(() => {
+    doSelectSizeTrack();
+  }, [selectedItem]);
+
   const disabledSizes = useMemo(() => (
     (selectedColor?.sizes || []).filter((x) => x.disabled).map((t) => t.size || '')
   ), [selectedColor]);
@@ -60,9 +92,7 @@ function ItemsCard({ item, selectedItem, onSelectItem }: IItemsCard) {
   return (
     <View style={styles.container}>
       <View style={styles.containerIcon}>
-        <TouchableOpacity
-          onPress={() => onSelectedChange({ checked: !selectedItem.checked })}
-        >
+        <TouchableOpacity onPress={() => onSelectedChange({ checked: !selectedItem.checked })}>
           <IconComponent
             icon={selectedItem.checked ? 'checkedBox' : 'uncheckedBox'}
             height={24}
@@ -107,12 +137,14 @@ function ItemsCard({ item, selectedItem, onSelectItem }: IItemsCard) {
             )
           }
 
-          <PriceCustom
-            fontFamily="reservaSansBold"
-            sizeInterger={15}
-            sizeDecimal={11}
-            num={selectedSize?.currentPrice || 0}
-          />
+          {selectedSize?.currentPrice ? (
+            <PriceCustom
+              fontFamily="reservaSansBold"
+              sizeInterger={15}
+              sizeDecimal={11}
+              num={selectedSize?.currentPrice || 0}
+            />
+          ) : (<Text style={styles.textSizeSelected}>Selecione um tamanho</Text>)}
         </View>
 
         <View style={styles.containerColors}>
@@ -132,7 +164,9 @@ function ItemsCard({ item, selectedItem, onSelectItem }: IItemsCard) {
           <View style={styles.containerSize}>
             <View style={styles.containerTexts}>
               <Text style={styles.textBold}>Tamanho:</Text>
-              <Text style={styles.textSize}>{selectedItem.size}</Text>
+              {selectedSize?.currentPrice ? (
+                <Text style={styles.textSize}>{selectedItem.size}</Text>
+              ) : null}
             </View>
             <RadioButtons
               disabledOptions={disabledSizes}

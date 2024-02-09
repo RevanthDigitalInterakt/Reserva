@@ -1,14 +1,18 @@
 import { StyleSheet } from 'react-native';
-import { FONTS } from '../../../../../../base/styles';
+import { COLORS, FONTS } from '../../../../../../base/styles';
+import configDeviceSizes from '../../../../../../utils/configDeviceSizes';
 
 const styles = StyleSheet.create({
   mainContainer: {
-    margin: 12,
+    marginHorizontal: 12,
+    marginTop: 32,
+    marginBottom: 24,
   },
 
   containerIcon: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 24,
   },
 
   textAbout: {
@@ -24,6 +28,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 16.8,
     paddingHorizontal: 24,
+    marginVertical: 24,
+  },
+
+  divider: {
+    backgroundColor: COLORS.CEMENT_GRAY,
+    width: '98%',
+    height: 1,
+    marginHorizontal: configDeviceSizes.DEVICE_WIDTH > 320 ? 6 : 4,
   },
 });
 

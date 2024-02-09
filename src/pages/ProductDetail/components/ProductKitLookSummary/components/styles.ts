@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { FONTS } from '../../../../../base/styles';
+import { COLORS, FONTS } from '../../../../../base/styles';
 import configDeviceSizes from '../../../../../utils/configDeviceSizes';
+import { scale } from '../../../../../utils/scale';
 
 const styles = StyleSheet.create({
   container: {
@@ -84,6 +85,14 @@ const styles = StyleSheet.create({
     width: 2,
     height: 16,
     marginHorizontal: configDeviceSizes.DEVICE_WIDTH > 320 ? 6 : 4,
+  },
+
+  textSizeSelected: {
+    fontFamily: FONTS.RESERVA_SANS_BOLD,
+    fontWeight: '500',
+    lineHeight: 19.6,
+    fontSize: scale(11),
+    color: COLORS.ALERT,
   },
 
   containerSize: {

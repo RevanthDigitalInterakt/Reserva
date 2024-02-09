@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Alert, View } from 'react-native';
 import {
   type ProductQuery,
@@ -87,8 +87,6 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
     }
   }, [getItem, profile?.email]);
 
-  const showKitlook = useMemo(() => getBoolean('show_kitlook'), [getBoolean]);
-
   const onInitialLoad = useCallback(async (params: IProductDetailRouteParams) => {
     try {
       const input = getProductLoadType(params);
@@ -110,11 +108,14 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         product_currency: 'BRL',
       });
 
+      const showKitlook = getBoolean('show_kitlook');
+
       const pdpShowGiftCard = getBoolean('pdp_show_gift_card');
       if (
         (product.action !== ProductResultActionEnum.ShowProduct
           && product.action !== ProductResultActionEnum.ShowGiftCard
-          && product.action !== ProductResultActionEnum.ShowKit)
+          && (!isKitLook && !showKitlook)
+        )
         || (product.action === ProductResultActionEnum.ShowGiftCard && !pdpShowGiftCard)
       ) {
         await DeepLinkPathModule.openUrlInBrowser({
@@ -177,7 +178,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
           </View>
         )}
-        {isKitLook && showKitlook && <KitLookSummary />}
+        {isKitLook && <KitLookSummary />}
       </ProductDetailWrapper>
       {isGiftCard && <GiftCardAddToCart />}
     </>

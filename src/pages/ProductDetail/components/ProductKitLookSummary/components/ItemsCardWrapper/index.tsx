@@ -11,7 +11,7 @@ import { useBagStore } from '../../../../../../zustand/useBagStore/useBagStore';
 function ItemsCardWrapper() {
   const [selectedItems, setSelectedItems] = useState<ISelectedItem[]>([]);
   const { kit, setSelectedKitItems } = useProductDetailStore(['kit', 'setSelectedKitItems']);
-  const { actions, orderFormId } = useBagStore(['actions', 'orderFormId']);
+  const { orderFormId } = useBagStore(['orderFormId']);
 
   const onSetInitialItems = useCallback(() => {
     const tempArr: ISelectedItem[] = [];

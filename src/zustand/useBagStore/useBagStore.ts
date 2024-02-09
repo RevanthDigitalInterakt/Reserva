@@ -217,8 +217,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ topBarLoading: true }));
 
         const { data } = await getApolloClient().query<
-          OrderFormRefreshDataMutation,
-          OrderFormRefreshDataMutationVariables
+        OrderFormRefreshDataMutation,
+        OrderFormRefreshDataMutationVariables
         >({
           query: OrderFormRefreshDataDocument,
           fetchPolicy: 'no-cache',
@@ -258,8 +258,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ topBarLoading: true }));
 
         const { data } = await getApolloClient().query<
-          OrderFormResetMutation,
-          OrderFormResetMutationVariables
+        OrderFormResetMutation,
+        OrderFormResetMutationVariables
         >({
           query: OrderFormResetDocument,
           fetchPolicy: 'no-cache',
@@ -354,8 +354,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ topBarLoading: true }));
 
         const { data } = await getApolloClient().mutate<
-          OrderFormAddSellerCouponMutation,
-          OrderFormAddSellerCouponMutationVariables
+        OrderFormAddSellerCouponMutation,
+        OrderFormAddSellerCouponMutationVariables
         >({
           mutation: OrderFormAddSellerCouponDocument,
           context: { clientName: 'gateway' },
@@ -399,8 +399,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ topBarLoading: true }));
 
         const { data } = await getApolloClient().mutate<
-          OrderFormAddDiscountCouponMutation,
-          OrderFormAddDiscountCouponMutationVariables
+        OrderFormAddDiscountCouponMutation,
+        OrderFormAddDiscountCouponMutationVariables
         >({
           mutation: OrderFormAddDiscountCouponDocument,
           variables: {
@@ -440,8 +440,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ topBarLoading: true }));
 
         const { data } = await getApolloClient().mutate<
-          OrderFormRemoveSellerCouponMutation,
-          OrderFormRemoveSellerCouponMutationVariables
+        OrderFormRemoveSellerCouponMutation,
+        OrderFormRemoveSellerCouponMutationVariables
         >({
           mutation: OrderFormRemoveSellerCouponDocument,
           variables: { orderFormId: getState().orderFormId },
@@ -472,8 +472,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ topBarLoading: true }));
 
         const { data } = await getApolloClient().mutate<
-          OrderFormRemoveDiscountCouponMutation,
-          OrderFormRemoveDiscountCouponMutationVariables
+        OrderFormRemoveDiscountCouponMutation,
+        OrderFormRemoveDiscountCouponMutationVariables
         >({
           mutation: OrderFormRemoveDiscountCouponDocument,
           variables: { orderFormId: getState().orderFormId },
@@ -503,8 +503,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ topBarLoading: true }));
 
         const { data } = await getApolloClient().query<
-          OrderFormSetGiftSizeMutation,
-          OrderFormSetGiftSizeMutationVariables
+        OrderFormSetGiftSizeMutation,
+        OrderFormSetGiftSizeMutationVariables
         >({
           query: OrderFormSetGiftSizeDocument,
           fetchPolicy: 'no-cache',
@@ -538,8 +538,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ topBarLoading: true }));
 
         await getApolloClient().mutate<
-          OrderFormRemoveUnavailableItemsMutation,
-          OrderFormRemoveUnavailableItemsMutationVariables
+        OrderFormRemoveUnavailableItemsMutation,
+        OrderFormRemoveUnavailableItemsMutationVariables
         >({
           mutation: OrderFormRemoveUnavailableItemsDocument,
           context: { clientName: 'gateway' },
@@ -565,8 +565,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         };
 
         const { data } = await getApolloClient().mutate<
-          OrderFormUpdateItemMutation,
-          OrderFormUpdateItemMutationVariables
+        OrderFormUpdateItemMutation,
+        OrderFormUpdateItemMutationVariables
         >({
           mutation: OrderFormUpdateItemDocument,
           variables: {
@@ -628,8 +628,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ topBarLoading: true }));
 
         const { data } = await getApolloClient().mutate<
-          OrderFormAddGiftMutation,
-          OrderFormAddGiftMutationVariables
+        OrderFormAddGiftMutation,
+        OrderFormAddGiftMutationVariables
         >({
           mutation: OrderFormAddGiftDocument,
           context: { clientName: 'gateway' },
@@ -650,8 +650,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
     REMOVE_GIFT: async (index, id) => {
       try {
         const { data } = await getApolloClient().mutate<
-          OrderFormRemoveGiftMutation,
-          OrderFormRemoveGiftMutationVariables
+        OrderFormRemoveGiftMutation,
+        OrderFormRemoveGiftMutationVariables
         >({
           mutation: OrderFormRemoveGiftDocument,
           context: { clientName: 'gateway' },
@@ -719,8 +719,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           };
         }
         const { data } = await getApolloClient().mutate<
-          OrderFormAddItemMutation,
-          OrderFormAddItemMutationVariables
+        OrderFormAddItemMutation,
+        OrderFormAddItemMutationVariables
         >({
           mutation: OrderFormAddItemDocument,
           context: { clientName: 'gateway' },
@@ -790,13 +790,13 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           };
         }
         const { data } = await getApolloClient().mutate<OrderFormAddMultipleItemMutation,
-          OrderFormAddMultipleItemMutationVariables>({
-            mutation: OrderFormAddMultipleItemDocument,
-            context: { clientName: 'gateway' },
-            variables: {
-              input,
-            },
-          });
+        OrderFormAddMultipleItemMutationVariables>({
+          mutation: OrderFormAddMultipleItemDocument,
+          context: { clientName: 'gateway' },
+          variables: {
+            input,
+          },
+        });
 
         const { orderFormAddMultipleItem: orderForm } = data || {};
 
