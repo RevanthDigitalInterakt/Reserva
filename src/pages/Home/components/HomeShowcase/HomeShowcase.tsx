@@ -4,32 +4,30 @@ import {
 } from 'react-native';
 import { trackClickSmartHintStore } from '../../../../zustand/useTrackClickSmartHint/useTrackClickSmartHint';
 import { TrackPageTypeEnum } from '../../../../base/graphql/generated';
+import { styles } from './HomeShowcase.styles';
+import { COLORS, FONTS } from '../../../../base/styles';
+import { decimalPart, integerPart } from '../../../../utils/numberUtils';
 
-interface ICategoryTree {
-  id: number;
-  name: string;
-}
-
-/* interface IFlag {
+interface IFlag {
   type: string;
-  value: string;
-  src?: string;
-} */
+  value?: number;
+  text?: string;
+}
 
 interface ISize {
   value: string;
   disabled: boolean;
-  prices: {
-    listPrice: number;
-    salePrice: number;
-    primePrice: number;
-  };
+}
+
+interface IPrice {
+  listPrice: number;
+  salePrice: number;
 }
 
 interface IColor {
   name: string;
   hex: string;
-  disabled: boolean;
+  disabled?: boolean;
   sizes: ISize[];
 }
 
@@ -44,9 +42,10 @@ interface IProduct {
   productLink: string;
   brand: string;
   image: string;
-  categoryTree: ICategoryTree[];
-  // flags: IFlag[];
-  sku: ISku;
+  categoryTree: string[];
+  flags: IFlag[];
+  sku: ISku[];
+  prices: IPrice;
 }
 
 interface IShelf {
@@ -57,21 +56,28 @@ interface IShelf {
 export function HomeShowcase() {
   const data: IShelf[] = [
     {
-      shelfName: 'Vitrine',
+      shelfName: 'Vitrine de teste da SmartHint estou testanto o tamanho dela',
       products: [
         {
-          productName: 'Camisa Reserva Linho 12345',
+          productName: 'Camisa Polo Reserva Linho Braco',
           productId: '1',
           productLink: 'https://usereserva.com/camisa/p',
           brand: 'RESERVA',
           image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
           categoryTree: [
+            'Camisas',
+          ],
+          flags: [
             {
-              id: 5,
-              name: 'Camisas',
+              type: 'savings',
+              value: 20,
+            },
+            {
+              type: 'cashback',
+              value: 15,
             },
           ],
-          sku: {
+          sku: [{
             skuId: '5678',
             colors: [
               {
@@ -82,279 +88,149 @@ export function HomeShowcase() {
                   {
                     value: 'P',
                     disabled: false,
-                    prices: {
-                      listPrice: 600.90,
-                      salePrice: 400.50,
-                      primePrice: 300,
-                    },
                   },
                 ],
               },
             ],
+          }],
+          prices: {
+            listPrice: 600.90,
+            salePrice: 400.50,
           },
         },
         {
-          productName: 'Calça Jeans',
+          productName: 'Camisa Braca',
           productId: '2',
-          productLink: 'https://usereserva.com/calca/p',
+          productLink: 'https://usereserva.com/camisa/p',
           brand: 'RESERVA',
           image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
           categoryTree: [
+            'Camisas',
+          ],
+          flags: [
             {
-              id: 6,
-              name: 'Calças',
+              type: 'savings',
+              value: 15,
+            },
+            {
+              type: 'cashback',
+              value: 10,
             },
           ],
-          sku: {
+          sku: [{
             skuId: '5679',
             colors: [
               {
-                name: 'AZUL',
-                hex: '#00F',
+                name: 'BRANCO',
+                hex: '#FFF',
                 disabled: false,
                 sizes: [
                   {
-                    value: 'M',
+                    value: 'P',
                     disabled: false,
-                    prices: {
-                      listPrice: 800,
-                      salePrice: 0,
-                      primePrice: 500,
-                    },
                   },
                 ],
               },
             ],
+          }],
+          prices: {
+            listPrice: 600.00,
+            salePrice: 400.00,
           },
         },
         {
-          productName: 'Tênis Esportivo',
+          productName: 'Camisa Azul',
           productId: '3',
-          productLink: 'https://usereserva.com/tenis/p',
+          productLink: 'https://usereserva.com/camisa/p',
           brand: 'RESERVA',
           image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
           categoryTree: [
+            'Camisas',
+          ],
+          flags: [
             {
-              id: 7,
-              name: 'Tênis',
+              type: 'savings',
+              value: 25,
+            },
+            {
+              type: 'cashback',
+              value: 15,
             },
           ],
-          sku: {
-            skuId: '5680',
+          sku: [{
+            skuId: '5679',
             colors: [
               {
-                name: 'PRETO',
-                hex: '#000',
+                name: 'BRANCO',
+                hex: '#FFF',
                 disabled: false,
                 sizes: [
                   {
-                    value: '42',
+                    value: 'P',
                     disabled: false,
-                    prices: {
-                      listPrice: 1200,
-                      salePrice: 1000,
-                      primePrice: 800,
-                    },
                   },
                 ],
               },
             ],
+          }],
+          prices: {
+            listPrice: 600.00,
+            salePrice: 400.00,
           },
         },
         {
-          productName: 'Bermuda Cargo',
+          productName: 'Camisa Verde',
           productId: '4',
-          productLink: 'https://usereserva.com/bermuda/p',
+          productLink: 'https://usereserva.com/camisa/p',
           brand: 'RESERVA',
           image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
           categoryTree: [
-            {
-              id: 8,
-              name: 'Bermudas',
-            },
+            'Camisas',
           ],
-          sku: {
-            skuId: '5681',
+          flags: [
+          ],
+          sku: [{
+            skuId: '5679',
             colors: [
               {
-                name: 'VERDE',
-                hex: '#0F0',
+                name: 'BRANCO',
+                hex: '#FFF',
                 disabled: false,
                 sizes: [
                   {
-                    value: 'L',
+                    value: 'P',
                     disabled: false,
-                    prices: {
-                      listPrice: 700,
-                      salePrice: 500,
-                      primePrice: 400,
-                    },
                   },
                 ],
               },
             ],
-          },
-        },
-        {
-          productName: 'Jaqueta de Couro',
-          productId: '5',
-          productLink: 'https://usereserva.com/jaqueta/p',
-          brand: 'RESERVA',
-          image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-          categoryTree: [
-            {
-              id: 9,
-              name: 'Jaquetas',
-            },
-          ],
-          sku: {
-            skuId: '5682',
-            colors: [
-              {
-                name: 'PRETA',
-                hex: '#000',
-                disabled: false,
-                sizes: [
-                  {
-                    value: 'M',
-                    disabled: false,
-                    prices: {
-                      listPrice: 1500,
-                      salePrice: 1200,
-                      primePrice: 1000,
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        },
-        {
-          productName: 'Sapato Social',
-          productId: '6',
-          productLink: 'https://usereserva.com/sapato/p',
-          brand: 'RESERVA',
-          image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-          categoryTree: [
-            {
-              id: 10,
-              name: 'Sapatos',
-            },
-          ],
-          sku: {
-            skuId: '5683',
-            colors: [
-              {
-                name: 'MARROM',
-                hex: '#8B4513',
-                disabled: false,
-                sizes: [
-                  {
-                    value: '41',
-                    disabled: false,
-                    prices: {
-                      listPrice: 1000,
-                      salePrice: 800,
-                      primePrice: 700,
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        },
-        {
-          productName: 'Polo Casual',
-          productId: '7',
-          productLink: 'https://usereserva.com/polo/p',
-          brand: 'RESERVA',
-          image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-          categoryTree: [
-            {
-              id: 11,
-              name: 'Polos',
-            },
-          ],
-          sku: {
-            skuId: '5684',
-            colors: [
-              {
-                name: 'AZUL',
-                hex: '#00F',
-                disabled: false,
-                sizes: [
-                  {
-                    value: 'M',
-                    disabled: false,
-                    prices: {
-                      listPrice: 400,
-                      salePrice: 300,
-                      primePrice: 200,
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        },
-        {
-          productName: 'Cinto de Couro',
-          productId: '8',
-          productLink: 'https://usereserva.com/cinto/p',
-          brand: 'RESERVA',
-          image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-          categoryTree: [
-            {
-              id: 12,
-              name: 'Cintos',
-            },
-          ],
-          sku: {
-            skuId: '5685',
-            colors: [
-              {
-                name: 'MARROM',
-                hex: '#8B4513',
-                disabled: false,
-                sizes: [
-                  {
-                    value: 'Único',
-                    disabled: false,
-                    prices: {
-                      listPrice: 200,
-                      salePrice: 150,
-                      primePrice: 100,
-                    },
-                  },
-                ],
-              },
-            ],
+          }],
+          prices: {
+            listPrice: 600.00,
+            salePrice: 0,
           },
         },
       ],
     },
   ];
 
-  const calculateDiscountPercentage = (listPrice: number, salePrice: number) => {
-    const discountPercentage = ((listPrice - salePrice) / listPrice) * 100;
-    return Math.round(discountPercentage);
-  };
-
   const renderItem = ({ item: shelf }: { item: IShelf }) => (
     <View style={{ marginTop: 10 }}>
-      <Text style={{
-        fontFamily: 'ReservaDisplay-Regular', fontSize: 24, fontWeight: '400', lineHeight: 23, letterSpacing: 0, textAlign: 'center',
-      }}
-      >
-        {shelf.shelfName}
-      </Text>
+      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{
+          fontFamily: FONTS.RESERVA_DISPLAY_REGULAR, fontSize: 24, lineHeight: 23, letterSpacing: 0,
+        }}
+        >
+          {shelf.shelfName}
+        </Text>
+      </View>
       <FlatList
         horizontal
         data={shelf.products}
         keyExtractor={(item) => item.productId}
         renderItem={({ item: product }) => (
           <TouchableOpacity
-            style={{ padding: 10 }}
+            style={{ padding: 10, borderRadius: 10 }}
             onPress={() => {
               trackClickSmartHintStore.getState()
                 .onSendTrackClick(product.productId, TrackPageTypeEnum.Home);
@@ -369,120 +245,168 @@ export function HomeShowcase() {
               }}
             />
             <Text style={{
-              fontFamily: 'ReservaSans-Bold',
-              fontSize: 14.73,
-              lineHeight: 19.44,
-              includeFontPadding: false,
+              fontFamily: FONTS.RESERVA_SANS_BOLD,
+              fontSize: 15,
+              lineHeight: 20,
             }}
             >
               {product.productName.length > 22 ? `${product.productName.substring(0, 20).trim()}..` : product.productName}
             </Text>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              {product.sku.colors[0]?.sizes[0]?.prices.salePrice !== 0 ? (
-                <Text
-                  style={{
-                    fontWeight: '600',
-                    fontSize: 16.87,
-                    includeFontPadding: false,
-                    lineHeight: 23.01,
-                    fontFamily: 'ReservaSans-Bold',
-                  }}
-                >
-                  {`R$ ${parseInt(product.sku.colors[0]?.sizes[0]?.prices.salePrice)}`}
+              {product.prices.salePrice !== 0 ? (
+                <>
                   <Text
                     style={{
-                      fontSize: 10.52,
-                      includeFontPadding: false,
+                      fontSize: 17,
+                      lineHeight: 23,
+                      fontFamily: FONTS.RESERVA_SANS_BOLD,
                     }}
                   >
-                    {`,${product.sku.colors[0]?.sizes[0]?.prices.salePrice.toFixed(2).split('.')[1]}`}
+                    {`R$ ${integerPart(product.prices.salePrice || 0)}`}
                   </Text>
-                  {'  '}
-                </Text>
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      fontFamily: FONTS.RESERVA_SANS_BOLD,
+                      marginTop: -4,
+                    }}
+                  >
+                    {`,${decimalPart(product.prices.salePrice || 0)}`}
+                  </Text>
+                </>
               ) : (
-                <Text
-                  style={{
-                    fontWeight: '600',
-                    fontSize: 16.87,
-                    includeFontPadding: false,
-                    lineHeight: 23.01,
-                    fontFamily: 'ReservaSans-Bold',
-                  }}
-                >
-                  {`R$ ${parseInt(product.sku.colors[0]?.sizes[0]?.prices.listPrice)}`}
+                <>
                   <Text
                     style={{
-                      fontSize: 10.52,
-                      includeFontPadding: false,
+                      fontSize: 17,
+                      lineHeight: 23,
+                      fontFamily: FONTS.RESERVA_SANS_BOLD,
                     }}
                   >
-                    {`,${product.sku.colors[0]?.sizes[0]?.prices.listPrice.toFixed(2).split('.')[1]}`}
+                    {`R$ ${integerPart(product.prices.listPrice || 0)}`}
                   </Text>
-                  {'  '}
-                </Text>
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      fontFamily: FONTS.RESERVA_SANS_BOLD,
+                      marginTop: -4,
+                    }}
+                  >
+                    {`,${decimalPart(product.prices.listPrice || 0)}`}
+                  </Text>
+                </>
               )}
-              {product.sku.colors[0]?.sizes[0]?.prices.salePrice !== 0 ? (
-                <Text
-                  style={{
-                    color: '#999999',
-                    textDecorationLine: 'line-through',
-                    fontFamily: 'Nunito',
-                    fontWeight: '400',
-                    fontSize: 16.87,
-                    includeFontPadding: false,
-                    lineHeight: 23.01,
-                  }}
-                >
-                  {`${parseInt(product.sku.colors[0]?.sizes[0]?.prices.listPrice)}`}
+              {product.prices.salePrice !== 0 ? (
+                <>
                   <Text
                     style={{
-                      fontSize: 10.52,
-                      includeFontPadding: false,
+                      marginLeft: 10,
+                      color: COLORS.LIGHT_GRAY,
+                      textDecorationLine: 'line-through',
+                      fontFamily: FONTS.NUNITO_REGULAR,
+                      fontSize: 17,
+                      lineHeight: 23,
                     }}
                   >
-                    {`,${product.sku.colors[0]?.sizes[0]?.prices.listPrice.toFixed(2).split('.')[1]}`}
+                    {`${integerPart(product.prices.listPrice || 0)}`}
                   </Text>
-                </Text>
+                  <Text
+                    style={{
+                      color: COLORS.LIGHT_GRAY,
+                      fontFamily: FONTS.NUNITO_REGULAR,
+                      lineHeight: 17,
+                      fontSize: 11,
+                    }}
+                  >
+                    {`,${decimalPart(product.prices.listPrice || 0)}`}
+                  </Text>
+                </>
               ) : (
                 null
               )}
             </View>
-
-            <View style={{ position: 'absolute' }}>
-              {product.sku.colors[0]?.sizes[0]?.prices.salePrice !== 0 ? (
-                <Text
-                  style={{
+            {product.flags.map((flag) => {
+              if (flag.type === 'savings') {
+                return (
+                  <View style={{
                     position: 'absolute',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'row',
                     top: 245,
                     left: 20,
-                    color: 'white',
-                    backgroundColor: 'black',
-                    padding: 5,
+                    backgroundColor: COLORS.BLACK,
                     width: 71,
                     height: 30,
                     borderRadius: 30,
-                    fontFamily: 'WorkSans-Italic',
-                    fontWeight: '500',
-                    fontSize: 12.62,
-                    lineHeight: 14.81,
-                    letterSpacing: -1.5,
-                    textAlign: 'center',
-                    textAlignVertical: 'center',
-                    includeFontPadding: false,
                   }}
-                >
-                  <Text style={{ fontWeight: 'bold', letterSpacing: 0 }}>
-                    {calculateDiscountPercentage(
-                      product.sku.colors[0]?.sizes[0]?.prices.listPrice || 0,
-                      product.sku.colors[0]?.sizes[0]?.prices.salePrice || 0,
-                    )}
-                    %
-                  </Text>
-                  {'  '}
-                  OFF
-                </Text>
-              ) : null}
-            </View>
+                  >
+                    <Text
+                      key={flag.type}
+                      style={{
+                        color: COLORS.WHITE,
+                        fontFamily: FONTS.WORK_SANS_BOLD_ITALIC,
+                        fontSize: 13,
+                        lineHeight: 15,
+                      }}
+                    >
+                      {`${flag.value}%`}
+                    </Text>
+                    <Text
+                      style={{
+                        color: COLORS.WHITE,
+                        fontFamily: FONTS.WORK_SANS_ITALIC,
+                        fontSize: 13,
+                        lineHeight: 15,
+                        letterSpacing: -1.5,
+                        marginLeft: 5,
+                      }}
+                    >
+                      OFF
+                    </Text>
+                  </View>
+                );
+              }
+              if (flag.type === 'cashback') {
+                return (
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: COLORS.LIGHT_GREY_BLUE,
+                    width: 150,
+                    height: 15,
+                    borderRadius: 30,
+                    flexDirection: 'row',
+                  }}
+                  >
+                    <Text
+                      key={flag.type}
+                      style={{
+                        color: COLORS.BLACK,
+                        fontFamily: FONTS.WORK_SANS_BOLD,
+                        fontSize: 12,
+                        lineHeight: 15,
+                      }}
+                    >
+                      {`Ganhe ${flag.value}%`}
+                    </Text>
+                    <Text
+                      key={flag.type}
+                      style={{
+                        color: COLORS.BLACK,
+                        fontFamily: FONTS.WORK_SANS_REGULAR,
+                        fontSize: 12,
+                        lineHeight: 15,
+                      }}
+                    >
+                      {' de cashback'}
+                    </Text>
+                  </View>
+                );
+              }
+              return null;
+            })}
+
           </TouchableOpacity>
         )}
       />
@@ -490,7 +414,7 @@ export function HomeShowcase() {
   );
 
   return (
-    <View style={{ marginVertical: 10 }}>
+    <View style={styles.conteiner}>
       <FlatList
         data={data}
         renderItem={renderItem}
