@@ -9,7 +9,7 @@ import testProps from '../../utils/testProps';
 import { Typography } from '../Typography/Typography';
 import { styles } from './SelectBoxPrime.styles';
 
-const redBadgeImage = require('./assets/redBadge.png');
+const goldBadgeImage = require('./assets/goldBadge.png');
 
 interface SelectBoxPrimeProps {
   installment?: { number: number; value: number };
@@ -97,7 +97,7 @@ export function SelectBoxPrime({
                 {`${integerPart(installment.value)},`}
               </Typography>
               <Typography
-                color="vermelhoRSV"
+                style={styles.decimalText}
                 fontWeight="bold"
                 fontFamily="reservaSansRegular"
               >
@@ -112,7 +112,7 @@ export function SelectBoxPrime({
         {typeInstallments !== 'hide_installments' && (
           <View style={styles.priceDataEconomy}>
             <ImageBackground
-              source={redBadgeImage}
+              source={goldBadgeImage}
               resizeMode="cover"
               style={styles.imageBackgroundBadge}
             >
@@ -142,7 +142,7 @@ export function SelectBoxPrime({
                 {`${integerPart(price)},`}
               </Typography>
               <Typography
-                color="vermelhoRSV"
+                style={styles.decimalText}
                 fontWeight="bold"
                 fontFamily="reservaSansRegular"
               >
@@ -162,7 +162,7 @@ export function SelectBoxPrime({
               {`${integerPart(price)},`}
             </Typography>
             <Typography
-              color="vermelhoRSV"
+              style={styles.decimalText}
               fontWeight="bold"
               fontFamily="reservaSansRegular"
             >

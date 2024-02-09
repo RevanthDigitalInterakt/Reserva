@@ -1,5 +1,5 @@
 import { URL } from 'react-native-url-polyfill';
-import { Platform } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import { platformType } from '../../platformType';
 import { removeProtocol } from '../../removeProtocol';
 
@@ -32,7 +32,7 @@ const defaultCustomMethodReturn: ICustomMethodReturnParams = {
 };
 
 export const urlRon = (initialUrl: string): ICustomMethodReturnParams => {
-  const isRonDomain = initialUrl.startsWith('https://usereserva.io/');
+  const isRonDomain = initialUrl.startsWith('https://now.usereserva.io/');
 
   if (isRonDomain) {
     return {
@@ -62,7 +62,9 @@ const urlSiteCase = (initialUrl: string): ICustomMethodReturnParams => {
     || initialUrl === 'www.usereserva.com'
     || initialUrl === 'http://usereserva.com'
     || initialUrl === 'https://usereserva.io'
-    || initialUrl === 'http://usereserva.io';
+    || initialUrl === 'http://usereserva.io'
+    || initialUrl === 'https://now.usereserva.io'
+    || initialUrl === 'http://now.usereserva.io';
 
   if (isUrlSiteCase) {
     return {
@@ -186,6 +188,19 @@ const cartUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
+const cartAddItemUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+  if (initialUrl.includes('/checkout/cart/add/?sku=')) {
+    // TODO open the bag and add the product according to the SKU and quantity
+    Linking.openURL(initialUrl);
+    return {
+      match: true,
+      strUrl: defaultInitialUrl,
+    };
+  }
+
+  return defaultCustomMethodReturn;
+};
+
 const abandonedBagUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   if (initialUrl.includes('bag')) {
     return {
@@ -250,6 +265,7 @@ const registerMethods = [
   accountWishListUseCase,
   accountUseCase,
   cartUseCase,
+  cartAddItemUseCase,
   catalogCollectionUseCase,
   abandonedBagUseCase,
   webCatalogCollectionUseCase,

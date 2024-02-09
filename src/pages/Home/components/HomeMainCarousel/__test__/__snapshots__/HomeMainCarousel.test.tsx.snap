@@ -162,7 +162,7 @@ exports[`HomeMainCarousel should match to snapshot 1`] = `
             "top": 0,
             "transform": [
               {
-                "translateX": -10000,
+                "translateX": 5,
               },
             ],
             "width": "100%",
