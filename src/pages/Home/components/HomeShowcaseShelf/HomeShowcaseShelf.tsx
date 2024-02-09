@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, FlatList } from 'react-native';
-import { styles } from './Shelf.styles';
+import { styles } from './HomeShowcaseShelf.styles';
 import type { IShelf } from '../HomeShowcase/HomeShowcase';
 import { HomeShowcaseCards } from '../HomeShowcaseCards/HomeShowcaseCards';
 

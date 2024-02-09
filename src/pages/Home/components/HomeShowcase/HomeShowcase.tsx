@@ -3,7 +3,7 @@ import {
   View, FlatList,
 } from 'react-native';
 import { styles } from './HomeShowcase.styles';
-import Shelf from '../Shelf/Shelf';
+import Shelf from '../HomeShowcaseShelf/HomeShowcaseShelf';
 
 interface IFlag {
   type: string;
@@ -210,15 +210,6 @@ export function HomeShowcase() {
       ],
     },
   ];
-
-  // const renderItem = ({ item }: { item: IShelf }) => (
-  //   <View style={styles.shelfContainer}>
-  //     <View style={styles.shelf}>
-  //       <Text style={styles.shelfName}>{item.shelfName}</Text>
-  //     </View>
-  //     <HomeShowcaseCards products={item.products} />
-  //   </View>
-  // );
 
   return (
     <View style={styles.container}>
