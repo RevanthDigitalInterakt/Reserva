@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
-  View, Text, Image, TouchableOpacity, FlatList,
+  View, Text, Image, TouchableOpacity,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { trackClickSmartHintStore } from '../../../../zustand/useTrackClickSmartHint/useTrackClickSmartHint';
 import { TrackPageTypeEnum } from '../../../../base/graphql/generated';
 import { integerPart, decimalPart } from '../../../../utils/numberUtils';
@@ -48,17 +49,23 @@ interface ISku {
 }
 
 interface IHomeShowcaseCardsProps {
-  products: IProduct[];
+  product: IProduct;
 }
 
-export function HomeShowcaseCards({ products }: IHomeShowcaseCardsProps) {
-  const renderItem = ({ item: product }: { item: IProduct }) => (
+export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
+  const { navigate } = useNavigation();
+
+  const onClickCard = useCallback((data: IProduct) => {
+    trackClickSmartHintStore.getState()
+      .onSendTrackClick(product.productId, TrackPageTypeEnum.Home);
+
+    navigate('ProductDetail', { itemId: data.productId, colorSelected: data.sku[0]?.colors[0]?.hex || '#000000', sizeSelected: data.sku[0]?.colors[0]?.sizes[0]?.value || 'P' });
+  }, []);
+
+  return (
     <TouchableOpacity
       style={styles.cardContainer}
-      onPress={() => {
-        trackClickSmartHintStore.getState()
-          .onSendTrackClick(product.productId, TrackPageTypeEnum.Home);
-      }}
+      onPress={() => onClickCard(product)}
     >
       <Image
         source={{ uri: product.image }}
@@ -135,14 +142,5 @@ export function HomeShowcaseCards({ products }: IHomeShowcaseCardsProps) {
         return null;
       })}
     </TouchableOpacity>
-  );
-
-  return (
-    <FlatList
-      horizontal
-      data={products}
-      keyExtractor={(item) => item.productId}
-      renderItem={renderItem}
-    />
   );
 }

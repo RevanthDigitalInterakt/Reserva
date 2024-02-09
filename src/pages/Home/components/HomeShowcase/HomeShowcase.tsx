@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-  View, FlatList, Text,
+  View, FlatList,
 } from 'react-native';
 import { styles } from './HomeShowcase.styles';
-import { HomeShowcaseCards } from '../HomeShowcaseCards/HomeShowcaseCards';
+import Shelf from '../Shelf/Shelf';
 
 interface IFlag {
   type: string;
@@ -45,7 +45,7 @@ interface IProduct {
   prices: IPrice;
 }
 
-interface IShelf {
+export interface IShelf {
   shelfName: string;
   products: IProduct[];
 }
@@ -211,20 +211,20 @@ export function HomeShowcase() {
     },
   ];
 
-  const renderItem = ({ item }: { item: IShelf }) => (
-    <View style={styles.shelfContainer}>
-      <View style={styles.shelf}>
-        <Text style={styles.shelfName}>{item.shelfName}</Text>
-      </View>
-      <HomeShowcaseCards products={item.products} />
-    </View>
-  );
+  // const renderItem = ({ item }: { item: IShelf }) => (
+  //   <View style={styles.shelfContainer}>
+  //     <View style={styles.shelf}>
+  //       <Text style={styles.shelfName}>{item.shelfName}</Text>
+  //     </View>
+  //     <HomeShowcaseCards products={item.products} />
+  //   </View>
+  // );
 
   return (
     <View style={styles.container}>
       <FlatList
         data={data}
-        renderItem={renderItem}
+        renderItem={({ item }) => <Shelf dataShelf={item} />}
         keyExtractor={(item, index) => item.shelfName + index.toString()}
       />
     </View>
