@@ -12,7 +12,6 @@ import { Typography } from '../../../../components/Typography/Typography';
 import EventProvider from '../../../../utils/EventProvider';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
-import ProductAddToCart from '../ProductAddToCart';
 import { SelectColor } from '../SelectColor/SelectColor';
 import { SizeGuide, SizeGuideImages } from './SizeGuide';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
@@ -34,6 +33,7 @@ function ProductSelectors() {
     productDetail,
     selectedColor,
     selectedSize,
+    sizeIsSelected,
     setSelectedColor,
     setSelectedSize,
     selectedGiftCardSku,
@@ -41,6 +41,7 @@ function ProductSelectors() {
     selectedGiftCardEmail,
     setGiftCardSelectedEmail,
   } = useProductDetailStore([
+    'sizeIsSelected',
     'productDetail',
     'selectedColor',
     'selectedSize',
@@ -101,13 +102,6 @@ function ProductSelectors() {
     return productDetail.categoryTree.map((item) => ({ name: item }));
   }, [productDetail]);
 
-  useEffect(() => {
-    if (selectedSize) doSelectSizeTrack();
-    return () => {
-      setGiftCardSelectedEmail('');
-      setGiftCardSelectedAmount('');
-    };
-  }, [selectedSize, doSelectSizeTrack]);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
 
   const handleBottomSheet = useCallback(() => {
@@ -133,6 +127,14 @@ function ProductSelectors() {
   }, [selectedGiftCardSku, productDetail?.giftCard?.options]);
 
   const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
+
+  useEffect(() => {
+    if (selectedSize) doSelectSizeTrack();
+    return () => {
+      setGiftCardSelectedEmail('');
+      setGiftCardSelectedAmount('');
+    };
+  }, [selectedSize, doSelectSizeTrack]);
 
   if (!productDetail) return null;
 
@@ -180,7 +182,7 @@ function ProductSelectors() {
                 onSelectedChange={(val) => setSelectedSize(`${val}`)}
                 optionsList={sizes}
                 defaultSelectedItem=""
-                selectedItem={selectedSize?.size || ''}
+                selectedItem={sizeIsSelected ? selectedSize?.size || '' : ''}
               />
             </Box>
           </Box>
@@ -226,7 +228,7 @@ function ProductSelectors() {
               />
             </BottomSheet>
           </>
-        ) : <ProductAddToCart />}
+        ) : null}
         {showRoulet ? (
           <RouletCouponCard />
         ) : null}
