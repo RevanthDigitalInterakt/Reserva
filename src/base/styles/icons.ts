@@ -16,6 +16,7 @@ export const commons = {
   visa: require('../../../assets/common/visa.png'),
   mastercard: require('../../../assets/common/mastercard.png'),
   americanExpress: require('../../../assets/common/americanExpress.png'),
+  umPCincoPLogo: require('../../../assets/common/1p5pLogo.png'),
   elo: require('../../../assets/common/elo.png'),
   cupomModalBackground: require('../../../assets/common/cupomModalBackground.png'),
   bagEmpty: require('../../../assets/common/bagEmpty.png'),
