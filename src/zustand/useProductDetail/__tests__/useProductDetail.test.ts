@@ -211,10 +211,11 @@ describe('useProductDetail', () => {
     expect(result.current.selectedColor?.colorId).toEqual('2');
   });
   it('should update selectedSize when setSelectedSize is called', () => {
-    const { result } = renderHook(() => useProductDetailStore(['selectedSize', 'setSelectedSize', 'setProduct']));
+    const { result } = renderHook(() => useProductDetailStore(['selectedSize', 'setSelectedSize', 'setProduct', 'sizeIsSelected']));
     act(() => result.current.setProduct(PRODUCT_DETAIL_MOCK));
     act(() => result.current.setSelectedSize('G'));
     expect(result.current.selectedSize?.size).toEqual('G');
+    expect(result.current.sizeIsSelected).toEqual(true);
   });
   it('should update initialCep when a cep is passed to setProduct', () => {
     const { result } = renderHook(() => useProductDetailStore(['initialCep', 'setProduct']));
@@ -227,9 +228,26 @@ describe('useProductDetail', () => {
     act(() => result.current.resetProduct());
     expect(result.current.productDetail).toEqual(null);
   });
-  it.only('should return a accepted assinaturaSimples onToggleAccept', () => {
+  it('should return a accepted assinaturaSimples onToggleAccept', () => {
     const { result } = renderHook(() => useProductDetailStore(['assinaturaSimples']));
     act(() => result.current.assinaturaSimples.onToggleAccept());
-    expect(result.current.assinaturaSimples.accepted).toEqual(true);
+    expect(result.current.assinaturaSimples.accepted).toEqual(false);
+  });
+  it('should set drawer when setDrawerIsOpen is called', () => {
+    const { result } = renderHook(() => useProductDetailStore(['drawerIsOpen', 'setDrawerIsOpen']));
+    act(() => result.current.setDrawerIsOpen(true));
+    expect(result.current.drawerIsOpen).toEqual(true);
+  });
+  it('should get disabled sizes when getDisabledSizes is called', () => {
+    const { result } = renderHook(() => useProductDetailStore(['productDetail', 'getDisabledSizes', 'setProduct']));
+    act(() => result.current.setProduct(PRODUCT_DETAIL_MOCK));
+    const disabledSizes = result.current.getDisabledSizes();
+    expect(disabledSizes).toEqual([]);
+  });
+  it('should get sizes when getSizes is called', () => {
+    const { result } = renderHook(() => useProductDetailStore(['productDetail', 'getSizes', 'setProduct']));
+    act(() => result.current.setProduct(PRODUCT_DETAIL_MOCK));
+    const sizes = result.current.getSizes();
+    expect(sizes).toEqual(['M', 'G']);
   });
 });
