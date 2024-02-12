@@ -1,4 +1,8 @@
 ## CHANGELOG
+
+### 2.1.12
+- [24229 - Fixar botão de add a sacola na PDP do app](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24229)
+
 ### 2.1.11
 - [23715 - Exibição modal componente de negócio na home](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/23715)
 
