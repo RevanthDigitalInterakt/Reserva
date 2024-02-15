@@ -1,5 +1,5 @@
 import { Linking, Platform } from 'react-native';
-import { getPathFromState, LinkingOptions } from '@react-navigation/native';
+import { getPathFromState, type LinkingOptions } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
 import { env } from './env';
 
@@ -50,7 +50,6 @@ const routesConfig = {
 
 export const urlHandler = async (url: string) => {
   const currentDeepLink = await deepLinkHelper(url);
-
   if (currentDeepLink) return currentDeepLink;
 
   if (Platform.OS === platformType.IOS) {
@@ -61,7 +60,7 @@ export const urlHandler = async (url: string) => {
 };
 
 export const linkingConfig: LinkingOptions = {
-  prefixes: ['usereserva://', 'https://www.usereserva.com/', 'https://usereserva.io/'],
+  prefixes: ['usereserva://', 'https://www.usereserva.com/', 'https://usereserva.io/', 'https://now.usereserva.io/'],
   config: routesConfig,
   getPathFromState(state) {
     return getPathFromState(state) || '';
@@ -70,7 +69,7 @@ export const linkingConfig: LinkingOptions = {
     // Check if app was opened from a deep link
     const url = await Linking.getInitialURL();
 
-    if (url != null) return urlHandler(url);
+    if (url !== null) return urlHandler(url);
 
     return undefined;
   },
@@ -113,11 +112,11 @@ export const linkingConfig: LinkingOptions = {
     );
 
     // Listen to incoming links from deep linking
-    Linking.addEventListener('url', onReceiveURL);
+    const subscription = Linking.addEventListener('url', onReceiveURL);
 
     return () => {
       // Clean up the event listeners
-      Linking.removeEventListener('url', onReceiveURL);
+      subscription.remove();
       onDeepLinkCanceller();
     };
   },

@@ -1,4 +1,13 @@
 ## CHANGELOG
+### 2.1.11
+- [23715 - Exibição modal componente de negócio na home](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/23715)
+
+- [24999 - Ajuste link RON´s checkout](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24999)
+
+- [Feature(25762) Alteração da cor dos preços na PDP e PDC no APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/25762)
+
+- [2589 - Implementação do status do cashback](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_git/mobile.reserva.app/pullrequest/2589)
+
 
 ### 2.1.10
 - Remove unused files

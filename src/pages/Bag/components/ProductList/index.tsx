@@ -105,12 +105,14 @@ export default function BagProductList() {
         if (item.sellingPrice !== 0 && item.isGift === false) {
           return item.isPrimeSubscription ? (
             <ProductListItemPrime
+              key={item.key}
               data={item}
               onDelete={() => handleDeleteProductModal(item, index)}
               onPress={() => handleNavigationToDetail(item)}
             />
           ) : (
             <ProductListItem
+              key={item.key}
               data={item}
               onAddCount={(count) => handleAddCount(count, item, index)}
               onSubCount={(count) => handleSubCount(count, item.quantity, item, index)}

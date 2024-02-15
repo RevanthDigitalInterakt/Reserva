@@ -9,8 +9,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     borderWidth: 1,
-    borderColor: COLORS.RED,
-    backgroundColor: COLORS.SELECT_BOX_BACKGROUND,
+    borderColor: COLORS.GOLD,
+    backgroundColor: COLORS.BACKGROUND_GOLD,
   },
   minHeight: {
     minHeight: 72,
@@ -33,16 +33,19 @@ export const styles = StyleSheet.create({
   integerPartPrime: {
     fontWeight: '700',
     fontSize: 24,
-    color: COLORS.RED,
+    color: COLORS.DARK_GOLD_TEXT,
   },
   decimalPartPrime: {
     fontWeight: '700',
-    color: COLORS.RED,
+    color: COLORS.GOLD,
+  },
+  decimalText: {
+    color:COLORS.DARK_GOLD_TEXT
   },
   normalTextRed: {
     fontWeight: '400',
     fontSize: 18,
-    color: COLORS.RED,
+    color: COLORS.DARK_GOLD_TEXT,
   },
   negativeMarginText: {
     marginLeft: smallDevices ? -35 : -40,
@@ -64,14 +67,14 @@ export const styles = StyleSheet.create({
     width: 22,
     borderRadius: 11,
     borderWidth: 1,
-    borderColor: COLORS.RED,
+    borderColor: COLORS.GOLD,
     marginRight: smallDevices ? 15 : 0,
   },
   primeCheckBoxFill: {
     height: 16,
     width: 16,
     borderRadius: 8,
-    backgroundColor: COLORS.RED,
+    backgroundColor: COLORS.BACKGROUND_GOLD,
   },
   priceDataWrapper: {
     alignItems: 'center',
@@ -99,7 +102,7 @@ export const styles = StyleSheet.create({
     margin: 0,
   },
   bePrimeBadge: {
-    backgroundColor: COLORS.RED,
+    backgroundColor: COLORS.GOLD,
     width: 150,
     justifyContent: 'center',
     alignItems: 'center',
