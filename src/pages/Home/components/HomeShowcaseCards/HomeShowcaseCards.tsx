@@ -7,6 +7,7 @@ import { trackClickSmartHintStore } from '../../../../zustand/useTrackClickSmart
 import { TrackPageTypeEnum } from '../../../../base/graphql/generated';
 import { integerPart, decimalPart } from '../../../../utils/numberUtils';
 import { styles } from './HomeShowcaseCards.styles';
+import { Skeleton } from '../../../../modules/Checkout/components/Skeleton';
 
 interface IProduct {
   productName: string;
@@ -61,6 +62,23 @@ export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
 
     navigate('ProductDetail', { itemId: data.productId, colorSelected: data.sku[0]?.colors[0]?.hex || '#000000', sizeSelected: data.sku[0]?.colors[0]?.sizes[0]?.value || 'P' });
   }, []);
+
+  if (!product) {
+    return (
+      <Skeleton>
+        <View style={styles.cardContainer}>
+          <View style={[styles.productImage, { backgroundColor: '#DDD' }]} />
+          <Text style={[styles.productName, { backgroundColor: '#DDD' }]} />
+          <View style={[styles.priceContainer, { backgroundColor: '#DDD' }]}>
+            <Text style={[styles.salePrice, { backgroundColor: '#DDD' }]} />
+            <Text style={[styles.decimalPart, { backgroundColor: '#DDD' }]} />
+            <Text style={[styles.listPrice, { backgroundColor: '#DDD' }]} />
+            <Text style={[styles.listPriceDecimal, { backgroundColor: '#DDD' }]} />
+          </View>
+        </View>
+      </Skeleton>
+    );
+  }
 
   return (
     <TouchableOpacity

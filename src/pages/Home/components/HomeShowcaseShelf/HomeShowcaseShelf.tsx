@@ -16,6 +16,7 @@ export default function Shelf({ dataShelf }: IShelfProps) {
       </View>
       <FlatList
         horizontal
+        showsHorizontalScrollIndicator={false}
         data={dataShelf.products}
         keyExtractor={(item) => item.productId}
         renderItem={({ item }) => <HomeShowcaseCards product={item} />}
