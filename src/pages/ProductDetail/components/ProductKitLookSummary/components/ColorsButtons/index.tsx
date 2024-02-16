@@ -14,7 +14,7 @@ import type { theme } from '../../../../../../base/usereservappLegacy/theme';
 import { Button } from '../../../../../../components/Button';
 import IconComponent from '../../../../../../components/IconComponent/IconComponent';
 
-interface SelectColorsProps extends ColorProps<typeof theme> {
+interface ISelectColorsProps extends ColorProps<typeof theme> {
   listColors: { id: string, url: string }[];
   disabledColors: string[];
   selectedColors?: string | string[];
@@ -26,7 +26,7 @@ export function ColorsButtons({
   selectedColors,
   disabledColors,
   onPress,
-}: SelectColorsProps) {
+}: ISelectColorsProps) {
   const [indexScroll, setIndexScroll] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
 

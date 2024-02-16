@@ -117,3 +117,7 @@ jest.mock('@react-native-cookies/cookies', () => ({
 }));
 
 jest.mock('react-native-device-info', () => mockRNDeviceInfo);
+
+jest.mock('react-native-share', () => ({
+  default: jest.fn(),
+}));
