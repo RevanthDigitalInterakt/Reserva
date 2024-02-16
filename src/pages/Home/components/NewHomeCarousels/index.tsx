@@ -58,7 +58,6 @@ export function NewHomeCarousels() {
       [HomePageSectionTypeEnum.Brands]: () => (
         <>
           <HomeBrandsCarousel data={item} />
-          <HomeShowcase />
           <CommercialBanner />
           <NewHomeCountDown />
         </>
