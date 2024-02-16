@@ -27,6 +27,7 @@ export default function InputForm({
   setFieldValue,
   inputID,
   touched,
+  showMessageError = true,
 }: IInputForm): JSX.Element {
   const animatedLabel = useRef(new Animated.Value(0)).current;
 
@@ -114,7 +115,7 @@ export default function InputForm({
           }}
         />
       </View>
-      {error && touched && (
+      {error && touched && showMessageError && (
         <View style={styles.errorContainer}>
           <IconInfoFill />
           <Text style={styles.errorMessage}>{error}</Text>

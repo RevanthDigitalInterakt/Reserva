@@ -2383,6 +2383,13 @@ export type SearchNewsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type SearchNewsQuery = { __typename?: 'Query', searchNews: Array<{ __typename?: 'SearchNewsOutput', image: string, referenceId: string, orderBy?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> }> };
 
+export type ShippingSimulationQueryVariables = Exact<{
+  input: ShippingSimulationInput;
+}>;
+
+
+export type ShippingSimulationQuery = { __typename?: 'Query', shippingSimulation: { __typename?: 'ShippingSimulationOutput', delivery: { __typename?: 'ShippingDeliveryOutput', address: { __typename?: 'CepOutput', street?: string | null, city?: string | null, state?: string | null, neighborhood?: string | null } }, storeList: { __typename?: 'ShippingStoreListOutput', discountStorePickup?: string | null, stores: Array<{ __typename?: 'ShippingStoreOutput', friendlyName: string, address: { __typename?: 'CepOutput', postalCode?: string | null, street?: string | null, neighborhood?: string | null, city?: string | null, state?: string | null, complement?: string | null } }> } } };
+
 export type TrackingCodeQueryVariables = Exact<{
   trackingCode: Scalars['String']['input'];
 }>;
@@ -5050,6 +5057,66 @@ export type SearchNewsLazyQueryHookResult = ReturnType<typeof useSearchNewsLazyQ
 export type SearchNewsQueryResult = Apollo.QueryResult<SearchNewsQuery, SearchNewsQueryVariables>;
 export function refetchSearchNewsQuery(variables?: SearchNewsQueryVariables) {
       return { query: SearchNewsDocument, variables: variables }
+    }
+export const ShippingSimulationDocument = gql`
+    query ShippingSimulation($input: ShippingSimulationInput!) {
+  shippingSimulation(input: $input) {
+    delivery {
+      address {
+        street
+        city
+        state
+        neighborhood
+      }
+    }
+    storeList {
+      discountStorePickup
+      stores {
+        friendlyName
+        address {
+          postalCode
+          street
+          neighborhood
+          city
+          state
+          neighborhood
+          complement
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useShippingSimulationQuery__
+ *
+ * To run a query within a React component, call `useShippingSimulationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useShippingSimulationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useShippingSimulationQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useShippingSimulationQuery(baseOptions: Apollo.QueryHookOptions<ShippingSimulationQuery, ShippingSimulationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ShippingSimulationQuery, ShippingSimulationQueryVariables>(ShippingSimulationDocument, options);
+      }
+export function useShippingSimulationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ShippingSimulationQuery, ShippingSimulationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ShippingSimulationQuery, ShippingSimulationQueryVariables>(ShippingSimulationDocument, options);
+        }
+export type ShippingSimulationQueryHookResult = ReturnType<typeof useShippingSimulationQuery>;
+export type ShippingSimulationLazyQueryHookResult = ReturnType<typeof useShippingSimulationLazyQuery>;
+export type ShippingSimulationQueryResult = Apollo.QueryResult<ShippingSimulationQuery, ShippingSimulationQueryVariables>;
+export function refetchShippingSimulationQuery(variables: ShippingSimulationQueryVariables) {
+      return { query: ShippingSimulationDocument, variables: variables }
     }
 export const TrackingCodeDocument = gql`
     query TrackingCode($trackingCode: String!) {
