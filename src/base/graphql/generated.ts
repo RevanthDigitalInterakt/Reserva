@@ -1,5 +1,3 @@
-// @ts-nocheck
-/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -2192,6 +2190,13 @@ export type SubscribeNewsletterMutationVariables = Exact<{
 
 export type SubscribeNewsletterMutation = { __typename?: 'Mutation', subscribeNewsletter: boolean };
 
+export type TrackClickV2MutationVariables = Exact<{
+  input: TrackClickInput;
+}>;
+
+
+export type TrackClickV2Mutation = { __typename?: 'Mutation', trackClickV2: Array<string> };
+
 export type TrackPageViewMutationVariables = Exact<{
   input: TrackPageViewInput;
 }>;
@@ -3557,6 +3562,37 @@ export function useSubscribeNewsletterMutation(baseOptions?: Apollo.MutationHook
 export type SubscribeNewsletterMutationHookResult = ReturnType<typeof useSubscribeNewsletterMutation>;
 export type SubscribeNewsletterMutationResult = Apollo.MutationResult<SubscribeNewsletterMutation>;
 export type SubscribeNewsletterMutationOptions = Apollo.BaseMutationOptions<SubscribeNewsletterMutation, SubscribeNewsletterMutationVariables>;
+export const TrackClickV2Document = gql`
+    mutation trackClickV2($input: TrackClickInput!) {
+  trackClickV2(input: $input)
+}
+    `;
+export type TrackClickV2MutationFn = Apollo.MutationFunction<TrackClickV2Mutation, TrackClickV2MutationVariables>;
+
+/**
+ * __useTrackClickV2Mutation__
+ *
+ * To run a mutation, you first call `useTrackClickV2Mutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTrackClickV2Mutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [trackClickV2Mutation, { data, loading, error }] = useTrackClickV2Mutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTrackClickV2Mutation(baseOptions?: Apollo.MutationHookOptions<TrackClickV2Mutation, TrackClickV2MutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TrackClickV2Mutation, TrackClickV2MutationVariables>(TrackClickV2Document, options);
+      }
+export type TrackClickV2MutationHookResult = ReturnType<typeof useTrackClickV2Mutation>;
+export type TrackClickV2MutationResult = Apollo.MutationResult<TrackClickV2Mutation>;
+export type TrackClickV2MutationOptions = Apollo.BaseMutationOptions<TrackClickV2Mutation, TrackClickV2MutationVariables>;
 export const TrackPageViewDocument = gql`
     mutation trackPageView($input: TrackPageViewInput!) {
   trackPageView(input: $input)
