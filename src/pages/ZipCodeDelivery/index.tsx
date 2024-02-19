@@ -202,6 +202,7 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
         <View style={zipCodeStyles.containerPaddingX}>
           {!loading && addressDelivery?.delivery?.address && (
           <FlatList
+            contentContainerStyle={{ marginBottom: 40 }}
             showsVerticalScrollIndicator={false}
             data={addressDelivery.storeList.stores}
             keyExtractor={(item) => item.friendlyName}
