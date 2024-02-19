@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../base/styles';
 
 export default StyleSheet.create({
   container: {
@@ -15,7 +16,8 @@ export default StyleSheet.create({
   },
   dismissOverlay: {
     position: 'absolute',
-    backgroundColor: 'transparent',
+    backgroundColor: COLORS.BLACK,
+    opacity: 0.55,
     width: '100%',
     height: '100%',
   },
