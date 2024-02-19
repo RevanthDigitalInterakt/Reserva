@@ -182,7 +182,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         </Drawer>
       )}
       {isGiftCard ? <GiftCardAddToCart /> : null}
-      {!isGiftCard && !drawerIsOpen && <ProductAddToCart isFixed />}
+      {!isGiftCard && !drawerIsOpen && getBoolean('add_to_bag_button_is_fixed') && <ProductAddToCart isFixed />}
     </>
   );
 }

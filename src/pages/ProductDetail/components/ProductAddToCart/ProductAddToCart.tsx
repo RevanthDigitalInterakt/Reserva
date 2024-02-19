@@ -15,7 +15,7 @@ import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider'
 import type { ProductAddToCartProps } from './types';
 
 function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
-  const { getString } = useRemoteConfig();
+  const { getString, getBoolean } = useRemoteConfig();
   const { restoreCart } = useCart();
   const { actions, items, orderFormId } = useBagStore(['actions', 'orderFormId', 'items']);
   const {
@@ -53,7 +53,8 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
     try {
       if (!selectedSize || loading) return;
 
-      if (!sizeIsSelected) {
+      const addToBagButtonIsFixed = getBoolean('add_to_bag_button_is_fixed');
+      if (!sizeIsSelected && addToBagButtonIsFixed) {
         setDrawerIsOpen(true);
         return;
       }

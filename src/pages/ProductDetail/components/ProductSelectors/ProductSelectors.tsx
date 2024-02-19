@@ -26,6 +26,7 @@ import { commons } from '../../../../base/styles';
 import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { RouletCouponCard } from '../../../Home/components/RouletCouponCard';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
+import ProductAddToCart from '../ProductAddToCart';
 
 function ProductSelectors() {
   const [showModal, setShowModal] = useState(false);
@@ -136,6 +137,14 @@ function ProductSelectors() {
     };
   }, [selectedSize, doSelectSizeTrack]);
 
+  const addToBagButtonIsFixed = getBoolean('add_to_bag_button_is_fixed');
+  const handleSelectedItem = useMemo(() => {
+    if (addToBagButtonIsFixed) {
+      return sizeIsSelected ? selectedSize?.size || '' : '';
+    }
+    return selectedSize?.size || '';
+  }, [sizeIsSelected, addToBagButtonIsFixed, selectedSize]);
+
   if (!productDetail) return null;
 
   const productDetailsHasColors = !!productDetail.colorUrls.length;
@@ -174,7 +183,7 @@ function ProductSelectors() {
               )}
             </Box>
 
-            <Box alignItems="flex-start" mt="xxxs">
+            <Box alignItems="flex-start" mt="xxxs" mb="xxxs">
               <RadioButtons
                 size={38}
                 fontSize={12}
@@ -182,7 +191,7 @@ function ProductSelectors() {
                 onSelectedChange={(val) => setSelectedSize(`${val}`)}
                 optionsList={sizes}
                 defaultSelectedItem=""
-                selectedItem={sizeIsSelected ? selectedSize?.size || '' : ''}
+                selectedItem={handleSelectedItem}
               />
             </Box>
           </Box>
@@ -229,6 +238,9 @@ function ProductSelectors() {
             </BottomSheet>
           </>
         ) : null}
+        {!isGiftCard && !getBoolean('add_to_bag_button_is_fixed') && (
+          <ProductAddToCart />
+        )}
         {showRoulet ? (
           <RouletCouponCard />
         ) : null}
