@@ -1,5 +1,3 @@
-// @ts-nocheck
-/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -88,6 +86,7 @@ export type CepInput = {
 export type CepOutput = {
   __typename?: 'CepOutput';
   city?: Maybe<Scalars['String']['output']>;
+  complement?: Maybe<Scalars['String']['output']>;
   country?: Maybe<Scalars['String']['output']>;
   geoCoordinates?: Maybe<Array<Scalars['Float']['output']>>;
   neighborhood?: Maybe<Scalars['String']['output']>;
@@ -474,9 +473,11 @@ export type Mutation = {
   signUp: LoggedInOutput;
   signUpVerificationCode: RequestCodeOutput;
   subscribeNewsletter: Scalars['Boolean']['output'];
+  /** @deprecated This mutation is deprecated. Use the V2 version instead. */
   trackClick: Scalars['Boolean']['output'];
   trackClickV2: Array<Scalars['String']['output']>;
   trackOrder: Scalars['Boolean']['output'];
+  /** @deprecated This mutation is deprecated. Use the V2 version instead. */
   trackPageView: Scalars['Boolean']['output'];
   trackPageViewV2: Array<Scalars['String']['output']>;
   wishlistAddProduct: Array<Scalars['String']['output']>;
@@ -1480,6 +1481,7 @@ export type Query = {
   searchNews: Array<SearchNewsOutput>;
   sellerInfo?: Maybe<SellerInfoOutput>;
   sellersMktin: Array<Scalars['String']['output']>;
+  shippingSimulation: ShippingSimulationOutput;
   trackingCode?: Maybe<TrackingCodeOutput>;
   updateInApp?: Maybe<UpdateInAppOutput>;
   wishlist: Array<Scalars['String']['output']>;
@@ -1595,6 +1597,11 @@ export type QuerySearchFacetsArgs = {
 
 export type QuerySellerInfoArgs = {
   input: SellerInfoInput;
+};
+
+
+export type QueryShippingSimulationArgs = {
+  input: ShippingSimulationInput;
 };
 
 
@@ -1763,6 +1770,40 @@ export type SendLeadInput = {
   phone: Scalars['String']['input'];
 };
 
+export type ShippingDeliveryOutput = {
+  __typename?: 'ShippingDeliveryOutput';
+  address: CepOutput;
+};
+
+export type ShippingItemInput = {
+  id: Scalars['String']['input'];
+  quantity: Scalars['String']['input'];
+  seller: Scalars['String']['input'];
+};
+
+export type ShippingSimulationInput = {
+  items: Array<ShippingItemInput>;
+  postalCode: Scalars['String']['input'];
+};
+
+export type ShippingSimulationOutput = {
+  __typename?: 'ShippingSimulationOutput';
+  delivery: ShippingDeliveryOutput;
+  storeList: ShippingStoreListOutput;
+};
+
+export type ShippingStoreListOutput = {
+  __typename?: 'ShippingStoreListOutput';
+  discountStorePickup?: Maybe<Scalars['String']['output']>;
+  stores: Array<ShippingStoreOutput>;
+};
+
+export type ShippingStoreOutput = {
+  __typename?: 'ShippingStoreOutput';
+  address: CepOutput;
+  friendlyName: Scalars['String']['output'];
+};
+
 export type SignInInput = {
   email: Scalars['String']['input'];
   isNewUser?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1807,8 +1848,10 @@ export type TrackClickInput = {
   session: Scalars['String']['input'];
   /** When the clickFeature field is equal to search, the term entered by the Buyer to generate the search should be sent. */
   term?: InputMaybe<Scalars['String']['input']>;
-  /** Should be sent the user's email - That filed it'll be hashed and sent to providers */
+  /** Should be sent the user's email - That field it'll be hashed and sent to providers */
   userEmail?: InputMaybe<Scalars['String']['input']>;
+  /** Should be sent the user's email or anonymous ID - That field it'll be hashed and sent to providers */
+  userIdentifier?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type TrackOrderInput = {
@@ -1859,8 +1902,10 @@ export type TrackPageViewInput = {
   providers: Array<TrackProvidersEnum>;
   /** Session Value - A session is the period of time during which the user interacts with the application; the identifier of this session should be sent. */
   session: Scalars['String']['input'];
-  /** Should be sent the user's email - That filed it'll be hashed and sent to providers */
+  /** Should be sent the user's email - That field it'll be hashed and sent to providers */
   userEmail?: InputMaybe<Scalars['String']['input']>;
+  /** Should be sent the user's email or anonymous ID - That field it'll be hashed and sent to providers */
+  userIdentifier?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum TrackProvidersEnum {
@@ -2136,6 +2181,13 @@ export type SubscribeNewsletterMutationVariables = Exact<{
 
 export type SubscribeNewsletterMutation = { __typename?: 'Mutation', subscribeNewsletter: boolean };
 
+export type TrackClickV2MutationVariables = Exact<{
+  input: TrackClickInput;
+}>;
+
+
+export type TrackClickV2Mutation = { __typename?: 'Mutation', trackClickV2: Array<string> };
+
 export type TrackPageViewMutationVariables = Exact<{
   input: TrackPageViewInput;
 }>;
@@ -2330,6 +2382,13 @@ export type SearchNewsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type SearchNewsQuery = { __typename?: 'Query', searchNews: Array<{ __typename?: 'SearchNewsOutput', image: string, referenceId: string, orderBy?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> }> };
+
+export type ShippingSimulationQueryVariables = Exact<{
+  input: ShippingSimulationInput;
+}>;
+
+
+export type ShippingSimulationQuery = { __typename?: 'Query', shippingSimulation: { __typename?: 'ShippingSimulationOutput', delivery: { __typename?: 'ShippingDeliveryOutput', address: { __typename?: 'CepOutput', street?: string | null, city?: string | null, state?: string | null, neighborhood?: string | null } }, storeList: { __typename?: 'ShippingStoreListOutput', discountStorePickup?: string | null, stores: Array<{ __typename?: 'ShippingStoreOutput', friendlyName: string, address: { __typename?: 'CepOutput', postalCode?: string | null, street?: string | null, neighborhood?: string | null, city?: string | null, state?: string | null, complement?: string | null } }> } } };
 
 export type TrackingCodeQueryVariables = Exact<{
   trackingCode: Scalars['String']['input'];
@@ -3448,6 +3507,37 @@ export function useSubscribeNewsletterMutation(baseOptions?: Apollo.MutationHook
 export type SubscribeNewsletterMutationHookResult = ReturnType<typeof useSubscribeNewsletterMutation>;
 export type SubscribeNewsletterMutationResult = Apollo.MutationResult<SubscribeNewsletterMutation>;
 export type SubscribeNewsletterMutationOptions = Apollo.BaseMutationOptions<SubscribeNewsletterMutation, SubscribeNewsletterMutationVariables>;
+export const TrackClickV2Document = gql`
+    mutation trackClickV2($input: TrackClickInput!) {
+  trackClickV2(input: $input)
+}
+    `;
+export type TrackClickV2MutationFn = Apollo.MutationFunction<TrackClickV2Mutation, TrackClickV2MutationVariables>;
+
+/**
+ * __useTrackClickV2Mutation__
+ *
+ * To run a mutation, you first call `useTrackClickV2Mutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTrackClickV2Mutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [trackClickV2Mutation, { data, loading, error }] = useTrackClickV2Mutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTrackClickV2Mutation(baseOptions?: Apollo.MutationHookOptions<TrackClickV2Mutation, TrackClickV2MutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TrackClickV2Mutation, TrackClickV2MutationVariables>(TrackClickV2Document, options);
+      }
+export type TrackClickV2MutationHookResult = ReturnType<typeof useTrackClickV2Mutation>;
+export type TrackClickV2MutationResult = Apollo.MutationResult<TrackClickV2Mutation>;
+export type TrackClickV2MutationOptions = Apollo.BaseMutationOptions<TrackClickV2Mutation, TrackClickV2MutationVariables>;
 export const TrackPageViewDocument = gql`
     mutation trackPageView($input: TrackPageViewInput!) {
   trackPageView(input: $input)
@@ -4967,6 +5057,66 @@ export type SearchNewsLazyQueryHookResult = ReturnType<typeof useSearchNewsLazyQ
 export type SearchNewsQueryResult = Apollo.QueryResult<SearchNewsQuery, SearchNewsQueryVariables>;
 export function refetchSearchNewsQuery(variables?: SearchNewsQueryVariables) {
       return { query: SearchNewsDocument, variables: variables }
+    }
+export const ShippingSimulationDocument = gql`
+    query ShippingSimulation($input: ShippingSimulationInput!) {
+  shippingSimulation(input: $input) {
+    delivery {
+      address {
+        street
+        city
+        state
+        neighborhood
+      }
+    }
+    storeList {
+      discountStorePickup
+      stores {
+        friendlyName
+        address {
+          postalCode
+          street
+          neighborhood
+          city
+          state
+          neighborhood
+          complement
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useShippingSimulationQuery__
+ *
+ * To run a query within a React component, call `useShippingSimulationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useShippingSimulationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useShippingSimulationQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useShippingSimulationQuery(baseOptions: Apollo.QueryHookOptions<ShippingSimulationQuery, ShippingSimulationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ShippingSimulationQuery, ShippingSimulationQueryVariables>(ShippingSimulationDocument, options);
+      }
+export function useShippingSimulationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ShippingSimulationQuery, ShippingSimulationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ShippingSimulationQuery, ShippingSimulationQueryVariables>(ShippingSimulationDocument, options);
+        }
+export type ShippingSimulationQueryHookResult = ReturnType<typeof useShippingSimulationQuery>;
+export type ShippingSimulationLazyQueryHookResult = ReturnType<typeof useShippingSimulationLazyQuery>;
+export type ShippingSimulationQueryResult = Apollo.QueryResult<ShippingSimulationQuery, ShippingSimulationQueryVariables>;
+export function refetchShippingSimulationQuery(variables: ShippingSimulationQueryVariables) {
+      return { query: ShippingSimulationDocument, variables: variables }
     }
 export const TrackingCodeDocument = gql`
     query TrackingCode($trackingCode: String!) {

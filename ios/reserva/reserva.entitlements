@@ -10,6 +10,7 @@
 		<string>applinks:usereserva.com</string>
 		<string>applinks:www.usereserva.com</string>
 		<string>applinks:usereserva.io</string>
+		<string>applinks:*.usereserva.io</string>
 	</array>
 </dict>
 </plist>

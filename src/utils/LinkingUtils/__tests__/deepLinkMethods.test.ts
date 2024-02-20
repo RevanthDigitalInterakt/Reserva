@@ -1,3 +1,4 @@
+import { Linking } from 'react-native';
 import { deepLinkHelper } from '../linkingUtils';
 import {
   baseTabUrl,
@@ -17,12 +18,16 @@ jest.mock('react-native/Libraries/Utilities/Platform', () => {
   return Platform;
 });
 
+jest.mock('react-native/Libraries/Linking/Linking', () => ({
+  openURL: jest.fn(() => Promise.resolve('mockResolve')),
+}));
+
 const gclidMock = 'CjwKCAjwscGjBhAXEiwAswQqNA0NVqJjj06ySZzHJSIPweMbdI3WvOI494VVhr3vequoTkfLDf15TBoCy2AQAvD_BwE';
 
 const URL_HOME = 'https://www.usereserva.com';
 const URL_HOME_VARIANT_1 = 'www.usereserva.com';
 const URL_HOME_VARIANT_2 = 'http://usereserva.com';
-const URL_HOME_VARIANT_3 = 'https://usereserva.io';
+const URL_HOME_VARIANT_3 = 'https://now.usereserva.io';
 const URL_META = 'usereserva://';
 
 describe('utils | LinkingUtils | executeDeepLinkcase', () => {
@@ -61,7 +66,7 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
       expect(result).toEqual(`usereserva://ron/${code}`);
     });
 
-    test('without any params on url', async () => {
+    test('without any params on url and platform ANDROID', async () => {
       const result = await deepLinkHelper(`${URL_HOME_VARIANT_3}`);
       expect(result).toEqual(defaultInitialUrl);
     });
@@ -69,6 +74,18 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
     test('without any params on url and slash at end', async () => {
       const result = await deepLinkHelper(`${URL_HOME_VARIANT_3}`);
       expect(result).toEqual(defaultInitialUrl);
+    });
+  });
+
+  describe('test cartAddItemUseCase ', () => {
+    test('with correct params', async () => {
+      const expectedUrl = `${URL_HOME}/checkout/cart/add/?sku=66155&qty=1&seller=1&sc=1`;
+
+      const result = await deepLinkHelper(expectedUrl);
+
+      expect(result).toEqual(defaultInitialUrl);
+      expect(Linking.openURL).toHaveBeenCalledTimes(1);
+      expect(Linking.openURL).toBeCalledWith(expectedUrl);
     });
   });
 
@@ -87,7 +104,7 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
     });
 
     test('with wrong domain with params', async () => {
-      const result = await deepLinkHelper('https://usereserva.io/prime');
+      const result = await deepLinkHelper('https://now.usereserva.io/prime');
       expect(result).toEqual('usereserva://ron/prime');
     });
 

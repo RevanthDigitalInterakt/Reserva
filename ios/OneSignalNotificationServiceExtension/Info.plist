@@ -10,8 +10,8 @@
 		<string>NotificationService</string>
 	</dict>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2.4</string>
+	<string>2.3.1</string>
 	<key>CFBundleVersion</key>
-	<string>2023000200.1.4</string>
+	<string>2023000200.1.6</string>
 </dict>
 </plist>
