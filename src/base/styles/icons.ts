@@ -101,6 +101,7 @@ export const svgs = {
   chevronRight: require('../svgs/ChevronRight').default,
   info: require('../svgs/Info').default,
   infoSuccess: require('../svgs/InfoSuccess').default,
+  closeIcon: require('../svgs/CloseIcon').default,
   trash: require('../svgs/Trash').default,
 };
 
