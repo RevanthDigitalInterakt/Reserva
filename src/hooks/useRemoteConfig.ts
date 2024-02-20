@@ -49,6 +49,10 @@ export interface IRemoteConfigKeys {
   pdp_show_gift_card: boolean;
   show_user_feedback_form: string;
   show_home_commercial_banner: boolean;
+  show_onep5p_bag: boolean;
+  show_onep5p_home: boolean;
+  show_onep5p_menu: boolean;
+  show_onep5p_pdp: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -95,6 +99,10 @@ export const defaults: IRemoteConfigKeys = {
   show_item_price_tester: true,
   show_user_feedback_form: 'none',
   show_home_commercial_banner: false,
+  show_onep5p_bag: false,
+  show_onep5p_home: false,
+  show_onep5p_menu: false,
+  show_onep5p_pdp: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;

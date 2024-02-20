@@ -14,7 +14,7 @@ interface I1P5PProps {
 function OneP5P({ comingFrom, itemQuantity }: I1P5PProps) {
   const { navigate } = useNavigation();
 
-  const platesAmount = itemQuantity ? itemQuantity * 5 : 0;
+  const mealsAmount = itemQuantity ? itemQuantity * 5 : 0;
 
   if (comingFrom === 'home') {
     return (
@@ -69,10 +69,9 @@ function OneP5P({ comingFrom, itemQuantity }: I1P5PProps) {
               <Text style={{ fontSize: 12, fontFamily: FONTS.RESERVA_SANS_REGULAR, textAlign: 'center' }}>
                 Na sua compra você acaba de doar
                 {' '}
-                {platesAmount}
+                {mealsAmount}
                 {' '}
-                pratos de comida
-                para quem mais precisa. Muito obrigado.
+                pratos de comida para quem mais precisa. Muito obrigado.
               </Text>
             )}
         </View>

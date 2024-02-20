@@ -15,7 +15,7 @@ import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider'
 import OneP5P from '../../../../components/OneP5P/OneP5P';
 
 function ProductAddToCart() {
-  const { getString } = useRemoteConfig();
+  const { getString, getBoolean } = useRemoteConfig();
   const { restoreCart } = useCart();
   const { actions, items, orderFormId } = useBagStore(['actions', 'orderFormId', 'items']);
   const {
@@ -32,6 +32,7 @@ function ProductAddToCart() {
 
   const [showAnimationBag, setShowAnimationBag] = useState(false);
   const [loading, setLoading] = useState(false);
+  const showOnep5p = useMemo(() => getBoolean('show_onep5p_pdp'), []);
 
   const addTagsUponCartUpdate = useCallback(() => {
     if (!selectedColor || !productDetail) return;
@@ -109,7 +110,7 @@ function ProductAddToCart() {
         {...testProps('com.usereserva:id/button_add_to_bag')}
       />
 
-      <OneP5P comingFrom="PDP" />
+      {showOnep5p && (<OneP5P comingFrom="PDP" />)}
 
       {!!loading && (
         <View style={styles.containerLoading}>

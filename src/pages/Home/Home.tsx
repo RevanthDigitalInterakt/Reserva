@@ -126,6 +126,12 @@ function ListHeader({ newHeaderIsActive }: { newHeaderIsActive: boolean }) {
   );
 }
 
+function ListFooter({ showOnep5p }: { showOnep5p: boolean }) {
+  return (
+    <OneP5P comingFrom="home" />
+  );
+}
+
 function Home() {
   const { onLoad, medias, loaded } = useHomeStore([
     'onLoad',
@@ -146,6 +152,8 @@ function Home() {
     transparentTopBarAnimated,
     whiteTopBarAnimated,
   } = useHomeHeader();
+
+  const showOnep5p = useMemo(() => getBoolean('show_onep5p_home'), []);
 
   const renderHeader = () => (
     <>
@@ -213,7 +221,7 @@ function Home() {
               />
             )}
             ListFooterComponent={
-              <OneP5P comingFrom="home" />
+              <ListFooter showOnep5p={showOnep5p} />
               }
           />
         </SafeAreaView>

@@ -31,11 +31,13 @@ import { UnavailableList } from './components/ProductUnavailableList/Unavailable
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { TrackPageTypeEnum } from '../../base/graphql/generated';
 import OneP5P from '../../components/OneP5P/OneP5P';
+import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
 export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   const isTester = useIsTester();
+  const { getBoolean } = useRemoteConfig();
 
   const {
     topBarLoading,
@@ -96,6 +98,8 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   }, [items]);
 
   const hasUnavailableItems = useMemo(() => items.some((item) => item.availability !== 'available'), [items]);
+
+  const showOnep5p = useMemo(() => getBoolean('show_onep5p_bag'), []);
 
   useEffect(() => {
     if (initialized) {
@@ -171,7 +175,7 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
                   )}
 
                   <BagProductList />
-                  <OneP5P comingFrom="bag" itemQuantity={allItemsQuantity} />
+                  {showOnep5p && (<OneP5P comingFrom="bag" itemQuantity={allItemsQuantity} />) }
                 </Box>
 
                 {hasUnavailableItems && <UnavailableList />}
