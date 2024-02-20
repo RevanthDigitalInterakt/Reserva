@@ -1,57 +1,51 @@
 import React from 'react';
-import {
-  View, FlatList,
-} from 'react-native';
+import { View, FlatList } from 'react-native';
 import { styles } from './HomeShowcase.styles';
 import Shelf from '../HomeShowcaseShelf/HomeShowcaseShelf';
 
-interface IFlag {
+export interface IRsvFlag {
   type: string;
   value?: number;
   text?: string;
 }
 
-interface ISize {
-  value: string;
-  disabled: boolean;
-}
-
-interface IPrice {
+export interface IRsvPrice {
   listPrice: number;
   salePrice: number;
 }
 
-interface IColor {
-  name: string;
-  hex: string;
-  disabled?: boolean;
-  sizes: ISize[];
-}
-
-interface ISku {
+export interface IRsvSize {
   skuId: string;
-  colors: IColor[];
+  value: string;
+  disabled: boolean;
 }
 
-interface IProduct {
+export interface IRsvSku {
+  colorHex: string;
+  colorName: string;
+  colorRefId: string;
+  sizes: IRsvSize[];
+}
+
+export interface IRsvProduct {
   productName: string;
   productId: string;
   productLink: string;
   brand: string;
   image: string;
   categoryTree: string[];
-  flags: IFlag[];
-  sku: ISku[];
-  prices: IPrice;
+  flags: IRsvFlag[];
+  sku: IRsvSku[];
+  prices: IRsvPrice;
 }
 
-export interface IShelf {
+export interface IRsvRecommendation {
   shelfName: string;
-  products: IProduct[];
+  products: IRsvProduct[];
 }
 
 export function HomeShowcase() {
-  const data: IShelf[] = [
+  const data: IRsvRecommendation[] = [
     {
       shelfName: 'Vitrine de teste da SmartHint estou testanto o tamanho dela',
       products: [
@@ -61,151 +55,79 @@ export function HomeShowcase() {
           productLink: 'https://usereserva.com/camisa/p',
           brand: 'RESERVA',
           image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-          categoryTree: [
-            'Camisas',
-          ],
+          categoryTree: ['Camisas'],
           flags: [
+            { type: 'savings', value: 20 },
+            { type: 'cashback', value: 15 },
+          ],
+          sku: [
             {
-              type: 'savings',
-              value: 20,
-            },
-            {
-              type: 'cashback',
-              value: 15,
+              colorHex: '#FFF',
+              colorName: 'BRANCO',
+              colorRefId: '5678',
+              sizes: [{ skuId: '5678', value: 'P', disabled: false }],
             },
           ],
-          sku: [{
-            skuId: '5678',
-            colors: [
-              {
-                name: 'BRANCO',
-                hex: '#FFF',
-                disabled: false,
-                sizes: [
-                  {
-                    value: 'P',
-                    disabled: false,
-                  },
-                ],
-              },
-            ],
-          }],
-          prices: {
-            listPrice: 600.90,
-            salePrice: 400.50,
-          },
+          prices: { listPrice: 600.90, salePrice: 400.50 },
         },
         {
-          productName: 'Camisa Braca',
-          productId: '2',
+          productName: 'Camisa Polo Reserva Linho Braco',
+          productId: '1',
           productLink: 'https://usereserva.com/camisa/p',
           brand: 'RESERVA',
           image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-          categoryTree: [
-            'Camisas',
-          ],
+          categoryTree: ['Camisas'],
           flags: [
+            { type: 'savings', value: 20 },
+            { type: 'cashback', value: 15 },
+          ],
+          sku: [
             {
-              type: 'savings',
-              value: 15,
-            },
-            {
-              type: 'cashback',
-              value: 10,
+              colorHex: '#FFF',
+              colorName: 'BRANCO',
+              colorRefId: '5678',
+              sizes: [{ skuId: '5678', value: 'P', disabled: false }],
             },
           ],
-          sku: [{
-            skuId: '5679',
-            colors: [
-              {
-                name: 'BRANCO',
-                hex: '#FFF',
-                disabled: false,
-                sizes: [
-                  {
-                    value: 'P',
-                    disabled: false,
-                  },
-                ],
-              },
-            ],
-          }],
-          prices: {
-            listPrice: 600.00,
-            salePrice: 400.00,
-          },
+          prices: { listPrice: 600.90, salePrice: 400.50 },
         },
         {
-          productName: 'Camisa Azul',
-          productId: '3',
+          productName: 'Camisa Polo Reserva Linho Braco',
+          productId: '1',
           productLink: 'https://usereserva.com/camisa/p',
           brand: 'RESERVA',
           image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-          categoryTree: [
-            'Camisas',
-          ],
+          categoryTree: ['Camisas'],
           flags: [
+            { type: 'savings', value: 20 },
+          ],
+          sku: [
             {
-              type: 'savings',
-              value: 25,
-            },
-            {
-              type: 'cashback',
-              value: 15,
+              colorHex: '#FFF',
+              colorName: 'BRANCO',
+              colorRefId: '5678',
+              sizes: [{ skuId: '5678', value: 'P', disabled: false }],
             },
           ],
-          sku: [{
-            skuId: '5679',
-            colors: [
-              {
-                name: 'BRANCO',
-                hex: '#FFF',
-                disabled: false,
-                sizes: [
-                  {
-                    value: 'P',
-                    disabled: false,
-                  },
-                ],
-              },
-            ],
-          }],
-          prices: {
-            listPrice: 600.00,
-            salePrice: 400.00,
-          },
+          prices: { listPrice: 600.90, salePrice: 400.50 },
         },
         {
-          productName: 'Camisa Verde',
-          productId: '4',
+          productName: 'Camisa Polo Reserva Linho Braco',
+          productId: '1',
           productLink: 'https://usereserva.com/camisa/p',
           brand: 'RESERVA',
           image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-          categoryTree: [
-            'Camisas',
+          categoryTree: ['Camisas'],
+          flags: [],
+          sku: [
+            {
+              colorHex: '#FFF',
+              colorName: 'BRANCO',
+              colorRefId: '5678',
+              sizes: [{ skuId: '5678', value: 'P', disabled: false }],
+            },
           ],
-          flags: [
-          ],
-          sku: [{
-            skuId: '5679',
-            colors: [
-              {
-                name: 'BRANCO',
-                hex: '#FFF',
-                disabled: false,
-                sizes: [
-                  {
-                    value: 'P',
-                    disabled: false,
-                  },
-                ],
-              },
-            ],
-          }],
-          prices: {
-            listPrice: 600.00,
-            salePrice: 0,
-          },
+          prices: { listPrice: 600.90, salePrice: 0 },
         },
       ],
     },

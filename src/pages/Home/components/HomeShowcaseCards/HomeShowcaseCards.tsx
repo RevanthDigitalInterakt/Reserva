@@ -1,7 +1,5 @@
 import React, { useCallback } from 'react';
-import {
-  View, Text, Image, TouchableOpacity,
-} from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { trackClickSmartHintStore } from '../../../../zustand/useTrackClickSmartHint/useTrackClickSmartHint';
 import { TrackPageTypeEnum } from '../../../../base/graphql/generated';
@@ -9,58 +7,53 @@ import { integerPart, decimalPart } from '../../../../utils/numberUtils';
 import { styles } from './HomeShowcaseCards.styles';
 import { Skeleton } from '../../../../modules/Checkout/components/Skeleton';
 
-interface IProduct {
+interface IRsvFlag {
+  type: string;
+  value?: number;
+  text?: string;
+}
+
+interface IRsvSize {
+  skuId: string;
+  value: string;
+  disabled: boolean;
+}
+
+interface IRsvSku {
+  colorHex: string;
+  colorName: string;
+  colorRefId: string;
+  sizes: IRsvSize[];
+}
+
+interface IRsvPrice {
+  listPrice: number;
+  salePrice: number;
+}
+
+interface IRsvProduct {
   productName: string;
   productId: string;
   productLink: string;
   brand: string;
   image: string;
   categoryTree: string[];
-  flags: IFlag[];
-  sku: ISku[];
-  prices: IPrice;
-}
-
-interface IFlag {
-  type: string;
-  value?: number;
-  text?: string;
-}
-
-interface ISize {
-  value: string;
-  disabled: boolean;
-}
-
-interface IPrice {
-  listPrice: number;
-  salePrice: number;
-}
-
-interface IColor {
-  name: string;
-  hex: string;
-  disabled?: boolean;
-  sizes: ISize[];
-}
-
-interface ISku {
-  skuId: string;
-  colors: IColor[];
+  flags: IRsvFlag[];
+  sku: IRsvSku[];
+  prices: IRsvPrice;
 }
 
 interface IHomeShowcaseCardsProps {
-  product: IProduct;
+  product: IRsvProduct;
 }
 
 export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
   const { navigate } = useNavigation();
 
-  const onClickCard = useCallback((data: IProduct) => {
-    trackClickSmartHintStore.getState()
-      .onSendTrackClick(product.productId, TrackPageTypeEnum.Home);
+  const onClickCard = useCallback((data: IRsvProduct) => {
+    trackClickSmartHintStore.getState().onSendTrackClick(product.productId, TrackPageTypeEnum.Home);
 
-    navigate('ProductDetail', { itemId: data.productId, colorSelected: data.sku[0]?.colors[0]?.hex || '#000000', sizeSelected: data.sku[0]?.colors[0]?.sizes[0]?.value || 'P' });
+    navigate('ProductDetail', { itemId: data.productId, colorSelected: data.sku[0]?.colorHex || '#000000', sizeSelected: data.sku[0]?.sizes[0]?.value || 'P' });
   }, []);
 
   if (!product) {
@@ -126,11 +119,8 @@ export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
       {product.flags.map((flag) => {
         if (flag.type === 'savings') {
           return (
-            <View style={styles.discountContainerFlag}>
-              <Text
-                key={flag.type}
-                style={styles.discountFlag}
-              >
+            <View style={styles.discountContainerFlag} key={flag.type}>
+              <Text style={styles.discountFlag}>
                 {`${flag.value}%`}
               </Text>
               <Text style={styles.discountTextFlag}>
@@ -141,17 +131,11 @@ export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
         }
         if (flag.type === 'cashback') {
           return (
-            <View style={styles.cashbackContainerFlag}>
-              <Text
-                key={flag.type}
-                style={styles.cashbackFlag}
-              >
+            <View style={styles.cashbackContainerFlag} key={flag.type}>
+              <Text style={styles.cashbackFlag}>
                 {`Ganhe ${flag.value}%`}
               </Text>
-              <Text
-                key={flag.type}
-                style={styles.cashbackTextFlag}
-              >
+              <Text style={styles.cashbackTextFlag}>
                 {' de cashback'}
               </Text>
             </View>
