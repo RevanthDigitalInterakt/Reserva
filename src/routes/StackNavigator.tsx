@@ -33,6 +33,7 @@ import {
   RegisterFlow,
 } from './flows';
 import type { Flow } from './types/flow.type';
+import ZipCodeDelivery from '../pages/ZipCodeDelivery';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -142,7 +143,8 @@ export type RootStackParamList = {
   }
   WebViewDeepLink: {
     uri: string
-  }
+  },
+  ZipCodeDelivery: undefined
 };
 
 const flows: Flow[] = [
@@ -178,6 +180,7 @@ export function MainStackScreen() {
       <MainStack.Screen name="RonRedirectToBag" component={RonRedirectToBag} />
       <MainStack.Screen name="AsyncDeepLink" component={AsyncDeepLinkScreenLoading} />
       <MainStack.Screen name="BagScreen" component={NewBag} initialParams={{ isProfileComplete: false }} />
+      <MainStack.Screen name="ZipCodeDelivery" component={ZipCodeDelivery} />
       <MainStack.Screen name="Checkout" component={WebviewCheckout} />
       <MainStack.Screen name="Cashback" component={Cashback} />
       <MainStack.Screen name="Credits" component={Credits} />

@@ -30,11 +30,16 @@ import CouponComponent from './components/Coupon';
 import { UnavailableList } from './components/ProductUnavailableList/UnavailableList';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { TrackPageTypeEnum } from '../../base/graphql/generated';
+import AddZipCodeDelivery from './components/AddZipCodeDelivery';
+import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
 export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   const isTester = useIsTester();
+  const { getBoolean } = useRemoteConfig();
+
+  const showAddZipCodeDelivery = useMemo(() => getBoolean(isTester ? 'show_add_zip_code_delivery_tester' : 'show_add_zip_code_delivery'), [getBoolean, isTester]);
 
   const {
     topBarLoading,
@@ -61,6 +66,10 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   ]);
 
   useInitialBag();
+
+  const handleNavigateToCep = useCallback(() => {
+    navigation.navigate('ZipCodeDelivery');
+  }, [navigation]);
 
   const handleNavigateToOffers = useCallback(() => {
     navigation.navigate('Offers');
@@ -164,6 +173,15 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
                   </Box>
 
                   <ShippingBar loading={false} totalOrder={appTotalizers.total} />
+
+                  {showAddZipCodeDelivery && (
+                    <Box bg="white" marginTop="xxs">
+                      <AddZipCodeDelivery
+                        label="Selecione uma opção de entrega"
+                        onPress={handleNavigateToCep}
+                      />
+                    </Box>
+                  )}
 
                   {selectableGift?.availableGifts?.length && (
                   <SelectableGifts />

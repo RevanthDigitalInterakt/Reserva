@@ -104,6 +104,7 @@ export const svgs = {
   logoPrime: require('../svgs/LogoPrime').default,
   chevronRight: require('../svgs/ChevronRight').default,
   info: require('../svgs/Info').default,
+  infoSuccess: require('../svgs/InfoSuccess').default,
   trash: require('../svgs/Trash').default,
 };
 
