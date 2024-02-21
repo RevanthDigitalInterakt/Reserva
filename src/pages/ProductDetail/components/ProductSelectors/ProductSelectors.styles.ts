@@ -28,4 +28,10 @@ export const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontFamily: FONTS.RESERVA_SANS_MEDIUM,
   },
+  fixedWrapper: {
+    position: 'absolute',
+    width: '100%',
+    bottom: 0,
+    display: 'flex',
+  },
 });

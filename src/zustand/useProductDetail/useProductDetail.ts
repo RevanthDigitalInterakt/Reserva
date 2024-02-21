@@ -11,6 +11,8 @@ interface IUseProductDetailStore {
   kit?: ProductKitOutput[] | null,
   selectedColor: ProductColorOutput | null;
   selectedSize: ProductSizeOutput | null;
+  sizeIsSelected: boolean;
+  drawerIsOpen: boolean;
   selectedGiftCardSku: string | undefined;
   selectedGiftCardEmail: string | undefined;
   selectedKitItems: OrderformAddMultipleItemInput | null;
@@ -27,6 +29,9 @@ interface IUseProductDetailStore {
   setGiftCardSelectedAmount: (giftCardSku: string) => void;
   setGiftCardSelectedEmail: (giftCardEmail: string) => void;
   setSelectedKitItems: (kitItems: OrderformAddMultipleItemInput, itemsTotalizer: number) => void;
+  setDrawerIsOpen: (isOpen: boolean) => void;
+  getDisabledSizes: () => string[];
+  getSizes: () => string[];
 }
 
 export const productDetailStore = create<IUseProductDetailStore>((set, getState) => ({
@@ -34,6 +39,8 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
   kit: null,
   selectedColor: null,
   selectedGiftCardEmail: undefined,
+  sizeIsSelected: false,
+  drawerIsOpen: false,
   selectedSize: null,
   selectedGiftCardSku: undefined,
   selectedKitItems: null,
@@ -59,6 +66,8 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
       productDetail: null,
       selectedColor: null,
       selectedSize: null,
+      sizeIsSelected: false,
+      drawerIsOpen: false,
       initialCep: '',
     });
   },
@@ -92,15 +101,13 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
   },
   setSelectedSize: (sizeName: string) => {
     const state = getState();
-
     if (!state.selectedColor) return;
-    if (sizeName === state.selectedSize?.size) return;
 
     const selectedSize = state.selectedColor.sizes.find((item) => (
       !item.disabled && item?.size === sizeName
     ));
 
-    set({ ...state, selectedSize });
+    set({ ...state, selectedSize, sizeIsSelected: true });
   },
 
   setGiftCardSelectedAmount: (giftCardSku: string) => {
@@ -123,6 +130,12 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
 
     set({ ...state, selectedKitItems, itemsTotalizer });
   },
+  setDrawerIsOpen: (isOpen: boolean) => {
+    const state = getState();
+    set({ ...state, drawerIsOpen: isOpen });
+  },
+  getDisabledSizes: () => getState().selectedColor?.sizes.filter((item) => item.disabled).map((item) => item.size || '') || [],
+  getSizes: () => getState().selectedColor?.sizes.map((item) => item.size || '') || [],
 }));
 
 export const useProductDetailStore = createZustandStoreWithSelectors(productDetailStore);

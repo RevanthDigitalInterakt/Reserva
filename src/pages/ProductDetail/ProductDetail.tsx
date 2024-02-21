@@ -33,6 +33,9 @@ import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import KitLookSummary from './components/ProductKitLookSummary/KitLookSummary';
+import ProductAddToCart from './components/ProductAddToCart';
+import { Drawer } from '../../components/Drawer';
+import { DrawerSelectors } from './components/DrawerSelectors';
 import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/useTrackClickStore';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
@@ -43,13 +46,12 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   const { profile } = useAuthStore(['profile']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const {
-    setProduct,
-    resetProduct,
-    productDetail,
+    setProduct, resetProduct, productDetail, drawerIsOpen,
   } = useProductDetailStore([
     'setProduct',
     'resetProduct',
     'productDetail',
+    'drawerIsOpen',
   ]);
 
   const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
@@ -188,7 +190,13 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         )}
         {isKitLook && <KitLookSummary />}
       </ProductDetailWrapper>
-      {isGiftCard && <GiftCardAddToCart />}
+      {!isGiftCard && (
+        <Drawer isOpen={drawerIsOpen} snapPoints={['15%', '48%']}>
+          <DrawerSelectors />
+        </Drawer>
+      )}
+      {isGiftCard ? <GiftCardAddToCart /> : null}
+      {!isGiftCard && !drawerIsOpen && getBoolean('add_to_bag_button_is_fixed') && <ProductAddToCart isFixed />}
     </>
   );
 }
