@@ -4,20 +4,28 @@
 - [24229 - Fixar botão de add a sacola na PDP do app](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24229)
 
 ### 2.1.11
+### 2.3.1
+
 - [23715 - Exibição modal componente de negócio na home](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/23715)
 
 - [24999 - Ajuste link RON´s checkout](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24999)
 
 - [Feature(25762) Alteração da cor dos preços na PDP e PDC no APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/25762)
 
----
+- [2589 - Implementação do status do cashback](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_git/mobile.reserva.app/pullrequest/2589)
+
+- [25207 - Criar o experiência visual do CEP na bag](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_git/mobile.reserva.app/pullrequest/2685)
+
+- [22111 - Envio de dados de clique smarthint App](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_git/mobile.reserva.app/pullrequest/2623)
 
 ### 2.1.10
+
 - Remove unused files
 
 ---
 
 ### 2.1.9
+
 - [24417 - Desenvolvimento layout tracking ATT](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24417)
 - [21862 - PageView tracking](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/21862)
 - [22790 - Desenvolvimento layout tracking ATT](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/22790)

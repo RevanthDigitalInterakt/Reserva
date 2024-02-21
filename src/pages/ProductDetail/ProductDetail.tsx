@@ -35,6 +35,7 @@ import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrack
 import ProductAddToCart from './components/ProductAddToCart';
 import { Drawer } from '../../components/Drawer';
 import { DrawerSelectors } from './components/DrawerSelectors';
+import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/useTrackClickStore';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -98,6 +99,13 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       const { product } = data;
       trackEventDitoAccessProduct(data);
 
+      const newData: IData = {
+        identifier: product.identifier || '',
+        productId: product.productId,
+      };
+
+      trackClickStore.getState()
+        .onTrackClick(newData, product.identifier || '', TrackPageTypeEnum.Product);
       trackPageViewStore.getState().onTrackPageView(product.identifier || '', TrackPageTypeEnum.Product);
 
       EventProvider.logEvent('product_view', {
