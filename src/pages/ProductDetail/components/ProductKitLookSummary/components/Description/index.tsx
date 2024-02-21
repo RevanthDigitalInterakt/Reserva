@@ -7,7 +7,7 @@ import { useProductDetailStore } from '../../../../../../zustand/useProductDetai
 
 function Description() {
   const { productDetail } = useProductDetailStore(['productDetail']);
-  const description = productDetail?.properties.description;
+  const description = productDetail?.properties?.description;
   const [expand, setExpand] = useState<boolean>(false);
 
   if (!description) return null;

@@ -1,11 +1,16 @@
 ## CHANGELOG
 
+### 2.3.2
+
+- [20484 - Adicionar kitlook na sacola - kitlook app](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/20484)
+
 ### 2.3.1
 
 - [23715 - Exibição modal componente de negócio na home](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/23715)
-- [20484 - Adicionar kitlook na sacola - kitlook app](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/20484)
+
 - [24999 - Ajuste link RON´s checkout](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24999)
-- [25762 - Alteração da cor dos preços na PDP e PDC no APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/25762)
+
+- [Feature(25762) Alteração da cor dos preços na PDP e PDC no APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/25762)
 
 - [2589 - Implementação do status do cashback](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_git/mobile.reserva.app/pullrequest/2589)
 
