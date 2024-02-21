@@ -13,8 +13,9 @@ import { Button } from '../../../../components/Button';
 import { loadingSpinner } from '../../../../../assets/animations';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 import OneP5P from '../../../../components/OneP5P/OneP5P';
+import type { ProductAddToCartProps } from './types';
 
-function ProductAddToCart() {
+function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
   const { getString, getBoolean } = useRemoteConfig();
   const { restoreCart } = useCart();
   const { actions, items, orderFormId } = useBagStore(['actions', 'orderFormId', 'items']);
@@ -23,11 +24,15 @@ function ProductAddToCart() {
     selectedColor,
     selectedSize,
     assinaturaSimples,
+    setDrawerIsOpen,
+    sizeIsSelected,
   } = useProductDetailStore([
     'productDetail',
     'selectedColor',
     'selectedSize',
     'assinaturaSimples',
+    'sizeIsSelected',
+    'setDrawerIsOpen',
   ]);
 
   const [showAnimationBag, setShowAnimationBag] = useState(false);
@@ -50,6 +55,12 @@ function ProductAddToCart() {
     try {
       if (!selectedSize || loading) return;
 
+      const addToBagButtonIsFixed = getBoolean('add_to_bag_button_is_fixed');
+      if (!sizeIsSelected && addToBagButtonIsFixed) {
+        setDrawerIsOpen(true);
+        return;
+      }
+
       setLoading(true);
 
       const orderFormItem = items.find((item) => item.id === selectedSize.itemId);
@@ -64,6 +75,7 @@ function ProductAddToCart() {
 
       setShowAnimationBag(true);
       addTagsUponCartUpdate();
+      setDrawerIsOpen(false);
     } catch (err) {
       ExceptionProvider.captureException(err);
       Alert.alert('Ocorreu um erro', err.message);
@@ -78,6 +90,8 @@ function ProductAddToCart() {
     orderFormId,
     restoreCart,
     selectedSize,
+    setDrawerIsOpen,
+    sizeIsSelected,
   ]);
 
   const buttonAddCartActive = useMemo(() => {
@@ -93,14 +107,16 @@ function ProductAddToCart() {
   }, [assinaturaSimples, productDetail, selectedSize]);
 
   return (
-    <View>
+    <View
+      style={isFixed && styles.fixedWrapper}
+    >
       <ModalBag
         isVisible={showAnimationBag}
         onBackdropPress={() => setShowAnimationBag(false)}
       />
 
       <Button
-        mt="xxs"
+        height={70}
         title="ADICIONAR À SACOLA"
         variant="primarioEstreito"
         buttonBackgroundColor={getString('pdp_button_add_bag')}

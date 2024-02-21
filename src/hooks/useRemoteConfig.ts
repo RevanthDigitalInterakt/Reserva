@@ -55,6 +55,7 @@ export interface IRemoteConfigKeys {
   show_onep5p_home: boolean;
   show_onep5p_menu: boolean;
   show_onep5p_pdp: boolean;
+  add_to_bag_button_is_fixed: boolean
 }
 
 type KeysMatching<T extends object, V> = {
@@ -107,6 +108,7 @@ export const defaults: IRemoteConfigKeys = {
   show_onep5p_home: false,
   show_onep5p_menu: false,
   show_onep5p_pdp: false,
+  add_to_bag_button_is_fixed: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;

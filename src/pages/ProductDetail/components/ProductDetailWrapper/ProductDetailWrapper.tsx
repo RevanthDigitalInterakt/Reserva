@@ -19,7 +19,7 @@ function ProductDetailWrapper({ children, loading }: IProductDetailWrapper) {
         <KeyboardAvoidingView
           enabled
           behavior={Platform.OS === platformType.IOS ? 'padding' : undefined}
-          style={{ marginBottom: 100 }}
+          style={{ marginBottom: 160 }}
         >
           <ScrollView contentContainerStyle={{ paddingBottom: 100 }} style={{ marginBottom: 24 }}>
             {children}
