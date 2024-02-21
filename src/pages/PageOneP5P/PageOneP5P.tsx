@@ -1,14 +1,21 @@
 import type { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import WebView from 'react-native-webview';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
 import { useBagStore } from '../../zustand/useBagStore/useBagStore';
+import EventProvider from '../../utils/EventProvider';
 
 type IPageOneP5P = StackScreenProps<RootStackParamList, 'PageOneP5P'>;
 
-function PageOneP5P({ navigation }: IPageOneP5P) {
+function PageOneP5P({ route, navigation }: IPageOneP5P) {
   const { topBarLoading } = useBagStore(['topBarLoading']);
+
+  useEffect(() => {
+    const { comeFrom } = route.params || {};
+    EventProvider.logEvent(comeFrom === 'Menu' ? 'click_1p5p_menu' : 'click_1p5p_home', {});
+  }, []);
+
   const handleBackTopBarButtonPress = useCallback(() => {
     navigation.goBack();
   }, [navigation]);

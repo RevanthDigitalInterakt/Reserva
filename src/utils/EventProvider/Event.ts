@@ -341,4 +341,12 @@ export type EventOptionsFn =
   | {
     type: 'click_form_profile',
     payload: {}
+  }
+  | {
+    type: 'click_1p5p_menu',
+    payload: {}
+  }
+  | {
+    type: 'click_1p5p_home',
+    payload: {}
   };

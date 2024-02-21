@@ -50,7 +50,7 @@ export type RootStackParamList = {
     slug?: string;
   };
   PrimeLP: undefined;
-  PageOneP5P: undefined;
+  PageOneP5P: { comeFrom?: 'Menu' | 'Home' };
   HelpCenter: { comeFrom?: 'Menu' | 'Other' };
   Checkout: { url: string };
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
