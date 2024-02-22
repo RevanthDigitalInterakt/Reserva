@@ -54,8 +54,6 @@ export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
 
   const onClickCard = useCallback((data: IRsvProduct) => {
     trackClickSmartHintStore.getState().onSendTrackClick(product.productId, TrackPageTypeEnum.Home);
-    console.log('product', product);
-
     navigate('ProductDetail', {
       productId: data.productId,
       colorSelected: data.sku[0]?.colorHex || '#FFFFFF'

@@ -3,6 +3,7 @@ import { View, FlatList } from 'react-native';
 import { styles } from './HomeShowcase.styles';
 import Shelf from '../HomeShowcaseShelf/HomeShowcaseShelf';
 import useRecommendationShelf from '../../../../zustand/useRecommendation/useRecommendationShelf';
+import type { IRecommendationShelfState } from '../../../../zustand/useRecommendation/types/recommendationShelf';
 
 export interface IRsvFlag {
   type: string;
@@ -46,7 +47,7 @@ export interface IRsvRecommendation {
 }
 
 export function HomeShowcase() {
-  const { onSearchShelf } = useRecommendationShelf();
+  const { onSearchShelf } = useRecommendationShelf() as IRecommendationShelfState;
   const [shelf, setShelf] = useState<IRsvRecommendation[]>([]);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export function HomeShowcase() {
       setShelf(data as IRsvRecommendation[]);
     }
     handleGetShelf();
-  }, []);
+  }, [onSearchShelf]);
 
   return (
     <View style={styles.container}>
