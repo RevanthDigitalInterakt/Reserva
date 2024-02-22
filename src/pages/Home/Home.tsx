@@ -41,6 +41,7 @@ import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { ActivityTracking } from '../../components/ActivityTracking';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { TrackPageTypeEnum } from '../../base/graphql/generated';
+import { NewHomeCountDown } from './components/NewHomeCountDown.tsx';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -200,17 +201,33 @@ function Home() {
             bounces
             onScroll={handleScroll}
             contentContainerStyle={{ paddingBottom: 100 }}
-            keyExtractor={(item) => `home-media-${item.image.url.toString()}-${item.image.title}`}
+            keyExtractor={(item, index) => (index === 2 && getBoolean('count_down_in_the_media') ? 'home-carousel' : `home-media-${item.image.url.toString()}-${item.image.title}`)}
             data={medias}
-            renderItem={({ item }) => (
-              <NewBanner
-                facets={item.facets}
-                image={item.image.url}
-                orderBy={item.orderBy}
-                reference={item.reference}
-                reservaMini={item.reservaMini}
-              />
-            )}
+            renderItem={({ item, index }) => {
+              if (index === 2 && getBoolean('count_down_in_the_media')) {
+                return (
+                  <>
+                    <NewHomeCountDown />
+                    <NewBanner
+                      facets={item.facets}
+                      image={item.image.url}
+                      orderBy={item.orderBy}
+                      reference={item.reference}
+                      reservaMini={item.reservaMini}
+                    />
+                  </>
+                );
+              }
+              return (
+                <NewBanner
+                  facets={item.facets}
+                  image={item.image.url}
+                  orderBy={item.orderBy}
+                  reference={item.reference}
+                  reservaMini={item.reservaMini}
+                />
+              );
+            }}
           />
         </SafeAreaView>
         {!!showModalSignUpComplete && <ModalSignUpComplete />}

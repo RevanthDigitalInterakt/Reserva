@@ -88,8 +88,7 @@ function CommercialBanner() {
 
   return (
     <View>
-
-      <Animated.View style={[styles.container, { opacity: fadeOut }]}>
+      <Animated.View style={[styles.container, { opacity: fadeOut, marginBottom: getBoolean('count_down_in_the_media') ? 10 : 0 }]}>
         {currentItem ? (
           <>
             {

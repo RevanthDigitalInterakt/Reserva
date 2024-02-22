@@ -52,6 +52,7 @@ export interface IRemoteConfigKeys {
   show_user_feedback_form: string;
   show_home_commercial_banner: boolean;
   add_to_bag_button_is_fixed: boolean
+  count_down_in_the_media: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -101,6 +102,7 @@ export const defaults: IRemoteConfigKeys = {
   show_user_feedback_form: 'none',
   show_home_commercial_banner: false,
   add_to_bag_button_is_fixed: false,
+  count_down_in_the_media: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;
