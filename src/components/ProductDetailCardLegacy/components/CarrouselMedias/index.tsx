@@ -5,15 +5,18 @@ import {
   ScrollView,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
+  Animated,
+  TouchableOpacity,
 } from 'react-native';
 import Video from 'react-native-video';
 
-import { Button } from '../../../Button';
 import ImageComponent from '../../../ImageComponent/ImageComponent';
-
 import { Box } from '../../../Box/Box';
-import { IconLegacy } from '../../../IconLegacy/IconLegacy';
 import type { IParamsCarrouselMedias } from './types';
+import { BulletsAnimated } from '../../../../pages/ProductDetail/components/BulletsAnimated';
+import IconComponent from '../../../IconComponent/IconComponent';
+import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+import { ProductResultActionEnum } from '../../../../base/graphql/generated';
 
 export function CarrouselMedias({
   images,
@@ -24,10 +27,13 @@ export function CarrouselMedias({
   videoThumbnail,
   imageIndexActual,
 }: IParamsCarrouselMedias) {
+  const { productDetail } = useProductDetailStore(['productDetail']);
   const [actualImage, setActualImage] = useState(0);
+  const isKitLook = productDetail?.action === ProductResultActionEnum.ShowKit;
 
   const videoRef = useRef<Video>(null);
   const scrollRef = useRef<ScrollView>(null);
+  const scrollX = useRef(new Animated.Value(0)).current;
 
   imageIndexActual?.(actualImage);
 
@@ -74,86 +80,104 @@ export function CarrouselMedias({
   }, [actualImage, medias, onGoBack, width]);
 
   return (
-    <Box width={width} height={height}>
-      {actualImage > 0 && (
-        <Box
-          position="absolute"
-          style={{ elevation: 3 }}
-          zIndex={1}
-          left={32}
-          top={height / 2 - 32}
-        >
-          <Button
-            p="nano"
-            variant="icone"
-            onPress={() => {
-              goBack();
-            }}
-            icon={<IconLegacy name="ChevronLeft" color="neutroFrio2" size={23} />}
-          />
-        </Box>
-      )}
-      {actualImage < (medias?.length || 0) - 1 && (
-        <Box
-          position="absolute"
-          style={{ elevation: 3 }}
-          zIndex={1}
-          right={32}
-          top={height / 2 - 32}
-        >
-          <Button
-            p="nano"
-            variant="icone"
-            onPress={() => {
-              goNext();
-            }}
-            icon={<IconLegacy name="ChevronRight" color="neutroFrio2" size={23} />}
-          />
-        </Box>
-      )}
-      <ScrollView
-        horizontal
-        pagingEnabled
-        onScroll={(event) => {
-          onChangeImage(event);
-        }}
-        ref={scrollRef}
-        showsHorizontalScrollIndicator={false}
-      >
-        {medias?.map((media, index) => (
+    <>
+      <Box width={width} height={height}>
+        {actualImage > 0 && (
           <Box
-            key={`product-card-${media}`}
-            alignItems="center"
-            width={width}
-            height={height}
+            position="absolute"
+            style={{ elevation: 3 }}
+            zIndex={1}
+            left={32}
+            top={height / 2 - 32}
           >
-            {videoThumbnail && index === 0 ? (
-              <Video
-                ref={videoRef}
-                source={{
-                  uri: videoThumbnail,
-                }}
-                resizeMode="cover"
-                paused={false}
-                repeat
-                style={{
-                  width,
-                  height,
-                }}
+            <TouchableOpacity
+              onPress={() => {
+                goBack();
+              }}
+            >
+              <IconComponent
+                icon="chevronLeftFill"
+                width={32}
+                height={32}
               />
-            )
-              : (
-                <ImageComponent
-                  key={media}
-                  source={{ uri: media }}
-                  height={height}
-                  width={width}
-                  resizeMode="contain"
-                />
-              )}
+            </TouchableOpacity>
           </Box>
-        ))}
-      </ScrollView>
-    </Box>
+        )}
+        {actualImage < (medias?.length || 0) - 1 && (
+          <Box
+            position="absolute"
+            style={{ elevation: 3 }}
+            zIndex={1}
+            right={32}
+            top={height / 2 - 32}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                goNext();
+              }}
+            >
+              <IconComponent
+                icon="chevronRightFill"
+                width={32}
+                height={32}
+              />
+            </TouchableOpacity>
+          </Box>
+        )}
+        <Animated.ScrollView
+          horizontal
+          pagingEnabled
+          onScroll={
+            Animated.event(
+              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+              {
+                listener(event: NativeSyntheticEvent<NativeScrollEvent>) {
+                  onChangeImage(event);
+                },
+                useNativeDriver: true,
+              },
+            )
+          }
+          ref={scrollRef}
+          showsHorizontalScrollIndicator={false}
+        >
+          {medias?.map((media, index) => (
+            <Box
+              key={`product-card-${media}`}
+              alignItems="center"
+              width={width}
+              height={height}
+            >
+              {videoThumbnail && index === 0 ? (
+                <Video
+                  ref={videoRef}
+                  source={{
+                    uri: videoThumbnail,
+                  }}
+                  resizeMode="cover"
+                  paused={false}
+                  repeat
+                  style={{
+                    width,
+                    height,
+                  }}
+                />
+              )
+                : (
+                  <ImageComponent
+                    key={media}
+                    source={{ uri: media }}
+                    height={height}
+                    width={width}
+                    resizeMode="contain"
+                  />
+                )}
+            </Box>
+          ))}
+        </Animated.ScrollView>
+      </Box>
+
+      {isKitLook && <BulletsAnimated data={images} scrollX={scrollX} />}
+    </>
   );
 }

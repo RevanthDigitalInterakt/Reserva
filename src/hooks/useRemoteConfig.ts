@@ -51,6 +51,7 @@ export interface IRemoteConfigKeys {
   pdp_show_gift_card: boolean;
   show_user_feedback_form: string;
   show_home_commercial_banner: boolean;
+  show_kitlook: boolean;
   add_to_bag_button_is_fixed: boolean
 }
 
@@ -100,6 +101,7 @@ export const defaults: IRemoteConfigKeys = {
   show_add_zip_code_delivery_tester: true,
   show_user_feedback_form: 'none',
   show_home_commercial_banner: false,
+  show_kitlook: false,
   add_to_bag_button_is_fixed: false,
 };
 

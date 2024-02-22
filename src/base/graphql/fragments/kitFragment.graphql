@@ -1,0 +1,18 @@
+fragment kitFragment on ProductKitOutput {
+    productId
+    productName
+    colorUrls {
+        id
+        url
+    }
+    colors {
+        colorId
+        colorName
+        colorUrl
+        disabled
+        images
+        sizes {
+            ...productSizeFragment
+        }
+    }
+}
