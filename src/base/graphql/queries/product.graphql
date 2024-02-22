@@ -8,6 +8,9 @@ query product($input: ProductInput!) {
     disabledColors
     saleOff
     videoThumbnail
+    kit {
+      ...kitFragment
+    }
     giftCard {
       options {
         itemId

@@ -1,5 +1,6 @@
 import type {
   OrderFormQuery,
+  OrderformAddMultipleItemInput,
   OrderformSelectableGiftAvailableGiftOutput,
 } from '../../../base/graphql/generated';
 
@@ -57,6 +58,7 @@ export interface IBagStore {
     SET_ROULET_LOADING: (loading: boolean) => void;
     REMOVE_DISCOUNT_COUPON: () => Promise<void>;
     ADD_ITEM: (seller: string, id: string, quantity: number) => Promise<void>;
+    ADD_MULTIPLE_ITEMS: (orderItems: OrderformAddMultipleItemInput) => Promise<void>;
     SAVE_ROULET_COUPON: (coupon: string, timestamp: string) => void;
     BLOCK_ROULET_COUPON: () => void;
     UNBLOCK_ROULET_COUPON: () => void;

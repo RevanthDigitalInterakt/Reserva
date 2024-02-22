@@ -16,6 +16,7 @@ export const commons = {
   visa: require('../../../assets/common/visa.png'),
   mastercard: require('../../../assets/common/mastercard.png'),
   americanExpress: require('../../../assets/common/americanExpress.png'),
+  umPCincoPLogo: require('../../../assets/common/1p5pLogo.png'),
   elo: require('../../../assets/common/elo.png'),
   cupomModalBackground: require('../../../assets/common/cupomModalBackground.png'),
   bagEmpty: require('../../../assets/common/bagEmpty.png'),
@@ -93,6 +94,10 @@ export const commons = {
   reservaIcon: require('../../../assets/common/reserva-icon.png'),
   greenCheck: require('../../../assets/common/green-check.png'),
   config: require('../../../assets/common/config.png'),
+  chevronLeftFill: require('../../../assets/common/chevronLeftFill.png'),
+  chevronRightFill: require('../../../assets/common/chevronRightFill.png'),
+  addition: require('../../../assets/common/addition.png'),
+  subtraction: require('../../../assets/common/subtraction.png'),
 };
 
 /* mapping of svgs used as icons */
