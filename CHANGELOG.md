@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.3.2
+
+- [26967 - Teste push duplicado da dito](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/26967)
+
+---
+
 ### 2.3.1
 
 - [23715 - Exibição modal componente de negócio na home](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/23715)

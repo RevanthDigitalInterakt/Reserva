@@ -29,8 +29,8 @@ const OnForegroundEventPush = async () => {
         await setItem('@DitoNotification:Ref', reference);
 
         const link = details?.link || '';
-        const title = details?.message?.split('\n')[0] || '';
-        const body = details?.message?.split('\n')[1] || '';
+        const title = !remoteMessage.notification ? (details?.message?.split('\n')[0] || '') : remoteMessage.notification.title;
+        const body = !remoteMessage.notification ? (details?.message?.split('\n')[1] || '') : remoteMessage.notification.body;
         const bigText = body || ' ';
         const hasLink = link || 'usereserva://home-tabs';
 
