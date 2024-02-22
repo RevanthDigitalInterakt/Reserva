@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import {
+  View, Text, Image, TouchableOpacity,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { trackClickSmartHintStore } from '../../../../zustand/useTrackClickSmartHint/useTrackClickSmartHint';
 import { TrackPageTypeEnum } from '../../../../base/graphql/generated';
@@ -52,8 +54,12 @@ export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
 
   const onClickCard = useCallback((data: IRsvProduct) => {
     trackClickSmartHintStore.getState().onSendTrackClick(product.productId, TrackPageTypeEnum.Home);
+    console.log('product', product);
 
-    navigate('ProductDetail', { itemId: data.productId, colorSelected: data.sku[0]?.colorHex || '#000000', sizeSelected: data.sku[0]?.sizes[0]?.value || 'P' });
+    navigate('ProductDetail', {
+      productId: data.productId,
+      colorSelected: data.sku[0]?.colorHex || '#FFFFFF'
+    });
   }, []);
 
   if (!product) {
@@ -83,7 +89,7 @@ export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
         style={styles.productImage}
       />
       <Text style={styles.productName}>
-        {product.productName.length > 24 ? `${product.productName.substring(0, 22).trim()}..` : product.productName}
+        {product.productName.length > 18 ? `${product.productName.substring(0, 16).trim()}..` : product.productName}
       </Text>
       <View style={styles.priceContainer}>
         {product.prices.salePrice !== 0 ? (
