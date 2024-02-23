@@ -137,7 +137,7 @@ function Home() {
   ]);
   const { isConnected } = useConnectivityStore(['isConnected']);
 
-  const { getBoolean } = useRemoteConfig();
+  const { getBoolean, getString } = useRemoteConfig();
   const newHeaderIsActive = getBoolean('show_new_header');
 
   const {
@@ -201,10 +201,10 @@ function Home() {
             bounces
             onScroll={handleScroll}
             contentContainerStyle={{ paddingBottom: 100 }}
-            keyExtractor={(item, index) => (index === 2 && getBoolean('count_down_in_the_media') ? 'home-carousel' : `home-media-${item.image.url.toString()}-${item.image.title}`)}
+            keyExtractor={(item, index) => (index === 2 && (getString('count_down_position') === 'B') ? 'home-carousel' : `home-media-${item.image.url.toString()}-${item.image.title}`)}
             data={medias}
             renderItem={({ item, index }) => {
-              if (index === 2 && getBoolean('count_down_in_the_media')) {
+              if (index === 2 && (getString('count_down_position') === 'B')) {
                 return (
                   <>
                     <NewHomeCountDown />
@@ -218,6 +218,21 @@ function Home() {
                   </>
                 );
               }
+              if (index === medias.length - 1 && getString('count_down_position') === 'C') {
+                return (
+                  <>
+                    <NewBanner
+                      facets={item.facets}
+                      image={item.image.url}
+                      orderBy={item.orderBy}
+                      reference={item.reference}
+                      reservaMini={item.reservaMini}
+                    />
+                    <NewHomeCountDown />
+                  </>
+                );
+              }
+
               return (
                 <NewBanner
                   facets={item.facets}
