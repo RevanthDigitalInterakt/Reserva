@@ -1,7 +1,7 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import type { TItemBag } from '../../../../zustand/useBagStore/types/bagStore';
 import EventProvider from '../../../../utils/EventProvider';
@@ -10,14 +10,15 @@ import { createNavigateToProductParams } from '../../../../utils/createNavigateT
 import { getBrands } from '../../../../utils/getBrands';
 import { useCart } from '../../../../context/CartContext';
 import ProductListItem from '../ProductListItem';
+import { productPackageListStyles } from './ProductPackageList.styles';
+import ProductUnavailable from '../ProductUnavailable';
+import DeliveryItemInfo from '../DeliveryItemInfo';
 import ProductListItemPrime from '../ProductListItem/ProductListItemPrime';
 
-export default function BagProductList() {
+export default function BagProductPackageList() {
   const { orderForm } = useCart();
-  const { actions, items } = useBagStore(['actions', 'items']);
+  const { actions, packageItems } = useBagStore(['actions', 'items', 'packageItems']);
   const navigation = useNavigation();
-
-  const availableList = useMemo(() => items.filter((item) => item.availability === 'available'), [items]);
 
   const handleAddProductToGift = useCallback(async (
     isAddedAsGift: boolean,
@@ -101,33 +102,61 @@ export default function BagProductList() {
   }, [navigation]);
 
   return (
-    <View style={{ gap: 25 }}>
-      {availableList.map((item, index: number) => {
-        if (item.sellingPrice !== 0 && item.isGift === false) {
-          return item.isPrimeSubscription ? (
-            <ProductListItemPrime
-              key={item.key}
-              data={item}
-              onDelete={() => handleDeleteProductModal(item, index)}
-              onPress={() => handleNavigationToDetail(item)}
-            />
-          ) : (
-            <ProductListItem
-              key={item.key}
-              data={item}
-              onAddCount={(count) => handleAddCount(count, item, index)}
-              onSubCount={(count) => handleSubCount(count, item.quantity, item, index)}
-              onDelete={() => handleDeleteProductModal(item, index)}
-              onPress={() => handleNavigationToDetail(item)}
-              onAddGift={() => (
-                handleAddProductToGift(item.isAddedAsGift, index, item.giftOfferingId)
-              )}
-            />
-          );
-        }
+    <View>
+      {packageItems.map((availableList, idx) => (
+        <View>
+          <View style={productPackageListStyles.titleContainer}>
+            <Text style={[
+              productPackageListStyles.title,
+              availableList?.metadata?.availability === 'UNAVAILABLE'
+                ? productPackageListStyles.titleUnavailable : productPackageListStyles.title,
+            ]}
+            >
+              {availableList?.metadata?.title}
+            </Text>
+          </View>
+          <ProductUnavailable type="UNAVAILABLE" showCard={availableList?.metadata?.availability === 'UNAVAILABLE'} />
+          <ProductUnavailable type="SOME_UNAVAILABLE" showCard={availableList?.metadata?.availability === 'SOME_UNAVAILABLE'} />
+          <View style={{ gap: 25 }}>
+            { availableList.items.map((item, index: number) => {
+              if (item.sellingPrice !== 0 && item.isGift === false) {
+                return item.isPrimeSubscription ? (
+                  <ProductListItemPrime
+                    key={item.key}
+                    data={item}
+                    onDelete={() => handleDeleteProductModal(item, index)}
+                    onPress={() => handleNavigationToDetail(item)}
+                  />
+                ) : (
+                  <ProductListItem
+                    key={item.key}
+                    data={item}
+                    onAddCount={(count) => handleAddCount(count, item, index)}
+                    onSubCount={(count) => handleSubCount(count, item.quantity, item, index)}
+                    onDelete={() => handleDeleteProductModal(item, index)}
+                    onPress={() => handleNavigationToDetail(item)}
+                    onAddGift={() => (
+                      handleAddProductToGift(item.isAddedAsGift, index, item.giftOfferingId)
+                    )}
+                  />
+                );
+              }
 
-        return null;
-      })}
+              return null;
+            })}
+          </View>
+          {availableList?.metadata?.shippingEstimate && (
+          <DeliveryItemInfo
+            friendlyName={availableList?.metadata?.friendlyName!}
+            shippingEstimate={availableList?.metadata?.shippingEstimate}
+            totalShippingValue={availableList?.totalShippingValue}
+          />
+          )}
+          {(packageItems.length - 1) > idx && (
+            <View style={productPackageListStyles.divider} />
+          )}
+        </View>
+      ))}
     </View>
   );
 }

@@ -18,7 +18,6 @@ import { Recommendation } from './components/Recommendation';
 import { ShippingBar } from './components/ShippingBar';
 import LoadingModal from './components/LoadingModal';
 import DeleteProductModal from './components/DeleteProduct';
-import BagProductList from './components/ProductList';
 import SelectableGifts from './components/SelectableGifts';
 import { Box } from '../../components/Box/Box';
 import { Typography } from '../../components/Typography/Typography';
@@ -30,8 +29,13 @@ import CouponComponent from './components/Coupon';
 import { UnavailableList } from './components/ProductUnavailableList/UnavailableList';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { TrackPageTypeEnum } from '../../base/graphql/generated';
-import AddZipCodeDelivery from './components/AddZipCodeDelivery';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
+import BagProductList from './components/ProductList';
+import BagProductPackageList from './components/ProductPackageList';
+import AddZipCodeDelivery from './components/AddZipCodeDelivery';
+import ShippingDataDetails from './components/ShippingDataDetails';
+import { getSelectedDelivery } from '../../utils/getSelectedDelivery';
+import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -39,10 +43,17 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   const isTester = useIsTester();
   const { getBoolean } = useRemoteConfig();
 
-  const showAddZipCodeDelivery = useMemo(() => getBoolean(isTester ? 'show_add_zip_code_delivery_tester' : 'show_add_zip_code_delivery'), [getBoolean, isTester]);
+  const showAddZipCodeDelivery = useMemo(
+    () => getBoolean(isTester
+      ? 'show_add_zip_code_delivery_tester'
+      : 'show_add_zip_code_delivery'),
+    [getBoolean, isTester],
+  );
 
   const {
     topBarLoading,
+    packageItems,
+    deliveryType,
     items,
     initialLoad,
     initialized,
@@ -54,6 +65,8 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
     actions,
   } = useBagStore([
     'topBarLoading',
+    'packageItems',
+    'deliveryType',
     'items',
     'initialLoad',
     'initialized',
@@ -66,6 +79,14 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   ]);
 
   useInitialBag();
+
+  const showPackageItems = useMemo(() => {
+    if (packageItems?.length > 1) return true;
+    const [firstItem] = packageItems;
+    return !!firstItem?.metadata?.availability;
+  }, [packageItems]);
+
+  const selectedDelivery = useMemo(() => getSelectedDelivery(packageItems), [packageItems]);
 
   const handleNavigateToCep = useCallback(() => {
     navigation.navigate('ZipCodeDelivery');
@@ -103,23 +124,30 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
     });
   }, [items]);
 
-  const hasUnavailableItems = useMemo(() => items.some((item) => item.availability !== 'available'), [items]);
+  const hasUnavailableItems = useMemo(() => packageItems.some((pack) => pack.items.some((item) => item.availability !== 'available')), [packageItems]);
 
   useEffect(() => {
     if (initialized) {
       handleAbandonedCartTags();
-
-      const type = items.length ? TrackPageTypeEnum.Cart : TrackPageTypeEnum.Emptycart;
+      const itemsPackage = mergeItemsPackage(packageItems);
+      const type = itemsPackage.length ? TrackPageTypeEnum.Cart : TrackPageTypeEnum.Emptycart;
       trackPageViewStore.getState().onTrackPageView('bag', type);
     }
-  }, [initialized, items.length, handleAbandonedCartTags]);
+  }, [initialized, packageItems, handleAbandonedCartTags]);
 
   useEffect(() => {
     actions.REFETCH_ORDER_FORM();
   }, [actions]);
 
   useEffect(() => {
-    trackAccessBag(allItemsQuantity, appTotalizers.total, getBrands(items), clientProfileData);
+    // TODO Ajustar getBrands
+    const itemsPackage = mergeItemsPackage(packageItems);
+    trackAccessBag(
+      allItemsQuantity,
+      appTotalizers.total,
+      getBrands(itemsPackage),
+      clientProfileData,
+    );
   }, []);
 
   useEffect(() => {
@@ -168,29 +196,43 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
                         }
                       }}
                     >
-                      {`Sacola  (${allItemsQuantity})`}
+                      Sacola
                     </Typography>
                   </Box>
 
                   <ShippingBar loading={false} totalOrder={appTotalizers.total} />
 
                   {showAddZipCodeDelivery && (
-                    <Box bg="white" marginTop="xxs">
+                  <Box bg="white" marginTop="xxs">
+                    {selectedDelivery.type && showPackageItems ? (
+                      <ShippingDataDetails
+                        type={selectedDelivery.type}
+                        store={selectedDelivery.store}
+                        onPress={handleNavigateToCep}
+                      />
+                    ) : (
                       <AddZipCodeDelivery
                         label="Selecione uma opção de entrega"
                         onPress={handleNavigateToCep}
                       />
-                    </Box>
+                    )}
+                  </Box>
                   )}
 
                   {selectableGift?.availableGifts?.length && (
                   <SelectableGifts />
                   )}
 
-                  <BagProductList />
-                </Box>
+                  {showPackageItems ? (
+                    <BagProductPackageList />
+                  ) : (
+                    <>
+                      <BagProductList />
+                      {hasUnavailableItems && <UnavailableList />}
+                    </>
+                  )}
 
-                {hasUnavailableItems && <UnavailableList />}
+                </Box>
 
                 <Recommendation />
 

@@ -165,7 +165,7 @@ function ProductListItemPrime({
             }}
             variant="icone"
             onPress={onDelete}
-            icon={<IconLegacy name="Close" size={11} color="preto" />}
+            icon={<IconLegacy name="Trash" size={24} color="preto" />}
           />
         </Box>
       </Box>

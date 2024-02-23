@@ -1,15 +1,30 @@
 import React from 'react';
 
 import { Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import AddZipCodeDelivery from '../../../Bag/components/AddZipCodeDelivery';
 import { pickUpHeaderStyles } from './styles/pickUpHeader.styles';
 import type { ShippingSimulationOutput } from '../../../../base/graphql/generated';
+import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 
-type PickUpHeaderProps = {
+type TPickUpHeaderProps = {
   addressDelivery: ShippingSimulationOutput
 };
 
-export default function PickUpHeader({ addressDelivery }: PickUpHeaderProps): JSX.Element {
+export default function PickUpHeader({
+  addressDelivery,
+}: TPickUpHeaderProps): JSX.Element {
+  const { actions } = useBagStore(['actions']);
+  const navigation = useNavigation();
+
+  const handleClickDeliveryToResidence = async () => {
+    await actions.ADD_DELIVERY_TO_RESIDENCE(
+      addressDelivery.delivery.deliveryOptions,
+      addressDelivery.delivery.address,
+    );
+    actions.ADD_DELIVERY_TYPE('Receba em casa');
+    navigation.goBack();
+  };
   return (
     <>
       <View style={pickUpHeaderStyles.containerMarginTop}>
@@ -21,8 +36,8 @@ export default function PickUpHeader({ addressDelivery }: PickUpHeaderProps): JS
         <AddZipCodeDelivery
           icon="greenCheck"
           label={addressDelivery?.delivery?.address?.street!}
-          description={`${addressDelivery?.delivery.address.neighborhood} - ${addressDelivery?.delivery.address.city} - ${addressDelivery?.delivery.address.state}`}
-          onPress={() => console.log('clicou')}
+          description={`${addressDelivery?.delivery.address?.neighborhood} - ${addressDelivery?.delivery.address?.city} - ${addressDelivery?.delivery.address?.state}`}
+          onPress={handleClickDeliveryToResidence}
         />
       </View>
       {!!addressDelivery?.storeList?.stores.length && (

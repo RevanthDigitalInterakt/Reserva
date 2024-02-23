@@ -49,7 +49,7 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
 
   const inputCEPRef = useRef<TextInput>(null);
 
-  const { items } = useBagStore(['items']);
+  const { items, topBarLoading } = useBagStore(['items', 'topBarLoading']);
 
   const [getShippingSimulation] = useShippingSimulationLazyQuery({
     context: { clientName: 'gateway' },
@@ -137,6 +137,7 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
       >
         <TopBarBackButton
           backButtonPress={handleTopBarGoBackButton}
+          loading={topBarLoading}
         />
         <Animated.View style={[zipCodeStyles.boxContainer, shadowColorStyle]}>
           <View>
@@ -211,7 +212,11 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
             keyExtractor={(item) => item.friendlyName}
             ListHeaderComponent={renderHeader}
             renderItem={({ item }) => (
-              <PickUpItem store={item} />
+              <PickUpItem
+                store={item}
+                deliveryOptions={addressDelivery.delivery.deliveryOptions}
+                deliveryOptionsStore={addressDelivery.storeList.deliveryOptions}
+              />
             )}
           />
           )}

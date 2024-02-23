@@ -43,6 +43,12 @@ import {
   OrderFormUpdateItemMutation,
   OrderFormUpdateItemMutationVariables,
   ProductResultActionEnum,
+  type OrderFormSelectAddressMutation,
+  type OrderFormSelectAddressMutationVariables,
+  OrderFormSelectAddressDocument,
+  DeliveryChannelEnum,
+  AddressTypeEnum,
+  type OrderformSelectAddressInput,
 } from '../../base/graphql/generated';
 import { getAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { getMessageErrorWhenUpdateItem } from './helpers/getMessageErrorWhenUpdateItem';
@@ -51,6 +57,7 @@ import { handleCopyTextToClipboard } from '../../utils/CopyToClipboard';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { trackEventDitoStatusCart } from '../../utils/trackEventDitoStatusCart';
 import { productDetailStore } from '../useProductDetail/useProductDetail';
+import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
 
 const bagStore = create<IBagStore>((set, getState): IBagStore => ({
   initialized: false,
@@ -74,7 +81,11 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
   orderFormId: '',
   messages: [],
   clientProfileData: undefined,
-  items: [],
+  items: [], // Deprecated
+  packageItems: [],
+  deliveryType: {
+    type: '',
+  },
   selectableGift: undefined,
   marketingData: undefined,
   shippingData: undefined,
@@ -120,6 +131,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           throw new Error('OrderForm inválido.');
         }
 
+        // TODO - Fazer map dos packagesItems
         orderForm.items = orderForm.items.map((item) => {
           if (item.productCategories.includes('Cartão Presente')) {
             item.itemColor = '';
@@ -133,6 +145,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           messages: orderForm.messages,
           clientProfileData: orderForm.clientProfileData,
           items: orderForm.items,
+          packageItems: orderForm.packageItems,
           selectableGift: orderForm.selectableGift,
           marketingData: orderForm.marketingData,
           shippingData: orderForm.shippingData,
@@ -179,6 +192,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           messages: orderForm.messages,
           clientProfileData: orderForm.clientProfileData,
           items: orderForm.items,
+          packageItems: orderForm.packageItems,
           selectableGift: orderForm.selectableGift,
           marketingData: orderForm.marketingData,
           shippingData: orderForm.shippingData,
@@ -238,6 +252,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({
           clientProfileData: orderForm.clientProfileData,
           items: orderForm.items,
+          packageItems: orderForm.packageItems,
           marketingData: orderForm.marketingData,
           shippingData: orderForm.shippingData,
           installmentInfo: orderForm.installmentInfo,
@@ -276,6 +291,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         set(() => ({
           clientProfileData: orderForm.clientProfileData,
+          packageItems: orderForm.packageItems,
           items: orderForm.items,
           marketingData: orderForm.marketingData,
           shippingData: orderForm.shippingData,
@@ -321,6 +337,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           messages: orderForm.messages,
           clientProfileData: orderForm.clientProfileData,
           items: orderForm.items,
+          packageItems: orderForm.packageItems,
           selectableGift: orderForm.selectableGift,
           marketingData: orderForm.marketingData,
           shippingData: orderForm.shippingData,
@@ -381,6 +398,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm.appTotalizers,
           installmentInfo: orderForm.installmentInfo,
           allItemsQuantity: orderForm.allItemsQuantity,
+          packageItems: orderForm.packageItems,
           items: orderForm.items,
         }));
       } catch (error) {
@@ -422,6 +440,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
+          packageItems: orderForm?.packageItems || [],
           items: orderForm?.items || [],
         }));
       } catch (error) {
@@ -454,6 +473,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             sellerCouponName: '',
           },
           items: orderForm?.items || [],
+          packageItems: orderForm?.packageItems || [],
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
@@ -485,6 +505,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             coupon: '',
           },
           items: orderForm?.items || [],
+          packageItems: orderForm?.packageItems || [{ items: [] }],
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
@@ -521,6 +542,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm.appTotalizers,
           installmentInfo: orderForm.installmentInfo,
           allItemsQuantity: orderForm.allItemsQuantity,
+          packageItems: orderForm.packageItems,
           items: orderForm.items,
           selectableGift: orderForm.selectableGift,
         });
@@ -595,6 +617,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             }
             return orderItem;
           }) || [],
+          packageItems: orderForm?.packageItems || [{ items: [] }],
           selectableGift: orderForm?.selectableGift,
           marketingData: orderForm?.marketingData,
           appTotalizers: orderForm?.appTotalizers,
@@ -735,6 +758,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             }
             return item;
           }) || [],
+          packageItems: orderForm?.packageItems || [{ items: [] }],
           selectableGift: orderForm?.selectableGift,
           marketingData: orderForm?.marketingData,
           appTotalizers: orderForm?.appTotalizers,
@@ -755,6 +779,157 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
       } finally {
         set(() => ({ topBarLoading: false }));
       }
+    },
+    ADD_DELIVERY_TO_RESIDENCE: async (deliveryOptions, address) => {
+      try {
+        set(() => ({ topBarLoading: true }));
+
+        const { orderFormId } = getState();
+
+        const deliveryOptionsPickUp = deliveryOptions.map((option) => ({
+          itemIndex: option.itemIndex,
+          selectedSla: option.selectedSla,
+          selectedDeliveryChannel: DeliveryChannelEnum.Delivery,
+        }));
+
+        const { data } = await getApolloClient().mutate<
+        OrderFormSelectAddressMutation,
+        OrderFormSelectAddressMutationVariables
+        >({
+          mutation: OrderFormSelectAddressDocument,
+          context: { clientName: 'gateway' },
+          variables: {
+            input: {
+              orderFormId,
+              deliveryOptions: deliveryOptionsPickUp,
+              addressType: AddressTypeEnum.Residential,
+              addressId: address?.addressId,
+              cep: address?.postalCode,
+              street: address?.street,
+              neighborhood: address?.neighborhood,
+              city: address?.city,
+              state: address?.state,
+              complement: address?.complement,
+              number: address?.number,
+            },
+          },
+        });
+
+        const { orderFormSelectAddress: orderForm } = data || {};
+
+        set(() => ({
+          items: orderForm?.items.map((item) => {
+            if (item.productCategories.includes('Cartão Presente')) {
+              item.itemColor = '';
+              return item;
+            }
+            return item;
+          }) || [],
+          packageItems: orderForm?.packageItems || [{ items: [] }],
+          selectableGift: orderForm?.selectableGift,
+          marketingData: orderForm?.marketingData,
+          appTotalizers: orderForm?.appTotalizers,
+          installmentInfo: orderForm?.installmentInfo,
+          allItemsQuantity: orderForm?.allItemsQuantity,
+          deleteProductModal: {
+            show: false,
+            deleteInfo: undefined,
+          },
+          hasPrimeSubscriptionInCart: orderForm?.hasPrimeSubscriptionInCart,
+        }));
+      } catch (error) {
+        set(() => ({ error: error.message }));
+
+        throw new Error(error.message);
+      } finally {
+        set(() => ({ topBarLoading: false }));
+      }
+    },
+    ADD_DELIVERY_TO_PICKUP_IN_POINT: async (
+      deliveryOptionsStore,
+      storeAddress,
+    ) => {
+      try {
+        set(() => ({ topBarLoading: true }));
+
+        const { orderFormId, packageItems } = getState();
+
+        const deliveryOptionsIndexIds = deliveryOptionsStore.length > 0
+          ? deliveryOptionsStore.map((item) => item.itemIndex)
+          : [];
+
+        const items = mergeItemsPackage(packageItems);
+
+        const deliveryOptionsPickUp: OrderformSelectAddressInput['deliveryOptions'] = items.map((_, idx) => {
+          if (!deliveryOptionsIndexIds.includes(String(idx))) {
+            return ({
+              itemIndex: String(idx),
+              selectedSla: `Retire em Loja (${storeAddress?.addressId})`,
+              selectedDeliveryChannel: DeliveryChannelEnum.PickupInPoint,
+            });
+          }
+          return ({
+            itemIndex: String(idx),
+            selectedSla: 'Padrão',
+            selectedDeliveryChannel: DeliveryChannelEnum.Delivery,
+          });
+        });
+
+        const { data } = await getApolloClient().mutate<
+        OrderFormSelectAddressMutation,
+        OrderFormSelectAddressMutationVariables
+        >({
+          mutation: OrderFormSelectAddressDocument,
+          context: { clientName: 'gateway' },
+          variables: {
+            input: {
+              orderFormId,
+              deliveryOptions: [...deliveryOptionsPickUp],
+              addressType: AddressTypeEnum.Residential,
+              addressId: storeAddress?.addressId,
+              cep: storeAddress?.postalCode,
+              street: storeAddress?.street,
+              neighborhood: storeAddress?.neighborhood,
+              city: storeAddress?.city,
+              state: storeAddress?.state,
+              complement: storeAddress?.complement,
+              number: storeAddress?.number,
+            },
+          },
+        });
+
+        const { orderFormSelectAddress: orderForm } = data || {};
+
+        set(() => ({
+          items: orderForm?.items.map((item) => {
+            if (item.productCategories.includes('Cartão Presente')) {
+              item.itemColor = '';
+              return item;
+            }
+            return item;
+          }) || [],
+          packageItems: orderForm?.packageItems || [{ items: [] }],
+          selectableGift: orderForm?.selectableGift,
+          marketingData: orderForm?.marketingData,
+          appTotalizers: orderForm?.appTotalizers,
+          installmentInfo: orderForm?.installmentInfo,
+          allItemsQuantity: orderForm?.allItemsQuantity,
+          deleteProductModal: {
+            show: false,
+            deleteInfo: undefined,
+          },
+          hasPrimeSubscriptionInCart: orderForm?.hasPrimeSubscriptionInCart,
+        }));
+      } catch (error) {
+        set(() => ({ error: error.message }));
+
+        throw new Error(error.message);
+      } finally {
+        set(() => ({ topBarLoading: false }));
+      }
+    },
+    ADD_DELIVERY_TYPE: (type: string, store?: string) => {
+      set(() => ({ deliveryType: { type, store } }));
     },
     SAVE_ROULET_COUPON: (coupon: string, timestamp: string) => {
       set(() => ({

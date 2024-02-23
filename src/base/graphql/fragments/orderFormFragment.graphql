@@ -19,6 +19,9 @@ fragment orderFormFragment on OrderformOutput {
     items {
         ...OrderformItemFragment
     }
+    packageItems {
+        ...OrderformPackageItemsFragment
+    }
     selectableGift {
         ...OrderformSelectableGiftFragment
     }
