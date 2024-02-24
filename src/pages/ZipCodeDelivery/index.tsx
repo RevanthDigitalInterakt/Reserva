@@ -35,6 +35,7 @@ import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import PickUpHeader from './components/PickUpHeader';
 import PickUpItem from './components/PickUpItem';
 import { platformType } from '../../utils/platformType';
+import ProductUnavailable from '../Bag/components/ProductUnavailable';
 
 const getDeliveryAddressSchema = Yup.object().shape({
   postalCode: postalCodeSchema,
@@ -124,9 +125,14 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
     );
   }, [hasPostalCode]);
 
-  const renderHeader = () => (
+  const renderHeader = (showHeader: boolean) => (
     addressDelivery
-      && <PickUpHeader addressDelivery={addressDelivery} />
+      && (
+      <PickUpHeader
+        showHeader={showHeader}
+        addressDelivery={addressDelivery}
+      />
+      )
   );
 
   return (
@@ -201,7 +207,10 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
           </View>
         </Animated.View>
         <View style={zipCodeStyles.containerPaddingX}>
-          {!loading && addressDelivery?.delivery?.address && (
+          {!loading
+          && (addressDelivery?.delivery?.address
+            || !!addressDelivery?.storeList?.stores?.length)
+          && (
           <FlatList
             contentContainerStyle={{
               paddingBottom: 550,
@@ -210,7 +219,7 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
             showsVerticalScrollIndicator={false}
             data={addressDelivery.storeList.stores}
             keyExtractor={(item) => item.friendlyName}
-            ListHeaderComponent={renderHeader}
+            ListHeaderComponent={renderHeader(!!addressDelivery?.delivery?.address)}
             renderItem={({ item }) => (
               <PickUpItem
                 store={item}
@@ -220,6 +229,13 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
             )}
           />
           )}
+          <ProductUnavailable
+            type="ZIPCODE"
+            showCard={(!loading
+              && addressDelivery
+              && (!addressDelivery?.delivery?.address
+                && !addressDelivery?.storeList?.stores?.length))!}
+          />
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>

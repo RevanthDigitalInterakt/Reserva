@@ -4,49 +4,56 @@ import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreW
 import { getApolloClient } from '../../utils/getApolloClient';
 import {
   OrderFormAddDiscountCouponDocument,
-  OrderFormAddDiscountCouponMutation,
-  OrderFormAddDiscountCouponMutationVariables,
+  type OrderFormAddDiscountCouponMutation,
+  type OrderFormAddDiscountCouponMutationVariables,
   OrderFormAddGiftDocument,
-  OrderFormAddGiftMutation,
-  OrderFormAddGiftMutationVariables,
+  type OrderFormAddGiftMutation,
+  type OrderFormAddGiftMutationVariables,
   OrderFormAddItemDocument,
-  OrderFormAddItemMutation,
-  OrderFormAddItemMutationVariables,
+  type OrderFormAddItemMutation,
+  type OrderFormAddItemMutationVariables,
   OrderFormAddSellerCouponDocument,
-  OrderFormAddSellerCouponMutation,
-  OrderFormAddSellerCouponMutationVariables,
+  type OrderFormAddSellerCouponMutation,
+  type OrderFormAddSellerCouponMutationVariables,
   OrderFormDocument,
-  OrderFormQuery,
-  OrderFormQueryVariables,
+  type OrderFormQuery,
+  type OrderFormQueryVariables,
   OrderFormRefreshDataDocument,
-  OrderFormRefreshDataMutation,
-  OrderFormRefreshDataMutationVariables,
+  type OrderFormRefreshDataMutation,
+  type OrderFormRefreshDataMutationVariables,
   OrderFormRemoveDiscountCouponDocument,
-  OrderFormRemoveDiscountCouponMutation,
-  OrderFormRemoveDiscountCouponMutationVariables,
+  type OrderFormRemoveDiscountCouponMutation,
+  type OrderFormRemoveDiscountCouponMutationVariables,
   OrderFormRemoveGiftDocument,
-  OrderFormRemoveGiftMutation,
-  OrderFormRemoveGiftMutationVariables,
+  type OrderFormRemoveGiftMutation,
+  type OrderFormRemoveGiftMutationVariables,
   OrderFormRemoveSellerCouponDocument,
-  OrderFormRemoveSellerCouponMutation,
-  OrderFormRemoveSellerCouponMutationVariables,
+  type OrderFormRemoveSellerCouponMutation,
+  type OrderFormRemoveSellerCouponMutationVariables,
   OrderFormRemoveUnavailableItemsDocument,
-  OrderFormRemoveUnavailableItemsMutation,
-  OrderFormRemoveUnavailableItemsMutationVariables,
+  type OrderFormRemoveUnavailableItemsMutation,
+  type OrderFormRemoveUnavailableItemsMutationVariables,
   OrderFormResetDocument,
-  OrderFormResetMutation,
-  OrderFormResetMutationVariables,
+  type OrderFormResetMutation,
+  type OrderFormResetMutationVariables,
   OrderFormSetGiftSizeDocument,
-  OrderFormSetGiftSizeMutation,
-  OrderFormSetGiftSizeMutationVariables,
+  type OrderFormSetGiftSizeMutation,
+  type OrderFormSetGiftSizeMutationVariables,
   OrderFormUpdateItemDocument,
-  OrderFormUpdateItemMutation,
-  OrderFormUpdateItemMutationVariables,
+  type OrderFormUpdateItemMutation,
+  type OrderFormUpdateItemMutationVariables,
   ProductResultActionEnum,
   type OrderFormAddMultipleItemMutation,
   type OrderFormAddMultipleItemMutationVariables,
   OrderFormAddMultipleItemDocument,
+  type OrderformSelectAddressInput,
+  DeliveryChannelEnum,
+  type OrderFormSelectAddressMutation,
+  type OrderFormSelectAddressMutationVariables,
+  OrderFormSelectAddressDocument,
+  AddressTypeEnum,
 } from '../../base/graphql/generated';
+
 import { getAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { getMessageErrorWhenUpdateItem } from './helpers/getMessageErrorWhenUpdateItem';
 import { trackingOrderFormAddItem } from '../../utils/trackingOrderFormAddItem';
@@ -54,6 +61,7 @@ import { handleCopyTextToClipboard } from '../../utils/CopyToClipboard';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { trackEventDitoStatusCart } from '../../utils/trackEventDitoStatusCart';
 import { productDetailStore } from '../useProductDetail/useProductDetail';
+import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
 
 const bagStore = create<IBagStore>((set, getState): IBagStore => ({
   initialized: false,
@@ -135,6 +143,17 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           return item;
         });
 
+        orderForm.packageItems = orderForm.packageItems.map((subPackage) => {
+          subPackage.items.map((item) => {
+            if (item.productCategories.includes('Cartão Presente')) {
+              item.itemColor = '';
+              return item;
+            }
+            return item;
+          });
+          return subPackage;
+        });
+
         set(() => ({
           orderFormId,
           messages: orderForm.messages,
@@ -180,6 +199,17 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             return item;
           }
           return item;
+        });
+
+        orderForm.packageItems = orderForm.packageItems.map((subPackage) => {
+          subPackage.items.map((item) => {
+            if (item.productCategories.includes('Cartão Presente')) {
+              item.itemColor = '';
+              return item;
+            }
+            return item;
+          });
+          return subPackage;
         });
 
         set(() => ({
@@ -244,6 +274,17 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           return item;
         });
 
+        orderForm.packageItems = orderForm.packageItems.map((subPackage) => {
+          subPackage.items.map((item) => {
+            if (item.productCategories.includes('Cartão Presente')) {
+              item.itemColor = '';
+              return item;
+            }
+            return item;
+          });
+          return subPackage;
+        });
+
         set(() => ({
           clientProfileData: orderForm.clientProfileData,
           items: orderForm.items,
@@ -282,6 +323,17 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             return item;
           }
           return item;
+        });
+
+        orderForm.packageItems = orderForm.packageItems.map((subPackage) => {
+          subPackage.items.map((item) => {
+            if (item.productCategories.includes('Cartão Presente')) {
+              item.itemColor = '';
+              return item;
+            }
+            return item;
+          });
+          return subPackage;
         });
 
         set(() => ({
@@ -325,6 +377,17 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             return item;
           }
           return item;
+        });
+
+        orderForm.packageItems = orderForm.packageItems.map((subPackage) => {
+          subPackage.items.map((item) => {
+            if (item.productCategories.includes('Cartão Presente')) {
+              item.itemColor = '';
+              return item;
+            }
+            return item;
+          });
+          return subPackage;
         });
 
         set(() => ({
@@ -386,6 +449,17 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             return item;
           }
           return item;
+        });
+
+        orderForm.packageItems = orderForm.packageItems.map((subPackage) => {
+          subPackage.items.map((item) => {
+            if (item.productCategories.includes('Cartão Presente')) {
+              item.itemColor = '';
+              return item;
+            }
+            return item;
+          });
+          return subPackage;
         });
 
         set(() => ({
@@ -500,7 +574,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             coupon: '',
           },
           items: orderForm?.items || [],
-          packageItems: orderForm?.packageItems || [{ items: [] }],
+          packageItems: orderForm?.packageItems || [],
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
@@ -560,7 +634,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           variables: { orderFormId: getState().orderFormId },
         });
       } catch (error) {
-        //
+        set(() => ({ error: error.message }));
       } finally {
         set(() => ({ topBarLoading: false }));
       }
@@ -570,6 +644,10 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ topBarLoading: true }));
 
         let errorsMessages = '';
+
+        const { items } = getState();
+
+        const indexItem = items.findIndex((it) => it.id === item.id);
 
         const isGiftCard = item.productCategories.includes('Cartão Presente');
         const handleQuantity = () => {
@@ -585,7 +663,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           mutation: OrderFormUpdateItemDocument,
           variables: {
             orderFormId: getState().orderFormId,
-            index,
+            index: indexItem === index ? index : indexItem,
             id: item.id,
             seller: item.seller,
             quantity: handleQuantity(),
@@ -605,14 +683,23 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         }
 
         set(() => ({
-          items: orderForm?.items.map((orderItem) => {
-            if (orderItem.productCategories.includes('Cartão Presente')) {
-              orderItem.itemColor = '';
-              return orderItem;
+          items: orderForm?.items?.map((orderFormItem) => {
+            if (orderFormItem?.productCategories?.includes('Cartão Presente')) {
+              orderFormItem.itemColor = '';
+              return orderFormItem;
             }
-            return orderItem;
+            return orderFormItem;
           }) || [],
-          packageItems: orderForm?.packageItems || [{ items: [] }],
+          packageItems: orderForm?.packageItems.map((subPackage) => {
+            subPackage.items.map((packageItem) => {
+              if (packageItem.productCategories.includes('Cartão Presente')) {
+                packageItem.itemColor = '';
+                return packageItem;
+              }
+              return packageItem;
+            });
+            return subPackage;
+          }) || [],
           selectableGift: orderForm?.selectableGift,
           marketingData: orderForm?.marketingData,
           appTotalizers: orderForm?.appTotalizers,
@@ -642,6 +729,10 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
       try {
         set(() => ({ topBarLoading: true }));
 
+        const { items } = getState();
+
+        const indexItem = items.findIndex((it) => it.giftOfferingId === id);
+
         const { data } = await getApolloClient().mutate<
         OrderFormAddGiftMutation,
         OrderFormAddGiftMutationVariables
@@ -650,12 +741,15 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           context: { clientName: 'gateway' },
           variables: {
             orderFormId: getState().orderFormId,
-            index,
+            index: indexItem === index ? index : indexItem,
             id,
           },
         });
 
-        set(() => ({ items: data?.orderFormAddGift.items }));
+        set(() => ({
+          items: data?.orderFormAddGift.items,
+          packageItems: data?.orderFormAddGift.packageItems,
+        }));
       } catch (error) {
         set(() => ({ error: error.message }));
       } finally {
@@ -664,6 +758,12 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
     },
     REMOVE_GIFT: async (index, id) => {
       try {
+        set(() => ({ topBarLoading: true }));
+
+        const { items } = getState();
+
+        const indexItem = items.findIndex((it) => it.giftOfferingId === id);
+
         const { data } = await getApolloClient().mutate<
         OrderFormRemoveGiftMutation,
         OrderFormRemoveGiftMutationVariables
@@ -672,12 +772,15 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           context: { clientName: 'gateway' },
           variables: {
             orderFormId: getState().orderFormId,
-            index,
+            index: indexItem === index ? index : indexItem,
             id,
           },
         });
 
-        set(() => ({ items: data?.orderFormRemoveGift.items }));
+        set(() => ({
+          items: data?.orderFormRemoveGift.items,
+          packageItems: data?.orderFormRemoveGift.packageItems,
+        }));
       } catch (error) {
         set(() => ({ error: error.message }));
       } finally {
@@ -685,10 +788,13 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
       }
     },
     ACTIVE_MODAL_DELETE_PRODUCT: async (product, index) => {
+      const { items } = getState();
+
+      const indexItem = items.findIndex((it) => it.id === product.id);
       set(() => ({
         deleteProductModal: {
           show: true,
-          deleteInfo: { product, index },
+          deleteInfo: { product, index: indexItem === index ? index : indexItem },
         },
       }));
     },
@@ -747,14 +853,23 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         const { orderFormAddItem: orderForm } = data || {};
 
         set(() => ({
-          items: orderForm?.items.map((item) => {
-            if (item.productCategories.includes('Cartão Presente')) {
-              item.itemColor = '';
-              return item;
+          items: orderForm?.items?.map((orderFormItem) => {
+            if (orderFormItem?.productCategories?.includes('Cartão Presente')) {
+              orderFormItem.itemColor = '';
+              return orderFormItem;
             }
-            return item;
+            return orderFormItem;
           }) || [],
-          packageItems: orderForm?.packageItems || [{ items: [] }],
+          packageItems: orderForm?.packageItems.map((subPackage) => {
+            subPackage.items.map((packageItem) => {
+              if (packageItem.productCategories.includes('Cartão Presente')) {
+                packageItem.itemColor = '';
+                return packageItem;
+              }
+              return packageItem;
+            });
+            return subPackage;
+          }) || [],
           selectableGift: orderForm?.selectableGift,
           marketingData: orderForm?.marketingData,
           appTotalizers: orderForm?.appTotalizers,
@@ -805,7 +920,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             },
           };
         }
-        const { data } = await getApolloClient().mutate<OrderFormAddMultipleItemMutation,
+        const { data } = await getApolloClient().mutate<
+        OrderFormAddMultipleItemMutation,
         OrderFormAddMultipleItemMutationVariables>({
           mutation: OrderFormAddMultipleItemDocument,
           context: { clientName: 'gateway' },
@@ -823,6 +939,16 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
               return item;
             }
             return item;
+          }) || [],
+          packageItems: orderForm?.packageItems.map((subPackage) => {
+            subPackage.items.map((packageItem) => {
+              if (packageItem.productCategories.includes('Cartão Presente')) {
+                packageItem.itemColor = '';
+                return packageItem;
+              }
+              return packageItem;
+            });
+            return subPackage;
           }) || [],
           selectableGift: orderForm?.selectableGift,
           marketingData: orderForm?.marketingData,
@@ -890,7 +1016,16 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             }
             return item;
           }) || [],
-          packageItems: orderForm?.packageItems || [{ items: [] }],
+          packageItems: orderForm?.packageItems.map((subPackage) => {
+            subPackage.items.map((packageItem) => {
+              if (packageItem.productCategories.includes('Cartão Presente')) {
+                packageItem.itemColor = '';
+                return packageItem;
+              }
+              return packageItem;
+            });
+            return subPackage;
+          }) || [],
           selectableGift: orderForm?.selectableGift,
           marketingData: orderForm?.marketingData,
           appTotalizers: orderForm?.appTotalizers,
@@ -973,7 +1108,16 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             }
             return item;
           }) || [],
-          packageItems: orderForm?.packageItems || [{ items: [] }],
+          packageItems: orderForm?.packageItems.map((subPackage) => {
+            subPackage.items.map((packageItem) => {
+              if (packageItem.productCategories.includes('Cartão Presente')) {
+                packageItem.itemColor = '';
+                return packageItem;
+              }
+              return packageItem;
+            });
+            return subPackage;
+          }) || [],
           selectableGift: orderForm?.selectableGift,
           marketingData: orderForm?.marketingData,
           appTotalizers: orderForm?.appTotalizers,

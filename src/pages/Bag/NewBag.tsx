@@ -53,8 +53,6 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   const {
     topBarLoading,
     packageItems,
-    deliveryType,
-    items,
     initialLoad,
     initialized,
     productNotFound,
@@ -66,8 +64,6 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   } = useBagStore([
     'topBarLoading',
     'packageItems',
-    'deliveryType',
-    'items',
     'initialLoad',
     'initialized',
     'productNotFound',
@@ -87,6 +83,8 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   }, [packageItems]);
 
   const selectedDelivery = useMemo(() => getSelectedDelivery(packageItems), [packageItems]);
+
+  const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
 
   const handleNavigateToCep = useCallback(() => {
     navigation.navigate('ZipCodeDelivery');
@@ -124,31 +122,31 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
     });
   }, [items]);
 
-  const hasUnavailableItems = useMemo(() => packageItems.some((pack) => pack.items.some((item) => item.availability !== 'available')), [packageItems]);
+  const hasUnavailableItems = useMemo(
+    () => items.some((item) => item.availability !== 'available'),
+    [items],
+  );
 
   useEffect(() => {
     if (initialized) {
       handleAbandonedCartTags();
-      const itemsPackage = mergeItemsPackage(packageItems);
-      const type = itemsPackage.length ? TrackPageTypeEnum.Cart : TrackPageTypeEnum.Emptycart;
+      const type = items.length ? TrackPageTypeEnum.Cart : TrackPageTypeEnum.Emptycart;
       trackPageViewStore.getState().onTrackPageView('bag', type);
     }
-  }, [initialized, packageItems, handleAbandonedCartTags]);
+  }, [initialized, items.length, handleAbandonedCartTags]);
 
   useEffect(() => {
     actions.REFETCH_ORDER_FORM();
   }, [actions]);
 
   useEffect(() => {
-    // TODO Ajustar getBrands
-    const itemsPackage = mergeItemsPackage(packageItems);
     trackAccessBag(
       allItemsQuantity,
       appTotalizers.total,
-      getBrands(itemsPackage),
+      getBrands(items),
       clientProfileData,
     );
-  }, []);
+  }, [items]);
 
   useEffect(() => {
     trackViewCart({ items, price: appTotalizers.total });

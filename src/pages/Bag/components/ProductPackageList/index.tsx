@@ -112,7 +112,12 @@ export default function BagProductPackageList() {
                 ? productPackageListStyles.titleUnavailable : productPackageListStyles.title,
             ]}
             >
-              {availableList?.metadata?.title}
+              {availableList?.metadata?.availability === 'UNAVAILABLE' ? (
+                'Produtos indisponíveis'
+              ) : (
+
+                `Pacote ${idx + 1}`
+              )}
             </Text>
           </View>
           <ProductUnavailable type="UNAVAILABLE" showCard={availableList?.metadata?.availability === 'UNAVAILABLE'} />
@@ -122,14 +127,14 @@ export default function BagProductPackageList() {
               if (item.sellingPrice !== 0 && item.isGift === false) {
                 return item.isPrimeSubscription ? (
                   <ProductListItemPrime
-                    key={item.key}
+                    key={item.productId}
                     data={item}
                     onDelete={() => handleDeleteProductModal(item, index)}
                     onPress={() => handleNavigationToDetail(item)}
                   />
                 ) : (
                   <ProductListItem
-                    key={item.key}
+                    key={item.productId}
                     data={item}
                     onAddCount={(count) => handleAddCount(count, item, index)}
                     onSubCount={(count) => handleSubCount(count, item.quantity, item, index)}
@@ -149,7 +154,6 @@ export default function BagProductPackageList() {
           <DeliveryItemInfo
             friendlyName={availableList?.metadata?.friendlyName!}
             shippingEstimate={availableList?.metadata?.shippingEstimate}
-            totalShippingValue={availableList?.totalShippingValue}
           />
           )}
           {(packageItems.length - 1) > idx && (

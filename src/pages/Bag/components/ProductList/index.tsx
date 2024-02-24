@@ -11,11 +11,14 @@ import { getBrands } from '../../../../utils/getBrands';
 import { useCart } from '../../../../context/CartContext';
 import ProductListItem from '../ProductListItem';
 import ProductListItemPrime from '../ProductListItem/ProductListItemPrime';
+import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
 
 export default function BagProductList() {
   const { orderForm } = useCart();
-  const { actions, items } = useBagStore(['actions', 'items']);
+  const { actions, packageItems } = useBagStore(['actions', 'packageItems']);
   const navigation = useNavigation();
+
+  const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
 
   const availableList = useMemo(() => items.filter((item) => item.availability === 'available'), [items]);
 

@@ -1,20 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Text, View } from 'react-native';
 import { deliveryItemInfoStyles } from './DeliveryItemInfo.styles';
 import IconComponent from '../../../../components/IconComponent/IconComponent';
-import { decimalPart, integerPart } from '../../../../utils/numberUtils';
 
 type DeliveryItemInfoProps = {
   friendlyName: string;
-  shippingEstimate: string;
-  totalShippingValue: number;
+  shippingEstimate: number;
 };
 
 export default function DeliveryItemInfo({
   friendlyName,
   shippingEstimate,
-  totalShippingValue,
 }: DeliveryItemInfoProps) {
+  const estimateText = useMemo(
+    () => (
+      shippingEstimate > 1
+        ? `Em até ${shippingEstimate} dias úteis.`
+        : `Em até ${shippingEstimate} dia útil.`),
+    [shippingEstimate],
+  );
+
   return (
     <View style={deliveryItemInfoStyles.container}>
       <View style={deliveryItemInfoStyles.containerWrap}>
@@ -24,22 +29,10 @@ export default function DeliveryItemInfo({
             {friendlyName}
           </Text>
           <Text style={deliveryItemInfoStyles.subTitle}>
-            {shippingEstimate}
+            {estimateText}
           </Text>
         </View>
       </View>
-      <Text style={deliveryItemInfoStyles.shippingValue}>
-        {totalShippingValue > 0 ? (
-          `R$ ${integerPart(
-            (totalShippingValue / 100),
-          )},${decimalPart(
-            (totalShippingValue / 100),
-          )}`
-        ) : (
-          'Grátis'
-        )}
-      </Text>
-
     </View>
   );
 }

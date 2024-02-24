@@ -9,10 +9,12 @@ import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 
 type TPickUpHeaderProps = {
   addressDelivery: ShippingSimulationOutput
+  showHeader: boolean
 };
 
 export default function PickUpHeader({
   addressDelivery,
+  showHeader,
 }: TPickUpHeaderProps): JSX.Element {
   const { actions } = useBagStore(['actions']);
   const navigation = useNavigation();
@@ -27,21 +29,26 @@ export default function PickUpHeader({
   };
   return (
     <>
-      <View style={pickUpHeaderStyles.containerMarginTop}>
-        <Text style={pickUpHeaderStyles.deliveryText}>
-          Receba em casa
-        </Text>
-      </View>
-      <View style={pickUpHeaderStyles.containerMarginTop}>
-        <AddZipCodeDelivery
-          icon="greenCheck"
-          label={addressDelivery?.delivery?.address?.street!}
-          description={`${addressDelivery?.delivery.address?.neighborhood} - ${addressDelivery?.delivery.address?.city} - ${addressDelivery?.delivery.address?.state}`}
-          onPress={handleClickDeliveryToResidence}
-        />
-      </View>
+      {showHeader && (
+      <>
+        <View style={pickUpHeaderStyles.containerMarginTop}>
+          <Text style={pickUpHeaderStyles.deliveryText}>
+            Receba em casa
+          </Text>
+        </View>
+        <View style={pickUpHeaderStyles.containerMarginTop}>
+          <AddZipCodeDelivery
+            icon="greenCheck"
+            label={addressDelivery?.delivery?.address?.street!}
+            description={`${addressDelivery?.delivery.address?.neighborhood} - ${addressDelivery?.delivery.address?.city} - ${addressDelivery?.delivery.address?.state}`}
+            onPress={handleClickDeliveryToResidence}
+          />
+        </View>
+      </>
+      )}
       {!!addressDelivery?.storeList?.stores.length && (
       <>
+        {showHeader && (
         <View style={pickUpHeaderStyles.dividerWrap}>
           <View style={pickUpHeaderStyles.divider} />
           <Text style={pickUpHeaderStyles.dividerText}>
@@ -49,6 +56,7 @@ export default function PickUpHeader({
           </Text>
           <View style={pickUpHeaderStyles.divider} />
         </View>
+        )}
         <View style={pickUpHeaderStyles.containerMarginTop}>
           <View>
             <Text style={pickUpHeaderStyles.deliveryText}>
