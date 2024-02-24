@@ -43,12 +43,9 @@ import {
   OrderFormUpdateItemMutation,
   OrderFormUpdateItemMutationVariables,
   ProductResultActionEnum,
-  type OrderFormSelectAddressMutation,
-  type OrderFormSelectAddressMutationVariables,
-  OrderFormSelectAddressDocument,
-  DeliveryChannelEnum,
-  AddressTypeEnum,
-  type OrderformSelectAddressInput,
+  type OrderFormAddMultipleItemMutation,
+  type OrderFormAddMultipleItemMutationVariables,
+  OrderFormAddMultipleItemDocument,
 } from '../../base/graphql/generated';
 import { getAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { getMessageErrorWhenUpdateItem } from './helpers/getMessageErrorWhenUpdateItem';
@@ -57,7 +54,6 @@ import { handleCopyTextToClipboard } from '../../utils/CopyToClipboard';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { trackEventDitoStatusCart } from '../../utils/trackEventDitoStatusCart';
 import { productDetailStore } from '../useProductDetail/useProductDetail';
-import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
 
 const bagStore = create<IBagStore>((set, getState): IBagStore => ({
   initialized: false,
@@ -131,7 +127,6 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           throw new Error('OrderForm inválido.');
         }
 
-        // TODO - Fazer map dos packagesItems
         orderForm.items = orderForm.items.map((item) => {
           if (item.productCategories.includes('Cartão Presente')) {
             item.itemColor = '';
@@ -291,8 +286,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         set(() => ({
           clientProfileData: orderForm.clientProfileData,
-          packageItems: orderForm.packageItems,
           items: orderForm.items,
+          packageItems: orderForm.packageItems,
           marketingData: orderForm.marketingData,
           shippingData: orderForm.shippingData,
           installmentInfo: orderForm.installmentInfo,
@@ -398,8 +393,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm.appTotalizers,
           installmentInfo: orderForm.installmentInfo,
           allItemsQuantity: orderForm.allItemsQuantity,
-          packageItems: orderForm.packageItems,
           items: orderForm.items,
+          packageItems: orderForm.packageItems,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -440,8 +435,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
-          packageItems: orderForm?.packageItems || [],
           items: orderForm?.items || [],
+          packageItems: orderForm?.packageItems || [],
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -542,8 +537,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm.appTotalizers,
           installmentInfo: orderForm.installmentInfo,
           allItemsQuantity: orderForm.allItemsQuantity,
-          packageItems: orderForm.packageItems,
           items: orderForm.items,
+          packageItems: orderForm.packageItems,
           selectableGift: orderForm.selectableGift,
         });
       } catch (error) {
@@ -642,6 +637,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         set(() => ({ topBarLoading: false }));
       }
     },
+
     ADD_GIFT: async (index, id) => {
       try {
         set(() => ({ topBarLoading: true }));
@@ -772,6 +768,75 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         }));
 
         await trackingOrderFormAddItem(id, orderForm);
+      } catch (error) {
+        set(() => ({ error: error.message }));
+
+        throw new Error(error.message);
+      } finally {
+        set(() => ({ topBarLoading: false }));
+      }
+    },
+
+    ADD_MULTIPLE_ITEMS: async (orderItems) => {
+      try {
+        set(() => ({ topBarLoading: true }));
+
+        if (!orderItems) return;
+
+        const { selectedGiftCardEmail, productDetail } = productDetailStore.getState();
+        const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
+
+        const arrOrderItems = orderItems.orderItems.map((orderItem) => ({
+          id: orderItem.id,
+          quantity: orderItem.quantity,
+          seller: orderItem.seller,
+        }));
+
+        let input = {
+          orderFormId: getState().orderFormId,
+          orderItems: arrOrderItems,
+        };
+
+        if (isGiftCard) {
+          input = {
+            ...input,
+            giftCard: {
+              email: selectedGiftCardEmail,
+            },
+          };
+        }
+        const { data } = await getApolloClient().mutate<OrderFormAddMultipleItemMutation,
+        OrderFormAddMultipleItemMutationVariables>({
+          mutation: OrderFormAddMultipleItemDocument,
+          context: { clientName: 'gateway' },
+          variables: {
+            input,
+          },
+        });
+
+        const { orderFormAddMultipleItem: orderForm } = data || {};
+
+        set(() => ({
+          items: orderForm?.items.map((item) => {
+            if (item.productCategories.includes('Cartão Presente')) {
+              item.itemColor = '';
+              return item;
+            }
+            return item;
+          }) || [],
+          selectableGift: orderForm?.selectableGift,
+          marketingData: orderForm?.marketingData,
+          appTotalizers: orderForm?.appTotalizers,
+          installmentInfo: orderForm?.installmentInfo,
+          allItemsQuantity: orderForm?.allItemsQuantity,
+          deleteProductModal: {
+            show: false,
+            deleteInfo: undefined,
+          },
+          hasPrimeSubscriptionInCart: orderForm?.hasPrimeSubscriptionInCart,
+        }));
+
+        await trackingOrderFormAddItem(orderItems?.orderFormId, orderForm);
       } catch (error) {
         set(() => ({ error: error.message }));
 

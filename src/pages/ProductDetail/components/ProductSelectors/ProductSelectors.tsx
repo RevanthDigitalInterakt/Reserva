@@ -12,7 +12,6 @@ import { Typography } from '../../../../components/Typography/Typography';
 import EventProvider from '../../../../utils/EventProvider';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
-import ProductAddToCart from '../ProductAddToCart';
 import { SelectColor } from '../SelectColor/SelectColor';
 import { SizeGuide, SizeGuideImages } from './SizeGuide';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
@@ -27,6 +26,7 @@ import { commons } from '../../../../base/styles';
 import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { RouletCouponCard } from '../../../Home/components/RouletCouponCard';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
+import ProductAddToCart from '../ProductAddToCart';
 
 function ProductSelectors() {
   const [showModal, setShowModal] = useState(false);
@@ -34,6 +34,7 @@ function ProductSelectors() {
     productDetail,
     selectedColor,
     selectedSize,
+    sizeIsSelected,
     setSelectedColor,
     setSelectedSize,
     selectedGiftCardSku,
@@ -41,6 +42,7 @@ function ProductSelectors() {
     selectedGiftCardEmail,
     setGiftCardSelectedEmail,
   } = useProductDetailStore([
+    'sizeIsSelected',
     'productDetail',
     'selectedColor',
     'selectedSize',
@@ -101,13 +103,6 @@ function ProductSelectors() {
     return productDetail.categoryTree.map((item) => ({ name: item }));
   }, [productDetail]);
 
-  useEffect(() => {
-    if (selectedSize) doSelectSizeTrack();
-    return () => {
-      setGiftCardSelectedEmail('');
-      setGiftCardSelectedAmount('');
-    };
-  }, [selectedSize, doSelectSizeTrack]);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
 
   const handleBottomSheet = useCallback(() => {
@@ -133,6 +128,22 @@ function ProductSelectors() {
   }, [selectedGiftCardSku, productDetail?.giftCard?.options]);
 
   const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
+
+  useEffect(() => {
+    if (selectedSize) doSelectSizeTrack();
+    return () => {
+      setGiftCardSelectedEmail('');
+      setGiftCardSelectedAmount('');
+    };
+  }, [selectedSize, doSelectSizeTrack]);
+
+  const addToBagButtonIsFixed = getBoolean('add_to_bag_button_is_fixed');
+  const handleSelectedItem = useMemo(() => {
+    if (addToBagButtonIsFixed) {
+      return sizeIsSelected ? selectedSize?.size || '' : '';
+    }
+    return selectedSize?.size || '';
+  }, [sizeIsSelected, addToBagButtonIsFixed, selectedSize]);
 
   if (!productDetail) return null;
 
@@ -172,7 +183,7 @@ function ProductSelectors() {
               )}
             </Box>
 
-            <Box alignItems="flex-start" mt="xxxs">
+            <Box alignItems="flex-start" mt="xxxs" mb="xxxs">
               <RadioButtons
                 size={38}
                 fontSize={12}
@@ -180,7 +191,7 @@ function ProductSelectors() {
                 onSelectedChange={(val) => setSelectedSize(`${val}`)}
                 optionsList={sizes}
                 defaultSelectedItem=""
-                selectedItem={selectedSize?.size || ''}
+                selectedItem={handleSelectedItem}
               />
             </Box>
           </Box>
@@ -226,7 +237,10 @@ function ProductSelectors() {
               />
             </BottomSheet>
           </>
-        ) : <ProductAddToCart />}
+        ) : null}
+        {!isGiftCard && !getBoolean('add_to_bag_button_is_fixed') && (
+          <ProductAddToCart />
+        )}
         {showRoulet ? (
           <RouletCouponCard />
         ) : null}
