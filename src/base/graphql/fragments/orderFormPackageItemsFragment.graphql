@@ -1,5 +1,6 @@
 fragment OrderformPackageItemsFragment on OrderformPackageItemsOutput {
-    items {
+      items {
+      index
       productTitle
       itemColor
       itemSize

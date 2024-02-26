@@ -31,10 +31,9 @@ export default function KitLookFooter() {
   const { itemsTotalizer, selectedKitItems } = useProductDetailStore(['itemsTotalizer', 'selectedKitItems']);
   const {
     actions,
-    items,
     orderFormId,
     installmentInfo,
-  } = useBagStore(['actions', 'orderFormId', 'items', 'installmentInfo']);
+  } = useBagStore(['actions', 'orderFormId', 'installmentInfo']);
 
   const { restoreCart } = useCart();
 
@@ -59,7 +58,6 @@ export default function KitLookFooter() {
   }, [
     actions,
     loading,
-    items,
     orderFormId,
     restoreCart,
     selectedKitItems,

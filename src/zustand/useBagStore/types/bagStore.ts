@@ -34,7 +34,6 @@ export interface IBagStore {
   orderFormId: string;
   messages: string[];
   clientProfileData?: OrderFormQuery['orderForm']['clientProfileData'];
-  items: OrderFormQuery['orderForm']['items']
   packageItems: OrderFormQuery['orderForm']['packageItems']
   deliveryType: {
     type: string;
@@ -65,7 +64,9 @@ export interface IBagStore {
     REMOVE_DISCOUNT_COUPON: () => Promise<void>;
     ADD_ITEM: (seller: string, id: string, quantity: number) => Promise<void>;
     ADD_DELIVERY_TO_RESIDENCE: (deliveryOptions: ShippingSimulationOutput['delivery']['deliveryOptions'], address: ShippingSimulationOutput['delivery']['address']) => Promise<void>;
-    ADD_DELIVERY_TO_PICKUP_IN_POINT: (deliveryOptionsStore: ShippingSimulationOutput['storeList']['deliveryOptions'], storeAddress: ShippingSimulationOutput['storeList']['stores'][0]['address']) => Promise<void>;
+    ADD_DELIVERY_TO_PICKUP_IN_POINT: (
+      deliveryOptionsStore: ShippingSimulationOutput['storeList']['deliveryOptions'],
+      storeAddress: ShippingSimulationOutput['storeList']['stores'][0]['address']) => Promise<void>;
     ADD_DELIVERY_TYPE: (type: string, store?: string) => void;
     ADD_MULTIPLE_ITEMS: (orderItems: OrderformAddMultipleItemInput) => Promise<void>;
     SAVE_ROULET_COUPON: (coupon: string, timestamp: string) => void;

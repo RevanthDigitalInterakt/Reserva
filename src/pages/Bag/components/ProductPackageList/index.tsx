@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import { Text, View } from 'react-native';
@@ -17,8 +17,13 @@ import ProductListItemPrime from '../ProductListItem/ProductListItemPrime';
 
 export default function BagProductPackageList() {
   const { orderForm } = useCart();
-  const { actions, packageItems } = useBagStore(['actions', 'items', 'packageItems']);
+  const { actions, packageItems } = useBagStore(['actions', 'packageItems']);
   const navigation = useNavigation();
+
+  const hasPackageItems = useMemo(
+    () => packageItems.length >= 1 && !!packageItems[0]?.metadata?.availability,
+    [packageItems],
+  );
 
   const handleAddProductToGift = useCallback(async (
     isAddedAsGift: boolean,
@@ -98,21 +103,26 @@ export default function BagProductPackageList() {
       return;
     }
 
-    navigation.navigate('ProductDetail', createNavigateToProductParams({ productId, skuId: id }));
+    navigation.navigate(
+      'ProductDetail',
+      createNavigateToProductParams({ productId, skuId: id }),
+    );
   }, [navigation]);
 
   return (
     <View>
-      {packageItems.map((availableList, idx) => (
+      {packageItems.map((packItem, idx) => (
         <View>
+          {hasPackageItems
+          && (
           <View style={productPackageListStyles.titleContainer}>
             <Text style={[
               productPackageListStyles.title,
-              availableList?.metadata?.availability === 'UNAVAILABLE'
+              packItem?.metadata?.availability === 'UNAVAILABLE'
                 ? productPackageListStyles.titleUnavailable : productPackageListStyles.title,
             ]}
             >
-              {availableList?.metadata?.availability === 'UNAVAILABLE' ? (
+              {packItem?.metadata?.availability === 'UNAVAILABLE' ? (
                 'Produtos indisponíveis'
               ) : (
 
@@ -120,28 +130,35 @@ export default function BagProductPackageList() {
               )}
             </Text>
           </View>
-          <ProductUnavailable type="UNAVAILABLE" showCard={availableList?.metadata?.availability === 'UNAVAILABLE'} />
-          <ProductUnavailable type="SOME_UNAVAILABLE" showCard={availableList?.metadata?.availability === 'SOME_UNAVAILABLE'} />
+          )}
+
+          <ProductUnavailable type="UNAVAILABLE" showCard={packItem?.metadata?.availability === 'UNAVAILABLE'} />
+          <ProductUnavailable type="SOME_UNAVAILABLE" showCard={packItem?.metadata?.availability === 'SOME_UNAVAILABLE'} />
+
           <View style={{ gap: 25 }}>
-            { availableList.items.map((item, index: number) => {
-              if (item.sellingPrice !== 0 && item.isGift === false) {
+            { packItem.items.map((item) => {
+              if (item.sellingPrice !== 0 && !item.isGift) {
                 return item.isPrimeSubscription ? (
                   <ProductListItemPrime
-                    key={`${item.productId}-${String(index)}`}
+                    key={`${item.productId}-${String(item.index)}`}
                     data={item}
-                    onDelete={() => handleDeleteProductModal(item, index)}
+                    onDelete={() => handleDeleteProductModal(item, item.index)}
                     onPress={() => handleNavigationToDetail(item)}
                   />
                 ) : (
                   <ProductListItem
-                    key={`${item.productId}-${String(index)}`}
+                    key={`${item.productId}-${String(item.index)}`}
                     data={item}
-                    onAddCount={(count) => handleAddCount(count, item, index)}
-                    onSubCount={(count) => handleSubCount(count, item.quantity, item, index)}
-                    onDelete={() => handleDeleteProductModal(item, index)}
+                    onAddCount={(count) => handleAddCount(count, item, item.index)}
+                    onSubCount={(count) => handleSubCount(count, item.quantity, item, item.index)}
+                    onDelete={() => handleDeleteProductModal(item, item.index)}
                     onPress={() => handleNavigationToDetail(item)}
                     onAddGift={() => (
-                      handleAddProductToGift(item.isAddedAsGift, index, item.giftOfferingId)
+                      handleAddProductToGift(
+                        item.isAddedAsGift,
+                        item.index,
+                        item.giftOfferingId,
+                      )
                     )}
                   />
                 );
@@ -150,10 +167,10 @@ export default function BagProductPackageList() {
               return null;
             })}
           </View>
-          {availableList?.metadata?.shippingEstimate && (
+          {packItem?.metadata?.shippingEstimate && (
           <DeliveryItemInfo
-            friendlyName={availableList?.metadata?.friendlyName!}
-            shippingEstimate={availableList?.metadata?.shippingEstimate}
+            friendlyName={packItem?.metadata?.friendlyName!}
+            shippingEstimate={packItem?.metadata?.shippingEstimate}
           />
           )}
           {(packageItems.length - 1) > idx && (
