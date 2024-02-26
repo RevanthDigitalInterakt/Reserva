@@ -1318,6 +1318,7 @@ export type ProductListOutput = {
   hasDiscount: Scalars['Boolean']['output'];
   hasPrime?: Maybe<Scalars['Boolean']['output']>;
   image: Scalars['String']['output'];
+  images?: Maybe<Array<Scalars['String']['output']>>;
   installment: ProductPriceInstallmentOutput;
   installmentEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
   listPrice: Scalars['Float']['output'];
@@ -1327,6 +1328,7 @@ export type ProductListOutput = {
   size?: Maybe<Scalars['String']['output']>;
   skuId: Scalars['String']['output'];
   skuName: Scalars['String']['output'];
+  slug?: Maybe<Scalars['String']['output']>;
 };
 
 export type ProductListPrimeOutput = {
@@ -1361,7 +1363,7 @@ export type ProductOutput = {
 
 export type ProductPriceInstallmentOutput = {
   __typename?: 'ProductPriceInstallmentOutput';
-  number: Scalars['Float']['output'];
+  number: Scalars['Int']['output'];
   value: Scalars['Float']['output'];
 };
 
@@ -1849,6 +1851,7 @@ export type SearchProductPriceRangeInput = {
 };
 
 export enum SearchProviderEnum {
+  Algolia = 'ALGOLIA',
   Smarthint = 'SMARTHINT',
   Vtex = 'VTEX'
 }
