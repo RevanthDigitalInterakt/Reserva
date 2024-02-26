@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### 2.3.3
+- [26967 - Teste push duplicado da dito](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/26967)
+
+---
+
 ### 2.3.2
 
 - [20484 - Adicionar kitlook na sacola - kitlook app](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/20484)
