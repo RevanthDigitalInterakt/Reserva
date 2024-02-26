@@ -140,7 +140,7 @@ export function MyWalletContainer({ navigateBack }: MyWalletContainerProps) {
           (operation) => operation?.status === 'available' || operation?.status === 'fulfilled',
         );
       case FilterOptions.EXPIRED:
-        return  userOperations?.filter( (operation) => operation?.status === 'expired');
+        return userOperations?.filter((operation) => operation?.status === 'expired');
       case FilterOptions.CANCELED:
         return userOperations?.filter(
           (operation) => operation?.status === 'canceled',
