@@ -55,7 +55,9 @@ export interface IRemoteConfigKeys {
   show_onep5p_home: boolean;
   show_onep5p_menu: boolean;
   show_onep5p_pdp: boolean;
+  show_kitlook: boolean;
   add_to_bag_button_is_fixed: boolean
+  count_down_position: string;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -108,7 +110,9 @@ export const defaults: IRemoteConfigKeys = {
   show_onep5p_home: false,
   show_onep5p_menu: false,
   show_onep5p_pdp: false,
+  show_kitlook: false,
   add_to_bag_button_is_fixed: false,
+  count_down_position: 'A',
 };
 
 const FIVE_MINUTES_IN_MS = 300000;

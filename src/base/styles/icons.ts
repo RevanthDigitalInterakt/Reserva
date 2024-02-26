@@ -97,6 +97,10 @@ export const commons = {
   cutlery: require('../../../assets/common/cutlery.png'),
   green1p5p: require('../../../assets/common/green1p5p.png'),
   black1p5p: require('../../../assets/common/black1p5p.png'),
+  chevronLeftFill: require('../../../assets/common/chevronLeftFill.png'),
+  chevronRightFill: require('../../../assets/common/chevronRightFill.png'),
+  addition: require('../../../assets/common/addition.png'),
+  subtraction: require('../../../assets/common/subtraction.png'),
 };
 
 /* mapping of svgs used as icons */

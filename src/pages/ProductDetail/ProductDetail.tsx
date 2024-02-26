@@ -32,6 +32,7 @@ import { getProductLoadType } from './utils/getProductLoadType';
 import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
+import KitLookSummary from './components/ProductKitLookSummary/KitLookSummary';
 import ProductAddToCart from './components/ProductAddToCart';
 import { Drawer } from '../../components/Drawer';
 import { DrawerSelectors } from './components/DrawerSelectors';
@@ -54,6 +55,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   ]);
 
   const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
+
+  const isKitLook = productDetail?.action === ProductResultActionEnum.ShowKit;
 
   const [getProduct, { loading }] = useProductLazyQuery({
     fetchPolicy: getFetchPolicyPerKey('productDetail'),
@@ -115,11 +118,13 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         product_currency: 'BRL',
       });
 
+      const showKitlook = getBoolean('show_kitlook');
+
       const pdpShowGiftCard = getBoolean('pdp_show_gift_card');
       if (
-        (
-          product.action !== ProductResultActionEnum.ShowProduct
+        (product.action !== ProductResultActionEnum.ShowProduct
           && product.action !== ProductResultActionEnum.ShowGiftCard
+          && (!isKitLook && !showKitlook)
         )
         || (product.action === ProductResultActionEnum.ShowGiftCard && !pdpShowGiftCard)
       ) {
@@ -160,29 +165,30 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   return (
     <>
       <ProductDetailWrapper loading={loading}>
-        {!!productDetail && (
-        <View>
-          <ProductSummary />
+        {!!productDetail && !isKitLook && (
+          <View>
+            <ProductSummary />
 
-          <ProductSelectors />
+            <ProductSelectors />
 
-          <Box px="xxxs">
-            <ProductAssinaturaSimples />
+            <Box px="xxxs">
+              <ProductAssinaturaSimples />
 
-            <ProductSLA />
+              <ProductSLA />
 
-            <ProductAbout />
+              <ProductAbout />
 
-          </Box>
+            </Box>
 
-          <Recommendation />
+            <Recommendation />
 
-          <Box px="xxxs">
-            <FormNewsletter />
-          </Box>
+            <Box px="xxxs">
+              <FormNewsletter />
+            </Box>
 
-        </View>
+          </View>
         )}
+        {isKitLook && <KitLookSummary />}
       </ProductDetailWrapper>
       {!isGiftCard && (
         <Drawer isOpen={drawerIsOpen} snapPoints={['15%', '48%']}>
@@ -190,7 +196,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         </Drawer>
       )}
       {isGiftCard ? <GiftCardAddToCart /> : null}
-      {!isGiftCard && !drawerIsOpen && getBoolean('add_to_bag_button_is_fixed') && <ProductAddToCart isFixed />}
+      {!isGiftCard && !drawerIsOpen && getBoolean('add_to_bag_button_is_fixed') && !isKitLook
+        && !loading && <ProductAddToCart isFixed />}
     </>
   );
 }

@@ -1,18 +1,22 @@
 import { create } from 'zustand';
 import type {
-  ProductColorOutput, ProductQuery, ProductSizeOutput,
+  OrderformAddMultipleItemInput,
+  ProductColorOutput, ProductKitOutput, ProductQuery, ProductSizeOutput,
 } from '../../base/graphql/generated';
 import type { IProductDetailRouteParams } from '../../utils/createNavigateToProductParams';
 import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
 
 interface IUseProductDetailStore {
   productDetail: ProductQuery['product'] | null;
+  kit?: ProductKitOutput[] | null,
   selectedColor: ProductColorOutput | null;
   selectedSize: ProductSizeOutput | null;
   sizeIsSelected: boolean;
   drawerIsOpen: boolean;
   selectedGiftCardSku: string | undefined;
   selectedGiftCardEmail: string | undefined;
+  selectedKitItems: OrderformAddMultipleItemInput | null;
+  itemsTotalizer: number;
   initialCep?: string;
   assinaturaSimples: {
     accepted: boolean;
@@ -24,6 +28,7 @@ interface IUseProductDetailStore {
   setSelectedSize: (variantId: string) => void;
   setGiftCardSelectedAmount: (giftCardSku: string) => void;
   setGiftCardSelectedEmail: (giftCardEmail: string) => void;
+  setSelectedKitItems: (kitItems: OrderformAddMultipleItemInput, itemsTotalizer: number) => void;
   setDrawerIsOpen: (isOpen: boolean) => void;
   getDisabledSizes: () => string[];
   getSizes: () => string[];
@@ -31,12 +36,15 @@ interface IUseProductDetailStore {
 
 export const productDetailStore = create<IUseProductDetailStore>((set, getState) => ({
   productDetail: null,
+  kit: null,
   selectedColor: null,
   selectedGiftCardEmail: undefined,
   sizeIsSelected: false,
   drawerIsOpen: false,
   selectedSize: null,
   selectedGiftCardSku: undefined,
+  selectedKitItems: null,
+  itemsTotalizer: 0,
   initialCep: '',
   assinaturaSimples: {
     accepted: true,
@@ -64,11 +72,12 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
     });
   },
   setProduct: (data: ProductQuery['product'], routeParams?: IProductDetailRouteParams) => {
-    const { initialColor, initialSize } = data;
+    const { initialColor, initialSize, kit } = data;
 
     set({
       ...getState(),
       productDetail: data,
+      kit,
       selectedColor: initialColor,
       selectedSize: initialSize,
       selectedGiftCardSku: routeParams?.skuId,
@@ -111,6 +120,15 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
     const state = getState();
 
     set({ ...state, selectedGiftCardEmail: giftCardEmail });
+  },
+
+  setSelectedKitItems: (
+    selectedKitItems: OrderformAddMultipleItemInput,
+    itemsTotalizer: number,
+  ) => {
+    const state = getState();
+
+    set({ ...state, selectedKitItems, itemsTotalizer });
   },
   setDrawerIsOpen: (isOpen: boolean) => {
     const state = getState();

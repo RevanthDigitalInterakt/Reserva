@@ -70,7 +70,7 @@ const styles = (discountTag: boolean) => StyleSheet.create({
   },
   zoomButtonWrapper: {
     position: 'absolute',
-    bottom: '3%',
+    bottom: '10%',
     right: '4%',
   },
   zoomButton: {
