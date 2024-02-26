@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import {
-  View, FlatList, Text, Image, TouchableOpacity,
+  View,
+  FlatList,
+  Text,
+  Image,
+  TouchableOpacity,
+  Modal,
 } from 'react-native';
 import { trackClickStore, type IData } from '../../../../zustand/useTrackClickStore/useTrackClickStore';
 import { TrackPageTypeEnum } from '../../../../base/graphql/generated';
+import { Drawer } from '../../../../components/Drawer';
+import { useShelfStore } from '../../../../zustand/useShelfStore/useShelfStore';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 interface IMockData {
   id: string;
@@ -15,6 +23,16 @@ interface IMockData {
 }
 
 export function HomeShowcase() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [itemRender, setItemRender] = useState<IMockData>({
+    id: '',
+    identifier: '',
+    image: '',
+    name: '',
+    price: 0,
+    productId: '',
+  });
+
   const data: IMockData[] = [
     {
       id: '1670215',
@@ -71,11 +89,20 @@ export function HomeShowcase() {
     productId: data[0]?.productId || '',
   };
 
+  const modalController = useCallback(() => {
+    setModalVisible(!modalVisible);
+  }, [modalVisible]);
+
+  const handleClickItem = useCallback((item: IMockData) => {
+    modalController();
+    setItemRender(item);
+  }, [modalVisible]);
+
   const renderItem = (item: IMockData) => (
     <TouchableOpacity
       style={{ padding: 10 }}
       onPress={
-        () => trackClickStore.getState().onTrackClick(newData, 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p', TrackPageTypeEnum.Home)
+        () => handleClickItem(item)
       }
     >
       <Image
@@ -98,6 +125,25 @@ export function HomeShowcase() {
         horizontal
         contentContainerStyle={{ padding: 10 }}
       />
+      <Modal visible={modalVisible} transparent animationType="fade">
+        <View
+          onPress={() => modalController}
+          style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0 , 0.6)' }}
+        >
+          <View style={{
+            backgroundColor: 'white',
+            flex: 1,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            marginTop: 250,
+            padding: 20,
+          }}
+          >
+            <Text>{itemRender.name}</Text>
+            <Text>ola mundo</Text>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
