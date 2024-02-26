@@ -5,14 +5,12 @@ import {
   Linking,
 } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
 import { TopBarDefault } from '../Menu/components/TopBarDefault';
 import { Box } from '../../components/Box/Box';
 import { Typography } from '../../components/Typography/Typography';
 import { Button } from '../../components/Button';
 
 function CallCenter() {
-  const navigation = useNavigation();
 
   return (
     <SafeAreaView
@@ -52,24 +50,6 @@ function CallCenter() {
             <Box mb="micro" alignItems="center" mt="nano">
               <Typography fontFamily="nunitoRegular" fontSize={12}>
                 Segunda a Sexta: 08 às 20hrs e aos Sábados: 08 às 18hrs
-              </Typography>
-            </Box>
-          </Box>
-
-          <Box width="100%" mt="xxs">
-            <Button
-              onPress={() => {
-                navigation.navigate('WebviewZendesk');
-              }}
-              title="ENVIE UMA MENSAGEM"
-              variant="primarioEstreitoOutline"
-              inline
-              borderRadius="nano"
-              backgroundColor="transparente"
-            />
-            <Box mb="micro" alignItems="center" mt="nano">
-              <Typography fontFamily="nunitoRegular" fontSize={12}>
-                Disponível 24hrs por dia, 7 dias por semana.
               </Typography>
             </Box>
           </Box>
