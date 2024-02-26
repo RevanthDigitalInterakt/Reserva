@@ -12,7 +12,6 @@ import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import { Button } from '../../../../components/Button';
 import { loadingSpinner } from '../../../../../assets/animations';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
-import OneP5P from '../../../../components/OneP5P/OneP5P';
 import type { ProductAddToCartProps } from './types';
 
 function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
@@ -37,7 +36,6 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
 
   const [showAnimationBag, setShowAnimationBag] = useState(false);
   const [loading, setLoading] = useState(false);
-  const showOnep5p = useMemo(() => getBoolean('show_onep5p_pdp'), []);
 
   const addTagsUponCartUpdate = useCallback(() => {
     if (!selectedColor || !productDetail) return;
@@ -125,8 +123,6 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
         inline
         {...testProps('com.usereserva:id/button_add_to_bag')}
       />
-
-      {showOnep5p && (<OneP5P comingFrom="PDP" />)}
 
       {!!loading && (
         <View style={styles.containerLoading}>
