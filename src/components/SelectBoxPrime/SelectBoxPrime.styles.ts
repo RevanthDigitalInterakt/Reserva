@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     color: COLORS.GOLD,
   },
   decimalText: {
-    color:COLORS.DARK_GOLD_TEXT
+    color: COLORS.DARK_GOLD_TEXT,
   },
   normalTextRed: {
     fontWeight: '400',

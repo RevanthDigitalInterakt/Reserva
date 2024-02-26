@@ -725,6 +725,8 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           },
         });
 
+        console.log('data', data);
+
         const { orderFormAddItem: orderForm } = data || {};
 
         set(() => ({
@@ -749,6 +751,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         await trackingOrderFormAddItem(id, orderForm);
       } catch (error) {
+        console.log('error', error);
         set(() => ({ error: error.message }));
 
         throw new Error(error.message);

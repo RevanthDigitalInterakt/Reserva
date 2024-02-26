@@ -1,149 +1,70 @@
-import React, { useState, useCallback } from 'react';
-import {
-  View,
-  FlatList,
-  Text,
-  Image,
-  TouchableOpacity,
-  Modal,
-} from 'react-native';
-import { trackClickStore, type IData } from '../../../../zustand/useTrackClickStore/useTrackClickStore';
-import { TrackPageTypeEnum } from '../../../../base/graphql/generated';
-import { Drawer } from '../../../../components/Drawer';
-import { useShelfStore } from '../../../../zustand/useShelfStore/useShelfStore';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
+import { View, FlatList } from 'react-native';
+import { styles } from './HomeShowcase.styles';
+import Shelf from '../HomeShowcaseShelf/HomeShowcaseShelf';
+import useRecommendationShelf from '../../../../zustand/useRecommendation/useRecommendationShelf';
+import type { IRecommendationShelfState } from '../../../../zustand/useRecommendation/types/recommendationShelf';
 
-interface IMockData {
-  id: string;
-  image: string;
-  name: string;
-  price: number;
+export interface IRsvFlag {
+  type: string;
+  value?: number;
+  text?: string;
+}
+
+export interface IRsvPrice {
+  listPrice: number;
+  salePrice: number;
+}
+
+export interface IRsvSize {
+  skuId: string;
+  value: string;
+  disabled: boolean;
+}
+
+export interface IRsvSku {
+  colorHex: string;
+  colorName: string;
+  colorRefId: string;
+  sizes: IRsvSize[];
+}
+
+export interface IRsvProduct {
+  productName: string;
   productId: string;
-  identifier: string;
+  productLink: string;
+  brand: string;
+  image: string;
+  categoryTree: string[];
+  flags: IRsvFlag[];
+  sku: IRsvSku[];
+  prices: IRsvPrice;
+}
+
+export interface IRsvRecommendation {
+  shelfName: string;
+  products: IRsvProduct[];
 }
 
 export function HomeShowcase() {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [itemRender, setItemRender] = useState<IMockData>({
-    id: '',
-    identifier: '',
-    image: '',
-    name: '',
-    price: 0,
-    productId: '',
-  });
+  const { onSearchShelf } = useRecommendationShelf() as IRecommendationShelfState;
+  const [shelf, setShelf] = useState<IRsvRecommendation[]>([]);
 
-  const data: IMockData[] = [
-    {
-      id: '1670215',
-      productId: '1670215',
-      image: 'https://lojausereservaqa.vteximg.com.br/arquivos/ids/782287-300-300/0081662040_03.jpg?v=638283167831030000',
-      name: 'Camisa Reserva Linho',
-      price: 84,
-      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
-    },
-    {
-      id: '2',
-      productId: '1670215',
-      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-      name: 'Camisa Reserva Linho',
-      price: 84,
-      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
-    },
-    {
-      id: '3',
-      productId: '1670215',
-      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-      name: 'Camisa Reserva Linho',
-      price: 84,
-      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
-    },
-    {
-      id: '4',
-      productId: '1670215',
-      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-      name: 'Camisa Reserva Linho',
-      price: 84,
-      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
-    },
-    {
-      id: '5',
-      productId: '1670215',
-      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-      name: 'Camisa Reserva Linho',
-      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
-      price: 84,
-    },
-    {
-      id: '6',
-      productId: '1670215',
-      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-      name: 'Camisa Reserva Linho',
-      price: 84,
-      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
-    },
-  ];
-
-  const newData: IData = {
-    identifier: data[0]?.identifier || '',
-    productId: data[0]?.productId || '',
-  };
-
-  const modalController = useCallback(() => {
-    setModalVisible(!modalVisible);
-  }, [modalVisible]);
-
-  const handleClickItem = useCallback((item: IMockData) => {
-    modalController();
-    setItemRender(item);
-  }, [modalVisible]);
-
-  const renderItem = (item: IMockData) => (
-    <TouchableOpacity
-      style={{ padding: 10 }}
-      onPress={
-        () => handleClickItem(item)
-      }
-    >
-      <Image
-        source={{ uri: item.image }}
-        style={{
-          width: 150,
-          height: 200,
-        }}
-      />
-      <Text>{item.name}</Text>
-    </TouchableOpacity>
-  );
+  useEffect(() => {
+    async function handleGetShelf() {
+      const data = await onSearchShelf('home');
+      setShelf(data as IRsvRecommendation[]);
+    }
+    handleGetShelf();
+  }, [onSearchShelf]);
 
   return (
-    <View style={{ marginVertical: 10 }}>
+    <View style={styles.container}>
       <FlatList
-        keyExtractor={(item) => item.id}
-        data={data}
-        renderItem={({ item }) => renderItem(item)}
-        horizontal
-        contentContainerStyle={{ padding: 10 }}
+        data={shelf}
+        renderItem={({ item }) => <Shelf dataShelf={item} />}
+        keyExtractor={(item, index) => item.shelfName + index.toString()}
       />
-      <Modal visible={modalVisible} transparent animationType="fade">
-        <View
-          onPress={() => modalController}
-          style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0 , 0.6)' }}
-        >
-          <View style={{
-            backgroundColor: 'white',
-            flex: 1,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-            marginTop: 250,
-            padding: 20,
-          }}
-          >
-            <Text>{itemRender.name}</Text>
-            <Text>ola mundo</Text>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 }

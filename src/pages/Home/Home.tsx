@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   Animated,
   FlatList,
+  Image,
   SafeAreaView,
   Text,
   TouchableOpacity,
@@ -41,6 +42,13 @@ import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { ActivityTracking } from '../../components/ActivityTracking';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { TrackPageTypeEnum } from '../../base/graphql/generated';
+import { Drawer } from '../../components/Drawer';
+import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
+import { useShelfStore } from '../../zustand/useShelfStore/useShelfStore';
+import IconLineBlock from '../../../assets/icons/IconLineBlock';
+import { decimalPart, integerPart } from '../Bag/components/ProductListItem/ProductListItemDiscount.utils';
+import IconAddToFavorite from '../../../assets/icons/IconAddToFavorite';
+import ShowcaseDrawerContent from './components/ShowcaseDrawerContent/ShowcaseDrawerContent';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -137,6 +145,8 @@ function Home() {
   const { isConnected } = useConnectivityStore(['isConnected']);
 
   const { getBoolean } = useRemoteConfig();
+  const { drawerIsOpen } = useProductDetailStore(['drawerIsOpen']);
+  const { shelfItemData } = useShelfStore(['shelfItemData']);
   const newHeaderIsActive = getBoolean('show_new_header');
 
   const {
@@ -215,6 +225,11 @@ function Home() {
         </SafeAreaView>
         {!!showModalSignUpComplete && <ModalSignUpComplete />}
       </Box>
+      {drawerIsOpen && (
+        <Drawer isOpen={drawerIsOpen} snapPoints={['10%', '87%']}>
+          <ShowcaseDrawerContent data={shelfItemData} />
+        </Drawer>
+      )}
     </>
   );
 }
