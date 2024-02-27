@@ -1,11 +1,14 @@
 ## CHANGELOG
 
-### 2.3.2
+### 2.4.1
+
+- DATADOG - Atualização das variáveis de ambiente.
+
+### 2.4.0
 
 - [20484 - Adicionar kitlook na sacola - kitlook app](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/20484)
 - [24229 - Fixar botão de add a sacola na PDP do app](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24229)
 - [26967 - Teste push duplicado da dito](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/26967)
-- DATADOG - Atualização das variáveis de ambiente.
 
 ### 2.3.1
 
