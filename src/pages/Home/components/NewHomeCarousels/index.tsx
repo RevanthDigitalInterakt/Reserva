@@ -19,13 +19,12 @@ import styles from './styles';
 import { Box } from '../../../../components/Box/Box';
 import { RouletCouponCard } from '../RouletCouponCard';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
-import { HomeShowcase } from '../HomeShowcase/HomeShowcase';
 
 export function NewHomeCarousels() {
   const { carousels, loading } = useHomeStore(['carousels', 'loading']);
   const navigation = useNavigation();
   const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
-  const { getBoolean } = useRemoteConfig();
+  const { getBoolean, getString } = useRemoteConfig();
   const showRoulet = getBoolean('show_roulet');
 
   const handleSearchButtonPress = () => {
@@ -60,7 +59,7 @@ export function NewHomeCarousels() {
           <HomeBrandsCarousel data={item} />
           <HomeShowcase />
           <CommercialBanner />
-          <NewHomeCountDown />
+          {getString('count_down_position') === 'A' && <NewHomeCountDown />}
         </>
       ),
       [HomePageSectionTypeEnum.Cards]: () => <HomeCardsCarousel data={item} />,

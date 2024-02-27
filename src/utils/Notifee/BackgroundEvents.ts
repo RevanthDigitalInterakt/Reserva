@@ -21,7 +21,7 @@ const onBackgroundEventPush = async () => {
 
     if (!remoteMessage?.data?.data) return;
 
-    if (remoteMessage?.data) {
+    if (remoteMessage?.data && !remoteMessage.notification) {
       const { details, reference, notification } = JSON.parse(remoteMessage?.data?.data || '{}');
 
       await setItem('@DitoNotification:Id', notification);

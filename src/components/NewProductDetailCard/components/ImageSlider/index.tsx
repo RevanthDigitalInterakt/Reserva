@@ -4,14 +4,19 @@ import React, {
 } from 'react';
 import {
   ScrollView,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
+  type NativeSyntheticEvent,
+  type NativeScrollEvent,
+  Animated,
+  TouchableOpacity,
 } from 'react-native';
-import { Button } from '../../../Button';
+
 import ImageComponent from '../../../ImageComponent/ImageComponent';
 import type { ImageSliderProps } from './types';
 import { Box } from '../../../Box/Box';
-import { IconLegacy } from '../../../IconLegacy/IconLegacy';
+import { BulletsAnimated } from '../../../../pages/ProductDetail/components/BulletsAnimated';
+import IconComponent from '../../../IconComponent/IconComponent';
+import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+import { ProductResultActionEnum } from '../../../../base/graphql/generated';
 
 export function ImageSlider({
   images,
@@ -21,9 +26,13 @@ export function ImageSlider({
   onGoNext,
   imageIndexActual,
 }: ImageSliderProps) {
+  const { productDetail } = useProductDetailStore(['productDetail']);
+
   const [actualImage, setActualImage] = useState(0);
+  const isKitLook = productDetail?.action === ProductResultActionEnum.ShowKit;
 
   const scrollRef = useRef<ScrollView>(null);
+  const scrollX = useRef(new Animated.Value(0)).current;
 
   imageIndexActual?.(actualImage);
 
@@ -66,64 +75,82 @@ export function ImageSlider({
   }, [actualImage, images, onGoBack, width]);
 
   return (
-    <Box width={width} height={height}>
-      {actualImage > 0 && (
-      <Box
-        position="absolute"
-        style={{ elevation: 3 }}
-        zIndex={1}
-        left={32}
-        top={height / 2 - 32}
-      >
-        <Button
-          p="nano"
-          variant="icone"
-          onPress={() => {
-            goBack();
-          }}
-          icon={<IconLegacy name="ChevronLeft" color="neutroFrio2" size={23} />}
-        />
-      </Box>
-      )}
-      {actualImage < images?.length - 1 && (
-      <Box
-        position="absolute"
-        style={{ elevation: 3 }}
-        zIndex={1}
-        right={32}
-        top={height / 2 - 32}
-      >
-        <Button
-          p="nano"
-          variant="icone"
-          onPress={() => {
-            goNext();
-          }}
-          icon={<IconLegacy name="ChevronRight" color="neutroFrio2" size={23} />}
-        />
-      </Box>
-      )}
-      <ScrollView
-        horizontal
-        pagingEnabled
-        onScroll={(event) => {
-          onChangeImage(event);
-        }}
-        ref={scrollRef}
-        showsHorizontalScrollIndicator={false}
-      >
-        {images?.map((image) => (
-          <Box key={`product-card-${image}`} alignItems="center" width={width} height={height}>
-            <ImageComponent
-              key={image}
-              source={{ uri: image }}
-              height={height}
-              width={width}
-              resizeMode="contain"
-            />
+    <>
+      <Box width={width} height={height}>
+        {actualImage > 0 && (
+          <Box
+            position="absolute"
+            style={{ elevation: 3 }}
+            zIndex={1}
+            left={32}
+            top={height / 2 - 32}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                goBack();
+              }}
+            >
+              <IconComponent
+                icon="chevronLeftFill"
+                width={32}
+                height={32}
+              />
+            </TouchableOpacity>
           </Box>
-        ))}
-      </ScrollView>
-    </Box>
+        )}
+        {actualImage < images?.length - 1 && (
+          <Box
+            position="absolute"
+            style={{ elevation: 3 }}
+            zIndex={1}
+            right={32}
+            top={height / 2 - 32}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                goNext();
+              }}
+            >
+              <IconComponent
+                icon="chevronRightFill"
+                width={32}
+                height={32}
+              />
+            </TouchableOpacity>
+          </Box>
+        )}
+        <Animated.ScrollView
+          horizontal
+          pagingEnabled
+          onScroll={
+            Animated.event(
+              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+              {
+                listener(event: NativeSyntheticEvent<NativeScrollEvent>) {
+                  onChangeImage(event);
+                },
+                useNativeDriver: true,
+              },
+            )
+          }
+          ref={scrollRef}
+          showsHorizontalScrollIndicator={false}
+        >
+          {images?.map((image) => (
+            <Box key={`product-card-${image}`} alignItems="center" width={width} height={height}>
+              <ImageComponent
+                key={image}
+                source={{ uri: image }}
+                height={height}
+                width={width}
+                resizeMode="contain"
+              />
+            </Box>
+          ))}
+        </Animated.ScrollView>
+      </Box>
+
+      {isKitLook && <BulletsAnimated data={images} scrollX={scrollX} />}
+    </>
   );
 }

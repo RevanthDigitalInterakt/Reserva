@@ -121,7 +121,7 @@ function ModalTutorial({
         style={{
           position: 'absolute',
           right: '7%',
-          top: '9%',
+          top: '5%',
           alignItems: 'center',
         }}
       >
