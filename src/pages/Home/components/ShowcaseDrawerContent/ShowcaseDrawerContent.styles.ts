@@ -72,13 +72,11 @@ export const styles = StyleSheet.create({
   productListPriceLabel: {
     fontFamily: FONTS.NUNITO_BOLD,
     fontSize: 15,
-    textDecorationLine: 'line-through',
   },
 
   productCurrencyLabel: {
     fontFamily: FONTS.NUNITO_BOLD,
-    fontSize: 8,
-    marginTop: 1,
+    fontSize: 10,
   },
 
   productPriceCentsLabel: {
@@ -116,5 +114,23 @@ export const styles = StyleSheet.create({
 
   contentAbsolute: {
     position: 'absolute',
+  },
+
+  radionButtonContainer: {
+    borderWidth: 1,
+    borderColor: COLORS.SHELF_GRAY,
+    width: 30,
+    height: 30,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+
+  radioButtonContent: {
+    width: 20,
+    height: 20,
+    backgroundColor: COLORS.BLACK,
+    borderRadius: 20,
   },
 });

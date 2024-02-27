@@ -109,6 +109,7 @@ const useWishlistStore = create<IWishlistStore>((set, getState) => ({
 
       return true;
     } catch (err) {
+      console.log('error', err);
       ExceptionProvider.captureException(err, { product });
 
       return false;
