@@ -298,12 +298,15 @@ export function MyWalletView({
       )}
       {selectedBalance === BalanceType.ACTIVE && (
       <Box ml="xxxs" mr="xxxs">
-        <Box style={{ marginTop: 12, display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: ''  }}>
+        <Box style={{
+          marginTop: 12, display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: '',
+        }}
+        >
           <Box style={[styles.tab, {
             backgroundColor: operationFilter === FilterOptions.ALL ? '#FFF' : '#EFEFEF',
           }]}
           >
-            <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.ALL)} >
+            <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.ALL)}>
               <Typography fontFamily="reservaSansRegular" fontSize={15} color="preto">
                 Tudo
               </Typography>
@@ -343,7 +346,7 @@ export function MyWalletView({
             backgroundColor: operationFilter === FilterOptions.EXPIRED ? '#FFF' : '#EFEFEF',
           }]}
           >
-            <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.EXPIRED)} >
+            <TouchableOpacity onPress={() => changeOperationFilter(FilterOptions.EXPIRED)}>
               <Typography fontFamily="reservaSansRegular" fontSize={defaultFontSize} color="preto">
                 Expirado
               </Typography>
@@ -415,16 +418,16 @@ export function MyWalletView({
                 )}
               </Box>
               <Box style={{ flex: 1 }}>
-                {(
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
-                  {operation?.cashbackAmountInCents > 0 && <PriceCustom
-                  fontFamily="nunitoRegular"
-                  sizeInterger={14}
-                  sizeDecimal={11}
-                  num={operation.cashbackAmountInCents || 0}
-                />}
+                  {operation?.cashbackAmountInCents > 0 && (
+                  <PriceCustom
+                    fontFamily="nunitoRegular"
+                    sizeInterger={14}
+                    sizeDecimal={11}
+                    num={operation.cashbackAmountInCents || 0}
+                  />
+                  )}
                 </Typography>
-                )}
               </Box>
               <Box style={{ flex: 1 }}>
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
