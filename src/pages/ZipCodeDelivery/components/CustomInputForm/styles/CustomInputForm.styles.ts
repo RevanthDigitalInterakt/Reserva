@@ -2,22 +2,16 @@ import { StyleSheet } from 'react-native';
 import { COLORS } from '../../../../../base/styles';
 
 export const customInputTypeStyles = StyleSheet.create({
-  container: {
-    position: 'relative',
-  },
   buttonActionSubmit: {
     backgroundColor: COLORS.TEXT_INPUT_CONTAINER,
-    paddingBottom: 18,
-    paddingTop: 18,
     alignItems: 'center',
     justifyContent: 'center',
     borderBottomRightRadius: 8,
     borderTopRightRadius: 8,
-    top: 0,
-    right: 0,
-    width: '20%',
-    height: '100%',
-    position: 'absolute',
+    right: 4,
+    borderWidth: 1,
+    paddingHorizontal: 34,
+    paddingVertical: 15,
   },
   textActionButtonSubmit: {
     color: COLORS.WHITE,

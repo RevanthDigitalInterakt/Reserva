@@ -38,7 +38,7 @@ export default function ShippingDataDetails({ type, store = '', onPress }: TShip
           </View>
         </View>
       </View>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={onPress} hitSlop={20}>
         <View style={shippingDataDetailsStyles.buttonWrap}>
           <Text style={shippingDataDetailsStyles.edit}>
             Editar

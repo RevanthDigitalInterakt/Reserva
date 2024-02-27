@@ -19,7 +19,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { TopBarBackButton } from '../../../modules/Menu/components/TopBarBackButton';
-import InputForm from '../components/InputForm';
+import InputForm from '../../../components/InputForm';
 import ModalCancelCreateAddress from '../components/ModalCancelCreateAddress';
 
 import styles from './CreateAddress.styles';
@@ -38,7 +38,7 @@ import {
 
 import type { ICreateAddress } from './interface/ICreateAddress';
 import { useCepLazyQuery, useProfileAddressMutation } from '../../../base/graphql/generated';
-import type { TCheckPostalCodeFn } from '../components/InputForm/interface/IInputForm';
+import type { TCheckPostalCodeFn } from '../../../components/InputForm/interface/IInputForm';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { COLORS } from '../../../base/styles/colors';
 import { postalCodeMask } from '../../../utils/postalCodeMask';

@@ -1,6 +1,6 @@
 import { Platform, StyleSheet } from 'react-native';
-import { COLORS } from '../../../../base/styles/colors';
-import { platformType } from '../../../../utils/platformType';
+import { COLORS } from '../../base/styles/colors';
+import { platformType } from '../../utils/platformType';
 
 const styles = StyleSheet.create({
   inputContainer: {

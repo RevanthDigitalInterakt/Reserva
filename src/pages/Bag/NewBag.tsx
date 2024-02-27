@@ -223,7 +223,7 @@ export default function NewBag({ navigation }: TNewBagProps) {
 
                     <BagProductPackageList />
 
-                    {hasUnavailableItems && <UnavailableList />}
+                    {hasSelectedAddressDelivery && hasUnavailableItems && <UnavailableList />}
 
                   </Box>
 

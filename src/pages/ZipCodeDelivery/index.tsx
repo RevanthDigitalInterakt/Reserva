@@ -1,5 +1,5 @@
 import type { StackScreenProps } from '@react-navigation/stack';
-import { Formik } from 'formik';
+import { Formik, type FormikHelpers } from 'formik';
 import React, {
   useCallback,
   useMemo,
@@ -18,7 +18,7 @@ import {
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import * as Yup from 'yup';
 
-import { useShippingSimulationLazyQuery, type ShippingSimulationOutput } from '../../base/graphql/generated';
+import { useShippingSimulationLazyQuery, type ShippingSimulationOutput, type ShippingSimulationInput } from '../../base/graphql/generated';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
 import type { RootStackParamList } from '../../routes/StackNavigator';
@@ -28,14 +28,13 @@ import { platformType } from '../../utils/platformType';
 import { postalCodeMask } from '../../utils/postalCodeMask';
 import testProps from '../../utils/testProps';
 import { useBagStore } from '../../zustand/useBagStore/useBagStore';
-import CustomInputForm from '../Address/components/CustomInputForm';
-import type { TCheckPostalCodeFn } from '../Address/components/InputForm/interface/IInputForm';
+import CustomInputForm from './components/CustomInputForm';
+import type { TCheckPostalCodeFn } from '../../components/InputForm/interface/IInputForm';
 import { postalCodeSchema } from '../Address/utils/inputValidations';
 import ProductUnavailable from '../Bag/components/ProductUnavailable';
 import { KEYBOARD_VERTICAL_OFFSET_VALUE } from '../EditProfile/static/editProfile.defaultValues';
 import PickUpHeader from './components/PickUpHeader';
 import PickUpItem from './components/PickUpItem';
-import type { IGetShippingSimulation } from './interface/IGetShippingSimulation';
 import { zipCodeStyles } from './styles/zipCodeDelivery.styles';
 
 const getDeliveryAddressSchema = Yup.object().shape({
@@ -53,7 +52,15 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
 
   const { packageItems, topBarLoading } = useBagStore(['packageItems', 'topBarLoading']);
 
-  const mergeItems = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
+  const mergeItems = useMemo(() => {
+    const mergedItems = mergeItemsPackage(packageItems);
+
+    return mergedItems.map((item) => ({
+      id: item.id,
+      quantity: String(item.quantity),
+      seller: item.seller,
+    }));
+  }, [packageItems]);
 
   const [getShippingSimulation] = useShippingSimulationLazyQuery({
     context: { clientName: 'gateway' },
@@ -65,23 +72,25 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
   }, []);
 
   const checkPostalCode = useCallback<TCheckPostalCodeFn>(async (value, setFieldValue) => {
-    setHasPostalCode(!(value.length < 8));
     if (value.length < 8) return;
 
-    const newValue = postalCodeMask(value);
+    const newValue = postalCodeMask(value) || value;
 
     setFieldValue('postalCode', newValue);
   }, []);
 
-  const handleGetShippingSimulation = useCallback(async (values: IGetShippingSimulation) => {
-    Keyboard.dismiss();
-    const { postalCode } = values;
+  const handleGetShippingSimulation = useCallback(async (
+    ctx: FormikHelpers<{ postalCode: string }>,
+    values: ShippingSimulationInput,
+  ) => {
+    const { postalCode, items } = values;
 
-    const itensSend = mergeItems.map((item) => ({
-      id: item.id,
-      quantity: String(item.quantity),
-      seller: item.seller,
-    }));
+    if (postalCode.length !== 9) {
+      ctx.setFieldError('postalCode', 'Insira um CEP');
+      return;
+    }
+
+    Keyboard.dismiss();
 
     setLoading(true);
 
@@ -92,7 +101,7 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
         variables: {
           input: {
             postalCode: postalCode.replace('-', ''),
-            items: itensSend,
+            items,
           },
         },
       });
@@ -105,7 +114,7 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
     } finally {
       setLoading(false);
     }
-  }, [mergeItems]);
+  }, []);
 
   const shadowColorStyle = useAnimatedStyle(() => {
     const isIOS = Platform.OS === platformType.IOS;
@@ -131,12 +140,12 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
 
   const renderHeader = (showHeader: boolean) => (
     addressDelivery
-      && (
+    && (
       <PickUpHeader
         showHeader={showHeader}
         addressDelivery={addressDelivery}
       />
-      )
+    )
   );
 
   return (
@@ -173,7 +182,10 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
               initialValues={{
                 postalCode: '',
               }}
-              onSubmit={handleGetShippingSimulation}
+              onSubmit={({ postalCode }, ctx) => handleGetShippingSimulation(
+                ctx,
+                { postalCode, items: mergeItems },
+              )}
               validationSchema={getDeliveryAddressSchema}
             >
               {({
@@ -187,6 +199,7 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
               }) => (
                 <View>
                   <CustomInputForm
+                    maxLength={9}
                     loading={loading}
                     placeholder="Digite seu CEP"
                     onTextChange={handleChange('postalCode')}
@@ -212,27 +225,27 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
         </Animated.View>
         <View style={zipCodeStyles.containerPaddingX}>
           {!loading
-          && (addressDelivery?.delivery?.address
-            || !!addressDelivery?.storeList?.stores?.length)
-          && (
-          <FlatList
-            contentContainerStyle={{
-              paddingBottom: 550,
-              marginBottom: 550,
-            }}
-            showsVerticalScrollIndicator={false}
-            data={addressDelivery.storeList.stores}
-            keyExtractor={(item) => item.friendlyName}
-            ListHeaderComponent={renderHeader(!!addressDelivery?.delivery?.address)}
-            renderItem={({ item }) => (
-              <PickUpItem
-                store={item}
-                deliveryOptions={addressDelivery.delivery.deliveryOptions}
-                deliveryOptionsStore={addressDelivery.storeList.deliveryOptions}
+            && (addressDelivery?.delivery?.address
+              || !!addressDelivery?.storeList?.stores?.length)
+            && (
+              <FlatList
+                contentContainerStyle={{
+                  paddingBottom: 550,
+                  marginBottom: 550,
+                }}
+                showsVerticalScrollIndicator={false}
+                data={addressDelivery.storeList.stores}
+                keyExtractor={(item) => item.friendlyName}
+                ListHeaderComponent={renderHeader(!!addressDelivery?.delivery?.address)}
+                renderItem={({ item }) => (
+                  <PickUpItem
+                    store={item}
+                    deliveryOptions={addressDelivery.delivery.deliveryOptions}
+                    deliveryOptionsStore={addressDelivery.storeList.deliveryOptions}
+                  />
+                )}
               />
             )}
-          />
-          )}
           <ProductUnavailable
             type="ZIPCODE"
             showCard={(!loading
