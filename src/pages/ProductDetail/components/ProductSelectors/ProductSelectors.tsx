@@ -58,6 +58,7 @@ function ProductSelectors() {
   const { getBoolean } = useRemoteConfig();
   const showRoulet = getBoolean('show_roulet');
   const showOnep5p = useMemo(() => getBoolean('show_onep5p_pdp'), []);
+  const addToBagButtonIsFixed = useMemo(() => getBoolean('add_to_bag_button_is_fixed'), []);
 
   const doSelectSizeTrack = useCallback(() => {
     try {
@@ -139,7 +140,6 @@ function ProductSelectors() {
     };
   }, [selectedSize, doSelectSizeTrack]);
 
-  const addToBagButtonIsFixed = getBoolean('add_to_bag_button_is_fixed');
   const handleSelectedItem = useMemo(() => {
     if (addToBagButtonIsFixed) {
       return sizeIsSelected ? selectedSize?.size || '' : '';
@@ -197,7 +197,7 @@ function ProductSelectors() {
               />
             </Box>
           </Box>
-          {showOnep5p && (<OneP5P comingFrom="PDP" />)}
+          {showOnep5p && addToBagButtonIsFixed && (<OneP5P comingFrom="PDP" />)}
 
           {!selectedSize?.availableQuantity && (
           <Box mt="xxs" flexDirection="row" alignItems="center">
