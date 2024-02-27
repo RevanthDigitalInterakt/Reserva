@@ -26,6 +26,7 @@ export function NewHomeCarousels() {
   const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
   const { getBoolean } = useRemoteConfig();
   const showRoulet = getBoolean('show_roulet');
+  const showShelf = getBoolean('show_shelf');
 
   const handleSearchButtonPress = () => {
     EventProvider.logEvent('header_search_click', { open: 1 });
@@ -57,7 +58,7 @@ export function NewHomeCarousels() {
       [HomePageSectionTypeEnum.Brands]: () => (
         <>
           <HomeBrandsCarousel data={item} />
-          <HomeShowcase />
+          {showShelf && <HomeShowcase />}
           <NewHomeCountDown />
         </>
       ),
