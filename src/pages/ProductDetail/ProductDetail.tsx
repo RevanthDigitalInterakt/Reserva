@@ -185,7 +185,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         )}
       </ProductDetailWrapper>
       {!isGiftCard && (
-        <Drawer isOpen={drawerIsOpen} snapPoints={['15%', '48%']}>
+        <Drawer isOpen={drawerIsOpen} snapPoints={['15%', '50%']}>
           <DrawerSelectors />
         </Drawer>
       )}
