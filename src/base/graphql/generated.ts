@@ -2133,6 +2133,8 @@ export type WishlistRemoveProductInput = {
 
 export type AvailableGiftsFragmentFragment = { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string };
 
+export type KitFragmentFragment = { __typename?: 'ProductKitOutput', productId: string, productName: string, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', colorId: string, colorName?: string | null, colorUrl: string, disabled: boolean, images: Array<string>, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }> };
+
 export type OrderFormFragmentFragment = { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, availability: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } };
 
 export type OrderformItemFragmentFragment = { __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, availability: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null };
@@ -2168,6 +2170,13 @@ export type OrderFormAddItemMutationVariables = Exact<{
 
 
 export type OrderFormAddItemMutation = { __typename?: 'Mutation', orderFormAddItem: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, availability: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
+
+export type OrderFormAddMultipleItemMutationVariables = Exact<{
+  input: OrderformAddMultipleItemInput;
+}>;
+
+
+export type OrderFormAddMultipleItemMutation = { __typename?: 'Mutation', orderFormAddMultipleItem: { __typename?: 'OrderformOutput', orderFormId: string, salesChannel: string, messages: Array<string>, allItemsQuantity: number, hasPrimeSubscriptionInCart: boolean, clientProfileData?: { __typename?: 'OrderformClientProfileDataOutput', email?: string | null, firstName?: string | null, lastName?: string | null, document?: string | null, documentType?: string | null, phone?: string | null, corporateName?: string | null, tradeName?: string | null, corporateDocument?: string | null, stateInscription?: string | null, corporatePhone?: string | null, profileCompleteOnLoading?: string | null } | null, items: Array<{ __typename?: 'OrderformItemOutput', productTitle: string, itemColor: string, itemSize: string, isGift: boolean, isGiftable: boolean, imageSource: string, key: string, isAssinaturaSimples: boolean, priceWithDiscount: number, discountPercent: number, discountApi?: number | null, showFirstPurchaseDiscountMessage?: string | null, showTotalDiscountFirstPurchaseValue?: number | null, productCategories: Array<string>, price: number, productId: string, availability: string, id: string, listPrice: number, giftOfferingId?: string | null, seller: string, hasPrimeDiscount: boolean, skuName: string, uniqueId: string, isAddedAsGift: boolean, name: string, quantity: number, disableCounter: boolean, sellingPrice: number, isPrimeSubscription: boolean, additionalInfo?: { __typename?: 'OrderformItemAdditionalInfoOutput', brandName?: string | null } | null }>, selectableGift?: { __typename?: 'OrderformSelectableGiftOutput', id: string, availableQuantity?: number | null, currentSelectableGift: { __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }, giftOptions: Array<{ __typename?: 'OrderformSelectableGiftOptionOutput', id: string, color: string, size: string } | null>, availableGifts: Array<{ __typename?: 'OrderformSelectableGiftAvailableGiftOutput', isSelected: boolean, uniqueId: string, id: string, productId: string, productRefId: string, imageUrl?: string | null, detailUrl: string, availability: string, measurementUnit: string, unitMultiplier: number, refId: string, ean: string, name: string, skuName: string, tax?: number | null, rewardValue?: number | null, isGift?: boolean | null, seller: string }> } | null, marketingData?: { __typename?: 'OrderformMarketingDataOutput', coupon?: string | null, sellerCoupon?: string | null, sellerCouponName?: string | null, itemsWithCouponDiscount: Array<{ __typename?: 'OrderformItemOutput', id: string, name: string, sellingPrice: number, itemColor: string, imageUrl?: string | null, imageSource: string }> } | null, shippingData?: { __typename?: 'OrderformShippingDataOutput', address?: { __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null } | null, availableAddresses: Array<{ __typename?: 'OrderformAddressOutput', addressType?: string | null, receiverName?: string | null, addressId?: string | null, isDisposable: boolean, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, reference?: string | null }> } | null, appTotalizers: { __typename?: 'OrderformAppTotalizersOutput', items: number, discount: number, delivery: number, total: number }, installmentInfo: { __typename?: 'OrderformInstallmentInfoOutput', installmentsNumber: number, installmentPrice: number, totalPrice: number } } };
 
 export type OrderFormAddSellerCouponMutationVariables = Exact<{
   orderFormId: Scalars['String']['input'];
@@ -2334,12 +2343,12 @@ export type SubscribeNewsletterMutationVariables = Exact<{
 
 export type SubscribeNewsletterMutation = { __typename?: 'Mutation', subscribeNewsletter: boolean };
 
-export type TrackClickMutationVariables = Exact<{
+export type TrackClickV2MutationVariables = Exact<{
   input: TrackClickInput;
 }>;
 
 
-export type TrackClickMutation = { __typename?: 'Mutation', trackClickV2: Array<string> };
+export type TrackClickV2Mutation = { __typename?: 'Mutation', trackClickV2: Array<string> };
 
 export type TrackPageViewMutationVariables = Exact<{
   input: TrackPageViewInput;
@@ -2427,7 +2436,7 @@ export type HomeCarouselsQuery = { __typename?: 'Query', homeCarousels: Array<{ 
 export type HomeConfigQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeConfigQuery = { __typename?: 'Query', homeConfig?: { __typename?: 'ConfigOutput', id: string, offersPage?: string | null, discountCodeBar?: { __typename?: 'ConfigDiscountBarOutput', titleBar?: string | null, colorBar?: string | null, titleModal?: string | null, descriptionModal?: string | null, titleButton?: string | null, colorButton?: string | null, shareMessage?: string | null, coupon?: string | null } | null } | null };
+export type HomeConfigQuery = { __typename?: 'Query', homeConfig?: { __typename?: 'ConfigOutput', id: string, offersPage?: string | null, discountCodeBar?: { __typename?: 'ConfigDiscountBarOutput', titleBar?: string | null, colorBar?: string | null, titleModal?: string | null, descriptionModal?: string | null, titleButton?: string | null, colorButton?: string | null, shareMessage?: string | null, coupon?: string | null } | null, commercialBannerCollection: Array<{ __typename?: 'ConfigCommercialBannerOutput', name?: string | null, startingDate?: string | null, endingDate?: string | null, mainText?: string | null, hasModal: boolean, modalTitle?: string | null, modalDescription?: string | null, modalButton: boolean, modalButtonText?: string | null, modalButtonLink?: string | null }> } | null };
 
 export type HomeCountdownQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2483,7 +2492,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, identifier?: string | null, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, videoThumbnail?: string | null, giftCard?: { __typename?: 'ProductGiftCardOutput', terms: string, howItWorks: string, options: Array<{ __typename?: 'ProductGiftCardOptionOutput', itemId: string, name: string, ean: string, seller: string, images: Array<string> }> } | null, priceRange?: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } } | null, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null } | null } };
+export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, identifier?: string | null, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, videoThumbnail?: string | null, kit?: Array<{ __typename?: 'ProductKitOutput', productId: string, productName: string, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', colorId: string, colorName?: string | null, colorUrl: string, disabled: boolean, images: Array<string>, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }> }> | null, giftCard?: { __typename?: 'ProductGiftCardOutput', terms: string, howItWorks: string, options: Array<{ __typename?: 'ProductGiftCardOptionOutput', itemId: string, name: string, ean: string, seller: string, images: Array<string> }> } | null, priceRange?: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } } | null, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null } | null } };
 
 export type ProductDeliveryTimeQueryVariables = Exact<{
   input: CheckDeliveryTimeByProductInput;
@@ -2543,6 +2552,13 @@ export type SearchNewsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type SearchNewsQuery = { __typename?: 'Query', searchNews: Array<{ __typename?: 'SearchNewsOutput', image: string, referenceId: string, orderBy?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> }> };
 
+export type ShippingSimulationQueryVariables = Exact<{
+  input: ShippingSimulationInput;
+}>;
+
+
+export type ShippingSimulationQuery = { __typename?: 'Query', shippingSimulation: { __typename?: 'ShippingSimulationOutput', delivery: { __typename?: 'ShippingDeliveryOutput', address: { __typename?: 'CepOutput', street?: string | null, city?: string | null, state?: string | null, neighborhood?: string | null } }, storeList: { __typename?: 'ShippingStoreListOutput', discountStorePickup?: string | null, stores: Array<{ __typename?: 'ShippingStoreOutput', friendlyName: string, address: { __typename?: 'CepOutput', postalCode?: string | null, street?: string | null, neighborhood?: string | null, city?: string | null, state?: string | null, complement?: string | null } }> } } };
+
 export type TrackingCodeQueryVariables = Exact<{
   trackingCode: Scalars['String']['input'];
 }>;
@@ -2567,6 +2583,56 @@ export type WishlistCheckProductQueryVariables = Exact<{
 
 export type WishlistCheckProductQuery = { __typename?: 'Query', wishlistCheckProduct: { __typename?: 'WishlistCheckOutput', inList: boolean, listIds: Array<string> } };
 
+export const ProductSizeFragmentFragmentDoc = gql`
+    fragment productSizeFragment on ProductSizeOutput {
+  itemId
+  skuName
+  size
+  ean
+  seller
+  listPrice
+  currentPrice
+  discountPercent
+  hasDiscount
+  availableQuantity
+  installment {
+    value
+    number
+  }
+  prime {
+    price
+    installment {
+      value
+      number
+    }
+  }
+  installmentEqualPrime {
+    value
+    number
+  }
+  disabled
+}
+    `;
+export const KitFragmentFragmentDoc = gql`
+    fragment kitFragment on ProductKitOutput {
+  productId
+  productName
+  colorUrls {
+    id
+    url
+  }
+  colors {
+    colorId
+    colorName
+    colorUrl
+    disabled
+    images
+    sizes {
+      ...productSizeFragment
+    }
+  }
+}
+    ${ProductSizeFragmentFragmentDoc}`;
 export const OrderformItemFragmentFragmentDoc = gql`
     fragment OrderformItemFragment on OrderformItemOutput {
   productTitle
@@ -2729,36 +2795,6 @@ export const OrderFormFragmentFragmentDoc = gql`
 }
     ${OrderformItemFragmentFragmentDoc}
 ${OrderformSelectableGiftFragmentFragmentDoc}`;
-export const ProductSizeFragmentFragmentDoc = gql`
-    fragment productSizeFragment on ProductSizeOutput {
-  itemId
-  skuName
-  size
-  ean
-  seller
-  listPrice
-  currentPrice
-  discountPercent
-  hasDiscount
-  availableQuantity
-  installment {
-    value
-    number
-  }
-  prime {
-    price
-    installment {
-      value
-      number
-    }
-  }
-  installmentEqualPrime {
-    value
-    number
-  }
-  disabled
-}
-    `;
 export const ProductColorFragmentFragmentDoc = gql`
     fragment productColorFragment on ProductColorOutput {
   images
@@ -2909,6 +2945,39 @@ export function useOrderFormAddItemMutation(baseOptions?: Apollo.MutationHookOpt
 export type OrderFormAddItemMutationHookResult = ReturnType<typeof useOrderFormAddItemMutation>;
 export type OrderFormAddItemMutationResult = Apollo.MutationResult<OrderFormAddItemMutation>;
 export type OrderFormAddItemMutationOptions = Apollo.BaseMutationOptions<OrderFormAddItemMutation, OrderFormAddItemMutationVariables>;
+export const OrderFormAddMultipleItemDocument = gql`
+    mutation orderFormAddMultipleItem($input: OrderformAddMultipleItemInput!) {
+  orderFormAddMultipleItem(input: $input) {
+    ...orderFormFragment
+  }
+}
+    ${OrderFormFragmentFragmentDoc}`;
+export type OrderFormAddMultipleItemMutationFn = Apollo.MutationFunction<OrderFormAddMultipleItemMutation, OrderFormAddMultipleItemMutationVariables>;
+
+/**
+ * __useOrderFormAddMultipleItemMutation__
+ *
+ * To run a mutation, you first call `useOrderFormAddMultipleItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useOrderFormAddMultipleItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [orderFormAddMultipleItemMutation, { data, loading, error }] = useOrderFormAddMultipleItemMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useOrderFormAddMultipleItemMutation(baseOptions?: Apollo.MutationHookOptions<OrderFormAddMultipleItemMutation, OrderFormAddMultipleItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OrderFormAddMultipleItemMutation, OrderFormAddMultipleItemMutationVariables>(OrderFormAddMultipleItemDocument, options);
+      }
+export type OrderFormAddMultipleItemMutationHookResult = ReturnType<typeof useOrderFormAddMultipleItemMutation>;
+export type OrderFormAddMultipleItemMutationResult = Apollo.MutationResult<OrderFormAddMultipleItemMutation>;
+export type OrderFormAddMultipleItemMutationOptions = Apollo.BaseMutationOptions<OrderFormAddMultipleItemMutation, OrderFormAddMultipleItemMutationVariables>;
 export const OrderFormAddSellerCouponDocument = gql`
     mutation orderFormAddSellerCoupon($orderFormId: String!, $coupon: String!) {
   orderFormAddSellerCoupon(input: {orderFormId: $orderFormId, coupon: $coupon}) {
@@ -3660,37 +3729,37 @@ export function useSubscribeNewsletterMutation(baseOptions?: Apollo.MutationHook
 export type SubscribeNewsletterMutationHookResult = ReturnType<typeof useSubscribeNewsletterMutation>;
 export type SubscribeNewsletterMutationResult = Apollo.MutationResult<SubscribeNewsletterMutation>;
 export type SubscribeNewsletterMutationOptions = Apollo.BaseMutationOptions<SubscribeNewsletterMutation, SubscribeNewsletterMutationVariables>;
-export const TrackClickDocument = gql`
-    mutation trackClick($input: TrackClickInput!) {
+export const TrackClickV2Document = gql`
+    mutation trackClickV2($input: TrackClickInput!) {
   trackClickV2(input: $input)
 }
     `;
-export type TrackClickMutationFn = Apollo.MutationFunction<TrackClickMutation, TrackClickMutationVariables>;
+export type TrackClickV2MutationFn = Apollo.MutationFunction<TrackClickV2Mutation, TrackClickV2MutationVariables>;
 
 /**
- * __useTrackClickMutation__
+ * __useTrackClickV2Mutation__
  *
- * To run a mutation, you first call `useTrackClickMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useTrackClickMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useTrackClickV2Mutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTrackClickV2Mutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [trackClickMutation, { data, loading, error }] = useTrackClickMutation({
+ * const [trackClickV2Mutation, { data, loading, error }] = useTrackClickV2Mutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useTrackClickMutation(baseOptions?: Apollo.MutationHookOptions<TrackClickMutation, TrackClickMutationVariables>) {
+export function useTrackClickV2Mutation(baseOptions?: Apollo.MutationHookOptions<TrackClickV2Mutation, TrackClickV2MutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<TrackClickMutation, TrackClickMutationVariables>(TrackClickDocument, options);
+        return Apollo.useMutation<TrackClickV2Mutation, TrackClickV2MutationVariables>(TrackClickV2Document, options);
       }
-export type TrackClickMutationHookResult = ReturnType<typeof useTrackClickMutation>;
-export type TrackClickMutationResult = Apollo.MutationResult<TrackClickMutation>;
-export type TrackClickMutationOptions = Apollo.BaseMutationOptions<TrackClickMutation, TrackClickMutationVariables>;
+export type TrackClickV2MutationHookResult = ReturnType<typeof useTrackClickV2Mutation>;
+export type TrackClickV2MutationResult = Apollo.MutationResult<TrackClickV2Mutation>;
+export type TrackClickV2MutationOptions = Apollo.BaseMutationOptions<TrackClickV2Mutation, TrackClickV2MutationVariables>;
 export const TrackPageViewDocument = gql`
     mutation trackPageView($input: TrackPageViewInput!) {
   trackPageView(input: $input)
@@ -4262,6 +4331,18 @@ export const HomeConfigDocument = gql`
       shareMessage
       coupon
     }
+    commercialBannerCollection {
+      name
+      startingDate
+      endingDate
+      mainText
+      hasModal
+      modalTitle
+      modalDescription
+      modalButton
+      modalButtonText
+      modalButtonLink
+    }
   }
 }
     `;
@@ -4720,6 +4801,9 @@ export const ProductDocument = gql`
     disabledColors
     saleOff
     videoThumbnail
+    kit {
+      ...kitFragment
+    }
     giftCard {
       options {
         itemId
@@ -4766,7 +4850,8 @@ export const ProductDocument = gql`
     }
   }
 }
-    ${ProductColorFragmentFragmentDoc}
+    ${KitFragmentFragmentDoc}
+${ProductColorFragmentFragmentDoc}
 ${ProductSizeFragmentFragmentDoc}`;
 
 /**
@@ -5263,6 +5348,66 @@ export type SearchNewsLazyQueryHookResult = ReturnType<typeof useSearchNewsLazyQ
 export type SearchNewsQueryResult = Apollo.QueryResult<SearchNewsQuery, SearchNewsQueryVariables>;
 export function refetchSearchNewsQuery(variables?: SearchNewsQueryVariables) {
       return { query: SearchNewsDocument, variables: variables }
+    }
+export const ShippingSimulationDocument = gql`
+    query ShippingSimulation($input: ShippingSimulationInput!) {
+  shippingSimulation(input: $input) {
+    delivery {
+      address {
+        street
+        city
+        state
+        neighborhood
+      }
+    }
+    storeList {
+      discountStorePickup
+      stores {
+        friendlyName
+        address {
+          postalCode
+          street
+          neighborhood
+          city
+          state
+          neighborhood
+          complement
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useShippingSimulationQuery__
+ *
+ * To run a query within a React component, call `useShippingSimulationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useShippingSimulationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useShippingSimulationQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useShippingSimulationQuery(baseOptions: Apollo.QueryHookOptions<ShippingSimulationQuery, ShippingSimulationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ShippingSimulationQuery, ShippingSimulationQueryVariables>(ShippingSimulationDocument, options);
+      }
+export function useShippingSimulationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ShippingSimulationQuery, ShippingSimulationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ShippingSimulationQuery, ShippingSimulationQueryVariables>(ShippingSimulationDocument, options);
+        }
+export type ShippingSimulationQueryHookResult = ReturnType<typeof useShippingSimulationQuery>;
+export type ShippingSimulationLazyQueryHookResult = ReturnType<typeof useShippingSimulationLazyQuery>;
+export type ShippingSimulationQueryResult = Apollo.QueryResult<ShippingSimulationQuery, ShippingSimulationQueryVariables>;
+export function refetchShippingSimulationQuery(variables: ShippingSimulationQueryVariables) {
+      return { query: ShippingSimulationDocument, variables: variables }
     }
 export const TrackingCodeDocument = gql`
     query TrackingCode($trackingCode: String!) {

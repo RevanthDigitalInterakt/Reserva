@@ -29,4 +29,5 @@ export interface IInputForm {
   setFieldValue?: TSetFieldValue;
   inputID: TTestProps;
   touched?: boolean;
+  showMessageError?: boolean;
 }

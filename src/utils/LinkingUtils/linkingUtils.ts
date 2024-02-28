@@ -1,27 +1,18 @@
 import { removeLastCharacterSlash } from '../removeLastCharacterSlash';
-import {
-  registerMethods,
-} from './static/deepLinkMethods';
-
-/**
- * @name deepLinkHelper
- * @description Check the url passed and if it matches any condition,
- * if yes, it returns to the proper navigation, otherwise,
- * it redirects to the home page.
- * @param initialUrl string
- * @returns string | undefined
- */
+import { registerMethods } from './static/deepLinkMethods';
 
 const deepLinkHelper = async (initialUrl: string): Promise<string | undefined> => {
   const url = removeLastCharacterSlash(initialUrl);
-  for (const executeDeepLinkcase of registerMethods) {
-    const route = await executeDeepLinkcase(url);
-    if (route.match) {
-      return route.strUrl;
-    }
-  }
 
-  return undefined;
+  const route = await registerMethods.reduce(async (accPromise, executeDeepLinkCase) => {
+    const acc = await accPromise;
+    if (acc.match) return acc;
+
+    const result = await executeDeepLinkCase(url);
+    return result.match ? result : acc;
+  }, Promise.resolve({ match: false }));
+
+  return route.match ? route.strUrl : undefined;
 };
 
 export { deepLinkHelper };

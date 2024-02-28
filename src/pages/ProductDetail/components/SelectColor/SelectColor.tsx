@@ -47,7 +47,6 @@ export function SelectColor({
             alignItems="center"
             marginLeft="nano"
             marginRight="nano"
-            marginTop="nano"
             marginBottom="nano"
           >
             <ImageBackground

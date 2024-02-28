@@ -9,6 +9,7 @@ import { HomePageSectionTypeEnum } from '../../../../base/graphql/generated';
 import HomeMainCarousel from '../HomeMainCarousel';
 import HomeBrandsCarousel from '../HomeBrandsCarousel';
 import HomeCardsCarousel from '../HomeCardsCarousel';
+import CommercialBanner from '../CommercialBanner/CommercialBanner';
 import testProps from '../../../../utils/testProps';
 import { SearchButton } from '../../../../components/SearchButton';
 import EventProvider from '../../../../utils/EventProvider';
@@ -24,7 +25,7 @@ export function NewHomeCarousels() {
   const { carousels, loading } = useHomeStore(['carousels', 'loading']);
   const navigation = useNavigation();
   const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
-  const { getBoolean } = useRemoteConfig();
+  const { getBoolean, getString } = useRemoteConfig();
   const showRoulet = getBoolean('show_roulet');
   const showShelf = getBoolean('show_shelf');
 
@@ -59,7 +60,8 @@ export function NewHomeCarousels() {
         <>
           <HomeBrandsCarousel data={item} />
           {showShelf && <HomeShowcase />}
-          <NewHomeCountDown />
+          <CommercialBanner />
+          {getString('count_down_position') === 'A' && <NewHomeCountDown />}
         </>
       ),
       [HomePageSectionTypeEnum.Cards]: () => <HomeCardsCarousel data={item} />,

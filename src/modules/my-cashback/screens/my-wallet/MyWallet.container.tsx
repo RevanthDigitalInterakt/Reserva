@@ -18,9 +18,10 @@ interface MyWalletContainerProps {
 
 export enum FilterOptions {
   ALL = 'ALL',
-  DEBIT = 'DEBIT',
-  CREDIT = 'CREDIT',
+  CONFIRMED = 'CONFIRMED',
+  EXPIRED = 'EXPIRED',
   PENDING = 'PENDING',
+  CANCELED = 'CANCELED',
 }
 
 export enum BalanceType {
@@ -133,6 +134,16 @@ export function MyWalletContainer({ navigateBack }: MyWalletContainerProps) {
         return userOperations?.filter(
           (operation) => operation?.cashbackAmountInCents > 0
           && operation?.status !== 'pending',
+        );
+      case FilterOptions.CONFIRMED:
+        return userOperations?.filter(
+          (operation) => operation?.status === 'available' || operation?.status === 'fulfilled',
+        );
+      case FilterOptions.EXPIRED:
+        return userOperations?.filter((operation) => operation?.status === 'expired');
+      case FilterOptions.CANCELED:
+        return userOperations?.filter(
+          (operation) => operation?.status === 'canceled',
         );
       default:
         return userOperations?.filter(

@@ -32,6 +32,11 @@ import { getProductLoadType } from './utils/getProductLoadType';
 import DeepLinkPathModule from '../../NativeModules/DeepLinkPathModule';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
+import KitLookSummary from './components/ProductKitLookSummary/KitLookSummary';
+import ProductAddToCart from './components/ProductAddToCart';
+import { Drawer } from '../../components/Drawer';
+import { DrawerSelectors } from './components/DrawerSelectors';
+import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/useTrackClickStore';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -40,13 +45,18 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   const { getItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
-  const { setProduct, resetProduct, productDetail } = useProductDetailStore([
+  const {
+    setProduct, resetProduct, productDetail, drawerIsOpen,
+  } = useProductDetailStore([
     'setProduct',
     'resetProduct',
     'productDetail',
+    'drawerIsOpen',
   ]);
 
   const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
+
+  const isKitLook = productDetail?.action === ProductResultActionEnum.ShowKit;
 
   const [getProduct, { loading }] = useProductLazyQuery({
     fetchPolicy: getFetchPolicyPerKey('productDetail'),
@@ -92,6 +102,13 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       const { product } = data;
       trackEventDitoAccessProduct(data);
 
+      const newData: IData = {
+        identifier: product.identifier || '',
+        productId: product.productId,
+      };
+
+      trackClickStore.getState()
+        .onTrackClick(newData, product.identifier || '', TrackPageTypeEnum.Product);
       trackPageViewStore.getState().onTrackPageView(product.identifier || '', TrackPageTypeEnum.Product);
 
       EventProvider.logEvent('product_view', {
@@ -101,11 +118,13 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         product_currency: 'BRL',
       });
 
+      const showKitlook = getBoolean('show_kitlook');
+
       const pdpShowGiftCard = getBoolean('pdp_show_gift_card');
       if (
-        (
-          product.action !== ProductResultActionEnum.ShowProduct
+        (product.action !== ProductResultActionEnum.ShowProduct
           && product.action !== ProductResultActionEnum.ShowGiftCard
+          && (!isKitLook && !showKitlook)
         )
         || (product.action === ProductResultActionEnum.ShowGiftCard && !pdpShowGiftCard)
       ) {
@@ -146,31 +165,39 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   return (
     <>
       <ProductDetailWrapper loading={loading}>
-        {!!productDetail && (
-        <View>
-          <ProductSummary />
+        {!!productDetail && !isKitLook && (
+          <View>
+            <ProductSummary />
 
-          <ProductSelectors />
+            <ProductSelectors />
 
-          <Box px="xxxs">
-            <ProductAssinaturaSimples />
+            <Box px="xxxs">
+              <ProductAssinaturaSimples />
 
-            <ProductSLA />
+              <ProductSLA />
 
-            <ProductAbout />
+              <ProductAbout />
 
-          </Box>
+            </Box>
 
-          <Recommendation />
+            <Recommendation />
 
-          <Box px="xxxs">
-            <FormNewsletter />
-          </Box>
+            <Box px="xxxs">
+              <FormNewsletter />
+            </Box>
 
-        </View>
+          </View>
         )}
+        {isKitLook && <KitLookSummary />}
       </ProductDetailWrapper>
-      {isGiftCard && <GiftCardAddToCart />}
+      {!isGiftCard && (
+        <Drawer isOpen={drawerIsOpen} snapPoints={['15%', '48%']}>
+          <DrawerSelectors />
+        </Drawer>
+      )}
+      {isGiftCard ? <GiftCardAddToCart /> : null}
+      {!isGiftCard && !drawerIsOpen && getBoolean('add_to_bag_button_is_fixed') && !isKitLook
+        && !loading && <ProductAddToCart isFixed />}
     </>
   );
 }

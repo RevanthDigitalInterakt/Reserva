@@ -10,6 +10,7 @@ export function NewButton({
     <TouchableOpacity
       testID={testID}
       onPress={onPress}
+      activeOpacity={1}
       style={styles({
         textColor,
         disabled,

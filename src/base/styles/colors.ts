@@ -44,4 +44,9 @@ export const COLORS = {
   PINK_LIGHT: '#FFD3DB',
   PINK: '#FAB5C2',
   BACKGROUND_LICHT_GRAY: '#F2F2F2',
+  GOLD: '#c4a968',
+  DARK_GOLD_TEXT: '#9e7e2f',
+  BACKGROUND_GOLD: '#fffdeb',
+  TEXT_GRAY: '#9D9D9D',
+  BORDER_GRAY: '#CCCCCC',
 };

@@ -1,6 +1,6 @@
 {
   "name": "reserva",
-  "version": "2.2.4",
+  "version": "2.5.0",
   "private": true,
   "scripts": {
     "setup-ios-permissions": "react-native setup-ios-permissions && pod-install",
@@ -28,6 +28,7 @@
   "dependencies": {
     "@apollo/client": "^3.7.17",
     "@datadog/mobile-react-native": "1.8.2",
+    "@gorhom/bottom-sheet": "^4",
     "@notifee/react-native": "^7.8.0",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-async-storage/async-storage": "^1.19.1",
@@ -262,6 +263,6 @@
     }
   },
   "engines": {
-    "node": "20.9.0"
+    "node": "^20.x.x"
   }
 }

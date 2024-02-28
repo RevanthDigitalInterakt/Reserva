@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
 import type { NewButtonStyleProps } from './types';
 import { COLORS, FONTS } from '../../base/styles';
+import { scale } from '../../utils/scale';
 
 const styles = ({ disabled, textColor }: NewButtonStyleProps) => StyleSheet.create({
   container: {
     backgroundColor: disabled ? COLORS.DISABLED_GRAY : COLORS.ENABLED_GREEN,
-    height: 50,
+    height: scale(51),
     justifyContent: 'center',
     alignItems: 'center',
   },

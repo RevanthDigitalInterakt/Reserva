@@ -1,0 +1,27 @@
+query ShippingSimulation($input: ShippingSimulationInput!) {
+  shippingSimulation(input: $input) {
+    delivery {
+      address {
+        street
+        city
+        state
+        neighborhood
+      }
+    }
+    storeList {
+      discountStorePickup
+      stores {
+        friendlyName
+        address {
+          postalCode
+          street
+          neighborhood
+          city
+          state
+          neighborhood
+          complement
+        }
+      }
+    }
+  }
+}

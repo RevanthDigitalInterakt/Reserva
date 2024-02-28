@@ -35,28 +35,67 @@ export interface IRsvProduct {
   productLink: string;
   brand: string;
   image: string;
-  categoryTree: string[];
-  flags: IRsvFlag[];
-  sku: IRsvSku[];
-  prices: IRsvPrice;
-}
-
-export interface IRsvRecommendation {
-  shelfName: string;
-  products: IRsvProduct[];
+  name: string;
+  price: number;
 }
 
 export function HomeShowcase() {
-  const { onSearchShelf } = useRecommendationShelf() as IRecommendationShelfState;
-  const [shelf, setShelf] = useState<IRsvRecommendation[]>([]);
+  const data: IData[] = [
+    {
+      id: '1',
+      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
+      name: 'Camisa Reserva Linho',
+      price: 84,
+    },
+    {
+      id: '2',
+      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
+      name: 'Camisa Reserva Linho',
+      price: 84,
+    },
+    {
+      id: '3',
+      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
+      name: 'Camisa Reserva Linho',
+      price: 84,
+    },
+    {
+      id: '4',
+      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
+      name: 'Camisa Reserva Linho',
+      price: 84,
+    },
+    {
+      id: '5',
+      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
+      name: 'Camisa Reserva Linho',
+      price: 84,
+    },
+    {
+      id: '6',
+      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
+      name: 'Camisa Reserva Linho',
+      price: 84,
+    },
+  ];
 
-  useEffect(() => {
-    async function handleGetShelf() {
-      const data = await onSearchShelf('home');
-      setShelf(data as IRsvRecommendation[]);
-    }
-    handleGetShelf();
-  }, [onSearchShelf]);
+  const renderItem = (item: IData) => (
+    <TouchableOpacity
+      style={{ padding: 10 }}
+      onPress={
+        () => trackClickSmartHintStore.getState().onSendTrackClick(item.id, TrackPageTypeEnum.Home)
+      }
+    >
+      <Image
+        source={{ uri: item.image }}
+        style={{
+          width: 150,
+          height: 200,
+        }}
+      />
+      <Text>{item.name}</Text>
+    </TouchableOpacity>
+  );
 
   return (
     <View style={styles.container}>

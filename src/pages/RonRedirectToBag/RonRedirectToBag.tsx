@@ -120,7 +120,7 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
     const { data, error } = await getRonRedirect({ variables: { code: ronCode } });
 
     if (!data?.ronRedirect || error) {
-      navigation.replace('Home');
+      navigation.replace('HomeTabs');
       return;
     }
 

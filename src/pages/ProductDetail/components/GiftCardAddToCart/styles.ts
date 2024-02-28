@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 16,
     height: 16,
-    top: '80%',
+    top: '70%',
     left: '50%',
   },
 
