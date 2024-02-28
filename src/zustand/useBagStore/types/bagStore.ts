@@ -5,7 +5,7 @@ import type {
   ShippingSimulationOutput,
 } from '../../../base/graphql/generated';
 
-export type TItemBag = OrderFormQuery['orderForm']['items'][0];
+export type TItemBag = OrderFormQuery['orderForm']['packageItems'][0]['items'][0];
 
 export interface IBagStore {
   initialized: boolean;

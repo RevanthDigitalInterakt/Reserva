@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import type { OrderFormQuery } from '../../../../base/graphql/generated';
 import { Box } from '../../../../components/Box/Box';
 import { Button } from '../../../../components/Button';
 import { Checkbox } from '../../../../components/Checkbox/Checkbox';
@@ -9,6 +8,7 @@ import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
 import { Typography } from '../../../../components/Typography/Typography';
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
+import type { OrderFormQuery } from '../../../../base/graphql/generated';
 import { decimalPart, integerPart } from '../../../../utils/numberUtils';
 import { slugify } from '../../../../utils/slugify';
 import testProps from '../../../../utils/testProps';
@@ -18,7 +18,7 @@ import { FirstPurchaseDiscount, TotalDiscountFirstPurchase } from './ProductList
 import { Counter } from '../../../../components/Counter/Counter';
 
 interface IProductListItem {
-  data: OrderFormQuery['orderForm']['items'][0];
+  data: OrderFormQuery['orderForm']['packageItems'][0]['items'][0]
   onPress: () => void;
   onAddCount: (count: number) => void;
   onSubCount: (count: number) => void;
@@ -33,7 +33,7 @@ function ProductListItem({
   onSubCount,
   onAddGift,
   onDelete,
-}: IProductListItem) {
+}: Readonly<IProductListItem>) {
   const discountTag = useMemo(() => data.discountPercent > 0, [data?.discountPercent]);
 
   const price = useMemo(() => data.price / 100, [data.price]);

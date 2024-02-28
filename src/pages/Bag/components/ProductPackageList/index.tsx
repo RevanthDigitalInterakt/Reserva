@@ -112,7 +112,7 @@ export default function BagProductPackageList() {
   return (
     <View>
       {packageItems.map((packItem, idx) => (
-        <View>
+        <View key={`${(packItem?.items[0]?.index || 0) + idx}-${packItem?.items[0]?.key}`}>
           {hasPackageItems
           && (
           <View style={productPackageListStyles.titleContainer}>

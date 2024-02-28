@@ -632,7 +632,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         const mergeItems = mergeItemsPackage(
           orderForm?.packageItems || [{ items: [], totalShippingValue: 0 }],
-        ) as OrderformPackageItemsOutput[] | [];
+        ) as OrderformPackageItemsOutput['items'] | [];
 
         if (orderForm?.messages?.length) {
           errorsMessages = getMessageErrorWhenUpdateItem({
@@ -669,7 +669,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         }));
 
         await trackEventDitoStatusCart({
-          items: mergeItems || [{ items: [], totalShippingValue: 0 }],
+          items: mergeItems,
           appTotalizers: orderForm?.appTotalizers,
           clientProfileData: orderForm?.clientProfileData,
         });

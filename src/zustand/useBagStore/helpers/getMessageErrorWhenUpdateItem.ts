@@ -6,7 +6,7 @@ import type {
 interface IGetMessagesErrorWhenUpdatedItem {
   updateItemResponse?: OrderFormUpdateItemMutation['orderFormUpdateItem'],
   currentItem: TItemBag;
-  mergeItems: OrderformPackageItemsOutput[] | [],
+  mergeItems: OrderformPackageItemsOutput['items']
   currentUpdateValueItem: number;
   appTotalizers: OrderFormQuery['orderForm']['appTotalizers'];
 }

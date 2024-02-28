@@ -36,6 +36,7 @@ import ShippingDataDetails from './components/ShippingDataDetails';
 import BagSkeleton from './components/Skeleton';
 import SkeletonBagFooter from './components/SkeletonBagFooter';
 import { bagStyles } from './styles/bagStyles';
+import BagProductList from './components/ProductList';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -221,7 +222,7 @@ export default function NewBag({ navigation }: TNewBagProps) {
                       <SelectableGifts />
                     )}
 
-                    <BagProductPackageList />
+                    {showAddZipCodeDeliveryAB ? <BagProductPackageList /> : <BagProductList /> }
 
                     {hasSelectedAddressDelivery && hasUnavailableItems && <UnavailableList />}
 

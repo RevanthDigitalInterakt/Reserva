@@ -17,7 +17,6 @@ export default function BagProductList() {
   const { orderForm } = useCart();
   const { actions, packageItems } = useBagStore(['actions', 'packageItems']);
   const navigation = useNavigation();
-
   const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
 
   const availableList = useMemo(() => items.filter((item) => item.availability === 'available'), [items]);
@@ -109,14 +108,14 @@ export default function BagProductList() {
         if (item.sellingPrice !== 0 && item.isGift === false) {
           return item.isPrimeSubscription ? (
             <ProductListItemPrime
-              key={item.key}
+              key={`${item.productId}-${String(item.index)}`}
               data={item}
               onDelete={() => handleDeleteProductModal(item, index)}
               onPress={() => handleNavigationToDetail(item)}
             />
           ) : (
             <ProductListItem
-              key={item.key}
+              key={`${item.productId}-${String(item.index)}`}
               data={item}
               onAddCount={(count) => handleAddCount(count, item, index)}
               onSubCount={(count) => handleSubCount(count, item.quantity, item, index)}
