@@ -3,7 +3,7 @@ import {
   View, Text, Image, TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { trackClickSmartHintStore } from '../../../../zustand/useTrackClickSmartHint/useTrackClickSmartHint';
+import { trackClickStore } from '../../../../zustand/useTrackClickStore/useTrackClickStore'
 import { TrackPageTypeEnum } from '../../../../base/graphql/generated';
 import { integerPart, decimalPart } from '../../../../utils/numberUtils';
 import { styles } from './HomeShowcaseCards.styles';
@@ -53,7 +53,7 @@ export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
   const { navigate } = useNavigation();
 
   const onClickCard = useCallback((data: IRsvProduct) => {
-    trackClickSmartHintStore.getState().onSendTrackClick(product.productId, TrackPageTypeEnum.Home);
+    trackClickStore.getState().onSendTrackClick(product.productId, TrackPageTypeEnum.Home);
     navigate('ProductDetail', {
       productId: data.productId,
       colorSelected: data.sku[0]?.colorHex || '#FFFFFF'
