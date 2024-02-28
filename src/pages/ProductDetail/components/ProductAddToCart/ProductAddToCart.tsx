@@ -62,8 +62,6 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
       setLoading(true);
 
       const orderFormItem = items.find((item) => item.id === selectedSize.itemId);
-      console.log('selectedSize.seller', selectedSize.seller);
-      console.log('selectedSize.itemId,', selectedSize.itemId);
 
       await actions.ADD_ITEM(
         selectedSize.seller,

@@ -84,8 +84,6 @@ const useWishlistStore = create<IWishlistStore>((set, getState) => ({
   onFavorite: async (product: IWishlistProduct) => {
     set(() => ({ loading: true }));
 
-    console.log('product', product);
-
     try {
       const client = await getApolloClient();
 
@@ -103,13 +101,10 @@ const useWishlistStore = create<IWishlistStore>((set, getState) => ({
         },
       });
 
-      console.log('data', data);
-
       set(() => ({ favorites: data?.wishlistAddProduct || [] }));
 
       return true;
     } catch (err) {
-      console.log('error', err);
       ExceptionProvider.captureException(err, { product });
 
       return false;

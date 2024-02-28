@@ -46,8 +46,6 @@ export function useWishlistActions() {
     try {
       if (!verifyAuthentication()) return;
 
-      console.log(product);
-
       setLoadingSkuId(product.skuId);
 
       const isFavorite = checkIsFavorite(product.skuId);
