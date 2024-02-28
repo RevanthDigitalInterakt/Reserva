@@ -48,6 +48,8 @@ import {
   type OrderFormSetGiftSizeMutationVariables,
   type OrderFormUpdateItemMutation,
   type OrderFormUpdateItemMutationVariables,
+  type OrderformLogisticsInfoInput,
+  type OrderformPackageItemsOutput,
 } from '../../base/graphql/generated';
 import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
 import { getApolloClient } from '../../utils/getApolloClient';
@@ -530,7 +532,6 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             ...getState().marketingData,
             coupon: '',
           },
-          items: orderForm?.items || [],
           packageItems: orderForm?.packageItems || [{ items: [], totalShippingValue: 0 }],
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
@@ -629,10 +630,15 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         const { orderFormUpdateItem: orderForm } = data || {};
 
+        const mergeItems = mergeItemsPackage(
+          orderForm?.packageItems || [{ items: [], totalShippingValue: 0 }],
+        ) as OrderformPackageItemsOutput[] | [];
+
         if (orderForm?.messages?.length) {
           errorsMessages = getMessageErrorWhenUpdateItem({
             currentItem: item,
-            updateItemResponse: data?.orderFormUpdateItem,
+            mergeItems,
+            updateItemResponse: orderForm,
             currentUpdateValueItem: countUpdated,
             appTotalizers: orderForm.appTotalizers,
           });
@@ -663,8 +669,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         }));
 
         await trackEventDitoStatusCart({
-          items: mergeItemsPackage(orderForm?.packageItems
-            || [{ items: [], totalShippingValue: 0 }]),
+          items: mergeItems || [{ items: [], totalShippingValue: 0 }],
           appTotalizers: orderForm?.appTotalizers,
           clientProfileData: orderForm?.clientProfileData,
         });
@@ -980,9 +985,13 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         const { orderFormId, packageItems } = getState();
 
-        const IndexIds = deliveryOptionsStore.length > 0
-          ? deliveryOptionsStore.map((item) => item.itemIndex)
-          : [];
+        const IndexIds = deliveryOptionsStore.map((item) => item.itemIndex);
+
+        const newDeliveryOptionsStore = deliveryOptionsStore.map((item) => ({
+          itemIndex: item.itemIndex,
+          selectedSla: item.selectedSla,
+          selectedDeliveryChannel: item.selectedDeliveryChannel,
+        }));
 
         const mergeItems = mergeItemsPackage(packageItems);
 
@@ -994,8 +1003,10 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
               selectedDeliveryChannel: DeliveryChannelEnum.PickupInPoint,
             });
           }
-          return [];
-        });
+          return null;
+        }).filter(Boolean) as OrderformLogisticsInfoInput[];
+
+        const deliveryOptions = [...deliveryOptionsPickUp, ...newDeliveryOptionsStore];
 
         const { data } = await getApolloClient().mutate<
         OrderFormSelectAddressMutation,
@@ -1006,7 +1017,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           variables: {
             input: {
               orderFormId,
-              deliveryOptions: [...deliveryOptionsPickUp, ...deliveryOptionsStore],
+              deliveryOptions,
               addressType: AddressTypeEnum.Residential,
               addressId: storeAddress?.addressId,
               cep: storeAddress?.postalCode,
@@ -1023,13 +1034,6 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         const { orderFormSelectAddress: orderForm } = data || {};
 
         set(() => ({
-          items: orderForm?.items.map((item) => {
-            if (item.productCategories.includes('Cartão Presente')) {
-              item.itemColor = '';
-              return item;
-            }
-            return item;
-          }) || [],
           packageItems: orderForm?.packageItems.map((subPackage) => {
             subPackage.items.map((packageItem) => {
               if (packageItem.productCategories.includes('Cartão Presente')) {
@@ -1052,6 +1056,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           hasPrimeSubscriptionInCart: orderForm?.hasPrimeSubscriptionInCart,
         }));
       } catch (error) {
+        console.log('>>>xD', error);
         set(() => ({ error: error.message }));
 
         throw new Error(error.message);

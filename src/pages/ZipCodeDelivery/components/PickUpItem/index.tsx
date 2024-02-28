@@ -17,7 +17,7 @@ export default function PickUpItem({
   store,
   deliveryOptions,
   deliveryOptionsStore,
-}: TPickUpItemProps): JSX.Element {
+}: Readonly<TPickUpItemProps>) {
   const { actions } = useBagStore(['actions']);
   const navigation = useNavigation();
 
@@ -26,8 +26,10 @@ export default function PickUpItem({
       deliveryOptionsStore,
       store.address,
     );
-    navigation?.goBack();
+
     actions.ADD_DELIVERY_TYPE('Retire em loja', store.friendlyName);
+
+    navigation?.goBack();
   }, [store, deliveryOptions, deliveryOptionsStore]);
 
   return (

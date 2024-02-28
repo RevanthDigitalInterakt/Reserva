@@ -16,9 +16,6 @@ fragment orderFormFragment on OrderformOutput {
         corporatePhone
         profileCompleteOnLoading
     }
-    items {
-        ...OrderformItemFragment
-    }
     packageItems {
         ...OrderformPackageItemsFragment
     }
