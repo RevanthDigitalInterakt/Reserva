@@ -53,15 +53,23 @@ export const styles = StyleSheet.create({
     fontSize: 11,
   },
 
-  discountContainerFlag: {
+  discountContainer: {
+    flexDirection: 'row',
     position: 'absolute',
+    top: 240,
+    left: 5,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 5,
+  },
+
+  discountContainerFlag: {
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    top: 240,
-    left: 20,
     backgroundColor: COLORS.BLACK,
-    width: 71,
+    width: 70,
     height: 30,
     borderRadius: 30,
   },

@@ -938,6 +938,8 @@ export type OrderformItemOutput = {
   id: Scalars['String']['output'];
   imageSource: Scalars['String']['output'];
   imageUrl?: Maybe<Scalars['String']['output']>;
+  /** This field indicates the original index position of the VTEX order form. */
+  index: Scalars['Int']['output'];
   isAddedAsGift: Scalars['Boolean']['output'];
   isAssinaturaSimples: Scalars['Boolean']['output'];
   isGift: Scalars['Boolean']['output'];
@@ -1029,9 +1031,8 @@ export type OrderformPackageItemsMetadataOutput = {
   __typename?: 'OrderformPackageItemsMetadataOutput';
   availability?: Maybe<PackageAvailabilityEnum>;
   friendlyName?: Maybe<Scalars['String']['output']>;
-  shippingEstimate?: Maybe<Scalars['String']['output']>;
+  shippingEstimate?: Maybe<Scalars['Int']['output']>;
   shippingValue?: Maybe<Scalars['Int']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderformPackageItemsOutput = {
@@ -2557,7 +2558,7 @@ export type ShippingSimulationQueryVariables = Exact<{
 }>;
 
 
-export type ShippingSimulationQuery = { __typename?: 'Query', shippingSimulation: { __typename?: 'ShippingSimulationOutput', delivery: { __typename?: 'ShippingDeliveryOutput', address: { __typename?: 'CepOutput', street?: string | null, city?: string | null, state?: string | null, neighborhood?: string | null } }, storeList: { __typename?: 'ShippingStoreListOutput', discountStorePickup?: string | null, stores: Array<{ __typename?: 'ShippingStoreOutput', friendlyName: string, address: { __typename?: 'CepOutput', postalCode?: string | null, street?: string | null, neighborhood?: string | null, city?: string | null, state?: string | null, complement?: string | null } }> } } };
+export type ShippingSimulationQuery = { __typename?: 'Query', shippingSimulation: { __typename?: 'ShippingSimulationOutput', delivery: { __typename?: 'ShippingDeliveryOutput', address?: { __typename?: 'CepOutput', street?: string | null, city?: string | null, state?: string | null, neighborhood?: string | null } | null }, storeList: { __typename?: 'ShippingStoreListOutput', discountStorePickup?: string | null, stores: Array<{ __typename?: 'ShippingStoreOutput', friendlyName: string, address: { __typename?: 'CepOutput', postalCode?: string | null, street?: string | null, neighborhood?: string | null, city?: string | null, state?: string | null, complement?: string | null } }> } } };
 
 export type TrackingCodeQueryVariables = Exact<{
   trackingCode: Scalars['String']['input'];

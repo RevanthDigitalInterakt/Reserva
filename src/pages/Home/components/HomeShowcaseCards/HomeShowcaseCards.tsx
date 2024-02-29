@@ -3,11 +3,15 @@ import {
   View, Text, Image, TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { trackClickStore } from '../../../../zustand/useTrackClickStore/useTrackClickStore'
+import { trackClickStore, type IData } from '../../../../zustand/useTrackClickStore/useTrackClickStore';
 import { TrackPageTypeEnum } from '../../../../base/graphql/generated';
 import { integerPart, decimalPart } from '../../../../utils/numberUtils';
 import { styles } from './HomeShowcaseCards.styles';
 import { Skeleton } from '../../../../modules/Checkout/components/Skeleton';
+import IconAddToBag from '../../../../../assets/icons/IconAddToBag';
+import { COLORS } from '../../../../base/styles';
+import { useShelfStore } from '../../../../zustand/useShelfStore/useShelfStore';
+import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 
 interface IRsvFlag {
   type: string;
@@ -50,13 +54,25 @@ interface IHomeShowcaseCardsProps {
 }
 
 export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
+  const { onGetShelfItemData } = useShelfStore(['onGetShelfItemData']);
+  const { setDrawerIsOpen } = useProductDetailStore(['setDrawerIsOpen']);
   const { navigate } = useNavigation();
 
+  const newData: IData = {
+    identifier: product.productLink || '',
+    productId: product.productId,
+  };
+
+  const onClickItem = useCallback((data: IRsvProduct) => {
+    onGetShelfItemData(data);
+    setDrawerIsOpen(true);
+  }, [onGetShelfItemData, setDrawerIsOpen]);
+
   const onClickCard = useCallback((data: IRsvProduct) => {
-    trackClickStore.getState().onSendTrackClick(product.productId, TrackPageTypeEnum.Home);
+    trackClickStore.getState().onSendTrackClick(newData, TrackPageTypeEnum.Home);
     navigate('ProductDetail', {
       productId: data.productId,
-      colorSelected: data.sku[0]?.colorHex || '#FFFFFF'
+      colorSelected: data.sku[0]?.colorHex || '#FFFFFF',
     });
   }, []);
 
@@ -123,13 +139,28 @@ export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
       {product.flags.map((flag) => {
         if (flag.type === 'savings') {
           return (
-            <View style={styles.discountContainerFlag} key={flag.type}>
-              <Text style={styles.discountFlag}>
-                {`${flag.value}%`}
-              </Text>
-              <Text style={styles.discountTextFlag}>
-                OFF
-              </Text>
+            <View style={styles.discountContainer}>
+              <View style={styles.discountContainerFlag} key={flag.type}>
+                <Text style={styles.discountFlag}>
+                  {`${flag.value}%`}
+                </Text>
+                <Text style={styles.discountTextFlag}>
+                  OFF
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: COLORS.BLACK,
+                  width: 35,
+                  height: 35,
+                  borderRadius: 30,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                onPress={() => onClickItem(product)}
+              >
+                <IconAddToBag />
+              </TouchableOpacity>
             </View>
           );
         }

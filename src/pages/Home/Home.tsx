@@ -41,6 +41,10 @@ import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { ActivityTracking } from '../../components/ActivityTracking';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { TrackPageTypeEnum } from '../../base/graphql/generated';
+import { Drawer } from '../../components/Drawer';
+import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
+import { useShelfStore } from '../../zustand/useShelfStore/useShelfStore';
+import ShowcaseDrawerContent from './components/ShowcaseDrawerContent/ShowcaseDrawerContent';
 import { NewHomeCountDown } from './components/NewHomeCountDown.tsx';
 
 dayjs.extend(utc);
@@ -137,6 +141,8 @@ function Home() {
   ]);
   const { isConnected } = useConnectivityStore(['isConnected']);
 
+  const { drawerIsOpen } = useProductDetailStore(['drawerIsOpen']);
+  const { shelfItemData } = useShelfStore(['shelfItemData']);
   const { getBoolean, getString } = useRemoteConfig();
   const newHeaderIsActive = getBoolean('show_new_header');
 
@@ -247,6 +253,11 @@ function Home() {
         </SafeAreaView>
         {!!showModalSignUpComplete && <ModalSignUpComplete />}
       </Box>
+      {drawerIsOpen && (
+        <Drawer isOpen={drawerIsOpen} snapPoints={['10%', '90%']}>
+          <ShowcaseDrawerContent data={shelfItemData} />
+        </Drawer>
+      )}
     </>
   );
 }
