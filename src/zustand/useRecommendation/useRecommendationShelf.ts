@@ -19,7 +19,7 @@ const useRecommendationShelf = create<IRecommendationShelfState>(() => ({
         variables: {
           input: {
             providers: [TrackProvidersEnum.Smarthint],
-            userIdentifier: 'email@gmail.com',
+            userIdentifier: '',
             channel: [SmarthintShelfChannelEnum.Padrao],
             pageType: TrackPageTypeEnum.Home,
             position: 2,

@@ -19,6 +19,7 @@ import styles from './styles';
 import { Box } from '../../../../components/Box/Box';
 import { RouletCouponCard } from '../RouletCouponCard';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
+import { HomeShowcase } from '../HomeShowcase/HomeShowcase';
 
 export function NewHomeCarousels() {
   const { carousels, loading } = useHomeStore(['carousels', 'loading']);
@@ -26,6 +27,7 @@ export function NewHomeCarousels() {
   const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
   const { getBoolean, getString } = useRemoteConfig();
   const showRoulet = getBoolean('show_roulet');
+  const showShelf = getBoolean('show_shelf');
 
   const handleSearchButtonPress = () => {
     EventProvider.logEvent('header_search_click', { open: 1 });
@@ -57,7 +59,7 @@ export function NewHomeCarousels() {
       [HomePageSectionTypeEnum.Brands]: () => (
         <>
           <HomeBrandsCarousel data={item} />
-          <HomeShowcase />
+          {showShelf && <HomeShowcase />}
           <CommercialBanner />
           {getString('count_down_position') === 'A' && <NewHomeCountDown />}
         </>

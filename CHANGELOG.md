@@ -4,6 +4,7 @@
 
 - DATADOG - Atualização das variáveis de ambiente.
 - [27026 - Smarthint - Adicionar produto da vitrine na sacola APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/27026)
+- [26295 - Smarthint - Vitrine Home APP Frontend](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/26295)
 
 ### 2.4.0
 
