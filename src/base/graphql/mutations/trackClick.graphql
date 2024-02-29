@@ -1,0 +1,3 @@
+mutation trackClickV2($input: TrackClickInput!) {
+  trackClickV2(input: $input)
+}
