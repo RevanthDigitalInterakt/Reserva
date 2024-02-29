@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.5.1
+
+- DATADOG - Bugfix - Atualização das variáveis de ambiente.
+
 ### 2.4.1
 
 - DATADOG - Atualização das variáveis de ambiente.
