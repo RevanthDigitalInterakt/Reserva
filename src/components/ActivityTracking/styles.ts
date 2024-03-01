@@ -9,7 +9,6 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.WHITE,
     position: 'absolute',
     zIndex: 999,
-    paddingBottom: 100,
   },
 
   contentWrapper: {
@@ -20,12 +19,13 @@ export const styles = StyleSheet.create({
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
     overflow: 'hidden',
-    height: scale(320),
+    // height: scale(320),
     width: '100%',
   },
 
   imageBackground: {
-    flex: 1,
+    // flex: 1,
+    height: 320,
   },
 
   linearGradientWrapper: {
@@ -79,7 +79,9 @@ export const styles = StyleSheet.create({
 
   darkButtonWrapper: {
     paddingHorizontal: 106,
-    marginTop: 36,
+    position: 'absolute',
+    bottom: 5,
+    zIndex: 999,
   },
 
   infosWrapper: {
