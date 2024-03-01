@@ -1329,6 +1329,7 @@ export type ProductListOutput = {
   productId: Scalars['String']['output'];
   productName: Scalars['String']['output'];
   size?: Maybe<Scalars['String']['output']>;
+  sizes: Array<ProductListSizeOutput>;
   skuId: Scalars['String']['output'];
   skuName: Scalars['String']['output'];
   slug?: Maybe<Scalars['String']['output']>;
@@ -1338,6 +1339,15 @@ export type ProductListPrimeOutput = {
   __typename?: 'ProductListPrimeOutput';
   installment: ProductPriceInstallmentOutput;
   price: Scalars['Float']['output'];
+};
+
+export type ProductListSizeOutput = {
+  __typename?: 'ProductListSizeOutput';
+  name: Scalars['String']['output'];
+  sellerId: Scalars['String']['output'];
+  sellerName: Scalars['String']['output'];
+  skuId: Scalars['String']['output'];
+  stock: Scalars['Int']['output'];
 };
 
 export type ProductOutput = {
