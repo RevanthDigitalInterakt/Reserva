@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { Button } from '../Button';
-import { counterStyles } from './Conter.styles';
+import { counterStyles } from './Counter.styles';
 
 interface CounterProps {
   count: number

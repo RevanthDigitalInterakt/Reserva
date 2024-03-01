@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../../../../base/styles';
+import { COLORS, FONTS } from '../../../../../base/styles';
 
 export const customInputTypeStyles = StyleSheet.create({
   buttonActionSubmit: {
@@ -16,7 +16,7 @@ export const customInputTypeStyles = StyleSheet.create({
   textActionButtonSubmit: {
     color: COLORS.WHITE,
     textTransform: 'uppercase',
-    fontFamily: 'ReservaSans-Bold',
+    fontFamily: FONTS.RESERVA_SANS_BOLD,
     fontSize: 14,
     lineHeight: 18,
   },
