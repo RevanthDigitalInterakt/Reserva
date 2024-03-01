@@ -27,7 +27,7 @@ function PageOneP5P({ route, navigation }: IPageOneP5P) {
         loading={topBarLoading}
       />
       <WebView
-        source={{ uri: 'https://www.usereserva.com/1p5p?display=webview' }}
+        source={{ uri: 'https://www.usereserva.com/1p5p?webview=true' }}
       />
     </>
   );

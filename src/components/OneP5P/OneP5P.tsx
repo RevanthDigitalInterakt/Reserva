@@ -18,7 +18,7 @@ function OneP5P({ comingFrom, itemQuantity }: I1P5PProps) {
 
   if (comingFrom === 'home') {
     return (
-      <View style={{ alignItems: 'center', padding: 25, marginTop: -50 }}>
+      <View style={{ alignItems: 'center', padding: 25, marginTop: -50, marginBottom: -50 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <ImageComponent
             style={{ width: 125, height: 125 }}
