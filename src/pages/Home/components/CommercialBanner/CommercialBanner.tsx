@@ -12,7 +12,7 @@ import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
 function CommercialBanner() {
   const { commercialBannerCollection } = useHomeStore(['commercialBannerCollection']);
-  const { getBoolean } = useRemoteConfig();
+  const { getBoolean, getString } = useRemoteConfig();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigation = useNavigation();
@@ -88,8 +88,7 @@ function CommercialBanner() {
 
   return (
     <View>
-
-      <Animated.View style={[styles.container, { opacity: fadeOut }]}>
+      <Animated.View style={[styles.container, { opacity: fadeOut, marginBottom: getString('count_down_position') === 'B' || getString('count_down_position') === 'C' ? 10 : 0 }]}>
         {currentItem ? (
           <>
             {

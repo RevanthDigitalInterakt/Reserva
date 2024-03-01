@@ -41,6 +41,11 @@ import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { ActivityTracking } from '../../components/ActivityTracking';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { TrackPageTypeEnum } from '../../base/graphql/generated';
+import { Drawer } from '../../components/Drawer';
+import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
+import { useShelfStore } from '../../zustand/useShelfStore/useShelfStore';
+import ShowcaseDrawerContent from './components/ShowcaseDrawerContent/ShowcaseDrawerContent';
+import { NewHomeCountDown } from './components/NewHomeCountDown.tsx';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -136,7 +141,9 @@ function Home() {
   ]);
   const { isConnected } = useConnectivityStore(['isConnected']);
 
-  const { getBoolean } = useRemoteConfig();
+  const { drawerIsOpen } = useProductDetailStore(['drawerIsOpen']);
+  const { shelfItemData } = useShelfStore(['shelfItemData']);
+  const { getBoolean, getString } = useRemoteConfig();
   const newHeaderIsActive = getBoolean('show_new_header');
 
   const {
@@ -200,21 +207,57 @@ function Home() {
             bounces
             onScroll={handleScroll}
             contentContainerStyle={{ paddingBottom: 100 }}
-            keyExtractor={(item) => `home-media-${item.image.url.toString()}-${item.image.title}`}
+            keyExtractor={(item, index) => (index === 2 && (getString('count_down_position') === 'B') ? 'home-carousel' : `home-media-${item.image.url.toString()}-${item.image.title}`)}
             data={medias}
-            renderItem={({ item }) => (
-              <NewBanner
-                facets={item.facets}
-                image={item.image.url}
-                orderBy={item.orderBy}
-                reference={item.reference}
-                reservaMini={item.reservaMini}
-              />
-            )}
+            renderItem={({ item, index }) => {
+              if (index === 2 && (getString('count_down_position') === 'B')) {
+                return (
+                  <>
+                    <NewHomeCountDown />
+                    <NewBanner
+                      facets={item.facets}
+                      image={item.image.url}
+                      orderBy={item.orderBy}
+                      reference={item.reference}
+                      reservaMini={item.reservaMini}
+                    />
+                  </>
+                );
+              }
+              if (index === medias.length - 1 && getString('count_down_position') === 'C') {
+                return (
+                  <>
+                    <NewBanner
+                      facets={item.facets}
+                      image={item.image.url}
+                      orderBy={item.orderBy}
+                      reference={item.reference}
+                      reservaMini={item.reservaMini}
+                    />
+                    <NewHomeCountDown />
+                  </>
+                );
+              }
+
+              return (
+                <NewBanner
+                  facets={item.facets}
+                  image={item.image.url}
+                  orderBy={item.orderBy}
+                  reference={item.reference}
+                  reservaMini={item.reservaMini}
+                />
+              );
+            }}
           />
         </SafeAreaView>
         {!!showModalSignUpComplete && <ModalSignUpComplete />}
       </Box>
+      {drawerIsOpen && (
+        <Drawer isOpen={drawerIsOpen} snapPoints={['10%', '90%']}>
+          <ShowcaseDrawerContent data={shelfItemData} />
+        </Drawer>
+      )}
     </>
   );
 }

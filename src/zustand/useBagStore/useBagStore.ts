@@ -827,6 +827,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         await trackingOrderFormAddItem(id, orderForm);
       } catch (error) {
+        ExceptionProvider.captureException(err);
         set(() => ({ error: error.message }));
 
         throw new Error(error.message);
