@@ -166,12 +166,13 @@ function Home() {
   useEffect(() => {
     if (isConnected && !loaded) {
       onLoad();
-
-      trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);
-
-      EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
     }
   }, [isConnected, loaded]);
+
+  useEffect(() => {
+    trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);
+    EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
+  }, []);
 
   if (!loaded && !isConnected) {
     return (
