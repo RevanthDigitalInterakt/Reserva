@@ -2521,6 +2521,13 @@ export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, isPrime: boolean, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null> } };
 
+export type RecommendationShelfQueryVariables = Exact<{
+  input: SmarthintShelfInput;
+}>;
+
+
+export type RecommendationShelfQuery = { __typename?: 'Query', recommendationShelf: { __typename?: 'RecommendationOutput', shelfName: string, products: Array<{ __typename?: 'RecommendationProductsOutput', productName: string, productId: string, productLink: string, brand: string, image: string, categoryTree: Array<string>, flags: Array<{ __typename?: 'RecommendationFlagOutput', type: string, value?: number | null, text?: string | null }>, prices: { __typename?: 'RecommendationPriceOutput', listPrice: number, salePrice: number }, sku: Array<{ __typename?: 'RecommendationSkuOutput', colorName?: string | null, colorHex?: string | null, colorRefId?: string | null, sizes: Array<{ __typename?: 'RecommendationSizeOutput', skuId?: string | null, value?: string | null, disabled: boolean }> }> }> } };
+
 export type RonRedirectQueryVariables = Exact<{
   code: Scalars['String']['input'];
 }>;
@@ -5081,6 +5088,71 @@ export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
 export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;
 export function refetchProfileQuery(variables?: ProfileQueryVariables) {
       return { query: ProfileDocument, variables: variables }
+    }
+export const RecommendationShelfDocument = gql`
+    query recommendationShelf($input: SmarthintShelfInput!) {
+  recommendationShelf(input: $input) {
+    shelfName
+    products {
+      productName
+      productId
+      productLink
+      brand
+      image
+      categoryTree
+      flags {
+        type
+        value
+        text
+      }
+      prices {
+        listPrice
+        salePrice
+      }
+      sku {
+        colorName
+        colorHex
+        colorRefId
+        sizes {
+          skuId
+          value
+          disabled
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useRecommendationShelfQuery__
+ *
+ * To run a query within a React component, call `useRecommendationShelfQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRecommendationShelfQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRecommendationShelfQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRecommendationShelfQuery(baseOptions: Apollo.QueryHookOptions<RecommendationShelfQuery, RecommendationShelfQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RecommendationShelfQuery, RecommendationShelfQueryVariables>(RecommendationShelfDocument, options);
+      }
+export function useRecommendationShelfLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RecommendationShelfQuery, RecommendationShelfQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RecommendationShelfQuery, RecommendationShelfQueryVariables>(RecommendationShelfDocument, options);
+        }
+export type RecommendationShelfQueryHookResult = ReturnType<typeof useRecommendationShelfQuery>;
+export type RecommendationShelfLazyQueryHookResult = ReturnType<typeof useRecommendationShelfLazyQuery>;
+export type RecommendationShelfQueryResult = Apollo.QueryResult<RecommendationShelfQuery, RecommendationShelfQueryVariables>;
+export function refetchRecommendationShelfQuery(variables: RecommendationShelfQueryVariables) {
+      return { query: RecommendationShelfDocument, variables: variables }
     }
 export const RonRedirectDocument = gql`
     query ronRedirect($code: String!) {

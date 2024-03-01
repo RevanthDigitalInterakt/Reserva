@@ -24,8 +24,9 @@ export function NewHomeCarousels() {
   const { carousels, loading } = useHomeStore(['carousels', 'loading']);
   const navigation = useNavigation();
   const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
-  const { getBoolean } = useRemoteConfig();
+  const { getBoolean, getString } = useRemoteConfig();
   const showRoulet = getBoolean('show_roulet');
+  const showShelf = getBoolean('show_shelf');
 
   const handleSearchButtonPress = () => {
     EventProvider.logEvent('header_search_click', { open: 1 });
@@ -57,8 +58,9 @@ export function NewHomeCarousels() {
       [HomePageSectionTypeEnum.Brands]: () => (
         <>
           <HomeBrandsCarousel data={item} />
+          {showShelf && <HomeShowcase />}
           <CommercialBanner />
-          <NewHomeCountDown />
+          {getString('count_down_position') === 'A' && <NewHomeCountDown />}
         </>
       ),
       [HomePageSectionTypeEnum.Cards]: () => <HomeCardsCarousel data={item} />,

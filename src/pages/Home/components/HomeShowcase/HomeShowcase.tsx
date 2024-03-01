@@ -1,102 +1,69 @@
-import React from 'react';
-import {
-  View, FlatList, Text, Image, TouchableOpacity,
-} from 'react-native';
-import { trackClickStore, type IData } from '../../../../zustand/useTrackClickStore/useTrackClickStore';
-import { TrackPageTypeEnum } from '../../../../base/graphql/generated';
+import React, { useEffect, useState } from 'react';
+import { View, FlatList } from 'react-native';
+import { styles } from './HomeShowcase.styles';
+import Shelf from '../HomeShowcaseShelf/HomeShowcaseShelf';
+import useRecommendationShelf from '../../../../zustand/useRecommendation/useRecommendationShelf';
+import type { IRecommendationShelfState } from '../../../../zustand/useRecommendation/types/recommendationShelf';
 
-interface IMockData {
-  id: string;
-  image: string;
-  name: string;
-  price: number;
+export interface IRsvFlag {
+  type: string;
+  value?: number;
+  text?: string;
+}
+
+export interface IRsvPrice {
+  listPrice: number;
+  salePrice: number;
+}
+
+export interface IRsvSize {
+  skuId: string;
+  value: string;
+  disabled: boolean;
+}
+
+export interface IRsvSku {
+  colorHex: string;
+  colorName: string;
+  colorRefId: string;
+  sizes: IRsvSize[];
+}
+
+export interface IRsvProduct {
+  productName: string;
   productId: string;
-  identifier: string;
+  productLink: string;
+  brand: string;
+  image: string;
+  categoryTree: string[];
+  flags: IRsvFlag[];
+  sku: IRsvSku[];
+  prices: IRsvPrice;
+}
+
+export interface IRsvRecommendation {
+  shelfName: string;
+  products: IRsvProduct[];
 }
 
 export function HomeShowcase() {
-  const data: IMockData[] = [
-    {
-      id: '1670215',
-      productId: '1670215',
-      image: 'https://lojausereservaqa.vteximg.com.br/arquivos/ids/782287-300-300/0081662040_03.jpg?v=638283167831030000',
-      name: 'Camisa Reserva Linho',
-      price: 84,
-      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
-    },
-    {
-      id: '2',
-      productId: '1670215',
-      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-      name: 'Camisa Reserva Linho',
-      price: 84,
-      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
-    },
-    {
-      id: '3',
-      productId: '1670215',
-      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-      name: 'Camisa Reserva Linho',
-      price: 84,
-      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
-    },
-    {
-      id: '4',
-      productId: '1670215',
-      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-      name: 'Camisa Reserva Linho',
-      price: 84,
-      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
-    },
-    {
-      id: '5',
-      productId: '1670215',
-      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-      name: 'Camisa Reserva Linho',
-      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
-      price: 84,
-    },
-    {
-      id: '6',
-      productId: '1670215',
-      image: 'https://lojausereserva.vtexassets.com/arquivos/ids/8409628-400-600',
-      name: 'Camisa Reserva Linho',
-      price: 84,
-      identifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
-    },
-  ];
+  const { onSearchShelf } = useRecommendationShelf() as IRecommendationShelfState;
+  const [shelf, setShelf] = useState<IRsvRecommendation[]>([]);
 
-  const newData: IData = {
-    identifier: data[0]?.identifier || '',
-    productId: data[0]?.productId || '',
-  };
-
-  const renderItem = (item: IMockData) => (
-    <TouchableOpacity
-      style={{ padding: 10 }}
-      onPress={
-        () => trackClickStore.getState().onTrackClick(newData, 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p', TrackPageTypeEnum.Home)
-      }
-    >
-      <Image
-        source={{ uri: item.image }}
-        style={{
-          width: 150,
-          height: 200,
-        }}
-      />
-      <Text>{item.name}</Text>
-    </TouchableOpacity>
-  );
+  useEffect(() => {
+    async function handleGetShelf() {
+      const data = await onSearchShelf('home');
+      setShelf(data as IRsvRecommendation[]);
+    }
+    handleGetShelf();
+  }, [onSearchShelf]);
 
   return (
-    <View style={{ marginVertical: 10 }}>
+    <View style={styles.container}>
       <FlatList
-        keyExtractor={(item) => item.id}
-        data={data}
-        renderItem={({ item }) => renderItem(item)}
-        horizontal
-        contentContainerStyle={{ padding: 10 }}
+        data={shelf}
+        renderItem={({ item }) => <Shelf dataShelf={item} />}
+        keyExtractor={(item, index) => item.shelfName + index.toString()}
       />
     </View>
   );
