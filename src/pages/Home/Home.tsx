@@ -41,6 +41,7 @@ import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { ActivityTracking } from '../../components/ActivityTracking';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { TrackPageTypeEnum } from '../../base/graphql/generated';
+import OneP5P from '../../components/OneP5P/OneP5P';
 import { Drawer } from '../../components/Drawer';
 import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
 import { useShelfStore } from '../../zustand/useShelfStore/useShelfStore';
@@ -130,6 +131,12 @@ function ListHeader({ newHeaderIsActive }: { newHeaderIsActive: boolean }) {
   );
 }
 
+function ListFooter({ showOnep5p }: { showOnep5p: boolean }) {
+  return (
+    <OneP5P comingFrom="home" />
+  );
+}
+
 function Home() {
   const { onLoad, medias, loaded } = useHomeStore([
     'onLoad',
@@ -152,6 +159,8 @@ function Home() {
     transparentTopBarAnimated,
     whiteTopBarAnimated,
   } = useHomeHeader();
+
+  const showOnep5p = useMemo(() => getBoolean('show_onep5p_home'), []);
 
   const renderHeader = () => (
     <>
@@ -203,7 +212,7 @@ function Home() {
           <FlatList
             ListHeaderComponent={
               <ListHeader newHeaderIsActive={newHeaderIsActive} />
-                        }
+            }
             bounces
             onScroll={handleScroll}
             contentContainerStyle={{ paddingBottom: 100 }}
@@ -249,6 +258,9 @@ function Home() {
                 />
               );
             }}
+            ListFooterComponent={
+              <ListFooter showOnep5p={showOnep5p} />
+              }
           />
         </SafeAreaView>
         {!!showModalSignUpComplete && <ModalSignUpComplete />}

@@ -30,6 +30,7 @@ import CouponComponent from './components/Coupon';
 import { UnavailableList } from './components/ProductUnavailableList/UnavailableList';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { TrackPageTypeEnum } from '../../base/graphql/generated';
+import OneP5P from '../../components/OneP5P/OneP5P';
 import AddZipCodeDelivery from './components/AddZipCodeDelivery';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 
@@ -104,6 +105,8 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   }, [items]);
 
   const hasUnavailableItems = useMemo(() => items.some((item) => item.availability !== 'available'), [items]);
+
+  const showOnep5p = useMemo(() => getBoolean('show_onep5p_bag'), []);
 
   useEffect(() => {
     if (initialized) {
@@ -188,6 +191,7 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
                   )}
 
                   <BagProductList />
+                  {showOnep5p && (<OneP5P comingFrom="bag" itemQuantity={allItemsQuantity} />) }
                 </Box>
 
                 {hasUnavailableItems && <UnavailableList />}
