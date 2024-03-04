@@ -6,7 +6,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import { getTrackingStatus, requestTrackingPermission } from 'react-native-tracking-transparency';
 import { styles } from './styles';
 import { commons } from '../../base/styles';
-import { scale } from '../../utils/scale';
 import { DarkButton } from '../DarkButton';
 import testProps from '../../utils/testProps';
 import { useHomeStore } from '../../zustand/useHomeStore';
@@ -32,7 +31,7 @@ function Infos() {
             style={styles.infoIcon}
             source={item.icon}
           />
-          <Text>{item.info}</Text>
+          <Text style={styles.infoText}>{item.info}</Text>
         </View>
       ))}
     </View>
@@ -40,7 +39,7 @@ function Infos() {
 }
 
 export function ActivityTracking() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const { setHasTabBar } = useHomeStore(['setHasTabBar']);
   const handleTrackingPermission = async () => {
     const isIOS = Platform.OS === platformType.IOS;
@@ -63,7 +62,7 @@ export function ActivityTracking() {
     handleTrackingPermission();
   }, []);
 
-  // if (!isOpen) return null;
+  if (!isOpen) return null;
 
   return (
     <>
@@ -73,6 +72,7 @@ export function ActivityTracking() {
             <ImageBackground
               source={commons.ios14}
               style={styles.imageBackground}
+              resizeMode="stretch"
             >
               <LinearGradient
                 colors={['rgba(0, 0, 0, 0.8)', 'rgba(0, 0, 0, 0.37)', 'rgba(0, 0, 0, 0.2)']}
@@ -97,18 +97,14 @@ export function ActivityTracking() {
           </View>
 
           <View style={{
-            paddingHorizontal: scale(24),
+            paddingHorizontal: 24,
           }}
           >
             <Text style={styles.iosInfoText}>
               Esta versão do iOS requer que solicitemos
-              {' '}
               {'\n'}
-              {' '}
               permissão para rastrear as atividades
-              {' '}
               {'\n'}
-              {' '}
               provenientes
               de
               aplicativos e sites que você visita.
@@ -135,6 +131,5 @@ export function ActivityTracking() {
         />
       </View>
     </>
-
   );
 }

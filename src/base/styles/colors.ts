@@ -3,6 +3,7 @@ export const COLORS = {
   BLACK: '#000000',
   GRAY: '#848484',
   MEDIUM_GRAY: '#303030',
+  EXTRA_LIGHT_GRAY: '#595959',
   DARK_GRAY: '#767676',
   LIGHT_GRAY: '#8D8D8D',
   WHITE: '#ffffff',

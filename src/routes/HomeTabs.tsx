@@ -33,7 +33,7 @@ export function HomeTabs() {
         title="Roleta Reserva"
       />
       <SafeAreaView
-        style={{ backgroundColor: theme.colors.white }}
+        style={{ backgroundColor: theme.colors.white, marginBottom: hasTabBar ? 0 : -42 }}
         flex={1}
         testID="com.usereserva:id/home_tabs_buttons"
       >
