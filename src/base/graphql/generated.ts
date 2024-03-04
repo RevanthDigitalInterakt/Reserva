@@ -17,6 +17,11 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export enum AddressTypeEnum {
+  Pickup = 'PICKUP',
+  Residential = 'RESIDENTIAL'
+}
+
 export type BannerCategoryImageOutput = {
   __typename?: 'BannerCategoryImageOutput';
   height: Scalars['Int']['output'];
@@ -85,11 +90,13 @@ export type CepInput = {
 
 export type CepOutput = {
   __typename?: 'CepOutput';
+  addressId?: Maybe<Scalars['String']['output']>;
   city?: Maybe<Scalars['String']['output']>;
   complement?: Maybe<Scalars['String']['output']>;
   country?: Maybe<Scalars['String']['output']>;
   geoCoordinates?: Maybe<Array<Scalars['Float']['output']>>;
   neighborhood?: Maybe<Scalars['String']['output']>;
+  number?: Maybe<Scalars['String']['output']>;
   postalCode?: Maybe<Scalars['String']['output']>;
   reference?: Maybe<Scalars['String']['output']>;
   state?: Maybe<Scalars['String']['output']>;
@@ -258,6 +265,11 @@ export type DeeplinkOutput = {
 export type DeeplinkPathInput = {
   path: Scalars['String']['input'];
 };
+
+export enum DeliveryChannelEnum {
+  Delivery = 'DELIVERY',
+  PickupInPoint = 'PICKUP_IN_POINT'
+}
 
 export type GenericOutput = {
   __typename?: 'GenericOutput';
@@ -448,7 +460,6 @@ export type Mutation = {
   orderFormAddItem: OrderformOutput;
   orderFormAddMultipleItem: OrderformOutput;
   orderFormAddSellerCoupon: OrderformOutput;
-  orderFormAttachAddress: OrderformOutput;
   orderFormAttachClientByCookie: OrderformOutput;
   orderFormAttachClientByEmail: OrderformOutput;
   orderFormRefreshData: OrderformOutput;
@@ -457,6 +468,7 @@ export type Mutation = {
   orderFormRemoveSellerCoupon: OrderformOutput;
   orderFormRemoveUnavailableItems: GenericOutput;
   orderFormReset: OrderformOutput;
+  orderFormSelectAddress: OrderformOutput;
   orderFormSetGiftSize: OrderformOutput;
   orderFormUpdateItem: OrderformOutput;
   profile: ProfileOutput;
@@ -476,7 +488,7 @@ export type Mutation = {
   /** @deprecated This mutation is deprecated. Use the V2 version instead. */
   trackClick: Scalars['Boolean']['output'];
   trackClickV2: Array<Scalars['String']['output']>;
-  trackOrder: Scalars['Boolean']['output'];
+  trackOrder: TrackOrderOutput;
   /** @deprecated This mutation is deprecated. Use the V2 version instead. */
   trackPageView: Scalars['Boolean']['output'];
   trackPageViewV2: Array<Scalars['String']['output']>;
@@ -507,11 +519,6 @@ export type MutationOrderFormAddMultipleItemArgs = {
 
 export type MutationOrderFormAddSellerCouponArgs = {
   input: OrderformAddCouponInput;
-};
-
-
-export type MutationOrderFormAttachAddressArgs = {
-  input: OrderformSelectAddressInput;
 };
 
 
@@ -552,6 +559,11 @@ export type MutationOrderFormRemoveUnavailableItemsArgs = {
 
 export type MutationOrderFormResetArgs = {
   input: OrderformResetInput;
+};
+
+
+export type MutationOrderFormSelectAddressArgs = {
+  input: OrderformSelectAddressInput;
 };
 
 
@@ -926,6 +938,8 @@ export type OrderformItemOutput = {
   id: Scalars['String']['output'];
   imageSource: Scalars['String']['output'];
   imageUrl?: Maybe<Scalars['String']['output']>;
+  /** This field indicates the original index position of the VTEX order form. */
+  index: Scalars['Int']['output'];
   isAddedAsGift: Scalars['Boolean']['output'];
   isAssinaturaSimples: Scalars['Boolean']['output'];
   isGift: Scalars['Boolean']['output'];
@@ -956,6 +970,12 @@ export type OrderformItemOutput = {
   tax: Scalars['Int']['output'];
   uniqueId: Scalars['String']['output'];
   unitMultiplier: Scalars['Int']['output'];
+};
+
+export type OrderformLogisticsInfoInput = {
+  itemIndex: Scalars['String']['input'];
+  selectedDeliveryChannel: DeliveryChannelEnum;
+  selectedSla: Scalars['String']['input'];
 };
 
 export type OrderformMarketingDataOutput = {
@@ -995,14 +1015,31 @@ export type OrderformOutput = {
   clientProfileData?: Maybe<OrderformClientProfileDataOutput>;
   hasPrimeSubscriptionInCart: Scalars['Boolean']['output'];
   installmentInfo: OrderformInstallmentInfoOutput;
+  /** @deprecated This field is deprecated, use packageItems instead. */
   items: Array<OrderformItemOutput>;
   marketingData?: Maybe<OrderformMarketingDataOutput>;
   messages: Array<Scalars['String']['output']>;
   messagesDetailed: Array<OrderformMessageOutput>;
   orderFormId: Scalars['ID']['output'];
+  packageItems: Array<OrderformPackageItemsOutput>;
   salesChannel: Scalars['String']['output'];
   selectableGift?: Maybe<OrderformSelectableGiftOutput>;
   shippingData?: Maybe<OrderformShippingDataOutput>;
+};
+
+export type OrderformPackageItemsMetadataOutput = {
+  __typename?: 'OrderformPackageItemsMetadataOutput';
+  availability?: Maybe<PackageAvailabilityEnum>;
+  friendlyName?: Maybe<Scalars['String']['output']>;
+  shippingEstimate?: Maybe<Scalars['Int']['output']>;
+  shippingValue?: Maybe<Scalars['Int']['output']>;
+};
+
+export type OrderformPackageItemsOutput = {
+  __typename?: 'OrderformPackageItemsOutput';
+  items: Array<OrderformItemOutput>;
+  metadata?: Maybe<OrderformPackageItemsMetadataOutput>;
+  totalShippingValue: Scalars['Float']['output'];
 };
 
 export type OrderformRefreshDataInput = {
@@ -1022,8 +1059,19 @@ export type OrderformResetInput = {
 };
 
 export type OrderformSelectAddressInput = {
-  addressId: Scalars['String']['input'];
+  addressId?: InputMaybe<Scalars['String']['input']>;
+  addressType: AddressTypeEnum;
+  cep?: InputMaybe<Scalars['String']['input']>;
+  city?: InputMaybe<Scalars['String']['input']>;
+  complement?: InputMaybe<Scalars['String']['input']>;
+  deliveryOptions: Array<OrderformLogisticsInfoInput>;
+  neighborhood?: InputMaybe<Scalars['String']['input']>;
+  number?: InputMaybe<Scalars['String']['input']>;
   orderFormId: Scalars['String']['input'];
+  receiverName?: InputMaybe<Scalars['String']['input']>;
+  reference?: InputMaybe<Scalars['String']['input']>;
+  state?: InputMaybe<Scalars['String']['input']>;
+  street?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type OrderformSelectableGiftAvailableGiftOutput = {
@@ -1087,6 +1135,12 @@ export type OrderformUpdateItemInput = {
   quantity: Scalars['Int']['input'];
   seller: Scalars['String']['input'];
 };
+
+export enum PackageAvailabilityEnum {
+  Available = 'AVAILABLE',
+  SomeUnavailable = 'SOME_UNAVAILABLE',
+  Unavailable = 'UNAVAILABLE'
+}
 
 export type PaginationDetailOutput = {
   __typename?: 'PaginationDetailOutput';
@@ -1263,7 +1317,9 @@ export type ProductListOutput = {
   currentPrice: Scalars['Float']['output'];
   discountPercentage: Scalars['Float']['output'];
   hasDiscount: Scalars['Boolean']['output'];
+  hasPrime?: Maybe<Scalars['Boolean']['output']>;
   image: Scalars['String']['output'];
+  images?: Maybe<Array<Scalars['String']['output']>>;
   installment: ProductPriceInstallmentOutput;
   installmentEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
   listPrice: Scalars['Float']['output'];
@@ -1273,6 +1329,7 @@ export type ProductListOutput = {
   size?: Maybe<Scalars['String']['output']>;
   skuId: Scalars['String']['output'];
   skuName: Scalars['String']['output'];
+  slug?: Maybe<Scalars['String']['output']>;
 };
 
 export type ProductListPrimeOutput = {
@@ -1289,6 +1346,7 @@ export type ProductOutput = {
   colors: Array<ProductColorOutput>;
   disabledColors: Array<Scalars['String']['output']>;
   giftCard?: Maybe<ProductGiftCardOutput>;
+  hasPrime?: Maybe<Scalars['Boolean']['output']>;
   identifier?: Maybe<Scalars['String']['output']>;
   initialColor?: Maybe<ProductColorOutput>;
   initialColorId?: Maybe<Scalars['String']['output']>;
@@ -1306,7 +1364,7 @@ export type ProductOutput = {
 
 export type ProductPriceInstallmentOutput = {
   __typename?: 'ProductPriceInstallmentOutput';
-  number: Scalars['Float']['output'];
+  number: Scalars['Int']['output'];
   value: Scalars['Float']['output'];
 };
 
@@ -1474,6 +1532,7 @@ export type Query = {
   productDeliveryTime: Array<ProductDeliveryTimeOutput>;
   productRecommendations: Array<ProductRecommendationOutput>;
   profile: ProfileOutput;
+  recommendationShelf: RecommendationOutput;
   ronRedirect?: Maybe<RonRedirectOutput>;
   search: SearchOutput;
   searchAutocompleteSuggestions: Array<Scalars['String']['output']>;
@@ -1574,6 +1633,11 @@ export type QueryProductDeliveryTimeArgs = {
 };
 
 
+export type QueryRecommendationShelfArgs = {
+  input: SmarthintShelfInput;
+};
+
+
 export type QueryRonRedirectArgs = {
   input: RonRedirectInput;
 };
@@ -1612,6 +1676,53 @@ export type QueryTrackingCodeArgs = {
 
 export type QueryWishlistCheckProductArgs = {
   input: WishlistCheckProductInput;
+};
+
+export type RecommendationFlagOutput = {
+  __typename?: 'RecommendationFlagOutput';
+  text?: Maybe<Scalars['String']['output']>;
+  type: Scalars['String']['output'];
+  value?: Maybe<Scalars['Float']['output']>;
+};
+
+export type RecommendationOutput = {
+  __typename?: 'RecommendationOutput';
+  products: Array<RecommendationProductsOutput>;
+  shelfName: Scalars['String']['output'];
+};
+
+export type RecommendationPriceOutput = {
+  __typename?: 'RecommendationPriceOutput';
+  listPrice: Scalars['Float']['output'];
+  salePrice: Scalars['Float']['output'];
+};
+
+export type RecommendationProductsOutput = {
+  __typename?: 'RecommendationProductsOutput';
+  brand: Scalars['String']['output'];
+  categoryTree: Array<Scalars['String']['output']>;
+  flags: Array<RecommendationFlagOutput>;
+  image: Scalars['String']['output'];
+  prices: RecommendationPriceOutput;
+  productId: Scalars['String']['output'];
+  productLink: Scalars['String']['output'];
+  productName: Scalars['String']['output'];
+  sku: Array<RecommendationSkuOutput>;
+};
+
+export type RecommendationSizeOutput = {
+  __typename?: 'RecommendationSizeOutput';
+  disabled: Scalars['Boolean']['output'];
+  skuId?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+export type RecommendationSkuOutput = {
+  __typename?: 'RecommendationSkuOutput';
+  colorHex?: Maybe<Scalars['String']['output']>;
+  colorName?: Maybe<Scalars['String']['output']>;
+  colorRefId?: Maybe<Scalars['String']['output']>;
+  sizes: Array<RecommendationSizeOutput>;
 };
 
 export type RedefineVtexPasswordInput = {
@@ -1741,6 +1852,7 @@ export type SearchProductPriceRangeInput = {
 };
 
 export enum SearchProviderEnum {
+  Algolia = 'ALGOLIA',
   Smarthint = 'SMARTHINT',
   Vtex = 'VTEX'
 }
@@ -1772,13 +1884,21 @@ export type SendLeadInput = {
 
 export type ShippingDeliveryOutput = {
   __typename?: 'ShippingDeliveryOutput';
-  address: CepOutput;
+  address?: Maybe<CepOutput>;
+  deliveryOptions: Array<ShippingLogisticsOptions>;
 };
 
 export type ShippingItemInput = {
   id: Scalars['String']['input'];
   quantity: Scalars['String']['input'];
   seller: Scalars['String']['input'];
+};
+
+export type ShippingLogisticsOptions = {
+  __typename?: 'ShippingLogisticsOptions';
+  itemIndex: Scalars['String']['output'];
+  selectedDeliveryChannel: Scalars['String']['output'];
+  selectedSla: Scalars['String']['output'];
 };
 
 export type ShippingSimulationInput = {
@@ -1794,6 +1914,7 @@ export type ShippingSimulationOutput = {
 
 export type ShippingStoreListOutput = {
   __typename?: 'ShippingStoreListOutput';
+  deliveryOptions: Array<ShippingLogisticsOptions>;
   discountStorePickup?: Maybe<Scalars['String']['output']>;
   stores: Array<ShippingStoreOutput>;
 };
@@ -1802,6 +1923,7 @@ export type ShippingStoreOutput = {
   __typename?: 'ShippingStoreOutput';
   address: CepOutput;
   friendlyName: Scalars['String']['output'];
+  id: Scalars['String']['output'];
 };
 
 export type SignInInput = {
@@ -1822,6 +1944,31 @@ export type SignUpUserInput = {
   documentType?: InputMaybe<SignUpDocumentTypeEnum>;
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+};
+
+export enum SmarthintShelfChannelEnum {
+  App = 'app',
+  Padrao = 'padrao'
+}
+
+export type SmarthintShelfInput = {
+  /** List of the last categories visited by the customer. Submission must be made in this format: categories=category. */
+  categories?: InputMaybe<Scalars['String']['input']>;
+  /** Channel in which recommendations should be returned. The channel value must be the same as that configured in the Administrative Panel by the User-Retailer. */
+  channel: Array<SmarthintShelfChannelEnum>;
+  /** {filterfield}:{filtervalue} Filters on the recommendation, made through the productFilters sent in the Product. */
+  filter?: InputMaybe<Scalars['String']['input']>;
+  /** If there is a specific Display Positioning configuration for a page, the value of this page must be an attribute in this field. The value of this configuration must be the same as that registered in the Administrative Panel by the User-Retailer, if this field is not filled in or we do not have an equal value in the settings, it will be disregarded */
+  pageIdentifier?: InputMaybe<Scalars['String']['input']>;
+  /** Type of Page on which recommendations should be returned. The value of the Page must be the same as that configured in the Administrative Panel by the User-Retailer and may vary between: category / search / searchWithResult / home / cart / emptycart / checkout / pagenotfound / product / other */
+  pageType: TrackPageTypeEnum;
+  /** Position of the windows that must be returned when the call is made */
+  position: Scalars['Int']['input'];
+  /** For the product page, a list with only one product must be sent within it and for the Cart/Checkout pages. All products in the cart must be sent, which must follow the format: products=productid:valorProductId. */
+  products?: InputMaybe<Scalars['String']['input']>;
+  providers: Array<TrackProvidersEnum>;
+  /** Should be sent the user's email or anonymous ID - That field it'll be hashed and sent to providers */
+  userIdentifier: Scalars['String']['input'];
 };
 
 export type SubscribeNewsletterInput = {
@@ -1867,6 +2014,13 @@ export type TrackOrderInput = {
   total: Scalars['Float']['input'];
   /** Should be sent the user's email - That filed it'll be hashed and sent to providers */
   userEmail?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TrackOrderOutput = {
+  __typename?: 'TrackOrderOutput';
+  body?: Maybe<Scalars['String']['output']>;
+  success?: Maybe<Scalars['Boolean']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
 };
 
 export type TrackOrderProductInput = {
@@ -2358,6 +2512,13 @@ export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'ProfileOutput', id: string, authCookie?: string | null, email: string, firstName?: string | null, lastName?: string | null, document?: string | null, birthDate?: string | null, homePhone?: string | null, isPrime: boolean, gender?: string | null, isComplete: boolean, addresses: Array<{ __typename?: 'ProfileAddressOutput', id: string, receiverName?: string | null, complement?: string | null, neighborhood?: string | null, country?: string | null, state?: string | null, number?: string | null, street?: string | null, postalCode?: string | null, city?: string | null, reference?: string | null, addressName?: string | null, addressType?: string | null } | null>, customFields: Array<{ __typename?: 'ProfileCustomFieldOutput', cacheId?: string | null, key?: string | null, value?: string | null } | null> } };
 
+export type RecommendationShelfQueryVariables = Exact<{
+  input: SmarthintShelfInput;
+}>;
+
+
+export type RecommendationShelfQuery = { __typename?: 'Query', recommendationShelf: { __typename?: 'RecommendationOutput', shelfName: string, products: Array<{ __typename?: 'RecommendationProductsOutput', productName: string, productId: string, productLink: string, brand: string, image: string, categoryTree: Array<string>, flags: Array<{ __typename?: 'RecommendationFlagOutput', type: string, value?: number | null, text?: string | null }>, prices: { __typename?: 'RecommendationPriceOutput', listPrice: number, salePrice: number }, sku: Array<{ __typename?: 'RecommendationSkuOutput', colorName?: string | null, colorHex?: string | null, colorRefId?: string | null, sizes: Array<{ __typename?: 'RecommendationSizeOutput', skuId?: string | null, value?: string | null, disabled: boolean }> }> }> } };
+
 export type RonRedirectQueryVariables = Exact<{
   code: Scalars['String']['input'];
 }>;
@@ -2397,7 +2558,7 @@ export type ShippingSimulationQueryVariables = Exact<{
 }>;
 
 
-export type ShippingSimulationQuery = { __typename?: 'Query', shippingSimulation: { __typename?: 'ShippingSimulationOutput', delivery: { __typename?: 'ShippingDeliveryOutput', address: { __typename?: 'CepOutput', street?: string | null, city?: string | null, state?: string | null, neighborhood?: string | null } }, storeList: { __typename?: 'ShippingStoreListOutput', discountStorePickup?: string | null, stores: Array<{ __typename?: 'ShippingStoreOutput', friendlyName: string, address: { __typename?: 'CepOutput', postalCode?: string | null, street?: string | null, neighborhood?: string | null, city?: string | null, state?: string | null, complement?: string | null } }> } } };
+export type ShippingSimulationQuery = { __typename?: 'Query', shippingSimulation: { __typename?: 'ShippingSimulationOutput', delivery: { __typename?: 'ShippingDeliveryOutput', address?: { __typename?: 'CepOutput', street?: string | null, city?: string | null, state?: string | null, neighborhood?: string | null } | null }, storeList: { __typename?: 'ShippingStoreListOutput', discountStorePickup?: string | null, stores: Array<{ __typename?: 'ShippingStoreOutput', friendlyName: string, address: { __typename?: 'CepOutput', postalCode?: string | null, street?: string | null, neighborhood?: string | null, city?: string | null, state?: string | null, complement?: string | null } }> } } };
 
 export type TrackingCodeQueryVariables = Exact<{
   trackingCode: Scalars['String']['input'];
@@ -4876,6 +5037,71 @@ export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
 export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;
 export function refetchProfileQuery(variables?: ProfileQueryVariables) {
       return { query: ProfileDocument, variables: variables }
+    }
+export const RecommendationShelfDocument = gql`
+    query recommendationShelf($input: SmarthintShelfInput!) {
+  recommendationShelf(input: $input) {
+    shelfName
+    products {
+      productName
+      productId
+      productLink
+      brand
+      image
+      categoryTree
+      flags {
+        type
+        value
+        text
+      }
+      prices {
+        listPrice
+        salePrice
+      }
+      sku {
+        colorName
+        colorHex
+        colorRefId
+        sizes {
+          skuId
+          value
+          disabled
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useRecommendationShelfQuery__
+ *
+ * To run a query within a React component, call `useRecommendationShelfQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRecommendationShelfQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRecommendationShelfQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRecommendationShelfQuery(baseOptions: Apollo.QueryHookOptions<RecommendationShelfQuery, RecommendationShelfQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RecommendationShelfQuery, RecommendationShelfQueryVariables>(RecommendationShelfDocument, options);
+      }
+export function useRecommendationShelfLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RecommendationShelfQuery, RecommendationShelfQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RecommendationShelfQuery, RecommendationShelfQueryVariables>(RecommendationShelfDocument, options);
+        }
+export type RecommendationShelfQueryHookResult = ReturnType<typeof useRecommendationShelfQuery>;
+export type RecommendationShelfLazyQueryHookResult = ReturnType<typeof useRecommendationShelfLazyQuery>;
+export type RecommendationShelfQueryResult = Apollo.QueryResult<RecommendationShelfQuery, RecommendationShelfQueryVariables>;
+export function refetchRecommendationShelfQuery(variables: RecommendationShelfQueryVariables) {
+      return { query: RecommendationShelfDocument, variables: variables }
     }
 export const RonRedirectDocument = gql`
     query ronRedirect($code: String!) {

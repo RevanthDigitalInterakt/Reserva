@@ -1,18 +1,26 @@
 ## CHANGELOG
 
-### 2.4.2
+### 2.6.1
 
+- DATADOG - Bugfix - Atualização das variáveis de ambiente.
+- [27568 - Remoção do botão "Envie uma mensagem"](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/27568)
 - [19204 - Visualização da informação do projeto - 1P=5P [app]](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19204)
 
----
-
+### 2.4.2
 ### 2.4.1
 
 - DATADOG - Atualização das variáveis de ambiente.
+- [27026 - Smarthint - Adicionar produto da vitrine na sacola APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/27026)
+- [26295 - Smarthint - Vitrine Home APP Frontend](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/26295)
 
 ---
 
 ### 2.4.0
+### 2.3.3
+
+
+
+### 2.3.2
 
 - [20484 - Adicionar kitlook na sacola - kitlook app](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/20484)
 - [24229 - Fixar botão de add a sacola na PDP do app](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24229)

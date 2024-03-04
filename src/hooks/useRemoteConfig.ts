@@ -50,6 +50,7 @@ export interface IRemoteConfigKeys {
   show_add_zip_code_delivery_tester: boolean;
   pdp_show_gift_card: boolean;
   show_user_feedback_form: string;
+  show_shelf: boolean;
   show_home_commercial_banner: boolean;
   show_onep5p_bag: boolean;
   show_onep5p_home: boolean;
@@ -105,6 +106,7 @@ export const defaults: IRemoteConfigKeys = {
   show_add_zip_code_delivery: false,
   show_add_zip_code_delivery_tester: true,
   show_user_feedback_form: 'none',
+  show_shelf: false,
   show_home_commercial_banner: false,
   show_onep5p_bag: false,
   show_onep5p_home: false,

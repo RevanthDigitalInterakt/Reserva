@@ -77,8 +77,10 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
       addTagsUponCartUpdate();
       setDrawerIsOpen(false);
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, { orderFormId });
       Alert.alert('Ocorreu um erro', err.message);
+
+      actions.CREATE_NEW_ORDER_FORM();
     } finally {
       setLoading(false);
     }
