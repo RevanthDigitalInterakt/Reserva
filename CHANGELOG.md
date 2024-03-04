@@ -1,5 +1,5 @@
 ## CHANGELOG
-
+ 
 ### 2.6.1
 
 - DATADOG - Bugfix - Atualização das variáveis de ambiente.
