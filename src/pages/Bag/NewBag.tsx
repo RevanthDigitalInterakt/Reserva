@@ -45,9 +45,7 @@ export default function NewBag({ navigation }: TNewBagProps) {
   const { getBoolean } = useRemoteConfig();
 
   const showAddZipCodeDeliveryAB = useMemo(
-    () => !getBoolean(isTester
-      ? 'show_add_zip_code_delivery_tester'
-      : 'show_add_zip_code_delivery'),
+    () => getBoolean(isTester ? 'show_add_zip_code_delivery_tester' : 'show_add_zip_code_delivery'),
     [getBoolean, isTester],
   );
 
@@ -222,7 +220,7 @@ export default function NewBag({ navigation }: TNewBagProps) {
                       <SelectableGifts />
                     )}
 
-                    {showAddZipCodeDeliveryAB ? <BagProductPackageList /> : <BagProductList /> }
+                    {showAddZipCodeDeliveryAB ? <BagProductPackageList /> : <BagProductList />}
 
                     {hasSelectedAddressDelivery && hasUnavailableItems && <UnavailableList />}
 
