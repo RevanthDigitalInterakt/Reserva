@@ -43,7 +43,10 @@ export function ActivityTracking() {
   const { setHasTabBar } = useHomeStore(['setHasTabBar']);
   const handleTrackingPermission = async () => {
     const isIOS = Platform.OS === platformType.IOS;
-    if (!isIOS) return;
+    if (!isIOS) {
+      setIsOpen(false);
+      return;
+    }
     const trackingStatus = await getTrackingStatus();
     if (trackingStatus !== 'not-determined') setIsOpen(false);
     if (trackingStatus === 'not-determined') {
