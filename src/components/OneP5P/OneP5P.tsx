@@ -18,7 +18,7 @@ function OneP5P({ comingFrom, itemQuantity }: I1P5PProps) {
 
   if (comingFrom === 'home') {
     return (
-      <View style={{ alignItems: 'center', padding: 25, marginTop: -50, marginBottom: -50 }}>
+      <View style={{ alignItems: 'center', paddingHorizontal: 25 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <ImageComponent
             style={{ width: 125, height: 125 }}
@@ -48,8 +48,8 @@ function OneP5P({ comingFrom, itemQuantity }: I1P5PProps) {
   }
 
   return (
-    <View style={{ alignItems: 'center', padding: 10, marginTop: -30, marginBottom: -50 }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+    <View style={{ alignItems: 'center', marginBottom: -30, height: 50 }}>
+      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
         <ImageComponent
           style={{ width: 100, height: 100 }}
           source={images.black1p5p}
