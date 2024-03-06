@@ -14,6 +14,7 @@ import { loadingSpinner } from '../../../../../assets/animations';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 import type { ProductAddToCartProps } from './types';
 import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
+import OneP5P from '../../../../components/OneP5P/OneP5P';
 
 function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
   const { getString, getBoolean } = useRemoteConfig();
@@ -37,6 +38,8 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
 
   const [showAnimationBag, setShowAnimationBag] = useState(false);
   const [loading, setLoading] = useState(false);
+  const showOnep5p = useMemo(() => getBoolean('show_onep5p_pdp'), []);
+  const addToBagButtonIsFixed = useMemo(() => getBoolean('add_to_bag_button_is_fixed'), []);
 
   const addTagsUponCartUpdate = useCallback(() => {
     if (!selectedColor || !productDetail) return;
@@ -54,7 +57,6 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
     try {
       if (!selectedSize || loading) return;
 
-      const addToBagButtonIsFixed = getBoolean('add_to_bag_button_is_fixed');
       if (!sizeIsSelected && addToBagButtonIsFixed) {
         setDrawerIsOpen(true);
         return;
@@ -78,8 +80,10 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
       addTagsUponCartUpdate();
       setDrawerIsOpen(false);
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, { orderFormId });
       Alert.alert('Ocorreu um erro', err.message);
+
+      actions.CREATE_NEW_ORDER_FORM();
     } finally {
       setLoading(false);
     }
@@ -126,6 +130,7 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
         inline
         {...testProps('com.usereserva:id/button_add_to_bag')}
       />
+      {showOnep5p && !addToBagButtonIsFixed && (<OneP5P comingFrom="PDP" />)}
 
       {!!loading && (
         <View style={styles.containerLoading}>

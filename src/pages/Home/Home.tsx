@@ -41,6 +41,7 @@ import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { ActivityTracking } from '../../components/ActivityTracking';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { TrackPageTypeEnum } from '../../base/graphql/generated';
+import OneP5P from '../../components/OneP5P/OneP5P';
 import { Drawer } from '../../components/Drawer';
 import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
 import { useShelfStore } from '../../zustand/useShelfStore/useShelfStore';
@@ -130,6 +131,12 @@ function ListHeader({ newHeaderIsActive }: { newHeaderIsActive: boolean }) {
   );
 }
 
+function ListFooter({ showOnep5p }: { showOnep5p: boolean }) {
+  return (
+    <OneP5P comingFrom="home" />
+  );
+}
+
 function Home() {
   const { onLoad, medias, loaded } = useHomeStore([
     'onLoad',
@@ -153,6 +160,8 @@ function Home() {
     whiteTopBarAnimated,
   } = useHomeHeader();
 
+  const showOnep5p = useMemo(() => getBoolean('show_onep5p_home'), []);
+
   const renderHeader = () => (
     <>
       <Animated.View style={[styles.topBarDefault, topBarDefaultAnimated]}>
@@ -172,12 +181,13 @@ function Home() {
   useEffect(() => {
     if (isConnected && !loaded) {
       onLoad();
-
-      trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);
-
-      EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
     }
   }, [isConnected, loaded]);
+
+  useEffect(() => {
+    trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);
+    EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
+  }, []);
 
   if (!loaded && !isConnected) {
     return (
@@ -203,7 +213,7 @@ function Home() {
           <FlatList
             ListHeaderComponent={
               <ListHeader newHeaderIsActive={newHeaderIsActive} />
-                        }
+            }
             bounces
             onScroll={handleScroll}
             contentContainerStyle={{ paddingBottom: 100 }}
@@ -249,6 +259,9 @@ function Home() {
                 />
               );
             }}
+            ListFooterComponent={
+              <ListFooter showOnep5p={showOnep5p} />
+              }
           />
         </SafeAreaView>
         {!!showModalSignUpComplete && <ModalSignUpComplete />}

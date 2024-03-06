@@ -1,20 +1,36 @@
 ## CHANGELOG
 
-### 2.5.1
+### 2.6.1
+- [25117 - Erro ao adicionar produtos ao carrinho](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/25117)
+- [25046 - Registro de PageView IOS](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/25046)
+- [27568 - Remoção do botão "Envie uma mensagem"](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/27568)
+- [19204 - Visualização da informação do projeto - 1P=5P [app]](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19204)
 
+
+### 2.6.0
 - DATADOG - Bugfix - Atualização das variáveis de ambiente.
 
+### 2.4.2
 ### 2.4.1
 
 - DATADOG - Atualização das variáveis de ambiente.
 - [27026 - Smarthint - Adicionar produto da vitrine na sacola APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/27026)
 - [26295 - Smarthint - Vitrine Home APP Frontend](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/26295)
 
+---
+
 ### 2.4.0
+### 2.3.3
+
+
+
+### 2.3.2
 
 - [20484 - Adicionar kitlook na sacola - kitlook app](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/20484)
 - [24229 - Fixar botão de add a sacola na PDP do app](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/24229)
 - [26967 - Teste push duplicado da dito](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/26967)
+
+---
 
 ### 2.3.1
 
@@ -24,6 +40,8 @@
 - [2589 - Implementação do status do cashback](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_git/mobile.reserva.app/pullrequest/2589)
 - [25207 - Criar o experiência visual do CEP na bag](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_git/mobile.reserva.app/pullrequest/2685)
 - [22111 - Envio de dados de clique smarthint App](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_git/mobile.reserva.app/pullrequest/2623)
+
+---
 
 ### 2.1.10
 

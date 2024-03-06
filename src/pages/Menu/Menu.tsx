@@ -46,6 +46,7 @@ function Menu() {
   const linkTo = useLinkTo();
 
   const showForm = useMemo(() => getString('show_user_feedback_form'), []);
+  const showOnep5p = useMemo(() => getBoolean('show_onep5p_menu'), []);
 
   const { data, loading: loadingMenu } = useAppMenuQuery({
     fetchPolicy: getFetchPolicyPerKey('appMenu'),
@@ -235,6 +236,14 @@ function Menu() {
                   title="Política de Privacidade"
                   onPress={() => navigateFromMenu('PrivacyPolicy')}
                 />
+                {showOnep5p && (
+                <NewFixedMenuItem
+                  iconName="cutlery"
+                  testID="com.usereserva:id/menu_button_privacy"
+                  title="1P=5P"
+                  onPress={() => navigation.navigate('PageOneP5P', { comeFrom: 'Menu' })}
+                />
+                )}
               </View>
               {showForm === 'menu' ? (
                 <>

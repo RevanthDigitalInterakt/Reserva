@@ -124,11 +124,11 @@ export default function KitLookFooter() {
       </View>
 
       <TouchableOpacity
-        disabled={btnDisabled || isClick || loading}
+        disabled={btnDisabled || loading}
         testID="com.usereserva:id/bag_button_go_to_delivery"
         onPress={() => onAddProductToCart()}
         style={
-          btnDisabled || isClick || loading
+          btnDisabled || loading
             ? styles.btnTouchAddToBagDisabled
             : styles.btnTouchAddToBag
         }

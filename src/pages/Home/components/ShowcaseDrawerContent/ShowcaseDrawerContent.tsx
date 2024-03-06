@@ -16,6 +16,7 @@ import { COLORS } from '../../../../base/styles';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import useWishlistStore from '../../../../zustand/useWishlistStore';
 import IconCheck from '../../../../../assets/icons/IconCheck';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 interface ShowcaseDrawerProps {
   data: IRsvProduct;
@@ -27,32 +28,39 @@ export default function ShowcaseDrawerContent({ data }: ShowcaseDrawerProps) {
   const [selectedPrice, setSelectedPrice] = useState(data.prices.salePrice || 0);
   const [loading, setLoading] = useState(false);
 
-  const { actions, items } = useBagStore(['actions', 'items']);
+  const { actions, items, orderFormId } = useBagStore(['actions', 'items', 'orderFormId']);
   const { onFavorite, favorites, onUnfavorite } = useWishlistStore(['onFavorite', 'favorites', 'onUnfavorite']);
 
   const onAddToCart = useCallback(async () => {
-    setLoading(true);
-    const orderFormItem = items.find((item) => item.id === data.sku[0]?.sizes[0]?.skuId);
+    try {
+      setLoading(true);
+      const orderFormItem = items.find((item) => item.id === data.sku[0]?.sizes[0]?.skuId);
 
-    if (selectedSize === null) {
-      Alert.alert('Erro', 'Selecione um tamanho para continuar!', [
-        {
-          text: 'Fechar',
-          onPress: () => {},
-        },
-      ]);
+      if (selectedSize === null) {
+        Alert.alert('Erro', 'Selecione um tamanho para continuar!', [
+          {
+            text: 'Fechar',
+            onPress: () => { },
+          },
+        ]);
 
+        setLoading(false);
+        return;
+      }
+
+      await actions.ADD_ITEM(
+        '1',
+        data.sku[0]?.sizes[0]?.skuId || '',
+        orderFormItem ? orderFormItem.quantity + 1 : 1,
+      );
+    } catch (err) {
+      ExceptionProvider.captureException(err, { orderFormId });
+      Alert.alert('Ocorreu um erro', err.message);
+
+      actions.CREATE_NEW_ORDER_FORM();
+    } finally {
       setLoading(false);
-      return;
     }
-
-    await actions.ADD_ITEM(
-      '1',
-      data.sku[0]?.sizes[0]?.skuId || '',
-      orderFormItem ? orderFormItem.quantity + 1 : 1,
-    );
-
-    setLoading(false);
   }, [selectedSize]);
 
   const onSelectColor = useCallback((colorID: string) => {
@@ -143,10 +151,10 @@ export default function ShowcaseDrawerContent({ data }: ShowcaseDrawerProps) {
               onPress={() => onSelectSize(size.skuId)}
               key={size.skuId}
               style={[styles.listColorsProductItem,
-                {
-                  backgroundColor: selectedSize !== null
+              {
+                backgroundColor: selectedSize !== null
                   && selectedSize === size.skuId ? COLORS.BLACK : COLORS.WHITE,
-                }]}
+              }]}
               disabled={size.disabled}
             >
               {size.disabled && (
@@ -155,10 +163,10 @@ export default function ShowcaseDrawerContent({ data }: ShowcaseDrawerProps) {
                 </View>
               )}
               <Text style={[styles.listSizesProductItemText,
-                {
-                  color: selectedSize !== null
+              {
+                color: selectedSize !== null
                   && selectedSize === size.skuId ? COLORS.WHITE : COLORS.BLACK,
-                }]}
+              }]}
               >
                 {size.value}
               </Text>
@@ -184,7 +192,7 @@ export default function ShowcaseDrawerContent({ data }: ShowcaseDrawerProps) {
             </TouchableOpacity>
             <Text>
               <Text style={[styles.productCurrencyLabel,
-                { color: COLORS.BLACK }]}
+              { color: COLORS.BLACK }]}
               >
                 R$
                 {' '}

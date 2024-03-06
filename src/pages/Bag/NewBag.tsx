@@ -4,6 +4,7 @@ import { SafeAreaView, ScrollView } from 'react-native';
 
 import { TrackPageTypeEnum } from '../../base/graphql/generated';
 import { Box } from '../../components/Box/Box';
+import OneP5P from '../../components/OneP5P/OneP5P';
 import { Typography } from '../../components/Typography/Typography';
 import { useIsTester } from '../../hooks/useIsTester';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
@@ -27,6 +28,7 @@ import DeleteProductModal from './components/DeleteProduct';
 import { EmptyBag } from './components/EmptyBag';
 import LoadingModal from './components/LoadingModal';
 import NotFoundProduct from './components/NotFoundProduct';
+import BagProductList from './components/ProductList';
 import BagProductPackageList from './components/ProductPackageList';
 import { UnavailableList } from './components/ProductUnavailableList/UnavailableList';
 import { Recommendation } from './components/Recommendation';
@@ -36,7 +38,6 @@ import ShippingDataDetails from './components/ShippingDataDetails';
 import BagSkeleton from './components/Skeleton';
 import SkeletonBagFooter from './components/SkeletonBagFooter';
 import { bagStyles } from './styles/bagStyles';
-import BagProductList from './components/ProductList';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -124,6 +125,8 @@ export default function NewBag({ navigation }: TNewBagProps) {
     () => items.some((item) => item.availability !== 'available'),
     [items],
   );
+
+  const showOnep5p = useMemo(() => getBoolean('show_onep5p_bag'), []);
 
   useEffect(() => {
     if (initialized) {
@@ -222,6 +225,8 @@ export default function NewBag({ navigation }: TNewBagProps) {
 
                     {showAddZipCodeDeliveryAB ? <BagProductPackageList /> : <BagProductList />}
 
+                    {showOnep5p && (<OneP5P comingFrom="bag" itemQuantity={allItemsQuantity} />) }
+
                     {hasSelectedAddressDelivery && hasUnavailableItems && <UnavailableList />}
 
                   </Box>
@@ -232,6 +237,7 @@ export default function NewBag({ navigation }: TNewBagProps) {
 
                 </ScrollView>
               </>
+
             )}
 
             <Box width="100%" height={145} bg="white">
