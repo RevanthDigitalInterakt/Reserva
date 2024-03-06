@@ -37,6 +37,7 @@ import ProductAddToCart from './components/ProductAddToCart';
 import { Drawer } from '../../components/Drawer';
 import { DrawerSelectors } from './components/DrawerSelectors';
 import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/useTrackClickStore';
+import CashbackInfo from '../../components/CashbackInfo';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -161,6 +162,9 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       onFinishLoad();
     }
   }, [loading, onFinishLoad, startLoadingTime]);
+  const teste = 50
+  const days = 50
+
 
   return (
     <>
@@ -168,6 +172,9 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         {!!productDetail && !isKitLook && (
           <View>
             <ProductSummary />
+            {teste > 0 && (
+              <CashbackInfo value={teste} days={days} />
+            )}
 
             <ProductSelectors />
 
