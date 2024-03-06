@@ -1019,7 +1019,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
             input: {
               orderFormId,
               deliveryOptions,
-              addressType: AddressTypeEnum.Residential,
+              addressType: AddressTypeEnum.Pickup,
               addressId: storeAddress?.addressId,
               cep: storeAddress?.postalCode,
               street: storeAddress?.street,
