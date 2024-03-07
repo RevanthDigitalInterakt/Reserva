@@ -1,9 +1,12 @@
 import type { TItemBag } from '../types/bagStore';
-import type { OrderFormQuery, OrderFormUpdateItemMutation } from '../../../base/graphql/generated';
+import type {
+  OrderFormQuery, OrderFormUpdateItemMutation, OrderformPackageItemsOutput,
+} from '../../../base/graphql/generated';
 
 interface IGetMessagesErrorWhenUpdatedItem {
   updateItemResponse?: OrderFormUpdateItemMutation['orderFormUpdateItem'],
   currentItem: TItemBag;
+  mergeItems: OrderformPackageItemsOutput['items']
   currentUpdateValueItem: number;
   appTotalizers: OrderFormQuery['orderForm']['appTotalizers'];
 }
@@ -12,6 +15,7 @@ export function getMessageErrorWhenUpdateItem(info: IGetMessagesErrorWhenUpdated
   const {
     updateItemResponse,
     currentItem,
+    mergeItems,
     appTotalizers,
     currentUpdateValueItem: currValueItem,
   } = info;
@@ -20,7 +24,7 @@ export function getMessageErrorWhenUpdateItem(info: IGetMessagesErrorWhenUpdated
 
   const messages = updateItemResponse.messages.filter((error: string) => error.includes(currentItem.name))[0] || '';
 
-  const newQtyAndTotalizerItemInfo = updateItemResponse.items.reduce((
+  const newQtyAndTotalizerItemInfo = mergeItems.reduce((
     previousValue,
     currentValue: TItemBag,
   ) => (

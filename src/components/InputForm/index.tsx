@@ -10,7 +10,7 @@ import {
 
 import styles from './InputForm.styles';
 import type { IInputForm } from './interface/IInputForm';
-import IconInfoFill from '../../../../../assets/icons/IconInfoFill';
+import IconInfoFill from '../../../assets/icons/IconInfoFill';
 
 export default function InputForm({
   onTextChange,
@@ -27,8 +27,9 @@ export default function InputForm({
   setFieldValue,
   inputID,
   touched,
+  maxLength,
   showMessageError = true,
-}: IInputForm): JSX.Element {
+}: Readonly<IInputForm>): JSX.Element {
   const animatedLabel = useRef(new Animated.Value(0)).current;
 
   const containerStyle = error && touched
@@ -102,6 +103,7 @@ export default function InputForm({
               checkPostalCode(text, setFieldValue);
             }
           }}
+          maxLength={maxLength}
           value={inputValue}
           ref={inputRef}
           editable={isEditable}

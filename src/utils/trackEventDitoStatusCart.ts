@@ -3,11 +3,11 @@ import EventProvider from './EventProvider';
 import { getAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
-import type { OrderFormQuery } from '../base/graphql/generated';
+import type { OrderFormQuery, OrderformPackageItemsOutput } from '../base/graphql/generated';
 import { getBrands } from './getBrands';
 
 interface ITrackEventStatusCart {
-  items?: OrderFormQuery['orderForm']['items'];
+  items?: OrderformPackageItemsOutput['items']
   appTotalizers?: OrderFormQuery['orderForm']['appTotalizers'];
   clientProfileData?: OrderFormQuery['orderForm']['clientProfileData'];
 }

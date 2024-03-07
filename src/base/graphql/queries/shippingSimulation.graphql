@@ -3,16 +3,26 @@ query ShippingSimulation($input: ShippingSimulationInput!) {
     delivery {
       address {
         street
+        postalCode
         city
         state
         neighborhood
+        reference,
+        country
+      }
+      deliveryOptions {
+        itemIndex
+        selectedSla
+        selectedDeliveryChannel
       }
     }
     storeList {
       discountStorePickup
       stores {
         friendlyName
+        id
         address {
+          addressId
           postalCode
           street
           neighborhood
@@ -20,7 +30,13 @@ query ShippingSimulation($input: ShippingSimulationInput!) {
           state
           neighborhood
           complement
+          number
         }
+      }
+      deliveryOptions {
+        itemIndex
+        selectedSla
+        selectedDeliveryChannel
       }
     }
   }

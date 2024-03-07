@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { trackEventDitoStatusCart } from './trackEventDitoStatusCart';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
+import { mergeItemsPackage } from './mergeItemsPackage';
 
 export const has24HoursPassed = async (key: string) => {
   try {
@@ -24,11 +25,12 @@ export const has24HoursPassed = async (key: string) => {
 
 export const useOncePerDayEvent = (eventKey: string) => {
   const [canTriggerEvent, setCanTriggerEvent] = useState<boolean>(false);
+
   const {
     clientProfileData,
-    items,
+    packageItems,
     appTotalizers,
-  } = useBagStore(['clientProfileData', 'appTotalizers', 'items']);
+  } = useBagStore(['clientProfileData', 'appTotalizers', 'packageItems']);
 
   useEffect(() => {
     const checkEventStatus = async () => {
@@ -43,7 +45,7 @@ export const useOncePerDayEvent = (eventKey: string) => {
     if (canTriggerEvent) {
       try {
         await trackEventDitoStatusCart({
-          items,
+          items: mergeItemsPackage(packageItems),
           appTotalizers,
           clientProfileData,
         });
