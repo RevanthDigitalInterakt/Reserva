@@ -59,7 +59,7 @@ export function NewHomeCarousels() {
       [HomePageSectionTypeEnum.Brands]: () => (
         <>
           <HomeBrandsCarousel data={item} />
-          {showShelf && <HomeShowcase />}
+          <HomeShowcase />
           <CommercialBanner />
           {getString('count_down_position') === 'A' && <NewHomeCountDown />}
         </>

@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
   },
 
   content: {
-    marginVertical: 5,
+    marginVertical: 7,
   },
 
   flagContainer: {
@@ -15,9 +15,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: COLORS.BLACK,
-    width: 70,
+    width: 75,
     height: 30,
     borderRadius: 30,
+    marginBottom: 7,
   },
   flagTitle: {
     color: COLORS.WHITE,
@@ -46,6 +47,7 @@ export const styles = StyleSheet.create({
   label: {
     fontFamily: FONTS.WORK_SANS_REGULAR,
     fontSize: 12,
+    
   },
 
   listColorsProductContent: {
@@ -71,7 +73,7 @@ export const styles = StyleSheet.create({
 
   productListPriceLabel: {
     fontFamily: FONTS.NUNITO_BOLD,
-    fontSize: 15,
+    fontSize: 18,
   },
 
   productCurrencyLabel: {
@@ -119,18 +121,18 @@ export const styles = StyleSheet.create({
   radionButtonContainer: {
     borderWidth: 1,
     borderColor: COLORS.SHELF_GRAY,
-    width: 30,
-    height: 30,
-    borderRadius: 30,
+    width: 22,
+    height: 22,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 10,
   },
 
   radioButtonContent: {
-    width: 20,
-    height: 20,
+    width: 15,
+    height: 15,
     backgroundColor: COLORS.BLACK,
-    borderRadius: 20,
+    borderRadius: 15,
   },
 });

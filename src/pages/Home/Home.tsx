@@ -254,7 +254,7 @@ function Home() {
         {!!showModalSignUpComplete && <ModalSignUpComplete />}
       </Box>
       {drawerIsOpen && (
-        <Drawer isOpen={drawerIsOpen} snapPoints={['10%', '90%']}>
+        <Drawer isOpen={drawerIsOpen} snapPoints={['10%', '100%']}>
           <ShowcaseDrawerContent data={shelfItemData} />
         </Drawer>
       )}

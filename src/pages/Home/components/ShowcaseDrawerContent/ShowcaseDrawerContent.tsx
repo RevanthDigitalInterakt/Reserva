@@ -171,8 +171,8 @@ export default function ShowcaseDrawerContent({ data }: ShowcaseDrawerProps) {
         <Text style={styles.label}>Preço:</Text>
 
         <View style={styles.row}>
-          <View style={[styles.row, { alignItems: 'center', marginTop: 5 }]}>
-            <TouchableOpacity
+          <View style={[styles.row, { alignItems: 'center' }]}>
+            {/* <TouchableOpacity
               onPress={() => onSelectPrice(data.prices.salePrice)}
               style={styles.radionButtonContainer}
             >
@@ -181,7 +181,7 @@ export default function ShowcaseDrawerContent({ data }: ShowcaseDrawerProps) {
                   style={styles.radioButtonContent}
                 />
               )}
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <Text>
               <Text style={[styles.productCurrencyLabel,
                 { color: COLORS.BLACK }]}
@@ -197,7 +197,7 @@ export default function ShowcaseDrawerContent({ data }: ShowcaseDrawerProps) {
               {`${decimalPart(data.prices.salePrice || 0)}`}
             </Text>
           </View>
-          <View style={[styles.row, { marginLeft: 10, alignItems: 'center', marginTop: 5 }]}>
+          <View style={[styles.row, { marginLeft: 10, alignItems: 'center' }]}>
             <Text style={[styles.productCurrencyLabel, { color: COLORS.SHELF_GRAY, textDecorationLine: 'line-through' }]}>R$ </Text>
             <Text style={[styles.productListPriceLabel, { color: COLORS.SHELF_GRAY, textDecorationLine: 'line-through' }]}>
               {`${integerPart(data.prices.listPrice || 0)},`}
