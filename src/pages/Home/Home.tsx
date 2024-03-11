@@ -255,7 +255,7 @@ function Home() {
       </Box>
       {drawerIsOpen && (
         <Drawer isOpen={drawerIsOpen} snapPoints={['10%', '100%']}>
-          <ShowcaseDrawerContent data={shelfItemData} />
+          <ShowcaseDrawerContent productData={shelfItemData} />
         </Drawer>
       )}
     </>

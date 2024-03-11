@@ -43,11 +43,11 @@ export const styles = StyleSheet.create({
     width: 165,
     height: 270,
     borderRadius: 10,
+    marginRight: 10,
   },
   label: {
     fontFamily: FONTS.WORK_SANS_REGULAR,
     fontSize: 12,
-    
   },
 
   listColorsProductContent: {
@@ -64,6 +64,23 @@ export const styles = StyleSheet.create({
     marginRight: 15,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  listSizesItem: {
+    width: 40,
+    height: 40,
+    borderWidth: 1,
+    borderColor: COLORS.SHELF_LIGHT_GRAY,
+    marginRight: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  listColorsContent: {
+    justifyContent: 'center',
+    marginTop: -20,
+    alignItems: 'center',
+    marginRight: 15,
   },
 
   listSizesProductItemText: {
