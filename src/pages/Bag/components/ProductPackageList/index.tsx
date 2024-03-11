@@ -135,7 +135,7 @@ export default function BagProductPackageList() {
           <ProductUnavailable type="UNAVAILABLE" showCard={packItem?.metadata?.availability === 'UNAVAILABLE'} />
           <ProductUnavailable type="SOME_UNAVAILABLE" showCard={packItem?.metadata?.availability === 'SOME_UNAVAILABLE'} />
 
-          <View style={{ gap: 25 }}>
+          <View style={{ gap: 15 }}>
             { packItem.items.map((item) => {
               if (item.sellingPrice !== 0 && !item.isGift) {
                 return item.isPrimeSubscription ? (

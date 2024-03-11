@@ -6,7 +6,7 @@ export const deliveryItemInfoStyles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 6,
     padding: 8,
-    marginTop: 28,
+    marginTop: 32,
     paddingVertical: 12,
     borderColor: COLORS.BORDER_GRAY,
     alignItems: 'center',
