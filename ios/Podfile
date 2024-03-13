@@ -55,7 +55,6 @@ target 'reserva' do
 
   pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"
 
-  pod 'RNSentry', :path => '../node_modules/@sentry/react-native'
 
   pod 'RNExitApp', :path => '../node_modules/react-native-exit-app'
   

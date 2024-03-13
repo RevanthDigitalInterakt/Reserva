@@ -1523,20 +1523,12 @@ PODS:
   - RNScreens (3.29.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNSentry (5.19.2):
-    - hermes-engine
-    - React-Core
-    - React-hermes
-    - Sentry/HybridSDK (= 8.20.0)
   - RNSha256 (1.4.10):
     - React-Core
   - RNShare (9.2.3):
     - React-Core
   - RNSVG (13.14.0):
     - React-Core
-  - Sentry/HybridSDK (8.20.0):
-    - SentryPrivate (= 8.20.0)
-  - SentryPrivate (8.20.0)
   - SocketRocket (0.6.1)
   - SSZipArchive (2.2.3)
   - Yoga (1.14.0)
@@ -1632,7 +1624,6 @@ DEPENDENCIES:
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
-  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSha256 (from `../node_modules/react-native-sha256`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -1684,8 +1675,6 @@ SPEC REPOS:
     - PLCrashReporter
     - PromisesObjC
     - PromisesSwift
-    - Sentry
-    - SentryPrivate
     - SocketRocket
     - SSZipArchive
 
@@ -1858,8 +1847,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
-  RNSentry:
-    :path: "../node_modules/@sentry/react-native"
   RNSha256:
     :path: "../node_modules/react-native-sha256"
   RNShare:
@@ -1998,16 +1985,13 @@ SPEC CHECKSUMS:
   RNPermissions: 54b22c815d5d966705e4d5d8b801e65c0e363966
   RNReanimated: ed89354870e2581e88d074f2305a9443f5c9e1a1
   RNScreens: a79430706d7d993b1e5c0dde8b51fd1af41ad432
-  RNSentry: 4b80f709293b6277d1718aef4b33ca8195c235de
   RNSha256: e1bc64e9e50b293d5282bb4caa1b2043931f1c9d
   RNShare: da6d90b6dc332f51f86498041d6e34211f96b630
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
-  Sentry: a8d7b373b9f9868442b02a0c425192f693103cbf
-  SentryPrivate: 006b24af16828441f70e2ab6adf241bd0a8ad130
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: 87e59f6d458e5061d2421086c5de994b3f7cd151
 
-PODFILE CHECKSUM: ec5880b5978bf2ee25c9c27d5ef30a28d444de7a
+PODFILE CHECKSUM: bdb5fa3e872034186f6d3bb85e2d09bfc546cc33
 
 COCOAPODS: 1.14.3

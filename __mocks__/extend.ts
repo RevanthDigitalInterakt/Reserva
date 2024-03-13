@@ -82,8 +82,6 @@ jest.mock('@react-native-firebase/messaging', () => ({
   getToken: jest.fn(() => Promise.resolve('myMockToken')),
 }));
 
-jest.mock('@sentry/react-native');
-
 RN.Animated.timing = () => ({
   start: () => jest.fn(),
 });
