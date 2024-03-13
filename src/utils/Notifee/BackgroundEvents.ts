@@ -21,15 +21,15 @@ const onBackgroundEventPush = async () => {
 
     if (!remoteMessage?.data?.data) return;
 
-    if (remoteMessage?.data && !remoteMessage.notification) {
+    if (remoteMessage?.data) {
       const { details, reference, notification } = JSON.parse(remoteMessage?.data?.data || '{}');
 
       await setItem('@DitoNotification:Id', notification);
       await setItem('@DitoNotification:Ref', reference);
 
-      const link = details?.link || '';
-      const title = details?.message?.split('\n')[0] || '';
-      const body = details?.message?.split('\n')[1] || '';
+      const link = details?.link || '';      
+      const title = details?.title || '';      
+      const body = details?.message || '';
       const bigText = body || ' ';
       const hasLink = link || 'usereserva://home-tabs';
       try {
@@ -56,11 +56,11 @@ const onBackgroundEventPush = async () => {
     }
   });
 
-  notifee.onBackgroundEvent(async ({ type, detail }) => {
+  notifee.onForegroundEvent(async ({ type, detail }) => {
     if (type === EventType.PRESS && detail.notification?.data?.hasLink) {
-      const dataLink = detail.notification?.data?.hasLink;
+      const dataLink = detail.notification?.data?.hasLink;      
 
-      await Linking.openURL(dataLink);
+      await Linking.openURL(dataLink); 
 
       const notificationId = await getItem('@DitoNotification:Id');
       const reference = await getItem('@DitoNotification:Ref');

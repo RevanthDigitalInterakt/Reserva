@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.6.2
+- [28474 - Push notification duplicado Dito](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/28474)
+
+
 ### 2.6.1
 - [25117 - Erro ao adicionar produtos ao carrinho](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/25117)
 - [25046 - Registro de PageView IOS](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/25046)
