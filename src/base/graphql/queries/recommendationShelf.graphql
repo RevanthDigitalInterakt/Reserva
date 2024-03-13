@@ -1,6 +1,7 @@
 query recommendationShelf($input: SmarthintShelfInput!) {
   recommendationShelf(input: $input) {
     shelfName
+    shelfTitle
     products {
       productName
       productId

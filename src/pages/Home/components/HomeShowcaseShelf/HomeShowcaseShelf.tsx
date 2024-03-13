@@ -16,7 +16,7 @@ export default function Shelf({ dataShelf }: IShelfProps) {
   return (
     <View style={styles.shelfContainer}>
       <View style={styles.shelf}>
-        <Text style={styles.shelfName}>{dataShelf.shelfName}</Text>
+        <Text style={styles.shelfTitle}>{dataShelf.shelfTitle}</Text>
       </View>
       <FlatList
         horizontal
