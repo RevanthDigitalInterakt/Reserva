@@ -1,24 +1,21 @@
 ## CHANGELOG
 
-### 2.6.3
+### 2.7.5
+
 - [29302 - Preço Prime não habilita no App](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/29302)
 - [29423 - Alteração do desconto do prime no app](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/29493)
-
-### 2.6.2
 - [28474 - Push notification duplicado Dito](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/28474)
-
-
-### 2.6.1
 - [25117 - Erro ao adicionar produtos ao carrinho](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/25117)
 - [25046 - Registro de PageView IOS](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/25046)
 - [27568 - Remoção do botão "Envie uma mensagem"](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/27568)
 - [19204 - Visualização da informação do projeto - 1P=5P [app]](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19204)
 
-
 ### 2.6.0
+
 - DATADOG - Bugfix - Atualização das variáveis de ambiente.
 
 ### 2.4.2
+
 ### 2.4.1
 
 - DATADOG - Atualização das variáveis de ambiente.
@@ -28,9 +25,8 @@
 ---
 
 ### 2.4.0
+
 ### 2.3.3
-
-
 
 ### 2.3.2
 
