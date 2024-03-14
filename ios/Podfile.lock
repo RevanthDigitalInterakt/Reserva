@@ -631,9 +631,9 @@ PODS:
   - AppCheckCore (10.18.0):
     - GoogleUtilities/Environment (~> 7.11)
     - PromisesObjC (~> 2.3)
-  - AppsFlyerFramework (6.12.0):
-    - AppsFlyerFramework/Main (= 6.12.0)
-  - AppsFlyerFramework/Main (6.12.0)
+  - AppsFlyerFramework (6.12.2):
+    - AppsFlyerFramework/Main (= 6.12.2)
+  - AppsFlyerFramework/Main (6.12.2)
   - Base64 (1.1.2)
   - boost (1.76.0)
   - BoringSSL-GRPC (0.0.24):
@@ -1288,8 +1288,8 @@ PODS:
   - React-jsinspector (0.72.9)
   - React-logger (0.72.9):
     - glog
-  - react-native-appsflyer (6.12.1):
-    - AppsFlyerFramework (= 6.12.0)
+  - react-native-appsflyer (6.12.2):
+    - AppsFlyerFramework (= 6.12.2)
     - React
   - react-native-background-timer (2.4.1):
     - React-Core
@@ -1515,7 +1515,7 @@ PODS:
   - RNSentry (5.9.1):
     - React-Core
     - Sentry/HybridSDK (= 8.10.0)
-  - RNSha256 (1.4.9):
+  - RNSha256 (1.4.10):
     - React-Core
   - RNShare (9.2.3):
     - React-Core
@@ -1859,7 +1859,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   abseil: 926fb7a82dc6d2b8e1f2ed7f3a718bce691d1e46
   AppCheckCore: 4687c03428947d5b26a6bf9bb5566b39f5473bf1
-  AppsFlyerFramework: 38431c0dd52c05f4bdbe34934ef004d586063b30
+  AppsFlyerFramework: 6eb4d89d2eb9a6632317f1055b359d9fd85fd5ff
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost: 7dcd2de282d72e344012f7d6564d024930a6a440
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
@@ -1931,7 +1931,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 5a169b1dd1abad06bed40ab7e1aca883c657d865
   React-jsinspector: 54205b269da20c51417e0fc02c4cde9f29a4bf1a
   React-logger: f42d2f2bc4cbb5d19d7c0ce84b8741b1e54e88c8
-  react-native-appsflyer: a1b344b21b628dd1c66a9eb28f12d2a94ac5ab2f
+  react-native-appsflyer: 202a3a36d7fabe9f36198b45f952b1a91f9b27a0
   react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-clarity: cd2c7a95a0018f60d3e42086c572eac34aa15208
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
@@ -1986,7 +1986,7 @@ SPEC CHECKSUMS:
   RNReanimated: 8a6a83984cb4d61ebf1065b6137150b6b31ce609
   RNScreens: 1c2444658fbb696a094272d946708167b1f63409
   RNSentry: 0a1daa8ee81e2776f977ae8c66e67c8d85587828
-  RNSha256: a6bc3640a34eb41907e363828b9ec742c274298d
+  RNSha256: e1bc64e9e50b293d5282bb4caa1b2043931f1c9d
   RNShare: da6d90b6dc332f51f86498041d6e34211f96b630
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
   Sentry: 71cd4427146ac56eab6e70401ac7a24384c3d3b5
@@ -1997,4 +1997,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: ec5880b5978bf2ee25c9c27d5ef30a28d444de7a
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.15.2
