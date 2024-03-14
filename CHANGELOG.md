@@ -2,6 +2,11 @@
 
 ### 2.6.3
 - [29302 - Preço Prime não habilita no App](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/29302)
+- [29423 - Alteração do desconto do prime no app](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/29493)
+
+### 2.6.2
+- [28474 - Push notification duplicado Dito](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/28474)
+
 
 ### 2.6.1
 - [25117 - Erro ao adicionar produtos ao carrinho](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/25117)
