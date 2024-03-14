@@ -1,5 +1,8 @@
 ## CHANGELOG
 
+### 2.6.3
+- [29302 - Preço Prime não habilita no App](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/29302)
+
 ### 2.6.1
 - [25117 - Erro ao adicionar produtos ao carrinho](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/25117)
 - [25046 - Registro de PageView IOS](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/25046)
