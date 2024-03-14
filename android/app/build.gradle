@@ -103,8 +103,8 @@ android {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2023000211
-        versionName "2.6.0"
+        versionCode 2023000215
+        versionName "2.7.3"
         resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
         resValue "string", "URL_GATEWAY_CLIENT", project.env.get("URL_GATEWAY_CLIENT")
         resValue "string", "API_KEY_GATEWAY", project.env.get("API_KEY_GATEWAY")
