@@ -180,9 +180,13 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
               <ProductAbout />
 
-              <Divider variant="fullWidth" my="xs" />
-
-              <ProductPayment />
+              {productDetail?.paymentSystemGroupName
+              && productDetail?.paymentSystemGroupName.length > 0 && (
+                <>
+                  <Divider variant="fullWidth" my="xs" />
+                  <ProductPayment />
+                </>
+              )}
             </Box>
 
             <Recommendation />
