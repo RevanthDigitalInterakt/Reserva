@@ -57,6 +57,22 @@ const onBackgroundEventPush = async () => {
   });
 
   notifee.onForegroundEvent(async ({ type, detail }) => {
+    
+    if (type === EventType.PRESS && detail.notification?.data?.hasLink) {
+      const dataLink = detail.notification?.data?.hasLink;      
+
+      await Linking.openURL(dataLink); 
+
+      const notificationId = await getItem('@DitoNotification:Id');
+      const reference = await getItem('@DitoNotification:Ref');
+
+      if (notificationId && reference) {
+        await pushClicked(notificationId, reference);
+      }
+    }
+  });
+
+  notifee.onBackgroundEvent(async ({ type, detail }) => {    
     if (type === EventType.PRESS && detail.notification?.data?.hasLink) {
       const dataLink = detail.notification?.data?.hasLink;      
 
