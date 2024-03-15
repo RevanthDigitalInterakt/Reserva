@@ -20,7 +20,6 @@ import { theme } from '../../../../../base/usereservappLegacy/theme';
 import { Method } from '../../../../../utils/EventProvider/Event';
 
 jest.mock('../../../../../utils/EventProvider');
-jest.mock('@sentry/react-native');
 
 const mockedFn = jest.fn();
 const mockRestoreCart = jest.fn((_orderFormId: string) => Promise.resolve({}));

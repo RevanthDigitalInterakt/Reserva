@@ -17,7 +17,7 @@ export function UnavailableList() {
 
   const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
 
-  const unavailableList = useMemo(() => items.filter((item) => item.availability === 'available'), [items]);
+  const unavailableList = useMemo(() => items.filter((item) => item.availability !== 'available'), [items]);
 
   const handleDeleteProductModal = useCallback((product: TItemBag, index: number) => {
     actions.ACTIVE_MODAL_DELETE_PRODUCT(product, index);

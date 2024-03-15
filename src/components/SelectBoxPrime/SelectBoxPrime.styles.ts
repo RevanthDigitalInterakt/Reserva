@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
     height: 16,
     width: 16,
     borderRadius: 8,
-    backgroundColor: COLORS.BACKGROUND_GOLD,
+    backgroundColor: COLORS.GOLD,
   },
   priceDataWrapper: {
     alignItems: 'center',
