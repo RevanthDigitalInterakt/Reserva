@@ -43,6 +43,7 @@ export interface IRsvProduct {
 
 export interface IRsvRecommendation {
   shelfName: string;
+  shelfTitle: string;
   products: IRsvProduct[];
 }
 
@@ -63,7 +64,7 @@ export function HomeShowcase() {
       <FlatList
         data={shelf}
         renderItem={({ item }) => <Shelf dataShelf={item} />}
-        keyExtractor={(item, index) => item.shelfName + index.toString()}
+        keyExtractor={(item, index) => item.shelfTitle + index.toString()}
       />
     </View>
   );

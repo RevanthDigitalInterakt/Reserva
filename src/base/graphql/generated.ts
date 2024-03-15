@@ -1,5 +1,3 @@
-// @ts-nocheck
-/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -40,6 +38,26 @@ export type BannerCategoryOutput = {
   name?: Maybe<Scalars['String']['output']>;
 };
 
+export type CashbackAllExpirationOutput = {
+  __typename?: 'CashbackAllExpirationOutput';
+  data: CashbackExpirationInfoOutput;
+  pagination: PaginationDetailOutput;
+};
+
+export type CashbackAllOperationOutput = {
+  __typename?: 'CashbackAllOperationOutput';
+  data: Array<CashbackOperationOutput>;
+  pagination: PaginationDetailOutput;
+};
+
+export type CashbackDataInput = {
+  document: Scalars['String']['input'];
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  status?: InputMaybe<CashbackStatusFilterEnum>;
+  type?: InputMaybe<CashbackTypeTransactionEnum>;
+};
+
 export type CashbackExpirationInfoOutput = {
   __typename?: 'CashbackExpirationInfoOutput';
   cashbackToExpire: Array<CashbackExpirationItemOutput>;
@@ -50,9 +68,9 @@ export type CashbackExpirationItemOutput = {
   __typename?: 'CashbackExpirationItemOutput';
   expireAt: Scalars['String']['output'];
   expireCashbackAmount: Scalars['String']['output'];
-  expireCashbackProgramRefId: Scalars['String']['output'];
+  expireCashbackProgramRefId?: Maybe<Scalars['String']['output']>;
   expireDays: Scalars['Float']['output'];
-  expireOperationId: Scalars['Int']['output'];
+  expireOperationId?: Maybe<Scalars['Int']['output']>;
   expireOrderId: Scalars['String']['output'];
   expireStatus: Scalars['String']['output'];
 };
@@ -65,7 +83,6 @@ export type CashbackOperationOutput = {
   currentBalanceInCents: Scalars['Float']['output'];
   externalOrderAmountInCents: Scalars['Float']['output'];
   externalOrderId: Scalars['String']['output'];
-  requestedCashback: Scalars['Boolean']['output'];
   settlementDate?: Maybe<Scalars['String']['output']>;
   status: Scalars['String']['output'];
   type: Scalars['String']['output'];
@@ -77,6 +94,39 @@ export type CashbackOutput = {
   operations: Array<CashbackOperationOutput>;
   wallet: CashbackWalletOutput;
 };
+
+export enum CashbackStatusFilterEnum {
+  All = 'ALL',
+  Available = 'AVAILABLE',
+  Canceled = 'CANCELED',
+  Confirmed = 'CONFIRMED',
+  Expired = 'EXPIRED',
+  Pending = 'PENDING'
+}
+
+export type CashbackTransactionDataOutput = {
+  __typename?: 'CashbackTransactionDataOutput';
+  amountInCents: Scalars['Float']['output'];
+  createdAt: Scalars['String']['output'];
+  operation: CashbackTransactionOperationOutput;
+  type: Scalars['String']['output'];
+};
+
+export type CashbackTransactionOperationOutput = {
+  __typename?: 'CashbackTransactionOperationOutput';
+  externalOrderId: Scalars['String']['output'];
+};
+
+export type CashbackTransactionOutput = {
+  __typename?: 'CashbackTransactionOutput';
+  data: Array<CashbackTransactionDataOutput>;
+  pagination: PaginationDetailOutput;
+};
+
+export enum CashbackTypeTransactionEnum {
+  Credit = 'CREDIT',
+  Debit = 'DEBIT'
+}
 
 export type CashbackWalletOutput = {
   __typename?: 'CashbackWalletOutput';
@@ -1527,6 +1577,10 @@ export type Query = {
   contentfulProducts: Array<ContentfulProductItemOutput>;
   countdown?: Maybe<CountdownClockCategoryOutput>;
   deeplinkPath?: Maybe<DeeplinkOutput>;
+  getCashbackExpiration: CashbackAllExpirationOutput;
+  getCashbackOperation: CashbackAllOperationOutput;
+  getCashbackTransaction: CashbackTransactionOutput;
+  getCashbackWallet: CashbackWalletOutput;
   healthcheck: HealthcheckOutput;
   homeCarousels: Array<HomeCarouselOutput>;
   homeCountdown?: Maybe<HomeCountdownOutput>;
@@ -1607,6 +1661,26 @@ export type QueryCountdownArgs = {
 
 export type QueryDeeplinkPathArgs = {
   input: DeeplinkPathInput;
+};
+
+
+export type QueryGetCashbackExpirationArgs = {
+  input: CashbackDataInput;
+};
+
+
+export type QueryGetCashbackOperationArgs = {
+  input: CashbackDataInput;
+};
+
+
+export type QueryGetCashbackTransactionArgs = {
+  input: CashbackDataInput;
+};
+
+
+export type QueryGetCashbackWalletArgs = {
+  input: CashbackDataInput;
 };
 
 
@@ -1701,6 +1775,7 @@ export type RecommendationOutput = {
   __typename?: 'RecommendationOutput';
   products: Array<RecommendationProductsOutput>;
   shelfName: Scalars['String']['output'];
+  shelfTitle: Scalars['String']['output'];
 };
 
 export type RecommendationPriceOutput = {
@@ -2536,7 +2611,7 @@ export type RecommendationShelfQueryVariables = Exact<{
 }>;
 
 
-export type RecommendationShelfQuery = { __typename?: 'Query', recommendationShelf: { __typename?: 'RecommendationOutput', shelfName: string, products: Array<{ __typename?: 'RecommendationProductsOutput', productName: string, productId: string, productLink: string, brand: string, image: string, categoryTree: Array<string>, flags: Array<{ __typename?: 'RecommendationFlagOutput', type: string, value?: number | null, text?: string | null }>, prices: { __typename?: 'RecommendationPriceOutput', listPrice: number, salePrice: number }, sku: Array<{ __typename?: 'RecommendationSkuOutput', colorName?: string | null, colorHex?: string | null, colorRefId?: string | null, sizes: Array<{ __typename?: 'RecommendationSizeOutput', skuId?: string | null, value?: string | null, disabled: boolean }> }> }> } };
+export type RecommendationShelfQuery = { __typename?: 'Query', recommendationShelf: { __typename?: 'RecommendationOutput', shelfName: string, shelfTitle: string, products: Array<{ __typename?: 'RecommendationProductsOutput', productName: string, productId: string, productLink: string, brand: string, image: string, categoryTree: Array<string>, flags: Array<{ __typename?: 'RecommendationFlagOutput', type: string, value?: number | null, text?: string | null }>, prices: { __typename?: 'RecommendationPriceOutput', listPrice: number, salePrice: number }, sku: Array<{ __typename?: 'RecommendationSkuOutput', colorName?: string | null, colorHex?: string | null, colorRefId?: string | null, sizes: Array<{ __typename?: 'RecommendationSizeOutput', skuId?: string | null, value?: string | null, disabled: boolean }> }> }> } };
 
 export type RonRedirectQueryVariables = Exact<{
   code: Scalars['String']['input'];
@@ -5103,6 +5178,7 @@ export const RecommendationShelfDocument = gql`
     query recommendationShelf($input: SmarthintShelfInput!) {
   recommendationShelf(input: $input) {
     shelfName
+    shelfTitle
     products {
       productName
       productId
