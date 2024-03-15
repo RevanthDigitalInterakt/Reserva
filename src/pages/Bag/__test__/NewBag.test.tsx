@@ -5,7 +5,7 @@ import {
   act, fireEvent, render, screen,
 } from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import {
   type OrderFormQuery,
   OrderFormDocument,

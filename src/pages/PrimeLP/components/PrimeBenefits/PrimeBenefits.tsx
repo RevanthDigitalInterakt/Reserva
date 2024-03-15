@@ -19,7 +19,7 @@ function PrimeBenefits({ data }: IPrimeBenefits) {
       title: 'Descontos Especiais',
       text: (
         <Typography variant="tituloSessao" style={styles.itemDescription}>
-          <Typography variant="precoTotal" style={styles.itemDescriptionBold}>20% OFF* </Typography>
+          <Typography variant="precoTotal" style={styles.itemDescriptionBold}>15% OFF* </Typography>
           em compras a partir de
           <Typography variant="precoTotal" style={styles.itemDescriptionBold}> R$ 499 </Typography>
           em todas as peças das marcas Reserva.

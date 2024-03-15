@@ -1,40 +1,41 @@
+import type { StackScreenProps } from '@react-navigation/stack';
+import { Formik, type FormikHelpers } from 'formik';
 import React, {
-  useCallback, useRef, useState,
+  useCallback,
+  useMemo,
+  useRef, useState,
 } from 'react';
 import {
+  FlatList,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
-  View,
-  TextInput,
   Text,
-  FlatList,
+  TextInput,
+  View,
 } from 'react-native';
-
-import type { StackScreenProps } from '@react-navigation/stack';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import type { RootStackParamList } from '../../routes/StackNavigator';
-import { KEYBOARD_VERTICAL_OFFSET_VALUE } from '../EditProfile/static/editProfile.defaultValues';
-import { getBehaviorValue } from '../../utils/getBehaviorValue';
+import * as Yup from 'yup';
+
+import { useShippingSimulationLazyQuery, type ShippingSimulationOutput, type ShippingSimulationInput } from '../../base/graphql/generated';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
-
-import { postalCodeSchema } from '../Address/utils/inputValidations';
-
-import { zipCodeStyles } from './styles/zipCodeDelivery.styles';
-import type { TCheckPostalCodeFn } from '../Address/components/InputForm/interface/IInputForm';
+import type { RootStackParamList } from '../../routes/StackNavigator';
+import { getBehaviorValue } from '../../utils/getBehaviorValue';
+import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
+import { platformType } from '../../utils/platformType';
 import { postalCodeMask } from '../../utils/postalCodeMask';
 import testProps from '../../utils/testProps';
-
-import CustomInputForm from '../Address/components/CustomInputForm';
-import { useShippingSimulationLazyQuery, type ShippingSimulationOutput } from '../../base/graphql/generated';
-import type { IGetShippingSimulation } from './interface/IGetShippingSimulation';
-import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { useBagStore } from '../../zustand/useBagStore/useBagStore';
+import CustomInputForm from './components/CustomInputForm';
+import type { TCheckPostalCodeFn } from '../../components/InputForm/interface/IInputForm';
+import { postalCodeSchema } from '../Address/utils/inputValidations';
+import ProductUnavailable from '../Bag/components/ProductUnavailable';
+import { KEYBOARD_VERTICAL_OFFSET_VALUE } from '../EditProfile/static/editProfile.defaultValues';
 import PickUpHeader from './components/PickUpHeader';
 import PickUpItem from './components/PickUpItem';
-import { platformType } from '../../utils/platformType';
+import { zipCodeStyles } from './styles/zipCodeDelivery.styles';
 
 const getDeliveryAddressSchema = Yup.object().shape({
   postalCode: postalCodeSchema,
@@ -49,7 +50,17 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
 
   const inputCEPRef = useRef<TextInput>(null);
 
-  const { items } = useBagStore(['items']);
+  const { packageItems, topBarLoading } = useBagStore(['packageItems', 'topBarLoading']);
+
+  const mergeItems = useMemo(() => {
+    const mergedItems = mergeItemsPackage(packageItems);
+
+    return mergedItems.map((item) => ({
+      id: item.id,
+      quantity: String(item.quantity),
+      seller: item.seller,
+    }));
+  }, [packageItems]);
 
   const [getShippingSimulation] = useShippingSimulationLazyQuery({
     context: { clientName: 'gateway' },
@@ -61,22 +72,25 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
   }, []);
 
   const checkPostalCode = useCallback<TCheckPostalCodeFn>(async (value, setFieldValue) => {
-    setHasPostalCode(!(value.length < 8));
     if (value.length < 8) return;
 
-    const newValue = postalCodeMask(value);
+    const newValue = postalCodeMask(value) || value;
 
     setFieldValue('postalCode', newValue);
   }, []);
 
-  const handleGetShippingSimulation = useCallback(async (values: IGetShippingSimulation) => {
-    const { postalCode } = values;
+  const handleGetShippingSimulation = useCallback(async (
+    ctx: FormikHelpers<{ postalCode: string }>,
+    values: ShippingSimulationInput,
+  ) => {
+    const { postalCode, items } = values;
 
-    const itensSend = items.map((item) => ({
-      id: item.id,
-      quantity: String(item.quantity),
-      seller: item.seller,
-    }));
+    if (postalCode.length !== 9) {
+      ctx.setFieldError('postalCode', 'Insira um CEP');
+      return;
+    }
+
+    Keyboard.dismiss();
 
     setLoading(true);
 
@@ -87,7 +101,7 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
         variables: {
           input: {
             postalCode: postalCode.replace('-', ''),
-            items: itensSend,
+            items,
           },
         },
       });
@@ -100,7 +114,7 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
     } finally {
       setLoading(false);
     }
-  }, [items]);
+  }, []);
 
   const shadowColorStyle = useAnimatedStyle(() => {
     const isIOS = Platform.OS === platformType.IOS;
@@ -124,9 +138,14 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
     );
   }, [hasPostalCode]);
 
-  const renderHeader = () => (
+  const renderHeader = (showHeader: boolean) => (
     addressDelivery
-      && <PickUpHeader addressDelivery={addressDelivery} />
+    && (
+      <PickUpHeader
+        showHeader={showHeader}
+        addressDelivery={addressDelivery}
+      />
+    )
   );
 
   return (
@@ -137,6 +156,7 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
       >
         <TopBarBackButton
           backButtonPress={handleTopBarGoBackButton}
+          loading={topBarLoading}
         />
         <Animated.View style={[zipCodeStyles.boxContainer, shadowColorStyle]}>
           <View>
@@ -162,7 +182,10 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
               initialValues={{
                 postalCode: '',
               }}
-              onSubmit={handleGetShippingSimulation}
+              onSubmit={({ postalCode }, ctx) => handleGetShippingSimulation(
+                ctx,
+                { postalCode, items: mergeItems },
+              )}
               validationSchema={getDeliveryAddressSchema}
             >
               {({
@@ -176,6 +199,7 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
               }) => (
                 <View>
                   <CustomInputForm
+                    maxLength={9}
                     loading={loading}
                     placeholder="Digite seu CEP"
                     onTextChange={handleChange('postalCode')}
@@ -200,17 +224,35 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
           </View>
         </Animated.View>
         <View style={zipCodeStyles.containerPaddingX}>
-          {!loading && addressDelivery?.delivery?.address && (
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={addressDelivery.storeList.stores}
-            keyExtractor={(item) => item.friendlyName}
-            ListHeaderComponent={renderHeader}
-            renderItem={({ item }) => (
-              <PickUpItem store={item} />
+          {!loading
+            && (addressDelivery?.delivery?.address
+              || !!addressDelivery?.storeList?.stores?.length)
+            && (
+              <FlatList
+                contentContainerStyle={{
+                  paddingBottom: 550,
+                  marginBottom: 550,
+                }}
+                showsVerticalScrollIndicator={false}
+                data={addressDelivery.storeList.stores}
+                keyExtractor={(item) => item.friendlyName}
+                ListHeaderComponent={renderHeader(!!addressDelivery?.delivery?.address)}
+                renderItem={({ item }) => (
+                  <PickUpItem
+                    store={item}
+                    deliveryOptions={addressDelivery.delivery.deliveryOptions}
+                    deliveryOptionsStore={addressDelivery.storeList.deliveryOptions}
+                  />
+                )}
+              />
             )}
+          <ProductUnavailable
+            type="ZIPCODE"
+            showCard={(!loading
+              && addressDelivery
+              && (!addressDelivery?.delivery?.address
+                && !addressDelivery?.storeList?.stores?.length))!}
           />
-          )}
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>

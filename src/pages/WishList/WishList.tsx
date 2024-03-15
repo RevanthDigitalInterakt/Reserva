@@ -28,6 +28,7 @@ import { Box } from '../../components/Box/Box';
 import { Typography } from '../../components/Typography/Typography';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { useIsTester } from '../../hooks/useIsTester';
+import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
 
 function WishList() {
   const navigation = useNavigation();
@@ -60,7 +61,7 @@ function WishList() {
     'initialized',
   ]);
 
-  const { actions, items: itemsBag, orderFormId } = useBagStore(['actions', 'orderFormId', 'items']);
+  const { actions, packageItems, orderFormId } = useBagStore(['actions', 'orderFormId', 'packageItems']);
 
   const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
@@ -170,7 +171,8 @@ function WishList() {
         skuId, sellerId, product, imageUrl,
       } = data;
 
-      const orderFormItem = itemsBag.find((item) => item.id === skuId);
+      const mergeItens = mergeItemsPackage(packageItems);
+      const orderFormItem = mergeItens.find((item) => item.id === skuId);
 
       await actions.ADD_ITEM(
         sellerId,

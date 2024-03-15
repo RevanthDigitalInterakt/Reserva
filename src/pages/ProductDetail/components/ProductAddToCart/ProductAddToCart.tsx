@@ -13,12 +13,13 @@ import { Button } from '../../../../components/Button';
 import { loadingSpinner } from '../../../../../assets/animations';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 import type { ProductAddToCartProps } from './types';
+import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
 import OneP5P from '../../../../components/OneP5P/OneP5P';
 
 function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
   const { getString, getBoolean } = useRemoteConfig();
   const { restoreCart } = useCart();
-  const { actions, items, orderFormId } = useBagStore(['actions', 'orderFormId', 'items']);
+  const { actions, packageItems, orderFormId } = useBagStore(['actions', 'orderFormId', 'packageItems']);
   const {
     productDetail,
     selectedColor,
@@ -63,7 +64,9 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
 
       setLoading(true);
 
-      const orderFormItem = items.find((item) => item.id === selectedSize.itemId);
+      const mergeItems = mergeItemsPackage(packageItems);
+
+      const orderFormItem = mergeItems.find((item) => item.id === selectedSize.itemId);
 
       await actions.ADD_ITEM(
         selectedSize.seller,
@@ -88,7 +91,7 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
     actions,
     addTagsUponCartUpdate,
     loading,
-    items,
+    packageItems,
     orderFormId,
     restoreCart,
     selectedSize,

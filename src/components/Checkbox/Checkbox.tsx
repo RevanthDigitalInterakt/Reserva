@@ -1,9 +1,11 @@
 import React from 'react';
+import { Text } from 'react-native';
 import { Box, type BoxProps } from '../Box/Box';
 import { Button } from '../Button';
 import { IconLegacy } from '../IconLegacy/IconLegacy';
 import { Typography } from '../Typography/Typography';
 import type { theme } from '../../base/usereservappLegacy/theme';
+import { checkboxStyles } from './Checkbox.styles';
 
 export interface CheckboxProps extends BoxProps {
   optionName: string;
@@ -14,6 +16,7 @@ export interface CheckboxProps extends BoxProps {
   fontSize?: number,
   fontFamily?: string,
   testID?: string;
+  newPackageItem?: boolean;
 }
 
 export function Checkbox({
@@ -27,6 +30,7 @@ export function Checkbox({
   width = '50%',
   alignItems = 'center',
   testID,
+  newPackageItem = false,
   ...props
 }: CheckboxProps) {
   return (
@@ -52,13 +56,20 @@ export function Checkbox({
         />
       </Button>
       <Box ml="nano">
-        <Typography
-          fontSize={fontSize}
-          fontFamily={fontFamily}
-          variant="botaoFiltrarEOrdenarProdutos"
-        >
-          {optionName}
-        </Typography>
+        {newPackageItem ? (
+          <Text style={checkboxStyles.text}>
+            {optionName}
+          </Text>
+        ) : (
+
+          <Typography
+            fontSize={fontSize}
+            fontFamily={fontFamily}
+            variant="botaoFiltrarEOrdenarProdutos"
+          >
+            {optionName}
+          </Typography>
+        )}
       </Box>
     </Box>
   );

@@ -30,4 +30,5 @@ export interface IInputForm {
   inputID: TTestProps;
   touched?: boolean;
   showMessageError?: boolean;
+  maxLength?: number;
 }

@@ -15,7 +15,7 @@ import IconComponent from '../../../../components/IconComponent/IconComponent';
 import { COLORS } from '../../../../base/styles';
 
 export interface IProductUnavailableListItem {
-  data: OrderFormQuery['orderForm']['items'][0];
+  data: OrderFormQuery['orderForm']['packageItems'][0]['items'][0]
   onDelete: () => void;
   onPress: () => void;
 }
@@ -29,7 +29,7 @@ export function ProductUnavailableListItem({
   data,
   onPress,
   onDelete,
-}: IProductUnavailableListItem) {
+}: Readonly<IProductUnavailableListItem>) {
   const discountTag = useMemo(
     () => data.discountPercent > 0,
     [data?.discountPercent],

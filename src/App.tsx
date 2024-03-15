@@ -24,7 +24,6 @@ import { useApolloFetchPolicyStore } from './zustand/useApolloFetchPolicyStore';
 import { navigationRef } from './utils/navigationRef';
 import { theme } from './base/usereservappLegacy/theme';
 import { ExceptionProvider } from './base/providers/ExceptionProvider';
-import sentryConfig from './config/sentryConfig';
 import DatadogComponentProvider from './components/DatadogComponentProvider';
 import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
 import { useConnectivityStore } from './zustand/useConnectivityStore';
@@ -117,4 +116,4 @@ function App() {
   );
 }
 
-export default sentryConfig.wrap(App);
+export default App;
