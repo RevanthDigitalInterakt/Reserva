@@ -3,11 +3,11 @@ import { COLORS, FONTS } from '../../../../base/styles';
 
 export const styles = StyleSheet.create({
   container: {
-    padding: 5,
+    paddingHorizontal: 5,
   },
 
   content: {
-    marginVertical: 7,
+    marginVertical: 5,
   },
 
   flagContainer: {
@@ -37,11 +37,11 @@ export const styles = StyleSheet.create({
   },
   productTitle: {
     fontFamily: FONTS.RESERVA_SERIF_BOLD,
-    fontSize: 20,
+    fontSize: 16,
   },
   productImage: {
-    width: 165,
-    height: 270,
+    width: 120,
+    height: 180,
     borderRadius: 10,
     marginRight: 10,
   },
