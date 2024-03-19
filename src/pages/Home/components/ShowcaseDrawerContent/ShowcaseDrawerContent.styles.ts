@@ -67,8 +67,8 @@ export const styles = StyleSheet.create({
   },
 
   listSizesItem: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
     borderWidth: 1,
     borderColor: COLORS.SHELF_LIGHT_GRAY,
     marginRight: 15,
@@ -77,10 +77,11 @@ export const styles = StyleSheet.create({
   },
 
   listColorsContent: {
+    position: 'absolute',
     justifyContent: 'center',
-    marginTop: -20,
     alignItems: 'center',
-    marginRight: 15,
+    top: 10,
+    left: 8,
   },
 
   listSizesProductItemText: {

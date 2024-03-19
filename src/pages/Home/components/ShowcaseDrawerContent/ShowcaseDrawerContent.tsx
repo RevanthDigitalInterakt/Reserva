@@ -227,6 +227,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
                 {
                   backgroundColor: selectedColor !== null
                   && selectedSize === item.itemId ? COLORS.BLACK : COLORS.WHITE,
+                  opacity: item.disabled ? 0.3 : 1,
                 },
               ]}
             >
@@ -247,18 +248,14 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
             <TouchableOpacity
               onPress={() => onSelectSize(size.skuId)}
               key={size.skuId}
-              style={[styles.listColorsProductItem,
+              style={[styles.listSizesItem,
                 {
                   backgroundColor: selectedSize !== null
                   && selectedSize === size.skuId ? COLORS.BLACK : COLORS.WHITE,
+                  opacity: size.disabled ? 0.3 : 1,
                 }]}
               disabled={size.disabled}
             >
-              {size.disabled && (
-                <View style={styles.contentAbsolute}>
-                  <IconLineBlock />
-                </View>
-              )}
               <Text style={[styles.listSizesProductItemText,
                 {
                   color: selectedSize !== null
