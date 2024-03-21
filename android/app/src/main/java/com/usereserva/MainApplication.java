@@ -5,7 +5,6 @@ import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.github.wumke.RNExitApp.RNExitAppPackage;
-import io.sentry.react.RNSentryPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.facebook.react.ReactInstanceManager;

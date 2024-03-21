@@ -1,6 +1,7 @@
 import { Platform, StyleSheet } from 'react-native';
-import { COLORS } from '../../../../base/styles/colors';
-import { platformType } from '../../../../utils/platformType';
+import { COLORS } from '../../base/styles/colors';
+import { platformType } from '../../utils/platformType';
+import { FONTS } from '../../base/styles';
 
 const styles = StyleSheet.create({
   inputContainer: {
@@ -12,7 +13,7 @@ const styles = StyleSheet.create({
 
   inputText: {
     marginHorizontal: 10,
-    fontFamily: 'Nunito-Regular',
+    fontFamily: FONTS.NUNITO_REGULAR,
     color: COLORS.TEXT_INPUT,
     fontWeight: 'bold',
     fontSize: 14,
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
   },
 
   inputPlaceholder: {
-    fontFamily: 'Nunito-Regular',
+    fontFamily: FONTS.NUNITO_REGULAR,
     color: COLORS.TEXT_INPUT_PLACEHOLDER,
   },
 });

@@ -40,6 +40,7 @@ import
   useCheckIfUserExistsLazyQuery,
   useOrderFormAddSellerCouponMutation,
   useOrderFormRefreshDataMutation,
+  type OrderformOutput,
 } from '../base/graphql/generated';
 import { splitSellerName } from '../utils/splitSellerName';
 import { getBrands } from '../utils/getBrands';
@@ -230,6 +231,7 @@ export interface OrderForm {
   clientPreferencesData: ClientPreferencesData;
   clientProfileData: ClientProfileData;
   giftRegistryData: any;
+  packageItems: OrderformOutput['packageItems'];
   items: IOrderFormItem[];
   loggedIn: boolean;
   marketingData: MarketingData;

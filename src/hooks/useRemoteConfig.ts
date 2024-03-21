@@ -52,6 +52,10 @@ export interface IRemoteConfigKeys {
   show_user_feedback_form: string;
   show_shelf: boolean;
   show_home_commercial_banner: boolean;
+  show_onep5p_bag: boolean;
+  show_onep5p_home: boolean;
+  show_onep5p_menu: boolean;
+  show_onep5p_pdp: boolean;
   show_kitlook: boolean;
   add_to_bag_button_is_fixed: boolean
   count_down_position: string;
@@ -104,6 +108,10 @@ export const defaults: IRemoteConfigKeys = {
   show_user_feedback_form: 'none',
   show_shelf: false,
   show_home_commercial_banner: false,
+  show_onep5p_bag: false,
+  show_onep5p_home: false,
+  show_onep5p_menu: false,
+  show_onep5p_pdp: false,
   show_kitlook: false,
   add_to_bag_button_is_fixed: false,
   count_down_position: 'A',

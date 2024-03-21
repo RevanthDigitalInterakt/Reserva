@@ -4,7 +4,7 @@ import type { Items } from './EventProvider/Event';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 type TTrackViewCartProps = {
-  items: OrderFormQuery['orderForm']['items'],
+  items: OrderFormQuery['orderForm']['packageItems'][0]['items'],
   price: number,
 };
 

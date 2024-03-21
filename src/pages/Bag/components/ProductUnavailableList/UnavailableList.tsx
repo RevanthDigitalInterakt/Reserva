@@ -8,13 +8,16 @@ import EventProvider from '../../../../utils/EventProvider';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import { Box } from '../../../../components/Box/Box';
 import { Divider } from '../../../../components/Divider/Divider';
+import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
 
 export function UnavailableList() {
-  const { actions, items } = useBagStore(['items', 'actions']);
+  const { actions, packageItems } = useBagStore(['packageItems', 'actions']);
 
   const navigation = useNavigation();
 
-  const unavailableList = useMemo(() => items.filter((item) => item.availability === 'available'), [items]);
+  const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
+
+  const unavailableList = useMemo(() => items.filter((item) => item.availability !== 'available'), [items]);
 
   const handleDeleteProductModal = useCallback((product: TItemBag, index: number) => {
     actions.ACTIVE_MODAL_DELETE_PRODUCT(product, index);

@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { platformType } from '../../../../utils/platformType';
 import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
@@ -8,20 +8,22 @@ import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { Box } from '../../../../components/Box/Box';
 import { Typography } from '../../../../components/Typography/Typography';
 import { Button } from '../../../../components/Button';
+import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
 
 export default function BagFooter() {
   const {
-    items,
+    packageItems,
     appTotalizers,
     installmentInfo,
   } = useBagStore([
     'appTotalizers',
     'topBarLoading',
     'installmentInfo',
-    'items',
+    'packageItems',
   ]);
 
   const { profile } = useAuthStore(['profile']);
+  const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
 
   const {
     handleNavigateToDelivery,

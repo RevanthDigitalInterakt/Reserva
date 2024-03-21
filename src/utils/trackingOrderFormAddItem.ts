@@ -5,10 +5,13 @@ import { defaultBrand } from './defaultWBrand';
 import { getBrands } from './getBrands';
 import type { OrderFormQuery } from '../base/graphql/generated';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
+import { mergeItemsPackage } from './mergeItemsPackage';
 
 export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderFormQuery['orderForm']) => {
   try {
-    const product = orderForm?.items.find(
+    const mergedItems = mergeItemsPackage(orderForm?.packageItems || []);
+
+    const product = mergedItems.find(
       (item) => item.id === id,
     );
 
@@ -27,7 +30,7 @@ export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderForm
       item_category: 'product',
       currency: 'BRL',
       seller: product.seller,
-      item_brand: getBrands(orderForm?.items || []),
+      item_brand: getBrands(mergedItems || []),
     });
 
     const ditoId = orderForm?.clientProfileData?.email

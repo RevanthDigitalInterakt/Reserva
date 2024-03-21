@@ -1,17 +1,39 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { Text, TouchableOpacity, View } from 'react-native';
-import type { ShippingStoreOutput } from '../../../../base/graphql/generated';
+import { useNavigation } from '@react-navigation/native';
+import type { ShippingSimulationOutput, ShippingStoreOutput } from '../../../../base/graphql/generated';
 import IconComponent from '../../../../components/IconComponent/IconComponent';
 import { pickUpItemStyle } from './styles/pickUpItem.styles';
+import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 
-type PickUpItemProps = {
+type TPickUpItemProps = {
   store: ShippingStoreOutput
+  deliveryOptions: ShippingSimulationOutput['delivery']['deliveryOptions'],
+  deliveryOptionsStore: ShippingSimulationOutput['storeList']['deliveryOptions']
 };
 
-export default function PickUpItem({ store }: PickUpItemProps): JSX.Element {
+export default function PickUpItem({
+  store,
+  deliveryOptions,
+  deliveryOptionsStore,
+}: Readonly<TPickUpItemProps>) {
+  const { actions } = useBagStore(['actions']);
+  const navigation = useNavigation();
+
+  const handleSetPickUpItemStore = useCallback(async () => {
+    await actions.ADD_DELIVERY_TO_PICKUP_IN_POINT(
+      deliveryOptionsStore,
+      store.address,
+    );
+
+    actions.ADD_DELIVERY_TYPE('Retire em loja', store.friendlyName);
+
+    navigation?.goBack();
+  }, [store, deliveryOptions, deliveryOptionsStore]);
+
   return (
-    <TouchableOpacity onPress={() => console.log('Clicou adicionar endereço')}>
+    <TouchableOpacity onPress={handleSetPickUpItemStore}>
       <View style={pickUpItemStyle.container}>
         <View style={pickUpItemStyle.textWrapper}>
           <Text style={pickUpItemStyle.friendlyNameText}>

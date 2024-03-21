@@ -25,6 +25,7 @@ import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 import { ModalSignIn } from '../../../../components/ModalSignIn';
 import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
 import IconPrime from '../../../../../assets/icons/IconPrime';
+import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
 
 interface ShowcaseDrawerProps {
   productData: IRsvProduct;
@@ -45,7 +46,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
   const [onLoading, setOnLoading] = useState(false);
   const [imageLoad, setImageLoad] = useState(false);
 
-  const { actions, items } = useBagStore(['actions', 'items']);
+  const { actions, packageItems } = useBagStore(['actions', 'packageItems']);
   const { profile } = useAuthStore(['profile']);
   const {
     changeStateAnimationBag,
@@ -57,13 +58,14 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
 
   const onAddToCart = useCallback(async () => {
     setOnLoading(true);
-    const orderFormItem = items.find((item) => item.id === productData.sku[0]?.sizes[0]?.skuId);
+    const mergeItems = mergeItemsPackage(packageItems);
+    const orderFormItem = mergeItems.find((item) => item.id === selectedSize);
 
     if (selectedSize === null) {
       Alert.alert('Erro', 'Selecione um tamanho para continuar!', [
         {
           text: 'Fechar',
-          onPress: () => {},
+          onPress: () => { },
         },
       ]);
 

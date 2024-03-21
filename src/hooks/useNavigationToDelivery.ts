@@ -1,5 +1,5 @@
 import {
-  useCallback, useEffect, useState,
+  useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
@@ -16,6 +16,7 @@ import { usePrimeStore } from '../zustand/usePrimeStore/usePrimeStore';
 import { useCart } from '../context/CartContext';
 import { usePageLoadingStore } from '../zustand/usePageLoadingStore/usePageLoadingStore';
 import { Method } from '../utils/EventProvider/Event';
+import { mergeItemsPackage } from '../utils/mergeItemsPackage';
 
 interface IUseNavigationToDeliveryReturn {
   handleNavigateToDelivery: (value: any) => void;
@@ -33,13 +34,13 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
   const needRefreshing = route.params?.needRefreshing;
 
   const {
-    items,
+    packageItems,
     orderFormId,
     actions,
     appTotalizers,
     hasPrimeSubscriptionInCart,
   } = useBagStore([
-    'items',
+    'packageItems',
     'orderFormId',
     'actions',
     'appTotalizers',
@@ -53,6 +54,8 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     'changeStateIsVisibleModalPrimeRemoved',
   ]);
 
+  const mergedItems = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
+
   useEffect(() => {
     if (needRefreshing) {
       actions.REFETCH_ORDER_FORM().then(() => {});
@@ -63,7 +66,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     try {
       const { total, discount, delivery } = appTotalizers;
 
-      const newItems = items.map((item) => ({
+      const newMergedItems = mergedItems.map((item) => ({
         price: (item.price / 100) || 0,
         item_id: item.productId,
         quantity: item.quantity,
@@ -75,34 +78,34 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
       EventProvider.logEvent('begin_checkout', {
         coupon: '',
         currency: 'BRL',
-        items: newItems,
+        items: newMergedItems,
         value: total + discount + delivery,
-        item_brand: getBrands(items),
+        item_brand: getBrands(mergedItems),
       });
 
       appsFlyer.logEvent('af_initiated_checkout', {
         af_content_type: 'product',
         af_price: total + discount + delivery,
         af_currency: 'BRL',
-        af_content_id: getAFContentId(items),
-        af_quantity: sumQuantity(items),
-        af_content: getAFContent(items),
+        af_content_id: getAFContentId(mergedItems),
+        af_quantity: sumQuantity(mergedItems),
+        af_content: getAFContent(mergedItems),
       });
 
-      const contentTypeItems = getAFContentType(items);
-      const contentIdsItems = getAFContentId(items);
+      const contentTypeItems = getAFContentType(mergedItems);
+      const contentIdsItems = getAFContentId(mergedItems);
 
       analytics().logEvent('checkout_initiated', {
         price: total + discount + delivery,
         content_type: JSON.stringify(contentTypeItems),
         content_ids: JSON.stringify(contentIdsItems),
         currency: 'BRL',
-        quantity: JSON.stringify(getAFContent(items)),
+        quantity: JSON.stringify(getAFContent(mergedItems)),
       });
     } catch (err) {
       ExceptionProvider.captureException(err);
     }
-  }, [appTotalizers, items]);
+  }, [appTotalizers, mergedItems]);
 
   const goToWebviewCheckout = useCallback((value: string) => {
     navigation.navigate('Checkout', {
@@ -112,12 +115,12 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
 
   const hasPrimeRemovedFromBag = useCallback(async (profile) => {
     if (profile?.isPrime && hasPrimeSubscriptionInCart && primeActive) {
-      const primeItemIndex = items.findIndex((item) => item.isPrimeSubscription);
+      const primeItemIndex = mergedItems.findIndex((item) => item.isPrimeSubscription);
 
       if (primeItemIndex !== -1) {
         changeStateIsVisibleModalPrimeRemoved(true);
 
-        await actions.UPDATE_PRODUCT_COUNT(primeItemIndex, items[primeItemIndex]!, 0);
+        await actions.UPDATE_PRODUCT_COUNT(primeItemIndex, mergedItems[primeItemIndex]!, 0);
 
         return true;
       }
@@ -128,12 +131,12 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     actions,
     changeStateIsVisibleModalPrimeRemoved,
     hasPrimeSubscriptionInCart,
-    items,
+    mergedItems,
     primeActive,
   ]);
 
   const handleNavigateToDelivery = useCallback(async (profile) => {
-    if (!items?.length) return;
+    if (!mergedItems?.length) return;
 
     if (!profile?.email) {
       navigation.navigate('Login', { comeFrom: 'BagScreen' });
@@ -165,7 +168,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     } catch (error) {
       ExceptionProvider.captureException(
         error,
-        { orderFormId, items },
+        { orderFormId, mergedItems },
         {},
         { message: 'Error [handleNavigateToDelivery]' },
       );
@@ -177,7 +180,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
   }, [
     setNavigateToDeliveryDisable,
     actions,
-    items,
+    mergedItems,
     navigation,
     onTrackCheckoutEvents,
     orderFormId,

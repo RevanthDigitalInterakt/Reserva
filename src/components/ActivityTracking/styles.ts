@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { COLORS, FONTS } from '../../base/styles';
-import { scale } from '../../utils/scale';
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,7 +8,6 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.WHITE,
     position: 'absolute',
     zIndex: 999,
-    paddingBottom: 100,
   },
 
   contentWrapper: {
@@ -20,12 +18,11 @@ export const styles = StyleSheet.create({
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
     overflow: 'hidden',
-    height: scale(320),
     width: '100%',
   },
 
   imageBackground: {
-    flex: 1,
+    height: 236,
   },
 
   linearGradientWrapper: {
@@ -36,28 +33,32 @@ export const styles = StyleSheet.create({
   },
 
   bannerInfoWrapper: {
-    alignItems: 'center',
+    marginLeft: 32,
     width: '100%',
-    alignSelf: 'flex-end',
-    marginTop: scale(66),
-    marginBottom: scale(24),
+    marginTop: 38,
+    marginBottom: 32,
   },
 
   bannerInfoText: {
     fontFamily: FONTS.RESERVA_SERIF_BOLD,
-    fontSize: 32,
+    fontSize: 28,
     color: COLORS.WHITE,
+    lineHeight: 30,
+    letterSpacing: 0.2,
   },
 
   iosInfoText: {
     fontFamily: FONTS.NUNITO_REGULAR,
     marginTop: 16,
     fontSize: 16,
+    lineHeight: 20,
+    width: '100%',
+    color: COLORS.EXTRA_LIGHT_GRAY,
   },
 
   trackingAgreementText: {
     fontFamily: FONTS.RESERVA_SERIF_MEDIUM,
-    marginTop: 24,
+    marginTop: 18,
     fontSize: 20,
   },
 
@@ -65,6 +66,8 @@ export const styles = StyleSheet.create({
     fontFamily: FONTS.NUNITO_REGULAR,
     marginTop: 16,
     fontSize: 16,
+    lineHeight: 20,
+    color: COLORS.EXTRA_LIGHT_GRAY,
   },
 
   trackingDoubtPressable: {
@@ -78,12 +81,17 @@ export const styles = StyleSheet.create({
   },
 
   darkButtonWrapper: {
-    paddingHorizontal: 106,
-    marginTop: 36,
+    position: 'absolute',
+    bottom: 24,
+    zIndex: 999,
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    height: 80,
   },
 
   infosWrapper: {
-    width: '73%',
+    width: '82%',
     marginTop: 16,
   },
 
@@ -91,6 +99,13 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 16,
+    width: '100%',
+  },
+
+  infoText: {
+    fontFamily: FONTS.NUNITO_SEMI_BOLD,
+    fontSize: 13,
+    marginLeft: 8,
   },
 
   infoIcon: {

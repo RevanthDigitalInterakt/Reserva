@@ -1,49 +1,58 @@
+import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import type { StackScreenProps } from '@react-navigation/stack';
-import { bagStyles } from './styles/bagStyles';
-import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
-import { EmptyBag } from './components/EmptyBag';
-import WithAvoidingView from '../../utils/WithAvoidingView';
-import ToastProvider from '../../utils/Toast';
-import BagSkeleton from './components/Skeleton';
-import useInitialBag from '../../zustand/useBagStore/useInitialBagStore/useInitialBag';
-import SkeletonBagFooter from './components/SkeletonBagFooter';
-import BagFooter from './components/BagFooter';
-import NotFoundProduct from './components/NotFoundProduct';
-import type { RootStackParamList } from '../../routes/StackNavigator';
-import EventProvider from '../../utils/EventProvider';
-import { useBagStore } from '../../zustand/useBagStore/useBagStore';
-import { Recommendation } from './components/Recommendation';
-import { ShippingBar } from './components/ShippingBar';
-import LoadingModal from './components/LoadingModal';
-import DeleteProductModal from './components/DeleteProduct';
-import BagProductList from './components/ProductList';
-import SelectableGifts from './components/SelectableGifts';
+
+import { TrackPageTypeEnum } from '../../base/graphql/generated';
 import { Box } from '../../components/Box/Box';
+import OneP5P from '../../components/OneP5P/OneP5P';
 import { Typography } from '../../components/Typography/Typography';
 import { useIsTester } from '../../hooks/useIsTester';
-import { trackAccessBag } from '../../utils/trackAccessBag';
-import { getBrands } from '../../utils/getBrands';
-import { trackViewCart } from '../../utils/trackViewCart';
-import CouponComponent from './components/Coupon';
-import { UnavailableList } from './components/ProductUnavailableList/UnavailableList';
-import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
-import { TrackPageTypeEnum } from '../../base/graphql/generated';
-import AddZipCodeDelivery from './components/AddZipCodeDelivery';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
+import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
+import type { RootStackParamList } from '../../routes/StackNavigator';
+import EventProvider from '../../utils/EventProvider';
+import ToastProvider from '../../utils/Toast';
+import WithAvoidingView from '../../utils/WithAvoidingView';
+import { getBrands } from '../../utils/getBrands';
+import { getSelectedDelivery } from '../../utils/getSelectedDelivery';
+import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
+import { trackAccessBag } from '../../utils/trackAccessBag';
+import { trackViewCart } from '../../utils/trackViewCart';
+import { useBagStore } from '../../zustand/useBagStore/useBagStore';
+import useInitialBag from '../../zustand/useBagStore/useInitialBagStore/useInitialBag';
+import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
+import AddZipCodeDelivery from './components/AddZipCodeDelivery';
+import BagFooter from './components/BagFooter';
+import CouponComponent from './components/Coupon';
+import DeleteProductModal from './components/DeleteProduct';
+import { EmptyBag } from './components/EmptyBag';
+import LoadingModal from './components/LoadingModal';
+import NotFoundProduct from './components/NotFoundProduct';
+import BagProductList from './components/ProductList';
+import BagProductPackageList from './components/ProductPackageList';
+import { UnavailableList } from './components/ProductUnavailableList/UnavailableList';
+import { Recommendation } from './components/Recommendation';
+import SelectableGifts from './components/SelectableGifts';
+import { ShippingBar } from './components/ShippingBar';
+import ShippingDataDetails from './components/ShippingDataDetails';
+import BagSkeleton from './components/Skeleton';
+import SkeletonBagFooter from './components/SkeletonBagFooter';
+import { bagStyles } from './styles/bagStyles';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
-export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
+export default function NewBag({ navigation }: TNewBagProps) {
   const isTester = useIsTester();
   const { getBoolean } = useRemoteConfig();
 
-  const showAddZipCodeDelivery = useMemo(() => getBoolean(isTester ? 'show_add_zip_code_delivery_tester' : 'show_add_zip_code_delivery'), [getBoolean, isTester]);
+  const showAddZipCodeDeliveryAB = useMemo(
+    () => getBoolean(isTester ? 'show_add_zip_code_delivery_tester' : 'show_add_zip_code_delivery'),
+    [getBoolean, isTester],
+  );
 
   const {
     topBarLoading,
-    items,
+    packageItems,
     initialLoad,
     initialized,
     productNotFound,
@@ -54,7 +63,7 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
     actions,
   } = useBagStore([
     'topBarLoading',
-    'items',
+    'packageItems',
     'initialLoad',
     'initialized',
     'productNotFound',
@@ -66,6 +75,15 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   ]);
 
   useInitialBag();
+
+  const hasSelectedAddressDelivery = useMemo(
+    () => packageItems.length >= 1 && !!packageItems[0]?.metadata?.availability,
+    [packageItems],
+  );
+
+  const selectedDelivery = useMemo(() => getSelectedDelivery(packageItems), [packageItems]);
+
+  const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
 
   const handleNavigateToCep = useCallback(() => {
     navigation.navigate('ZipCodeDelivery');
@@ -103,12 +121,16 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
     });
   }, [items]);
 
-  const hasUnavailableItems = useMemo(() => items.some((item) => item.availability !== 'available'), [items]);
+  const hasUnavailableItems = useMemo(
+    () => items.some((item) => item.availability !== 'available'),
+    [items],
+  );
+
+  const showOnep5p = useMemo(() => getBoolean('show_onep5p_bag'), []);
 
   useEffect(() => {
     if (initialized) {
       handleAbandonedCartTags();
-
       const type = items.length ? TrackPageTypeEnum.Cart : TrackPageTypeEnum.Emptycart;
       trackPageViewStore.getState().onTrackPageView('bag', type);
     }
@@ -119,8 +141,13 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
   }, [actions]);
 
   useEffect(() => {
-    trackAccessBag(allItemsQuantity, appTotalizers.total, getBrands(items), clientProfileData);
-  }, []);
+    trackAccessBag(
+      allItemsQuantity,
+      appTotalizers.total,
+      getBrands(items),
+      clientProfileData,
+    );
+  }, [items]);
 
   useEffect(() => {
     trackViewCart({ items, price: appTotalizers.total });
@@ -150,53 +177,67 @@ export default function NewBag({ navigation }: TNewBagProps): JSX.Element {
             {initialLoad && <BagSkeleton />}
 
             {!initialLoad && (
-            <>
-              {!!productNotFound.length && <NotFoundProduct />}
+              <>
+                {!!productNotFound.length && <NotFoundProduct />}
 
-              <ScrollView testID="com.usereserva:id/BagItensDetails">
-                <LoadingModal />
+                <ScrollView testID="com.usereserva:id/BagItensDetails">
+                  <LoadingModal />
 
-                <DeleteProductModal />
+                  <DeleteProductModal />
 
-                <Box paddingX="xxxs" paddingY="xxs">
-                  <Box bg="white" marginTop="xxs">
-                    <Typography
-                      variant="tituloSessoes"
-                      onPress={() => {
-                        if (isTester) {
-                          actions.COPY_ORDERFORM();
-                        }
-                      }}
-                    >
-                      {`Sacola  (${allItemsQuantity})`}
-                    </Typography>
+                  <Box paddingX="xxxs" paddingY="xxs">
+                    <Box bg="white" marginTop="xxs">
+                      <Typography
+                        variant="tituloSessoes"
+                        onPress={() => {
+                          if (isTester) {
+                            actions.COPY_ORDERFORM();
+                          }
+                        }}
+                      >
+                        Sacola
+                      </Typography>
+                    </Box>
+
+                    <ShippingBar loading={false} totalOrder={appTotalizers.total} />
+
+                    {showAddZipCodeDeliveryAB && (
+                      <Box bg="white" marginTop="xxs">
+                        {hasSelectedAddressDelivery ? (
+                          <ShippingDataDetails
+                            type={selectedDelivery.type}
+                            store={selectedDelivery.store}
+                            onPress={handleNavigateToCep}
+                          />
+                        )
+                          : (
+                            <AddZipCodeDelivery
+                              label="Selecione uma opção de entrega"
+                              onPress={handleNavigateToCep}
+                            />
+                          )}
+                      </Box>
+                    )}
+
+                    {selectableGift?.availableGifts?.length && (
+                      <SelectableGifts />
+                    )}
+
+                    {showAddZipCodeDeliveryAB ? <BagProductPackageList /> : <BagProductList />}
+
+                    {showOnep5p && (<OneP5P comingFrom="bag" itemQuantity={allItemsQuantity} />) }
+
+                    {!showAddZipCodeDeliveryAB && hasUnavailableItems && <UnavailableList />}
+
                   </Box>
 
-                  <ShippingBar loading={false} totalOrder={appTotalizers.total} />
+                  <Recommendation />
 
-                  {showAddZipCodeDelivery && (
-                    <Box bg="white" marginTop="xxs">
-                      <AddZipCodeDelivery
-                        label="Selecione uma opção de entrega"
-                        onPress={handleNavigateToCep}
-                      />
-                    </Box>
-                  )}
+                  <CouponComponent />
 
-                  {selectableGift?.availableGifts?.length && (
-                  <SelectableGifts />
-                  )}
+                </ScrollView>
+              </>
 
-                  <BagProductList />
-                </Box>
-
-                {hasUnavailableItems && <UnavailableList />}
-
-                <Recommendation />
-
-                <CouponComponent />
-              </ScrollView>
-            </>
             )}
 
             <Box width="100%" height={145} bg="white">

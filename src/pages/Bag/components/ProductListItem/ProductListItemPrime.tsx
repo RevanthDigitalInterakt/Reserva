@@ -13,7 +13,7 @@ import { slugify } from '../../../../utils/slugify';
 import testProps from '../../../../utils/testProps';
 
 interface IProductListItemPrime {
-  data: OrderFormQuery['orderForm']['items'][0];
+  data: OrderFormQuery['orderForm']['packageItems'][0]['items'][0]
   onPress: () => void;
   onDelete: () => void;
 }
@@ -22,7 +22,7 @@ function ProductListItemPrime({
   data,
   onPress,
   onDelete,
-}: IProductListItemPrime) {
+}: Readonly<IProductListItemPrime>) {
   const discountTag = useMemo(() => data.discountPercent > 0, [data?.discountPercent]);
 
   const price = useMemo(() => (data.price / 12) / 100, [data.price]);
@@ -165,7 +165,7 @@ function ProductListItemPrime({
             }}
             variant="icone"
             onPress={onDelete}
-            icon={<IconLegacy name="Close" size={11} color="preto" />}
+            icon={<IconLegacy name="Trash" size={24} color="preto" />}
           />
         </Box>
       </Box>

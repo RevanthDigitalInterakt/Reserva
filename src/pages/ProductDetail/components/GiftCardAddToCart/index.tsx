@@ -13,10 +13,11 @@ import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider'
 import { NewButton } from '../../../../components/NewButton';
 import { NewCheckBox } from '../../../../components/NewCheckBox';
 import styles from './styles';
+import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
 
 export function GiftCardAddToCart() {
   const { restoreCart } = useCart();
-  const { actions, items, orderFormId } = useBagStore(['actions', 'orderFormId', 'items']);
+  const { actions, packageItems, orderFormId } = useBagStore(['actions', 'orderFormId', 'packageItems']);
   const {
     productDetail,
     selectedGiftCardSku,
@@ -37,7 +38,9 @@ export function GiftCardAddToCart() {
 
   const selectedGiftCard = useMemo(() => {
     if (!selectedGiftCardSku) return null;
-    return productDetail?.giftCard?.options?.find((option) => option.itemId === selectedGiftCardSku);
+    return productDetail?.giftCard?.options?.find(
+      (option) => option.itemId === selectedGiftCardSku,
+    );
   }, [selectedGiftCardSku, productDetail?.giftCard?.options]);
 
   const addTagsUponCartUpdate = useCallback(() => {
@@ -74,7 +77,8 @@ export function GiftCardAddToCart() {
 
       setLoading(true);
 
-      const orderFormItem = items.find((item) => item.id === selectedGiftCard!.itemId);
+      const mergeItems = mergeItemsPackage(packageItems);
+      const orderFormItem = mergeItems.find((item) => item.id === selectedGiftCard!.itemId);
 
       await actions.ADD_ITEM(
         '1',
@@ -87,8 +91,10 @@ export function GiftCardAddToCart() {
       setShowAnimationBag(true);
       addTagsUponCartUpdate();
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, { orderFormId });
       Alert.alert('Ocorreu um erro', err.message);
+
+      actions.CREATE_NEW_ORDER_FORM();
     } finally {
       setLoading(false);
     }
@@ -96,7 +102,7 @@ export function GiftCardAddToCart() {
     actions,
     addTagsUponCartUpdate,
     loading,
-    items,
+    packageItems,
     orderFormId,
     restoreCart,
     selectedSize,

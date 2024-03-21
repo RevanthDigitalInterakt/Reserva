@@ -22,7 +22,7 @@ describe('trackEventDitoStatusCart', () => {
     const { result } = renderHook(() => useAsyncStorageProvider());
     await result.current.setItem('@Dito:userRef', '03902d9c2961b437d2b6d247693b9cbe792ec5fc3216f');
 
-    const items = mockResponseItems as OrderFormQuery['orderForm']['items'];
+    const items = mockResponseItems as OrderFormQuery['orderForm']['packageItems'][0]['items'];
 
     await trackEventDitoStatusCart({
       items,

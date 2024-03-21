@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
+import { View } from 'react-native';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import type { TItemBag } from '../../../../zustand/useBagStore/types/bagStore';
 import EventProvider from '../../../../utils/EventProvider';
@@ -10,11 +11,13 @@ import { getBrands } from '../../../../utils/getBrands';
 import { useCart } from '../../../../context/CartContext';
 import ProductListItem from '../ProductListItem';
 import ProductListItemPrime from '../ProductListItem/ProductListItemPrime';
+import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
 
 export default function BagProductList() {
   const { orderForm } = useCart();
-  const { actions, items } = useBagStore(['actions', 'items']);
+  const { actions, packageItems } = useBagStore(['actions', 'packageItems']);
   const navigation = useNavigation();
+  const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
 
   const availableList = useMemo(() => items.filter((item) => item.availability === 'available'), [items]);
 
@@ -100,19 +103,19 @@ export default function BagProductList() {
   }, [navigation]);
 
   return (
-    <>
+    <View style={{ gap: 25 }}>
       {availableList.map((item, index: number) => {
         if (item.sellingPrice !== 0 && item.isGift === false) {
           return item.isPrimeSubscription ? (
             <ProductListItemPrime
-              key={item.key}
+              key={`${item.productId}-${String(item.index)}`}
               data={item}
               onDelete={() => handleDeleteProductModal(item, index)}
               onPress={() => handleNavigationToDetail(item)}
             />
           ) : (
             <ProductListItem
-              key={item.key}
+              key={`${item.productId}-${String(item.index)}`}
               data={item}
               onAddCount={(count) => handleAddCount(count, item, index)}
               onSubCount={(count) => handleSubCount(count, item.quantity, item, index)}
@@ -127,6 +130,6 @@ export default function BagProductList() {
 
         return null;
       })}
-    </>
+    </View>
   );
 }

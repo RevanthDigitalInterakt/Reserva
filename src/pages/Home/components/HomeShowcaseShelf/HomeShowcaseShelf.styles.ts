@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
   },
-  shelfName: {
+  shelfTitle: {
     fontFamily: FONTS.RESERVA_DISPLAY_REGULAR,
     fontSize: 24,
   },

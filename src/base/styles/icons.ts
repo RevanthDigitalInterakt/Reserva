@@ -94,6 +94,9 @@ export const commons = {
   reservaIcon: require('../../../assets/common/reserva-icon.png'),
   greenCheck: require('../../../assets/common/green-check.png'),
   config: require('../../../assets/common/config.png'),
+  cutlery: require('../../../assets/common/cutlery.png'),
+  green1p5p: require('../../../assets/common/green1p5p.png'),
+  black1p5p: require('../../../assets/common/black1p5p.png'),
   chevronLeftFill: require('../../../assets/common/chevronLeftFill.png'),
   chevronRightFill: require('../../../assets/common/chevronRightFill.png'),
   addition: require('../../../assets/common/addition.png'),
@@ -106,6 +109,7 @@ export const svgs = {
   chevronRight: require('../svgs/ChevronRight').default,
   info: require('../svgs/Info').default,
   infoSuccess: require('../svgs/InfoSuccess').default,
+  closeIcon: require('../svgs/CloseIcon').default,
   trash: require('../svgs/Trash').default,
 };
 

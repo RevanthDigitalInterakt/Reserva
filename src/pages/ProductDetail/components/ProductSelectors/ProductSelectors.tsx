@@ -27,6 +27,7 @@ import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { RouletCouponCard } from '../../../Home/components/RouletCouponCard';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import ProductAddToCart from '../ProductAddToCart';
+import OneP5P from '../../../../components/OneP5P/OneP5P';
 
 function ProductSelectors() {
   const [showModal, setShowModal] = useState(false);
@@ -56,6 +57,8 @@ function ProductSelectors() {
 
   const { getBoolean } = useRemoteConfig();
   const showRoulet = getBoolean('show_roulet');
+  const showOnep5p = useMemo(() => getBoolean('show_onep5p_pdp'), []);
+  const addToBagButtonIsFixed = useMemo(() => getBoolean('add_to_bag_button_is_fixed'), []);
 
   const doSelectSizeTrack = useCallback(() => {
     try {
@@ -137,7 +140,6 @@ function ProductSelectors() {
     };
   }, [selectedSize, doSelectSizeTrack]);
 
-  const addToBagButtonIsFixed = getBoolean('add_to_bag_button_is_fixed');
   const handleSelectedItem = useMemo(() => {
     if (addToBagButtonIsFixed) {
       return sizeIsSelected ? selectedSize?.size || '' : '';
@@ -195,6 +197,7 @@ function ProductSelectors() {
               />
             </Box>
           </Box>
+          {showOnep5p && addToBagButtonIsFixed && (<OneP5P comingFrom="PDP" />)}
 
           {!selectedSize?.availableQuantity && (
           <Box mt="xxs" flexDirection="row" alignItems="center">
