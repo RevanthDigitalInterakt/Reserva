@@ -1037,10 +1037,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@datadog/mobile-react-native@1.8.2":
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/@datadog/mobile-react-native/-/mobile-react-native-1.8.2.tgz#66dad6619d8a692a2487284a5fdb5cea7930d789"
-  integrity sha512-DO+jQKVUk7FGstDA/VoMwgpZ43dReMxiDMr8SRDwA2mMJXxyo8Nc6ZNiN7gS7r/uIt4oFbPQtOFT5MsW2NDCYg==
+"@datadog/mobile-react-native@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@datadog/mobile-react-native/-/mobile-react-native-2.2.0.tgz#337ddfbc1f542ce1265bd49272f3cc7be7893b9b"
+  integrity sha512-reOflI+3dEHwv0CMDUQZI/xBx/u1dfhU+Gy4IJotYRMkLPM3omNlDOLrX5iQhyiioJVRnOSLdMqTYQC2IhuckQ==
 
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
