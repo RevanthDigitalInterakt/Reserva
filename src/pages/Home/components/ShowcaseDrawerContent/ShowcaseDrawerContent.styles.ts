@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     marginVertical: 10,
   },
 
-  flagContainer: {
+  flagContent: {
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
@@ -145,21 +145,52 @@ export const styles = StyleSheet.create({
     position: 'absolute',
   },
 
-  radionButtonContainer: {
-    borderWidth: 1,
-    borderColor: COLORS.SHELF_GRAY,
-    width: 22,
-    height: 22,
-    borderRadius: 22,
+  flagContainer: {
+    position: 'absolute',
+    top: 190,
+    left: 10,
+  },
+
+  textLink: {
+    textDecorationLine: 'underline',
+    fontFamily: FONTS.WORK_SANS_REGULAR,
+    fontSize: 10,
+  },
+
+  cashbackFlagContainer: {
+    backgroundColor: COLORS.BACKGROUND_LICHT_GRAY,
+    padding: 6,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 10,
+    borderRadius: 50,
+    marginTop: 15,
+    flexDirection: 'row',
+  },
+
+  priceSliderContainer: {
+    width: '45%',
+    flexDirection: 'row',
+  },
+
+  radioButtonContainer: {
+    borderWidth: 1,
+    width: 25,
+    height: 25,
+    borderRadius: 40,
+    marginRight: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   radioButtonContent: {
-    width: 15,
-    height: 15,
-    backgroundColor: COLORS.BLACK,
-    borderRadius: 15,
+    width: 18,
+    height: 18,
+    borderRadius: 50,
+  },
+
+  divider: {
+    width: '10%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import type { IRsvProduct } from '../HomeShowcase/HomeShowcase';
 import { decimalPart, integerPart } from '../../../Bag/components/ProductListItem/ProductListItemDiscount.utils';
 import { styles } from './ShowcaseDrawerContent.styles';
@@ -19,17 +20,19 @@ import { useProductLazyQuery, type ProductQuery } from '../../../../base/graphql
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 import IconAddToFavorite from '../../../../../assets/icons/IconAddToFavorite';
-import IconPrime from '../../../../../assets/icons/IconPrime';
 import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 import { ModalSignIn } from '../../../../components/ModalSignIn';
 import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
+import IconPrime from '../../../../../assets/icons/IconPrime';
 
 interface ShowcaseDrawerProps {
   productData: IRsvProduct;
 }
 
 export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerProps) {
+  const { navigate } = useNavigation();
+
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [product, setProduct] = useState<ProductQuery['product'] | undefined>(undefined);
@@ -38,7 +41,9 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
   const [priceTypeSelected, setPriceTypeSelected] = useState('');
   const [isModalSignInVisible, setIsModalSignInVisible] = useState(false);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
+  const [productImage, setProductImage] = useState('');
   const [onLoading, setOnLoading] = useState(false);
+  const [imageLoad, setImageLoad] = useState(false);
 
   const { actions, items } = useBagStore(['actions', 'items']);
   const { profile } = useAuthStore(['profile']);
@@ -78,6 +83,8 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
   const onSelectColor = useCallback((colorID: string) => {
     setSelectedColor(colorID);
     const sizes = product?.colors.find((x) => x.colorId === colorID);
+    setProductImage(sizes?.images[0] || '');
+
     setProductSizes(sizes?.sizes);
   }, [product]);
 
@@ -135,6 +142,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
   });
 
   const onLoadProduct = useCallback(async () => {
+    setImageLoad(true);
     const params = {
       productId: productData.productId,
       colorSelected: productData.sku[0]?.colorHex || COLORS.WHITE,
@@ -151,9 +159,12 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
 
       if (data?.product) {
         setProduct(data.product);
+        setProductImage(data.product.initialColor?.images[0] || productData.image);
+        setImageLoad(false);
       }
     } catch (err) {
       ExceptionProvider.captureException(err);
+      setImageLoad(false);
     }
   }, [getProduct]);
 
@@ -162,6 +173,13 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
       changeStateAnimationBag(true);
     }
   }, [changeStateAnimationBag, isPrime]);
+
+  const onNavigate = () => {
+    navigate('ProductDetail', {
+      productId: productData.productId,
+      colorSelected: productData.sku[0]?.colorHex || COLORS.WHITE,
+    });
+  };
 
   useEffect(() => {
     onLoadProduct();
@@ -176,12 +194,23 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
         onModalHide={handleOnModalHideSignIn}
       />
       <View style={styles.row}>
-        <Image source={{ uri: productData.image }} style={styles.productImage} />
-        <View style={{ position: 'absolute', top: 190 }}>
+        {imageLoad ? (
+          <View style={[styles.productImage, { alignItems: 'center', justifyContent: 'center' }]}>
+            <ActivityIndicator size="large" color={COLORS.BLACK} />
+          </View>
+        ) : (
+          <Image
+            source={{
+              uri: productImage,
+            }}
+            style={styles.productImage}
+          />
+        )}
+        <View style={styles.flagContainer}>
           {productData.flags.map((flag) => (
             <View key={flag.value}>
               {flag.type === 'savings' && (
-                <View style={styles.flagContainer}>
+                <View style={styles.flagContent}>
                   <Text style={styles.flagTitle}>{`${flag.value}%`}</Text>
                   <Text style={styles.discountFlagTitle}>Off</Text>
                 </View>
@@ -192,8 +221,8 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
         <View style={{ flexShrink: 1 }}>
           <Text style={styles.productTitle}>{productData.productName}</Text>
 
-          <TouchableOpacity>
-            <Text style={{ textDecorationLine: 'underline', fontFamily: FONTS.WORK_SANS_REGULAR, fontSize: 10 }}>Ver página do produto</Text>
+          <TouchableOpacity onPress={onNavigate}>
+            <Text style={styles.textLink}>Ver página do produto</Text>
           </TouchableOpacity>
 
           <Text style={styles.label}>Cor:</Text>
@@ -204,6 +233,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
             showsHorizontalScrollIndicator={false}
             renderItem={({ item }) => (
               <TouchableOpacity
+                disabled={item.disabled}
                 onPress={() => onSelectColor(item.colorId || '0')}
                 style={[styles.listColorsContainer, {
                   borderColor: selectedColor === item.colorId
@@ -214,7 +244,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
                   source={{ uri: item.colorUrl }}
                   style={[
                     styles.listColorsProductItem,
-                    { opacity: item.disabled ? 1 : 1 },
+                    { opacity: item.disabled ? 0.7 : 1 },
                   ]}
                 />
               </TouchableOpacity>
@@ -255,15 +285,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
             <View key={flag.type}>
               {flag.type === 'cashback' && (
                 <View
-                  style={{
-                    backgroundColor: COLORS.BACKGROUND_LICHT_GRAY,
-                    padding: 6,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: 50,
-                    marginTop: 15,
-                    flexDirection: 'row',
-                  }}
+                  style={styles.cashbackFlagContainer}
                 >
                   <Text style={[
                     styles.flagTitle,
@@ -289,29 +311,19 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
       <View style={{ paddingHorizontal: 5 }}>
         <Text style={styles.label}>Preço:</Text>
         <View style={styles.row}>
-          <View style={{ width: '45%', flexDirection: 'row' }}>
-            {/* <TouchableOpacity
-              onPress={() => onSelectPrice(productData.prices.salePrice, 'normalPrice')}
-              style={{
-                borderWidth: 1,
-                width: 25,
-                height: 25,
-                borderRadius: 40,
-                marginRight: 5,
-                borderColor: COLORS.COLOR_SELECTOR_GRAY,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <View
-                style={{
-                  backgroundColor: priceTypeSelected === 'normalPrice' ? COLORS.BLACK : '#fff',
-                  width: 18,
-                  height: 18,
-                  borderRadius: 50,
-                }}
-              />
-            </TouchableOpacity> */}
+          <View style={styles.priceSliderContainer}>
+            {product && product?.initialSize?.prime !== null && (
+              <TouchableOpacity
+                onPress={() => onSelectPrice(productData.prices.salePrice, 'normalPrice')}
+                style={[styles.radioButtonContainer, { borderColor: COLORS.COLOR_SELECTOR_GRAY }]}
+              >
+                <View
+                  style={[styles.radioButtonContent,
+                    { backgroundColor: priceTypeSelected === 'normalPrice' ? COLORS.BLACK : '#fff' },
+                  ]}
+                />
+              </TouchableOpacity>
+            )}
             <View style={[styles.row, { alignItems: 'center' }]}>
               <Text>
                 <Text style={[styles.productCurrencyLabel,
@@ -339,53 +351,46 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
             </View>
           </View>
 
-          {/* <View style={{ width: '10%', alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ fontSize: 20, color: COLORS.COLOR_SELECTOR_GRAY }}>|</Text>
-          </View>
-
-          <View style={[styles.row, { alignItems: 'center', width: '40%' }]}>
-            <TouchableOpacity
-              onPress={() => onSelectPrice(productData.prices.salePrice, 'prime')}
-              style={{
-                borderWidth: 1,
-                width: 25,
-                height: 25,
-                borderRadius: 40,
-                marginRight: 5,
-                borderColor: COLORS.PRIME_COLOR,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <View
-                style={{
-                  backgroundColor: priceTypeSelected === 'prime' && isPrime ? COLORS.PRIME_COLOR : '#fff',
-                  width: 18,
-                  height: 18,
-                  borderRadius: 50,
-                }}
-              />
-            </TouchableOpacity>
-            <Text>
-              <Text style={[styles.productCurrencyLabel,
-                { color: COLORS.PRIME_COLOR }]}
-              >
-                R$
-                {' '}
-              </Text>
-            </Text>
-            <Text style={[styles.productListPriceLabel, { color: COLORS.PRIME_COLOR }]}>
-              {`${integerPart(productData.prices.salePrice || 0)},`}
-            </Text>
-            <Text style={[
-              styles.productPriceCentsLabel, { color: COLORS.PRIME_COLOR, marginTop: -3 }]}
-            >
-              {`${decimalPart(productData.prices.salePrice || 0)}`}
-            </Text>
-            <View style={{ marginLeft: 15 }}>
-              <IconPrime />
+          {product && product?.initialSize?.prime !== null && (
+            <View style={styles.divider}>
+              <Text style={{ fontSize: 20, color: COLORS.COLOR_SELECTOR_GRAY }}>|</Text>
             </View>
-          </View> */}
+          )}
+
+          {product && product?.initialSize?.prime !== null && (
+            <View style={[styles.row, { alignItems: 'center', width: '40%' }]}>
+              <TouchableOpacity
+                onPress={() => onSelectPrice(productData.prices.salePrice, 'prime')}
+                style={[styles.radioButtonContainer, { borderColor: COLORS.PRIME_COLOR }]}
+              >
+                <View
+                  style={[
+                    styles.radioButtonContent,
+                    { backgroundColor: priceTypeSelected === 'prime' && isPrime ? COLORS.PRIME_COLOR : '#fff' },
+                  ]}
+                />
+              </TouchableOpacity>
+              <Text>
+                <Text style={[styles.productCurrencyLabel,
+                  { color: COLORS.PRIME_COLOR }]}
+                >
+                  R$
+                  {' '}
+                </Text>
+              </Text>
+              <Text style={[styles.productListPriceLabel, { color: COLORS.PRIME_COLOR }]}>
+                {`${integerPart(productData.prices.salePrice || 0)},`}
+              </Text>
+              <Text style={[
+                styles.productPriceCentsLabel, { color: COLORS.PRIME_COLOR, marginTop: -3 }]}
+              >
+                {`${decimalPart(productData.prices.salePrice || 0)}`}
+              </Text>
+              <View style={{ marginLeft: 15 }}>
+                <IconPrime />
+              </View>
+            </View>
+          )}
         </View>
 
         <View style={styles.content}>
