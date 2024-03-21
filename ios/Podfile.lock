@@ -649,14 +649,28 @@ PODS:
     - JWT (~> 3.0.0-beta.12)
     - React-Core
     - SSZipArchive (~> 2.2.2)
-  - DatadogSDK (1.22.0)
-  - DatadogSDKCrashReporting (1.22.0):
-    - DatadogSDK (= 1.22.0)
-    - PLCrashReporter (~> 1.11.0)
-  - DatadogSDKReactNative (1.8.2):
-    - DatadogSDK (~> 1.22.0)
-    - DatadogSDKCrashReporting (~> 1.22.0)
+  - DatadogCore (2.7.1):
+    - DatadogInternal (= 2.7.1)
+  - DatadogCrashReporting (2.7.1):
+    - DatadogInternal (= 2.7.1)
+    - PLCrashReporter (~> 1.11.1)
+  - DatadogInternal (2.7.1)
+  - DatadogLogs (2.7.1):
+    - DatadogInternal (= 2.7.1)
+  - DatadogRUM (2.7.1):
+    - DatadogInternal (= 2.7.1)
+  - DatadogSDKReactNative (2.2.0):
+    - DatadogCore (~> 2.7.1)
+    - DatadogCrashReporting (~> 2.7.1)
+    - DatadogLogs (~> 2.7.1)
+    - DatadogRUM (~> 2.7.1)
+    - DatadogTrace (~> 2.7.1)
+    - DatadogWebViewTracking (~> 2.7.1)
     - React-Core
+  - DatadogTrace (2.7.1):
+    - DatadogInternal (= 2.7.1)
+  - DatadogWebViewTracking (2.7.1):
+    - DatadogInternal (= 2.7.1)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.72.12)
   - FBReactNativeSpec (0.72.12):
@@ -956,9 +970,9 @@ PODS:
     - Base64 (~> 1.1.2)
   - leveldb-library (1.22.4)
   - libevent (2.1.12)
-  - lottie-ios (3.4.4)
-  - lottie-react-native (5.1.6):
-    - lottie-ios (~> 3.4.0)
+  - lottie-ios (4.4.1)
+  - lottie-react-native (6.7.0):
+    - lottie-ios (~> 4.4.1)
     - React-Core
   - nanopb (2.30909.1):
     - nanopb/decode (= 2.30909.1)
@@ -1636,8 +1650,13 @@ SPEC REPOS:
     - AppsFlyerFramework
     - Base64
     - BoringSSL-GRPC
-    - DatadogSDK
-    - DatadogSDKCrashReporting
+    - DatadogCore
+    - DatadogCrashReporting
+    - DatadogInternal
+    - DatadogLogs
+    - DatadogRUM
+    - DatadogTrace
+    - DatadogWebViewTracking
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -1865,9 +1884,14 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   CodePush: 9eddecce05cd10491e2673b259c85885a462be33
-  DatadogSDK: 46e1a7363bc3130fae151ec4aedf11ea291517c5
-  DatadogSDKCrashReporting: 24a0e6ec6db905cdeb174721962a7941b2f8a9d2
-  DatadogSDKReactNative: d4372ad5eb31c6516f9ef43162ab715024b8db7d
+  DatadogCore: 4a4cdf7beca3aa12b7095bebd926acea1a865a99
+  DatadogCrashReporting: f8b4ea638acaf58b68bbc51cb62a2d876f763241
+  DatadogInternal: b9217da25018284c087a2ed4b9bb3b0f26c767c0
+  DatadogLogs: 3b4132eefa67f196bb3ab2d603c1a2acd1292615
+  DatadogRUM: 8845815ba89f5ab8ceee765ee268f7de36f3e35d
+  DatadogSDKReactNative: df8874f04262606461d8db6b48d6be145d3bf483
+  DatadogTrace: a63da746c609bd4c683bca61a94429889e33b11e
+  DatadogWebViewTracking: 713f862ddd89173e0a3f5342cefa23def40f0f48
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: a31ac2336aea59512b5b982f8e231f65d7d148e1
   FBReactNativeSpec: 0976da6bc1ebd3ea9b3a65d04be2c0117d304c4c
@@ -1903,8 +1927,8 @@ SPEC CHECKSUMS:
   JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
   leveldb-library: 06a69cc7582d64b29424a63e085e683cc188230a
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  lottie-ios: 8f97d3271e155c2d688875c29cd3c74908aef5f8
-  lottie-react-native: 8f9d4be452e23f6e5ca0fdc11669dc99ab52be81
+  lottie-ios: e047b1d2e6239b787cc5e9755b988869cf190494
+  lottie-react-native: e3205322282d72e23efb3bff3287d0bd16fb1b01
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   OneSignal: 65c17edb3d9d26e355249f97340c1386d87e168c
   OneSignalXCFramework: ff1c970b7aeb4ac0fe48fb35393eb5d8bf378135
