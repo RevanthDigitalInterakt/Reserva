@@ -9,18 +9,21 @@ import {
   View,
 } from 'react-native';
 import type { IRsvProduct } from '../HomeShowcase/HomeShowcase';
-import IconLineBlock from '../../../../../assets/icons/IconLineBlock';
 import { decimalPart, integerPart } from '../../../Bag/components/ProductListItem/ProductListItemDiscount.utils';
-import IconAddToFavorite from '../../../../../assets/icons/IconAddToFavorite';
 import { styles } from './ShowcaseDrawerContent.styles';
-import { COLORS } from '../../../../base/styles';
+import { COLORS, FONTS } from '../../../../base/styles';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import useWishlistStore from '../../../../zustand/useWishlistStore';
-import IconCheck from '../../../../../assets/icons/IconCheck';
 import { getProductLoadType } from '../../../ProductDetail/utils/getProductLoadType';
 import { useProductLazyQuery, type ProductQuery } from '../../../../base/graphql/generated';
 import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
+import IconAddToFavorite from '../../../../../assets/icons/IconAddToFavorite';
+import IconPrime from '../../../../../assets/icons/IconPrime';
+import { useAuthStore } from '../../../../zustand/useAuth/useAuthStore';
+import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
+import { ModalSignIn } from '../../../../components/ModalSignIn';
+import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
 
 interface ShowcaseDrawerProps {
   productData: IRsvProduct;
@@ -32,10 +35,19 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
   const [product, setProduct] = useState<ProductQuery['product'] | undefined>(undefined);
   const [selectedPrice, setSelectedPrice] = useState(productData.prices.salePrice || 0);
   const [productSizes, setProductSizes] = useState<any>([]);
+  const [priceTypeSelected, setPriceTypeSelected] = useState('');
+  const [isModalSignInVisible, setIsModalSignInVisible] = useState(false);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const [onLoading, setOnLoading] = useState(false);
 
   const { actions, items } = useBagStore(['actions', 'items']);
+  const { profile } = useAuthStore(['profile']);
+  const {
+    changeStateAnimationBag,
+  } = usePrimeStore([
+    'changeStateAnimationBag',
+  ]);
+  const { isPrime } = usePrimeInfo();
   const { onFavorite, favorites, onUnfavorite } = useWishlistStore(['onFavorite', 'favorites', 'onUnfavorite']);
 
   const onAddToCart = useCallback(async () => {
@@ -66,7 +78,6 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
   const onSelectColor = useCallback((colorID: string) => {
     setSelectedColor(colorID);
     const sizes = product?.colors.find((x) => x.colorId === colorID);
-    console.log(sizes?.sizes[0]);
     setProductSizes(sizes?.sizes);
   }, [product]);
 
@@ -74,7 +85,18 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
     setSelectedSize(sizeID);
   }, []);
 
-  const onSelectPrice = useCallback((price: number) => {
+  const onSelectPrice = useCallback((price: number, priceType: string) => {
+    if (priceType === 'prime') {
+      setPriceTypeSelected(priceType);
+
+      if (!profile?.isPrime && !isPrime) {
+        setIsModalSignInVisible(true);
+      }
+
+      return;
+    }
+
+    setPriceTypeSelected(priceType);
     setSelectedPrice(price);
   }, []);
 
@@ -127,8 +149,6 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
         throw new Error(error?.message || 'Ocorreu um erro ao carregar o produto.');
       }
 
-      // console.log(data.product.colors);
-
       if (data?.product) {
         setProduct(data.product);
       }
@@ -137,183 +157,251 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
     }
   }, [getProduct]);
 
+  const handleOnModalHideSignIn = useCallback(() => {
+    if (isPrime) {
+      changeStateAnimationBag(true);
+    }
+  }, [changeStateAnimationBag, isPrime]);
+
   useEffect(() => {
     onLoadProduct();
-  }, [onLoadProduct]);
+    setProductSizes(product?.colors[0]?.sizes || []);
+  }, [onLoadProduct, product]);
 
   return (
     <View style={styles.container}>
-      <View>
-        {productData.flags.map((flag) => (
-          <View key={flag.value}>
-            {flag.type === 'savings' && (
-              <View style={styles.flagContainer}>
-                <Text style={styles.flagTitle}>{`${flag.value}%`}</Text>
-                <Text style={styles.discountFlagTitle}>Off</Text>
-              </View>
-            )}
-          </View>
-        ))}
-      </View>
-
-      <View style={styles.content}>
-        <Text style={styles.productTitle}>{productData.productName}</Text>
-      </View>
-
-      <FlatList
-        horizontal
-        keyExtractor={(item) => String(item)}
-        data={product?.initialColor?.images || []}
-        renderItem={({ item }) => (
-          <Image source={{ uri: item }} style={styles.productImage} />
-        )}
-        showsHorizontalScrollIndicator={false}
+      <ModalSignIn
+        isVisible={isModalSignInVisible}
+        onClose={() => setIsModalSignInVisible(false)}
+        onModalHide={handleOnModalHideSignIn}
       />
-
-      {/* <View style={styles.content}>
+      <View style={styles.row}>
         <Image source={{ uri: productData.image }} style={styles.productImage} />
-      </View> */}
-
-      <View style={styles.content}>
-        <Text style={styles.label}>Cor:</Text>
-
-        <FlatList
-          data={product?.colors}
-          keyExtractor={(item) => String(item.colorId)}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => onSelectColor(item.colorId || '0')}>
-              <Image
-                source={{ uri: item.colorUrl }}
-                style={[
-                  styles.listColorsProductItem,
-                  { opacity: item.disabled ? 1 : 1 },
-                ]}
-              />
-              {selectedColor === item.colorId && (
-                <View style={styles.listColorsContent}>
-                  <IconCheck />
+        <View style={{ position: 'absolute', top: 190 }}>
+          {productData.flags.map((flag) => (
+            <View key={flag.value}>
+              {flag.type === 'savings' && (
+                <View style={styles.flagContainer}>
+                  <Text style={styles.flagTitle}>{`${flag.value}%`}</Text>
+                  <Text style={styles.discountFlagTitle}>Off</Text>
                 </View>
               )}
-            </TouchableOpacity>
-          )}
-        />
-
-        {/* <View style={styles.listColorsProductContent}>
-          <TouchableOpacity
-            onPress={() => onSelectColor(productData.sku[0]?.colorRefId || '0')}
-            style={[
-              styles.listColorsProductItem,
-              { backgroundColor: productData.sku[0]?.colorHex || COLORS.WHITE }]}
-          >
-            {selectedColor !== null && (
-              <IconCheck />
-            )}
-          </TouchableOpacity>
-        </View> */}
-      </View>
-
-      <View style={styles.content}>
-        <Text style={styles.label}>Tamanho:</Text>
-        <FlatList
-          data={productSizes}
-          keyExtractor={(item) => String(item.skuName)}
-          horizontal
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => onSelectSize(item.itemId)}
-              style={[styles.listSizesItem,
-                {
-                  backgroundColor: selectedColor !== null
-                  && selectedSize === item.itemId ? COLORS.BLACK : COLORS.WHITE,
-                  opacity: item.disabled ? 0.3 : 1,
-                },
-              ]}
-            >
-              <Text style={[styles.listSizesProductItemText,
-                {
-                  color: selectedSize !== null
-                  && selectedSize === item.itemId ? COLORS.WHITE : COLORS.BLACK,
-                },
-              ]}
-              >
-                {item.size}
-              </Text>
-            </TouchableOpacity>
-          )}
-        />
-        {/* <View style={styles.listColorsProductContent}>
-          {productData.sku[0]?.sizes.map((size) => (
-            <TouchableOpacity
-              onPress={() => onSelectSize(size.skuId)}
-              key={size.skuId}
-              style={[styles.listSizesItem,
-                {
-                  backgroundColor: selectedSize !== null
-                  && selectedSize === size.skuId ? COLORS.BLACK : COLORS.WHITE,
-                  opacity: size.disabled ? 0.3 : 1,
-                }]}
-              disabled={size.disabled}
-            >
-              <Text style={[styles.listSizesProductItemText,
-                {
-                  color: selectedSize !== null
-                  && selectedSize === size.skuId ? COLORS.WHITE : COLORS.BLACK,
-                }]}
-              >
-                {size.value}
-              </Text>
-            </TouchableOpacity>
+            </View>
           ))}
-        </View> */}
+        </View>
+        <View style={{ flexShrink: 1 }}>
+          <Text style={styles.productTitle}>{productData.productName}</Text>
+
+          <TouchableOpacity>
+            <Text style={{ textDecorationLine: 'underline', fontFamily: FONTS.WORK_SANS_REGULAR, fontSize: 10 }}>Ver página do produto</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.label}>Cor:</Text>
+          <FlatList
+            data={product?.colors}
+            keyExtractor={(item) => String(item.colorId)}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => onSelectColor(item.colorId || '0')}
+                style={[styles.listColorsContainer, {
+                  borderColor: selectedColor === item.colorId
+                    ? COLORS.BLACK : COLORS.COLOR_SELECTOR_GRAY,
+                }]}
+              >
+                <Image
+                  source={{ uri: item.colorUrl }}
+                  style={[
+                    styles.listColorsProductItem,
+                    { opacity: item.disabled ? 1 : 1 },
+                  ]}
+                />
+              </TouchableOpacity>
+            )}
+          />
+
+          <Text style={styles.label}>Tamanho:</Text>
+          <FlatList
+            data={productSizes}
+            keyExtractor={(item) => String(item.skuName)}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => onSelectSize(item.itemId)}
+                disabled={item.disabled}
+                style={[styles.listSizesItem,
+                  {
+                    backgroundColor: selectedSize === item.itemId ? COLORS.BLACK : COLORS.WHITE,
+                    opacity: item.disabled ? 0.3 : 1,
+                  },
+                ]}
+              >
+                <Text style={[styles.listSizesProductItemText,
+                  {
+                    color: selectedSize !== null
+                    && selectedSize === item.itemId ? COLORS.WHITE : COLORS.BLACK,
+                  },
+                ]}
+                >
+                  {item.size}
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+
+          {productData.flags.map((flag) => (
+            <View key={flag.type}>
+              {flag.type === 'cashback' && (
+                <View
+                  style={{
+                    backgroundColor: COLORS.BACKGROUND_LICHT_GRAY,
+                    padding: 6,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 50,
+                    marginTop: 15,
+                    flexDirection: 'row',
+                  }}
+                >
+                  <Text style={[
+                    styles.flagTitle,
+                    { color: COLORS.BLACK, fontFamily: FONTS.WORK_SANS_BOLD }]}
+                  >
+                    {`Ganhe ${flag.value}%`}
+                    {' '}
+                  </Text>
+                  <Text style={[
+                    styles.flagTitle,
+                    { color: COLORS.BLACK, fontFamily: FONTS.WORK_SANS_REGULAR },
+                  ]}
+                  >
+                    de Cashback
+                  </Text>
+                </View>
+              )}
+            </View>
+          ))}
+        </View>
       </View>
 
-      <View style={styles.content}>
+      <View style={{ paddingHorizontal: 5 }}>
         <Text style={styles.label}>Preço:</Text>
-
         <View style={styles.row}>
-          <View style={[styles.row, { alignItems: 'center' }]}>
+          <View style={{ width: '45%', flexDirection: 'row' }}>
+            {/* <TouchableOpacity
+              onPress={() => onSelectPrice(productData.prices.salePrice, 'normalPrice')}
+              style={{
+                borderWidth: 1,
+                width: 25,
+                height: 25,
+                borderRadius: 40,
+                marginRight: 5,
+                borderColor: COLORS.COLOR_SELECTOR_GRAY,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <View
+                style={{
+                  backgroundColor: priceTypeSelected === 'normalPrice' ? COLORS.BLACK : '#fff',
+                  width: 18,
+                  height: 18,
+                  borderRadius: 50,
+                }}
+              />
+            </TouchableOpacity> */}
+            <View style={[styles.row, { alignItems: 'center' }]}>
+              <Text>
+                <Text style={[styles.productCurrencyLabel,
+                  { color: COLORS.BLACK }]}
+                >
+                  R$
+                  {' '}
+                </Text>
+              </Text>
+              <Text style={[styles.productListPriceLabel, { color: COLORS.BLACK }]}>
+                {`${integerPart(productData.prices.salePrice || 0)},`}
+              </Text>
+              <Text style={[styles.productPriceCentsLabel, { color: COLORS.BLACK, marginTop: -3 }]}>
+                {`${decimalPart(productData.prices.salePrice || 0)}`}
+              </Text>
+            </View>
+            <View style={[styles.row, { marginLeft: 10, alignItems: 'center' }]}>
+              <Text style={[styles.productCurrencyLabel, { color: COLORS.SHELF_GRAY, textDecorationLine: 'line-through' }]}>R$ </Text>
+              <Text style={[styles.productListPriceLabel, { color: COLORS.SHELF_GRAY, textDecorationLine: 'line-through' }]}>
+                {`${integerPart(productData.prices.listPrice || 0)},`}
+              </Text>
+              <Text style={[styles.productPriceCentsLabel, { color: COLORS.SHELF_GRAY, textDecorationLine: 'line-through', marginTop: -3 }]}>
+                {`${decimalPart(productData.prices.listPrice || 0)}`}
+              </Text>
+            </View>
+          </View>
+
+          {/* <View style={{ width: '10%', alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ fontSize: 20, color: COLORS.COLOR_SELECTOR_GRAY }}>|</Text>
+          </View>
+
+          <View style={[styles.row, { alignItems: 'center', width: '40%' }]}>
+            <TouchableOpacity
+              onPress={() => onSelectPrice(productData.prices.salePrice, 'prime')}
+              style={{
+                borderWidth: 1,
+                width: 25,
+                height: 25,
+                borderRadius: 40,
+                marginRight: 5,
+                borderColor: COLORS.PRIME_COLOR,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <View
+                style={{
+                  backgroundColor: priceTypeSelected === 'prime' && isPrime ? COLORS.PRIME_COLOR : '#fff',
+                  width: 18,
+                  height: 18,
+                  borderRadius: 50,
+                }}
+              />
+            </TouchableOpacity>
             <Text>
               <Text style={[styles.productCurrencyLabel,
-                { color: COLORS.BLACK }]}
+                { color: COLORS.PRIME_COLOR }]}
               >
                 R$
                 {' '}
               </Text>
             </Text>
-            <Text style={[styles.productListPriceLabel, { color: COLORS.BLACK }]}>
+            <Text style={[styles.productListPriceLabel, { color: COLORS.PRIME_COLOR }]}>
               {`${integerPart(productData.prices.salePrice || 0)},`}
             </Text>
-            <Text style={[styles.productPriceCentsLabel, { color: COLORS.BLACK, marginTop: -3 }]}>
+            <Text style={[
+              styles.productPriceCentsLabel, { color: COLORS.PRIME_COLOR, marginTop: -3 }]}
+            >
               {`${decimalPart(productData.prices.salePrice || 0)}`}
             </Text>
-          </View>
-          <View style={[styles.row, { marginLeft: 10, alignItems: 'center' }]}>
-            <Text style={[styles.productCurrencyLabel, { color: COLORS.SHELF_GRAY, textDecorationLine: 'line-through' }]}>R$ </Text>
-            <Text style={[styles.productListPriceLabel, { color: COLORS.SHELF_GRAY, textDecorationLine: 'line-through' }]}>
-              {`${integerPart(productData.prices.listPrice || 0)},`}
-            </Text>
-            <Text style={[styles.productPriceCentsLabel, { color: COLORS.SHELF_GRAY, textDecorationLine: 'line-through', marginTop: -3 }]}>
-              {`${decimalPart(productData.prices.listPrice || 0)}`}
-            </Text>
-          </View>
+            <View style={{ marginLeft: 15 }}>
+              <IconPrime />
+            </View>
+          </View> */}
         </View>
-      </View>
 
-      <View style={styles.content}>
-        <View style={styles.row}>
-          <TouchableOpacity onPress={onAddToWishlist} style={styles.buttonAddToFavorite}>
-            <IconAddToFavorite />
-          </TouchableOpacity>
+        <View style={styles.content}>
+          <View style={styles.row}>
+            <TouchableOpacity onPress={onAddToWishlist} style={styles.buttonAddToFavorite}>
+              <IconAddToFavorite />
+            </TouchableOpacity>
 
-          <TouchableOpacity onPress={onAddToCart} style={styles.buttonAddToBag}>
-            {onLoading ? (
-              <ActivityIndicator size="small" color={COLORS.WHITE} />
-            ) : (
-              <Text style={styles.textButtonAddToBag}>ADICIONAR À SACOLA</Text>
-            )}
-          </TouchableOpacity>
+            <TouchableOpacity onPress={onAddToCart} style={styles.buttonAddToBag}>
+              {onLoading ? (
+                <ActivityIndicator size="small" color={COLORS.WHITE} />
+              ) : (
+                <Text style={styles.textButtonAddToBag}>ADICIONAR À SACOLA</Text>
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>

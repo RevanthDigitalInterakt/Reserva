@@ -91,15 +91,15 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   }, [getItem, profile?.email]);
 
   const onInitialLoad = useCallback(async (params: IProductDetailRouteParams) => {
-    console.log('params', params);
     try {
       const input = getProductLoadType(params);
-      console.log('input', input);
       const { data, error } = await getProduct({ variables: { input } });
 
       if (error || !data?.product) {
         throw new Error(error?.message || 'Ocorreu um erro ao carregar o produto.');
       }
+
+      console.log('data', data);
 
       const { product } = data;
       trackEventDitoAccessProduct(data);

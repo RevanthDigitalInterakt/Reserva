@@ -44,8 +44,6 @@ export const trackClickStore = create<ITrackClickSmartHintStore>((_, getState) =
         locationRecs: 1,
         position: 1,
         productId: '1670215',
-        clickFeature: navigation.type === 'searchWithResult' ? 'search' : 'News',
-        term: navigation.identifier !== '' ? navigation.identifier : '',
       },
     };
 

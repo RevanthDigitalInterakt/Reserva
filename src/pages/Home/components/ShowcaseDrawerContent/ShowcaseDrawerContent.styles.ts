@@ -2,12 +2,10 @@ import { StyleSheet } from 'react-native';
 import { COLORS, FONTS } from '../../../../base/styles';
 
 export const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 5,
-  },
+  container: {},
 
   content: {
-    marginVertical: 5,
+    marginVertical: 10,
   },
 
   flagContainer: {
@@ -37,17 +35,19 @@ export const styles = StyleSheet.create({
   },
   productTitle: {
     fontFamily: FONTS.RESERVA_SERIF_BOLD,
-    fontSize: 16,
+    fontSize: 22,
+    flexWrap: 'wrap',
   },
   productImage: {
-    width: 120,
-    height: 180,
-    borderRadius: 10,
+    width: 150,
+    height: 225,
+    borderRadius: 20,
     marginRight: 10,
   },
   label: {
     fontFamily: FONTS.WORK_SANS_REGULAR,
     fontSize: 12,
+    marginVertical: 5,
   },
 
   listColorsProductContent: {
@@ -55,23 +55,32 @@ export const styles = StyleSheet.create({
     marginVertical: 5,
   },
 
+  listColorsContainer: {
+    borderWidth: 1,
+    width: 36,
+    height: 36,
+    borderRadius: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 5,
+  },
+
   listColorsProductItem: {
-    width: 30,
-    height: 30,
+    width: 34,
+    height: 34,
     borderWidth: 1,
     borderColor: COLORS.SHELF_LIGHT_GRAY,
     borderRadius: 50,
-    marginRight: 15,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   listSizesItem: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
     borderWidth: 1,
-    borderColor: COLORS.SHELF_LIGHT_GRAY,
-    marginRight: 15,
+    borderColor: COLORS.BLACK,
+    marginRight: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
