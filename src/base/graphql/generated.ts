@@ -1,3 +1,5 @@
+// @ts-nocheck
+/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -439,6 +441,13 @@ export enum HomePageSectionTypeEnum {
   Cards = 'CARDS',
   Main = 'MAIN'
 }
+
+export type InfoCashbackPdpOutput = {
+  __typename?: 'InfoCashbackPdpOutput';
+  infoCashback?: Maybe<Scalars['String']['output']>;
+  infoCashbackTextTooltip?: Maybe<Scalars['String']['output']>;
+  infoCashbackTitleTooltip?: Maybe<Scalars['String']['output']>;
+};
 
 export type InvoiceKeyInput = {
   invoiceKey: Scalars['String']['input'];
@@ -1321,7 +1330,10 @@ export type ProductItemOutput = {
 
 export type ProductItemSellerCommertialOfferInstallmentOutput = {
   __typename?: 'ProductItemSellerCommertialOfferInstallmentOutput';
+  name?: Maybe<Scalars['String']['output']>;
   numberOfInstallments: Scalars['Float']['output'];
+  paymentSystemGroupName?: Maybe<Scalars['String']['output']>;
+  paymentSystemName?: Maybe<Scalars['String']['output']>;
   totalValuePlusInterestRate: Scalars['Float']['output'];
   value: Scalars['Float']['output'];
 };
@@ -1415,6 +1427,7 @@ export type ProductOutput = {
   initialSize?: Maybe<ProductSizeOutput>;
   initialSizeId?: Maybe<Scalars['String']['output']>;
   kit?: Maybe<Array<ProductKitOutput>>;
+  paymentSystemGroupName?: Maybe<Array<Scalars['String']['output']>>;
   priceRange?: Maybe<ProductPriceRangeOutput>;
   productId: Scalars['ID']['output'];
   productName: Scalars['String']['output'];
@@ -1585,6 +1598,7 @@ export type Query = {
   homeCarousels: Array<HomeCarouselOutput>;
   homeCountdown?: Maybe<HomeCountdownOutput>;
   homeMedias: Array<HomeMediaOutput>;
+  infoCashbackPdpCollection: InfoCashbackPdpOutput;
   invoiceKey?: Maybe<InvoiceKeyOutput>;
   landingPagePrime: PrimeDetailOutput;
   mktinStatus: Scalars['Boolean']['output'];
@@ -2531,7 +2545,7 @@ export type HomeCarouselsQuery = { __typename?: 'Query', homeCarousels: Array<{ 
 export type HomeConfigQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeConfigQuery = { __typename?: 'Query', homeConfig?: { __typename?: 'ConfigOutput', id: string, offersPage?: string | null, discountCodeBar?: { __typename?: 'ConfigDiscountBarOutput', titleBar?: string | null, colorBar?: string | null, titleModal?: string | null, descriptionModal?: string | null, titleButton?: string | null, colorButton?: string | null, shareMessage?: string | null, coupon?: string | null } | null, commercialBannerCollection: Array<{ __typename?: 'ConfigCommercialBannerOutput', name?: string | null, startingDate?: string | null, endingDate?: string | null, mainText?: string | null, hasModal: boolean, modalTitle?: string | null, modalDescription?: string | null, modalButton: boolean, modalButtonText?: string | null, modalButtonLink?: string | null }> } | null };
+export type HomeConfigQuery = { __typename?: 'Query', homeConfig?: { __typename?: 'ConfigOutput', id: string, offersPage?: string | null, commercialBannerCollection: Array<{ __typename?: 'ConfigCommercialBannerOutput', name?: string | null, startingDate?: string | null, endingDate?: string | null, mainText?: string | null, hasModal: boolean, modalTitle?: string | null, modalDescription?: string | null, modalButton: boolean, modalButtonText?: string | null, modalButtonLink?: string | null }> } | null };
 
 export type HomeCountdownQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4458,16 +4472,6 @@ export const HomeConfigDocument = gql`
   homeConfig: config {
     id
     offersPage
-    discountCodeBar {
-      titleBar
-      colorBar
-      titleModal
-      descriptionModal
-      titleButton
-      colorButton
-      shareMessage
-      coupon
-    }
     commercialBannerCollection {
       name
       startingDate
