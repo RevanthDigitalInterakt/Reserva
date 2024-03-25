@@ -59,6 +59,10 @@ export interface IRemoteConfigKeys {
   show_kitlook: boolean;
   add_to_bag_button_is_fixed: boolean
   count_down_position: string;
+  creditCardPaymentDescription: string;
+  giftCardPaymentDescription: string;
+  nubankPaymentDescription: string;
+  pixPaymentDescription: string;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -115,6 +119,10 @@ export const defaults: IRemoteConfigKeys = {
   show_kitlook: false,
   add_to_bag_button_is_fixed: false,
   count_down_position: 'A',
+  creditCardPaymentDescription: '10x sem juros no cartão, comparcela mínima de R$ 60',
+  giftCardPaymentDescription: 'Cartões de Presente Pré-pagos',
+  nubankPaymentDescription: 'Em até 24x',
+  pixPaymentDescription: 'Pague à vista ou até em 4x sem juros.',
 };
 
 const FIVE_MINUTES_IN_MS = 300000;
