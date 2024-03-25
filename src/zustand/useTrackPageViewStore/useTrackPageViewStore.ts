@@ -52,7 +52,7 @@ export const trackPageViewStore = create<ITrackPageViewStore>((set, getState) =>
       userEmail: await AsyncStorage.getItem('@Dito:anonymousID'),
     };
 
-    getApolloClient().mutate<TrackPageViewMutation, TrackPageViewMutationVariables>({
+    await getApolloClient().mutate<TrackPageViewMutation, TrackPageViewMutationVariables>({
       mutation: TrackPageViewDocument,
       context: { clientName: 'gateway' },
       variables: { input },

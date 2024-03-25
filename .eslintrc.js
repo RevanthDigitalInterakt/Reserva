@@ -42,5 +42,6 @@ module.exports = {
     "react/require-default-props": "off",
     "react-hooks/exhaustive-deps": "off",
     "no-param-reassign": "off",
+    "linebreak-style": "off"
   },
 };

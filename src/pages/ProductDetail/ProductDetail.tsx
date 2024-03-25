@@ -7,6 +7,7 @@ import {
   ProductResultActionEnum,
   TrackPageTypeEnum,
   useProductLazyQuery,
+  useInfoCashbackPdpCollectionQuery,
 } from '../../base/graphql/generated';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { Box } from '../../components/Box/Box';
@@ -38,6 +39,8 @@ import { Drawer } from '../../components/Drawer';
 import { DrawerSelectors } from './components/DrawerSelectors';
 import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/useTrackClickStore';
 import CashbackInfo from '../../components/CashbackInfo';
+import { ProductPayment } from './components/ProductPayment';
+import { Divider } from '../../components/Divider/Divider';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -64,6 +67,12 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
     notifyOnNetworkStatusChange: true,
     context: { clientName: 'gateway' },
   });
+
+  const { data } = useInfoCashbackPdpCollectionQuery({
+    context: { clientName: 'gateway' },
+    fetchPolicy: getFetchPolicyPerKey('InfoCashbackPdpCollection'),
+  });
+  const isCashbackValid = data && data.infoCashbackPdpCollection && data.infoCashbackPdpCollection.infoCashback && !data.infoCashbackPdpCollection.infoCashback.includes('0%');
 
   const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
@@ -162,9 +171,6 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       onFinishLoad();
     }
   }, [loading, onFinishLoad, startLoadingTime]);
-  const teste = 50
-  const days = 50
-
 
   return (
     <>
@@ -172,8 +178,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         {!!productDetail && !isKitLook && (
           <View>
             <ProductSummary />
-            {teste > 0 && (
-              <CashbackInfo value={teste} days={days} />
+            {isCashbackValid &&  (
+              <CashbackInfo data={data}/>
             )}
 
             <ProductSelectors />
@@ -185,6 +191,13 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
               <ProductAbout />
 
+              {productDetail?.paymentSystemGroupName
+              && productDetail?.paymentSystemGroupName.length > 0 && (
+                <>
+                  <Divider variant="fullWidth" my="xs" />
+                  <ProductPayment />
+                </>
+              )}
             </Box>
 
             <Recommendation />

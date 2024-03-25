@@ -440,6 +440,13 @@ export enum HomePageSectionTypeEnum {
   Main = 'MAIN'
 }
 
+export type InfoCashbackPdpOutput = {
+  __typename?: 'InfoCashbackPdpOutput';
+  infoCashback?: Maybe<Scalars['String']['output']>;
+  infoCashbackTextTooltip?: Maybe<Scalars['String']['output']>;
+  infoCashbackTitleTooltip?: Maybe<Scalars['String']['output']>;
+};
+
 export type InvoiceKeyInput = {
   invoiceKey: Scalars['String']['input'];
 };
@@ -1321,7 +1328,10 @@ export type ProductItemOutput = {
 
 export type ProductItemSellerCommertialOfferInstallmentOutput = {
   __typename?: 'ProductItemSellerCommertialOfferInstallmentOutput';
+  name?: Maybe<Scalars['String']['output']>;
   numberOfInstallments: Scalars['Float']['output'];
+  paymentSystemGroupName?: Maybe<Scalars['String']['output']>;
+  paymentSystemName?: Maybe<Scalars['String']['output']>;
   totalValuePlusInterestRate: Scalars['Float']['output'];
   value: Scalars['Float']['output'];
 };
@@ -1415,6 +1425,7 @@ export type ProductOutput = {
   initialSize?: Maybe<ProductSizeOutput>;
   initialSizeId?: Maybe<Scalars['String']['output']>;
   kit?: Maybe<Array<ProductKitOutput>>;
+  paymentSystemGroupName?: Maybe<Array<Scalars['String']['output']>>;
   priceRange?: Maybe<ProductPriceRangeOutput>;
   productId: Scalars['ID']['output'];
   productName: Scalars['String']['output'];
@@ -1585,6 +1596,7 @@ export type Query = {
   homeCarousels: Array<HomeCarouselOutput>;
   homeCountdown?: Maybe<HomeCountdownOutput>;
   homeMedias: Array<HomeMediaOutput>;
+  infoCashbackPdpCollection: InfoCashbackPdpOutput;
   invoiceKey?: Maybe<InvoiceKeyOutput>;
   landingPagePrime: PrimeDetailOutput;
   mktinStatus: Scalars['Boolean']['output'];
@@ -2543,6 +2555,11 @@ export type HomeMediasQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, orderBy: string, reference: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
 
+export type InfoCashbackPdpCollectionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type InfoCashbackPdpCollectionQuery = { __typename?: 'Query', infoCashbackPdpCollection: { __typename?: 'InfoCashbackPdpOutput', infoCashback?: string | null, infoCashbackTitleTooltip?: string | null, infoCashbackTextTooltip?: string | null } };
+
 export type InvoiceKeyQueryVariables = Exact<{
   invoiceKey: Scalars['String']['input'];
 }>;
@@ -2587,7 +2604,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, identifier?: string | null, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, videoThumbnail?: string | null, kit?: Array<{ __typename?: 'ProductKitOutput', productId: string, productName: string, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', colorId: string, colorName?: string | null, colorUrl: string, disabled: boolean, images: Array<string>, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }> }> | null, giftCard?: { __typename?: 'ProductGiftCardOutput', terms: string, howItWorks: string, options: Array<{ __typename?: 'ProductGiftCardOptionOutput', itemId: string, name: string, ean: string, seller: string, images: Array<string> }> } | null, priceRange?: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } } | null, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null } | null } };
+export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, paymentSystemGroupName?: Array<string> | null, identifier?: string | null, categoryTree: Array<string>, disabledColors: Array<string>, saleOff: boolean, videoThumbnail?: string | null, kit?: Array<{ __typename?: 'ProductKitOutput', productId: string, productName: string, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', colorId: string, colorName?: string | null, colorUrl: string, disabled: boolean, images: Array<string>, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }> }> | null, giftCard?: { __typename?: 'ProductGiftCardOutput', terms: string, howItWorks: string, options: Array<{ __typename?: 'ProductGiftCardOptionOutput', itemId: string, name: string, ean: string, seller: string, images: Array<string> }> } | null, priceRange?: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } } | null, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null } | null } };
 
 export type ProductDeliveryTimeQueryVariables = Exact<{
   input: CheckDeliveryTimeByProductInput;
@@ -4625,6 +4642,45 @@ export type HomeMediasQueryResult = Apollo.QueryResult<HomeMediasQuery, HomeMedi
 export function refetchHomeMediasQuery(variables?: HomeMediasQueryVariables) {
       return { query: HomeMediasDocument, variables: variables }
     }
+export const InfoCashbackPdpCollectionDocument = gql`
+    query InfoCashbackPdpCollection {
+  infoCashbackPdpCollection {
+    infoCashback
+    infoCashbackTitleTooltip
+    infoCashbackTextTooltip
+  }
+}
+    `;
+
+/**
+ * __useInfoCashbackPdpCollectionQuery__
+ *
+ * To run a query within a React component, call `useInfoCashbackPdpCollectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInfoCashbackPdpCollectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useInfoCashbackPdpCollectionQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useInfoCashbackPdpCollectionQuery(baseOptions?: Apollo.QueryHookOptions<InfoCashbackPdpCollectionQuery, InfoCashbackPdpCollectionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<InfoCashbackPdpCollectionQuery, InfoCashbackPdpCollectionQueryVariables>(InfoCashbackPdpCollectionDocument, options);
+      }
+export function useInfoCashbackPdpCollectionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<InfoCashbackPdpCollectionQuery, InfoCashbackPdpCollectionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<InfoCashbackPdpCollectionQuery, InfoCashbackPdpCollectionQueryVariables>(InfoCashbackPdpCollectionDocument, options);
+        }
+export type InfoCashbackPdpCollectionQueryHookResult = ReturnType<typeof useInfoCashbackPdpCollectionQuery>;
+export type InfoCashbackPdpCollectionLazyQueryHookResult = ReturnType<typeof useInfoCashbackPdpCollectionLazyQuery>;
+export type InfoCashbackPdpCollectionQueryResult = Apollo.QueryResult<InfoCashbackPdpCollectionQuery, InfoCashbackPdpCollectionQueryVariables>;
+export function refetchInfoCashbackPdpCollectionQuery(variables?: InfoCashbackPdpCollectionQueryVariables) {
+      return { query: InfoCashbackPdpCollectionDocument, variables: variables }
+    }
 export const InvoiceKeyDocument = gql`
     query InvoiceKey($invoiceKey: String!) {
   invoiceKey(input: {invoiceKey: $invoiceKey}) {
@@ -4933,6 +4989,7 @@ export const ProductDocument = gql`
     action
     productId
     productName
+    paymentSystemGroupName
     identifier
     categoryTree
     disabledColors

@@ -37,15 +37,13 @@ export const trackClickStore = create<ITrackClickSmartHintStore>((_, getState) =
       input: {
         providers: [TrackProvidersEnum.Smarthint],
         userEmail: await AsyncStorage.getItem('@Dito:anonymousID'),
-        originIdentifier: navigation.origin,
-        pageIdentifier: 'lojausereservaqa.myvtex.com/termocolante-reserva-pl-090821-teste/p',
-        pageType: navigation.type,
+        originIdentifier: navigation,
+        pageIdentifier: data.identifier,
+        pageType: navigation,
         session: getState().sessionId,
         locationRecs: 1,
         position: 1,
-        productId: '1670215',
-        clickFeature: navigation.type === 'searchWithResult' ? 'search' : 'News',
-        term: navigation.identifier !== '' ? navigation.identifier : '',
+        productId: data.productId,
       },
     };
 

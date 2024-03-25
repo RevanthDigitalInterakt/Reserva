@@ -4,7 +4,7 @@ import type { CashbackInfoProps } from './types';
 import styles from './styles';
 import IconInfo from '../../../assets/icons/IconInfo';
 
-const CashbackInfo = ({ value,days }: CashbackInfoProps) => {
+const CashbackInfo = ({ data }: CashbackInfoProps) => {
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -35,17 +35,17 @@ const CashbackInfo = ({ value,days }: CashbackInfoProps) => {
     <View style={styles.container}>
       <TouchableOpacity onPress={toggleTooltip}>
         <View style={styles.infoContainer}>
-          <Text>{`Compre e ganhe até ${value}% de Cashback`}</Text>
+          <Text>{data.infoCashbackPdpCollection.infoCashback}</Text>
           <IconInfo />
         </View>
       </TouchableOpacity>
       <Animated.View style={[styles.tooltipContainer, { opacity: fadeAnim }]}>
         <View style={styles.arrow} />
         <Text style={styles.tooltipTitle}>
-          {`Até ${value}% de cashback`}
+          {data.infoCashbackPdpCollection.infoCashbackTitleTooltip}
         </Text>
         <Text style={styles.textTooltip}>
-        {`Para utilizar em sua próxima compra com validade de ${days} dias.`}
+        {data.infoCashbackPdpCollection.infoCashbackTextTooltip}
         </Text>
       </Animated.View>
     </View>

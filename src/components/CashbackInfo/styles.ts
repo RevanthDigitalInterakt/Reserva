@@ -68,15 +68,17 @@ const styles = StyleSheet.create({
     marginLeft: -10,
   },
   tooltipTitle: {
-  fontSize: 14,
+  fontSize: 16,
   fontWeight: '600',
   textAlign: 'center',
+  height:25,
   },
   textTooltip: {
   fontSize: 11,
   fontWeight: '400',
   textAlign: 'center',
-  color:'#848A9D'
+  color:'#848A9D',
+  margin: 0
   }
 });
 export default styles;
