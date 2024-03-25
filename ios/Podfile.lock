@@ -631,9 +631,9 @@ PODS:
   - AppCheckCore (10.18.1):
     - GoogleUtilities/Environment (~> 7.11)
     - PromisesObjC (~> 2.3)
-  - AppsFlyerFramework (6.12.0):
-    - AppsFlyerFramework/Main (= 6.12.0)
-  - AppsFlyerFramework/Main (6.12.0)
+  - AppsFlyerFramework (6.12.2):
+    - AppsFlyerFramework/Main (= 6.12.2)
+  - AppsFlyerFramework/Main (6.12.2)
   - Base64 (1.1.2)
   - boost (1.76.0)
   - BoringSSL-GRPC (0.0.24):
@@ -1313,8 +1313,8 @@ PODS:
   - React-jsinspector (0.72.12)
   - React-logger (0.72.12):
     - glog
-  - react-native-appsflyer (6.12.1):
-    - AppsFlyerFramework (= 6.12.0)
+  - react-native-appsflyer (6.12.2):
+    - AppsFlyerFramework (= 6.12.2)
     - React
   - react-native-background-timer (2.4.1):
     - React-Core
@@ -2018,4 +2018,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: bdb5fa3e872034186f6d3bb85e2d09bfc546cc33
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.15.2
