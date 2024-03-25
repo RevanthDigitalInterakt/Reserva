@@ -1,6 +1,9 @@
 ## CHANGELOG
 
 ### 2.7.6
+- [29630 - Inclusão do informativo do benefício de cashback na PDP - APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/29630)
+
+### 2.7.6
 - [27026 - Smarthint - Adicionar produto da vitrine na sacola APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/27026)
 
 ### 2.7.5
