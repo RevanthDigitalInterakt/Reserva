@@ -37,6 +37,8 @@ import ProductAddToCart from './components/ProductAddToCart';
 import { Drawer } from '../../components/Drawer';
 import { DrawerSelectors } from './components/DrawerSelectors';
 import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/useTrackClickStore';
+import { ProductPayment } from './components/ProductPayment';
+import { Divider } from '../../components/Divider/Divider';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -178,6 +180,13 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
               <ProductAbout />
 
+              {productDetail?.paymentSystemGroupName
+              && productDetail?.paymentSystemGroupName.length > 0 && (
+                <>
+                  <Divider variant="fullWidth" my="xs" />
+                  <ProductPayment />
+                </>
+              )}
             </Box>
 
             <Recommendation />
