@@ -99,8 +99,6 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         throw new Error(error?.message || 'Ocorreu um erro ao carregar o produto.');
       }
 
-      console.log('data', data);
-
       const { product } = data;
       trackEventDitoAccessProduct(data);
 
