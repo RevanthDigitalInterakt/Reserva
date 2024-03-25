@@ -2,22 +2,21 @@ import { StyleSheet } from 'react-native';
 import { COLORS, FONTS } from '../../../../base/styles';
 
 export const styles = StyleSheet.create({
-  container: {
-    padding: 5,
-  },
+  container: {},
 
   content: {
-    marginVertical: 5,
+    marginVertical: 10,
   },
 
-  flagContainer: {
+  flagContent: {
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: COLORS.BLACK,
-    width: 70,
+    width: 75,
     height: 30,
     borderRadius: 30,
+    marginBottom: 7,
   },
   flagTitle: {
     color: COLORS.WHITE,
@@ -36,16 +35,19 @@ export const styles = StyleSheet.create({
   },
   productTitle: {
     fontFamily: FONTS.RESERVA_SERIF_BOLD,
-    fontSize: 20,
+    fontSize: 22,
+    flexWrap: 'wrap',
   },
   productImage: {
-    width: 165,
-    height: 270,
-    borderRadius: 10,
+    width: 150,
+    height: 225,
+    borderRadius: 20,
+    marginRight: 10,
   },
   label: {
     fontFamily: FONTS.WORK_SANS_REGULAR,
     fontSize: 12,
+    marginVertical: 5,
   },
 
   listColorsProductContent: {
@@ -53,15 +55,42 @@ export const styles = StyleSheet.create({
     marginVertical: 5,
   },
 
+  listColorsContainer: {
+    borderWidth: 1,
+    width: 36,
+    height: 36,
+    borderRadius: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 5,
+  },
+
   listColorsProductItem: {
-    width: 30,
-    height: 30,
+    width: 34,
+    height: 34,
     borderWidth: 1,
     borderColor: COLORS.SHELF_LIGHT_GRAY,
     borderRadius: 50,
-    marginRight: 15,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  listSizesItem: {
+    width: 40,
+    height: 40,
+    borderWidth: 1,
+    borderColor: COLORS.BLACK,
+    marginRight: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  listColorsContent: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 10,
+    left: 8,
   },
 
   listSizesProductItemText: {
@@ -71,7 +100,7 @@ export const styles = StyleSheet.create({
 
   productListPriceLabel: {
     fontFamily: FONTS.NUNITO_BOLD,
-    fontSize: 15,
+    fontSize: 18,
   },
 
   productCurrencyLabel: {
@@ -116,21 +145,52 @@ export const styles = StyleSheet.create({
     position: 'absolute',
   },
 
-  radionButtonContainer: {
-    borderWidth: 1,
-    borderColor: COLORS.SHELF_GRAY,
-    width: 30,
-    height: 30,
-    borderRadius: 30,
+  flagContainer: {
+    position: 'absolute',
+    top: 190,
+    left: 10,
+  },
+
+  textLink: {
+    textDecorationLine: 'underline',
+    fontFamily: FONTS.WORK_SANS_REGULAR,
+    fontSize: 10,
+  },
+
+  cashbackFlagContainer: {
+    backgroundColor: COLORS.BACKGROUND_LICHT_GRAY,
+    padding: 6,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 10,
+    borderRadius: 50,
+    marginTop: 15,
+    flexDirection: 'row',
+  },
+
+  priceSliderContainer: {
+    width: '45%',
+    flexDirection: 'row',
+  },
+
+  radioButtonContainer: {
+    borderWidth: 1,
+    width: 25,
+    height: 25,
+    borderRadius: 40,
+    marginRight: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   radioButtonContent: {
-    width: 20,
-    height: 20,
-    backgroundColor: COLORS.BLACK,
-    borderRadius: 20,
+    width: 18,
+    height: 18,
+    borderRadius: 50,
+  },
+
+  divider: {
+    width: '10%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

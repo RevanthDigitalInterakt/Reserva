@@ -1,5 +1,8 @@
 ## CHANGELOG
 
+### 2.7.6
+- [27026 - Smarthint - Adicionar produto da vitrine na sacola APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/27026)
+
 ### 2.7.5
 
 - [29302 - Preço Prime não habilita no App](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/29302)

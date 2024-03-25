@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
   shelfTitle: {
     fontFamily: FONTS.RESERVA_DISPLAY_REGULAR,
     fontSize: 24,
-    letterSpacing: 0,
   },
   shelfContainer: {
     marginTop: 10,
