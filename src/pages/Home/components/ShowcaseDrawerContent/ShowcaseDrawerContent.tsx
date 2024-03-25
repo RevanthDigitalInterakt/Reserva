@@ -57,34 +57,36 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
   const { onFavorite, favorites, onUnfavorite } = useWishlistStore(['onFavorite', 'favorites', 'onUnfavorite']);
 
   const onAddToCart = useCallback(async () => {
-    setOnLoading(true);
-    const mergeItems = mergeItemsPackage(packageItems);
-    const orderFormItem = mergeItems.find((item) => item.id === selectedSize);
+    try {
+      setOnLoading(true);
+      const mergeItems = mergeItemsPackage(packageItems);
+      const orderFormItem = mergeItems.find((item) => item.id === selectedSize);
 
-    if (selectedSize === null) {
-      Alert.alert('Erro', 'Selecione um tamanho para continuar!', [
-        {
-          text: 'Fechar',
-          onPress: () => { },
-        },
-      ]);
+      if (selectedSize === null) {
+        Alert.alert('Erro', 'Selecione um tamanho para continuar!', [
+          {
+            text: 'Fechar',
+            onPress: () => { },
+          },
+        ]);
 
+        setOnLoading(false);
+        return;
+      }
+      await actions.ADD_ITEM(
+        '1',
+        productData.sku[0]?.sizes[0]?.skuId || '',
+        orderFormItem ? orderFormItem.quantity + 1 : 1,
+      );
+    } catch (error) {
       setOnLoading(false);
-      return;
+      ExceptionProvider.captureException(error);
     }
-
-    await actions.ADD_ITEM(
-      '1',
-      productData.sku[0]?.sizes[0]?.skuId || '',
-      orderFormItem ? orderFormItem.quantity + 1 : 1,
-    );
-
-    setOnLoading(false);
   }, [selectedSize]);
 
   const onSelectColor = useCallback((colorID: string) => {
     setSelectedColor(colorID);
-    const sizes = product?.colors.find((x) => x.colorId === colorID);
+    const sizes = product?.colors?.find((x) => x.colorId === colorID);
     setProductImage(sizes?.images[0] || '');
 
     setProductSizes(sizes?.sizes);
@@ -353,13 +355,13 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
             </View>
           </View>
 
-          {product && product?.initialSize?.prime !== null && (
+          {product && !!product?.initialSize?.prime && (
             <View style={styles.divider}>
               <Text style={{ fontSize: 20, color: COLORS.COLOR_SELECTOR_GRAY }}>|</Text>
             </View>
           )}
 
-          {product && product?.initialSize?.prime !== null && (
+          {product && !!product?.initialSize?.prime && (
             <View style={[styles.row, { alignItems: 'center', width: '40%' }]}>
               <TouchableOpacity
                 onPress={() => onSelectPrice(productData.prices.salePrice, 'prime')}
