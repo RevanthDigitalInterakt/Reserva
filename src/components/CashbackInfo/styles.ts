@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../base/styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#38AB6B',
+    borderColor: COLORS.BORDER_GREEN,
     padding: 5,
     borderRadius: 8,
   },
@@ -28,13 +29,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.WHITE,
     padding: 20,
     borderRadius: 10,
   },
   tooltipContainer: {
     marginTop: 10,
-    backgroundColor: 'white',
+    backgroundColor: COLORS.WHITE,
     padding: 10,
     borderRadius: 8,
     width: 246,
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 100,
     elevation: 10,
-    borderColor:'#DDE0E8',
+    borderColor:COLORS.SHELF_LIGHT_GRAY,
     borderWidth:1,
 
   },
@@ -53,15 +54,15 @@ const styles = StyleSheet.create({
   },
   arrow: {
     position: 'absolute',
-    backgroundColor:'white',
+    backgroundColor:COLORS.WHITE,
     width: 20,
     height: 20,
     transform: [{ rotate: '45deg' }],
     borderWidth:1,
     borderRightColor: 'transparent',
     borderBottomColor: 'transparent',
-    borderLeftColor: '#DDE0E8',
-    borderTopColor:'#DDE0E8',
+    borderLeftColor: COLORS.SHELF_LIGHT_GRAY,
+    borderTopColor:COLORS.SHELF_LIGHT_GRAY,
     top: -10,
     left: '56%',
     zIndex: 101,
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
   fontSize: 11,
   fontWeight: '400',
   textAlign: 'center',
-  color:'#848A9D',
+  color: COLORS.TEXT_GRAY,
   margin: 0
   }
 });
