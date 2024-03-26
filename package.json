@@ -40,7 +40,6 @@
     "@react-native-firebase/app-check": "18.9.0",
     "@react-native-firebase/crashlytics": "18.9.0",
     "@react-native-firebase/firestore": "18.9.0",
-    "@react-native-firebase/in-app-messaging": "18.9.0",
     "@react-native-firebase/installations": "18.9.0",
     "@react-native-firebase/messaging": "18.9.0",
     "@react-native-firebase/perf": "18.9.0",

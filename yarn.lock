@@ -2677,11 +2677,6 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-18.9.0.tgz#4285e51271010f97a62fdeeecb4f909b90dc35c5"
   integrity sha512-Hma+LB5wAYt+NgGxALWxCwrTkUz7jNXHIRZLghzMK4RFmhVCaL7q2qaFvMfbu58UmRbcocGetykI4R1qQOxY9w==
 
-"@react-native-firebase/in-app-messaging@18.9.0":
-  version "18.9.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/in-app-messaging/-/in-app-messaging-18.9.0.tgz#9ba125d7379d611ef7bef31bb0de59adcea666cd"
-  integrity sha512-DudmVvX7cLiSmOrNDtAeQ0GLj9/zQ3xsmMvBhXbY4HUWtMEsqm+dxFRrhfyVbO4KdoR9YRicIxdZss2zd7HJ0Q==
-
 "@react-native-firebase/installations@18.9.0":
   version "18.9.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/installations/-/installations-18.9.0.tgz#720badf71c50a3cd88bdf5cd6fdb3da3236c47e2"
