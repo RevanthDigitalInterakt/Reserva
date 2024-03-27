@@ -22,11 +22,12 @@ const useRecommendationShelf = create<IRecommendationShelfState>(() => ({
             userIdentifier: '',
             channel: [SmarthintShelfChannelEnum.Padrao],
             pageType: TrackPageTypeEnum.Home,
-            position: 2,
+            position: 1,
           },
         },
         fetchPolicy: 'no-cache',
       });
+
       return [data.recommendationShelf];
     } catch (e) {
       return [];

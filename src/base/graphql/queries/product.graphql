@@ -3,6 +3,7 @@ query product($input: ProductInput!) {
     action
     productId
     productName
+    paymentSystemGroupName
     identifier
     categoryTree
     disabledColors
