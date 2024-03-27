@@ -150,8 +150,6 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
         },
       });
 
-      console.log('data', data);
-
       const { searchType } = getState();
 
       const trackStore = trackPageViewStore.getState();
