@@ -440,6 +440,13 @@ export enum HomePageSectionTypeEnum {
   Main = 'MAIN'
 }
 
+export type InfoCashbackPdpOutput = {
+  __typename?: 'InfoCashbackPdpOutput';
+  infoCashback?: Maybe<Scalars['String']['output']>;
+  infoCashbackTextTooltip?: Maybe<Scalars['String']['output']>;
+  infoCashbackTitleTooltip?: Maybe<Scalars['String']['output']>;
+};
+
 export type InvoiceKeyInput = {
   invoiceKey: Scalars['String']['input'];
 };
@@ -1589,6 +1596,7 @@ export type Query = {
   homeCarousels: Array<HomeCarouselOutput>;
   homeCountdown?: Maybe<HomeCountdownOutput>;
   homeMedias: Array<HomeMediaOutput>;
+  infoCashbackPdpCollection: InfoCashbackPdpOutput;
   invoiceKey?: Maybe<InvoiceKeyOutput>;
   landingPagePrime: PrimeDetailOutput;
   mktinStatus: Scalars['Boolean']['output'];
@@ -2546,6 +2554,11 @@ export type HomeMediasQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, orderBy: string, reference: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
+
+export type InfoCashbackPdpCollectionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type InfoCashbackPdpCollectionQuery = { __typename?: 'Query', infoCashbackPdpCollection: { __typename?: 'InfoCashbackPdpOutput', infoCashback?: string | null, infoCashbackTitleTooltip?: string | null, infoCashbackTextTooltip?: string | null } };
 
 export type InvoiceKeyQueryVariables = Exact<{
   invoiceKey: Scalars['String']['input'];
@@ -4628,6 +4641,45 @@ export type HomeMediasLazyQueryHookResult = ReturnType<typeof useHomeMediasLazyQ
 export type HomeMediasQueryResult = Apollo.QueryResult<HomeMediasQuery, HomeMediasQueryVariables>;
 export function refetchHomeMediasQuery(variables?: HomeMediasQueryVariables) {
       return { query: HomeMediasDocument, variables: variables }
+    }
+export const InfoCashbackPdpCollectionDocument = gql`
+    query InfoCashbackPdpCollection {
+  infoCashbackPdpCollection {
+    infoCashback
+    infoCashbackTitleTooltip
+    infoCashbackTextTooltip
+  }
+}
+    `;
+
+/**
+ * __useInfoCashbackPdpCollectionQuery__
+ *
+ * To run a query within a React component, call `useInfoCashbackPdpCollectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInfoCashbackPdpCollectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useInfoCashbackPdpCollectionQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useInfoCashbackPdpCollectionQuery(baseOptions?: Apollo.QueryHookOptions<InfoCashbackPdpCollectionQuery, InfoCashbackPdpCollectionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<InfoCashbackPdpCollectionQuery, InfoCashbackPdpCollectionQueryVariables>(InfoCashbackPdpCollectionDocument, options);
+      }
+export function useInfoCashbackPdpCollectionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<InfoCashbackPdpCollectionQuery, InfoCashbackPdpCollectionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<InfoCashbackPdpCollectionQuery, InfoCashbackPdpCollectionQueryVariables>(InfoCashbackPdpCollectionDocument, options);
+        }
+export type InfoCashbackPdpCollectionQueryHookResult = ReturnType<typeof useInfoCashbackPdpCollectionQuery>;
+export type InfoCashbackPdpCollectionLazyQueryHookResult = ReturnType<typeof useInfoCashbackPdpCollectionLazyQuery>;
+export type InfoCashbackPdpCollectionQueryResult = Apollo.QueryResult<InfoCashbackPdpCollectionQuery, InfoCashbackPdpCollectionQueryVariables>;
+export function refetchInfoCashbackPdpCollectionQuery(variables?: InfoCashbackPdpCollectionQueryVariables) {
+      return { query: InfoCashbackPdpCollectionDocument, variables: variables }
     }
 export const InvoiceKeyDocument = gql`
     query InvoiceKey($invoiceKey: String!) {
