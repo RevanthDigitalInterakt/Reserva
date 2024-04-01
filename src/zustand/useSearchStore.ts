@@ -123,7 +123,7 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
 
       const { getBoolean } = useRemoteConfig.getState();
       const provider = getBoolean('show_on_smart_hint')
-        ? SearchProviderEnum.Smarthint
+        ? SearchProviderEnum.Algolia
         : SearchProviderEnum.Vtex;
 
       const newParameters = {
