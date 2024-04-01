@@ -2,6 +2,7 @@ import { Linking, Platform } from 'react-native';
 import { getPathFromState, type LinkingOptions } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
 import { env } from './env';
+import messaging from '@react-native-firebase/messaging';
 
 import { deepLinkHelper } from '../utils/LinkingUtils/linkingUtils';
 import { defaultInitialUrl } from '../utils/LinkingUtils/static/deepLinkMethods';
@@ -67,9 +68,11 @@ export const linkingConfig: LinkingOptions = {
   },
   async getInitialURL() {
     // Check if app was opened from a deep link
-    const url = await Linking.getInitialURL();
+    const remoteMessage = await messaging().getInitialNotification();
+    const { details } = JSON.parse(remoteMessage?.data?.data || '{}');
+    const link = details?.link || '';
 
-    if (url !== null) return urlHandler(url);
+    if(remoteMessage) return urlHandler(link);
 
     return undefined;
   },
@@ -111,6 +114,13 @@ export const linkingConfig: LinkingOptions = {
       (_) => {},
     );
 
+    const subFcm = messaging().onNotificationOpenedApp(async (remoteMessage) => {
+      const { details } = JSON.parse(remoteMessage?.data?.data || '{}');
+      const link = details?.link || '';   
+      console.log('link',link);
+              
+      listener(link);
+    });
     // Listen to incoming links from deep linking
     const subscription = Linking.addEventListener('url', onReceiveURL);
 
@@ -118,6 +128,7 @@ export const linkingConfig: LinkingOptions = {
       // Clean up the event listeners
       subscription.remove();
       onDeepLinkCanceller();
+      subFcm()
     };
   },
 };
