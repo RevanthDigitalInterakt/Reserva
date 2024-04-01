@@ -194,16 +194,6 @@ export const configCollection = gql`
         name
         online
         searchCollection
-        discountCodeBar {
-          titleBar
-          colorBar
-          titleModal
-          descriptionModal
-          titleButton
-          colorButton
-          shareMessage
-          coupon
-        }
         shippingBar {
           freeShippingValue
           isFreeShipping

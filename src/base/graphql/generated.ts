@@ -1,3 +1,5 @@
+// @ts-nocheck
+/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -2543,7 +2545,7 @@ export type HomeCarouselsQuery = { __typename?: 'Query', homeCarousels: Array<{ 
 export type HomeConfigQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeConfigQuery = { __typename?: 'Query', homeConfig?: { __typename?: 'ConfigOutput', id: string, offersPage?: string | null, discountCodeBar?: { __typename?: 'ConfigDiscountBarOutput', titleBar?: string | null, colorBar?: string | null, titleModal?: string | null, descriptionModal?: string | null, titleButton?: string | null, colorButton?: string | null, shareMessage?: string | null, coupon?: string | null } | null, commercialBannerCollection: Array<{ __typename?: 'ConfigCommercialBannerOutput', name?: string | null, startingDate?: string | null, endingDate?: string | null, mainText?: string | null, hasModal: boolean, modalTitle?: string | null, modalDescription?: string | null, modalButton: boolean, modalButtonText?: string | null, modalButtonLink?: string | null }> } | null };
+export type HomeConfigQuery = { __typename?: 'Query', homeConfig?: { __typename?: 'ConfigOutput', id: string, offersPage?: string | null, commercialBannerCollection: Array<{ __typename?: 'ConfigCommercialBannerOutput', name?: string | null, startingDate?: string | null, endingDate?: string | null, mainText?: string | null, hasModal: boolean, modalTitle?: string | null, modalDescription?: string | null, modalButton: boolean, modalButtonText?: string | null, modalButtonLink?: string | null }> } | null };
 
 export type HomeCountdownQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4475,16 +4477,6 @@ export const HomeConfigDocument = gql`
   homeConfig: config {
     id
     offersPage
-    discountCodeBar {
-      titleBar
-      colorBar
-      titleModal
-      descriptionModal
-      titleButton
-      colorButton
-      shareMessage
-      coupon
-    }
     commercialBannerCollection {
       name
       startingDate
