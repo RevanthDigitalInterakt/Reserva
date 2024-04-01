@@ -26,6 +26,7 @@ import { ModalSignIn } from '../../../../components/ModalSignIn';
 import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
 import IconPrime from '../../../../../assets/icons/IconPrime';
 import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
+import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 
 interface ShowcaseDrawerProps {
   productData: IRsvProduct;
@@ -47,6 +48,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
   const [imageLoad, setImageLoad] = useState(false);
 
   const { actions, packageItems } = useBagStore(['actions', 'packageItems']);
+  const { setDrawerIsOpen } = useProductDetailStore(['setDrawerIsOpen']);
   const { profile } = useAuthStore(['profile']);
   const {
     changeStateAnimationBag,
@@ -78,6 +80,8 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
         productData.sku[0]?.sizes[0]?.skuId || '',
         orderFormItem ? orderFormItem.quantity + 1 : 1,
       );
+
+      setOnLoading(false);
     } catch (error) {
       setOnLoading(false);
       ExceptionProvider.captureException(error);
@@ -163,7 +167,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
 
       if (data?.product) {
         setProduct(data.product);
-        setProductImage(data.product.initialColor?.images[0] || productData.image);
+        setProductImage(productData.image);
         setImageLoad(false);
       }
     } catch (err) {
@@ -179,10 +183,9 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
   }, [changeStateAnimationBag, isPrime]);
 
   const onNavigate = () => {
-    navigate('ProductDetail', {
-      productId: productData.productId,
-      colorSelected: productData.sku[0]?.colorHex || COLORS.WHITE,
-    });
+    setDrawerIsOpen(false);
+    // @ts-ignore
+    navigate('ProductDetail', { skuId: productData.sku[0]?.sizes[0]?.skuId });
   };
 
   useEffect(() => {
