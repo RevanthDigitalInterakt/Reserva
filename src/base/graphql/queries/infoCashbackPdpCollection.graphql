@@ -1,0 +1,7 @@
+query InfoCashbackPdpCollection{
+  infoCashbackPdpCollection {
+    infoCashback
+    infoCashbackTitleTooltip
+    infoCashbackTextTooltip
+  }
+}

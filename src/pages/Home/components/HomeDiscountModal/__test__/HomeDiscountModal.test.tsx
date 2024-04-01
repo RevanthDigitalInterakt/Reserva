@@ -20,9 +20,6 @@ const mockHomeConfigQuery = {
       homeConfig: {
         id: 'MainConfig',
         offersPage: 'collection:2772',
-        discountCodeBar: {
-          titleBar: 'Ganhe R$50 na sua Primeira Compra', colorBar: '#38A238', titleModal: '*Válido nas compras acima de R$199. Desconto aplicado automaticamente no carrinho. Não cumulativo com outras promoções. Não cumulativo nas camisetas com desconto.', descriptionModal: 'Use o cupom RSVAPP50', titleButton: 'Aproveite!', colorButton: '#38A238', shareMessage: null, coupon: null, __typename: 'ConfigDiscountBarOutput',
-        },
         __typename: 'ConfigOutput',
       },
     },
@@ -40,7 +37,6 @@ jest.mock('@react-navigation/native', () => ({
 jest.mock('../../../../../zustand/useHomeStore', () => ({
   useHomeStore: () => ({
     onLoad: () => {},
-    discountBar: mockHomeConfigQuery.result.data.homeConfig.discountCodeBar,
   }),
 }));
 

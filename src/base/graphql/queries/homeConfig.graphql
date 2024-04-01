@@ -2,16 +2,6 @@ query homeConfig {
   homeConfig: config {
     id
     offersPage
-    discountCodeBar {
-      titleBar
-      colorBar
-      titleModal
-      descriptionModal
-      titleButton
-      colorButton
-      shareMessage
-      coupon
-    }
     commercialBannerCollection {
       name
       startingDate
