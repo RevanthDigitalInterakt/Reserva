@@ -1,10 +1,22 @@
 ## CHANGELOG
 
+### 2.7.8
+
+- [24225 - Componente de carrinho abandonado home [app]](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/24225)
+
+---
+
 ### 2.7.7
+
 - [29630 - Inclusão do informativo do benefício de cashback na PDP - APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/29630)
 
+---
+
 ### 2.7.6
+
 - [27026 - Smarthint - Adicionar produto da vitrine na sacola APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/27026)
+
+---
 
 ### 2.7.5
 
@@ -16,6 +28,8 @@
 - [27568 - Remoção do botão "Envie uma mensagem"](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/27568)
 - [19204 - Visualização da informação do projeto - 1P=5P [app]](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/19204)
 - Adiciona e Ajuste no project.pbxproj "Bundle React Native code and images" com novas configurações.
+
+---
 
 ### 2.6.0
 
