@@ -70,12 +70,22 @@ export const linkingConfig: LinkingOptions = {
     // Check if app was opened from a deep link
     const remoteMessage = await messaging().getInitialNotification();
     const { details } = JSON.parse(remoteMessage?.data?.data || '{}');
-    const link = details?.link || '';
+    const ditoDeeplinkUrl = details?.link || '';
+    if (ditoDeeplinkUrl) {
+      // TODO import { pushClicked } from '../../services/ditoService';
+      // TODO implementar o pushClicked da dito
+      return urlHandler(ditoDeeplinkUrl);
+    }
 
-    if(remoteMessage) return urlHandler(link);
+    const url = await Linking.getInitialURL();
+
+    if (url) {
+      return urlHandler(url);
+    }
 
     return undefined;
   },
+
   subscribe(listener) {
     const onReceiveURL = async ({ url }: { url: string }) => {
       const currentDeepLink = await deepLinkHelper(url);
@@ -110,25 +120,27 @@ export const linkingConfig: LinkingOptions = {
         onDeepLinkListener: true,
         timeToWaitForATTUserAuthorization: 10,
       },
-      (_) => {},
-      (_) => {},
+      (_) => { },
+      (_) => { },
     );
 
-    const subFcm = messaging().onNotificationOpenedApp(async (remoteMessage) => {
+    const unsubscribeFCM = messaging().onNotificationOpenedApp(async (remoteMessage) => {
       const { details } = JSON.parse(remoteMessage?.data?.data || '{}');
-      const link = details?.link || '';   
-      console.log('link',link);
-              
-      listener(link);
+      const url = details?.link || '';
+      // TODO testar com app minimizado
+      // TODO import { pushClicked } from '../../services/ditoService';
+      // TODO implementar o pushClicked da dito
+      const newUrl = await deepLinkHelper(url);
+      listener(newUrl);
     });
-    // Listen to incoming links from deep linking
-    const subscription = Linking.addEventListener('url', onReceiveURL);
+
+    const linkingSubscription = Linking.addEventListener('url', onReceiveURL);
 
     return () => {
       // Clean up the event listeners
-      subscription.remove();
+      linkingSubscription.remove();
       onDeepLinkCanceller();
-      subFcm()
+      unsubscribeFCM()
     };
   },
 };

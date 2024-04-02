@@ -1878,7 +1878,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   abseil: 926fb7a82dc6d2b8e1f2ed7f3a718bce691d1e46
   AppCheckCore: d0d4bcb6f90fd9f69958da5350467b79026b38c7
-  AppsFlyerFramework: 38431c0dd52c05f4bdbe34934ef004d586063b30
+  AppsFlyerFramework: 6eb4d89d2eb9a6632317f1055b359d9fd85fd5ff
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost: 7dcd2de282d72e344012f7d6564d024930a6a440
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
@@ -1955,7 +1955,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 95bdf0ab46024ca9849e08739b6abd8fe489cd33
   React-jsinspector: 8e291ed0ab371314de269001d6b9b25db6aabf42
   React-logger: d4010de0b0564e63637ad08373bc73b5d919974b
-  react-native-appsflyer: a1b344b21b628dd1c66a9eb28f12d2a94ac5ab2f
+  react-native-appsflyer: 202a3a36d7fabe9f36198b45f952b1a91f9b27a0
   react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-clarity: cd2c7a95a0018f60d3e42086c572eac34aa15208
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
@@ -2018,4 +2018,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: bdb5fa3e872034186f6d3bb85e2d09bfc546cc33
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.14.3
