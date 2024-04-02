@@ -659,7 +659,7 @@ PODS:
     - DatadogInternal (= 2.7.1)
   - DatadogRUM (2.7.1):
     - DatadogInternal (= 2.7.1)
-  - DatadogSDKReactNative (2.2.0):
+  - DatadogSDKReactNative (2.3.1):
     - DatadogCore (~> 2.7.1)
     - DatadogCrashReporting (~> 2.7.1)
     - DatadogLogs (~> 2.7.1)
@@ -1336,7 +1336,7 @@ PODS:
   - react-native-video/Video (6.0.0-beta.6):
     - PromisesSwift
     - React-Core
-  - react-native-webview (13.8.1):
+  - react-native-webview (13.8.4):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - React-NativeModulesApple (0.72.12):
@@ -1451,7 +1451,7 @@ PODS:
     - React-perflogger (= 0.72.12)
   - RNBootSplash (4.7.5):
     - React-Core
-  - RNCAsyncStorage (1.22.3):
+  - RNCAsyncStorage (1.23.1):
     - React-Core
   - RNCClipboard (1.13.2):
     - React-Core
@@ -1501,7 +1501,7 @@ PODS:
     - Firebase/Storage (= 10.20.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.15.0):
+  - RNGestureHandler (2.16.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNNotifee (7.8.2):
@@ -1511,11 +1511,11 @@ PODS:
     - React-Core
   - RNPermissions (3.10.1):
     - React-Core
-  - RNReanimated (3.8.0):
+  - RNReanimated (3.8.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNScreens (3.29.0):
+  - RNScreens (3.30.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNSha256 (1.4.10):
@@ -1857,7 +1857,7 @@ SPEC CHECKSUMS:
   DatadogInternal: b9217da25018284c087a2ed4b9bb3b0f26c767c0
   DatadogLogs: 3b4132eefa67f196bb3ab2d603c1a2acd1292615
   DatadogRUM: 8845815ba89f5ab8ceee765ee268f7de36f3e35d
-  DatadogSDKReactNative: df8874f04262606461d8db6b48d6be145d3bf483
+  DatadogSDKReactNative: b4fda56c29e413be09ef97688b85040900616988
   DatadogTrace: a63da746c609bd4c683bca61a94429889e33b11e
   DatadogWebViewTracking: 713f862ddd89173e0a3f5342cefa23def40f0f48
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
@@ -1934,7 +1934,7 @@ SPEC CHECKSUMS:
   react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
   react-native-tracking-transparency: 25ff1ff866e338c137c818bdec20526bb05ffcc1
   react-native-video: dc3118548cf8864a83f57df4345cf6c692402e8f
-  react-native-webview: e3e628fa35b16dec62a9fd5f83711c4c83feafd3
+  react-native-webview: 820f92fa053eb1c9929db400c63af33be43cc75d
   React-NativeModulesApple: 30a72273f7fcf81d47742c1edc998ea88d34739a
   React-perflogger: 63606aeab27683112e1bd4ef25bd099ec1cb03f8
   React-RCTActionSheet: 5b39fc2b479d47325e5ac95193c482044bfebbc6
@@ -1953,7 +1953,7 @@ SPEC CHECKSUMS:
   React-utils: 147af032f68db757b4f885b2b5131dc23a7fd7e7
   ReactCommon: ef68590fe8751d802740801dfb893b80caa3a046
   RNBootSplash: 85f6b879c080e958afdb4c62ee04497b05fd7552
-  RNCAsyncStorage: 10591b9e0a91eaffee14e69b3721009759235125
+  RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCClipboard: 60fed4b71560d7bfe40e9d35dea9762b024da86d
   RNDeviceInfo: 4f9c7cfd6b9db1b05eb919620a001cf35b536423
   RNExitApp: 00036cabe7bacbb413d276d5520bf74ba39afa6a
@@ -1967,11 +1967,11 @@ SPEC CHECKSUMS:
   RNFBPerf: a5a99bc83ae5b89ec7e0513fac94478df42fc475
   RNFBRemoteConfig: e36f9b70aeca4a73dcb683573c79619b83d59c4f
   RNFBStorage: ebf84836d1e919f1fd3fa8d53178e47ca35f186b
-  RNGestureHandler: e8136f17f433457f317408580c27491a49f77a4c
+  RNGestureHandler: b24778ccfe2ee0fb1fe50e12e90e0d8edb1bf475
   RNNotifee: 8e2d3df3f0e9ce8f5d1fe4c967431138190b6175
   RNPermissions: 54b22c815d5d966705e4d5d8b801e65c0e363966
-  RNReanimated: ed89354870e2581e88d074f2305a9443f5c9e1a1
-  RNScreens: a79430706d7d993b1e5c0dde8b51fd1af41ad432
+  RNReanimated: 068e508188021cbe24ae25c6cb2827d0abf6054e
+  RNScreens: 5280f062ab6aee9e7c27fa1f43480b977b922974
   RNSha256: e1bc64e9e50b293d5282bb4caa1b2043931f1c9d
   RNShare: da6d90b6dc332f51f86498041d6e34211f96b630
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396

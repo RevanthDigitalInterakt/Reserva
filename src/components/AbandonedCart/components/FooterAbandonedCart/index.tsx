@@ -6,6 +6,7 @@ import { useNavigationToDelivery } from '../../../../hooks/useNavigationToDelive
 import EventProvider from '../../../../utils/EventProvider';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 import { Actions } from '../../../../utils/EventProvider/Event';
+import testProps from '../../../../utils/testProps';
 
 function FooterAbandonedCart() {
   const { profile } = useAuthStore(['profile']);
@@ -27,9 +28,16 @@ function FooterAbandonedCart() {
   return (
     <TouchableOpacity
       onPress={() => onClickPurchase()}
+      {...testProps('abandoned_cart_button_finish_purchase')}
     >
-      <View style={styles.container}>
-        <Text style={styles.textFinishPurchase}>
+      <View
+        style={styles.container}
+        {...testProps('abandoned_cart_footer_container')}
+      >
+        <Text
+          style={styles.textFinishPurchase}
+          testID="com.usereserva:id/abandoned_cart_finish_purchase"
+        >
           Finalizar compra
         </Text>
       </View>

@@ -8,7 +8,10 @@ function ItemsCardWrapper() {
   const data = packageItems.map((item) => item.items);
 
   return data?.map((item, index) => (
-    <ItemAbandonedCart key={index?.toString()} items={item} />
+    <ItemAbandonedCart
+      key={index?.toString()}
+      items={item}
+    />
   ));
 }
 
