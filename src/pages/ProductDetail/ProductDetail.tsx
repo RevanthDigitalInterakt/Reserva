@@ -7,6 +7,7 @@ import {
   ProductResultActionEnum,
   TrackPageTypeEnum,
   useProductLazyQuery,
+  useInfoCashbackPdpCollectionQuery,
 } from '../../base/graphql/generated';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { Box } from '../../components/Box/Box';
@@ -37,6 +38,7 @@ import ProductAddToCart from './components/ProductAddToCart';
 import { Drawer } from '../../components/Drawer';
 import { DrawerSelectors } from './components/DrawerSelectors';
 import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/useTrackClickStore';
+import CashbackInfo from '../../components/CashbackInfo';
 import { ProductPayment } from './components/ProductPayment';
 import { Divider } from '../../components/Divider/Divider';
 
@@ -65,6 +67,12 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
     notifyOnNetworkStatusChange: true,
     context: { clientName: 'gateway' },
   });
+
+  const { data } = useInfoCashbackPdpCollectionQuery({
+    context: { clientName: 'gateway' },
+    fetchPolicy: getFetchPolicyPerKey('InfoCashbackPdpCollection'),
+  });
+  const isCashbackValid = data && data.infoCashbackPdpCollection && data.infoCashbackPdpCollection.infoCashback && !data.infoCashbackPdpCollection.infoCashback.includes('0%');
 
   const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
@@ -170,6 +178,9 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         {!!productDetail && !isKitLook && (
           <View>
             <ProductSummary />
+            {isCashbackValid &&  (
+              <CashbackInfo data={data}/>
+            )}
 
             <ProductSelectors />
 
