@@ -25,7 +25,7 @@ const data = [
   {
     title: 'O que ganho fazendo parte deste programa?',
     content:
-      '• 20% off nas compras acima de R$499;\n\n'
+      '• 15% off em todos os pedidos (não inclui produtos em liquidação)\n\n'
       + '• Frete grátis sem mínimo para toda compra digital;\n\n'
       + '• R$25 reais de cashback mensal - a mensalidade todinha de volta!\n\n'
       + '• Participação nos eventos exclusivos (dias prime, experiências...);\n\n'
