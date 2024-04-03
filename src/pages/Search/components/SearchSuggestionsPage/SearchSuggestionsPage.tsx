@@ -33,7 +33,7 @@ function SearchSuggestionsPage() {
       q: parameters.q,
       provider: {
         value: showOnSmartint
-          ? SearchProviderEnum.Smarthint
+          ? SearchProviderEnum.Algolia
           : SearchProviderEnum.Vtex,
       },
     },

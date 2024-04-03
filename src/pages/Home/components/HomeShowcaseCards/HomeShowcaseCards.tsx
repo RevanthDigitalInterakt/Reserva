@@ -70,10 +70,8 @@ export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
 
   const onClickCard = useCallback((data: IRsvProduct) => {
     trackClickStore.getState().onSendTrackClick(newData, TrackPageTypeEnum.Home);
-    navigate('ProductDetail', {
-      productId: data.productId,
-      colorSelected: data.sku[0]?.colorHex || '#FFFFFF',
-    });
+    // @ts-ignore
+    navigate('ProductDetail', { skuId: data.sku[0]?.sizes[0]?.skuId });
   }, []);
 
   if (!product) {
