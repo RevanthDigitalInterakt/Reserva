@@ -1,5 +1,8 @@
 ## CHANGELOG
 
+### 2.7.8
+- [31196 - Ajuste de layout](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/31196)
+
 ### 2.7.7
 - [29630 - Inclusão do informativo do benefício de cashback na PDP - APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/29630)
 
