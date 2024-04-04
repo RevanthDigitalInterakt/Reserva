@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     paddingTop:20,
     paddingLeft:15,
     alignSelf: 'flex-start',
+    zIndex:10
   },
   infoContainer: {
     flexDirection: 'row',
