@@ -39,7 +39,7 @@ const CashbackInfo = ({ data }: CashbackInfoProps) => {
           <IconInfo />
         </View>
       </TouchableOpacity>
-      <Animated.View style={[styles.tooltipContainer, { opacity: fadeAnim }]}>
+      <Animated.View style={[styles.tooltipContainer, { opacity: fadeAnim, zIndex: 9999 }]}>
         <View style={styles.arrow} />
         <Text style={styles.tooltipTitle}>
           {data.infoCashbackPdpCollection.infoCashbackTitleTooltip}
