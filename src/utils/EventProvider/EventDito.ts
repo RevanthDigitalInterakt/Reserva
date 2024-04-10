@@ -39,6 +39,7 @@ type TSearched = {
   term: string;
   itens_encontrados: number;
   dispositivo: string;
+  client_provider:string
 };
 
 type TSignedUp = {

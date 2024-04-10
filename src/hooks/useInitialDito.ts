@@ -32,7 +32,7 @@ export default function useInitialDito() {
     EventProvider.sendTrackEvent('acessou-home', {
       id,
       action: 'acessou-home',
-      data: { origem: 'app', dispositivo: Platform.OS },
+      data: { origem: 'app', dispositivo: Platform.OS, client_provider:Platform.OS },
     });
   };
 
@@ -55,7 +55,7 @@ export default function useInitialDito() {
           gender: profile?.gender || '',
           birthday: profile?.birthDate,
           cpf: profile?.document || '',
-          data: { dispositivo: Platform.OS },
+          data: { dispositivo: Platform.OS, client_provider:Platform.OS },
         },
       });
       await handleRegisterTokenDito({ id: syncAnonymousToUser, deviceToken });
@@ -72,6 +72,7 @@ export default function useInitialDito() {
         cpf: profile?.document || '',
         data: {
           dispositivo: Platform.OS,
+          client_provider:Platform.OS
         },
       },
     });
@@ -101,6 +102,7 @@ export default function useInitialDito() {
             email: uniqueIdDitoFormatted,
             data: {
               dispositivo: Platform.OS,
+              client_provider:Platform.OS
             },
           },
         });
