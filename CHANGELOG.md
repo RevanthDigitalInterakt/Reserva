@@ -1,10 +1,15 @@
 ## CHANGELOG
 
-### 2.7.8
+### 2.7.9
 
 - [24225 - Componente de carrinho abandonado home [app]](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/24225)
 
 ---
+
+### 2.7.8
+
+- [30330 - Ajuste copy prime no app](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/30330)
+- [31196 - Ajuste de layout](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/31196)
 
 ### 2.7.7
 

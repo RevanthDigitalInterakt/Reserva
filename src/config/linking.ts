@@ -2,6 +2,7 @@ import { Linking, Platform } from 'react-native';
 import { getPathFromState, type LinkingOptions } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
 import { env } from './env';
+import messaging from '@react-native-firebase/messaging';
 
 import { deepLinkHelper } from '../utils/LinkingUtils/linkingUtils';
 import { defaultInitialUrl } from '../utils/LinkingUtils/static/deepLinkMethods';
@@ -67,12 +68,24 @@ export const linkingConfig: LinkingOptions = {
   },
   async getInitialURL() {
     // Check if app was opened from a deep link
+    const remoteMessage = await messaging().getInitialNotification();
+    const { details } = JSON.parse(remoteMessage?.data?.data || '{}');
+    const ditoDeeplinkUrl = details?.link || '';
+    if (ditoDeeplinkUrl) {
+      // TODO import { pushClicked } from '../../services/ditoService';
+      // TODO implementar o pushClicked da dito
+      return urlHandler(ditoDeeplinkUrl);
+    }
+
     const url = await Linking.getInitialURL();
 
-    if (url !== null) return urlHandler(url);
+    if (url) {
+      return urlHandler(url);
+    }
 
     return undefined;
   },
+
   subscribe(listener) {
     const onReceiveURL = async ({ url }: { url: string }) => {
       const currentDeepLink = await deepLinkHelper(url);
@@ -107,17 +120,27 @@ export const linkingConfig: LinkingOptions = {
         onDeepLinkListener: true,
         timeToWaitForATTUserAuthorization: 10,
       },
-      (_) => {},
-      (_) => {},
+      (_) => { },
+      (_) => { },
     );
 
-    // Listen to incoming links from deep linking
-    const subscription = Linking.addEventListener('url', onReceiveURL);
+    const unsubscribeFCM = messaging().onNotificationOpenedApp(async (remoteMessage) => {
+      const { details } = JSON.parse(remoteMessage?.data?.data || '{}');
+      const url = details?.link || '';
+      // TODO testar com app minimizado
+      // TODO import { pushClicked } from '../../services/ditoService';
+      // TODO implementar o pushClicked da dito
+      const newUrl = await deepLinkHelper(url);
+      listener(newUrl);
+    });
+
+    const linkingSubscription = Linking.addEventListener('url', onReceiveURL);
 
     return () => {
       // Clean up the event listeners
-      subscription.remove();
+      linkingSubscription.remove();
       onDeepLinkCanceller();
+      unsubscribeFCM()
     };
   },
 };

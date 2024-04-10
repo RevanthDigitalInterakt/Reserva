@@ -28,6 +28,9 @@ import DatadogComponentProvider from './components/DatadogComponentProvider';
 import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
 import { useConnectivityStore } from './zustand/useConnectivityStore';
 import { useBagStore } from './zustand/useBagStore/useBagStore';
+import { Platform } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
+
 
 const DefaultTheme = {
   colors: {
@@ -50,6 +53,10 @@ function App() {
   const firstLaunchedData = async () => {
     await setItem('@RNSession:Ron', false);
   };
+
+  if (Platform.OS === 'ios') {    
+    messaging().requestPermission();
+ }
 
   useEffect(() => {
     firstLaunchedData();

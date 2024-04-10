@@ -48,7 +48,7 @@ function ProductListItem({
         <TotalDiscountFirstPurchase priceDiscount={data.showFirstPurchaseDiscountMessage || ''} />
       )}
 
-      <Box flexDirection="row" height={132} justifyContent="space-between" flexGrow={1}>
+      <Box flexDirection="row" height={142} justifyContent="space-between" flexGrow={1}>
         <Box flexDirection="row">
           <Box marginRight="micro">
             <TouchableOpacity
