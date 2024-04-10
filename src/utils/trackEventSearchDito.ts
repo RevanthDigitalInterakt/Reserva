@@ -17,6 +17,7 @@ export async function trackEventSearchDito(q: string, resultCount: number) {
       itens_encontrados: resultCount || 0,
       dispositivo: Platform.OS,
       origem: 'app',
+      client_provider:Platform.OS
     },
   });
 }
