@@ -144,7 +144,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     if (!mergedItems?.length) return;
 
     if (!profile?.email) {
-      navigation.navigate('Login', { comeFrom: comeFrom ? comeFrom :'BagScreen' });
+      navigation.navigate('Login', { comeFrom: comeFrom || 'BagScreen' });
       return;
     }
 
@@ -156,7 +156,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
         custumer_email: profile?.email,
       });
 
-      navigation.navigate('EditProfile', { isRegister: true, comeFrom: comeFrom ? comeFrom :'BagScreen' });
+      navigation.navigate('EditProfile', { isRegister: true, comeFrom: comeFrom || 'BagScreen' });
       return;
     }
 
