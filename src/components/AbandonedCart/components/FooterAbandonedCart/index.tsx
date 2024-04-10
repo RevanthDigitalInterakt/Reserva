@@ -12,7 +12,7 @@ function FooterAbandonedCart() {
   const { profile } = useAuthStore(['profile']);
   const { handleNavigateToDelivery } = useNavigationToDelivery();
 
-  const isLogged = useMemo(() => (profile?.email), [profile?.email]);
+  const isLogged = useMemo(() => (profile?.email), [profile]);
 
   const onClickPurchase = useCallback(() => {
     try {
@@ -20,11 +20,12 @@ function FooterAbandonedCart() {
         action: Actions.click_button_finish_purchase,
         logged: isLogged ? 'logged in' : 'logged out',
       });
-      handleNavigateToDelivery(profile);
+
+      handleNavigateToDelivery(profile, 'Home');
     } catch (error) {
       ExceptionProvider.captureException(error);
     }
-  }, []);
+  }, [profile]);
   return (
     <TouchableOpacity
       onPress={() => onClickPurchase()}

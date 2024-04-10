@@ -1,13 +1,13 @@
 import React, { useCallback, useMemo } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import IconComponent from '../../../IconComponent/IconComponent';
 import { styles } from './styles';
 import EventProvider from '../../../../utils/EventProvider';
 import { Actions } from '../../../../utils/EventProvider/Event';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import testProps from '../../../../utils/testProps';
+import IconChevronRightSmall from '../../../../../assets/icons/IconChevronRightSmall';
 
 function HeaderAbandonedCart() {
   const navigation = useNavigation();
@@ -52,11 +52,7 @@ function HeaderAbandonedCart() {
               style={styles.iconContainer}
               {...testProps('abandoned_cart_icon_container')}
             >
-              <IconComponent
-                style={styles.iconChevronRight}
-                icon="chevronRight"
-                {...testProps('abandoned_cart_icon')}
-              />
+              <IconChevronRightSmall width={12} height={12} />
             </View>
           </View>
         </TouchableOpacity>

@@ -102,7 +102,6 @@ export const commons = {
   addition: require('../../../assets/common/addition.png'),
   subtraction: require('../../../assets/common/subtraction.png'),
   abandonedCartBag: require('../../../assets/common/abandonedCartBag.png'),
-  chevronRightSmall: require('../../../assets/common/chevronRightSmall.png'),
 };
 
 /* mapping of svgs used as icons */

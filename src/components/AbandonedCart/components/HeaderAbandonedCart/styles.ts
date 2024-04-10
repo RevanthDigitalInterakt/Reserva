@@ -31,8 +31,4 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  iconChevronRight: {
-    width: scale(4),
-    height: scale(3),
-  },
 });
