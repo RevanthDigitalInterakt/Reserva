@@ -41,6 +41,7 @@ import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/us
 import CashbackInfo from '../../components/CashbackInfo';
 import { ProductPayment } from './components/ProductPayment';
 import { Divider } from '../../components/Divider/Divider';
+import ReturnPolicy from './components/ReturnPolicy/ReturnPolicy';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -198,6 +199,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
                   <ProductPayment />
                 </>
               )}
+              <Divider variant="fullWidth" my="xs" />
+              <ReturnPolicy />
             </Box>
 
             <Recommendation />
