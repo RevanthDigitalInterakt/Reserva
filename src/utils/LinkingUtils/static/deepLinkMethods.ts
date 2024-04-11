@@ -3,6 +3,9 @@ import { Linking, Platform } from 'react-native';
 import { platformType } from '../../platformType';
 import { removeProtocol } from '../../removeProtocol';
 import { getAsyncStorageItem } from '../../../hooks/useAsyncStorageProvider';
+import { getApolloClient } from '../../getApolloClient';
+import { OrderFormDocument, type OrderFormQuery, type OrderFormQueryVariables } from '../../../base/graphql/generated';
+import { mergeItemsPackage } from '../../mergeItemsPackage';
 
 interface ICustomMethodReturnParams {
   match: boolean;
@@ -191,11 +194,27 @@ const cartUseCase = (initialUrl: string): ICustomMethodReturnParams => {
 
 const restoreCartUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
   if (initialUrl.includes('#/cart') && initialUrl.includes('/checkout/')) {
-    const orderFormId = getAsyncStorageItem('orderFormId');
-    return {
-      match: true,
-      strUrl: `usereserva://bag/${orderFormId}`,
-    };
+    const orderFormId = await getAsyncStorageItem('orderFormId');
+
+    if (orderFormId) {
+      const { data } = await getApolloClient().query<OrderFormQuery, OrderFormQueryVariables>({
+        query: OrderFormDocument,
+        fetchPolicy: 'no-cache',
+        variables: { orderFormId },
+        context: { clientName: 'gateway' },
+      });
+
+      const { orderForm: { packageItems } } = data;
+
+      const mergedItems = mergeItemsPackage(packageItems)
+
+      if (mergedItems.length) {
+        return {
+          match: true,
+          strUrl: `usereserva://bag/${orderFormId}`,
+        };
+      }
+    }
   }
 
   return defaultCustomMethodReturn;
