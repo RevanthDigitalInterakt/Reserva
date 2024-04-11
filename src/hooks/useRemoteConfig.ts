@@ -63,6 +63,7 @@ export interface IRemoteConfigKeys {
   giftCardPaymentDescription: string;
   nubankPaymentDescription: string;
   pixPaymentDescription: string;
+  show_return_policy: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -123,6 +124,7 @@ export const defaults: IRemoteConfigKeys = {
   giftCardPaymentDescription: 'Cartões de Presente Pré-pagos',
   nubankPaymentDescription: 'Em até 24x',
   pixPaymentDescription: 'Pague à vista ou até em 4x sem juros.',
+  show_return_policy: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;
