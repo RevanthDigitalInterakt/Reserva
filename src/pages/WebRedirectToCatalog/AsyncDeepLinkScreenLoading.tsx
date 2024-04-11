@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
-import { SafeAreaView } from 'react-native';
+import {  ActivityIndicator, SafeAreaView, View } from 'react-native';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { useCart } from '../../context/CartContext';
 import useAsyncDeepLinkStore from '../../zustand/useAsyncDeepLinkStore/useAsyncDeepLinkStore';
@@ -15,6 +15,7 @@ function AsyncDeepLinkScreenLoading({ route, navigation }: TWebRedirectToCatalog
   const { reducerKey, ...restParams } = route.params;
   const { topBarLoading } = useCart();
   const { deepLinkLoading, fallBackRoute, dispatch } = useAsyncDeepLinkStore();
+
   useEffect(() => {
     if (fallBackRoute) {
       navigation.replace(fallBackRoute.routeName, { ...fallBackRoute.params });
@@ -32,9 +33,10 @@ function AsyncDeepLinkScreenLoading({ route, navigation }: TWebRedirectToCatalog
 
   return (
     <SafeAreaView style={{ justifyContent: 'space-between', flex: 1, backgroundColor: COLORS.WHITE }}>
-      <TopBarBackButton showShadow loading={topBarLoading} />
-
-      {deepLinkLoading && <LoadingScreen />}
+      <TopBarBackButton showShadow loading={deepLinkLoading} />
+      <View style={{flex: 1, justifyContent: 'center', alignItems:'center'}}>
+      {deepLinkLoading && <ActivityIndicator size="large" />}
+      </View>
     </SafeAreaView>
   );
 }
