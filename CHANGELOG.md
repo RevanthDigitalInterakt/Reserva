@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### 2.7.10
+- [30626 - Incluir webview de troca e devolução no app reserva](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30626)
+
+---
+
 ### 2.7.9
 - [31591 - Ajustes Dito - Segmentação do AppReserva](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31591)
 
