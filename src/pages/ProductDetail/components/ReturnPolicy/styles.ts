@@ -7,6 +7,6 @@ export default StyleSheet.create({
   },
   description: {
     fontFamily: FONTS.NUNITO_REGULAR,
-    fontSize: 14,
+    fontSize: 12,
   },
 });
