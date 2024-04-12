@@ -1,16 +1,21 @@
 ## CHANGELOG
 
 ### 2.7.9
+
 - [31591 - Ajustes Dito - Segmentação do AppReserva](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31591)
+- [31610 - BUG Vitrine Recomendação APP - Inclusão para o produto errado na sacola](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31610)
 
 ### 2.7.8
+
 - [30330 - Ajuste copy prime no app](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/30330)
 - [31196 - Ajuste de layout](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/31196)
 
 ### 2.7.7
+
 - [29630 - Inclusão do informativo do benefício de cashback na PDP - APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/29630)
 
 ### 2.7.6
+
 - [27026 - Smarthint - Adicionar produto da vitrine na sacola APP](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/27026)
 
 ### 2.7.5
