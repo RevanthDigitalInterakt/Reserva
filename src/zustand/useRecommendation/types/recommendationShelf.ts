@@ -1,7 +1,7 @@
 import type { RecommendationShelfQuery } from '../../../base/graphql/generated';
 
 interface IRecommendationShelfState {
-  onSearchShelf: (page: string) => Promise<RecommendationShelfQuery['recommendationShelf'][]>;
+  onSearchShelf: (user: string) => Promise<RecommendationShelfQuery['recommendationShelf'][]>;
 }
 export type {
   IRecommendationShelfState,
