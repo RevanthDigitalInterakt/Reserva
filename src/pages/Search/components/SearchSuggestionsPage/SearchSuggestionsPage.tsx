@@ -17,6 +17,9 @@ import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPol
 import useSearchStore from '../../../../zustand/useSearchStore';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
+
+const DEFAULT_DEBAUNCE = 400;
+
 function SearchSuggestionsPage() {
   const navigation = useNavigation();
   const { primeActive, primeLPSearchTerms } = usePrimeInfo();
@@ -69,7 +72,7 @@ function SearchSuggestionsPage() {
       return;
     }
 
-    getSuggestions();
+    setTimeout(() => { getSuggestions(); }, DEFAULT_DEBAUNCE);
   }, [
     parameters.q,
     primeActive,
