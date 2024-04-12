@@ -333,6 +333,7 @@ export const triggerEventAfterPurchaseCompleted = async (dataPurchaseCompleted: 
       origem: 'app',
       dispositivo: Platform.OS,
       id: userRefDito,
+      client_provider:Platform.OS
     },
   });
 
