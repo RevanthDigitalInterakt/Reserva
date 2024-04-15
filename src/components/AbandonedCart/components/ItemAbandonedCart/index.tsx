@@ -80,8 +80,8 @@ function ItemAbandonedCart({ items }: Partial<OrderformPackageItemsOutput>[]) {
                   >
                     <ImageComponent
                       source={{ uri: item?.imageSource?.toString() }}
-                      width={128}
-                      height={181}
+                      width={130}
+                      height={180}
                       resizeMode="contain"
                       style={styles.image}
                     />
@@ -163,7 +163,7 @@ function ItemAbandonedCart({ items }: Partial<OrderformPackageItemsOutput>[]) {
       />
 
       <View
-        style={[styles.bulletsWrapper, { width: itemsSliced.length * 24.5 }]}
+        style={[styles.bulletsWrapper, { width: itemsSliced.length * 20 }]}
       >
         {
           itemsSliced.map((item, i) => (

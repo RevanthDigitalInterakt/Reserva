@@ -4,10 +4,7 @@ import { FONTS } from '../../../../base/styles/fonts';
 
 export const styles = StyleSheet.create({
   container: {
-    width: '92%',
-    alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '10%',
   },
   childContainer: {
     alignItems: 'center',

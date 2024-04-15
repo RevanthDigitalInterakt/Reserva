@@ -23,7 +23,7 @@ function BulletsAnimatedStick({
   animValue,
   actualPosition,
 }: IBulletsAnimatedStickItem) {
-  const width = 9;
+  const width = 8;
 
   const bulletStyle = useAnimatedStyle(() => {
     let inputRange = [index - 1, index, index + 1];
@@ -77,7 +77,7 @@ function BulletsAnimatedStick({
           overflow: 'hidden',
           transform: [{ rotateZ: '0deg' }],
           borderWidth: 1,
-          borderColor: COLORS.DIM_GRAY,
+          borderColor: COLORS.GRAY62,
         },
         bulletWrapperStyle,
       ]}
