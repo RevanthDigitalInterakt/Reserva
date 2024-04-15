@@ -119,3 +119,9 @@ jest.mock('react-native-device-info', () => mockRNDeviceInfo);
 jest.mock('react-native-share', () => ({
   default: jest.fn(),
 }));
+
+jest.mock('../src/utils/getApolloClient', () => ({
+  getApolloClient: () => ({
+    mutate: jest.fn(),
+  }),
+}));

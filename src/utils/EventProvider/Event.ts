@@ -13,6 +13,14 @@ export enum Method {
   Facebook = 'facebook',
 }
 
+export enum Actions {
+  see_bag = 'click_button_see_bag',
+  click_on_image = 'click_on_image',
+  click_on_text = 'click_on_text',
+  click_on_card_more_items = 'click_on_card_more_items',
+  click_button_finish_purchase = 'click_button_finish_purchase',
+}
+
 type EventValues = {
   item_id: string;
   item_name: string;
@@ -58,6 +66,12 @@ type EventValues = {
   favorite: number;
   position: 'top' | 'bottom';
   page: string;
+};
+
+type AbandonedCartEventValues = {
+  action: Actions;
+  index?: number;
+  logged?: 'logged in' | 'logged out';
 };
 
 export namespace EventsOptions {
@@ -160,6 +174,7 @@ export namespace EventsOptions {
   export type PageLoadTime = Pick<EventValues, | 'page' | 'value'>;
   export type SignUp = Pick<EventValues, | 'method'>;
   export type Wishlist = Pick<EventValues, | 'currency' | 'items' | 'value'>;
+  export type AbandonedCart = Pick<AbandonedCartEventValues, | 'action' | 'index' | 'logged'>;
 
 }
 
@@ -349,4 +364,8 @@ export type EventOptionsFn =
   | {
     type: 'click_1p5p_home',
     payload: {}
+  }
+  | {
+    type: 'abandoned_cart',
+    payload: EventsOptions.AbandonedCart
   };

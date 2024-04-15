@@ -18,6 +18,14 @@
 		67C2577C276280BD00793131 /* LinkPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67C2577B276280BC00793131 /* LinkPresentation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		67D4756A2735B77D00D1346C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 67D475692735B77D00D1346C /* GoogleService-Info.plist */; };
 		6A92D90292B745528AC191AE /* WorkSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D624B598DD1B4031A7C8FC64 /* WorkSans-BoldItalic.ttf */; };
+		6B0DF9332BB4CFB4007CA0CB /* (null) in Resources */ = {isa = PBXBuildFile; };
+		6B0DF9342BB4CFB4007CA0CB /* (null) in Resources */ = {isa = PBXBuildFile; };
+		6B0DF9352BB4CFB4007CA0CB /* (null) in Resources */ = {isa = PBXBuildFile; };
+		6B0DF9362BB4CFB4007CA0CB /* (null) in Resources */ = {isa = PBXBuildFile; };
+		6B6E07842BC709F40081D1EA /* Arial-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B6E07802BC709F40081D1EA /* Arial-Italic.ttf */; };
+		6B6E07852BC709F40081D1EA /* Arial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B6E07812BC709F40081D1EA /* Arial.ttf */; };
+		6B6E07862BC709F40081D1EA /* Arial-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B6E07822BC709F40081D1EA /* Arial-Bold.ttf */; };
+		6B6E07872BC709F40081D1EA /* Arial-Bold-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B6E07832BC709F40081D1EA /* Arial-Bold-Italic.ttf */; };
 		7A83FE4092F54146B63E15F7 /* WorkSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2435FF11651418AA4BC81EA /* WorkSans-Bold.ttf */; };
 		7ABF3AE18BB6423EAEDD19DF /* WorkSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D14FA4B9E674B79B21B9B7A /* WorkSans-Italic.ttf */; };
 		7D47655F29E852B10062E04C /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 80F6B008278F18DC00778D4E /* NotificationService.m */; };
@@ -132,6 +140,10 @@
 		675379EA273B048E00FB2439 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		67C2577B276280BC00793131 /* LinkPresentation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LinkPresentation.framework; path = System/Library/Frameworks/LinkPresentation.framework; sourceTree = SDKROOT; };
 		67D475692735B77D00D1346C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6B6E07802BC709F40081D1EA /* Arial-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Arial-Italic.ttf"; path = "../../../../Downloads/Arial-Italic.ttf"; sourceTree = "<group>"; };
+		6B6E07812BC709F40081D1EA /* Arial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Arial.ttf; path = ../../../../Downloads/Arial.ttf; sourceTree = "<group>"; };
+		6B6E07822BC709F40081D1EA /* Arial-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Arial-Bold.ttf"; path = "../../../../Downloads/Arial-Bold.ttf"; sourceTree = "<group>"; };
+		6B6E07832BC709F40081D1EA /* Arial-Bold-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Arial-Bold-Italic.ttf"; path = "../../../../Downloads/Arial-Bold-Italic.ttf"; sourceTree = "<group>"; };
 		6D455F82AD501ED2570F5D5B /* Pods-reserva.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva.release.xcconfig"; path = "Target Support Files/Pods-reserva/Pods-reserva.release.xcconfig"; sourceTree = "<group>"; };
 		7E93FBEB3D2CDCB62B0B68C1 /* Pods_reserva.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_reserva.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E22B81276A5A0900E246B9 /* BridgingFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgingFile.swift; sourceTree = "<group>"; };
@@ -322,6 +334,10 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				6B6E07832BC709F40081D1EA /* Arial-Bold-Italic.ttf */,
+				6B6E07822BC709F40081D1EA /* Arial-Bold.ttf */,
+				6B6E07802BC709F40081D1EA /* Arial-Italic.ttf */,
+				6B6E07812BC709F40081D1EA /* Arial.ttf */,
 				CE6827552A8D688A00D8D9DF /* Nunito-Black.ttf */,
 				CE68275B2A8D688B00D8D9DF /* Nunito-BlackItalic.ttf */,
 				CE68273E2A8D688A00D8D9DF /* Nunito-Bold.ttf */,
@@ -527,6 +543,7 @@
 			files = (
 				CE6827642A8D688B00D8D9DF /* ReservaSerif-Black.otf in Resources */,
 				CE6827652A8D688B00D8D9DF /* Nunito-Bold.ttf in Resources */,
+				6B0DF9342BB4CFB4007CA0CB /* (null) in Resources */,
 				CE6827662A8D688B00D8D9DF /* ReservaDisplay-Regular.otf in Resources */,
 				CE6827672A8D688B00D8D9DF /* Nunito-ExtraLightItalic.ttf in Resources */,
 				CE6827682A8D688B00D8D9DF /* ReservaSans-Italic.ttf in Resources */,
@@ -548,6 +565,7 @@
 				CE6827782A8D688B00D8D9DF /* Nunito-ExtraLight.ttf in Resources */,
 				CE6827792A8D688B00D8D9DF /* ReservaSerif-Light.otf in Resources */,
 				CE68277A2A8D688B00D8D9DF /* ReservaSans-Thin.ttf in Resources */,
+				6B0DF9332BB4CFB4007CA0CB /* (null) in Resources */,
 				CE68277B2A8D688B00D8D9DF /* ReservaSans-Light.ttf in Resources */,
 				CE68277C2A8D688B00D8D9DF /* Nunito-Black.ttf in Resources */,
 				CE68277D2A8D688B00D8D9DF /* ReservaSerif-MediumItalic.otf in Resources */,
@@ -560,6 +578,8 @@
 				CE6827842A8D688B00D8D9DF /* ReservaSerif-Medium.otf in Resources */,
 				CE6827852A8D688B00D8D9DF /* ReservaSans-Bold.ttf in Resources */,
 				CE6827862A8D688B00D8D9DF /* Nunito-Regular.ttf in Resources */,
+				6B0DF9362BB4CFB4007CA0CB /* (null) in Resources */,
+				6B6E07852BC709F40081D1EA /* Arial.ttf in Resources */,
 				CE6827872A8D688B00D8D9DF /* ReservaSans-BoldItalic.ttf in Resources */,
 				CE6827882A8D688B00D8D9DF /* ReservaSans-Medium.ttf in Resources */,
 				CE6827892A8D688B00D8D9DF /* ReservaSans-LightItalic.ttf in Resources */,
@@ -567,12 +587,16 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				CEE33D8729C386F600C64B7A /* BootSplash.storyboard in Resources */,
 				67D4756A2735B77D00D1346C /* GoogleService-Info.plist in Resources */,
+				6B6E07842BC709F40081D1EA /* Arial-Italic.ttf in Resources */,
 				7A83FE4092F54146B63E15F7 /* WorkSans-Bold.ttf in Resources */,
 				6A92D90292B745528AC191AE /* WorkSans-BoldItalic.ttf in Resources */,
 				7ABF3AE18BB6423EAEDD19DF /* WorkSans-Italic.ttf in Resources */,
 				FF699BA6C1F9470992473824 /* WorkSans-Light.ttf in Resources */,
+				6B6E07872BC709F40081D1EA /* Arial-Bold-Italic.ttf in Resources */,
 				0344E6286E224F01A7373F11 /* WorkSans-LightItalic.ttf in Resources */,
+				6B6E07862BC709F40081D1EA /* Arial-Bold.ttf in Resources */,
 				1C63B5251F41449E9A899053 /* WorkSans-Regular.ttf in Resources */,
+				6B0DF9352BB4CFB4007CA0CB /* (null) in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
