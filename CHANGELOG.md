@@ -4,6 +4,7 @@
 
 - [24225 - Componente de carrinho abandonado home [app]](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/24225)
 - [31591 - Ajustes Dito - Segmentação do AppReserva](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31591)
+- [31610 - BUG Vitrine Recomendação APP - Inclusão para o produto errado na sacola](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31610)
 
 ### 2.7.8
 

@@ -8,7 +8,7 @@ import type { IRecommendationShelfState } from './types/recommendationShelf';
 import { getApolloClient } from '../../utils/getApolloClient';
 
 const useRecommendationShelf = create<IRecommendationShelfState>(() => ({
-  onSearchShelf: async (_page: string) => {
+  onSearchShelf: async (user: string) => {
     try {
       const client = getApolloClient();
 
@@ -19,8 +19,8 @@ const useRecommendationShelf = create<IRecommendationShelfState>(() => ({
         variables: {
           input: {
             providers: [TrackProvidersEnum.Smarthint],
-            userIdentifier: '',
-            channel: [SmarthintShelfChannelEnum.Padrao],
+            userIdentifier: user,
+            channel: [SmarthintShelfChannelEnum.App],
             pageType: TrackPageTypeEnum.Home,
             position: 1,
           },

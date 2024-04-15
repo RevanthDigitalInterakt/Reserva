@@ -4,6 +4,7 @@ import { styles } from './HomeShowcase.styles';
 import Shelf from '../HomeShowcaseShelf/HomeShowcaseShelf';
 import useRecommendationShelf from '../../../../zustand/useRecommendation/useRecommendationShelf';
 import type { IRecommendationShelfState } from '../../../../zustand/useRecommendation/types/recommendationShelf';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface IRsvFlag {
   type: string;
@@ -53,7 +54,8 @@ export function HomeShowcase() {
 
   useEffect(() => {
     async function handleGetShelf() {
-      const data = await onSearchShelf('home');
+      const user = await AsyncStorage.getItem('@Dito:anonymousID')
+      const data = await onSearchShelf(user ? user : '');
       setShelf(data as IRsvRecommendation[]);
     }
     handleGetShelf();

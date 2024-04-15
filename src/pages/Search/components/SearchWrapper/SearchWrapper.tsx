@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import { Box } from '../../../../components/Box/Box';
 import { SearchBar } from '../../../../components/SearchBar/SearchBar';
-import useDebounce from '../../../../hooks/useDebounce';
 import { TopBarDefaultBackButton } from '../../../../modules/Menu/components/TopBarDefaultBackButton';
 import useSearchStore, { SearchStatusEnum } from '../../../../zustand/useSearchStore';
 
@@ -22,15 +21,16 @@ function SearchWrapper({ children }: ISearchWrapper) {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  const debouncedValue = useDebounce({ value: searchTerm, delay: 400 });
-
-  useEffect(() => {
-    if (status !== SearchStatusEnum.RESULT && debouncedValue) {
+  function handleSearchTerm(term: string): null {
+    if (status !== SearchStatusEnum.RESULT && term) {
       setStatus(SearchStatusEnum.SUGGESTIONS);
     }
 
-    setQ(debouncedValue);
-  }, [debouncedValue]);
+    setSearchTerm(term);
+    setQ(term);
+
+    return null
+  }
 
   useEffect(() => {
     setSearchTerm(parameters.q);
@@ -43,9 +43,9 @@ function SearchWrapper({ children }: ISearchWrapper) {
       <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
         <SearchBar
           value={searchTerm}
-          onValueChange={setSearchTerm}
+          onValueChange={handleSearchTerm}
           onClickIcon={() => {
-            onSearch({ q: debouncedValue || '', facets: [], page: 1 });
+            onSearch({ q: searchTerm || '', facets: [], page: 1 });
             return null;
           }}
           height={36}

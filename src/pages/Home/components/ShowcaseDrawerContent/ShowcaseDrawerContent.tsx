@@ -27,6 +27,7 @@ import { usePrimeStore } from '../../../../zustand/usePrimeStore/usePrimeStore';
 import IconPrime from '../../../../../assets/icons/IconPrime';
 import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+import IconCheck from '../../../../../assets/icons/IconCheck';
 
 interface ShowcaseDrawerProps {
   productData: IRsvProduct;
@@ -46,6 +47,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
   const [productImage, setProductImage] = useState('');
   const [onLoading, setOnLoading] = useState(false);
   const [imageLoad, setImageLoad] = useState(false);
+  const [addedToCart, setAddedToCart] = useState(false);
 
   const { actions, packageItems } = useBagStore(['actions', 'packageItems']);
   const { setDrawerIsOpen } = useProductDetailStore(['setDrawerIsOpen']);
@@ -77,10 +79,11 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
       }
       await actions.ADD_ITEM(
         '1',
-        productData.sku[0]?.sizes[0]?.skuId || '',
+        selectedSize || '',
         orderFormItem ? orderFormItem.quantity + 1 : 1,
       );
 
+      setAddedToCart(true)
       setOnLoading(false);
     } catch (error) {
       setOnLoading(false);
@@ -90,6 +93,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
 
   const onSelectColor = useCallback((colorID: string) => {
     setSelectedColor(colorID);
+    setAddedToCart(false)
     const sizes = product?.colors?.find((x) => x.colorId === colorID);
     setProductImage(sizes?.images[0] || '');
 
@@ -98,6 +102,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
 
   const onSelectSize = useCallback((sizeID: string) => {
     setSelectedSize(sizeID);
+    setAddedToCart(false)
   }, []);
 
   const onSelectPrice = useCallback((price: number, priceType: string) => {
@@ -406,11 +411,18 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
               <IconAddToFavorite />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={onAddToCart} style={styles.buttonAddToBag}>
+            <TouchableOpacity onPress={onAddToCart} style={[styles.buttonAddToBag, {backgroundColor: addedToCart ? COLORS.BACKGROUND_LICHT_GRAY : COLORS.SHELF_GREEN,}]}>
               {onLoading ? (
                 <ActivityIndicator size="small" color={COLORS.WHITE} />
               ) : (
-                <Text style={styles.textButtonAddToBag}>ADICIONAR À SACOLA</Text>
+                <>
+                  {addedToCart ? <IconCheck /> : <></>}
+                  <Text style={[styles.textButtonAddToBag, {
+                    color: addedToCart ? COLORS.BLACK : COLORS.WHITE,
+                    marginLeft: addedToCart ? 5 : null
+                }]}>{addedToCart ? 'PRODUTO ADICIONADO COM SUCESSO!' : 'ADICIONAR À SACOLA'}</Text>
+            
+                </>
               )}
             </TouchableOpacity>
           </View>
