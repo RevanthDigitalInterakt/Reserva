@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.9.2
+- [30623 - Correção de loading do link whatsapp coleções](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30623)
+- [30618 - Incluir caso de uso para o link de whatsapp](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30618)
+
 ### 2.7.9
 
 - [24225 - Componente de carrinho abandonado home [app]](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/24225)
