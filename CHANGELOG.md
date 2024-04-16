@@ -1,7 +1,16 @@
 ## CHANGELOG
 
+---
+
+### 2.7.10
+- [30966 - Informação troca e devolução PDP [app]](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30966/)
+
+---
+
 ### 2.7.9
 - [31591 - Ajustes Dito - Segmentação do AppReserva](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31591)
+
+---
 
 ### 2.7.8
 - [30330 - Ajuste copy prime no app](https://dev.azure.com/ARECO/Tribo%20E-Commerce/_workitems/edit/30330)

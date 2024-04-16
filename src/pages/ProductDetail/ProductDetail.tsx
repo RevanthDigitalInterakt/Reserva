@@ -65,8 +65,6 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
   const showReturnPolicy = useMemo(() => getBoolean('show_return_policy'), []);
 
-  console.log(showReturnPolicy)
-
   const [getProduct, { loading }] = useProductLazyQuery({
     fetchPolicy: getFetchPolicyPerKey('productDetail'),
     notifyOnNetworkStatusChange: true,
