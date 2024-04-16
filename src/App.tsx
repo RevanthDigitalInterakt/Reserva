@@ -28,8 +28,11 @@ import DatadogComponentProvider from './components/DatadogComponentProvider';
 import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
 import { useConnectivityStore } from './zustand/useConnectivityStore';
 import { useBagStore } from './zustand/useBagStore/useBagStore';
-import { Platform } from 'react-native';
+import { AppRegistry, Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
+import { useNotification } from './hooks/useNotification';
+import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
+
 
 
 const DefaultTheme = {
@@ -40,6 +43,8 @@ const DefaultTheme = {
 
 function App() {
   useApolloFetchPolicyStore(['initialized']);
+  const { onMessageReceived } = useNotification();
+
 
   const { onListenEvents: onListenConnectivityEvents } = useConnectivityStore(['onListenEvents']);
   const [isTesting, setIsTesting] = useState<boolean>(false);
@@ -54,9 +59,9 @@ function App() {
     await setItem('@RNSession:Ron', false);
   };
 
-  if (Platform.OS === 'ios') {    
+  if (Platform.OS === 'ios') {
     messaging().requestPermission();
- }
+  }
 
   useEffect(() => {
     firstLaunchedData();

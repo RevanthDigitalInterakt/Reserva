@@ -1,11 +1,11 @@
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   FirebaseMessagingTypes,
   default as messaging,
 } from '@react-native-firebase/messaging';
 import { Linking } from 'react-native';
-import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
-import { ditoAPI} from '../utils/Notifee/ditoApi';
+import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
+import { ditoAPI } from '../utils/Notifee/ditoApi';
 import type { UserData } from '../utils/Notifee/ditoApi'
 
 const initialUser = {
@@ -18,25 +18,25 @@ const initialUser = {
 
 export const useNotification = () => {
   const [userData, setUserData] = useState<UserData>(initialUser);
- 
-  
+
+
 
   const [channelId, setChannelId] = useState('');
   const [notifications, setNotifications] = useState<
     FirebaseMessagingTypes.RemoteMessage[]
   >([]);
-  
+
 
   const requestUserPermission = useCallback(async () => {
     const authStatus = await messaging().requestPermission();
-    
+
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
+    console.log('enabled', enabled)
     if (enabled) {
       await ditoAPI.updateUserData({
-        userData: {...userData, custom_Data: {enablePush: 'true'}},
+        userData: { ...userData, custom_Data: { enablePush: 'true' } },
       });
     }
   }, []);
@@ -45,10 +45,10 @@ export const useNotification = () => {
     await requestUserPermission();
     await messaging().registerDeviceForRemoteMessages();
     const t = await messaging().getToken();
-    console.log('userData',userData);    
-    setUserData({...userData, token: t});
+    console.log('userData', userData);
+    setUserData({ ...userData, token: t });
   }, []);
-  
+
 
   useEffect(() => {
     onAppBootstrap();
@@ -56,6 +56,8 @@ export const useNotification = () => {
 
   useEffect(() => {
     const notify = async () => {
+      const channel = await notifee.getChannel(channelId);
+console.log('channelchannel',channel)
       if (notifications.length) {
         console.log('notifications', notifications)
         for (let i = 0; i < notifications.length; i++) {
@@ -79,7 +81,7 @@ export const useNotification = () => {
                 link: String(details.link),
               },
             };
-
+            console.log('not', not)
             await notifee.displayNotification(not);
           }
         }
@@ -100,11 +102,10 @@ export const useNotification = () => {
       setNotifications(prev => [...prev, message]);
     }
   };
-  
+
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(onMessageReceived);
-    console.log('unsubscribe', unsubscribe)
     messaging().setBackgroundMessageHandler(onMessageReceived);
     notifee.onBackgroundEvent(() => true);
 
@@ -133,7 +134,7 @@ export const useNotification = () => {
 
   useEffect(() => {
     const handleClickOnNotification = notifee.onForegroundEvent(
-      async ({type, detail}) => {
+      async ({ type, detail }) => {
         switch (type) {
           case EventType.DISMISSED:
             console.log('User dismissed notification', detail.notification);
@@ -159,5 +160,5 @@ export const useNotification = () => {
     return handleClickOnNotification;
   }, []);
 
-  return {userData, setUserData};
+  return { userData, setUserData, onMessageReceived };
 };

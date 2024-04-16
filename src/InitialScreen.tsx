@@ -15,6 +15,7 @@ import useCheckAppNewVersion from './hooks/useCheckAppNewVersion';
 import { useRefreshToken } from './hooks/useRefreshToken';
 import { useWishlistActions } from './hooks/useWishlistActions';
 import { useOncePerDayEvent } from './utils/useOncePerDayEvent';
+import { useNotification } from './hooks/useNotification';
 
 interface IProps {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ function InitialScreen({ children }: IProps) {
   const {
     initialized, isAnonymousUser, profile,
   } = useAuthStore(['initialized', 'isAnonymousUser', 'profile']);
+  const { setUserData } = useNotification();
 
   const { onPrimeConfig } = usePrimeConfig(['onPrimeConfig']);
 
@@ -46,6 +48,14 @@ function InitialScreen({ children }: IProps) {
 
     if (profile) {
       handleDitoRegister();
+      console.log('entrou');
+      
+      setUserData({
+        id: profile?.id||'',
+        name: profile?.firstName || '',
+        email: profile?.email || '',
+        location: 'São Paulo',
+      })
     }
 
     await onPrimeConfig();
@@ -60,6 +70,15 @@ function InitialScreen({ children }: IProps) {
   useEffect(() => {
     if (initialized) {
       onAppInit();
+      
+    // if (profile) {      
+    //   setUserData({
+    //     id: profile?.id||'',
+    //     name: profile?.firstName || '',
+    //     email: profile?.email || '',
+    //     location: 'São Paulo',
+    //   })
+    // }
     }
   }, [initialized, isAnonymousUser, onAppInit]);
 
