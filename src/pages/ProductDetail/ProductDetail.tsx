@@ -201,13 +201,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
                   <ProductPayment />
                 </>
               )}
-              {showReturnPolicy
-              && (
-              <>
-                <Divider variant="fullWidth" my="xs" />
-                <ReturnPolicy />
-              </>
-              )}
+              {showReturnPolicy && (<ReturnPolicy />)}
             </Box>
 
             <Recommendation />

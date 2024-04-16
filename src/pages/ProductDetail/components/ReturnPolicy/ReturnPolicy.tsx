@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { Box } from '../../../../components/Box/Box';
 import { Button } from '../../../../components/Button';
@@ -8,18 +8,17 @@ import testProps from '../../../../utils/testProps';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { useReturnPolicyConfigLazyQuery } from '../../../../base/graphql/generated';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
+import { Divider } from '../../../../components/Divider/Divider';
 import styles from './styles';
 
 function ReturnPolicy() {
   const { productDetail } = useProductDetailStore(['productDetail']);
   const [showSection, setShowSection] = useState(false);
-  const [returnPolicy, setReturnPolicy] = useState(null); // Initialize returnPolicy state
+  const [returnPolicy, setReturnPolicy] = useState(null);
 
   const [getReturnPolicy] = useReturnPolicyConfigLazyQuery({
     context: { clientName: 'gateway' },
   });
-
-  const data = useMemo(() => productDetail?.properties, [productDetail]);
 
   const fetchReturnPolicy = useCallback(async () => {
     try {
@@ -31,15 +30,19 @@ function ReturnPolicy() {
     }
   }, []);
 
+  useEffect(() => {
+    fetchReturnPolicy();
+  }, [fetchReturnPolicy]);
+
   const onToggle = useCallback((show: boolean) => {
     setShowSection(show);
-    fetchReturnPolicy();
   }, [productDetail]);
 
-  if (!productDetail || !data?.description) return null;
+  if (!productDetail || !returnPolicy) return null;
 
   return (
     <Box>
+      <Divider variant="fullWidth" my="xs" />
       <Button
         {...testProps('return_policy_button')}
         variant="semBorda"
