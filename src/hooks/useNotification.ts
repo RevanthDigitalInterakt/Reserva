@@ -12,8 +12,6 @@ export const useNotification = () => {
   const [notifications, setNotifications] = useState<
     FirebaseMessagingTypes.RemoteMessage[]
   >([]);
-  console.log('notificationsnotificationsnotificationsnotifications',notifications);
-  
   useEffect(() => {
     const notify = async () => {
       if (notifications.length) {
@@ -48,12 +46,11 @@ export const useNotification = () => {
 
   const onMessageReceived = async (message: any) => {
     console.log('message',message);
-    const { details, reference, notification } = JSON.parse(message?.data?.data || '{}');
-    console.log('notification1212121312423534654u',notification);
     
-    
-    const hasNotifiedBefore = notifications.find(notification =>{console.log('notification',notification);
-    },
+    const hasNotifiedBefore = notifications.find(
+      notification =>
+        (notification?.data?.details as any)?.notification ===
+        (message.data?.details as any)?.notification,
     );
 
     if (!hasNotifiedBefore) {
