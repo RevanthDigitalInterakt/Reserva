@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { COLORS, FONTS } from '../../../../base/styles';
+import { scale } from '../../../../utils/scale';
 
 export const styles = StyleSheet.create({
   container: {
@@ -12,7 +13,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    marginTop: 16,
+    marginTop: scale(20),
   },
   textFinishPurchase: {
     fontFamily: FONTS.RESERVA_SANS_MEDIUM,

@@ -29,6 +29,7 @@ export const styles = StyleSheet.create({
   },
   childContainer: {
     backgroundColor: COLORS.WHITE,
+    justifyContent: 'center',
     width: width * 0.90,
     height: 224,
     flexDirection: 'row',
@@ -130,6 +131,5 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignSelf: 'center',
     position: 'relative',
-    marginTop: 10,
   },
 });
