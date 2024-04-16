@@ -8,14 +8,12 @@ import { useStatusBar } from './context/StatusBarContext';
 import useInitialDito from './hooks/useInitialDito';
 import CodePushModal from './components/CodePushModal/CodePushModal';
 import { StorageService } from './shared/services/StorageService';
-import OnForegroundEventPush from './utils/Notifee/ForegroundEvents';
 import { useAuthStore } from './zustand/useAuth/useAuthStore';
 import { usePrimeConfig } from './zustand/usePrimeConfig/usePrimeConfig';
 import useCheckAppNewVersion from './hooks/useCheckAppNewVersion';
 import { useRefreshToken } from './hooks/useRefreshToken';
 import { useWishlistActions } from './hooks/useWishlistActions';
 import { useOncePerDayEvent } from './utils/useOncePerDayEvent';
-import { useNotification } from './hooks/useNotification';
 
 interface IProps {
   children: React.ReactNode;
@@ -25,7 +23,6 @@ function InitialScreen({ children }: IProps) {
   const {
     initialized, isAnonymousUser, profile,
   } = useAuthStore(['initialized', 'isAnonymousUser', 'profile']);
-  const { setUserData } = useNotification();
 
   const { onPrimeConfig } = usePrimeConfig(['onPrimeConfig']);
 
@@ -48,15 +45,7 @@ function InitialScreen({ children }: IProps) {
 
     if (profile) {
       handleDitoRegister();
-      console.log('entrou');
-      
-      setUserData({
-        id: profile?.id||'',
-        name: profile?.firstName || '',
-        email: profile?.email || '',
-        location: 'São Paulo',
-      })
-    }
+    }   
 
     await onPrimeConfig();
   }, [
@@ -70,27 +59,11 @@ function InitialScreen({ children }: IProps) {
   useEffect(() => {
     if (initialized) {
       onAppInit();
-      
-    // if (profile) {      
-    //   setUserData({
-    //     id: profile?.id||'',
-    //     name: profile?.firstName || '',
-    //     email: profile?.email || '',
-    //     location: 'São Paulo',
-    //   })
-    // }
     }
   }, [initialized, isAnonymousUser, onAppInit]);
 
   useEffect(() => {
     StorageService.setInstallationToken();
-  }, []);
-
-  // TODO refactor OnForegroundEventPush to useSubscriberForeground()
-  useEffect(() => {
-    // TODO check func OnForegroundEventPush for add subscriber
-    // useSubscriberForeground()
-    OnForegroundEventPush();
   }, []);
 
   useEffect(() => {

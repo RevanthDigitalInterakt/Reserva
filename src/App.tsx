@@ -28,12 +28,9 @@ import DatadogComponentProvider from './components/DatadogComponentProvider';
 import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
 import { useConnectivityStore } from './zustand/useConnectivityStore';
 import { useBagStore } from './zustand/useBagStore/useBagStore';
-import { AppRegistry, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import { useNotification } from './hooks/useNotification';
-import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
-
-
 
 const DefaultTheme = {
   colors: {
@@ -43,8 +40,7 @@ const DefaultTheme = {
 
 function App() {
   useApolloFetchPolicyStore(['initialized']);
-  const { onMessageReceived } = useNotification();
-
+    useNotification()
 
   const { onListenEvents: onListenConnectivityEvents } = useConnectivityStore(['onListenEvents']);
   const [isTesting, setIsTesting] = useState<boolean>(false);
