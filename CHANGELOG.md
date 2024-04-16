@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.9.2
+- [30623 - Correção de loading do link whatsapp coleções](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30623)
+- [30618 - Incluir caso de uso para o link de whatsapp](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30618)
+
 ### 2.7.9
 - [31591 - Ajustes Dito - Segmentação do AppReserva](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31591)
 
