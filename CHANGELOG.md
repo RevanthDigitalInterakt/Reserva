@@ -2,8 +2,14 @@
 
 ---
 
-### 2.7.10
+### 2.9.3
 - [30966 - Informação troca e devolução PDP [app]](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30966/)
+
+---
+
+### 2.9.2
+- [30623 - Correção de loading do link whatsapp coleções](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30623)
+- [30618 - Incluir caso de uso para o link de whatsapp](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30618)
 
 ---
 

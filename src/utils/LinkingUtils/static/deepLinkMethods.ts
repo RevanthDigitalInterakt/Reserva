@@ -2,6 +2,10 @@ import { URL } from 'react-native-url-polyfill';
 import { Linking, Platform } from 'react-native';
 import { platformType } from '../../platformType';
 import { removeProtocol } from '../../removeProtocol';
+import { getAsyncStorageItem } from '../../../hooks/useAsyncStorageProvider';
+import { getApolloClient } from '../../getApolloClient';
+import { OrderFormDocument, type OrderFormQuery, type OrderFormQueryVariables } from '../../../base/graphql/generated';
+import { mergeItemsPackage } from '../../mergeItemsPackage';
 
 interface ICustomMethodReturnParams {
   match: boolean;
@@ -188,6 +192,34 @@ const cartUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
+const restoreCartUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
+  if (initialUrl.includes('#/cart') && initialUrl.includes('/checkout/')) {
+    const orderFormId = await getAsyncStorageItem('orderFormId');
+
+    if (orderFormId) {
+      const { data } = await getApolloClient().query<OrderFormQuery, OrderFormQueryVariables>({
+        query: OrderFormDocument,
+        fetchPolicy: 'no-cache',
+        variables: { orderFormId },
+        context: { clientName: 'gateway' },
+      });
+
+      const { orderForm: { packageItems } } = data;
+
+      const mergedItems = mergeItemsPackage(packageItems)
+
+      if (mergedItems.length) {
+        return {
+          match: true,
+          strUrl: `usereserva://bag/${orderFormId}`,
+        };
+      }
+    }
+  }
+
+  return defaultCustomMethodReturn;
+};
+
 const cartAddItemUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   if (initialUrl.includes('/checkout/cart/add/?sku=')) {
     // TODO open the bag and add the product according to the SKU and quantity
@@ -265,6 +297,7 @@ const registerMethods = [
   accountWishListUseCase,
   accountUseCase,
   cartUseCase,
+  restoreCartUseCase,
   cartAddItemUseCase,
   catalogCollectionUseCase,
   abandonedBagUseCase,
