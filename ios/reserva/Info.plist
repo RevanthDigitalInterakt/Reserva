@@ -35,7 +35,7 @@
 		<dict/>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2023000200.1.18</string>
+	<string>2023000200.1.19</string>
 	<key>CodePushDeploymentKey</key>
 	<string>ZBqyFW6XP_WtQx7J4gpwhIh4qXrRuOYgddjxC</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -64,7 +64,7 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Precisamos da sua localização para encontrarmos a loja Reserva mais próxima de você</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string></string>
+	<string />
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Precisamos da sua localização para encontrarmos a loja Reserva mais próxima de você</string>
 	<key>NSMicrophoneUsageDescription</key>
