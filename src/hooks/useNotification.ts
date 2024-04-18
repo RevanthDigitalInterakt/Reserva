@@ -18,7 +18,7 @@ export const useNotification = () => {
         for (let i = 0; i < notifications.length; i++) {
           const data = JSON.parse(notifications[i]?.data?.data as string);
 
-          const details = data.details;
+          const details = data.details;     
 
           if (details?.title && details?.message) {
             const not = {
@@ -34,7 +34,7 @@ export const useNotification = () => {
                 reference: String(data.reference),
                 link: String(details.link),
               },
-            };
+            };         
             await notifee.displayNotification(not);
           }
         }

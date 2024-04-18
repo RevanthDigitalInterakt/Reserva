@@ -40,7 +40,7 @@ const DefaultTheme = {
 
 function App() {
   useApolloFetchPolicyStore(['initialized']);
-    useNotification()
+  useNotification();
 
   const { onListenEvents: onListenConnectivityEvents } = useConnectivityStore(['onListenEvents']);
   const [isTesting, setIsTesting] = useState<boolean>(false);

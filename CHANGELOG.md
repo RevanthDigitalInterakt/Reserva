@@ -1,5 +1,8 @@
 ## CHANGELOG
 
+### 2.7.10
+- [31730 - Ajustes novo App de Push da Dito](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31730)
+
 ### 2.7.9
 - [31591 - Ajustes Dito - Segmentação do AppReserva](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31591)
 
