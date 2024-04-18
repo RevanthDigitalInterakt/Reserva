@@ -44,4 +44,8 @@ export const FONTS = {
   NUNITO_SEMI_BOLD: 'Nunito-SemiBold',
   NUNITO_SEMI_BOLD_ITALIC: 'Nunito-SemiBoldItalic',
   RESERVA_DISPLAY_REGULAR: 'ReservaDisplay-Regular',
+  ARIAL: 'Arial',
+  ARIAL_BOLD: 'Arial-Bold',
+  ARIAL_BOLD_ITALIC: 'Arial-Bold-Italic',
+  ARIAL_ITALIC: 'Arial-Italic',
 };

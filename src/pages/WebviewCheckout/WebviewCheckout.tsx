@@ -66,6 +66,8 @@ function WebviewCheckout() {
     setNavState(event.url);
   };
 
+  const isComeFromHome = useMemo(() => (route?.params?.comeFrom === 'Home'), [route.params]);
+
   const isOrderPlaced = useMemo(() => (
     navState.includes('/checkout/orderPlaced')
   ), [navState]);
@@ -78,6 +80,10 @@ function WebviewCheckout() {
 
     navigation.navigate('BagScreen', { needRefreshing: true });
   }, [navigation, pressAfterPurchaseCompleted, purchaseCompleted]);
+
+  const goBackToHomeScreen = useCallback(() => {
+    navigation.navigate('Home');
+  }, [navigation]);
 
   const doEventPurchaseCompleted = useCallback(async () => {
     try {
@@ -140,7 +146,7 @@ function WebviewCheckout() {
       <View>
         <TopBarBackButton
           showShadow
-          backButtonPress={!loading ? goBackToBagScreen : () => { }}
+          backButtonPress={!loading && !isComeFromHome ? goBackToBagScreen : goBackToHomeScreen}
           loading={loading}
         />
       </View>
