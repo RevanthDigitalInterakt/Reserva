@@ -3,7 +3,7 @@ import React, { useCallback, useMemo } from 'react';
 import {
   ActivityIndicator, FlatList, type NativeScrollEvent, type NativeSyntheticEvent,
 } from 'react-native';
-import type { ProductListOutput } from '../../base/graphql/generated';
+import { TrackEventNameEnum, TrackEventTypeEnum, type ProductListOutput } from '../../base/graphql/generated';
 import { COLORS } from '../../base/styles/colors';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
@@ -13,6 +13,7 @@ import { defaultBrand } from '../../utils/defaultWBrand';
 import { Box } from '../Box/Box';
 import { ProductVerticalListCard } from '../ProductVerticalListCard';
 import { Typography } from '../Typography/Typography';
+import { trackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 
 interface ListProductsProps {
   data: ProductListOutput[];
@@ -85,6 +86,11 @@ function NewListVerticalProducts({
           }
           // @ts-ignore
           navigation.navigate('ProductDetail', { skuId: item.skuId });
+          trackClickAlgoliaStore.getState().onTrack(
+            item.skuId,
+            TrackEventTypeEnum.Click,
+            TrackEventNameEnum.ClickedItems,
+          );
         }}
         colors={showThumbColors ? (item.colors || []) : []}
         isFavorited={checkIsFavorite(item.skuId)}

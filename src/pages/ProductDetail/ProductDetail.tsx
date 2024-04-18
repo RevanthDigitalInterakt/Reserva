@@ -8,6 +8,8 @@ import {
   TrackPageTypeEnum,
   useProductLazyQuery,
   useInfoCashbackPdpCollectionQuery,
+  TrackEventTypeEnum,
+  TrackEventNameEnum,
 } from '../../base/graphql/generated';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { Box } from '../../components/Box/Box';
@@ -41,6 +43,7 @@ import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/us
 import CashbackInfo from '../../components/CashbackInfo';
 import { ProductPayment } from './components/ProductPayment';
 import { Divider } from '../../components/Divider/Divider';
+import { trackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -116,6 +119,14 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         identifier: product.identifier || '',
         productId: product.productId,
       };
+
+      const skuItem = params.skuId || '';
+
+      trackClickAlgoliaStore.getState().onTrack(
+        skuItem,
+        TrackEventTypeEnum.View,
+        TrackEventNameEnum.ViewedItems,
+      );
 
       trackClickStore.getState()
         .onTrackClick(newData, product.identifier || '', TrackPageTypeEnum.Product);
