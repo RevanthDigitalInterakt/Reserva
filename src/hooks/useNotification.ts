@@ -45,7 +45,6 @@ export const useNotification = () => {
   }, [notifications]);
 
   const onMessageReceived = async (message: any) => {
-    console.log('message',message);
     
     const hasNotifiedBefore = notifications.find(
       notification =>
