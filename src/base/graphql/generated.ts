@@ -1284,8 +1284,10 @@ export type ProductColorUrlOutput = {
 export type ProductDeliveryTimeOutput = {
   __typename?: 'ProductDeliveryTimeOutput';
   estimatedDay?: Maybe<Scalars['String']['output']>;
+  isDelivery: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
   price: Scalars['Float']['output'];
+  storeName: Scalars['String']['output'];
 };
 
 export type ProductFacetOutput = {
@@ -2613,7 +2615,7 @@ export type ProductDeliveryTimeQueryVariables = Exact<{
 }>;
 
 
-export type ProductDeliveryTimeQuery = { __typename?: 'Query', productDeliveryTime: Array<{ __typename?: 'ProductDeliveryTimeOutput', name: string, price: number, estimatedDay?: string | null }> };
+export type ProductDeliveryTimeQuery = { __typename?: 'Query', productDeliveryTime: Array<{ __typename?: 'ProductDeliveryTimeOutput', name: string, price: number, estimatedDay?: string | null, storeName: string, isDelivery: boolean }> };
 
 export type ProductRecommendationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5076,6 +5078,8 @@ export const ProductDeliveryTimeDocument = gql`
     name
     price
     estimatedDay
+    storeName
+    isDelivery
   }
 }
     `;
