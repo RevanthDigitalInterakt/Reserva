@@ -1,5 +1,8 @@
 ## CHANGELOG
 
+### 2.9.3
+- [31626 Tracking de eventos Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31626)
+
 ### 2.9.2
 - [30623 - Correção de loading do link whatsapp coleções](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30623)
 - [30618 - Incluir caso de uso para o link de whatsapp](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30618)
