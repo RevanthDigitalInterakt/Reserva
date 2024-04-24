@@ -13,7 +13,7 @@ import { defaultBrand } from '../../utils/defaultWBrand';
 import { Box } from '../Box/Box';
 import { ProductVerticalListCard } from '../ProductVerticalListCard';
 import { Typography } from '../Typography/Typography';
-import { trackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
+import { useTrackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 
 interface ListProductsProps {
   data: ProductListOutput[];
@@ -39,6 +39,7 @@ function NewListVerticalProducts({
   const navigation = useNavigation();
   const { getBoolean } = useRemoteConfig();
   const { primeActive } = usePrimeInfo();
+  const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
   const { checkIsFavorite, onToggleFavorite, loadingSkuId } = useWishlistActions();
 
   const showThumbColors = useMemo(() => getBoolean('show_pdc_thumb_color'), [getBoolean]);
@@ -86,10 +87,10 @@ function NewListVerticalProducts({
           }
           // @ts-ignore
           navigation.navigate('ProductDetail', { skuId: item.skuId });
-          trackClickAlgoliaStore.getState().onTrack(
-            item.skuId,
+          onTrack(
             TrackEventTypeEnum.Click,
             TrackEventNameEnum.ClickedItems,
+            [item.skuId],
           );
         }}
         colors={showThumbColors ? (item.colors || []) : []}

@@ -4,22 +4,45 @@ import { v4 } from 'uuid';
 import {
   TrackEventIndexEnum,
   TrackEventNameEnum,
+  TrackEventSubTypeEnum,
   TrackEventTypeEnum, TrackingDocument, type TrackingMutation, type TrackingMutationVariables,
 } from '../../base/graphql/generated';
+import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
 import { getApolloClient } from '../../utils/getApolloClient';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
+
+interface IObjectData {
+  discount: number;
+  quantity: number;
+  price: number;
+}
 
 interface ITrackAlgoliaStore {
   onTrack: (
-    sku: string,
     typeEvent: TrackEventTypeEnum,
-    nameEvent: TrackEventNameEnum
+    nameEvent: TrackEventNameEnum,
+    sku?: string[],
+    subTypeEvent?: TrackEventSubTypeEnum,
+    dataObject?: IObjectData[],
+    totalPrice?: number,
+    queryId?: string,
+    positions?: number[],
   ) => Promise<void>;
   sessionId: string;
 }
 
 export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) => ({
   sessionId: v4(),
-  onTrack: async (sku, typeEvent, nameEvent) => {
+  onTrack: async (
+    typeEvent,
+    nameEvent,
+    sku,
+    subTypeEvent,
+    dataObject,
+    totalPrice,
+    queryId,
+    positions,
+  ) => {
     const user = await AsyncStorage.getItem('@Dito:anonymousID');
 
     const variables: TrackingMutationVariables = {
@@ -29,22 +52,27 @@ export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) =
         index: TrackEventIndexEnum.Default,
         eventType: typeEvent,
         eventName: nameEvent,
-        objectIDs: [sku],
+        ...(subTypeEvent && { eventSubtype: subTypeEvent }),
+        ...(dataObject && {
+          currency: 'BRL',
+          objectData: dataObject,
+          value: totalPrice,
+        }),
+        ...(sku && { objectIDs: sku }),
+        ...(queryId && positions && { queryID: queryId, positions }),
       },
     };
 
-    console.log('variables', variables);
-
     try {
-      const response = await getApolloClient().mutate<TrackingMutation, TrackingMutationVariables>({
+      await getApolloClient().mutate<TrackingMutation, TrackingMutationVariables>({
         mutation: TrackingDocument,
         context: { clientName: 'gateway' },
         variables,
       });
-
-      console.log('response', response);
     } catch (error) {
-      console.log('error', error);
+      ExceptionProvider.captureException(error);
     }
   },
 }));
+
+export const useTrackClickAlgoliaStore = createZustandStoreWithSelectors(trackClickAlgoliaStore);

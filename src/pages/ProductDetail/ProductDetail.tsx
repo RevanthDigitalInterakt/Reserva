@@ -43,7 +43,7 @@ import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/us
 import CashbackInfo from '../../components/CashbackInfo';
 import { ProductPayment } from './components/ProductPayment';
 import { Divider } from '../../components/Divider/Divider';
-import { trackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
+import { useTrackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -51,6 +51,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   const { getBoolean } = useRemoteConfig();
   const { getItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
+  const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const {
     setProduct, resetProduct, productDetail, drawerIsOpen,
@@ -122,10 +123,10 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
       const skuItem = params.skuId || '';
 
-      trackClickAlgoliaStore.getState().onTrack(
-        skuItem,
+      onTrack(
         TrackEventTypeEnum.View,
         TrackEventNameEnum.ViewedItems,
+        [skuItem],
       );
 
       trackClickStore.getState()
