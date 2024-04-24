@@ -117,31 +117,35 @@ function ProductSLA() {
 
       {!!(data?.productDeliveryTime && !loading && !error) && (
         <>
-          {data.productDeliveryTime.map((sla) => (
+          {data.productDeliveryTime.map((sla, index) => (
             <Box
               key={`pdp-sla-${selectedSize?.itemId}-${sla.name}-${sla.estimatedDay}`}
               flexDirection="row"
               justifyContent="space-between"
               marginTop="nano"
             >
-              <Box width="50%" justifyContent="center" borderColor="divider">
-                <Typography fontFamily="nunitoRegular" fontSize={14}>{sla.name}</Typography>
-              </Box>
 
               <Box
-                width="20%"
-                alignItems="center"
+                width="70%"
+                alignItems="left"
                 justifyContent="center"
                 borderColor="divider"
               >
-                <Typography fontFamily="nunitoRegular" fontSize={14}>{sla.estimatedDay}</Typography>
+                <Typography fontFamily="nunitoRegular" fontSize={14}>
+                  {sla.estimatedDay}
+                  {' '}
+                  {!sla.isDelivery && 'na loja '}
+                  <Typography fontFamily="nunitoBold">{sla.storeName}</Typography>
+                  {' '}
+                </Typography>
               </Box>
 
               <Box width="30%" alignItems="flex-end" justifyContent="center">
-                <Typography fontFamily="nunitoRegular" fontSize={14} color="verdeSucesso">
+                <Typography fontFamily={sla.price > 0 ? 'nunitoBold' : 'nunitoRegular'} fontSize={14} color={sla.price > 0 ? 'preto' : 'verdeSucesso'}>
                   {sla.price > 0 ? `R$ ${sla.price.toFixed(2)}` : 'GRÁTIS'}
                 </Typography>
               </Box>
+              {index === data.productDeliveryTime.length - 1 ? null : <Divider backgroundColor="divider" height={1} variant="fullWidth" my="xs" />}
             </Box>
           ))}
         </>
