@@ -41,6 +41,7 @@ import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/us
 import CashbackInfo from '../../components/CashbackInfo';
 import { ProductPayment } from './components/ProductPayment';
 import { Divider } from '../../components/Divider/Divider';
+import { Button } from '../../components/Button';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -178,8 +179,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         {!!productDetail && !isKitLook && (
           <View>
             <ProductSummary />
-            {isCashbackValid &&  (
-              <CashbackInfo data={data}/>
+            {isCashbackValid && (
+              <CashbackInfo data={data} />
             )}
 
             <ProductSelectors />
@@ -192,12 +193,20 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
               <ProductAbout />
 
               {productDetail?.paymentSystemGroupName
-              && productDetail?.paymentSystemGroupName.length > 0 && (
-                <>
-                  <Divider variant="fullWidth" my="xs" />
-                  <ProductPayment />
-                </>
+                && productDetail?.paymentSystemGroupName.length > 0 && (
+                  <>
+                    <Divider variant="fullWidth" my="xs" />
+                    <ProductPayment />
+                  </>
               )}
+            </Box>
+
+            <Box>
+              <Button
+                title="DORIS"
+                inline
+                onPress={() => navigation.navigate('Doris')}
+              />
             </Box>
 
             <Recommendation />
