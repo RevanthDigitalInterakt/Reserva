@@ -1,0 +1,7 @@
+mutation TrackOrder($input: TrackOrderInput!) {
+  trackOrder(input: $input) {
+    success
+    url
+    body
+  }
+}

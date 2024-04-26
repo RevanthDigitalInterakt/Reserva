@@ -220,6 +220,7 @@ export type ConfigOutput = {
   name: Scalars['String']['output'];
   offersPage?: Maybe<Scalars['String']['output']>;
   online: Scalars['Boolean']['output'];
+  returnPolicy?: Maybe<Scalars['String']['output']>;
   searchCollection: Scalars['String']['output'];
   searchMedia?: Maybe<ConfigSearchMediaOutput>;
   searchSuggestionsCollection: Array<Scalars['String']['output']>;
@@ -2526,6 +2527,13 @@ export type TrackClickV2MutationVariables = Exact<{
 
 export type TrackClickV2Mutation = { __typename?: 'Mutation', trackClickV2: Array<string> };
 
+export type TrackOrderMutationVariables = Exact<{
+  input: TrackOrderInput;
+}>;
+
+
+export type TrackOrderMutation = { __typename?: 'Mutation', trackOrder: { __typename?: 'TrackOrderOutput', success?: boolean | null, url?: string | null, body?: string | null } };
+
 export type TrackPageViewMutationVariables = Exact<{
   input: TrackPageViewInput;
 }>;
@@ -3990,6 +3998,41 @@ export function useTrackClickV2Mutation(baseOptions?: Apollo.MutationHookOptions
 export type TrackClickV2MutationHookResult = ReturnType<typeof useTrackClickV2Mutation>;
 export type TrackClickV2MutationResult = Apollo.MutationResult<TrackClickV2Mutation>;
 export type TrackClickV2MutationOptions = Apollo.BaseMutationOptions<TrackClickV2Mutation, TrackClickV2MutationVariables>;
+export const TrackOrderDocument = gql`
+    mutation TrackOrder($input: TrackOrderInput!) {
+  trackOrder(input: $input) {
+    success
+    url
+    body
+  }
+}
+    `;
+export type TrackOrderMutationFn = Apollo.MutationFunction<TrackOrderMutation, TrackOrderMutationVariables>;
+
+/**
+ * __useTrackOrderMutation__
+ *
+ * To run a mutation, you first call `useTrackOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTrackOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [trackOrderMutation, { data, loading, error }] = useTrackOrderMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTrackOrderMutation(baseOptions?: Apollo.MutationHookOptions<TrackOrderMutation, TrackOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TrackOrderMutation, TrackOrderMutationVariables>(TrackOrderDocument, options);
+      }
+export type TrackOrderMutationHookResult = ReturnType<typeof useTrackOrderMutation>;
+export type TrackOrderMutationResult = Apollo.MutationResult<TrackOrderMutation>;
+export type TrackOrderMutationOptions = Apollo.BaseMutationOptions<TrackOrderMutation, TrackOrderMutationVariables>;
 export const TrackPageViewDocument = gql`
     mutation trackPageView($input: TrackPageViewInput!) {
   trackPageView(input: $input)
