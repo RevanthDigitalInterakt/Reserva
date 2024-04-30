@@ -8,6 +8,8 @@ import {
   TrackPageTypeEnum,
   useProductLazyQuery,
   useInfoCashbackPdpCollectionQuery,
+  TrackEventTypeEnum,
+  TrackEventNameEnum,
 } from '../../base/graphql/generated';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { Box } from '../../components/Box/Box';
@@ -41,6 +43,7 @@ import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/us
 import CashbackInfo from '../../components/CashbackInfo';
 import { ProductPayment } from './components/ProductPayment';
 import { Divider } from '../../components/Divider/Divider';
+import { useTrackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 import ReturnPolicy from './components/ReturnPolicy/ReturnPolicy';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
@@ -49,6 +52,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   const { getBoolean } = useRemoteConfig();
   const { getItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
+  const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const {
     setProduct, resetProduct, productDetail, drawerIsOpen,
@@ -119,6 +123,14 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         identifier: product.identifier || '',
         productId: product.productId,
       };
+
+      const skuItem = params.skuId || '';
+
+      onTrack(
+        TrackEventTypeEnum.View,
+        TrackEventNameEnum.ViewedItems,
+        [skuItem],
+      );
 
       trackClickStore.getState()
         .onTrackClick(newData, product.identifier || '', TrackPageTypeEnum.Product);
