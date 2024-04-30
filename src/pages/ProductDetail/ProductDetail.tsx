@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Alert, View } from 'react-native';
 import {
   type ProductQuery,
@@ -44,6 +44,7 @@ import CashbackInfo from '../../components/CashbackInfo';
 import { ProductPayment } from './components/ProductPayment';
 import { Divider } from '../../components/Divider/Divider';
 import { useTrackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
+import ReturnPolicy from './components/ReturnPolicy/ReturnPolicy';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -65,6 +66,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
 
   const isKitLook = productDetail?.action === ProductResultActionEnum.ShowKit;
+
+  const showReturnPolicy = useMemo(() => getBoolean('show_return_policy'), []);
 
   const [getProduct, { loading }] = useProductLazyQuery({
     fetchPolicy: getFetchPolicyPerKey('productDetail'),
@@ -190,8 +193,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         {!!productDetail && !isKitLook && (
           <View>
             <ProductSummary />
-            {isCashbackValid &&  (
-              <CashbackInfo data={data}/>
+            {isCashbackValid && (
+              <CashbackInfo data={data} />
             )}
 
             <ProductSelectors />
@@ -210,6 +213,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
                   <ProductPayment />
                 </>
               )}
+              {showReturnPolicy && (<ReturnPolicy />)}
             </Box>
 
             <Recommendation />

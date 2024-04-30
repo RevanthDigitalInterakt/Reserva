@@ -220,7 +220,7 @@ export type ConfigOutput = {
   name: Scalars['String']['output'];
   offersPage?: Maybe<Scalars['String']['output']>;
   online: Scalars['Boolean']['output'];
-  returnPolicy?: Maybe<Scalars['String']['output']>;
+  returnPolicy: Scalars['String']['output'];
   searchCollection: Scalars['String']['output'];
   searchMedia?: Maybe<ConfigSearchMediaOutput>;
   searchSuggestionsCollection: Array<Scalars['String']['output']>;
@@ -2713,6 +2713,11 @@ export type RecommendationShelfQueryVariables = Exact<{
 
 
 export type RecommendationShelfQuery = { __typename?: 'Query', recommendationShelf: { __typename?: 'RecommendationOutput', shelfName: string, shelfTitle: string, products: Array<{ __typename?: 'RecommendationProductsOutput', productName: string, productId: string, productLink: string, brand: string, image: string, categoryTree: Array<string>, flags: Array<{ __typename?: 'RecommendationFlagOutput', type: string, value?: number | null, text?: string | null }>, prices: { __typename?: 'RecommendationPriceOutput', listPrice: number, salePrice: number }, sku: Array<{ __typename?: 'RecommendationSkuOutput', colorName?: string | null, colorHex?: string | null, colorRefId?: string | null, sizes: Array<{ __typename?: 'RecommendationSizeOutput', skuId?: string | null, value?: string | null, disabled: boolean }> }> }> } };
+
+export type ReturnPolicyConfigQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ReturnPolicyConfigQuery = { __typename?: 'Query', config?: { __typename?: 'ConfigOutput', returnPolicy: string } | null };
 
 export type RonRedirectQueryVariables = Exact<{
   code: Scalars['String']['input'];
@@ -5438,6 +5443,43 @@ export type RecommendationShelfLazyQueryHookResult = ReturnType<typeof useRecomm
 export type RecommendationShelfQueryResult = Apollo.QueryResult<RecommendationShelfQuery, RecommendationShelfQueryVariables>;
 export function refetchRecommendationShelfQuery(variables: RecommendationShelfQueryVariables) {
       return { query: RecommendationShelfDocument, variables: variables }
+    }
+export const ReturnPolicyConfigDocument = gql`
+    query returnPolicyConfig {
+  config {
+    returnPolicy
+  }
+}
+    `;
+
+/**
+ * __useReturnPolicyConfigQuery__
+ *
+ * To run a query within a React component, call `useReturnPolicyConfigQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReturnPolicyConfigQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReturnPolicyConfigQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useReturnPolicyConfigQuery(baseOptions?: Apollo.QueryHookOptions<ReturnPolicyConfigQuery, ReturnPolicyConfigQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ReturnPolicyConfigQuery, ReturnPolicyConfigQueryVariables>(ReturnPolicyConfigDocument, options);
+      }
+export function useReturnPolicyConfigLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ReturnPolicyConfigQuery, ReturnPolicyConfigQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ReturnPolicyConfigQuery, ReturnPolicyConfigQueryVariables>(ReturnPolicyConfigDocument, options);
+        }
+export type ReturnPolicyConfigQueryHookResult = ReturnType<typeof useReturnPolicyConfigQuery>;
+export type ReturnPolicyConfigLazyQueryHookResult = ReturnType<typeof useReturnPolicyConfigLazyQuery>;
+export type ReturnPolicyConfigQueryResult = Apollo.QueryResult<ReturnPolicyConfigQuery, ReturnPolicyConfigQueryVariables>;
+export function refetchReturnPolicyConfigQuery(variables?: ReturnPolicyConfigQueryVariables) {
+      return { query: ReturnPolicyConfigDocument, variables: variables }
     }
 export const RonRedirectDocument = gql`
     query ronRedirect($code: String!) {
