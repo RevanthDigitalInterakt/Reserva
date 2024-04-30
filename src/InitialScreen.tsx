@@ -8,7 +8,6 @@ import { useStatusBar } from './context/StatusBarContext';
 import useInitialDito from './hooks/useInitialDito';
 import CodePushModal from './components/CodePushModal/CodePushModal';
 import { StorageService } from './shared/services/StorageService';
-import OnForegroundEventPush from './utils/Notifee/ForegroundEvents';
 import { useAuthStore } from './zustand/useAuth/useAuthStore';
 import { usePrimeConfig } from './zustand/usePrimeConfig/usePrimeConfig';
 import useCheckAppNewVersion from './hooks/useCheckAppNewVersion';
@@ -46,7 +45,7 @@ function InitialScreen({ children }: IProps) {
 
     if (profile) {
       handleDitoRegister();
-    }
+    }   
 
     await onPrimeConfig();
   }, [
@@ -65,13 +64,6 @@ function InitialScreen({ children }: IProps) {
 
   useEffect(() => {
     StorageService.setInstallationToken();
-  }, []);
-
-  // TODO refactor OnForegroundEventPush to useSubscriberForeground()
-  useEffect(() => {
-    // TODO check func OnForegroundEventPush for add subscriber
-    // useSubscriberForeground()
-    OnForegroundEventPush();
   }, []);
 
   useEffect(() => {

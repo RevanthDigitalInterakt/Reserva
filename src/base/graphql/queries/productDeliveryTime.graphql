@@ -3,5 +3,7 @@ query productDeliveryTime($input: CheckDeliveryTimeByProductInput!) {
     name
     price
     estimatedDay
+    storeName
+    isDelivery
   }
 }

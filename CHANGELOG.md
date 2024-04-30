@@ -2,12 +2,17 @@
 
 ---
 
-### 2.9.3
+### 2.11.2
+
 - [30966 - Informação troca e devolução PDP [app]](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30966/)
 
 ---
 
-### 2.9.2
+### 2.11.1
+
+- [31730 - Ajustes novo App de Push da Dito](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31730)
+
+### 2.11.0
 - [30623 - Correção de loading do link whatsapp coleções](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30623)
 - [30618 - Incluir caso de uso para o link de whatsapp](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30618)
 
