@@ -9,6 +9,8 @@ import { Box } from '../../../../components/Box/Box';
 import { Typography } from '../../../../components/Typography/Typography';
 import { Button } from '../../../../components/Button';
 import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
+import PrimeDiscount from '../../../../components/PrimeDiscount/PrimeDiscount';
+import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 
 export default function BagFooter() {
   const {
@@ -24,6 +26,7 @@ export default function BagFooter() {
 
   const { profile } = useAuthStore(['profile']);
   const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
+  const { isPrime } = usePrimeInfo();
 
   const {
     handleNavigateToDelivery,
@@ -38,7 +41,7 @@ export default function BagFooter() {
     <Box
       width="100%"
       bg="white"
-      height={145}
+      height={isPrime ? 200 : 145}
       px="xxs"
       style={{ elevation: Platform.OS === platformType.ANDROID ? 10 : 0 }}
       boxShadow={Platform.OS === platformType.ANDROID ? null : 'bottomBarShadow'}
@@ -88,6 +91,9 @@ export default function BagFooter() {
           </Box>
         )}
       </Box>
+      {isPrime &&
+        <PrimeDiscount valor={appTotalizers.discount} />
+      }
 
       <Button
         disabled={(

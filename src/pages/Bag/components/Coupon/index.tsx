@@ -8,6 +8,9 @@ import { Typography } from '../../../../components/Typography/Typography';
 import { TextField } from '../../../../components/TextField/TextField';
 import { Button } from '../../../../components/Button';
 import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom';
+import PrimeDiscount from '../../../../components/PrimeDiscount/PrimeDiscount';
+import { ModalNowIsPrime } from '../../../../components/ModalNowIsPrime/ModalNowIsPrime';
+import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 
 export default function CouponComponent() {
   const {
@@ -15,10 +18,12 @@ export default function CouponComponent() {
     appTotalizers,
     marketingData,
   } = useBagStore(['actions', 'appTotalizers', 'marketingData']);
+  const { isPrime } = usePrimeInfo();
 
   const [sellerCouponError, setSellerCouponError] = useState(false);
   const [discountCouponError, setDiscountCouponError] = useState(false);
   const [couponsValue, setCouponsValue] = useState({ seller: '', discount: '' });
+  const [openModal, setOpenModal] = useState(false);
 
   const handleSetCouponValue = useCallback((key: 'seller' | 'discount', currValue: string) => {
     setCouponsValue((oldValue) => ({
@@ -237,6 +242,12 @@ export default function CouponComponent() {
           num={appTotalizers.total}
         />
       </Box>
+      {!isPrime&&
+        <PrimeDiscount valor={appTotalizers.discount} setOpenModal={setOpenModal} />
+      }
+      {openModal &&
+        <ModalNowIsPrime isVisible={openModal} onBackdropPress={()=>setOpenModal(false)}/>
+      }
     </Box>
   );
 }
