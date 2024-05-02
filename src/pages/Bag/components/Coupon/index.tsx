@@ -243,7 +243,7 @@ export default function CouponComponent() {
         />
       </Box>
       {!isPrime&&
-        <PrimeDiscount valor={300} setOpenModal={setOpenModal} />
+        <PrimeDiscount valor={appTotalizers.prime?.price} setOpenModal={setOpenModal} />
       }
       {openModal &&
         <ModalNowIsPrime isVisible={openModal} onBackdropPress={()=>setOpenModal(false)}/>
