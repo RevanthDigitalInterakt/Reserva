@@ -42,6 +42,7 @@ const PrimeDiscount = ({ valor, setOpenModal }: PrimeDiscountProps) => {
       </View>
       {!isPrime &&
         <>
+        {!valor &&
           <Button
             onPress={() => handleClick()}
             title="ASSINE AGORA POR 12x de R$25"
@@ -49,6 +50,7 @@ const PrimeDiscount = ({ valor, setOpenModal }: PrimeDiscountProps) => {
             inline
             style={{backgroundColor:'#C5A967'}}
           />
+        }
           <Text style={styles.textInfo}>
             Com a Reserva Prime tenha um mundo de benefícios como
           </Text>
