@@ -27,6 +27,10 @@ export default function BagFooter() {
   const { profile } = useAuthStore(['profile']);
   const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
   const { isPrime } = usePrimeInfo();
+  const discountPrime =
+    appTotalizers.discount === 0 && appTotalizers.prime?.price ?
+      appTotalizers.total - appTotalizers.prime?.price :
+      appTotalizers.discount
 
   const {
     handleNavigateToDelivery,
@@ -92,7 +96,7 @@ export default function BagFooter() {
         )}
       </Box>
       {isPrime &&
-        <PrimeDiscount valor={appTotalizers.discount} />
+        <PrimeDiscount valor={discountPrime} />
       }
 
       <Button

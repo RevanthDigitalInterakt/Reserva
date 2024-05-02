@@ -7,7 +7,7 @@ import { Button } from '../Button';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 
 interface PrimeDiscountProps {
-  valor: number
+  valor?: number
   setOpenModal?:(value:boolean)=>void
 }
 
@@ -37,7 +37,7 @@ const PrimeDiscount = ({ valor, setOpenModal }: PrimeDiscountProps) => {
           color="#9E7E2F"
           sizeInteger={15}
           sizeDecimal={11}
-          num={valor}
+          num={valor || 0}
         />
       </View>
       {!isPrime &&
