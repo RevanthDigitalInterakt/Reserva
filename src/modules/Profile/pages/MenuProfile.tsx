@@ -26,6 +26,7 @@ import { Typography } from '../../../components/Typography/Typography';
 import { Button } from '../../../components/Button';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import FormLink from '../../../components/FormLink/FormLink';
+import CardCashback from '../../../components/CashBackBalance';
 
 export function MenuProfile() {
   const navigation = useNavigation();
@@ -159,7 +160,9 @@ export function MenuProfile() {
                 </Typography>
               </Box>
             </Box>
-
+            <Box style={{width:'88%',display:'flex',justifyContent:'center',alignItems:'center'}}>
+              <CardCashback />
+            </Box>
             <Box mt="xxxs">
               <Box paddingX="xxxs">
                 <ItemList

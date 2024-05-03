@@ -1,5 +1,8 @@
 ## CHANGELOG
 
+### 2.11.2
+- [30680 - Faixa com saldo do cashback na jornada do APP](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30680)
+
 ### 2.11.1
 - [31730 - Ajustes novo App de Push da Dito](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31730)
 
