@@ -1,6 +1,6 @@
 ## CHANGELOG
 
-### 2.11.2
+### 2.11.3
 - [30680 - Faixa com saldo do cashback na jornada do APP](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30680)
 
 ---
