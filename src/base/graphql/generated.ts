@@ -1,3 +1,5 @@
+// @ts-nocheck
+/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -220,7 +222,7 @@ export type ConfigOutput = {
   name: Scalars['String']['output'];
   offersPage?: Maybe<Scalars['String']['output']>;
   online: Scalars['Boolean']['output'];
-  returnPolicy: Scalars['String']['output'];
+  returnPolicy?: Maybe<Scalars['String']['output']>;
   searchCollection: Scalars['String']['output'];
   searchMedia?: Maybe<ConfigSearchMediaOutput>;
   searchSuggestionsCollection: Array<Scalars['String']['output']>;
@@ -310,6 +312,26 @@ export enum DeliveryChannelEnum {
   Delivery = 'DELIVERY',
   PickupInPoint = 'PICKUP_IN_POINT'
 }
+
+export type DitoRedirectInput = {
+  code: Scalars['String']['input'];
+};
+
+export type DitoRedirectOutput = {
+  __typename?: 'DitoRedirectOutput';
+  type: DitoRedirectTypeEnum;
+  url?: Maybe<Scalars['String']['output']>;
+};
+
+export enum DitoRedirectTypeEnum {
+  None = 'NONE',
+  RestoreCart = 'RESTORE_CART'
+}
+
+export type DorisOutput = {
+  __typename?: 'DorisOutput';
+  valid: Scalars['Boolean']['output'];
+};
 
 export type GenericOutput = {
   __typename?: 'GenericOutput';
@@ -1584,6 +1606,7 @@ export type Query = {
   contentfulProducts: Array<ContentfulProductItemOutput>;
   countdown?: Maybe<CountdownClockCategoryOutput>;
   deeplinkPath?: Maybe<DeeplinkOutput>;
+  ditoRedirect?: Maybe<DitoRedirectOutput>;
   getCashbackExpiration: CashbackAllExpirationOutput;
   getCashbackOperation: CashbackAllOperationOutput;
   getCashbackTransaction: CashbackTransactionOutput;
@@ -1617,6 +1640,7 @@ export type Query = {
   shippingSimulation: ShippingSimulationOutput;
   trackingCode?: Maybe<TrackingCodeOutput>;
   updateInApp?: Maybe<UpdateInAppOutput>;
+  verifyDorisProduct: DorisOutput;
   wishlist: Array<Scalars['String']['output']>;
   wishlistCheckProduct: WishlistCheckOutput;
 };
@@ -1669,6 +1693,11 @@ export type QueryCountdownArgs = {
 
 export type QueryDeeplinkPathArgs = {
   input: DeeplinkPathInput;
+};
+
+
+export type QueryDitoRedirectArgs = {
+  input: DitoRedirectInput;
 };
 
 
@@ -1765,6 +1794,11 @@ export type QueryShippingSimulationArgs = {
 
 export type QueryTrackingCodeArgs = {
   input: TrackingCodeInput;
+};
+
+
+export type QueryVerifyDorisProductArgs = {
+  ean: Scalars['String']['input'];
 };
 
 
@@ -2619,6 +2653,13 @@ export type DeeplinkPathQueryVariables = Exact<{
 
 export type DeeplinkPathQuery = { __typename?: 'Query', deeplinkPath?: { __typename?: 'DeeplinkOutput', path: string, referenceId?: string | null, active: boolean } | null };
 
+export type DitoRedirectQueryVariables = Exact<{
+  code: Scalars['String']['input'];
+}>;
+
+
+export type DitoRedirectQuery = { __typename?: 'Query', ditoRedirect?: { __typename?: 'DitoRedirectOutput', type: DitoRedirectTypeEnum, url?: string | null } | null };
+
 export type HomeCarouselsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2717,7 +2758,7 @@ export type RecommendationShelfQuery = { __typename?: 'Query', recommendationShe
 export type ReturnPolicyConfigQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ReturnPolicyConfigQuery = { __typename?: 'Query', config?: { __typename?: 'ConfigOutput', returnPolicy: string } | null };
+export type ReturnPolicyConfigQuery = { __typename?: 'Query', config?: { __typename?: 'ConfigOutput', returnPolicy?: string | null } | null };
 
 export type RonRedirectQueryVariables = Exact<{
   code: Scalars['String']['input'];
@@ -4562,6 +4603,45 @@ export type DeeplinkPathLazyQueryHookResult = ReturnType<typeof useDeeplinkPathL
 export type DeeplinkPathQueryResult = Apollo.QueryResult<DeeplinkPathQuery, DeeplinkPathQueryVariables>;
 export function refetchDeeplinkPathQuery(variables: DeeplinkPathQueryVariables) {
       return { query: DeeplinkPathDocument, variables: variables }
+    }
+export const DitoRedirectDocument = gql`
+    query ditoRedirect($code: String!) {
+  ditoRedirect(input: {code: $code}) {
+    type
+    url
+  }
+}
+    `;
+
+/**
+ * __useDitoRedirectQuery__
+ *
+ * To run a query within a React component, call `useDitoRedirectQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDitoRedirectQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDitoRedirectQuery({
+ *   variables: {
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useDitoRedirectQuery(baseOptions: Apollo.QueryHookOptions<DitoRedirectQuery, DitoRedirectQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DitoRedirectQuery, DitoRedirectQueryVariables>(DitoRedirectDocument, options);
+      }
+export function useDitoRedirectLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DitoRedirectQuery, DitoRedirectQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DitoRedirectQuery, DitoRedirectQueryVariables>(DitoRedirectDocument, options);
+        }
+export type DitoRedirectQueryHookResult = ReturnType<typeof useDitoRedirectQuery>;
+export type DitoRedirectLazyQueryHookResult = ReturnType<typeof useDitoRedirectLazyQuery>;
+export type DitoRedirectQueryResult = Apollo.QueryResult<DitoRedirectQuery, DitoRedirectQueryVariables>;
+export function refetchDitoRedirectQuery(variables: DitoRedirectQueryVariables) {
+      return { query: DitoRedirectDocument, variables: variables }
     }
 export const HomeCarouselsDocument = gql`
     query homeCarousels {

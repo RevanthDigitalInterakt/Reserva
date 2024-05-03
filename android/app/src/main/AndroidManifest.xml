@@ -61,6 +61,7 @@
         <data android:host="www.usereserva.com"/>
         <data android:host="usereserva.io"/>
         <data android:host="now.usereserva.io"/>
+        <data android:host="dito.vc"/>
       </intent-filter>
       <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW" />
