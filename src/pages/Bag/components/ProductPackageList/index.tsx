@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import { Text, View } from 'react-native';
@@ -14,10 +14,13 @@ import { productPackageListStyles } from './ProductPackageList.styles';
 import ProductUnavailable from '../ProductUnavailable';
 import DeliveryItemInfo from '../DeliveryItemInfo';
 import ProductListItemPrime from '../ProductListItem/ProductListItemPrime';
+import { useTrackClickAlgoliaStore } from '../../../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
+import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../../../base/graphql/generated';
 
 export default function BagProductPackageList() {
   const { orderForm } = useCart();
-  const { actions, packageItems } = useBagStore(['actions', 'packageItems']);
+  const { actions, packageItems, appTotalizers } = useBagStore(['actions', 'packageItems', 'appTotalizers']);
+  const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
   const navigation = useNavigation();
 
   const hasPackageItems = useMemo(
@@ -43,6 +46,46 @@ export default function BagProductPackageList() {
   const handleDeleteProductModal = useCallback((product: TItemBag, index: number) => {
     actions.ACTIVE_MODAL_DELETE_PRODUCT(product, index);
   }, [actions]);
+
+  const onLoadItems = useCallback(() => {
+    const productIds = packageItems[0]?.items.map((payload) => payload.id);
+
+    if (packageItems.length > 1) {
+      const packages = packageItems.map((packs) => packs.items);
+
+      const items = packages.map((item) => item.map((i) => ({
+        discount: i.discountPercent,
+        quantity: i.quantity,
+        price: i.price,
+      }))).reduce((acc, curr) => acc.concat(curr), []);
+
+      onTrack(
+        TrackEventTypeEnum.Conversion,
+        TrackEventNameEnum.CartItems,
+        productIds,
+        TrackEventSubTypeEnum.AddToCart,
+        items,
+        appTotalizers.total,
+      );
+
+      return;
+    }
+
+    const newData = packageItems[0]?.items.map((payload) => ({
+      discount: payload.discountPercent,
+      quantity: payload.quantity,
+      price: payload.priceWithDiscount,
+    }));
+
+    onTrack(
+      TrackEventTypeEnum.Conversion,
+      TrackEventNameEnum.CartItems,
+      productIds,
+      TrackEventSubTypeEnum.AddToCart,
+      newData,
+      appTotalizers.total,
+    );
+  }, [packageItems]);
 
   const handleAddCount = useCallback(async (
     countUpdated: number,
@@ -108,6 +151,10 @@ export default function BagProductPackageList() {
       createNavigateToProductParams({ productId, skuId: id }),
     );
   }, [navigation]);
+
+  useEffect(() => {
+    onLoadItems();
+  }, [packageItems]);
 
   return (
     <View>

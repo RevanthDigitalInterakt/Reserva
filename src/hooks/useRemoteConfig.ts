@@ -57,12 +57,15 @@ export interface IRemoteConfigKeys {
   show_onep5p_menu: boolean;
   show_onep5p_pdp: boolean;
   show_kitlook: boolean;
-  add_to_bag_button_is_fixed: boolean
+  add_to_bag_button_is_fixed: boolean;
   count_down_position: string;
   creditCardPaymentDescription: string;
   giftCardPaymentDescription: string;
   nubankPaymentDescription: string;
   pixPaymentDescription: string;
+  show_button_see_bag: boolean;
+  show_abandoned_cart: boolean;
+  show_return_policy: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -123,6 +126,9 @@ export const defaults: IRemoteConfigKeys = {
   giftCardPaymentDescription: 'Cartões de Presente Pré-pagos',
   nubankPaymentDescription: 'Em até 24x',
   pixPaymentDescription: 'Pague à vista ou até em 4x sem juros.',
+  show_button_see_bag: false,
+  show_abandoned_cart: false,
+  show_return_policy: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;

@@ -18,6 +18,7 @@ import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 import { getURLParameter, prepareEventDataPurchaseCompleted, triggerEventAfterPurchaseCompleted } from './eventHelper';
 import LoadingCheckout from '../../components/LoadingCheckout/LoadingCheckout';
 import { ModalClientIsPrime } from '../../components/ModalClientIsPrime/ModalClientIsPrime';
+import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 
 /**
  "Be very careful with the implementation as
@@ -42,6 +43,7 @@ function WebviewCheckout() {
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
   const [navState, setNavState] = useState('');
   const { orderFormId } = useBagStore(['orderFormId']);
+  const { profile } = useAuthStore(['profile']);
 
   const { changeStateIsVisibleModalPrimeRemoved, isVisibleModalPrimeRemoved } = usePrimeStore([
     'changeStateIsVisibleModalPrimeRemoved',
@@ -66,6 +68,8 @@ function WebviewCheckout() {
     setNavState(event.url);
   };
 
+  const isComeFromHome = useMemo(() => (route?.params?.comeFrom === 'Home'), [route.params]);
+
   const isOrderPlaced = useMemo(() => (
     navState.includes('/checkout/orderPlaced')
   ), [navState]);
@@ -79,12 +83,16 @@ function WebviewCheckout() {
     navigation.navigate('BagScreen', { needRefreshing: true });
   }, [navigation, pressAfterPurchaseCompleted, purchaseCompleted]);
 
+  const goBackToHomeScreen = useCallback(() => {
+    navigation.navigate('Home');
+  }, [navigation]);
+
   const doEventPurchaseCompleted = useCallback(async () => {
     try {
       const orderGroupId = getURLParameter(navState, 'og');
       const { data: dataOrderGroup } = await GetPurchaseData(orderGroupId);
       const dataPurchaseCompleted = prepareEventDataPurchaseCompleted(dataOrderGroup, orderFormId);
-      await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted);
+      await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '');
     } catch (e) {
       ExceptionProvider.captureException(e);
     } finally {
@@ -140,7 +148,7 @@ function WebviewCheckout() {
       <View>
         <TopBarBackButton
           showShadow
-          backButtonPress={!loading ? goBackToBagScreen : () => { }}
+          backButtonPress={!loading && !isComeFromHome ? goBackToBagScreen : goBackToHomeScreen}
           loading={loading}
         />
       </View>

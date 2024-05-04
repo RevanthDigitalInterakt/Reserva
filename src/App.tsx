@@ -30,7 +30,7 @@ import { useConnectivityStore } from './zustand/useConnectivityStore';
 import { useBagStore } from './zustand/useBagStore/useBagStore';
 import { Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
-
+import { useNotification } from './hooks/useNotification';
 
 const DefaultTheme = {
   colors: {
@@ -40,6 +40,7 @@ const DefaultTheme = {
 
 function App() {
   useApolloFetchPolicyStore(['initialized']);
+  useNotification();
 
   const { onListenEvents: onListenConnectivityEvents } = useConnectivityStore(['onListenEvents']);
   const [isTesting, setIsTesting] = useState<boolean>(false);
@@ -54,9 +55,9 @@ function App() {
     await setItem('@RNSession:Ron', false);
   };
 
-  if (Platform.OS === 'ios') {    
+  if (Platform.OS === 'ios') {
     messaging().requestPermission();
- }
+  }
 
   useEffect(() => {
     firstLaunchedData();

@@ -17,9 +17,10 @@ import { useCart } from '../context/CartContext';
 import { usePageLoadingStore } from '../zustand/usePageLoadingStore/usePageLoadingStore';
 import { Method } from '../utils/EventProvider/Event';
 import { mergeItemsPackage } from '../utils/mergeItemsPackage';
+import type { ProfileOutput } from '../base/graphql/generated';
 
 interface IUseNavigationToDeliveryReturn {
-  handleNavigateToDelivery: (value: any) => void;
+  handleNavigateToDelivery: (value: any, comeFrom?: string) => void;
   navigateToDeliveryDisable: boolean;
   loadingDelivery: boolean;
   setLoadingDelivery: (value: boolean) => void;
@@ -58,7 +59,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
 
   useEffect(() => {
     if (needRefreshing) {
-      actions.REFETCH_ORDER_FORM().then(() => {});
+      actions.REFETCH_ORDER_FORM().then(() => { });
     }
   }, [actions, needRefreshing]);
 
@@ -107,9 +108,10 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     }
   }, [appTotalizers, mergedItems]);
 
-  const goToWebviewCheckout = useCallback((value: string) => {
+  const goToWebviewCheckout = useCallback((value: string, comeFrom?: string) => {
     navigation.navigate('Checkout', {
       url: `https://appqa.usereserva.com/checkout?orderFormId=${value}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
+      comeFrom,
     });
   }, []);
 
@@ -135,11 +137,14 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     primeActive,
   ]);
 
-  const handleNavigateToDelivery = useCallback(async (profile) => {
+  const handleNavigateToDelivery = useCallback(async (
+    profile: ProfileOutput,
+    comeFrom?: string,
+  ) => {
     if (!mergedItems?.length) return;
 
     if (!profile?.email) {
-      navigation.navigate('Login', { comeFrom: 'BagScreen' });
+      navigation.navigate('Login', { comeFrom: comeFrom || 'BagScreen' });
       return;
     }
 
@@ -151,7 +156,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
         custumer_email: profile?.email,
       });
 
-      navigation.navigate('EditProfile', { isRegister: true, comeFrom: 'BagScreen' });
+      navigation.navigate('EditProfile', { isRegister: true, comeFrom: comeFrom || 'BagScreen' });
       return;
     }
 
@@ -162,7 +167,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
 
       await hasPrimeRemovedFromBag(profile);
 
-      goToWebviewCheckout(orderFormId);
+      goToWebviewCheckout(orderFormId, comeFrom);
 
       onTrackCheckoutEvents();
     } catch (error) {

@@ -47,6 +47,7 @@ import { useProductDetailStore } from '../../zustand/useProductDetail/useProduct
 import { useShelfStore } from '../../zustand/useShelfStore/useShelfStore';
 import ShowcaseDrawerContent from './components/ShowcaseDrawerContent/ShowcaseDrawerContent';
 import { NewHomeCountDown } from './components/NewHomeCountDown.tsx';
+import AbandonedCart from '../../components/AbandonedCart/AbandonedCart';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -131,9 +132,17 @@ function ListHeader({ newHeaderIsActive }: { newHeaderIsActive: boolean }) {
   );
 }
 
-function ListFooter({ showOnep5p }: { showOnep5p: boolean }) {
+function ListFooter() {
+  const { getBoolean } = useRemoteConfig();
+  const showOneP5P = getBoolean('show_onep5p_home');
+  const showAbandonedCart = getBoolean('show_abandoned_cart');
+  const { allItemsQuantity } = useBagStore(['allItemsQuantity']);
+
   return (
-    <OneP5P comingFrom="home" />
+    <View>
+      {allItemsQuantity > 0 && showAbandonedCart && (<AbandonedCart />)}
+      {showOneP5P && (<OneP5P comingFrom="home" />)}
+    </View>
   );
 }
 
@@ -159,8 +168,6 @@ function Home() {
     transparentTopBarAnimated,
     whiteTopBarAnimated,
   } = useHomeHeader();
-
-  const showOnep5p = useMemo(() => getBoolean('show_onep5p_home'), []);
 
   const renderHeader = () => (
     <>
@@ -260,8 +267,8 @@ function Home() {
               );
             }}
             ListFooterComponent={
-              <ListFooter showOnep5p={showOnep5p} />
-              }
+              <ListFooter />
+            }
           />
         </SafeAreaView>
         {!!showModalSignUpComplete && <ModalSignUpComplete />}
