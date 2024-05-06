@@ -143,7 +143,7 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
       const { data } = await client.query<SearchQuery, SearchQueryVariables>({
         notifyOnNetworkStatusChange: true,
         context: { clientName: 'gateway' },
-        fetchPolicy: 'network-only',
+        fetchPolicy: 'no-cache',
         query: SearchDocument,
         variables: {
           input: newParameters,
@@ -178,6 +178,14 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
         EventProvider.logEvent('product_list_view', {
           content_type: 'product_group',
           item_brand: getBrandByUrl({ categoryTree: [{ href: data.search.items[0]?.category || '' }] }),
+        });
+      }
+
+      if (data.search.items.length === 0) {
+        const e = new Error(`Empty cluster id: ${newParameters.facets[0]?.value}`);
+
+        ExceptionProvider.captureException(e, {
+          search: data,
         });
       }
 
