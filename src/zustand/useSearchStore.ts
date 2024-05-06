@@ -143,7 +143,7 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
       const { data } = await client.query<SearchQuery, SearchQueryVariables>({
         notifyOnNetworkStatusChange: true,
         context: { clientName: 'gateway' },
-        fetchPolicy: 'network-only',
+        fetchPolicy: 'no-cache',
         query: SearchDocument,
         variables: {
           input: newParameters,
