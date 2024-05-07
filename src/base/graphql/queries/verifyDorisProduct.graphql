@@ -1,0 +1,5 @@
+query verifyDorisProduct($ean: String!){
+  verifyDorisProduct(ean: $ean ) {
+    valid
+  }
+}

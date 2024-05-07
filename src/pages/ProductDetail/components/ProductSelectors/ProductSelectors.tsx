@@ -13,7 +13,6 @@ import EventProvider from '../../../../utils/EventProvider';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { SelectColor } from '../SelectColor/SelectColor';
-import { SizeGuide, SizeGuideImages } from './SizeGuide';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 import { NewInput } from '../../../../components/NewInput';
 import { NewInputType } from '../../../../components/NewInput/types';
@@ -28,6 +27,9 @@ import { RouletCouponCard } from '../../../Home/components/RouletCouponCard';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import ProductAddToCart from '../ProductAddToCart';
 import OneP5P from '../../../../components/OneP5P/OneP5P';
+import FittingRoomSession from '../FittingRoomSession';
+import { SizeGuideImages } from '../FittingRoomSession/components/SizeGuide';
+import { useDorisVerify } from '../../../../hooks/useDorisVerify';
 
 function ProductSelectors() {
   const [showModal, setShowModal] = useState(false);
@@ -59,6 +61,7 @@ function ProductSelectors() {
   const showRoulet = getBoolean('show_roulet');
   const showOnep5p = useMemo(() => getBoolean('show_onep5p_pdp'), []);
   const addToBagButtonIsFixed = useMemo(() => getBoolean('add_to_bag_button_is_fixed'), []);
+  const { verifyProductDoris, isValidProductDoris } = useDorisVerify();
 
   const doSelectSizeTrack = useCallback(() => {
     try {
@@ -140,6 +143,10 @@ function ProductSelectors() {
     };
   }, [selectedSize, doSelectSizeTrack]);
 
+  useEffect(() => {
+    if (selectedSize) verifyProductDoris(selectedSize.ean);
+  }, [selectedSize]);
+
   const handleSelectedItem = useMemo(() => {
     if (addToBagButtonIsFixed) {
       return sizeIsSelected ? selectedSize?.size || '' : '';
@@ -175,40 +182,44 @@ function ProductSelectors() {
 
       <Box px="xxxs">
         {productDetailsHasColors && (
-        <>
-          <Box mt="xxxs">
-            <Box flexDirection="row" justifyContent="space-between" alignItems="center">
-              <Typography variant="subtituloSessoes">Tamanhos:</Typography>
+          <>
+            <Box mt="xxxs">
+              <Box flexDirection="row" justifyContent="space-between" alignItems="center">
+                <Typography variant="subtituloSessoes">Tamanhos:</Typography>
+              </Box>
 
-              {!!categoryTree?.length && (
-              <SizeGuide categoryTree={categoryTree} productId={productDetail.productId} />
-              )}
+              <Box alignItems="flex-start" mt="xxxs">
+                <RadioButtons
+                  size={38}
+                  fontSize={12}
+                  disbledOptions={disabledSizes}
+                  onSelectedChange={(val) => setSelectedSize(`${val}`)}
+                  optionsList={sizes}
+                  defaultSelectedItem=""
+                  selectedItem={handleSelectedItem}
+                />
+              </Box>
             </Box>
 
-            <Box alignItems="flex-start" mt="xxxs" mb="xxxs">
-              <RadioButtons
-                size={38}
-                fontSize={12}
-                disbledOptions={disabledSizes}
-                onSelectedChange={(val) => setSelectedSize(`${val}`)}
-                optionsList={sizes}
-                defaultSelectedItem=""
-                selectedItem={handleSelectedItem}
-              />
-            </Box>
-          </Box>
-          {showOnep5p && addToBagButtonIsFixed && (<OneP5P comingFrom="PDP" />)}
+            <FittingRoomSession
+              categoryTree={categoryTree}
+              productId={productDetail.productId}
+              productEan={selectedSize?.ean}
+              isValidProductDoris={isValidProductDoris}
+            />
 
-          {!selectedSize?.availableQuantity && (
-          <Box mt="xxs" flexDirection="row" alignItems="center">
-            <IconLegacy name="Alert" size={20} color="vermelhoRSV" mr="nano" />
+            {showOnep5p && addToBagButtonIsFixed && (<OneP5P comingFrom="PDP" />)}
 
-            <Typography fontFamily="reservaSansBold" fontSize={15} color="vermelhoRSV">
-              Produto Esgotado
-            </Typography>
-          </Box>
-          )}
-        </>
+            {!selectedSize?.availableQuantity && (
+              <Box mt="xxs" flexDirection="row" alignItems="center">
+                <IconLegacy name="Alert" size={20} color="vermelhoRSV" mr="nano" />
+
+                <Typography fontFamily="reservaSansBold" fontSize={15} color="vermelhoRSV">
+                  Produto Esgotado
+                </Typography>
+              </Box>
+            )}
+          </>
         )}
 
         {isGiftCard ? (

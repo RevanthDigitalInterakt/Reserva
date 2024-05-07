@@ -1,36 +1,55 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import WebView, { WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
+import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import { Platform, View } from 'react-native';
 import deviceInfo from 'react-native-device-info';
-
+import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
+import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
+import testProps from '../../utils/testProps';
 
 export default function WebViewDoris() {
   const navigation = useNavigation();
+  const { actions, packageItems } = useBagStore(['actions', 'packageItems']);
   const [loading, setLoading] = useState(false);
-  const [navState, setNavState] = useState('');
   const route = useRoute();
   const webviewRef = useRef(null);
+
+  const mergeItems = mergeItemsPackage(packageItems);
 
   const injectedJavaScript = `
   window.metadata = { appVersion: "${deviceInfo.getVersion()}", platformType: "${Platform.OS}" }
 `;
 
   const onMessage = async (event: WebViewMessageEvent) => {
-    let newData = null;
     const { data } = event.nativeEvent;
 
-    newData = JSON.parse(data);
+    const { type, rawMessage } = JSON.parse(data);
 
-    console.log('NEW DATA', newData);
+    switch (type) {
+      // TODO Review this method when production  widget method Doris change
+      case 'add-to-cart': {
+        rawMessage.data.map(async (itemRawMessage: any) => {
+          const orderFormItem = mergeItems.find((item) => item.id === itemRawMessage.sku);
+
+          await actions.ADD_ITEM(
+            itemRawMessage.sellerId,
+            itemRawMessage.sku,
+            orderFormItem ? orderFormItem.quantity + 1 : 1,
+          );
+        });
+        return null;
+      }
+
+      case 'error': {
+        navigation.goBack();
+        return null;
+      }
+
+      default:
+        return null;
+    }
   };
-
-  const onNavigationStateChangeCapture = (event: WebViewNavigation) => {
-    setNavState(event.url);
-  };
-
-  const uri = 'https://rec32255--lojausereserva.myvtex.com/doris-webview';
 
   return (
     <>
@@ -42,17 +61,27 @@ export default function WebViewDoris() {
         />
       </View>
       <WebView
+        {...testProps('web_view_doris')}
         ref={webviewRef}
+        cacheEnabled={false}
+        cacheMode="LOAD_NO_CACHE"
+        clearCache
         startInLoadingState
+        onLoadStart={(event) => {
+          const { nativeEvent } = event;
+          setLoading(nativeEvent.loading);
+        }}
+        onLoadEnd={(event) => {
+          const { nativeEvent } = event;
+          setLoading(nativeEvent.loading);
+        }}
         injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
         originWhitelist={['*']}
-        testID="com.usereserva:id/web_view_checkout"
-        source={{ uri }}
+        source={{ uri: route?.params?.url }}
         javaScriptCanOpenWindowsAutomatically
         onMessage={onMessage}
         geolocationEnabled
         domStorageEnabled
-        onNavigationStateChange={onNavigationStateChangeCapture}
       />
     </>
   );

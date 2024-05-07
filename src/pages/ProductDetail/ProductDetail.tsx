@@ -217,14 +217,6 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
               {showReturnPolicy && (<ReturnPolicy />)}
             </Box>
 
-            <Box>
-              <Button
-                title="DORIS"
-                inline
-                onPress={() => navigation.navigate('Doris')}
-              />
-            </Box>
-
             <Recommendation />
 
             <Box px="xxxs">
