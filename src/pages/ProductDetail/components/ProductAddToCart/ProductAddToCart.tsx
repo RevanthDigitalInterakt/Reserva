@@ -15,10 +15,13 @@ import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider'
 import type { ProductAddToCartProps } from './types';
 import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
 import OneP5P from '../../../../components/OneP5P/OneP5P';
+import { useTrackClickAlgoliaStore } from '../../../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
+import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../../../base/graphql/generated';
 
 function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
   const { getString, getBoolean } = useRemoteConfig();
   const { restoreCart } = useCart();
+  const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
   const { actions, packageItems, orderFormId } = useBagStore(['actions', 'orderFormId', 'packageItems']);
   const {
     productDetail,
@@ -67,6 +70,20 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
       const mergeItems = mergeItemsPackage(packageItems);
 
       const orderFormItem = mergeItems.find((item) => item.id === selectedSize.itemId);
+
+      onTrack(
+        TrackEventTypeEnum.Conversion,
+        TrackEventNameEnum.CartItems,
+        [orderFormItem?.id || ''],
+        TrackEventSubTypeEnum.AddToCart,
+        [
+          {
+            discount: orderFormItem?.discountPercent || 0,
+            price: orderFormItem?.price || 0,
+            quantity: orderFormItem?.quantity || 0,
+          },
+        ],
+      );
 
       await actions.ADD_ITEM(
         selectedSize.seller,

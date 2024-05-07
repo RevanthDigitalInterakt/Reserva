@@ -1,0 +1,35 @@
+import React from 'react';
+import { MockedProvider } from '@apollo/client/testing';
+import { render, fireEvent } from '@testing-library/react-native';
+import { ThemeProvider } from 'styled-components/native';
+import CartContextProvider from '../../../context/CartContext';
+import SearchWrapper from '../components/SearchWrapper';
+import { theme } from '../../../base/usereservappLegacy/theme';
+
+const component = (
+  <ThemeProvider theme={theme}>
+    <MockedProvider addTypename={false}>
+      <CartContextProvider>
+        <SearchWrapper />
+      </CartContextProvider>
+    </MockedProvider>
+  </ThemeProvider>
+);
+
+describe('SearchWrapper', () => {
+  it('should render SearchWrapper component', async () => {
+    render(component);
+  });
+
+  it('should match with snapshot', async () => {
+    const { toJSON } = render(component);
+    expect(toJSON()).toMatchSnapshot();
+  });
+
+  it('updates the term variable when the search term changes', () => {
+    const { getByPlaceholderText } = render(component);
+    const searchInput = getByPlaceholderText('Buscar');
+    fireEvent.changeText(searchInput, 'Termo de busca');
+    expect(searchInput.props.value).toBe('Termo de busca');
+  });
+});

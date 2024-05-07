@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Alert, View } from 'react-native';
 import {
   type ProductQuery,
@@ -8,6 +8,8 @@ import {
   TrackPageTypeEnum,
   useProductLazyQuery,
   useInfoCashbackPdpCollectionQuery,
+  TrackEventTypeEnum,
+  TrackEventNameEnum,
 } from '../../base/graphql/generated';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { Box } from '../../components/Box/Box';
@@ -42,6 +44,8 @@ import CashbackInfo from '../../components/CashbackInfo';
 import { ProductPayment } from './components/ProductPayment';
 import { Divider } from '../../components/Divider/Divider';
 import { Button } from '../../components/Button';
+import { useTrackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
+import ReturnPolicy from './components/ReturnPolicy/ReturnPolicy';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -49,6 +53,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   const { getBoolean } = useRemoteConfig();
   const { getItem } = useAsyncStorageProvider();
   const { profile } = useAuthStore(['profile']);
+  const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const {
     setProduct, resetProduct, productDetail, drawerIsOpen,
@@ -62,6 +67,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
   const isGiftCard = productDetail?.action === ProductResultActionEnum.ShowGiftCard;
 
   const isKitLook = productDetail?.action === ProductResultActionEnum.ShowKit;
+
+  const showReturnPolicy = useMemo(() => getBoolean('show_return_policy'), []);
 
   const [getProduct, { loading }] = useProductLazyQuery({
     fetchPolicy: getFetchPolicyPerKey('productDetail'),
@@ -117,6 +124,14 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         identifier: product.identifier || '',
         productId: product.productId,
       };
+
+      const skuItem = params.skuId || '';
+
+      onTrack(
+        TrackEventTypeEnum.View,
+        TrackEventNameEnum.ViewedItems,
+        [skuItem],
+      );
 
       trackClickStore.getState()
         .onTrackClick(newData, product.identifier || '', TrackPageTypeEnum.Product);
@@ -199,6 +214,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
                     <ProductPayment />
                   </>
               )}
+              {showReturnPolicy && (<ReturnPolicy />)}
             </Box>
 
             <Box>

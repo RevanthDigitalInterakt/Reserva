@@ -1,17 +1,28 @@
 ## CHANGELOG
 
+### 2.11.2
+- [31626 Tracking de eventos Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31626)
+- [30966 - Informação troca e devolução PDP [app]](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30966/)
+
+---
+
 ### 2.11.1
+
 - [31730 - Ajustes novo App de Push da Dito](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31730)
 
 ### 2.11.0
 - [30623 - Correção de loading do link whatsapp coleções](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30623)
 - [30618 - Incluir caso de uso para o link de whatsapp](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30618)
 
+---
+
 ### 2.7.9
 
 - [24225 - Componente de carrinho abandonado home [app]](https://dev.azure.com/areco/Tribo%20E-Commerce/_workitems/edit/24225)
 - [31591 - Ajustes Dito - Segmentação do AppReserva](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31591)
 - [31610 - BUG Vitrine Recomendação APP - Inclusão para o produto errado na sacola](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31610)
+
+---
 
 ### 2.7.8
 
