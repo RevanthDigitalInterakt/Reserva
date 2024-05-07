@@ -6,7 +6,7 @@ import { TopBarDefaultBackButton } from '../../../../modules/Menu/components/Top
 import useSearchStore, { SearchStatusEnum } from '../../../../zustand/useSearchStore';
 
 interface ISearchWrapper {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 function SearchWrapper({ children }: ISearchWrapper) {
@@ -29,7 +29,7 @@ function SearchWrapper({ children }: ISearchWrapper) {
     setSearchTerm(term);
     setQ(term);
 
-    return null
+    return null;
   }
 
   useEffect(() => {
