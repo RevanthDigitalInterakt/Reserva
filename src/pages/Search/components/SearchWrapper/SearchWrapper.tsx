@@ -9,11 +9,11 @@ interface ISearchWrapper {
   children?: React.ReactNode;
 }
 
-function isValidInput(input: string): boolean {
+export function isValidInput(input: string): boolean {
   return input.trim().length > 0;
 }
 
-function formatInput(input: string): string {
+export function formatInput(input: string): string {
   return input.trimStart();
 }
 
