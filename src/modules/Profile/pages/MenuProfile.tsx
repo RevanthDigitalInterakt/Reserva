@@ -160,7 +160,14 @@ export function MenuProfile() {
                 </Typography>
               </Box>
             </Box>
-            <Box style={{width:'88%',display:'flex',justifyContent:'center',alignItems:'center'}}>
+            <Box
+              style={{
+                width: '88%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
               <CardCashback />
             </Box>
             <Box mt="xxxs">

@@ -107,5 +107,5 @@ export const onlyGaEvents = [
   'add_payment_info_test',
   'page_load_time',
   'sign_up',
-  'click_card_cashback'
+  'click_card_cashback',
 ];

@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import IconWoodpecker from '../../../assets/icons/IconWoodpecker';
 import { FONTS } from '../../base/styles';
-import { useCashbackLazyQuery} from '../../base/graphql/generated';
+import { useCashbackLazyQuery } from '../../base/graphql/generated';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import { PriceCustom } from '../PriceCustom/PriceCustom';
 import { styles } from './styles';
 import EventProvider from '../../utils/EventProvider';
-import { useNavigation } from '@react-navigation/native';
 import { MyCashbackScreensRoutes } from '../../modules/my-cashback/navigation/MyCashbackNavigator';
 
-const CardCashback = () => {
+export default function CardCashback() {
   const navigation = useNavigation();
   const [balance, setBalance] = useState<number>(0);
   const { profile } = useAuthStore(['profile']);
@@ -21,8 +21,9 @@ const CardCashback = () => {
   const getCashbackData = useCallback(async () => {
     try {
       const { data } = await getCashback();
+
       if (!data?.cashback) return;
-      const { wallet } = data?.cashback;
+      const { wallet } = data.cashback;
       setBalance(wallet?.balanceInCents);
     } catch (error) {
       ExceptionProvider.captureException(error, { currentProfileDocument: profile?.document });
@@ -34,14 +35,13 @@ const CardCashback = () => {
       getCashbackData();
     }
   }, [profile?.document]);
-  
+
   const handleClick = () => {
-    
     EventProvider.logEvent('click_card_cashback', {
-      value:balance
+      value: balance,
     });
-     navigation.navigate(MyCashbackScreensRoutes.MY_WALLET)
-  } 
+    navigation.navigate(MyCashbackScreensRoutes.MY_WALLET);
+  };
 
   return (
     <TouchableOpacity style={styles.card} onPress={handleClick}>
@@ -59,7 +59,4 @@ const CardCashback = () => {
       <IconWoodpecker />
     </TouchableOpacity>
   );
-};
-
-
-export default CardCashback;
+}

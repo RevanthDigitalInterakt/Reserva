@@ -179,7 +179,7 @@ export namespace EventsOptions {
   export type SignUp = Pick<EventValues, | 'method'>;
   export type Wishlist = Pick<EventValues, | 'currency' | 'items' | 'value'>;
   export type AbandonedCart = Pick<AbandonedCartEventValues, | 'action' | 'index' | 'logged'>;
-  export type CardCashback = Pick<CardCashbackEventValues,'value'>;
+  export type CardCashback = Pick<CardCashbackEventValues, 'value'>;
 
 }
 

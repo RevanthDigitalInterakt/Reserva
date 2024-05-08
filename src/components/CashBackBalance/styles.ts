@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { FONTS } from "../../base/styles";
+import { FONTS } from '../../base/styles';
 
 export const styles = StyleSheet.create({
   card: {
@@ -9,14 +9,14 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
     alignItems: 'center',
     flexDirection: 'row',
-    padding: 10
+    padding: 10,
   },
   title: {
     color: '#F8CD78',
     fontFamily: FONTS.RESERVA_SANS_REGULAR,
   },
   textsContainer: {
-    marginRight: 10
+    marginRight: 10,
   },
   amount: {
     color: '#fff',
