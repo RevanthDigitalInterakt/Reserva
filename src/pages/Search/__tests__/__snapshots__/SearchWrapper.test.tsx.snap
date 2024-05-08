@@ -1199,6 +1199,7 @@ exports[`SearchWrapper should match with snapshot 1`] = `
           }
         >
           <TextInput
+            enablesReturnKeyAutomatically={true}
             onChangeText={[Function]}
             onSubmitEditing={[Function]}
             placeholder="Buscar"
