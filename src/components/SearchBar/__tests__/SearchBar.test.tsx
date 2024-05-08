@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components/native';
 import { MockedProvider } from '@apollo/client/testing';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { SearchBar } from '../SearchBar';
 import { theme } from '../../../base/usereservappLegacy/theme';
 import CartContextProvider from '../../../context/CartContext';
@@ -21,6 +21,11 @@ describe('SearchBar component', () => {
 
   it('renders correctly', () => {
     render(component);
+  });
+
+  it('should match with the snapshot', async () => {
+    const { toJSON } = await waitFor(() => render(component));
+    expect(toJSON()).toMatchSnapshot();
   });
 
   it('displays placeholder correctly', () => {
