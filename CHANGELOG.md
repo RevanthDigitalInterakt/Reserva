@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### 2.11.3
+- [30680 - Faixa com saldo do cashback na jornada do APP](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30680)
+
+---
+
 ### 2.11.2
 - [31626 Tracking de eventos Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31626)
 - [30966 - Informação troca e devolução PDP [app]](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30966/)
