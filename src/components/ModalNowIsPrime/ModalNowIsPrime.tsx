@@ -4,7 +4,6 @@ import { Text, View } from 'react-native';
 import { Button } from '../Button';
 import { styles } from './ModalNowIsPrime.Styles';
 import IconLogoPrime from '../../../assets/icons/IconLogoPrime';
-import { Typography } from '../Typography/Typography';
 import { IconLegacy } from '../IconLegacy/IconLegacy';
 
 interface IProps {
@@ -16,7 +15,6 @@ export function ModalNowIsPrime({
   isVisible,
   onBackdropPress,
 }: IProps) {
-
   return (
     <Modal
       isVisible={isVisible}
@@ -42,14 +40,13 @@ export function ModalNowIsPrime({
           <Text style={styles.text}>
             Agora você é um cliente
             {' '}
-            <Typography
-              variant="descontoTag2"
-              color="fullBlack"
+            <Text
               style={styles.primeText}
             >
               Prime
-            </Typography>
-            , para facilitar na sua compra já adicionamos ao seu carrinho a assinatura, ela será concluída junto ao seu pedido.
+            </Text>
+            , para facilitar na sua compra já adicionamos ao seu carrinho a assinatura,
+            ela será concluída junto ao seu pedido.
           </Text>
         </View>
 

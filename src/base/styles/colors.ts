@@ -60,4 +60,5 @@ export const COLORS = {
   BORDER_GREEN: '#38AB6B',
   GRAY62: '#9E9E9E',
   DIM_GRAY: '#6C6C6C',
+  BACKGROUND_GOLD_PRIME: '#c5a967',
 };

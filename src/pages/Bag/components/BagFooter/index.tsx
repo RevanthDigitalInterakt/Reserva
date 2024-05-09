@@ -11,31 +11,32 @@ import { Button } from '../../../../components/Button';
 import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
 import PrimeDiscount from '../../../../components/PrimeDiscount/PrimeDiscount';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
+import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
 export default function BagFooter() {
   const {
     packageItems,
     appTotalizers,
     installmentInfo,
+    prime,
   } = useBagStore([
     'appTotalizers',
     'topBarLoading',
     'installmentInfo',
     'packageItems',
+    'prime',
   ]);
-
   const { profile } = useAuthStore(['profile']);
-  const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
   const { isPrime } = usePrimeInfo();
-  const discountPrime =
-    appTotalizers.discount === 0 && appTotalizers.prime?.price ?
-      appTotalizers.total - appTotalizers.prime?.price :
-      appTotalizers.discount
-
+  const { getBoolean } = useRemoteConfig();
   const {
     handleNavigateToDelivery,
     navigateToDeliveryDisable,
   } = useNavigationToDelivery();
+
+  const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
+  const showPrimeDiscount = useMemo(() => getBoolean('show_prime_discount'), [getBoolean]);
+  const totalDiscountPrime = useMemo(() => prime?.totalDiscount, [prime]);
 
   if (!items?.length) {
     return null;
@@ -95,9 +96,12 @@ export default function BagFooter() {
           </Box>
         )}
       </Box>
-      {isPrime &&
-        <PrimeDiscount valor={discountPrime} />
-      }
+      {isPrime && showPrimeDiscount && (
+        <PrimeDiscount
+          setNegativeValue
+          discountPrime={totalDiscountPrime}
+        />
+      )}
 
       <Button
         disabled={(

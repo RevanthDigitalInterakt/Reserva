@@ -1,4 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { CouponBadge } from '../CouponBadge';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import { Box } from '../../../../components/Box/Box';
@@ -11,19 +16,29 @@ import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom
 import PrimeDiscount from '../../../../components/PrimeDiscount/PrimeDiscount';
 import { ModalNowIsPrime } from '../../../../components/ModalNowIsPrime/ModalNowIsPrime';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
+import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
 export default function CouponComponent() {
   const {
     actions,
     appTotalizers,
     marketingData,
-  } = useBagStore(['actions', 'appTotalizers', 'marketingData']);
+    prime,
+  } = useBagStore([
+    'actions',
+    'appTotalizers',
+    'marketingData',
+    'prime',
+  ]);
   const { isPrime } = usePrimeInfo();
-
+  const { getBoolean } = useRemoteConfig();
   const [sellerCouponError, setSellerCouponError] = useState(false);
   const [discountCouponError, setDiscountCouponError] = useState(false);
   const [couponsValue, setCouponsValue] = useState({ seller: '', discount: '' });
   const [openModal, setOpenModal] = useState(false);
+
+  const showPrimeDiscount = useMemo(() => getBoolean('show_prime_discount'), [getBoolean]);
+  const discountPrime = useMemo(() => prime?.total, [prime]);
 
   const handleSetCouponValue = useCallback((key: 'seller' | 'discount', currValue: string) => {
     setCouponsValue((oldValue) => ({
@@ -93,20 +108,20 @@ export default function CouponComponent() {
       <Box flexDirection="row">
         {/* cupom vendedor */}
         {!!marketingData?.sellerCoupon && (
-        <CouponBadge
-          testID="com.usereserva:id/CouponBadge_sellerCode"
-          value={`${marketingData?.sellerCouponName} | ${marketingData?.sellerCoupon.toUpperCase()}`}
-          onPress={actions.REMOVE_SELLER_COUPON}
-        />
+          <CouponBadge
+            testID="com.usereserva:id/CouponBadge_sellerCode"
+            value={`${marketingData?.sellerCouponName} | ${marketingData?.sellerCoupon.toUpperCase()}`}
+            onPress={actions.REMOVE_SELLER_COUPON}
+          />
         )}
 
         {/* cupom desconto */}
         {!!marketingData?.coupon && (
-        <CouponBadge
-          testID="com.usereserva:id/CouponBadge_discountCode"
-          value={marketingData?.coupon}
-          onPress={actions.REMOVE_DISCOUNT_COUPON}
-        />
+          <CouponBadge
+            testID="com.usereserva:id/CouponBadge_discountCode"
+            value={marketingData?.coupon}
+            onPress={actions.REMOVE_DISCOUNT_COUPON}
+          />
         )}
       </Box>
 
@@ -133,11 +148,11 @@ export default function CouponComponent() {
       </Box>
 
       {sellerCouponError && (
-      <Box marginRight="micro">
-        <Typography color="vermelhoAlerta" variant="precoAntigo3">
-          Digite um código válido
-        </Typography>
-      </Box>
+        <Box marginRight="micro">
+          <Typography color="vermelhoAlerta" variant="precoAntigo3">
+            Digite um código válido
+          </Typography>
+        </Box>
       )}
 
       <Box marginTop="xxxs" flexDirection="row">
@@ -163,11 +178,11 @@ export default function CouponComponent() {
       </Box>
 
       {discountCouponError && (
-      <Box marginRight="micro">
-        <Typography color="vermelhoAlerta" variant="precoAntigo3">
-          Digite um cupom válido
-        </Typography>
-      </Box>
+        <Box marginRight="micro">
+          <Typography color="vermelhoAlerta" variant="precoAntigo3">
+            Digite um cupom válido
+          </Typography>
+        </Box>
       )}
 
       <Divider variant="fullWidth" marginY="xs" />
@@ -191,44 +206,43 @@ export default function CouponComponent() {
         ) : null}
 
         {appTotalizers.delivery > 0 && (
-        <Box
-          marginBottom="micro"
-          flexDirection="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Typography variant="precoAntigo3">Frete</Typography>
-          <PriceCustom
-            fontFamily="nunitoSemiBold"
-            sizeInterger={15}
-            sizeDecimal={11}
-            num={Math.abs(appTotalizers.delivery)}
-          />
-        </Box>
+          <Box
+            marginBottom="micro"
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography variant="precoAntigo3">Frete</Typography>
+            <PriceCustom
+              fontFamily="nunitoSemiBold"
+              sizeInterger={15}
+              sizeDecimal={11}
+              num={Math.abs(appTotalizers.delivery)}
+            />
+          </Box>
         )}
 
         {appTotalizers.discount !== 0 && (
-        <Box
-          marginBottom="micro"
-          flexDirection="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Typography variant="precoAntigo3">Descontos</Typography>
+          <Box
+            marginBottom="micro"
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography variant="precoAntigo3">Descontos</Typography>
 
-          <PriceCustom
-            fontFamily="nunitoSemiBold"
-            negative
-            sizeInterger={15}
-            sizeDecimal={11}
-            num={Math.abs(appTotalizers.discount)}
-          />
-        </Box>
+            <PriceCustom
+              fontFamily="nunitoSemiBold"
+              negative
+              sizeInterger={15}
+              sizeDecimal={11}
+              num={Math.abs(appTotalizers.discount)}
+            />
+          </Box>
         )}
       </>
 
       <Box
-        marginBottom="micro"
         flexDirection="row"
         justifyContent="space-between"
         alignItems="center"
@@ -242,12 +256,12 @@ export default function CouponComponent() {
           num={appTotalizers.total}
         />
       </Box>
-      {!isPrime&&
-        <PrimeDiscount valor={appTotalizers.prime?.price} setOpenModal={setOpenModal} />
-      }
-      {openModal &&
-        <ModalNowIsPrime isVisible={openModal} onBackdropPress={()=>setOpenModal(false)}/>
-      }
+      {!isPrime && showPrimeDiscount && (
+        <PrimeDiscount discountPrime={discountPrime} setOpenModal={setOpenModal} />
+      )}
+      {openModal && showPrimeDiscount && (
+        <ModalNowIsPrime isVisible={openModal} onBackdropPress={() => setOpenModal(false)} />
+      )}
     </Box>
   );
 }

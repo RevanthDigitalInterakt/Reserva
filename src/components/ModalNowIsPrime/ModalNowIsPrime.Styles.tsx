@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { COLORS } from '../../base/styles/colors';
+import { FONTS } from '../../base/styles';
+import { scale } from '../../utils/scale';
 
 export const styles = StyleSheet.create({
   modalWrapper: {
@@ -13,24 +15,19 @@ export const styles = StyleSheet.create({
   headerContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  textBold: {
-    fontFamily: 'ReservaSans-Bold',
-    fontSize: 16,
-    color: COLORS.BLACK,
-    lineHeight: 20,
+    justifyContent: 'space-between',
   },
   primeText: {
-    fontFamily: 'ReservaDisplay-Regular',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: FONTS.RESERVA_DISPLAY_REGULAR,
+    fontSize: scale(14),
+    fontWeight: '400',
+    color: COLORS.BLACK,
     lineHeight: 20,
   },
   text: {
     color: COLORS.DARK_GRAY,
-    fontFamily: 'ReservaSans-Regular',
-    fontSize: 16,
+    fontFamily: FONTS.RESERVA_SANS_REGULAR,
+    fontSize: scale(14),
     lineHeight: 20,
   },
 });
