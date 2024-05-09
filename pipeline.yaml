@@ -56,11 +56,15 @@ steps:
   displayName: 'Set envs'
 
 - script: |
+    export GIT_CONFIG_PARAMETERS="'url.https://$SYSTEM_ACCESSTOKEN@dev.azure.com.insteadof=https://ARECO@dev.azure.com'"
+
     git tag
     yarn pipeline:semantic-release-pre:prod
     bash scripts/deleteTag.sh
   displayName: 'Increment version'
   workingDirectory: $(Build.SourcesDirectory)
+  env: 
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
 # Build iOS
 - script: |
