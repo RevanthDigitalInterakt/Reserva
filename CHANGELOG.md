@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.11.3
+
+- [30688 - Inclusão do desconto do prime no valor final dos produtos na sacola do app](https://dev.azure.com/areco/AReCO/_workitems/edit/30688)
+
 ### 2.11.2
 - [31626 Tracking de eventos Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31626)
 - [30966 - Informação troca e devolução PDP [app]](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30966/)
