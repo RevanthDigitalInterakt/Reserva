@@ -65,6 +65,7 @@ export interface IRemoteConfigKeys {
   pixPaymentDescription: string;
   show_button_see_bag: boolean;
   show_abandoned_cart: boolean;
+  show_prime_discount: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -127,6 +128,7 @@ export const defaults: IRemoteConfigKeys = {
   pixPaymentDescription: 'Pague à vista ou até em 4x sem juros.',
   show_button_see_bag: false,
   show_abandoned_cart: false,
+  show_prime_discount: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;
