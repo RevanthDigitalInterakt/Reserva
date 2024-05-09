@@ -9,26 +9,34 @@ import { Box } from '../../../../components/Box/Box';
 import { Typography } from '../../../../components/Typography/Typography';
 import { Button } from '../../../../components/Button';
 import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
+import PrimeDiscount from '../../../../components/PrimeDiscount/PrimeDiscount';
+import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
+import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
 export default function BagFooter() {
   const {
     packageItems,
     appTotalizers,
     installmentInfo,
+    prime,
   } = useBagStore([
     'appTotalizers',
     'topBarLoading',
     'installmentInfo',
     'packageItems',
+    'prime',
   ]);
-
   const { profile } = useAuthStore(['profile']);
-  const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
-
+  const { isPrime } = usePrimeInfo();
+  const { getBoolean } = useRemoteConfig();
   const {
     handleNavigateToDelivery,
     navigateToDeliveryDisable,
   } = useNavigationToDelivery();
+
+  const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
+  const showPrimeDiscount = useMemo(() => getBoolean('show_prime_discount'), [getBoolean]);
+  const totalDiscountPrime = useMemo(() => prime?.totalDiscount, [prime]);
 
   if (!items?.length) {
     return null;
@@ -38,7 +46,7 @@ export default function BagFooter() {
     <Box
       width="100%"
       bg="white"
-      height={145}
+      height={isPrime ? 200 : 145}
       px="xxs"
       style={{ elevation: Platform.OS === platformType.ANDROID ? 10 : 0 }}
       boxShadow={Platform.OS === platformType.ANDROID ? null : 'bottomBarShadow'}
@@ -88,6 +96,12 @@ export default function BagFooter() {
           </Box>
         )}
       </Box>
+      {isPrime && showPrimeDiscount && (
+        <PrimeDiscount
+          setNegativeValue
+          discountPrime={totalDiscountPrime}
+        />
+      )}
 
       <Button
         disabled={(
