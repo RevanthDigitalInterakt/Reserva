@@ -74,6 +74,10 @@ type AbandonedCartEventValues = {
   logged?: 'logged in' | 'logged out';
 };
 
+type CardCashbackEventValues = {
+  value: number;
+};
+
 export namespace EventsOptions {
   export type PageView = Pick<EventValues, 'item_brand'>;
   export type Login = Pick<EventValues, 'custumer_email' | 'method'>;
@@ -175,6 +179,7 @@ export namespace EventsOptions {
   export type SignUp = Pick<EventValues, | 'method'>;
   export type Wishlist = Pick<EventValues, | 'currency' | 'items' | 'value'>;
   export type AbandonedCart = Pick<AbandonedCartEventValues, | 'action' | 'index' | 'logged'>;
+  export type CardCashback = Pick<CardCashbackEventValues, 'value'>;
 
 }
 
@@ -368,4 +373,8 @@ export type EventOptionsFn =
   | {
     type: 'abandoned_cart',
     payload: EventsOptions.AbandonedCart
+  }
+  | {
+    type: 'click_card_cashback',
+    payload: EventsOptions.CardCashback
   };

@@ -104,6 +104,10 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
     installmentsNumber: 0,
     totalPrice: 0,
   },
+  prime: {
+    total: 0,
+    totalDiscount: 0,
+  },
   allItemsQuantity: 0,
   hasPrimeSubscriptionInCart: false,
   //
@@ -159,6 +163,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           installmentInfo: orderForm.installmentInfo,
           allItemsQuantity: orderForm.allItemsQuantity,
           hasPrimeSubscriptionInCart: orderForm.hasPrimeSubscriptionInCart,
+          prime: orderForm.prime,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -210,6 +215,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           installmentInfo: orderForm.installmentInfo,
           allItemsQuantity: orderForm.allItemsQuantity,
           hasPrimeSubscriptionInCart: orderForm.hasPrimeSubscriptionInCart,
+          prime: orderForm.prime,
           initialized: true,
           topBarLoading: false,
         }));
@@ -273,6 +279,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           installmentInfo: orderForm.installmentInfo,
           appTotalizers: orderForm.appTotalizers,
           allItemsQuantity: orderForm.allItemsQuantity,
+          prime: orderForm.prime,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -317,6 +324,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           installmentInfo: orderForm.installmentInfo,
           appTotalizers: orderForm.appTotalizers,
           allItemsQuantity: orderForm.allItemsQuantity,
+          prime: orderForm.prime,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -368,6 +376,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           installmentInfo: orderForm.installmentInfo,
           allItemsQuantity: orderForm.allItemsQuantity,
           hasPrimeSubscriptionInCart: orderForm.hasPrimeSubscriptionInCart,
+          prime: orderForm.prime,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -428,6 +437,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           installmentInfo: orderForm.installmentInfo,
           allItemsQuantity: orderForm.allItemsQuantity,
           packageItems: orderForm.packageItems,
+          prime: orderForm.prime,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -470,6 +480,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
           packageItems: orderForm?.packageItems || [{ items: [], totalShippingValue: 0 }],
+          prime: orderForm?.prime,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -505,6 +516,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
+          prime: orderForm?.prime,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -536,6 +548,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
+          prime: orderForm?.prime,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -572,6 +585,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           allItemsQuantity: orderForm.allItemsQuantity,
           packageItems: orderForm?.packageItems || [{ items: [], totalShippingValue: 0 }],
           selectableGift: orderForm.selectableGift,
+          prime: orderForm?.prime,
         });
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -660,6 +674,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
+          prime: orderForm?.prime,
           deleteProductModal: {
             show: false,
             deleteInfo: undefined,
@@ -699,6 +714,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         set(() => ({
           packageItems: data?.orderFormAddGift.packageItems,
+          prime: data?.orderFormAddGift?.prime,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -726,6 +742,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         set(() => ({
           packageItems: data?.orderFormRemoveGift.packageItems,
+          prime: data?.orderFormRemoveGift?.prime,
         }));
       } catch (error) {
         set(() => ({ error: error.message }));
@@ -818,6 +835,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
+          prime: orderForm?.prime,
           deleteProductModal: {
             show: false,
             deleteInfo: undefined,
@@ -827,7 +845,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         await trackingOrderFormAddItem(id, orderForm);
       } catch (error) {
-        ExceptionProvider.captureException(err);
+        ExceptionProvider.captureException(error);
         set(() => ({ error: error.message }));
 
         throw new Error(error.message);
@@ -892,6 +910,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
+          prime: orderForm?.prime,
           deleteProductModal: {
             show: false,
             deleteInfo: undefined,
@@ -962,6 +981,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
+          prime: orderForm?.prime,
           deleteProductModal: {
             show: false,
             deleteInfo: undefined,
@@ -1050,6 +1070,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           appTotalizers: orderForm?.appTotalizers,
           installmentInfo: orderForm?.installmentInfo,
           allItemsQuantity: orderForm?.allItemsQuantity,
+          prime: orderForm?.prime,
           deleteProductModal: {
             show: false,
             deleteInfo: undefined,
@@ -1057,7 +1078,6 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           hasPrimeSubscriptionInCart: orderForm?.hasPrimeSubscriptionInCart,
         }));
       } catch (error) {
-        console.log('>>>xD', error);
         set(() => ({ error: error.message }));
 
         throw new Error(error.message);
