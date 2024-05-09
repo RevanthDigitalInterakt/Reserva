@@ -18,6 +18,7 @@ import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 import { getURLParameter, prepareEventDataPurchaseCompleted, triggerEventAfterPurchaseCompleted } from './eventHelper';
 import LoadingCheckout from '../../components/LoadingCheckout/LoadingCheckout';
 import { ModalClientIsPrime } from '../../components/ModalClientIsPrime/ModalClientIsPrime';
+import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 
 /**
  "Be very careful with the implementation as
@@ -42,6 +43,7 @@ function WebviewCheckout() {
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
   const [navState, setNavState] = useState('');
   const { orderFormId } = useBagStore(['orderFormId']);
+  const { profile } = useAuthStore(['profile']);
 
   const { changeStateIsVisibleModalPrimeRemoved, isVisibleModalPrimeRemoved } = usePrimeStore([
     'changeStateIsVisibleModalPrimeRemoved',
@@ -90,7 +92,7 @@ function WebviewCheckout() {
       const orderGroupId = getURLParameter(navState, 'og');
       const { data: dataOrderGroup } = await GetPurchaseData(orderGroupId);
       const dataPurchaseCompleted = prepareEventDataPurchaseCompleted(dataOrderGroup, orderFormId);
-      await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted);
+      await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '');
     } catch (e) {
       ExceptionProvider.captureException(e);
     } finally {

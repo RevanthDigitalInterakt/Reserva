@@ -1,11 +1,20 @@
 import { URL } from 'react-native-url-polyfill';
-import { Linking, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { platformType } from '../../platformType';
 import { removeProtocol } from '../../removeProtocol';
 import { getAsyncStorageItem } from '../../../hooks/useAsyncStorageProvider';
 import { getApolloClient } from '../../getApolloClient';
-import { OrderFormDocument, type OrderFormQuery, type OrderFormQueryVariables } from '../../../base/graphql/generated';
+import {
+  OrderFormDocument,
+  OrderFormAddMultipleItemDocument,
+  type OrderFormQuery,
+  type OrderFormQueryVariables,
+  type OrderFormAddMultipleItemMutation,
+  type OrderFormAddMultipleItemMutationVariables,
+  type OrderformAddMultipleItemInfoInput,
+} from '../../../base/graphql/generated';
 import { mergeItemsPackage } from '../../mergeItemsPackage';
+import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 interface ICustomMethodReturnParams {
   match: boolean;
@@ -206,7 +215,7 @@ const restoreCartUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
 
       const { orderForm: { packageItems } } = data;
 
-      const mergedItems = mergeItemsPackage(packageItems)
+      const mergedItems = mergeItemsPackage(packageItems);
 
       if (mergedItems.length) {
         return {
@@ -220,14 +229,72 @@ const restoreCartUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
   return defaultCustomMethodReturn;
 };
 
-const cartAddItemUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
   if (initialUrl.includes('/checkout/cart/add/?sku=')) {
-    // TODO open the bag and add the product according to the SKU and quantity
-    Linking.openURL(initialUrl);
-    return {
-      match: true,
-      strUrl: defaultInitialUrl,
-    };
+    const url = initialUrl;
+    const queryString = url.split('?')[1];
+    const payload: { [key: string]: any } = {};
+
+    let currentSkuId: string | null | undefined = null;
+
+    queryString?.split('&').forEach((item) => {
+      const [key, value] = item.split('=').map(decodeURIComponent);
+
+      if (key === 'sku') {
+        currentSkuId = value;
+
+        payload[`${key}-${value}`] = {
+          id: value,
+        };
+      }
+
+      if (key === 'qty') {
+        payload[`sku-${currentSkuId}`] = {
+          ...payload[`sku-${currentSkuId}`],
+          quantity: Number(value),
+        };
+      }
+
+      if (key === 'seller') {
+        payload[`sku-${currentSkuId}`] = {
+          ...payload[`sku-${currentSkuId}`],
+          seller: value,
+        };
+      }
+    });
+
+    const orderFormId = await getAsyncStorageItem('orderFormId');
+
+    const orderItems = Object.values(payload) as OrderformAddMultipleItemInfoInput[];
+
+    if (orderFormId) {
+      const input = {
+        orderFormId,
+        orderItems,
+      };
+
+      try {
+        const { data } = await getApolloClient().mutate<
+        OrderFormAddMultipleItemMutation,
+        OrderFormAddMultipleItemMutationVariables>({
+          mutation: OrderFormAddMultipleItemDocument,
+          context: { clientName: 'gateway' },
+          variables: {
+            input,
+          },
+        });
+
+        const { orderFormAddMultipleItem: orderForm } = data || {};
+
+        return {
+          match: true,
+          strUrl: `usereserva://bag/${orderForm?.orderFormId}`,
+        };
+      } catch (error) {
+        ExceptionProvider.captureException(error);
+        return defaultCustomMethodReturn;
+      }
+    }
   }
 
   return defaultCustomMethodReturn;
@@ -296,9 +363,9 @@ const registerMethods = [
   colectionUseCase,
   accountWishListUseCase,
   accountUseCase,
+  cartAddItemUseCase,
   cartUseCase,
   restoreCartUseCase,
-  cartAddItemUseCase,
   catalogCollectionUseCase,
   abandonedBagUseCase,
   webCatalogCollectionUseCase,

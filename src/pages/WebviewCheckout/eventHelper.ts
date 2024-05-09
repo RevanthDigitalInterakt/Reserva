@@ -2,6 +2,9 @@ import { Linking, Platform } from 'react-native';
 import EventProvider from '../../utils/EventProvider';
 import { urlRon } from '../../utils/LinkingUtils/static/deepLinkMethods';
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
+import { trackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
+import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../base/graphql/generated';
+import { trackOrderStore } from '../../zustand/useTrackOrderStore/useTrackOrderStore';
 
 export function getURLParameter(url: string, name: string): string {
   const match = url.match(new RegExp(`[\\?&]${name.replace(/[\[\]]/g, '\\$&')}=([^&#]*)`));
@@ -237,7 +240,10 @@ export const prepareEventDataPurchaseCompleted = (
   }
 };
 
-export const triggerEventAfterPurchaseCompleted = async (dataPurchaseCompleted: any) => {
+export const triggerEventAfterPurchaseCompleted = async (
+  dataPurchaseCompleted: any,
+  userMail: string,
+) => {
   const userRefDito = await getAsyncStorageItem('@Dito:userRef') || '';
 
   /* ---- Event fez-pedido-produto ---- */
@@ -260,6 +266,21 @@ export const triggerEventAfterPurchaseCompleted = async (dataPurchaseCompleted: 
       },
     });
   });
+
+  trackClickAlgoliaStore.getState().onTrack(
+    TrackEventTypeEnum.Conversion,
+    TrackEventNameEnum.PurchasedItems,
+    [dataPurchaseCompleted.ids],
+    TrackEventSubTypeEnum.Purchase,
+    dataPurchaseCompleted.orderFormItems.map((item) => ({
+      discount: item?.discountPercent || 0,
+      quantity: item?.quantity || 0,
+      price: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,
+    })),
+    dataPurchaseCompleted?.orderValue,
+  );
+
+  trackOrderStore.getState().onTrack(dataPurchaseCompleted, userMail);
 
   /* ---- Event sendLastOrderData ---- */
   EventProvider.getPushTags((receivedTags) => {
@@ -333,7 +354,7 @@ export const triggerEventAfterPurchaseCompleted = async (dataPurchaseCompleted: 
       origem: 'app',
       dispositivo: Platform.OS,
       id: userRefDito,
-      client_provider:Platform.OS
+      client_provider: Platform.OS,
     },
   });
 

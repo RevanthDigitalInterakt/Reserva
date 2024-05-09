@@ -1,0 +1,3 @@
+mutation tracking($input: TrackAlgoliaInput!) {
+    tracking(input: $input)
+}

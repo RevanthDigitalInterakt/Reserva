@@ -1,5 +1,3 @@
-// @ts-nocheck
-/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -2569,12 +2567,26 @@ export type TrackClickV2MutationVariables = Exact<{
 
 export type TrackClickV2Mutation = { __typename?: 'Mutation', trackClickV2: Array<string> };
 
+export type TrackOrderMutationVariables = Exact<{
+  input: TrackOrderInput;
+}>;
+
+
+export type TrackOrderMutation = { __typename?: 'Mutation', trackOrder: { __typename?: 'TrackOrderOutput', success?: boolean | null, url?: string | null, body?: string | null } };
+
 export type TrackPageViewMutationVariables = Exact<{
   input: TrackPageViewInput;
 }>;
 
 
 export type TrackPageViewMutation = { __typename?: 'Mutation', trackPageView: boolean };
+
+export type TrackingMutationVariables = Exact<{
+  input: TrackAlgoliaInput;
+}>;
+
+
+export type TrackingMutation = { __typename?: 'Mutation', tracking: boolean };
 
 export type WishlistAddProductMutationVariables = Exact<{
   input: WishlistAddProductInput;
@@ -2723,7 +2735,7 @@ export type ProductDeliveryTimeQueryVariables = Exact<{
 }>;
 
 
-export type ProductDeliveryTimeQuery = { __typename?: 'Query', productDeliveryTime: Array<{ __typename?: 'ProductDeliveryTimeOutput', name: string, price: number, estimatedDay?: string | null }> };
+export type ProductDeliveryTimeQuery = { __typename?: 'Query', productDeliveryTime: Array<{ __typename?: 'ProductDeliveryTimeOutput', name: string, price: number, estimatedDay?: string | null, storeName: string, isDelivery: boolean }> };
 
 export type ProductRecommendationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2741,6 +2753,11 @@ export type RecommendationShelfQueryVariables = Exact<{
 
 
 export type RecommendationShelfQuery = { __typename?: 'Query', recommendationShelf: { __typename?: 'RecommendationOutput', shelfName: string, shelfTitle: string, products: Array<{ __typename?: 'RecommendationProductsOutput', productName: string, productId: string, productLink: string, brand: string, image: string, categoryTree: Array<string>, flags: Array<{ __typename?: 'RecommendationFlagOutput', type: string, value?: number | null, text?: string | null }>, prices: { __typename?: 'RecommendationPriceOutput', listPrice: number, salePrice: number }, sku: Array<{ __typename?: 'RecommendationSkuOutput', colorName?: string | null, colorHex?: string | null, colorRefId?: string | null, sizes: Array<{ __typename?: 'RecommendationSizeOutput', skuId?: string | null, value?: string | null, disabled: boolean }> }> }> } };
+
+export type ReturnPolicyConfigQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ReturnPolicyConfigQuery = { __typename?: 'Query', config?: { __typename?: 'ConfigOutput', returnPolicy: string } | null };
 
 export type RonRedirectQueryVariables = Exact<{
   code: Scalars['String']['input'];
@@ -4030,6 +4047,41 @@ export function useTrackClickV2Mutation(baseOptions?: Apollo.MutationHookOptions
 export type TrackClickV2MutationHookResult = ReturnType<typeof useTrackClickV2Mutation>;
 export type TrackClickV2MutationResult = Apollo.MutationResult<TrackClickV2Mutation>;
 export type TrackClickV2MutationOptions = Apollo.BaseMutationOptions<TrackClickV2Mutation, TrackClickV2MutationVariables>;
+export const TrackOrderDocument = gql`
+    mutation TrackOrder($input: TrackOrderInput!) {
+  trackOrder(input: $input) {
+    success
+    url
+    body
+  }
+}
+    `;
+export type TrackOrderMutationFn = Apollo.MutationFunction<TrackOrderMutation, TrackOrderMutationVariables>;
+
+/**
+ * __useTrackOrderMutation__
+ *
+ * To run a mutation, you first call `useTrackOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTrackOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [trackOrderMutation, { data, loading, error }] = useTrackOrderMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTrackOrderMutation(baseOptions?: Apollo.MutationHookOptions<TrackOrderMutation, TrackOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TrackOrderMutation, TrackOrderMutationVariables>(TrackOrderDocument, options);
+      }
+export type TrackOrderMutationHookResult = ReturnType<typeof useTrackOrderMutation>;
+export type TrackOrderMutationResult = Apollo.MutationResult<TrackOrderMutation>;
+export type TrackOrderMutationOptions = Apollo.BaseMutationOptions<TrackOrderMutation, TrackOrderMutationVariables>;
 export const TrackPageViewDocument = gql`
     mutation trackPageView($input: TrackPageViewInput!) {
   trackPageView(input: $input)
@@ -4061,6 +4113,37 @@ export function useTrackPageViewMutation(baseOptions?: Apollo.MutationHookOption
 export type TrackPageViewMutationHookResult = ReturnType<typeof useTrackPageViewMutation>;
 export type TrackPageViewMutationResult = Apollo.MutationResult<TrackPageViewMutation>;
 export type TrackPageViewMutationOptions = Apollo.BaseMutationOptions<TrackPageViewMutation, TrackPageViewMutationVariables>;
+export const TrackingDocument = gql`
+    mutation tracking($input: TrackAlgoliaInput!) {
+  tracking(input: $input)
+}
+    `;
+export type TrackingMutationFn = Apollo.MutationFunction<TrackingMutation, TrackingMutationVariables>;
+
+/**
+ * __useTrackingMutation__
+ *
+ * To run a mutation, you first call `useTrackingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTrackingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [trackingMutation, { data, loading, error }] = useTrackingMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTrackingMutation(baseOptions?: Apollo.MutationHookOptions<TrackingMutation, TrackingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TrackingMutation, TrackingMutationVariables>(TrackingDocument, options);
+      }
+export type TrackingMutationHookResult = ReturnType<typeof useTrackingMutation>;
+export type TrackingMutationResult = Apollo.MutationResult<TrackingMutation>;
+export type TrackingMutationOptions = Apollo.BaseMutationOptions<TrackingMutation, TrackingMutationVariables>;
 export const WishlistAddProductDocument = gql`
     mutation wishlistAddProduct($input: WishlistAddProductInput!) {
   wishlistAddProduct(input: $input)
@@ -5190,6 +5273,8 @@ export const ProductDeliveryTimeDocument = gql`
     name
     price
     estimatedDay
+    storeName
+    isDelivery
   }
 }
     `;
@@ -5402,6 +5487,43 @@ export type RecommendationShelfLazyQueryHookResult = ReturnType<typeof useRecomm
 export type RecommendationShelfQueryResult = Apollo.QueryResult<RecommendationShelfQuery, RecommendationShelfQueryVariables>;
 export function refetchRecommendationShelfQuery(variables: RecommendationShelfQueryVariables) {
       return { query: RecommendationShelfDocument, variables: variables }
+    }
+export const ReturnPolicyConfigDocument = gql`
+    query returnPolicyConfig {
+  config {
+    returnPolicy
+  }
+}
+    `;
+
+/**
+ * __useReturnPolicyConfigQuery__
+ *
+ * To run a query within a React component, call `useReturnPolicyConfigQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReturnPolicyConfigQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReturnPolicyConfigQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useReturnPolicyConfigQuery(baseOptions?: Apollo.QueryHookOptions<ReturnPolicyConfigQuery, ReturnPolicyConfigQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ReturnPolicyConfigQuery, ReturnPolicyConfigQueryVariables>(ReturnPolicyConfigDocument, options);
+      }
+export function useReturnPolicyConfigLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ReturnPolicyConfigQuery, ReturnPolicyConfigQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ReturnPolicyConfigQuery, ReturnPolicyConfigQueryVariables>(ReturnPolicyConfigDocument, options);
+        }
+export type ReturnPolicyConfigQueryHookResult = ReturnType<typeof useReturnPolicyConfigQuery>;
+export type ReturnPolicyConfigLazyQueryHookResult = ReturnType<typeof useReturnPolicyConfigLazyQuery>;
+export type ReturnPolicyConfigQueryResult = Apollo.QueryResult<ReturnPolicyConfigQuery, ReturnPolicyConfigQueryVariables>;
+export function refetchReturnPolicyConfigQuery(variables?: ReturnPolicyConfigQueryVariables) {
+      return { query: ReturnPolicyConfigDocument, variables: variables }
     }
 export const RonRedirectDocument = gql`
     query ronRedirect($code: String!) {
