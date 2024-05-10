@@ -375,4 +375,12 @@ export type EventOptionsFn =
   | {
     type: 'call_center_click',
     payload: EventsOptions.CallCenterClick
+  }
+  | {
+    type: 'call_center_tab_click',
+    payload: {}
+  }
+  | {
+    type: 'offers_tab_click',
+    payload: {}
   };
