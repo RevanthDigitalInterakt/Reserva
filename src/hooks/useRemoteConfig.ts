@@ -8,12 +8,14 @@ interface IUseRemoteConfigStore {
   instance?: FirebaseRemoteConfigTypes.Module;
   getBoolean: (k: TRemoteConfigBooleanKeys) => boolean;
   getString: (k: TRemoteConfigStringKeys) => string;
+  getNumber: (k: TRemoteConfigNumbersKeys) => number;
   getObject: (k: TRemoteConfigStringArrayKeys) => string[];
 }
 
 export type TTypesInstallments = 'hide_installments' | 'show_prime_installments' | 'show_prime_equal_to_regular';
 
 export interface IRemoteConfigKeys {
+  call_center_number: number;
   pdp_show_video: boolean;
   pdp_show_video_tester: boolean;
   show_roulet: boolean;
@@ -74,9 +76,11 @@ type KeysMatching<T extends object, V> = {
 
 type TRemoteConfigBooleanKeys = KeysMatching<IRemoteConfigKeys, boolean>;
 type TRemoteConfigStringKeys = KeysMatching<IRemoteConfigKeys, string>;
+type TRemoteConfigNumbersKeys = KeysMatching<IRemoteConfigKeys, number>;
 type TRemoteConfigStringArrayKeys = KeysMatching<IRemoteConfigKeys, string[]>;
 
 export const defaults: IRemoteConfigKeys = {
+  call_center_number: 552136092555,
   show_new_bag: false,
   pdp_show_gift_card: false,
   show_new_bag_tester: true,
@@ -164,6 +168,9 @@ export const useRemoteConfig = create<IUseRemoteConfigStore>((set, getState) => 
   ),
   getString: <K extends TRemoteConfigStringKeys>(key: K) => (
     getState().instance?.getString(key) || defaults[key]
+  ),
+  getNumber: <K extends TRemoteConfigNumbersKeys>(key: K) => (
+    getState().instance?.getNumber(key) as unknown as number || defaults[key] as unknown as number
   ),
   getObject: <K extends TRemoteConfigStringArrayKeys>(key: K) => {
     try {
