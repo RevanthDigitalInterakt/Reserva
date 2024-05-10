@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -9,8 +9,24 @@ import { TopBarDefault } from '../Menu/components/TopBarDefault';
 import { Box } from '../../components/Box/Box';
 import { Typography } from '../../components/Typography/Typography';
 import { Button } from '../../components/Button';
+import { useRemoteConfig } from '../../hooks/useRemoteConfig';
+import EventProvider from '../../utils/EventProvider';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 function CallCenter() {
+  const { getNumber } = useRemoteConfig();
+
+  const phoneNumber = getNumber('call_center_number');
+
+  const onClickCallCenter = useCallback(() => {
+    try {
+      EventProvider.logEvent('call_center_click', {
+        phoneNumber,
+      });
+    } catch (error) {
+      ExceptionProvider.captureException(error);
+    }
+  }, [phoneNumber]);
 
   return (
     <SafeAreaView
@@ -40,7 +56,8 @@ function CallCenter() {
           <Box width="100%">
             <Button
               onPress={() => {
-                Linking.openURL(`whatsapp://send?phone=${552136092555}`);
+                onClickCallCenter();
+                Linking.openURL(`whatsapp://send?phone=${phoneNumber}`);
               }}
               title="WHATSAPP RESERVA"
               variant="primarioEstreito"
