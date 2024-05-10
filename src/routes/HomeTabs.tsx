@@ -15,6 +15,7 @@ import { BlockedRouletDescription } from '../components/Modal/components/Blocked
 import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import CallCenter from '../modules/CallCenter';
 import { useHomeStore } from '../zustand/useHomeStore';
+import EventProvider from '../utils/EventProvider';
 
 const Tab = createBottomTabNavigator();
 
@@ -47,6 +48,11 @@ export function HomeTabs() {
           <Tab.Screen
             name="Offers"
             component={NewProductCatalog}
+            listeners={{
+              tabPress: () => {
+                EventProvider.logEvent('offers_tab_click', {});
+              },
+            }}
             initialParams={{
               safeArea: false,
               label: 'Promoções',
@@ -78,6 +84,11 @@ export function HomeTabs() {
           {!showRoulet ? (
             <Tab.Screen
               name="Call"
+              listeners={{
+                tabPress: () => {
+                  EventProvider.logEvent('call_center_tab_click', {});
+                },
+              }}
               component={CallCenter}
               initialParams={{ label: 'Central' }}
               options={{ headerShown: false }}
