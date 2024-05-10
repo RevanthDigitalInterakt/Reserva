@@ -175,6 +175,9 @@ export namespace EventsOptions {
   export type SignUp = Pick<EventValues, | 'method'>;
   export type Wishlist = Pick<EventValues, | 'currency' | 'items' | 'value'>;
   export type AbandonedCart = Pick<AbandonedCartEventValues, | 'action' | 'index' | 'logged'>;
+  export type CallCenterClick = {
+    phoneNumber: number;
+  };
 
 }
 
@@ -368,4 +371,8 @@ export type EventOptionsFn =
   | {
     type: 'abandoned_cart',
     payload: EventsOptions.AbandonedCart
+  }
+  | {
+    type: 'call_center_click',
+    payload: EventsOptions.CallCenterClick
   };
