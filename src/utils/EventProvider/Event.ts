@@ -179,6 +179,9 @@ export namespace EventsOptions {
   export type SignUp = Pick<EventValues, | 'method'>;
   export type Wishlist = Pick<EventValues, | 'currency' | 'items' | 'value'>;
   export type AbandonedCart = Pick<AbandonedCartEventValues, | 'action' | 'index' | 'logged'>;
+  export type CallCenterClick = {
+    phoneNumber: number;
+  };
   export type CardCashback = Pick<CardCashbackEventValues, 'value'>;
 
 }
@@ -375,6 +378,17 @@ export type EventOptionsFn =
     payload: EventsOptions.AbandonedCart
   }
   | {
+    type: 'call_center_click',
+    payload: EventsOptions.CallCenterClick
+  }
+  | {
+    type: 'call_center_tab_click',
+    payload: {}
+  }
+  | {
+    type: 'offers_tab_click',
+    payload: {}
+  } | {
     type: 'click_card_cashback',
     payload: EventsOptions.CardCashback
   };
