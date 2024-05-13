@@ -59,7 +59,8 @@ export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) =
           value: totalPrice,
         }),
         ...(sku && { objectIDs: sku }),
-        ...(queryId && positions && { queryID: queryId, positions }),
+        ...(positions && { positions }),
+        ...(queryId && { queryID: queryId }),
       },
     };
 
