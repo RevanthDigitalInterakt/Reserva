@@ -105,6 +105,10 @@ function SearchSuggestionsPage() {
     );
   }
 
+  if (data) {
+    console.log(data);
+  }
+
   return data?.searchAutocompleteSuggestions?.length ? (
     <Box bg="white" marginX="nano" justifyContent="center">
       {data.searchAutocompleteSuggestions.map((suggestion) => (
