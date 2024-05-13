@@ -74,6 +74,10 @@ type AbandonedCartEventValues = {
   logged?: 'logged in' | 'logged out';
 };
 
+type CardCashbackEventValues = {
+  value: number;
+};
+
 export namespace EventsOptions {
   export type PageView = Pick<EventValues, 'item_brand'>;
   export type Login = Pick<EventValues, 'custumer_email' | 'method'>;
@@ -178,6 +182,7 @@ export namespace EventsOptions {
   export type CallCenterClick = {
     phoneNumber: number;
   };
+  export type CardCashback = Pick<CardCashbackEventValues, 'value'>;
 
 }
 
@@ -383,4 +388,7 @@ export type EventOptionsFn =
   | {
     type: 'offers_tab_click',
     payload: {}
+  } | {
+    type: 'click_card_cashback',
+    payload: EventsOptions.CardCashback
   };

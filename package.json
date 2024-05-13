@@ -1,6 +1,6 @@
 {
   "name": "reserva",
-  "version": "2.11.0",
+  "version": "2.12.0",
   "private": true,
   "scripts": {
     "setup-ios-permissions": "react-native setup-ios-permissions && pod-install",
@@ -9,6 +9,7 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest --passWithNoTests --detectOpenHandles --forceExit --silent",
+    "test:watch": "jest --passWithNoTests --detectOpenHandles --forceExit --watch",
     "lint": "eslint . --ext .ts --ext .tsx --cache --fix",
     "clean": "cd android && ./gradlew clean && cd .. && cd ios && pod deintegrate && pod cache clean --all && pod install && cd ..",
     "android-build-release": "cd android && ./gradlew assembleRelease",

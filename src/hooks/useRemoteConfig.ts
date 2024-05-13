@@ -67,6 +67,7 @@ export interface IRemoteConfigKeys {
   pixPaymentDescription: string;
   show_button_see_bag: boolean;
   show_abandoned_cart: boolean;
+  show_prime_discount: boolean;
   show_return_policy: boolean;
 }
 
@@ -132,6 +133,7 @@ export const defaults: IRemoteConfigKeys = {
   pixPaymentDescription: 'Pague à vista ou até em 4x sem juros.',
   show_button_see_bag: false,
   show_abandoned_cart: false,
+  show_prime_discount: false,
   show_return_policy: false,
 };
 

@@ -6,7 +6,15 @@ import { TopBarDefaultBackButton } from '../../../../modules/Menu/components/Top
 import useSearchStore, { SearchStatusEnum } from '../../../../zustand/useSearchStore';
 
 interface ISearchWrapper {
-  children: React.ReactNode;
+  children?: React.ReactNode;
+}
+
+export function isValidInput(input: string): boolean {
+  return input.trim().length > 0;
+}
+
+export function formatInput(input: string): string {
+  return input.trimStart();
 }
 
 function SearchWrapper({ children }: ISearchWrapper) {
@@ -22,18 +30,26 @@ function SearchWrapper({ children }: ISearchWrapper) {
   const [searchTerm, setSearchTerm] = useState('');
 
   function handleSearchTerm(term: string): null {
-    if (status !== SearchStatusEnum.RESULT && term) {
-      setStatus(SearchStatusEnum.SUGGESTIONS);
+    if (isValidInput(term)) {
+      if (status !== SearchStatusEnum.RESULT && term) {
+        setStatus(SearchStatusEnum.SUGGESTIONS);
+      }
+
+      setQ(formatInput(term));
     }
+    setSearchTerm(formatInput(term));
+    return null;
+  }
 
-    setSearchTerm(term);
-    setQ(term);
-
-    return null
+  function handleClickIcon(): null {
+    if (isValidInput(searchTerm)) {
+      onSearch({ q: searchTerm || '', facets: [], page: 1 });
+    }
+    return null;
   }
 
   useEffect(() => {
-    setSearchTerm(parameters.q);
+    setSearchTerm(parameters.q!);
   }, [parameters.q, status]);
 
   return (
@@ -43,11 +59,8 @@ function SearchWrapper({ children }: ISearchWrapper) {
       <Box paddingX="nano" paddingBottom="micro" paddingTop="micro">
         <SearchBar
           value={searchTerm}
-          onValueChange={handleSearchTerm}
-          onClickIcon={() => {
-            onSearch({ q: searchTerm || '', facets: [], page: 1 });
-            return null;
-          }}
+          onValueChange={handleSearchTerm!}
+          onClickIcon={handleClickIcon!}
           height={36}
           placeholder="Buscar"
         />

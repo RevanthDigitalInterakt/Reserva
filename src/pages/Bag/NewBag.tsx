@@ -38,11 +38,13 @@ import ShippingDataDetails from './components/ShippingDataDetails';
 import BagSkeleton from './components/Skeleton';
 import SkeletonBagFooter from './components/SkeletonBagFooter';
 import { bagStyles } from './styles/bagStyles';
+import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
 export default function NewBag({ navigation }: TNewBagProps) {
   const isTester = useIsTester();
+  const { isPrime } = usePrimeInfo();
   const { getBoolean } = useRemoteConfig();
 
   const showAddZipCodeDeliveryAB = useMemo(
@@ -240,7 +242,7 @@ export default function NewBag({ navigation }: TNewBagProps) {
 
             )}
 
-            <Box width="100%" height={145} bg="white">
+            <Box width="100%" height={isPrime ? 200 : 145} bg="white">
               {initialLoad && <SkeletonBagFooter />}
 
               {(!initialLoad && items?.length > 0) && <BagFooter />}

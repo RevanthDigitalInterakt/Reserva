@@ -1,5 +1,5 @@
 import React from 'react';
-import Svg, { SvgProps, Path } from 'react-native-svg';
+import Svg, { type SvgProps, Path } from 'react-native-svg';
 
 function IconLogoPrime(props: SvgProps) {
   return (
