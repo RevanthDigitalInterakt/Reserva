@@ -1,16 +1,16 @@
-import React, { useRef, useState } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import WebView, { WebViewMessageEvent } from 'react-native-webview';
-import { Platform, View } from 'react-native';
-import deviceInfo from 'react-native-device-info';
-import { useBagStore } from '../../zustand/useBagStore/useBagStore';
-import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
-import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
-import testProps from '../../utils/testProps';
+import React, { useRef, useState } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import WebView, { WebViewMessageEvent } from "react-native-webview";
+import { Platform, View } from "react-native";
+import deviceInfo from "react-native-device-info";
+import { useBagStore } from "../../zustand/useBagStore/useBagStore";
+import { TopBarBackButton } from "../../modules/Menu/components/TopBarBackButton";
+import { mergeItemsPackage } from "../../utils/mergeItemsPackage";
+import testProps from "../../utils/testProps";
 
 export default function WebViewDoris() {
   const navigation = useNavigation();
-  const { actions, packageItems } = useBagStore(['actions', 'packageItems']);
+  const { actions, packageItems } = useBagStore(["actions", "packageItems"]);
   const [loading, setLoading] = useState(false);
   const route = useRoute();
   const webviewRef = useRef(null);
@@ -18,7 +18,9 @@ export default function WebViewDoris() {
   const mergeItems = mergeItemsPackage(packageItems);
 
   const injectedJavaScript = `
-  window.metadata = { appVersion: "${deviceInfo.getVersion()}", platformType: "${Platform.OS}" }
+  window.metadata = { appVersion: "${deviceInfo.getVersion()}", platformType: "${
+    Platform.OS
+  }" }
 `;
 
   const onMessage = async (event: WebViewMessageEvent) => {
@@ -28,20 +30,22 @@ export default function WebViewDoris() {
 
     switch (type) {
       // TODO Review this method when production  widget method Doris change
-      case 'add-to-cart': {
+      case "add-to-cart": {
         rawMessage.data.map(async (itemRawMessage: any) => {
-          const orderFormItem = mergeItems.find((item) => item.id === itemRawMessage.sku);
+          const orderFormItem = mergeItems.find(
+            (item) => item.id === itemRawMessage.identifier
+          );
 
           await actions.ADD_ITEM(
             itemRawMessage.sellerId,
-            itemRawMessage.sku,
-            orderFormItem ? orderFormItem.quantity + 1 : 1,
+            itemRawMessage.identifier,
+            orderFormItem ? orderFormItem.quantity + 1 : 1
           );
         });
         return null;
       }
 
-      case 'error': {
+      case "error": {
         navigation.goBack();
         return null;
       }
@@ -61,7 +65,7 @@ export default function WebViewDoris() {
         />
       </View>
       <WebView
-        {...testProps('web_view_doris')}
+        {...testProps("web_view_doris")}
         ref={webviewRef}
         cacheEnabled={false}
         cacheMode="LOAD_NO_CACHE"
@@ -76,7 +80,7 @@ export default function WebViewDoris() {
           setLoading(nativeEvent.loading);
         }}
         injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
-        originWhitelist={['*']}
+        originWhitelist={["*"]}
         source={{ uri: route?.params?.url }}
         javaScriptCanOpenWindowsAutomatically
         onMessage={onMessage}
