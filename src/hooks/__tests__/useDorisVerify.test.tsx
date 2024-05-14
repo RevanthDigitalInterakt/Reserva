@@ -13,7 +13,25 @@ jest.mock('../../base/graphql/generated', () => ({
   ],
 }));
 
+jest.mock('@react-native-firebase/remote-config', () => ({
+  __esModule: true,
+  default: () => ({
+    setDefaults: jest.fn(),
+  }),
+}));
+
+jest.mock('../useRemoteConfig.ts', () => ({
+  useRemoteConfig: () => ({
+    getBoolean: () => ({
+      show_doris_button: true,
+    }),
+  }),
+}));
+
 describe('useDorisVerify', () => {
+  beforeAll(() => {
+    jest.clearAllMocks();
+  });
   it('should return isValidProductDoris true when product exist in Doris', async () => {
     const { result } = renderHook(() => useDorisVerify());
     const eanValid = '0079374014';
