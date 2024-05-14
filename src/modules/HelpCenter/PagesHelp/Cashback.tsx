@@ -19,7 +19,7 @@ const data = [
   {
     title: 'Qual é o valor do cashback?',
     content:
-      'O valor de cashback aplicado está em 20% para todas as compras, podendo sofrer alterações para mais ou menos, mediante mudanças de políticas comerciais. O % estará sempre disponível para consulta.',
+      'O valor de cashback aplicado está em 15% para todas as compras, podendo sofrer alterações para mais ou menos, mediante mudanças de políticas comerciais. O % estará sempre disponível para consulta.',
     id: 2,
   },
   {
@@ -51,7 +51,7 @@ const data = [
   {
     title: 'Como fico sabendo que meu cashback está disponível?',
     content:
-      'Você receberá um SMS avisando. Além disso, pode sempre consultar em sua carteira, dentro do seu perfil no site ou aplicativo Reserva, através do seguinte caminho:\n'
+      'Além disso, pode sempre consultar em sua carteira, dentro do seu perfil no site ou aplicativo Reserva, através do seguinte caminho:\n'
       + '\nSITE: Clicar no boneco no canto superior direito -> Minha carteira'
       + '\nAPP: Clicar em perfil -> Meus Cashbacks -> Ver minha carteira',
     id: 7,
@@ -72,7 +72,7 @@ const data = [
   {
     title:
       'Se eu tiver saldo suficiente, posso pagar o pedido integralmente com cashback?',
-    content: 'Não, o teto de utilização é até 25% do valor total do pedido.',
+    content: 'Não, o teto de utilização é até 15% do valor total do pedido.',
     id: 10,
   },
   {
