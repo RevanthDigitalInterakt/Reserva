@@ -51,7 +51,7 @@ const data = [
   {
     title: 'Como fico sabendo que meu cashback está disponível?',
     content:
-      'Além disso, pode sempre consultar em sua carteira, dentro do seu perfil no site ou aplicativo Reserva, através do seguinte caminho:\n'
+      'Você pode sempre consultar em sua carteira, dentro do seu perfil no site ou aplicativo Reserva, através do seguinte caminho:\n'
       + '\nSITE: Clicar no boneco no canto superior direito -> Minha carteira'
       + '\nAPP: Clicar em perfil -> Meus Cashbacks -> Ver minha carteira',
     id: 7,
