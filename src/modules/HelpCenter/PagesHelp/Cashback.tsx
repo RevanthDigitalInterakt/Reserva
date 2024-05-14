@@ -60,7 +60,7 @@ const data = [
     title:
       'Depois que o cashback ficar disponível, qual é o prazo de utilização?',
     content:
-      'A validade do cashback, tanto adquirido em loja quanto no site e app, é de 30 dias corridos após liberação.',
+      'A validade do cashback, tanto adquirido em loja quanto no site e app, é de 30 dias corridos após o faturamento.',
     id: 8,
   },
   {
