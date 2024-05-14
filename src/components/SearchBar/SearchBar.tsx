@@ -51,6 +51,7 @@ export function SearchBar({
             placeholderTextColor={theme.colors.searchBarTextColor}
             placeholder={placeholder}
             returnKeyType="search"
+            enablesReturnKeyAutomatically
             onSubmitEditing={() => onClickIcon && onClickIcon()}
             onChangeText={(text) => {
               if (onValueChange) {

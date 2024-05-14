@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { Keyboard } from 'react-native';
+import { DdLogs } from '@datadog/mobile-react-native';
 import { createZustandStoreWithSelectors } from '../utils/createZustandStoreWithSelectors';
 import {
   type ProductListOutput,
@@ -182,11 +183,7 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
       }
 
       if (data.search.items.length === 0) {
-        const e = new Error(`Empty cluster id: ${newParameters.facets[0]?.value}`);
-
-        ExceptionProvider.captureException(e, {
-          search: data,
-        });
+        DdLogs.error(`Empty cluster id: ${newParameters.facets[0]?.value}`, data);
       }
 
       set(() => ({

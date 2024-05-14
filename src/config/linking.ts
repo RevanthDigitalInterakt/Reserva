@@ -61,7 +61,7 @@ export const urlHandler = async (url: string) => {
 };
 
 export const linkingConfig: LinkingOptions = {
-  prefixes: ['usereserva://', 'https://www.usereserva.com/', 'https://usereserva.io/', 'https://now.usereserva.io/'],
+  prefixes: ['usereserva://', 'https://www.usereserva.com/', 'https://usereserva.io/', 'https://now.usereserva.io/', 'https://dito.vc/'],
   config: routesConfig,
   getPathFromState(state) {
     return getPathFromState(state) || '';

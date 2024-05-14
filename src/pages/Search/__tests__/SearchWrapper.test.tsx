@@ -4,6 +4,7 @@ import { render, fireEvent } from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
 import CartContextProvider from '../../../context/CartContext';
 import SearchWrapper from '../components/SearchWrapper';
+import { isValidInput, formatInput } from '../components/SearchWrapper/SearchWrapper';
 import { theme } from '../../../base/usereservappLegacy/theme';
 
 const component = (
@@ -32,4 +33,23 @@ describe('SearchWrapper', () => {
     fireEvent.changeText(searchInput, 'Termo de busca');
     expect(searchInput.props.value).toBe('Termo de busca');
   });
+
+  it('should be return valid input text', () => {
+    const exampleValidTexts = ['  Text mock', 'Mock Test']
+    
+    exampleValidTexts.map(text => expect(isValidInput(text!)).toBeTruthy())
+  })
+  
+  it('should be return invalid input text', () => {
+    const exampleInvalidTexts = [' ', '']
+    
+    exampleInvalidTexts.map(text => expect(isValidInput(text!)).toBeFalsy())
+  })
+  
+  it('should be return formatted input text', () => {
+    const exampleInputText = '   Text Example'
+    const exampleOutputText = 'Text Example'
+    
+    expect(formatInput(exampleInputText)).toEqual(exampleOutputText)
+  })
 });
