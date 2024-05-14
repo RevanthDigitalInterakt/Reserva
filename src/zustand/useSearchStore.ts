@@ -23,6 +23,7 @@ import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { trackPageViewStore } from './useTrackPageViewStore/useTrackPageViewStore';
 import { trackClickStore, type IData } from './useTrackClickStore/useTrackClickStore';
+import { useTrackClickAlgoliaStore } from './useTrackAlgoliaStore/useTrackAlgoliaStore';
 
 export enum SearchStatusEnum {
   INITIAL,
@@ -77,6 +78,8 @@ interface ISearchStore {
   parameters: SearchProductInput;
   resultCount: number;
   result: ProductListOutput[];
+  queryID?: string;
+  setQueryID: (queryID: string) => void
   onInit: (searchType: SearchType) => void,
   setStatus: (status: SearchStatusEnum) => void;
   setQ: (s: string) => void;
@@ -107,6 +110,10 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
     analitycsTags: ["app"],
   },
   result: [],
+  queryID: "",
+  setQueryID: (queryID: string) =>set(() => ({
+    queryID,
+  })),
   onInit: (searchType) => set(() => ({
     ...initialData,
     searchType,
@@ -151,6 +158,10 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
           input: newParameters,
         },
       });
+
+      set(() => ({
+        queryID: '503faeb3d95a085feef5c2f77cc657f8'
+      }))
 
       const { searchType } = getState();
 

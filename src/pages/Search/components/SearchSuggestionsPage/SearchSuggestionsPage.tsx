@@ -106,7 +106,7 @@ function SearchSuggestionsPage() {
   }
 
   if (data) {
-    console.log(data);
+    console.log("DATA -> ", data);
   }
 
   return data?.searchAutocompleteSuggestions?.length ? (
