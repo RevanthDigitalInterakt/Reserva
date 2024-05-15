@@ -23,7 +23,6 @@ import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { trackPageViewStore } from './useTrackPageViewStore/useTrackPageViewStore';
 import { trackClickStore, type IData } from './useTrackClickStore/useTrackClickStore';
-import { useTrackClickAlgoliaStore } from './useTrackAlgoliaStore/useTrackAlgoliaStore';
 
 export enum SearchStatusEnum {
   INITIAL,
@@ -87,7 +86,7 @@ interface ISearchStore {
   doFetchMore: () => void;
 }
 
-const useSearchStore = create<ISearchStore>((set, getState) => ({
+export const useSearchStore = create<ISearchStore>((set, getState) => ({
   initialized: false,
   loading: false,
   status: SearchStatusEnum.INITIAL,
@@ -110,7 +109,7 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
   },
   result: [],
   queryID: "",
-  setQueryID: (queryID: string) =>set(() => ({
+  setQueryID: (queryID: string) => set(() => ({
     queryID,
   })),
   onInit: (searchType) => set(() => ({

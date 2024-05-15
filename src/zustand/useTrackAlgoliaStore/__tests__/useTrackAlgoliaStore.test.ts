@@ -18,11 +18,11 @@ describe('track algolia', () => {
   it('should test method onTrack Clicked object IDs:', async () => {
     const { result } = renderHook(() => trackClickAlgoliaStore.getState());
 
-    const payload = await result.current.onTrack(
-      TrackEventTypeEnum.Click,
-      TrackEventNameEnum.ClickedItems,
-      ['4997'],
-    );
+    const payload = await result.current.onTrack({
+      typeEvent: TrackEventTypeEnum.Click,
+      nameEvent: TrackEventNameEnum.ClickedItems,
+      sku: ['4997'],
+    });
 
     expect(payload).toBe(undefined);
   });
@@ -30,16 +30,14 @@ describe('track algolia', () => {
   it('should test method onTrack Clicked object IDs after search', async () => {
     const { result } = renderHook(() => trackClickAlgoliaStore.getState());
 
-    const payload = await result.current.onTrack(
-      TrackEventTypeEnum.Click,
-      TrackEventNameEnum.ClickedItems,
-      ['4997'],
-      undefined,
-      undefined,
-      undefined,
-      '5656541655136',
-      [1],
-    );
+    const payload = await result.current.onTrack({
+      typeEvent: TrackEventTypeEnum.Click,
+      nameEvent: TrackEventNameEnum.ClickedItemsSearch,
+      sku: ['4997'],
+      subTypeEvent: TrackEventSubTypeEnum.AddToCart,
+      positions: [1],
+      queryID: '5656541655136',
+    });
 
     expect(payload).toBe(undefined);
   });
@@ -47,11 +45,11 @@ describe('track algolia', () => {
   it('should test method onTrack Viewed object IDs', async () => {
     const { result } = renderHook(() => trackClickAlgoliaStore.getState());
 
-    const payload = await result.current.onTrack(
-      TrackEventTypeEnum.View,
-      TrackEventNameEnum.ViewedItems,
-      ['4997'],
-    );
+    const payload = await result.current.onTrack({
+      typeEvent: TrackEventTypeEnum.View,
+      nameEvent: TrackEventNameEnum.ViewedItems,
+      sku: ['4997'],
+    });
 
     expect(payload).toBe(undefined);
   });
@@ -59,18 +57,18 @@ describe('track algolia', () => {
   it('should test method onTrack Added object IDs to cart', async () => {
     const { result } = renderHook(() => trackClickAlgoliaStore.getState());
 
-    const payload = await result.current.onTrack(
-      TrackEventTypeEnum.Conversion,
-      TrackEventNameEnum.CartItems,
-      ['4997'],
-      TrackEventSubTypeEnum.AddToCart,
-      [{
+    const payload = await result.current.onTrack({
+      typeEvent: TrackEventTypeEnum.Conversion,
+      nameEvent: TrackEventNameEnum.CartItems,
+      sku: ['4997'],
+      subTypeEvent: TrackEventSubTypeEnum.AddToCart,
+      dataObject: [{
         discount: 15,
         price: 70000,
         quantity: 1,
       }],
-      70000,
-    );
+      totalPrice: 70000,
+    });
 
     expect(payload).toBe(undefined);
   });

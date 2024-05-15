@@ -45,6 +45,7 @@ import { ProductPayment } from './components/ProductPayment';
 import { Divider } from '../../components/Divider/Divider';
 import { useTrackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 import ReturnPolicy from './components/ReturnPolicy/ReturnPolicy';
+import useSearchStore from '../../zustand/useSearchStore';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -126,11 +127,11 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
       const skuItem = params.skuId || '';
 
-      onTrack(
-        TrackEventTypeEnum.View,
-        TrackEventNameEnum.ViewedItems,
-        [skuItem],
-      );
+      onTrack({
+        typeEvent: TrackEventTypeEnum.View,
+        nameEvent: TrackEventNameEnum.ViewedItems,
+        sku: [skuItem]
+      });
 
       trackClickStore.getState()
         .onTrackClick(newData, product.identifier || '', TrackPageTypeEnum.Product);

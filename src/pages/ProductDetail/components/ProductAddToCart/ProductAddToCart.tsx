@@ -17,12 +17,14 @@ import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
 import OneP5P from '../../../../components/OneP5P/OneP5P';
 import { useTrackClickAlgoliaStore } from '../../../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../../../base/graphql/generated';
+import useSearchStore from '../../../../zustand/useSearchStore';
 
 function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
   const { getString, getBoolean } = useRemoteConfig();
   const { restoreCart } = useCart();
   const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
-  const { actions, packageItems, orderFormId } = useBagStore(['actions', 'orderFormId', 'packageItems']);
+  const { queryID } = useSearchStore(["queryID"]);
+  const { actions, packageItems, orderFormId, appTotalizers } = useBagStore(['actions', 'orderFormId', 'packageItems', 'appTotalizers']);
   const {
     productDetail,
     selectedColor,
@@ -71,19 +73,23 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
 
       const orderFormItem = mergeItems.find((item) => item.id === selectedSize.itemId);
 
-      onTrack(
-        TrackEventTypeEnum.Conversion,
-        TrackEventNameEnum.CartItems,
-        [orderFormItem?.id || ''],
-        TrackEventSubTypeEnum.AddToCart,
-        [
+      onTrack({
+        typeEvent: TrackEventTypeEnum.Conversion,
+        nameEvent: queryID
+          ? TrackEventNameEnum.CartItemsSearch
+          : TrackEventNameEnum.CartItems,
+        sku: [orderFormItem?.id || ''],
+        subTypeEvent: TrackEventSubTypeEnum.AddToCart,
+        dataObject:         [
           {
             discount: orderFormItem?.discountPercent || 0,
             price: orderFormItem?.price || 0,
             quantity: orderFormItem?.quantity || 0,
           },
         ],
-      );
+        totalPrice: appTotalizers.total,
+        queryID,
+      });
 
       await actions.ADD_ITEM(
         selectedSize.seller,

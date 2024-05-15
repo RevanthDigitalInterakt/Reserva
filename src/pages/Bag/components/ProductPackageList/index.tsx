@@ -16,11 +16,13 @@ import DeliveryItemInfo from '../DeliveryItemInfo';
 import ProductListItemPrime from '../ProductListItem/ProductListItemPrime';
 import { useTrackClickAlgoliaStore } from '../../../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../../../base/graphql/generated';
+import useSearchStore from '../../../../zustand/useSearchStore';
 
 export default function BagProductPackageList() {
   const { orderForm } = useCart();
   const { actions, packageItems, appTotalizers } = useBagStore(['actions', 'packageItems', 'appTotalizers']);
   const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
+  const { queryID } = useSearchStore(["queryID"]);
   const navigation = useNavigation();
 
   const hasPackageItems = useMemo(
@@ -59,14 +61,17 @@ export default function BagProductPackageList() {
         price: i.price,
       }))).reduce((acc, curr) => acc.concat(curr), []);
 
-      onTrack(
-        TrackEventTypeEnum.Conversion,
-        TrackEventNameEnum.CartItems,
-        productIds,
-        TrackEventSubTypeEnum.AddToCart,
-        items,
-        appTotalizers.total,
-      );
+      onTrack({
+        typeEvent: TrackEventTypeEnum.Conversion,
+        nameEvent: queryID
+          ? TrackEventNameEnum.CartItemsSearch
+          : TrackEventNameEnum.CartItems,
+        sku: productIds,
+        subTypeEvent: TrackEventSubTypeEnum.AddToCart,
+        dataObject: items,
+        totalPrice: appTotalizers.total,
+        queryID,
+      });
 
       return;
     }
@@ -77,14 +82,17 @@ export default function BagProductPackageList() {
       price: payload.priceWithDiscount,
     }));
 
-    onTrack(
-      TrackEventTypeEnum.Conversion,
-      TrackEventNameEnum.CartItems,
-      productIds,
-      TrackEventSubTypeEnum.AddToCart,
-      newData,
-      appTotalizers.total,
-    );
+    onTrack({
+      typeEvent: TrackEventTypeEnum.Conversion,
+      nameEvent: queryID
+        ? TrackEventNameEnum.CartItemsSearch
+        : TrackEventNameEnum.CartItems,
+      sku: productIds,
+      subTypeEvent: TrackEventSubTypeEnum.AddToCart,
+      dataObject: newData,
+      totalPrice: appTotalizers.total,
+      queryID,
+    });
   }, [packageItems]);
 
   const handleAddCount = useCallback(async (
