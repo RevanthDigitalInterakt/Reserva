@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### 2.11.4
+- [33024 - Ajuste copy do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/33024)
+
+---
+
 ### 2.11.3
 - [30680 - Faixa com saldo do cashback na jornada do APP](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30680)
 - [34123 - Bloquear busca com campo vazio - app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/34123)
