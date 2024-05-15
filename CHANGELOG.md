@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.11.4
+
+- Tracking de eventos para feature Prime
+
 ### 2.11.3
 - [30680 - Faixa com saldo do cashback na jornada do APP](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30680)
 - [34123 - Bloquear busca com campo vazio - app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/34123)
