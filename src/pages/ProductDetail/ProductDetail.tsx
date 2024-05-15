@@ -130,7 +130,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       onTrack({
         typeEvent: TrackEventTypeEnum.View,
         nameEvent: TrackEventNameEnum.ViewedItems,
-        sku: [skuItem]
+        sku: [product.initialSize?.ean || skuItem],
       });
 
       trackClickStore.getState()
