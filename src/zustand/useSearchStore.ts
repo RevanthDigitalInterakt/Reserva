@@ -107,7 +107,6 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
     perPage: RESULT_PER_PAGE,
     priceRange: null,
     provider: null,
-    analitycsTags: ["app"],
   },
   result: [],
   queryID: "",
