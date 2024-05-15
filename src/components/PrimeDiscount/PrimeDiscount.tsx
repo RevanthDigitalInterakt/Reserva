@@ -22,7 +22,7 @@ export default function PrimeDiscount({
 }: PrimeDiscountProps) {
   const { onAddPrimeToCart, isPrime } = usePrimeInfo();
   const handleClick = useCallback(async () => {
-    await onAddPrimeToCart();
+    await onAddPrimeToCart(true);
     if (setOpenModal) {
       setOpenModal(true);
     }

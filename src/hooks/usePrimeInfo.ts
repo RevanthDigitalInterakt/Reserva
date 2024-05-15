@@ -36,7 +36,7 @@ export function usePrimeInfo() {
     profile?.isPrime || hasPrimeSubscriptionInCart || false
   ), [profile?.isPrime, hasPrimeSubscriptionInCart]);
 
-  const onAddPrimeToCart = useCallback(async () => {
+  const onAddPrimeToCart = useCallback(async (isNewFeaturePrime?: boolean) => {
     try {
       if (hasPrimeSubscriptionInCart) {
         throw new Error('Usuário já possui Prime no carrinho');
@@ -56,11 +56,17 @@ export function usePrimeInfo() {
 
       await actions.REFETCH_ORDER_FORM();
 
-      EventProvider.logEvent('add_to_cart_prime', {
-        item_quantity: 1,
-        item_id: `${data?.landingPagePrime.skuId}`,
-        seller: data?.landingPagePrime.productSeller,
-      });
+      if (isNewFeaturePrime) {
+        EventProvider.logEvent('add_new_prime_from_bag_app', {});
+      }
+
+      if (!isNewFeaturePrime) {
+        EventProvider.logEvent('add_to_cart_prime', {
+          item_quantity: 1,
+          item_id: `${data?.landingPagePrime.skuId}`,
+          seller: data?.landingPagePrime.productSeller,
+        });
+      }
     } catch (err) {
       ExceptionProvider.captureException(err);
     }

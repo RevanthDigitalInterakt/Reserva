@@ -6,6 +6,8 @@ import { trackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTr
 import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../base/graphql/generated';
 import { trackOrderStore } from '../../zustand/useTrackOrderStore/useTrackOrderStore';
 
+const ITEM_ID_PRIME = 348009;
+
 export function getURLParameter(url: string, name: string): string {
   const match = url.match(new RegExp(`[\\?&]${name.replace(/[\[\]]/g, '\\$&')}=([^&#]*)`));
   return match ? decodeURIComponent(match[1].replace(/\+/g, ' ')) : '';
@@ -76,6 +78,10 @@ const adaptOrderFormItemsTrack = (items: any) => (items || []).map((item: any) =
   item_variant: item.skuName,
   item_category: 'product',
 }));
+
+export const checkPrimePurchase = (items: any) => (items.find(
+  (item: any) => item.productId === ITEM_ID_PRIME,
+));
 
 export const prepareEventDataPurchaseCompleted = (
   purchaseOrderForm: any,
@@ -201,6 +207,8 @@ export const prepareEventDataPurchaseCompleted = (
 
     const condensedResTransactionId = condenseArray(resTransactionId);
 
+    const checkPrimeOnPurchase = checkPrimePurchase(onlyItems);
+
     return {
       orderFormItems: onlyItems,
       orderFormId,
@@ -226,14 +234,14 @@ export const prepareEventDataPurchaseCompleted = (
       paymentData: condensedPaymentDataInfo,
       marketingData: condensedResMarketingData,
       campaignSource:
-          condensedResMarketingData[0]?.utmCampaign === null
-            ? ''
-            : condensedResMarketingData[0]?.utmCampaign,
+        condensedResMarketingData[0]?.utmCampaign === null
+          ? ''
+          : condensedResMarketingData[0]?.utmCampaign,
       campaignMedium:
-          condensedResMarketingData[0]?.utmMedium === null
-            ? ''
-            : condensedResMarketingData[0]?.utmMedium,
-
+        condensedResMarketingData[0]?.utmMedium === null
+          ? ''
+          : condensedResMarketingData[0]?.utmMedium,
+      checkPrimeOnPurchase,
     };
   } catch (e) {
     throw new Error(e);
@@ -375,4 +383,11 @@ export const triggerEventAfterPurchaseCompleted = async (
     product_name: '',
     product_image: '',
   });
+
+  /* ---- Event Prime Purchase ---- */
+  if (dataPurchaseCompleted.checkPrimeOnPurchase) {
+    EventProvider.logEvent('purchase_prime_app', {
+      value: dataPurchaseCompleted.orderValue,
+    });
+  }
 };

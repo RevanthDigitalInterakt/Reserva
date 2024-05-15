@@ -73,7 +73,7 @@ function PrimeLP({ navigation }: IPrimeLP) {
 
       setLoadingAddCartPrime(true);
 
-      await onAddPrimeToCart();
+      await onAddPrimeToCart(false);
 
       handleOnModalHideSignIn();
     } catch (e) {
