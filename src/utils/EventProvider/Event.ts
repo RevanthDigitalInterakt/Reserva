@@ -78,6 +78,10 @@ type CardCashbackEventValues = {
   value: number;
 };
 
+type DorisButtonValues = {
+  productId: string;
+};
+
 export namespace EventsOptions {
   export type PageView = Pick<EventValues, 'item_brand'>;
   export type Login = Pick<EventValues, 'custumer_email' | 'method'>;
@@ -183,6 +187,7 @@ export namespace EventsOptions {
     phoneNumber: number;
   };
   export type CardCashback = Pick<CardCashbackEventValues, 'value'>;
+  export type DorisButton = Pick<DorisButtonValues, 'productId'>;
 
 }
 
@@ -391,4 +396,7 @@ export type EventOptionsFn =
   } | {
     type: 'click_card_cashback',
     payload: EventsOptions.CardCashback
+  } | {
+    type: 'doris_button',
+    payload: EventsOptions.DorisButton
   };

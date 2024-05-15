@@ -7,15 +7,18 @@ import { v4 } from "uuid";
 import IconComponent from "../../../../../../components/IconComponent/IconComponent";
 import styles from "./styles";
 import testProps from "../../../../../../utils/testProps";
+import EventProvider from "../../../../../../utils/EventProvider";
 
 interface IButtonDoris {
   enabledBtnFullDoris: boolean;
   productEan?: string;
+  productId?: string;
 }
 
 export default function ButtonDoris({
   enabledBtnFullDoris,
   productEan,
+  productId,
 }: IButtonDoris) {
   const navigation = useNavigation();
   const goToWebviewDoris = useCallback(async (ean?: string) => {
@@ -26,6 +29,12 @@ export default function ButtonDoris({
         Config.DORIS_URL
       }?ean=${ean}&dwview=1&dwoa=1&dwskus=${ean}&dwappuser=${v4()}`,
     });
+
+    if (productId) {
+      EventProvider.logEvent("doris_button", {
+        productId: productId,
+      });
+    }
   }, []);
 
   return (
