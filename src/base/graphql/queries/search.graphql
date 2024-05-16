@@ -7,7 +7,6 @@ query search($input: SearchProductInput!) {
       productId
       skuId
       skuName
-      ean
       productName
       colors
       brand
