@@ -78,7 +78,7 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
         nameEvent: queryID
           ? TrackEventNameEnum.CartItemsSearch
           : TrackEventNameEnum.CartItems,
-        sku: [orderFormItem?.id || ''],
+        sku: [orderFormItem?.ean || ''],
         subTypeEvent: TrackEventSubTypeEnum.AddToCart,
         dataObject:         [
           {

@@ -50,7 +50,7 @@ export default function BagProductPackageList() {
   }, [actions]);
 
   const onLoadItems = useCallback(() => {
-    const productIds = packageItems[0]?.items.map((payload) => payload.id);
+    const productIds = packageItems[0]?.items.map((payload) => payload.ean) as string[] | null | undefined;
 
     if (packageItems.length > 1) {
       const packages = packageItems.map((packs) => packs.items);

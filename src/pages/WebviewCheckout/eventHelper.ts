@@ -276,7 +276,7 @@ export const triggerEventAfterPurchaseCompleted = async (
       nameEvent: queryID
         ? TrackEventNameEnum.PurchasedItemsSearch
         : TrackEventNameEnum.PurchasedItems,
-      sku: [dataPurchaseCompleted.ids],
+      sku: [dataPurchaseCompleted.ean],
       subTypeEvent: TrackEventSubTypeEnum.Purchase,
       dataObject: dataPurchaseCompleted.orderFormItems.map((item) => ({
         discount: item?.discountPercent || 0,

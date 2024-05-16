@@ -63,7 +63,7 @@ export default function BagProductList() {
   );
 
   const onLoadItems = useCallback(() => {
-    const productIds = packageItems[0]?.items.map((payload) => payload.id);
+    const productIds = packageItems[0]?.items.map((payload) => payload.ean) as string[] | null | undefined;
 
     if (packageItems.length > 1) {
       const packages = packageItems.map((packs) => packs.items);
@@ -98,7 +98,7 @@ export default function BagProductList() {
       quantity: payload.quantity,
       price: payload.priceWithDiscount,
     }));
-
+    
     onTrack({
       typeEvent: TrackEventTypeEnum.Conversion,
       nameEvent: queryID

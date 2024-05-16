@@ -1,11 +1,13 @@
 query search($input: SearchProductInput!) {
   search(input: $input) {
+    queryID
     identifier
     count
     items {
       productId
       skuId
       skuName
+      ean
       productName
       colors
       brand

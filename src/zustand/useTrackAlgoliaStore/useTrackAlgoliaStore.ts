@@ -19,11 +19,11 @@ interface IObjectData {
 interface ITrackAlgolInput {
   typeEvent: TrackEventTypeEnum,
   nameEvent: TrackEventNameEnum,
-  sku?: string[],
+  sku?: string[] | null,
   subTypeEvent?: TrackEventSubTypeEnum,
   dataObject?: IObjectData[],
   totalPrice?: number,
-  queryID?: string,
+  queryID?: string | null,
   positions?: number[],
 }
 
@@ -46,7 +46,7 @@ export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) =
   }) => {
     const user = await AsyncStorage.getItem('@Dito:anonymousID');
 
-    console.log('on track -> ', queryID)
+
 
     const variables: TrackingMutationVariables = {
       input: {

@@ -108,7 +108,6 @@ function NewListVerticalProducts({
             }
             // @ts-ignore
             navigation.navigate("ProductDetail", { skuId: item.skuId });
-
             onTrack({
               typeEvent: TrackEventTypeEnum.Click,
               nameEvent: queryID

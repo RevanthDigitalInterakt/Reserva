@@ -77,7 +77,7 @@ interface ISearchStore {
   parameters: SearchProductInput;
   resultCount: number;
   result: ProductListOutput[];
-  queryID?: string;
+  queryID?: string | null;
   setQueryID: (queryID: string) => void
   onInit: (searchType: SearchType) => void,
   setStatus: (status: SearchStatusEnum) => void;
@@ -157,9 +157,11 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
         },
       });
 
-      set(() => ({
-        queryID: '503faeb3d95a085feef5c2f77cc657f8'
-      }))
+      if (data.search.queryID) {
+        set(() => ({
+          queryID: data.search.queryID
+        }))
+      }
 
       const { searchType } = getState();
 
