@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.11.5
+
+- [30604 - Doris - Estrutura Webview app](https://dev.azure.com/areco/AReCO/_workitems/edit/30604)
+
+---
+
 ### 2.11.4
 
 - Tracking de eventos para feature Prime
