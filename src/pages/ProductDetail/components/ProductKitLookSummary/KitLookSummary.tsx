@@ -90,6 +90,7 @@ function KitLookSummary() {
     productName: productDetail?.productName,
     productId: productDetail?.productId,
     skuId: selectedGiftCardSku!,
+    ean: selectedSize?.ean,
   } : {
     productName: productDetail?.productName,
     productId: selectedSize?.itemId || '',
@@ -100,6 +101,7 @@ function KitLookSummary() {
     skuName: selectedSize?.skuName || '',
     category: '',
     brand: '',
+    ean: selectedSize?.ean,
   };
 
   const isLoadingFavorite = isGiftCard

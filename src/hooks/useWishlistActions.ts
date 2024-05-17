@@ -6,6 +6,9 @@ import useWishlistStore, { IWishlistProduct } from '../zustand/useWishlistStore'
 import { trackEventDitoAddWishlist } from '../utils/trackEventDitoAddWishlist';
 import { navigateUsingRef } from '../utils/navigationRef';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
+import { trackClickAlgoliaStore } from '../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
+import { TrackEventTypeEnum, TrackEventNameEnum, TrackEventSubTypeEnum } from '../base/graphql/generated';
+import { useSearchStore } from '../zustand/useSearchStore';
 
 export function useWishlistActions() {
   const {
@@ -82,6 +85,16 @@ export function useWishlistActions() {
           items: [newItem],
         },
       );
+
+      const queryID = useSearchStore.getState().queryID;
+      trackClickAlgoliaStore.getState().onTrack({
+        typeEvent: TrackEventTypeEnum.Conversion,
+        nameEvent: queryID
+          ? TrackEventNameEnum.ConvertedItemsSearch
+          : TrackEventNameEnum.ConvertedItems,
+        sku: [product?.skuId],
+        queryID,
+      });
 
       await onFavorite(product);
     } catch (err) {
