@@ -184,6 +184,8 @@ export namespace EventsOptions {
     phoneNumber: number;
   };
   export type CardCashback = Pick<CardCashbackEventValues, 'value'>;
+  export type PurchasePrime = Pick<EventValues, 'value'>;
+
   export type DorisButton = Pick<EventValues, 'product_id' | 'product_ean'>;
 
 }
@@ -390,9 +392,14 @@ export type EventOptionsFn =
   | {
     type: 'offers_tab_click',
     payload: {}
-  } | {
+  }
+  | {
     type: 'click_card_cashback',
     payload: EventsOptions.CardCashback
+  }
+  | {
+    type: 'add_new_prime_from_bag_app',
+    payload: {}
   } | {
     type: 'doris_button',
     payload: EventsOptions.DorisButton

@@ -44,7 +44,7 @@ export function FooterModalPrime({
 
       setLoadingAddCartPrime(true);
 
-      await onAddPrimeToCart();
+      await onAddPrimeToCart(false);
 
       onClose();
     } catch (e) {
