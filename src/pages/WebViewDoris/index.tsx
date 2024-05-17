@@ -7,10 +7,16 @@ import { useBagStore } from "../../zustand/useBagStore/useBagStore";
 import { TopBarBackButton } from "../../modules/Menu/components/TopBarBackButton";
 import { mergeItemsPackage } from "../../utils/mergeItemsPackage";
 import testProps from "../../utils/testProps";
+import type { OrderformAddMultipleItemInput } from "../../base/graphql/generated";
+
+interface IItemRawMessage {
+  identifier: string,
+  sellerId: string
+}
 
 export default function WebViewDoris() {
   const navigation = useNavigation();
-  const { actions, packageItems } = useBagStore(["actions", "packageItems"]);
+  const { actions, packageItems, orderFormId } = useBagStore(["actions", "packageItems", "orderFormId"]);
   const [loading, setLoading] = useState(false);
   const route = useRoute();
   const webviewRef = useRef(null);
@@ -29,18 +35,16 @@ export default function WebViewDoris() {
     const { type, rawMessage } = JSON.parse(data);
 
     switch (type) {
-      // TODO Review this method when production  widget method Doris change
       case "add-to-cart": {
-        rawMessage.data.map(async (itemRawMessage: any) => {
-          const orderFormItem = mergeItems.find(
-            (item) => item.id === itemRawMessage.identifier
-          );
+        const orderItems = rawMessage.data.map((itemRawMessage: IItemRawMessage) => ({
+          id: itemRawMessage.identifier,
+          seller: itemRawMessage.sellerId,
+          quantity: 1,
+        }));
 
-          await actions.ADD_ITEM(
-            itemRawMessage.sellerId,
-            itemRawMessage.identifier,
-            orderFormItem ? orderFormItem.quantity + 1 : 1
-          );
+        await actions.ADD_MULTIPLE_ITEMS({
+          orderFormId,
+          orderItems,
         });
         return null;
       }

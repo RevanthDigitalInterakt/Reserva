@@ -80,6 +80,7 @@ type CardCashbackEventValues = {
 
 type DorisButtonValues = {
   productId: string;
+  ean: string;
 };
 
 export namespace EventsOptions {
@@ -91,50 +92,50 @@ export namespace EventsOptions {
   export type RemoveFromCart = Pick<EventValues, 'item_id' | 'item_categories' | 'item_brand'>;
   export type ProductListView = Pick<EventValues, 'content_type' | 'item_brand'>;
   export type CheckoutInitiated = Pick<
-  EventValues,
-  'price' | 'content_type' | 'content_ids' | 'currency' | 'quantity'
+    EventValues,
+    'price' | 'content_type' | 'content_ids' | 'currency' | 'quantity'
   >;
   export type CompleteRegistration = Pick<
-  EventValues,
-  'method' | 'custumer_email'
+    EventValues,
+    'method' | 'custumer_email'
   >;
   export type OpenRonUrl = Pick<
-  EventValues,
-  'order_form_id'
+    EventValues,
+    'order_form_id'
   >;
   export type ProductView = Pick<
-  EventValues,
-  | 'product_id'
-  | 'product_category'
-  | 'product_price'
-  | 'product_currency'
+    EventValues,
+    | 'product_id'
+    | 'product_category'
+    | 'product_price'
+    | 'product_currency'
   >;
   export type AddToCart = Pick<
-  EventValues,
-  | 'item_id'
-  | 'item_price'
-  | 'item_quantity'
-  | 'item_category'
-  | 'currency'
-  | 'seller'
-  | 'item_brand'
+    EventValues,
+    | 'item_id'
+    | 'item_price'
+    | 'item_quantity'
+    | 'item_category'
+    | 'currency'
+    | 'seller'
+    | 'item_brand'
   >;
   export type AddToCartPrime = Pick<
-  EventValues,
-  | 'item_id'
-  | 'item_quantity'
-  | 'seller'
+    EventValues,
+    | 'item_id'
+    | 'item_quantity'
+    | 'seller'
   >;
   export type Purchase = Pick<
-  EventValues,
-  | 'affiliation'
-  | 'coupon'
-  | 'currency'
-  | 'items'
-  | 'shipping'
-  | 'tax'
-  | 'transaction_id'
-  | 'value'
+    EventValues,
+    | 'affiliation'
+    | 'coupon'
+    | 'currency'
+    | 'items'
+    | 'shipping'
+    | 'tax'
+    | 'transaction_id'
+    | 'value'
   > & {};
   export type ViewItem = Pick<EventValues, 'currency' | 'items' | 'value' | 'item_brand'>;
   export type BeginCheckout = Pick<EventValues, 'items' | 'value' | 'coupon' | 'currency' | 'item_brand'>;
@@ -143,28 +144,28 @@ export namespace EventsOptions {
   export type ViewItemList = Pick<EventValues, 'items' | 'item_brand'>;
   export type AddPaymentInfo = Pick<EventValues, 'coupon' | 'currency' | 'items' | 'payment_type' | 'value' | 'item_brand'>;
   export type RonOpen = Pick<
-  EventValues,
-  'items'
-  | 'open'
-  | 'item_brand'
+    EventValues,
+    'items'
+    | 'open'
+    | 'item_brand'
   >;
   export type RonPurchase = Pick<
-  EventValues,
-  | 'coupon'
-  | 'currency'
-  | 'items'
-  | 'transaction_id'
-  | 'value'
-  | 'item_brand'
+    EventValues,
+    | 'coupon'
+    | 'currency'
+    | 'items'
+    | 'transaction_id'
+    | 'value'
+    | 'item_brand'
   >;
   export type ClickAccessibilityApp = Pick<
-  EventValues,
-  | 'email'
-  | 'appState'
+    EventValues,
+    | 'email'
+    | 'appState'
   >;
   export type AppState = Pick<
-  EventValues,
-  | 'appState'
+    EventValues,
+    | 'appState'
   >;
   export type ProductSlideImages = Pick<EventValues, | 'product_id' | 'index'>;
   export type ProductViewSizeGuide = Pick<EventValues, | 'product_id' | 'show'>;
@@ -187,7 +188,7 @@ export namespace EventsOptions {
     phoneNumber: number;
   };
   export type CardCashback = Pick<CardCashbackEventValues, 'value'>;
-  export type DorisButton = Pick<DorisButtonValues, 'productId'>;
+  export type DorisButton = Pick<DorisButtonValues, 'productId' | 'ean'>;
 
 }
 

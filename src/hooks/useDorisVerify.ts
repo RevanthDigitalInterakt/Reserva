@@ -14,9 +14,8 @@ export function useDorisVerify() {
 
   const verifyProductDoris = useCallback(async (ean: string) => {
     try {
-      if (!showDorisButton) return;
+      // if (!showDorisButton) return;
       const { data } = await verifyDoris({ variables: { ean } });
-
       if (!data) return;
 
       const { verifyDorisProduct } = data;
