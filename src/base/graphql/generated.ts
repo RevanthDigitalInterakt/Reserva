@@ -1401,6 +1401,7 @@ export type ProductListOutput = {
   colors?: Maybe<Array<Scalars['String']['output']>>;
   currentPrice: Scalars['Float']['output'];
   discountPercentage: Scalars['Float']['output'];
+  ean: Scalars['String']['output'];
   hasDiscount: Scalars['Boolean']['output'];
   hasPrime?: Maybe<Scalars['Boolean']['output']>;
   image: Scalars['String']['output'];

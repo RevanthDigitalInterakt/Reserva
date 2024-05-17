@@ -113,7 +113,7 @@ function NewListVerticalProducts({
               nameEvent: queryID
                 ? TrackEventNameEnum.ClickedItemsSearch
                 : TrackEventNameEnum.ClickedItems,
-              sku: [item.skuId],
+              sku: [item.ean],
               queryID,
             });
           }}
