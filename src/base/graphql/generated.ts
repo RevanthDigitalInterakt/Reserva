@@ -2821,6 +2821,13 @@ export type UpdateInAppQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type UpdateInAppQuery = { __typename?: 'Query', updateInApp?: { __typename?: 'UpdateInAppOutput', updateTitle?: string | null, updateDescription?: string | null, updateAllVersions?: boolean | null, targetVersion?: string | null, onlyPlatform?: string | null, updateType?: string | null } | null };
 
+export type VerifyDorisProductQueryVariables = Exact<{
+  ean: Scalars['String']['input'];
+}>;
+
+
+export type VerifyDorisProductQuery = { __typename?: 'Query', verifyDorisProduct: { __typename?: 'DorisOutput', valid: boolean } };
+
 export type WishlistQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -5986,6 +5993,44 @@ export type UpdateInAppLazyQueryHookResult = ReturnType<typeof useUpdateInAppLaz
 export type UpdateInAppQueryResult = Apollo.QueryResult<UpdateInAppQuery, UpdateInAppQueryVariables>;
 export function refetchUpdateInAppQuery(variables?: UpdateInAppQueryVariables) {
       return { query: UpdateInAppDocument, variables: variables }
+    }
+export const VerifyDorisProductDocument = gql`
+    query verifyDorisProduct($ean: String!) {
+  verifyDorisProduct(ean: $ean) {
+    valid
+  }
+}
+    `;
+
+/**
+ * __useVerifyDorisProductQuery__
+ *
+ * To run a query within a React component, call `useVerifyDorisProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useVerifyDorisProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useVerifyDorisProductQuery({
+ *   variables: {
+ *      ean: // value for 'ean'
+ *   },
+ * });
+ */
+export function useVerifyDorisProductQuery(baseOptions: Apollo.QueryHookOptions<VerifyDorisProductQuery, VerifyDorisProductQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<VerifyDorisProductQuery, VerifyDorisProductQueryVariables>(VerifyDorisProductDocument, options);
+      }
+export function useVerifyDorisProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<VerifyDorisProductQuery, VerifyDorisProductQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<VerifyDorisProductQuery, VerifyDorisProductQueryVariables>(VerifyDorisProductDocument, options);
+        }
+export type VerifyDorisProductQueryHookResult = ReturnType<typeof useVerifyDorisProductQuery>;
+export type VerifyDorisProductLazyQueryHookResult = ReturnType<typeof useVerifyDorisProductLazyQuery>;
+export type VerifyDorisProductQueryResult = Apollo.QueryResult<VerifyDorisProductQuery, VerifyDorisProductQueryVariables>;
+export function refetchVerifyDorisProductQuery(variables: VerifyDorisProductQueryVariables) {
+      return { query: VerifyDorisProductDocument, variables: variables }
     }
 export const WishlistDocument = gql`
     query wishlist {

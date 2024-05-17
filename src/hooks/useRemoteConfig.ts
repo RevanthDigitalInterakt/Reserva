@@ -69,6 +69,7 @@ export interface IRemoteConfigKeys {
   show_abandoned_cart: boolean;
   show_prime_discount: boolean;
   show_return_policy: boolean;
+  show_doris_button: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -135,6 +136,7 @@ export const defaults: IRemoteConfigKeys = {
   show_abandoned_cart: false,
   show_prime_discount: false,
   show_return_policy: false,
+  show_doris_button: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;

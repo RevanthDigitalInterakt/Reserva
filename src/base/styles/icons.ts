@@ -112,6 +112,8 @@ export const svgs = {
   infoSuccess: require('../svgs/InfoSuccess').default,
   closeIcon: require('../svgs/CloseIcon').default,
   trash: require('../svgs/Trash').default,
+  hanger: require('../svgs/HangerIcon').default,
+  sizeGuideIcon: require('../svgs/SizeGuideIcon').default,
 };
 
 type TIconsKeys = keyof typeof commons;

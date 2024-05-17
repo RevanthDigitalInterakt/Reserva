@@ -1,14 +1,20 @@
 import React, { useCallback, useState } from 'react';
-import { Modal, FlatList } from 'react-native';
-
-import images from '../../../../base/styles/icons';
-import configDeviceSizes from '../../../../utils/configDeviceSizes';
-import EventProvider from '../../../../utils/EventProvider';
-import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
-import { Box } from '../../../../components/Box/Box';
-import { Button } from '../../../../components/Button';
-import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
-import { Typography } from '../../../../components/Typography/Typography';
+import {
+  Modal,
+  FlatList,
+  View,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
+import configDeviceSizes from '../../../../../../utils/configDeviceSizes';
+import { Box } from '../../../../../../components/Box/Box';
+import { Button } from '../../../../../../components/Button';
+import ImageComponent from '../../../../../../components/ImageComponent/ImageComponent';
+import EventProvider from '../../../../../../utils/EventProvider';
+import IconComponent from '../../../../../../components/IconComponent/IconComponent';
+import images from '../../../../../../base/styles/icons';
+import styles from './styles';
+import testProps from '../../../../../../utils/testProps';
 
 interface ISizesGuidesCarrousel {
   images: any[],
@@ -31,7 +37,6 @@ function SizesGuidesCarrousel({ images, onClose }: ISizesGuidesCarrousel) {
 
   return (
     <>
-
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -93,26 +98,26 @@ function SizesGuidesCarrousel({ images, onClose }: ISizesGuidesCarrousel) {
         )}
       />
       {images.length > 1 && (
-      <Box
-        flexDirection="row"
-        position="absolute"
-        bottom={((configDeviceSizes.DEVICE_HEIGHT - (CARD_WIDTH * IMAGES_PROPORTION)) / 2) - 18}
-      >
-        {
-          images.map((_image, index) => (
-            <Box style={{
-              width: 6,
-              height: 6,
-              marginRight: 8,
-              backgroundColor: actualPosition === index ? '#fff' : 'transparent',
-              borderColor: '#fff',
-              borderRadius: 3,
-              borderWidth: 1,
-            }}
-            />
-          ))
-        }
-      </Box>
+        <Box
+          flexDirection="row"
+          position="absolute"
+          bottom={((configDeviceSizes.DEVICE_HEIGHT - (CARD_WIDTH * IMAGES_PROPORTION)) / 2) - 18}
+        >
+          {
+            images.map((_image, index) => (
+              <Box style={{
+                width: 6,
+                height: 6,
+                marginRight: 8,
+                backgroundColor: actualPosition === index ? '#fff' : 'transparent',
+                borderColor: '#fff',
+                borderRadius: 3,
+                borderWidth: 1,
+              }}
+              />
+            ))
+          }
+        </Box>
       )}
     </>
   );
@@ -129,12 +134,17 @@ export const SizeGuideImages = Object.freeze({
   sungas: [images.GuideSungaCueca],
 });
 
-interface SizeGuideProps {
+interface ISizeGuideProps {
   categoryTree: { name: string }[]
   productId?: string;
+  enabledBtnFullSizeGuide?: boolean;
 }
 
-export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree, productId }) => {
+function SizeGuide({
+  categoryTree,
+  productId,
+  enabledBtnFullSizeGuide,
+}: ISizeGuideProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleCategoryImage = () => {
@@ -160,17 +170,25 @@ export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree, productId })
 
   return (
     <Box>
-      <Button
-        testID="com.usereserva:id/size_guides_button_product_details"
-        onPress={onShow}
-      >
-        <Box flexDirection="row" alignItems="center">
-          <IconLegacy name="Ruler" size={35} />
-          <Typography fontFamily="nunitoRegular" fontSize={11}>
-            Guia de medidas
-          </Typography>
-        </Box>
-      </Button>
+      <View>
+        <TouchableOpacity
+          {...testProps('size_guides_button_product_details')}
+          onPress={onShow}
+        >
+          <View
+            style={
+              enabledBtnFullSizeGuide
+                ? styles.containerBtnSizeGuideFull
+                : styles.containerBtnSizeGuide
+            }
+          >
+            <IconComponent icon="sizeGuideIcon" />
+            <Text style={styles.txtSizeGuide}>
+              guia de medidas
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
       <Modal
         visible={isVisible}
         transparent
@@ -201,4 +219,6 @@ export const SizeGuide: React.FC<SizeGuideProps> = ({ categoryTree, productId })
       </Modal>
     </Box>
   );
-};
+}
+
+export default SizeGuide;

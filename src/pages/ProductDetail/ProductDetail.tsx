@@ -43,6 +43,7 @@ import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/us
 import CashbackInfo from '../../components/CashbackInfo';
 import { ProductPayment } from './components/ProductPayment';
 import { Divider } from '../../components/Divider/Divider';
+import { Button } from '../../components/Button';
 import { useTrackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 import ReturnPolicy from './components/ReturnPolicy/ReturnPolicy';
 
@@ -207,11 +208,11 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
               <ProductAbout />
 
               {productDetail?.paymentSystemGroupName
-              && productDetail?.paymentSystemGroupName.length > 0 && (
-                <>
-                  <Divider variant="fullWidth" my="xs" />
-                  <ProductPayment />
-                </>
+                && productDetail?.paymentSystemGroupName.length > 0 && (
+                  <>
+                    <Divider variant="fullWidth" my="xs" />
+                    <ProductPayment />
+                  </>
               )}
               {showReturnPolicy && (<ReturnPolicy />)}
             </Box>
