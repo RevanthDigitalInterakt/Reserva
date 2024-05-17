@@ -32,8 +32,8 @@ export default function ButtonDoris({
 
     if (productId) {
       EventProvider.logEvent("doris_button", {
-        productId: productId,
-        ean: ean,
+        product_id: productId,
+        product_ean: ean,
       });
     }
   }, []);

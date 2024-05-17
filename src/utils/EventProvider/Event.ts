@@ -36,6 +36,7 @@ type EventValues = {
   content_type: string | string[];
   product_id: string;
   product_name: string;
+  product_ean: string;
   product_category: string;
   product_price: any;
   product_currency: string;
@@ -76,11 +77,6 @@ type AbandonedCartEventValues = {
 
 type CardCashbackEventValues = {
   value: number;
-};
-
-type DorisButtonValues = {
-  productId: string;
-  ean: string;
 };
 
 export namespace EventsOptions {
@@ -188,7 +184,7 @@ export namespace EventsOptions {
     phoneNumber: number;
   };
   export type CardCashback = Pick<CardCashbackEventValues, 'value'>;
-  export type DorisButton = Pick<DorisButtonValues, 'productId' | 'ean'>;
+  export type DorisButton = Pick<EventValues, 'product_id' | 'product_ean'>;
 
 }
 
