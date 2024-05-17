@@ -24,14 +24,10 @@ export default function ButtonDoris({
   const goToWebviewDoris = useCallback(async (ean?: string) => {
     if (!ean) return;
 
-    const userID = v4()
-
-    console.log('userID -> ', userID)
-
     navigation.navigate("Doris", {
       url: `${
         Config.DORIS_URL
-      }?ean=${ean}&dwview=1&dwoa=1&dwskus=${ean}&dwappuser=${userID}`,
+      }?ean=${ean}&dwview=1&dwoa=1&dwskus=${ean}&dwappuser=${v4()}`,
     });
 
     if (productId) {
