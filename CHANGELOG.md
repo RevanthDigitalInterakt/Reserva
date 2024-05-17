@@ -1,6 +1,8 @@
 ## CHANGELOG
 
 ### 2.11.4
+
+- Tracking de eventos para feature Prime
 - [33024 - Ajuste copy do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/33024)
 
 ---
