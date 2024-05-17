@@ -48,14 +48,7 @@ export function ModalWelcomePrime({ onClose, isVisible }: IParamsComponent) {
             </Text>
             , para facilitar na sua compra
             já adicionamos ao seu carrinho a assinatura, ela será concluída
-            junto ao seu pedido, mas lembre-se, ela só será válida para compras
-            acima de
-            {' '}
-            <Text style={styles.textPrice}>
-              R$
-              {' '}
-              {data?.discountFrom}
-            </Text>
+            junto ao seu pedido.
           </Text>
         </View>
 

@@ -3,6 +3,9 @@
 ### 2.11.4
 
 - Tracking de eventos para feature Prime
+- [33024 - Ajuste copy do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/33024)
+
+---
 
 ### 2.11.3
 - [30680 - Faixa com saldo do cashback na jornada do APP](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30680)
