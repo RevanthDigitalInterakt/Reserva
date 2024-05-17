@@ -397,8 +397,4 @@ export type EventOptionsFn =
   | {
     type: 'add_new_prime_from_bag_app',
     payload: {}
-  }
-  | {
-    type: 'purchase_prime_app',
-    payload: EventsOptions.PurchasePrime
   };

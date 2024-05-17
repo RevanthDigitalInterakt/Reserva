@@ -58,9 +58,7 @@ export function usePrimeInfo() {
 
       if (isNewFeaturePrime) {
         EventProvider.logEvent('add_new_prime_from_bag_app', {});
-      }
-
-      if (!isNewFeaturePrime) {
+      } else {
         EventProvider.logEvent('add_to_cart_prime', {
           item_quantity: 1,
           item_id: `${data?.landingPagePrime.skuId}`,
