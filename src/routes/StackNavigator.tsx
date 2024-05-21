@@ -36,6 +36,7 @@ import {
 import type { Flow } from './types/flow.type';
 import ZipCodeDelivery from '../pages/ZipCodeDelivery';
 import WebViewDoris from '../pages/WebViewDoris';
+import FacaVc from '../pages/FacaVc';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -51,6 +52,7 @@ export type RootStackParamList = {
     slug?: string;
   };
   PrimeLP: undefined;
+  FacaVc: undefined;
   PageOneP5P: { comeFrom?: 'Menu' | 'Home' };
   HelpCenter: { comeFrom?: 'Menu' | 'Other' };
   Checkout: { url: string };
@@ -194,6 +196,7 @@ export function MainStackScreen() {
       <MainStack.Screen name="CallCenter" component={CallCenter} />
       <MainStack.Screen name="WebviewZendesk" component={WebviewZendesk} />
       <MainStack.Screen name="PrimeLP" component={PrimeLP} />
+      <MainStack.Screen name="FacaVc" component={FacaVc} />
       <MainStack.Screen name="PageOneP5P" component={PageOneP5P} />
     </MainStack.Navigator>
   );

@@ -402,8 +402,20 @@ const webviewDeepLinkUseCase = (initialUrl: string): ICustomMethodReturnParams =
   return defaultCustomMethodReturn;
 };
 
+const webViewFacaVcUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+  if (initialUrl.includes('criar')) {
+    return {
+      match: true,
+      strUrl: 'usereserva://criar',
+    };
+  }
+
+  return defaultCustomMethodReturn;
+};
+
 const registerMethods = [
   urlSiteCase,
+  webViewFacaVcUseCase,
   urlGoogleGclidCase,
   urlRon,
   urlLandingPagePrime,
