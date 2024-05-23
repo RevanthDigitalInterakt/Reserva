@@ -45,7 +45,7 @@ const routesConfig = {
           path: 'prime',
         },
         FacaVc: {
-          path: 'criar',
+          path: 'facavc/criar',
         },
       },
     },

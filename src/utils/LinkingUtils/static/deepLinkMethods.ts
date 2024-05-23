@@ -403,10 +403,10 @@ const webviewDeepLinkUseCase = (initialUrl: string): ICustomMethodReturnParams =
 };
 
 const webViewFacaVcUseCase = (initialUrl: string): ICustomMethodReturnParams => {
-  if (initialUrl.includes('criar')) {
+  if (initialUrl.includes('facavc/criar')) {
     return {
       match: true,
-      strUrl: 'usereserva://criar',
+      strUrl: 'usereserva://facavc/criar',
     };
   }
 
