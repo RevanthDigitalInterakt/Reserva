@@ -7,6 +7,8 @@ import { Divider } from "../../../../components/Divider/Divider";
 import styles from "./styles";
 import ButtonDoris from "./components/ButtonDoris";
 import testProps from "../../../../utils/testProps";
+import { ModalBag } from "../../../../components/ModalBag/ModalBag";
+import useDorisStore from "../../../../zustand/useDorisStore";
 
 interface IFittingRoomSession {
   categoryTree?: { name: string }[] | null;
@@ -21,6 +23,7 @@ export default function FittingRoomSession({
   productEan,
   isValidProductDoris,
 }: IFittingRoomSession) {
+  const { showAnimationBagDoris, setShowAnimationBagDoris } = useDorisStore(['showAnimationBagDoris', 'setShowAnimationBagDoris'])
   return (
     <View {...testProps("fitting_room_session")}>
       {isValidProductDoris && !!categoryTree?.length && (
@@ -28,11 +31,17 @@ export default function FittingRoomSession({
       )}
       <View style={styles.childContainer}>
         {isValidProductDoris && (
-          <ButtonDoris
-            enabledBtnFullDoris={!categoryTree?.length}
-            productEan={productEan}
-            productId={productId}
-          />
+          <>
+            <ModalBag
+              isVisible={showAnimationBagDoris}
+              onBackdropPress={() => setShowAnimationBagDoris(false)}
+            />
+            <ButtonDoris
+              enabledBtnFullDoris={!categoryTree?.length}
+              productEan={productEan}
+              productId={productId}
+            />
+          </>
         )}
 
         {!!categoryTree?.length && (
