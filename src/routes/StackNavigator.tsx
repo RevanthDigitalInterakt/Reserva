@@ -36,6 +36,7 @@ import {
 import type { Flow } from './types/flow.type';
 import ZipCodeDelivery from '../pages/ZipCodeDelivery';
 import WebViewDoris from '../pages/WebViewDoris';
+import WebViewFacaVoce from '../pages/WebViewFacaVoce';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -51,6 +52,7 @@ export type RootStackParamList = {
     slug?: string;
   };
   PrimeLP: undefined;
+  FacaVc: undefined;
   PageOneP5P: { comeFrom?: 'Menu' | 'Home' };
   HelpCenter: { comeFrom?: 'Menu' | 'Other' };
   Checkout: { url: string };
@@ -186,6 +188,7 @@ export function MainStackScreen() {
       <MainStack.Screen name="ZipCodeDelivery" component={ZipCodeDelivery} />
       <MainStack.Screen name="Checkout" component={WebviewCheckout} />
       <MainStack.Screen name="Doris" component={WebViewDoris} />
+      <MainStack.Screen name="FacaVc" component={WebViewFacaVoce} />
       <MainStack.Screen name="Cashback" component={Cashback} />
       <MainStack.Screen name="Credits" component={Credits} />
       <MainStack.Screen name="EditProfile" component={EditProfile} />
