@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { View, Text } from 'react-native';
 import { styles } from './PrimeDiscount.styles';
 import IconDiamond from '../../../assets/icons/IconDiamond';
@@ -8,6 +8,8 @@ import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 import { PriceCustom } from '../PriceCustom/PriceCustom';
 import { COLORS, FONTS } from '../../base/styles';
 import { Divider } from '../Divider/Divider';
+import { useLandingPagePrimeQuery } from '../../base/graphql/generated';
+import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 
 interface PrimeDiscountProps {
   discountPrime?: number;
@@ -20,6 +22,7 @@ export default function PrimeDiscount({
   setOpenModal,
   setNegativeValue,
 }: PrimeDiscountProps) {
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { onAddPrimeToCart, isPrime } = usePrimeInfo();
   const handleClick = useCallback(async () => {
     await onAddPrimeToCart(true);
@@ -27,6 +30,13 @@ export default function PrimeDiscount({
       setOpenModal(true);
     }
   }, []);
+
+  const { data: rawData } = useLandingPagePrimeQuery({
+    context: { clientName: 'gateway' },
+    fetchPolicy: getFetchPolicyPerKey('landingPagePrime'),
+  });
+
+  const data = useMemo(() => rawData?.landingPagePrime, [rawData?.landingPagePrime]);
 
   return (
     <>
@@ -60,7 +70,7 @@ export default function PrimeDiscount({
         <>
           <Button
             onPress={() => handleClick()}
-            title="ASSINE AGORA POR 12x de R$25"
+            title={`ASSINE AGORA POR ${data?.installmentQty}x de R$${data?.installmentPrice}`}
             variant="primarioEstreito"
             inline
             style={{ backgroundColor: COLORS.BACKGROUND_GOLD_PRIME }}
