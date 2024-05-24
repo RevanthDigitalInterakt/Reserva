@@ -92,8 +92,14 @@ export function useWishlistActions() {
         nameEvent: queryID
           ? TrackEventNameEnum.ConvertedItemsSearch
           : TrackEventNameEnum.ConvertedItems,
-        sku: [product?.skuId],
+        sku: [product?.ean || ''],
         queryID,
+        dataObject: [{
+          discount: 0,
+          price: product.lowPrice || 1,
+          quantity: 1
+        }],
+        totalPrice: product.lowPrice || 1
       });
 
       await onFavorite(product);
