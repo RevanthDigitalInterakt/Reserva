@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.11.6
+
+- Alteração do valor do preço PRIME para R$ 9,99
+
 ### 2.11.5
 
 - [30604 - Doris - Estrutura Webview app](https://dev.azure.com/areco/AReCO/_workitems/edit/30604)

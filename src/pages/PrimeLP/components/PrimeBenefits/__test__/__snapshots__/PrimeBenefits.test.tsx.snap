@@ -241,26 +241,7 @@ exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
           }
           variant="precoTotal"
         >
-          20% OFF* 
-        </Text>
-        em compras a partir de
-        <Text
-          style={
-            [
-              {
-                "fontFamily": "Nunito-Bold",
-                "fontSize": 20,
-              },
-              {
-                "color": "#000000",
-                "fontSize": 16,
-                "lineHeight": 20,
-              },
-            ]
-          }
-          variant="precoTotal"
-        >
-           R$ 499 
+          15% OFF* 
         </Text>
         em todas as peças das marcas Reserva.
       </Text>
