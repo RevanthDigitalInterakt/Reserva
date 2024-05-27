@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.11.7
+
+- Alteração do valor do preço PRIME para R$ 25,00
+
 ### 2.11.6
 
 - Alteração do valor do preço PRIME para R$ 9,99

@@ -18,7 +18,7 @@ const data = [
   },
   {
     title: 'E quanto custa para ter acesso a isso?',
-    content: `Para ter acesso a tudo isso, o valor é 12x de R$9,99. E detalhe! O valor da mensalidade volta INTEIRO em cashback, todo mês, pra poder aproveitar e garantir novidades sempre.
+    content: `Para ter acesso a tudo isso, o valor é 12x de R$25,00. E detalhe! O valor da mensalidade volta INTEIRO em cashback, todo mês, pra poder aproveitar e garantir novidades sempre.
   `,
     id: 2,
   },
@@ -49,7 +49,7 @@ const data = [
   {
     title: 'Como funciona o cashback do Prime?',
     content:
-      'Ao assinar o nosso serviço Prime por 12x de R$9,99, você terá direito a receber um cashback no valor de R$25,00 no primeiro dia útil, todo mês. No entanto, é importante esclarecer que esse cashback não é acumulativo, ou seja, ele não se acumula de um mês para o outro (sendo válido por 30 dias).\n\nO cashback é uma forma de recompensá-lo pelo uso contínuo do nosso serviço Prime. A cada mês que você estiver utilizando o Prime, seu cashback será renovado e você poderá utilizá-lo em compras no nosso site. Para utilizar o cashback, basta seguir os passos abaixo:\n\n'
+      'Ao assinar o nosso serviço Prime por 12x de R$25,00, você terá direito a receber um cashback no valor de R$25,00 no primeiro dia útil, todo mês. No entanto, é importante esclarecer que esse cashback não é acumulativo, ou seja, ele não se acumula de um mês para o outro (sendo válido por 30 dias).\n\nO cashback é uma forma de recompensá-lo pelo uso contínuo do nosso serviço Prime. A cada mês que você estiver utilizando o Prime, seu cashback será renovado e você poderá utilizá-lo em compras no nosso site. Para utilizar o cashback, basta seguir os passos abaixo:\n\n'
       + '• Faça login no nosso site;\n'
       + '• Navegue pelo site e adicione os produtos desejados ao seu carrinho de compras;\n'
       + '• Durante o processo de finalização da compra, você terá a opção de usar o cashback disponível. Selecione essa opção e o valor do cashback será deduzido do total da sua compra.',
