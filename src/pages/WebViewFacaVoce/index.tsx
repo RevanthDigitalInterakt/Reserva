@@ -1,13 +1,14 @@
-import React, { useRef, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useRef, useState } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import { Platform, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
+import Config from 'react-native-config';
 import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import testProps from '../../utils/testProps';
-import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import { TopBarMenu } from '../../modules/Menu/components/TopBarMenu';
+import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 
 interface IOnLoad {
   nativeEvent: any;
@@ -19,14 +20,20 @@ export default function WebViewFacaVoce() {
   const { profile } = useAuthStore(['profile']);
   const [loading, setLoading] = useState(false);
   const webviewRef = useRef(null);
+  const [key, setKey] = useState(0);
+
+  useFocusEffect(
+    useCallback(() => {
+      setKey((prevKey) => prevKey + 1);
+    }, []),
+  );
 
   const injectedJavaScript = `window.metadata = { appVersion: "${DeviceInfo.getVersion()}", platformType: "${Platform.OS}" }`;
-
   const clientId = profile?.id || '';
   const { sessionId } = trackPageViewStore.getState();
 
-  const baseUrl = 'https://storage.googleapis.com/reserva-faca-vc-front-dev/deploy/index.html?context=app';
-  const sourceUri = `${baseUrl}&client_id=${clientId}&session_id=${sessionId}&orderform_id=${orderFormId}`;
+  const baseUrl = Config.R2U_URL;
+  const sourceUri = `${baseUrl}?context=app&client_id=${clientId}&session_id==${sessionId}&orderform_id=${orderFormId}`;
 
   const onMessage = async (event: WebViewMessageEvent) => {
     const { data } = event.nativeEvent;
@@ -49,6 +56,7 @@ export default function WebViewFacaVoce() {
         <TopBarMenu loading={loading} />
       </View>
       <WebView
+        key={key}
         {...testProps('web_view_facavc')}
         ref={webviewRef}
         cacheEnabled={false}
