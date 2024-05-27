@@ -1,5 +1,6 @@
 query search($input: SearchProductInput!) {
   search(input: $input) {
+    queryID
     identifier
     count
     items {
