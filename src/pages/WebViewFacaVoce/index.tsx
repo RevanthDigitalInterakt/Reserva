@@ -1,5 +1,5 @@
-import React, { useCallback, useRef, useState } from 'react';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, { useRef, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import { Platform, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
@@ -22,12 +22,6 @@ export default function WebViewFacaVoce() {
   const webviewRef = useRef(null);
   const [key, setKey] = useState(0);
 
-  useFocusEffect(
-    useCallback(() => {
-      setKey((prevKey) => prevKey + 1);
-    }, []),
-  );
-
   const injectedJavaScript = `window.metadata = { appVersion: "${DeviceInfo.getVersion()}", platformType: "${Platform.OS}" }`;
   const clientId = profile?.id || '';
   const { sessionId } = trackPageViewStore.getState();
@@ -42,6 +36,7 @@ export default function WebViewFacaVoce() {
     switch (type) {
       case 'facavcgotocart': {
         navigation.navigate('BagScreen');
+        setKey((prevKey) => prevKey + 1);
         return null;
       }
 
