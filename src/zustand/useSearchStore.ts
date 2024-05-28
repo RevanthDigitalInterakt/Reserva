@@ -77,6 +77,8 @@ interface ISearchStore {
   parameters: SearchProductInput;
   resultCount: number;
   result: ProductListOutput[];
+  queryID?: string | null;
+  setQueryID: (queryID: string) => void
   onInit: (searchType: SearchType) => void,
   setStatus: (status: SearchStatusEnum) => void;
   setQ: (s: string) => void;
@@ -84,7 +86,7 @@ interface ISearchStore {
   doFetchMore: () => void;
 }
 
-const useSearchStore = create<ISearchStore>((set, getState) => ({
+export const useSearchStore = create<ISearchStore>((set, getState) => ({
   initialized: false,
   loading: false,
   status: SearchStatusEnum.INITIAL,
@@ -106,6 +108,10 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
     provider: null,
   },
   result: [],
+  queryID: "",
+  setQueryID: (queryID: string) => set(() => ({
+    queryID,
+  })),
   onInit: (searchType) => set(() => ({
     ...initialData,
     searchType,
@@ -150,6 +156,12 @@ const useSearchStore = create<ISearchStore>((set, getState) => ({
           input: newParameters,
         },
       });
+
+      if (data.search.queryID) {
+        set(() => ({
+          queryID: data.search.queryID
+        }))
+      }
 
       const { searchType } = getState();
 

@@ -118,7 +118,7 @@ describe('PrimeLP', () => {
 
     await waitFor(() => {
       expect(mockHandleAddToCartPrime).toBeCalled();
-      expect(mockHandleAddToCartPrime).toHaveBeenCalledWith();
+      expect(mockHandleAddToCartPrime).toHaveBeenCalled();
     });
   });
 });

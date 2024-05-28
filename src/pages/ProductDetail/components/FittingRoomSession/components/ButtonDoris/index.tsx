@@ -1,13 +1,12 @@
 import React, { useCallback } from "react";
-import Config from "react-native-config";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { v4 } from "uuid";
 
 import IconComponent from "../../../../../../components/IconComponent/IconComponent";
 import styles from "./styles";
 import testProps from "../../../../../../utils/testProps";
 import EventProvider from "../../../../../../utils/EventProvider";
+import useDorisStore from "../../../../../../zustand/useDorisStore";
 
 interface IButtonDoris {
   enabledBtnFullDoris: boolean;
@@ -21,14 +20,12 @@ export default function ButtonDoris({
   productId,
 }: IButtonDoris) {
   const navigation = useNavigation();
+  const { setDorisUrl } = useDorisStore(['setDorisUrl'])
   const goToWebviewDoris = useCallback(async (ean?: string) => {
     if (!ean) return;
 
-    navigation.navigate("Doris", {
-      url: `${
-        Config.DORIS_URL
-      }?ean=${ean}&dwview=1&dwoa=1&dwskus=${ean}&dwappuser=${v4()}`,
-    });
+    setDorisUrl(ean)
+    navigation.navigate("Doris");
 
     if (productId) {
       EventProvider.logEvent("doris_button", {

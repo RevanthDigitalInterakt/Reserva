@@ -16,34 +16,37 @@ interface IObjectData {
   quantity: number;
   price: number;
 }
+interface ITrackAlgolInput {
+  typeEvent: TrackEventTypeEnum,
+  nameEvent: TrackEventNameEnum,
+  sku?: string[] | null,
+  subTypeEvent?: TrackEventSubTypeEnum,
+  dataObject?: IObjectData[],
+  totalPrice?: number,
+  queryID?: string | null,
+  positions?: number[],
+}
 
 interface ITrackAlgoliaStore {
-  onTrack: (
-    typeEvent: TrackEventTypeEnum,
-    nameEvent: TrackEventNameEnum,
-    sku?: string[],
-    subTypeEvent?: TrackEventSubTypeEnum,
-    dataObject?: IObjectData[],
-    totalPrice?: number,
-    queryId?: string,
-    positions?: number[],
-  ) => Promise<void>;
+  onTrack: (input: ITrackAlgolInput) => Promise<void>;
   sessionId: string;
 }
 
 export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) => ({
   sessionId: v4(),
-  onTrack: async (
+  onTrack: async ({
     typeEvent,
     nameEvent,
     sku,
     subTypeEvent,
     dataObject,
     totalPrice,
-    queryId,
+    queryID,
     positions,
-  ) => {
+  }) => {
     const user = await AsyncStorage.getItem('@Dito:anonymousID');
+
+
 
     const variables: TrackingMutationVariables = {
       input: {
@@ -59,7 +62,8 @@ export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) =
           value: totalPrice,
         }),
         ...(sku && { objectIDs: sku }),
-        ...(queryId && positions && { queryID: queryId, positions }),
+        ...(positions && { positions }),
+        ...(queryID && { queryID: queryID }),
       },
     };
 

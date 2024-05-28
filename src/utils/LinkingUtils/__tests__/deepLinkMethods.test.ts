@@ -239,4 +239,13 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
       });
     });
   });
+
+  describe('test async deeplink facavc use case', () => {
+    test('should redirect to FacaVc page', async () => {
+      const facaVoceCase = 'usereserva://criar';
+      const result = await deepLinkHelper(facaVoceCase);
+
+      expect(result).toEqual(facaVoceCase);
+    });
+  });
 });

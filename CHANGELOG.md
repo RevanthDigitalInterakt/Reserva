@@ -1,5 +1,13 @@
 ## CHANGELOG
 
+### 2.11.7
+
+- Alteração do valor do preço PRIME para R$ 25,00
+
+### 2.11.6
+
+- Alteração do valor do preço PRIME para R$ 9,99
+
 ### 2.11.5
 
 - [30604 - Doris - Estrutura Webview app](https://dev.azure.com/areco/AReCO/_workitems/edit/30604)
@@ -32,6 +40,7 @@
 ### 2.11.0
 - [30623 - Correção de loading do link whatsapp coleções](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30623)
 - [30618 - Incluir caso de uso para o link de whatsapp](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30618)
+- [30626 - Incluir webview de troca e devolução no app reserva](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30626)
 
 ---
 

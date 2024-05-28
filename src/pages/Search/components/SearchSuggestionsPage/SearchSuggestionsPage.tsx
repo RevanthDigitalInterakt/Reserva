@@ -1,22 +1,22 @@
-import React, { useEffect, useMemo, useCallback } from 'react';
-import { ActivityIndicator, Keyboard } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useMemo, useCallback } from "react";
+import { ActivityIndicator, Keyboard } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-import DeepLinkPathModule from '../../../../NativeModules/DeepLinkPathModule';
+import DeepLinkPathModule from "../../../../NativeModules/DeepLinkPathModule";
 import {
   SearchProviderEnum,
-  useCheckSearchRedirectLazyQuery, useSearchAutocompleteSuggestionsLazyQuery,
-} from '../../../../base/graphql/generated';
-import { COLORS } from '../../../../base/styles/colors';
-import { Box } from '../../../../components/Box/Box';
-import { Button } from '../../../../components/Button';
-import { Divider } from '../../../../components/Divider/Divider';
-import { Typography } from '../../../../components/Typography/Typography';
-import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
-import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
-import useSearchStore from '../../../../zustand/useSearchStore';
-import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
-
+  useCheckSearchRedirectLazyQuery,
+  useSearchAutocompleteSuggestionsLazyQuery,
+} from "../../../../base/graphql/generated";
+import { COLORS } from "../../../../base/styles/colors";
+import { Box } from "../../../../components/Box/Box";
+import { Button } from "../../../../components/Button";
+import { Divider } from "../../../../components/Divider/Divider";
+import { Typography } from "../../../../components/Typography/Typography";
+import { usePrimeInfo } from "../../../../hooks/usePrimeInfo";
+import { useApolloFetchPolicyStore } from "../../../../zustand/useApolloFetchPolicyStore";
+import useSearchStore from "../../../../zustand/useSearchStore";
+import { useRemoteConfig } from "../../../../hooks/useRemoteConfig";
 
 const DEFAULT_DEBAUNCE = 400;
 
@@ -24,43 +24,50 @@ function SearchSuggestionsPage() {
   const navigation = useNavigation();
   const { primeActive, primeLPSearchTerms } = usePrimeInfo();
   const { getBoolean } = useRemoteConfig();
-  const { onSearch, parameters } = useSearchStore(['onSearch', 'parameters']);
-  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
+  const { onSearch, parameters } = useSearchStore(["onSearch", "parameters"]);
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore([
+    "getFetchPolicyPerKey",
+  ]);
 
-  const showOnSmartint = useMemo(() => getBoolean('show_on_smart_hint'), [getBoolean]);
+  const showOnSmartint = useMemo(
+    () => getBoolean("show_on_smart_hint"),
+    [getBoolean]
+  );
 
-  const [getSuggestions, { data, loading }] = useSearchAutocompleteSuggestionsLazyQuery({
-    context: { clientName: 'gateway' },
-    notifyOnNetworkStatusChange: true,
-    variables: {
-      q: parameters.q,
-      provider: {
-        value: showOnSmartint
-          ? SearchProviderEnum.Algolia
-          : SearchProviderEnum.Vtex,
+  const [getSuggestions, { data, loading }] =
+    useSearchAutocompleteSuggestionsLazyQuery({
+      context: { clientName: "gateway" },
+      notifyOnNetworkStatusChange: true,
+      variables: {
+        q: parameters.q,
+        analitycsTags: ["app"],
+        provider: {
+          value: showOnSmartint
+            ? SearchProviderEnum.Algolia
+            : SearchProviderEnum.Vtex,
+        },
       },
-    },
-    fetchPolicy: getFetchPolicyPerKey('searchAutocompleteSuggestions'),
-  });
+      fetchPolicy: getFetchPolicyPerKey("searchAutocompleteSuggestions"),
+    });
 
   const [getCheckSearchRedirect] = useCheckSearchRedirectLazyQuery({
-    context: { clientName: 'gateway' },
+    context: { clientName: "gateway" },
   });
 
   const handleCheckSearchTerm = useCallback(async () => {
     if (!parameters.q) return;
 
-    const term = (parameters.q || '').toLowerCase().trim();
+    const term = (parameters.q || "").toLowerCase().trim();
 
     if (primeActive && primeLPSearchTerms.includes(term)) {
       Keyboard.dismiss();
-      navigation.navigate('PrimeLP');
+      navigation.navigate("PrimeLP");
       return;
     }
 
     const { data: dataSearch } = await getCheckSearchRedirect({
       variables: { q: parameters.q },
-      fetchPolicy: getFetchPolicyPerKey('checkSearchRedirect'),
+      fetchPolicy: getFetchPolicyPerKey("checkSearchRedirect"),
     });
 
     if (dataSearch?.checkSearchRedirect) {
@@ -72,7 +79,9 @@ function SearchSuggestionsPage() {
       return;
     }
 
-    setTimeout(() => { getSuggestions(); }, DEFAULT_DEBAUNCE);
+    setTimeout(() => {
+      getSuggestions();
+    }, DEFAULT_DEBAUNCE);
   }, [
     parameters.q,
     primeActive,
@@ -96,6 +105,10 @@ function SearchSuggestionsPage() {
     );
   }
 
+  if (data) {
+    console.log("DATA -> ", data);
+  }
+
   return data?.searchAutocompleteSuggestions?.length ? (
     <Box bg="white" marginX="nano" justifyContent="center">
       {data.searchAutocompleteSuggestions.map((suggestion) => (
@@ -112,7 +125,11 @@ function SearchSuggestionsPage() {
               minHeight={40}
               justifyContent="center"
             >
-              <Typography fontFamily="nunitoRegular" fontSize={12} color="searchBarTextColor">
+              <Typography
+                fontFamily="nunitoRegular"
+                fontSize={12}
+                color="searchBarTextColor"
+              >
                 {suggestion}
               </Typography>
             </Box>

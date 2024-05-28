@@ -1,8 +1,8 @@
 import { Linking, Platform } from 'react-native';
 import { getPathFromState, type LinkingOptions } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
-import { env } from './env';
 import messaging from '@react-native-firebase/messaging';
+import { env } from './env';
 
 import { deepLinkHelper } from '../utils/LinkingUtils/linkingUtils';
 import { defaultInitialUrl } from '../utils/LinkingUtils/static/deepLinkMethods';
@@ -43,6 +43,9 @@ const routesConfig = {
         },
         PrimeLP: {
           path: 'prime',
+        },
+        FacaVc: {
+          path: 'facavc/criar',
         },
       },
     },
@@ -140,7 +143,7 @@ export const linkingConfig: LinkingOptions = {
       // Clean up the event listeners
       linkingSubscription.remove();
       onDeepLinkCanceller();
-      unsubscribeFCM()
+      unsubscribeFCM();
     };
   },
 };

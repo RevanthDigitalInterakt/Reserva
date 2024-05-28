@@ -3,6 +3,7 @@ import EventProvider from '../../utils/EventProvider';
 import { urlRon } from '../../utils/LinkingUtils/static/deepLinkMethods';
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { trackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
+import { useSearchStore } from '../../zustand/useSearchStore';
 import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../base/graphql/generated';
 import { trackOrderStore } from '../../zustand/useTrackOrderStore/useTrackOrderStore';
 
@@ -226,13 +227,13 @@ export const prepareEventDataPurchaseCompleted = (
       paymentData: condensedPaymentDataInfo,
       marketingData: condensedResMarketingData,
       campaignSource:
-          condensedResMarketingData[0]?.utmCampaign === null
-            ? ''
-            : condensedResMarketingData[0]?.utmCampaign,
+        condensedResMarketingData[0]?.utmCampaign === null
+          ? ''
+          : condensedResMarketingData[0]?.utmCampaign,
       campaignMedium:
-          condensedResMarketingData[0]?.utmMedium === null
-            ? ''
-            : condensedResMarketingData[0]?.utmMedium,
+        condensedResMarketingData[0]?.utmMedium === null
+          ? ''
+          : condensedResMarketingData[0]?.utmMedium,
 
     };
   } catch (e) {
@@ -267,18 +268,24 @@ export const triggerEventAfterPurchaseCompleted = async (
     });
   });
 
+  const queryID = useSearchStore.getState().queryID;
+
   trackClickAlgoliaStore.getState().onTrack(
-    TrackEventTypeEnum.Conversion,
-    TrackEventNameEnum.PurchasedItems,
-    [dataPurchaseCompleted.ids],
-    TrackEventSubTypeEnum.Purchase,
-    dataPurchaseCompleted.orderFormItems.map((item) => ({
-      discount: item?.discountPercent || 0,
-      quantity: item?.quantity || 0,
-      price: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,
-    })),
-    dataPurchaseCompleted?.orderValue,
-  );
+    {
+      typeEvent: TrackEventTypeEnum.Conversion,
+      nameEvent: queryID
+        ? TrackEventNameEnum.PurchasedItemsSearch
+        : TrackEventNameEnum.PurchasedItems,
+      sku: [dataPurchaseCompleted.ean],
+      subTypeEvent: TrackEventSubTypeEnum.Purchase,
+      dataObject: dataPurchaseCompleted.orderFormItems.map((item) => ({
+        discount: item?.discountPercent || 0,
+        quantity: item?.quantity || 0,
+        price: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,
+      })),
+      totalPrice: dataPurchaseCompleted?.orderValue,
+      queryID,
+    });
 
   trackOrderStore.getState().onTrack(dataPurchaseCompleted, userMail);
 

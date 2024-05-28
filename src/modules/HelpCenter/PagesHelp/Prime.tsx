@@ -18,7 +18,7 @@ const data = [
   },
   {
     title: 'E quanto custa para ter acesso a isso?',
-    content: `Para ter acesso a tudo isso, o valor é 12 x de R$25,00. E detalhe! O valor da mensalidade volta INTEIRO em cashback, todo mês, pra poder aproveitar e garantir novidades sempre.
+    content: `Para ter acesso a tudo isso, o valor é 12x de R$25,00. E detalhe! O valor da mensalidade volta INTEIRO em cashback, todo mês, pra poder aproveitar e garantir novidades sempre.
   `,
     id: 2,
   },
