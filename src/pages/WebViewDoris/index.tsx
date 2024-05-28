@@ -1,13 +1,12 @@
 import React, { useRef, useState } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import WebView, { WebViewMessageEvent } from "react-native-webview";
 import { Platform, View } from "react-native";
 import deviceInfo from "react-native-device-info";
 import { useBagStore } from "../../zustand/useBagStore/useBagStore";
 import { TopBarBackButton } from "../../modules/Menu/components/TopBarBackButton";
-import { mergeItemsPackage } from "../../utils/mergeItemsPackage";
 import testProps from "../../utils/testProps";
-import type { OrderformAddMultipleItemInput } from "../../base/graphql/generated";
+import useDorisStore from "../../zustand/useDorisStore";
 
 interface IItemRawMessage {
   identifier: string,
@@ -16,12 +15,10 @@ interface IItemRawMessage {
 
 export default function WebViewDoris() {
   const navigation = useNavigation();
-  const { actions, packageItems, orderFormId } = useBagStore(["actions", "packageItems", "orderFormId"]);
+  const { actions, orderFormId } = useBagStore(["actions",   "orderFormId"]);
+  const { dorisUrl, setShowAnimationBagDoris } = useDorisStore(['dorisUrl', 'setShowAnimationBagDoris'])
   const [loading, setLoading] = useState(false);
-  const route = useRoute();
   const webviewRef = useRef(null);
-
-  const mergeItems = mergeItemsPackage(packageItems);
 
   const injectedJavaScript = `
   window.metadata = { appVersion: "${deviceInfo.getVersion()}", platformType: "${
@@ -42,11 +39,16 @@ export default function WebViewDoris() {
           quantity: 1,
         }));
 
+        navigation.goBack();
+
         await actions.ADD_MULTIPLE_ITEMS({
           orderFormId,
           orderItems,
         });
-        return null;
+
+        setShowAnimationBagDoris(true)
+
+        return null; 
       }
 
       case "error": {
@@ -70,6 +72,7 @@ export default function WebViewDoris() {
       </View>
       <WebView
         {...testProps("web_view_doris")}
+        incognito={true}
         ref={webviewRef}
         cacheEnabled={false}
         cacheMode="LOAD_NO_CACHE"
@@ -85,7 +88,7 @@ export default function WebViewDoris() {
         }}
         injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
         originWhitelist={["*"]}
-        source={{ uri: route?.params?.url }}
+        source={{ uri: dorisUrl }}
         javaScriptCanOpenWindowsAutomatically
         onMessage={onMessage}
         geolocationEnabled
