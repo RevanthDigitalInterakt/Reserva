@@ -71,7 +71,7 @@ steps:
     fastlane ios beta api_key_path:$(apiKeyFileIOS.secureFilePath)
   displayName: 'Deploy to TestFlight'
   workingDirectory: ios
-  timeoutInMinutes: 0
+  timeoutInMinutes: 120
   
 # Build Android
 - script: |
@@ -79,7 +79,7 @@ steps:
     fastlane android beta api_key_path:$(apiKeyFileAndroid.secureFilePath)
   displayName: 'Deploy to Play Store Beta'
   workingDirectory: android
-  timeoutInMinutes: 0
+  timeoutInMinutes: 120
 
 - script: |
     yarn pipeline:semantic-release-post:prod
