@@ -1,3 +1,5 @@
+// @ts-nocheck
+/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -430,6 +432,7 @@ export type HomeCountdownThemeOutput = {
 export type HomeMediaOutput = {
   __typename?: 'HomeMediaOutput';
   creativeName?: Maybe<Scalars['String']['output']>;
+  deepLinkNewsletter?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
   id: Scalars['ID']['output'];
   image: HomeCarouselItemImageOutput;
@@ -2687,7 +2690,7 @@ export type HomeCountdownQuery = { __typename?: 'Query', homeCountdown?: { __typ
 export type HomeMediasQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, orderBy: string, reference: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
+export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, deepLinkNewsletter?: string | null, orderBy: string, reference: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
 
 export type InfoCashbackPdpCollectionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4845,6 +4848,7 @@ export const HomeMediasDocument = gql`
     mkt
     linkMktIn
     reservaMini
+    deepLinkNewsletter
     orderBy
     reference
     facets {

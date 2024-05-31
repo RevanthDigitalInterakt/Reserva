@@ -248,4 +248,13 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
       expect(result).toEqual(facaVoceCase);
     });
   });
+
+  describe('test deep link newsletter use case', () => {
+    test('should return Newsletter page', async () => {
+      const newsletter = 'usereserva://newsletter';
+      const result = await deepLinkHelper(newsletter);
+
+      expect(result).toEqual(newsletter);
+    });
+  });
 });

@@ -39,7 +39,7 @@ type TSearched = {
   term: string;
   itens_encontrados: number;
   dispositivo: string;
-  client_provider:string
+  client_provider: string;
 };
 
 type TSignedUp = {
@@ -93,6 +93,14 @@ export type TStatusCart = {
   origem: string;
 };
 
+export type TNewsletter = {
+  origem: string;
+  id_campanha: string;
+  nome: string;
+  email: string;
+  telefone: string;
+};
+
 export type TEventsDitoValues = {
   id: string | null;
   action: string;
@@ -108,7 +116,8 @@ export type TEventsDitoValues = {
   TProductOrderPlaced |
   TAddToWishlist |
   TAccessBag |
-  TStatusCart;
+  TStatusCart |
+  TNewsletter;
 };
 
 export namespace EventsOptions {
@@ -124,6 +133,7 @@ export namespace EventsOptions {
   export type AddToWishlistEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
   export type AccessBagEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
   export type StatusCartEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type NewsletterEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
 }
 // Os nomes dos eventos DEVEM ser enviados para a Dito em letras minúsculas
 export type TEventOptionsDitoFn =
@@ -174,4 +184,8 @@ export type TEventOptionsDitoFn =
     | {
       type: 'status-carrinho';
       payload: EventsOptions.StatusCartEvent;
+    }
+    | {
+      type: 'newsletter';
+      payload: EventsOptions.NewsletterEvent;
     };

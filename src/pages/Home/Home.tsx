@@ -237,6 +237,7 @@ function Home() {
                       orderBy={item.orderBy}
                       reference={item.reference}
                       reservaMini={item.reservaMini}
+                      deepLinkNewsletter={item?.deepLinkNewsletter}
                     />
                   </>
                 );
@@ -250,6 +251,7 @@ function Home() {
                       orderBy={item.orderBy}
                       reference={item.reference}
                       reservaMini={item.reservaMini}
+                      deepLinkNewsletter={item?.deepLinkNewsletter}
                     />
                     <NewHomeCountDown />
                   </>
@@ -263,6 +265,7 @@ function Home() {
                   orderBy={item.orderBy}
                   reference={item.reference}
                   reservaMini={item.reservaMini}
+                  deepLinkNewsletter={item?.deepLinkNewsletter}
                 />
               );
             }}
