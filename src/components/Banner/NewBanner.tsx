@@ -26,12 +26,11 @@ function NewBanner({
   const navigation = useNavigation();
 
   const onPress = useCallback(() => {
-    if (deepLinkNewsletter) {
-      if (deepLinkNewsletter.includes('/newsletter')) {
-        Linking.openURL(deepLinkNewsletter);
-        return;
-      }
+    if (deepLinkNewsletter?.includes('/newsletter')) {
+      Linking.openURL(deepLinkNewsletter);
+      return;
     }
+
     navigation.navigate('ProductCatalog', {
       facets,
       referenceId: reference,
