@@ -20,7 +20,8 @@ export interface IAsyncStorageKeys {
     code: string;
     timestamp: string;
     blocked: boolean;
-  }
+  },
+  '@Newsletter:IdCampaign': string;
 }
 
 type TStorageKey = keyof IAsyncStorageKeys;

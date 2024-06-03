@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Linking, TouchableOpacity } from 'react-native';
 
 import testProps from '../../utils/testProps';
 import { Box } from '../Box/Box';
@@ -12,6 +12,7 @@ interface INewBanner {
   facets: { key: string; value: string; }[];
   reservaMini: boolean;
   orderBy: string;
+  deepLinkNewsletter?: string | null;
 }
 
 function NewBanner({
@@ -20,17 +21,23 @@ function NewBanner({
   reference,
   reservaMini,
   orderBy,
+  deepLinkNewsletter,
 }: INewBanner) {
   const navigation = useNavigation();
 
   const onPress = useCallback(() => {
+    if (deepLinkNewsletter?.includes('/newsletter')) {
+      Linking.openURL(deepLinkNewsletter);
+      return;
+    }
+
     navigation.navigate('ProductCatalog', {
       facets,
       referenceId: reference,
       reservaMini,
       orderBy,
     });
-  }, [navigation, facets, reference, reservaMini, orderBy]);
+  }, [navigation, facets, reference, reservaMini, orderBy, deepLinkNewsletter]);
 
   if (!image) {
     return null;

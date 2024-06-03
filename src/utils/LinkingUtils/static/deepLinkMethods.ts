@@ -2,7 +2,7 @@ import { URL } from 'react-native-url-polyfill';
 import { Platform } from 'react-native';
 import { platformType } from '../../platformType';
 import { removeProtocol } from '../../removeProtocol';
-import { getAsyncStorageItem } from '../../../hooks/useAsyncStorageProvider';
+import { getAsyncStorageItem, setAsyncStorageItem } from '../../../hooks/useAsyncStorageProvider';
 import { getApolloClient } from '../../getApolloClient';
 import {
   OrderFormDocument,
@@ -71,6 +71,29 @@ export const urlLandingPagePrime = (initialUrl: string): ICustomMethodReturnPara
   } catch (err) {
     return defaultCustomMethodReturn;
   }
+};
+
+const newsLetterUseCase = (
+  initialUrl: string,
+): ICustomMethodReturnParams => {
+  if (initialUrl.includes('/newsletter')) {
+    try {
+      const queryString = initialUrl.split('?')[1];
+
+      if (queryString) {
+        setAsyncStorageItem('@Newsletter:IdCampaign', queryString);
+      }
+
+      return {
+        match: true,
+        strUrl: 'usereserva://newsletter',
+      };
+    } catch (err) {
+      return defaultCustomMethodReturn;
+    }
+  }
+
+  return defaultCustomMethodReturn;
 };
 
 const urlSiteCase = (initialUrl: string): ICustomMethodReturnParams => {
@@ -414,6 +437,7 @@ const webViewFacaVcUseCase = (initialUrl: string): ICustomMethodReturnParams => 
 };
 
 const registerMethods = [
+  newsLetterUseCase,
   urlSiteCase,
   webViewFacaVcUseCase,
   urlGoogleGclidCase,
