@@ -186,7 +186,7 @@ const clusterCollectionUseCase = async (initialUrl: string): Promise<ICustomMeth
     .replace(':', '')
     .split(',')[0];
 
-  if (initialUrl.includes('colecao-')) {
+  if (initialUrl.includes('/colecao-')) {
     return {
       match: true,
       strUrl: `usereserva://catalog/collection:${clusterId}`,
