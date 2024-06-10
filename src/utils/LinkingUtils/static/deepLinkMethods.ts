@@ -19,6 +19,9 @@ import {
 } from '../../../base/graphql/generated';
 import { mergeItemsPackage } from '../../mergeItemsPackage';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+
+const { getBoolean } = useRemoteConfig.getState();
 
 interface ICustomMethodReturnParams {
   match: boolean;
@@ -302,14 +305,14 @@ const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
 
       try {
         const { data } = await getApolloClient().mutate<
-          OrderFormAddMultipleItemMutation,
-          OrderFormAddMultipleItemMutationVariables>({
-            mutation: OrderFormAddMultipleItemDocument,
-            context: { clientName: 'gateway' },
-            variables: {
-              input,
-            },
-          });
+        OrderFormAddMultipleItemMutation,
+        OrderFormAddMultipleItemMutationVariables>({
+          mutation: OrderFormAddMultipleItemDocument,
+          context: { clientName: 'gateway' },
+          variables: {
+            input,
+          },
+        });
 
         const { orderFormAddMultipleItem: orderForm } = data || {};
 
@@ -327,34 +330,36 @@ const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
   return defaultCustomMethodReturn;
 };
 
-const ditoRedirectRestoreCartUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
+const ditoRedirectCartUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
   if (initialUrl.includes('dito.vc')) {
-
-    const code = new URL(initialUrl).pathname.substring(1)
+    const code = new URL(initialUrl).pathname.substring(1);
 
     if (code) {
-      const { data } = await getApolloClient().query<DitoRedirectQuery, DitoRedirectQueryVariables>({
+      const {
+        data: dataDitoRedirect,
+      } = await getApolloClient().query<DitoRedirectQuery, DitoRedirectQueryVariables>({
         query: DitoRedirectDocument,
         fetchPolicy: 'no-cache',
         variables: { code },
         context: { clientName: 'gateway' },
       });
 
-      const { ditoRedirect } = data
+      const { ditoRedirect } = dataDitoRedirect;
 
-      if (ditoRedirect?.type == DitoRedirectTypeEnum.RestoreCart) {
-
+      if (ditoRedirect?.type === DitoRedirectTypeEnum.RestoreCart) {
         const orderFormId = await getAsyncStorageItem('orderFormId');
 
         if (orderFormId) {
-          const { data } = await getApolloClient().query<OrderFormQuery, OrderFormQueryVariables>({
+          const {
+            data: dataOrderForm,
+          } = await getApolloClient().query<OrderFormQuery, OrderFormQueryVariables>({
             query: OrderFormDocument,
             fetchPolicy: 'no-cache',
             variables: { orderFormId },
             context: { clientName: 'gateway' },
           });
 
-          const { orderForm: { packageItems } } = data;
+          const { orderForm: { packageItems } } = dataOrderForm;
 
           const mergedItems = mergeItemsPackage(packageItems);
 
@@ -426,7 +431,9 @@ const webviewDeepLinkUseCase = (initialUrl: string): ICustomMethodReturnParams =
 };
 
 const webViewFacaVcUseCase = (initialUrl: string): ICustomMethodReturnParams => {
-  if (initialUrl.includes('facavc/criar')) {
+  const showWebviewFacavc = getBoolean('show_webview_facavc');
+
+  if (initialUrl.includes('facavc/criar') && showWebviewFacavc) {
     return {
       match: true,
       strUrl: 'usereserva://facavc/criar',
@@ -449,7 +456,7 @@ const registerMethods = [
   accountWishListUseCase,
   accountUseCase,
   cartAddItemUseCase,
-  ditoRedirectRestoreCartUseCase,
+  ditoRedirectCartUseCase,
   cartUseCase,
   restoreCartUseCase,
   catalogCollectionUseCase,

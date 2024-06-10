@@ -7,6 +7,7 @@
 ### 2.11.7
 
 - Alteração do valor do preço PRIME para R$ 25,00
+- [30601 - Faça você app - exibir experiência do Faça Vc](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30601)
 
 ### 2.11.6
 

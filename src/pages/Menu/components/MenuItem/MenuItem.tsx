@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { TouchableOpacity, View } from 'react-native';
-
 import type { MenuCategoryItemOutput, MenuCategoryOutput } from '../../../../base/graphql/generated';
 import { Box } from '../../../../components/Box/Box';
+import { BadgeRound } from '../../../../components/Badge/Badge';
 import { Divider } from '../../../../components/Divider/Divider';
 import { IconLegacy } from '../../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../../components/Typography/Typography';
 import { slugify } from '../../../../utils/slugify';
 import testProps from '../../../../utils/testProps';
 import MenuSubItem from '../MenuSubItem';
+import { TypographyContainer } from '../../../../components/TypographyContainer/TypographyContainer';
 
 interface IMenuItem {
   data: MenuCategoryOutput;
@@ -17,6 +18,9 @@ interface IMenuItem {
 }
 
 function MenuItem({ data, opened, onPress }: IMenuItem) {
+  const nameItem = data.name.toUpperCase();
+  const itemsAddBadge = ['PERSONALIZAÇÕES'];
+
   return (
     <Box>
       <TouchableOpacity
@@ -29,13 +33,16 @@ function MenuItem({ data, opened, onPress }: IMenuItem) {
           flexDirection="row"
           marginX="xxxs"
         >
-          <Typography
-            color={data.highlight ? 'vermelhoAlerta' : 'preto'}
-            fontSize={13}
-            fontFamily="nunitoBold"
-          >
-            {data.name.toUpperCase()}
-          </Typography>
+          <TypographyContainer>
+            <Typography
+              color={data.highlight ? 'vermelhoAlerta' : 'preto'}
+              fontSize={13}
+              fontFamily="nunitoBold"
+            >
+              {nameItem}
+            </Typography>
+            {itemsAddBadge.includes(nameItem) && <BadgeRound text="Novidade" />}
+          </TypographyContainer>
 
           <Box>
             <IconLegacy

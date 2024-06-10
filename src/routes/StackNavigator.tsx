@@ -36,7 +36,7 @@ import {
 import type { Flow } from './types/flow.type';
 import ZipCodeDelivery from '../pages/ZipCodeDelivery';
 import WebViewDoris from '../pages/WebViewDoris';
-import FacaVc from '../pages/FacaVc';
+import WebViewFacaVoce from '../pages/WebViewFacaVoce';
 import Newsletter from '../pages/Newsletter/Newsletter';
 
 export type RootStackParamList = {
@@ -190,6 +190,7 @@ export function MainStackScreen() {
       <MainStack.Screen name="ZipCodeDelivery" component={ZipCodeDelivery} />
       <MainStack.Screen name="Checkout" component={WebviewCheckout} />
       <MainStack.Screen name="Doris" component={WebViewDoris} />
+      <MainStack.Screen name="FacaVc" component={WebViewFacaVoce} />
       <MainStack.Screen name="Cashback" component={Cashback} />
       <MainStack.Screen name="Credits" component={Credits} />
       <MainStack.Screen name="EditProfile" component={EditProfile} />
@@ -198,7 +199,6 @@ export function MainStackScreen() {
       <MainStack.Screen name="CallCenter" component={CallCenter} />
       <MainStack.Screen name="WebviewZendesk" component={WebviewZendesk} />
       <MainStack.Screen name="PrimeLP" component={PrimeLP} />
-      <MainStack.Screen name="FacaVc" component={FacaVc} />
       <MainStack.Screen name="PageOneP5P" component={PageOneP5P} />
       <MainStack.Screen name="Newsletter" component={Newsletter} />
     </MainStack.Navigator>
