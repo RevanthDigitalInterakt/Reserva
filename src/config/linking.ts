@@ -1,7 +1,7 @@
 import { Linking, Platform } from 'react-native';
 import { getPathFromState, type LinkingOptions } from '@react-navigation/native';
-import appsFlyer from 'react-native-appsflyer';
 import messaging from '@react-native-firebase/messaging';
+import appsFlyer from 'react-native-appsflyer';
 import { env } from './env';
 
 import { deepLinkHelper } from '../utils/LinkingUtils/linkingUtils';
@@ -46,6 +46,9 @@ const routesConfig = {
         },
         FacaVc: {
           path: 'facavc/criar',
+        },
+        Newsletter: {
+          path: 'newsletter',
         },
       },
     },

@@ -122,6 +122,7 @@ function NewListVerticalProducts({
           onClickFavorite={() => {
             onToggleFavorite({
               productId: item.skuId,
+              ean: item.ean,
               skuId: item.skuId,
               brand: item.brand,
               productName: item.productName,

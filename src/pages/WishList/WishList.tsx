@@ -128,12 +128,13 @@ function WishList() {
 
   const handleFavorite = useCallback(async (data) => {
     const {
-      product, installmentPrice, skuName, skuId, colorName, size,
+      product, installmentPrice, skuName, skuId, colorName, size, ean
     } = data;
 
     setLoadingSkuId(skuId);
 
     await onToggleFavorite({
+      ean,
       skuId,
       skuName,
       productId: skuId,

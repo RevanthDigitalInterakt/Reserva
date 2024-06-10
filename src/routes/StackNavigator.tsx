@@ -37,6 +37,7 @@ import type { Flow } from './types/flow.type';
 import ZipCodeDelivery from '../pages/ZipCodeDelivery';
 import WebViewDoris from '../pages/WebViewDoris';
 import WebViewFacaVoce from '../pages/WebViewFacaVoce';
+import Newsletter from '../pages/Newsletter/Newsletter';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -54,6 +55,7 @@ export type RootStackParamList = {
   PrimeLP: undefined;
   FacaVc: undefined;
   PageOneP5P: { comeFrom?: 'Menu' | 'Home' };
+  Newsletter: {};
   HelpCenter: { comeFrom?: 'Menu' | 'Other' };
   Checkout: { url: string };
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };
@@ -198,6 +200,7 @@ export function MainStackScreen() {
       <MainStack.Screen name="WebviewZendesk" component={WebviewZendesk} />
       <MainStack.Screen name="PrimeLP" component={PrimeLP} />
       <MainStack.Screen name="PageOneP5P" component={PageOneP5P} />
+      <MainStack.Screen name="Newsletter" component={Newsletter} />
     </MainStack.Navigator>
   );
 }

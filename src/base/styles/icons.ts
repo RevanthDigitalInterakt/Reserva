@@ -102,6 +102,7 @@ export const commons = {
   addition: require('../../../assets/common/addition.png'),
   subtraction: require('../../../assets/common/subtraction.png'),
   abandonedCartBag: require('../../../assets/common/abandonedCartBag.png'),
+  newsletter: require('../../../assets/common/newsletterHeader.png'),
 };
 
 /* mapping of svgs used as icons */
@@ -114,6 +115,7 @@ export const svgs = {
   trash: require('../svgs/Trash').default,
   hanger: require('../svgs/HangerIcon').default,
   sizeGuideIcon: require('../svgs/SizeGuideIcon').default,
+  checkedRounded: require('../svgs/CheckedRounded').default,
 };
 
 type TIconsKeys = keyof typeof commons;

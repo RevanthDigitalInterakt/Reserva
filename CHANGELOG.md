@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.11.8
+
+- [30754 - Captar lead via aplicativo](https://dev.azure.com/areco/AReCO/_workitems/edit/30754)
+
 ### 2.11.7
 
 - Alteração do valor do preço PRIME para R$ 25,00

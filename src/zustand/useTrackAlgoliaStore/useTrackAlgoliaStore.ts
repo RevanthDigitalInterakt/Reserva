@@ -46,12 +46,11 @@ export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) =
   }) => {
     const user = await AsyncStorage.getItem('@Dito:anonymousID');
 
-
-
     const variables: TrackingMutationVariables = {
       input: {
         authenticatedUserToken: user || '',
-        userToken: getState().sessionId,
+        userToken: 'apptest',
+        // userToken: getState().sessionId,
         index: TrackEventIndexEnum.Default,
         eventType: typeEvent,
         eventName: nameEvent,
@@ -67,13 +66,18 @@ export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) =
       },
     };
 
+    console.log(variables)
+
     try {
-      await getApolloClient().mutate<TrackingMutation, TrackingMutationVariables>({
+      const mutation = await getApolloClient().mutate<TrackingMutation, TrackingMutationVariables>({
         mutation: TrackingDocument,
         context: { clientName: 'gateway' },
         variables,
       });
+
+      console.log('mutation -> ', mutation)
     } catch (error) {
+      console.log(error)
       ExceptionProvider.captureException(error);
     }
   },
