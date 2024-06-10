@@ -177,6 +177,25 @@ const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
+const clusterCollectionUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
+  const splitPath = initialUrl.split('//')[1];
+  const res = await fetch(`https://www.usereserva.com/${splitPath}`);
+  const clusterId = (await res?.text())?.split('productClusterIds')[0]
+    ?.split('queryField')[1]
+    ?.replace(/\\\"/g, '')
+    .replace(':', '')
+    .split(',')[0];
+
+  if (initialUrl.includes('colecao-')) {
+    return {
+      match: true,
+      strUrl: `usereserva://catalog/collection:${clusterId}`,
+    };
+  }
+
+  return defaultCustomMethodReturn;
+};
+
 const accountWishListUseCase = (
   initialUrl: string,
 ): ICustomMethodReturnParams => {
@@ -302,14 +321,14 @@ const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
 
       try {
         const { data } = await getApolloClient().mutate<
-          OrderFormAddMultipleItemMutation,
-          OrderFormAddMultipleItemMutationVariables>({
-            mutation: OrderFormAddMultipleItemDocument,
-            context: { clientName: 'gateway' },
-            variables: {
-              input,
-            },
-          });
+        OrderFormAddMultipleItemMutation,
+        OrderFormAddMultipleItemMutationVariables>({
+          mutation: OrderFormAddMultipleItemDocument,
+          context: { clientName: 'gateway' },
+          variables: {
+            input,
+          },
+        });
 
         const { orderFormAddMultipleItem: orderForm } = data || {};
 
@@ -329,8 +348,7 @@ const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
 
 const ditoRedirectRestoreCartUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
   if (initialUrl.includes('dito.vc')) {
-
-    const code = new URL(initialUrl).pathname.substring(1)
+    const code = new URL(initialUrl).pathname.substring(1);
 
     if (code) {
       const { data } = await getApolloClient().query<DitoRedirectQuery, DitoRedirectQueryVariables>({
@@ -340,10 +358,9 @@ const ditoRedirectRestoreCartUseCase = async (initialUrl: string): Promise<ICust
         context: { clientName: 'gateway' },
       });
 
-      const { ditoRedirect } = data
+      const { ditoRedirect } = data;
 
       if (ditoRedirect?.type == DitoRedirectTypeEnum.RestoreCart) {
-
         const orderFormId = await getAsyncStorageItem('orderFormId');
 
         if (orderFormId) {
@@ -384,6 +401,10 @@ const abandonedBagUseCase = (initialUrl: string): ICustomMethodReturnParams => {
 
 const webCatalogCollectionUseCase = async (initialUrl: string) => {
   if (!initialUrl) {
+    return defaultCustomMethodReturn;
+  }
+
+  if (initialUrl.includes('colecao-')) {
     return defaultCustomMethodReturn;
   }
   const searchRegExp = /\//g;
@@ -456,6 +477,7 @@ const registerMethods = [
   abandonedBagUseCase,
   webCatalogCollectionUseCase,
   webviewDeepLinkUseCase,
+  clusterCollectionUseCase,
 ];
 
 export { registerMethods };
