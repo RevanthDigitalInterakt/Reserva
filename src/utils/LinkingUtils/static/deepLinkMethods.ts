@@ -180,6 +180,25 @@ const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
+const clusterCollectionUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
+  const splitPath = initialUrl.split('//')[1];
+  const res = await fetch(`https://www.usereserva.com/${splitPath}`);
+  const clusterId = (await res?.text())?.split('productClusterIds')[0]
+    ?.split('queryField')[1]
+    ?.replace(/\\\"/g, '')
+    .replace(':', '')
+    .split(',')[0];
+
+  if (initialUrl.includes('/colecao-')) {
+    return {
+      match: true,
+      strUrl: `usereserva://catalog/collection:${clusterId}`,
+    };
+  }
+
+  return defaultCustomMethodReturn;
+};
+
 const accountWishListUseCase = (
   initialUrl: string,
 ): ICustomMethodReturnParams => {
@@ -391,6 +410,10 @@ const webCatalogCollectionUseCase = async (initialUrl: string) => {
   if (!initialUrl) {
     return defaultCustomMethodReturn;
   }
+
+  if (initialUrl.includes('colecao-')) {
+    return defaultCustomMethodReturn;
+  }
   const searchRegExp = /\//g;
   const replacePathName = '|';
 
@@ -463,6 +486,7 @@ const registerMethods = [
   abandonedBagUseCase,
   webCatalogCollectionUseCase,
   webviewDeepLinkUseCase,
+  clusterCollectionUseCase,
 ];
 
 export { registerMethods };
