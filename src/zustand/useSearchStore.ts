@@ -58,7 +58,7 @@ const initialData = {
     orderBy: SearchOrderByEnum.OrderByScoreDesc,
     perPage: RESULT_PER_PAGE,
     priceRange: null,
-    analitycsTags: ["app"],
+    analitycsTags: ['app'],
   },
 };
 
@@ -107,10 +107,10 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
     perPage: RESULT_PER_PAGE,
     priceRange: null,
     provider: null,
-    analitycsTags: ["app"],
+    analitycsTags: ['app'],
   },
   result: [],
-  queryID: "",
+  queryID: '',
   setQueryID: (queryID: string) => set(() => ({
     queryID,
   })),
@@ -159,14 +159,10 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
         },
       });
 
-      if (data.search.items.length === 0) {
-        ExceptionProvider.captureException(`Empty collection: ${newParameters.facets[0]?.value}`);
-      }
-
       if (data.search.queryID) {
         set(() => ({
-          queryID: data.search.queryID
-        }))
+          queryID: data.search.queryID,
+        }));
       }
 
       const { searchType } = getState();

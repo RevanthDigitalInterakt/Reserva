@@ -1,4 +1,4 @@
-import { DdLogs, DdRum, DdSdkReactNative } from '@datadog/mobile-react-native';
+import { DdRum, DdSdkReactNative } from '@datadog/mobile-react-native';
 import { navigationRef } from '../../utils/navigationRef';
 
 export interface IUser {
@@ -20,7 +20,7 @@ export class ExceptionProvider {
   ) {
     if (!params) {
       // TODO datadog
-      DdLogs.error(error);
+
     }
   }
 
