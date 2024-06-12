@@ -79,11 +79,22 @@ function Menu() {
     navigation.navigate(routeName, { comeFrom: 'Menu' });
   }, [navigation]);
 
+  const onSelectFixedMenuItem = (fixedMenuName: string) => {
+    EventProvider.logEvent('item-fixed-menu', {
+      itemName: fixedMenuName,
+    });
+  };
+
   const onSelectMenuItem = useCallback((
     index: number,
     selectedItem: Omit<MenuCategoryItemOutput, '__typename'>,
   ) => {
     trackEventAccessedDepartmentDito(selectedItem.name);
+    // TODO: ADICIONAR EVENTO DE CLIQUE NO MENU
+
+    EventProvider.logEvent('item-menu', {
+      itemName: selectedItem.name,
+    });
 
     if (selectedItem.type === MenuItemTypeEnum.ParentCategory) {
       setOpenedIndex(openedIndex === index ? undefined : index);
@@ -184,7 +195,10 @@ function Menu() {
                   iconName="Pin"
                   testID="com.usereserva:id/menu_button_cep"
                   title="Inserir ou alterar CEP"
-                  onPress={() => navigation.navigate('ChangeRegionalization')}
+                  onPress={() => {
+                    navigation.navigate('ChangeRegionalization');
+                    onSelectFixedMenuItem('Inserir ou alterar CEP');
+                  }}
                 />
                 )}
 
@@ -193,6 +207,7 @@ function Menu() {
                   testID="com.usereserva:id/menu_button_account"
                   title={profile?.email ? `Olá, ${profile?.firstName || profile?.email}` : 'Acessar Conta'}
                   onPress={() => {
+                    onSelectFixedMenuItem('perfil');
                     if (profile?.email) {
                       navigation.navigate('Profile');
                       return;
@@ -206,42 +221,60 @@ function Menu() {
                   iconName="heart"
                   testID="com.usereserva:id/menu_button_favorites"
                   title="Favoritos"
-                  onPress={() => navigation.navigate('WishList')}
+                  onPress={() => {
+                    navigation.navigate('WishList');
+                    onSelectFixedMenuItem('favoritos');
+                  }}
                 />
 
                 <NewFixedMenuItem
                   iconName="faq"
                   testID="com.usereserva:id/menu_button_callcenter"
                   title="Dúvidas Frequentes"
-                  onPress={() => navigateFromMenu('HelpCenter')}
+                  onPress={() => {
+                    onSelectFixedMenuItem('faq');
+                    navigateFromMenu('HelpCenter');
+                  }}
                 />
 
                 <NewFixedMenuItem
                   iconName="chat"
                   testID="com.usereserva:id/menu_button_callcenter"
                   title="Central de Atendimento"
-                  onPress={() => navigateFromMenu('CallCenter')}
+                  onPress={() => {
+                    onSelectFixedMenuItem('chat');
+                    navigateFromMenu('CallCenter');
+                  }}
                 />
 
                 <NewFixedMenuItem
                   iconName="pinPlace"
                   testID="com.usereserva:id/menu_button_stores"
                   title="Lojas"
-                  onPress={() => Linking.openURL('https://whts.co/reserva')}
+                  onPress={() => {
+                    onSelectFixedMenuItem('lojas');
+                    Linking.openURL('https://whts.co/reserva');
+                  }}
                 />
 
                 <NewFixedMenuItem
                   iconName="document"
                   testID="com.usereserva:id/menu_button_privacy"
                   title="Política de Privacidade"
-                  onPress={() => navigateFromMenu('PrivacyPolicy')}
+                  onPress={() => {
+                    onSelectFixedMenuItem('politica-privacidade');
+                    navigateFromMenu('PrivacyPolicy');
+                  }}
                 />
                 {showOnep5p && (
                 <NewFixedMenuItem
                   iconName="cutlery"
                   testID="com.usereserva:id/menu_button_privacy"
                   title="1P=5P"
-                  onPress={() => navigation.navigate('PageOneP5P', { comeFrom: 'Menu' })}
+                  onPress={() => {
+                    onSelectFixedMenuItem('1P=5P');
+                    navigation.navigate('PageOneP5P', { comeFrom: 'Menu' });
+                  }}
                 />
                 )}
               </View>
