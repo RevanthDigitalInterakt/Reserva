@@ -44,13 +44,18 @@ export function HomeTabs() {
             component={Home}
             initialParams={{ label: 'Início' }}
             options={{ headerShown: false }}
+            listeners={{
+              tabPress: () => {
+                EventProvider.logEvent('home-tab-click', {});
+              },
+            }}
           />
           <Tab.Screen
             name="Offers"
             component={NewProductCatalog}
             listeners={{
               tabPress: () => {
-                EventProvider.logEvent('offers_tab_click', {});
+                EventProvider.logEvent('offers-tab-click', {});
               },
             }}
             initialParams={{
@@ -64,6 +69,12 @@ export function HomeTabs() {
               name="Roulet"
               component={Home}
               initialParams={{ label: 'Roleta' }}
+              listeners={{
+                tabPress: () => {
+                  EventProvider.logEvent('roulet-tab-click', {});
+                },
+
+              }}
               options={{
                 headerShown: false,
               }}
@@ -74,19 +85,29 @@ export function HomeTabs() {
             component={WishList}
             initialParams={{ label: 'Favoritos' }}
             options={{ headerShown: false }}
+            listeners={{
+              tabPress: () => {
+                EventProvider.logEvent('wishlist-tab-click', {});
+              },
+            }}
           />
           <Tab.Screen
             name="Profile"
             component={MenuProfile}
             initialParams={{ label: 'Perfil' }}
             options={{ headerShown: false }}
+            listeners={{
+              tabPress: () => {
+                EventProvider.logEvent('profile-tab-click', {});
+              },
+            }}
           />
           {!showRoulet ? (
             <Tab.Screen
               name="Call"
               listeners={{
                 tabPress: () => {
-                  EventProvider.logEvent('call_center_tab_click', {});
+                  EventProvider.logEvent('call-center-tab-click', {});
                 },
               }}
               component={CallCenter}
