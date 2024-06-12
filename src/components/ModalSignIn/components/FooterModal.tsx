@@ -154,16 +154,7 @@ export function FooterModalPrime({
         {' '}
         você pode aproveitar
 
-        todos os benefícios da sua assinatura em
-
-        compras acima de
-        {' '}
-        <View>
-          <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>
-            {primeInformation && `R$${primeInformation?.discountFrom}`}
-          </Typography>
-        </View>
-        !
+        todos os benefícios da sua assinatura.
       </Typography>
     );
   }, [profile, primeInformation]);

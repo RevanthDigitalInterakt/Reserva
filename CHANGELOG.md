@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.11.9
+
+- [41897 - Ajuste copy pop da pdp de prime](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41897)
+
 ### 2.11.8
 
 - [30754 - Captar lead via aplicativo](https://dev.azure.com/areco/AReCO/_workitems/edit/30754)
