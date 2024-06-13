@@ -400,7 +400,20 @@ export type EventOptionsFn =
   | {
     type: 'add_new_prime_from_bag_app',
     payload: {}
-  } | {
+  }
+  | {
     type: 'doris_button',
     payload: EventsOptions.DorisButton
+  }
+  | {
+    type: 'whatsapp_bar_click',
+    payload: {}
+  }
+  | {
+    type: 'filter_button_click',
+    payload: {}
+  }
+  | {
+    type: 'sort_button_click',
+    payload: {}
   };

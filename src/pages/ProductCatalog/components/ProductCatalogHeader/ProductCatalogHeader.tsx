@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { View, Linking } from 'react-native';
 import type { SearchOrderByEnum, SearchProductFacetInput } from '../../../../base/graphql/generated';
 import { orderByTypes } from '../../../Search/components/SearchResultHeader/SearchResultHeader.helper';
+import EventProvider from '../../../../utils/EventProvider';
 import FilterModal from '../../../../components/FilterModal/FilterModal';
 import useSearchStore from '../../../../zustand/useSearchStore';
 
@@ -45,7 +46,18 @@ function ProductCatalogHeader({ defaultFacets }: ProductCatalogHeaderProps) {
   }, [defaultFacets, onSearch]);
 
   const onClickWhatsappButton = useCallback(async () => {
+    EventProvider.logEvent('whatsapp_bar_click', {});
     await Linking.openURL('https://whts.co/reserva');
+  }, []);
+
+  const onClickFilterButton = useCallback(() => {
+    setFilterVisible(true);
+    EventProvider.logEvent('filter_button_click', {});
+  }, []);
+
+  const onClickSortButton = useCallback(() => {
+    setSortVisible(true);
+    EventProvider.logEvent('sort_button_click', {});
   }, []);
 
   return (
@@ -77,7 +89,7 @@ function ProductCatalogHeader({ defaultFacets }: ProductCatalogHeaderProps) {
       <Box paddingY="micro" flexDirection="row" justifyContent="center">
         <Box width={1 / 2}>
           <Button
-            onPress={() => setFilterVisible(true)}
+            onPress={() => onClickFilterButton()}
             marginRight="nano"
             marginLeft="micro"
             borderRadius="nano"
@@ -103,7 +115,7 @@ function ProductCatalogHeader({ defaultFacets }: ProductCatalogHeaderProps) {
             flexDirection="row"
             inline
             height={40}
-            onPress={() => setSortVisible(true)}
+            onPress={() => onClickSortButton()}
           >
             <Typography color="preto" fontFamily="nunitoSemiBold" fontSize="14px">
               Ordenar
