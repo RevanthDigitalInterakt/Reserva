@@ -93,19 +93,8 @@ export function FooterModalPrime({
             Prime
           </Typography>
           {' '}
-          têm acesso a vantagens como descontos exclusivos e frete grátis em
-          compras acima de
-          {' '}
-          <Typography
-            fontSize={14}
-            color="fullBlack"
-            fontFamily="reservaSansBold"
-          >
-            R$
-            {' '}
-            {primeInformation?.discountFrom}
-          </Typography>
-          , toque no botão abaixo e comece agora mesmo a comprar!
+          têm acesso a vantagens como descontos exclusivos e frete grátis,
+          toque no botão abaixo e comece agora mesmo a comprar!
         </Typography>
       );
     }
