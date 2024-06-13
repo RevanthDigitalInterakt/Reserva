@@ -1,6 +1,6 @@
 ## CHANGELOG
 
-### 2.19.0
+### 2.11.9
 
 - [41136 - Tagueamento PDC app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41136)
 
