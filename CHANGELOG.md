@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.11.9
+
+- [41893 - Migração de dados do Prime para o Contentful (App)](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41893)
+
 ### 2.11.8
 
 - [30754 - Captar lead via aplicativo](https://dev.azure.com/areco/AReCO/_workitems/edit/30754)
