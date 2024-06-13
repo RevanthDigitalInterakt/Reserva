@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.19.0
+
+- [41136 - Tagueamento PDC app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41136)
+
+---
+
 ### 2.11.8
 
 - [30754 - Captar lead via aplicativo](https://dev.azure.com/areco/AReCO/_workitems/edit/30754)
