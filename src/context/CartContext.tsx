@@ -471,7 +471,6 @@ export type TAddItemResponse = {
 } | undefined;
 
 interface CartContextProps {
-  topBarLoading: boolean;
   orderForm: OrderForm | undefined;
   addItem: (dto: IAddItemDTO) => Promise<TAddItemResponse>;
   identifyCustomer: () => Promise<void>;
@@ -495,7 +494,6 @@ interface CartContextProviderProps {
 
 function CartContextProvider({ children }: CartContextProviderProps) {
   const [orderForm, setOrderForm] = useState<OrderForm>();
-  const [topBarLoading, setTopBarLoading] = useState<boolean>(false);
 
   const { actions } = useBagStore(['actions']);
 
@@ -755,7 +753,6 @@ function CartContextProvider({ children }: CartContextProviderProps) {
   return (
     <CartContext.Provider
       value={{
-        topBarLoading,
         orderForm,
         addItem,
         identifyCustomer,
@@ -782,7 +779,6 @@ export const useCart = () => {
   }
 
   const {
-    topBarLoading,
     orderForm,
     addItem,
     identifyCustomer,
@@ -794,7 +790,6 @@ export const useCart = () => {
     restoreCart,
   } = cartContext;
   return {
-    topBarLoading,
     orderForm,
     addItem,
     identifyCustomer,
