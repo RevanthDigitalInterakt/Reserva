@@ -3,13 +3,12 @@ import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 
-import { useSignUpVerificationCodeMutation } from '../../../base/graphql/generated';
+import { useCheckIfUserExistsLazyQuery, useSignUpVerificationCodeMutation } from '../../../base/graphql/generated';
 import images from '../../../base/styles/icons';
 import { Box } from '../../../components/Box/Box';
 import { Button } from '../../../components/Button';
 import { Typography } from '../../../components/Typography/Typography';
 import UnderlineInput from '../../../components/UnderlineInput';
-import { useCart } from '../../../context/CartContext';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { validateEmail } from '../../../utils/validateEmail';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
@@ -19,7 +18,6 @@ export interface RegisterEmailProps
   extends StackScreenProps<RootStackParamList, 'RegisterEmail'> {}
 
 export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
-  const { verifyEmail } = useCart();
   const [email, setEmail] = useState('');
   const [showRecoveryPassword, setShowRecoveryPassword] = useState(false);
   const [inputError, setInputError] = useState('');
@@ -27,6 +25,10 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
   const [signUpVerificationCode, { error, loading }] = useSignUpVerificationCodeMutation({
     context: { clientName: 'gateway' },
     fetchPolicy: 'no-cache',
+  });
+
+  const [checkIfUserExist] = useCheckIfUserExistsLazyQuery({
+    context: { clientName: 'gateway' },
   });
 
   const handleEmailAccess = useCallback(async () => {
@@ -37,9 +39,13 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
       return;
     }
 
-    const isEmailAlreadyExist = await verifyEmail(email);
+    const { data } = await checkIfUserExist({
+      variables: {
+        email,
+      },
+    });
 
-    if (isEmailAlreadyExist) {
+    if (data?.checkIfUserExists) {
       setInputError('E-mail já cadastrado em nosso banco de dados');
       setShowRecoveryPassword(true);
       return;

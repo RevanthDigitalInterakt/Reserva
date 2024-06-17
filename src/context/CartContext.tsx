@@ -472,7 +472,6 @@ interface CartContextProps {
     cookie: string
   ) => Promise<IOrder[] | undefined>;
   orderDetail: (orderId: string) => Promise<IOrderId | undefined>;
-  verifyEmail: (email: string) => Promise<boolean | undefined>;
   restoreCart: (orderFormId: string) => Promise<void>;
 }
 
@@ -547,21 +546,6 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       await _requestOrderForm();
     } catch (error) {
       ExceptionProvider.captureException(error);
-    }
-  };
-
-  const verifyEmail = async (email: string) => {
-    try {
-      const { data } = await checkIfUserExist({
-        variables: {
-          email,
-        },
-      });
-
-      return data?.checkIfUserExists || false;
-    } catch (error) {
-      ExceptionProvider.captureException(error);
-      return false;
     }
   };
 
@@ -642,7 +626,6 @@ function CartContextProvider({ children }: CartContextProviderProps) {
         orders,
         searchNewOrders,
         orderDetail,
-        verifyEmail,
         restoreCart,
       }}
     >
@@ -665,7 +648,6 @@ export const useCart = () => {
     orders,
     searchNewOrders,
     orderDetail,
-    verifyEmail,
     restoreCart,
   } = cartContext;
   return {
@@ -673,7 +655,6 @@ export const useCart = () => {
     orders,
     searchNewOrders,
     orderDetail,
-    verifyEmail,
     restoreCart,
   };
 };
