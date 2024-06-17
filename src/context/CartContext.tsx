@@ -8,30 +8,23 @@ import React, {
   useEffect,
 } from 'react';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import
 {
-  AddItemToCart,
   CreateCart,
   RestoreData,
-  RemoveItemFromCart,
   Orders,
   SearchNewOrders,
   OrderDetail,
   RestoreCart,
-  UpdateItemToCart,
 } from '../services/vtexService';
-import EventProvider from '../utils/EventProvider';
 import
 {
   useCheckIfUserExistsLazyQuery,
   useOrderFormAddSellerCouponMutation,
   type OrderformOutput,
 } from '../base/graphql/generated';
-import { getBrands } from '../utils/getBrands';
-import { getAsyncStorageItem, setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
+import { setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
-import { defaultBrand } from '../utils/defaultWBrand';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 interface ClientPreferencesData {
