@@ -18,6 +18,8 @@ import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton
 import { COLORS } from '../../base/styles/colors';
 import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
+import { useBagStore } from '../../zustand/useBagStore/useBagStore';
+import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
 
 interface IWiduResponse {
   destinyLink: string;
@@ -55,13 +57,14 @@ export type IRonRedirectToBagProps = StackScreenProps<RootStackParamList, 'RonRe
 
 export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBagProps) {
   const { ronCode } = route?.params || {};
-  const { topBarLoading, orderForm, restoreCart } = useCart();
+  const { restoreCart } = useCart();
+  const { topBarLoading, packageItems } = useBagStore(['topBarLoading', 'packageItems']);;
   const { setItem } = useAsyncStorageProvider();
   const [getRonRedirect] = useRonRedirectLazyQuery({ context: { clientName: 'gateway' } });
   const [finished, setFinished] = useState(false);
 
   const saveOrderFormItems = useCallback(async (orderFormId: string) => {
-    const productIds = new Set((orderForm?.items || []).map((item) => item.productId));
+    const productIds = new Set((mergeItemsPackage(packageItems) || []).map((item) => item.productId));
 
     await setItem('@RNOrder:RonItems', Array.from(productIds));
     await setItem('@RNSession:Ron', true);
@@ -73,8 +76,8 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
       'ron_open',
       {
         open: ronCode,
-        items: adaptOrderFormItemsTrack(orderForm?.items),
-        item_brand: getBrands(orderForm?.items || []),
+        items: adaptOrderFormItemsTrack(mergeItemsPackage(packageItems)),
+        item_brand: getBrands(mergeItemsPackage(packageItems) || []),
       },
     );
 
@@ -82,7 +85,7 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
       'BagScreen',
       { isProfileComplete: false, orderFormId },
     );
-  }, [setItem, orderForm, ronCode]);
+  }, [setItem, packageItems, ronCode]);
 
   const handleCustomRedirect = useCallback(async (url: string) => {
     const deepLinkUrl = await urlHandler(url);

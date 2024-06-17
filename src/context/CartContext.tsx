@@ -471,7 +471,6 @@ export type TAddItemResponse = {
 } | undefined;
 
 interface CartContextProps {
-  orderForm: OrderForm | undefined;
   identifyCustomer: () => Promise<void>;
   orderform: () => void;
   orders: (page: string) => Promise<IOrder[] | undefined>;
@@ -647,7 +646,6 @@ function CartContextProvider({ children }: CartContextProviderProps) {
   return (
     <CartContext.Provider
       value={{
-        orderForm,
         identifyCustomer,
         orderform,
         orders,
@@ -672,7 +670,6 @@ export const useCart = () => {
   }
 
   const {
-    orderForm,
     identifyCustomer,
     orderform,
     orders,
@@ -682,7 +679,6 @@ export const useCart = () => {
     restoreCart,
   } = cartContext;
   return {
-    orderForm,
     identifyCustomer,
     orderform,
     orders,
