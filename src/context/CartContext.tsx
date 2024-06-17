@@ -472,7 +472,6 @@ export type TAddItemResponse = {
 
 interface CartContextProps {
   orderForm: OrderForm | undefined;
-  addItem: (dto: IAddItemDTO) => Promise<TAddItemResponse>;
   identifyCustomer: () => Promise<void>;
   orderform: () => void;
   orders: (page: string) => Promise<IOrder[] | undefined>;
@@ -575,111 +574,6 @@ function CartContextProvider({ children }: CartContextProviderProps) {
     }
   };
 
-  const convertPrice = (value: number) => value / 100;
-
-  const addItem = async (dto: IAddItemDTO): Promise<TAddItemResponse> => {
-    const {
-      quantity, itemId, seller, index = -1, isUpdate = false, hasBundleItems = false,
-    } = dto;
-
-    if (orderForm?.orderFormId) {
-      setAsyncStorageItem('orderFormId', orderForm.orderFormId);
-    }
-
-    try {
-      const isUpdateItem = hasBundleItems && isUpdate && index >= 0;
-
-      const { data } = isUpdateItem
-        ? await UpdateItemToCart(
-          orderForm?.orderFormId,
-          quantity,
-          itemId,
-          seller,
-          index,
-          hasBundleItems,
-        ) : await AddItemToCart(
-          orderForm?.orderFormId,
-          quantity,
-          itemId,
-          seller,
-        );
-
-      const idx = data.items.findIndex(({ id }: any) => id === itemId);
-      const product = data.items[idx];
-
-      if (product.availability !== 'available') {
-        const productRemoved = await removeUnavailableProduct(
-          product.id,
-          idx,
-          seller,
-        );
-
-        if (productRemoved) return { message: 'O produto não está disponível' };
-      }
-
-      // set new order form
-      setOrderForm(data);
-
-      EventProvider.logEvent('page_view', {
-        item_brand: defaultBrand.picapau,
-      });
-
-      EventProvider.logEvent('add_to_cart', {
-        item_id: itemId,
-        item_price: convertPrice(product?.price || 0),
-        item_quantity: quantity,
-        item_category: 'product',
-        currency: 'BRL',
-        seller,
-        item_brand: getBrands(data?.items || []),
-      });
-
-      const ditoId = orderForm?.clientProfileData?.email
-        ? await getAsyncStorageItem('@Dito:userRef')
-        : await AsyncStorage.getItem('@Dito:anonymousID');
-
-      EventProvider.sendTrackEvent('adicionou-produto-ao-carrinho', {
-        id: ditoId,
-        action: 'adicionou-produto-ao-carrinho',
-        data: {
-          marca: product?.additionalInfo?.brandName || '',
-          id_produto: itemId,
-          nome_produto: product?.name || '',
-          categorias_produto: Object.entries(product.productCategories)
-            .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
-            .join(', '),
-          tamanho: product.skuName.split(' - ')[1],
-          cor: product.skuName.split(' - ')[0],
-          preco_produto: convertPrice(product.sellingPrice || 0),
-          origem: 'app',
-        },
-      });
-      return { ok: !(product.quantity < quantity) };
-    } catch (error) {
-      ExceptionProvider.captureException(error);
-    }
-  };
-
-  const removeUnavailableProduct = async (
-    itemId: string,
-    index: number,
-    seller: string,
-  ) => {
-    try {
-      const { data } = await RemoveItemFromCart(
-        orderForm?.orderFormId,
-        itemId,
-        index,
-        seller,
-        0,
-      );
-
-      return !!data;
-    } catch (error) {
-      ExceptionProvider.captureException(error);
-    }
-  };
-
   const identifyCustomer = async () => {
     try {
       if (orderForm?.orderFormId) {
@@ -754,7 +648,6 @@ function CartContextProvider({ children }: CartContextProviderProps) {
     <CartContext.Provider
       value={{
         orderForm,
-        addItem,
         identifyCustomer,
         orderform,
         orders,
@@ -780,7 +673,6 @@ export const useCart = () => {
 
   const {
     orderForm,
-    addItem,
     identifyCustomer,
     orderform,
     orders,
@@ -791,7 +683,6 @@ export const useCart = () => {
   } = cartContext;
   return {
     orderForm,
-    addItem,
     identifyCustomer,
     orderform,
     orders,
