@@ -11,44 +11,28 @@ import React, {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import
 {
-  AddAddressToCart,
-  AddCustomerToOrder,
   AddItemToCart,
   CreateCart,
   RestoreData,
   RemoveItemFromCart,
-  addToCoupon,
-  removeCouponToOder,
-  removeSellerCouponToOder,
-  ResetUserCheckout,
-  SendUserEmail,
-  ConvertZipCode,
-  Tracking,
-  PickupPoint,
   Orders,
   SearchNewOrders,
-  SearchNewOrderDetail,
   OrderDetail,
   RestoreCart,
-  SetGiftSize,
   UpdateItemToCart,
 } from '../services/vtexService';
-import { checkoutService } from '../services/checkoutService';
 import EventProvider from '../utils/EventProvider';
 import
 {
   useCheckIfUserExistsLazyQuery,
   useOrderFormAddSellerCouponMutation,
-  useOrderFormRefreshDataMutation,
   type OrderformOutput,
 } from '../base/graphql/generated';
-import { splitSellerName } from '../utils/splitSellerName';
 import { getBrands } from '../utils/getBrands';
 import { getAsyncStorageItem, setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { defaultBrand } from '../utils/defaultWBrand';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
-import { Method } from '../utils/EventProvider/Event';
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -487,17 +471,11 @@ export type TAddItemResponse = {
 } | undefined;
 
 interface CartContextProps {
-  loading: boolean;
   topBarLoading: boolean;
   orderForm: OrderForm | undefined;
-  updateOrderForm: () => Promise<OrderForm | void>;
   addItem: (dto: IAddItemDTO) => Promise<TAddItemResponse>;
   identifyCustomer: () => Promise<void>;
   orderform: () => void;
-  pickupPoint: (
-    longitude: string,
-    latitude: string
-  ) => Promise<items | undefined>;
   orders: (page: string) => Promise<IOrder[] | undefined>;
   searchNewOrders: (
     page: string,
@@ -517,7 +495,6 @@ interface CartContextProviderProps {
 
 function CartContextProvider({ children }: CartContextProviderProps) {
   const [orderForm, setOrderForm] = useState<OrderForm>();
-  const [loading, setLoading] = useState<boolean>(false);
   const [topBarLoading, setTopBarLoading] = useState<boolean>(false);
 
   const { actions } = useBagStore(['actions']);
@@ -556,7 +533,6 @@ function CartContextProvider({ children }: CartContextProviderProps) {
   };
 
   const _selectedCouponSeller = async (sellerCouponCode: string) => {
-    setLoading(true);
     try {
       if (!orderForm?.orderFormId) return false;
 
@@ -574,20 +550,15 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       return false;
     } catch (error) {
       ExceptionProvider.captureException(error);
-    } finally {
-      setLoading(false);
     }
     return false;
   };
 
   const orderform = async () => {
-    setLoading(true);
     try {
       await _requestOrderForm();
     } catch (error) {
       ExceptionProvider.captureException(error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -760,16 +731,7 @@ function CartContextProvider({ children }: CartContextProviderProps) {
     }
   };
 
-  const updateOrderForm = async (): Promise<OrderForm | void> => {
-    if (orderForm) {
-      const { data } = await RestoreData(orderForm?.orderFormId);
-      setOrderForm(data);
-      return data;
-    }
-  };
-
   const restoreCart = async (orderFormId: string) => {
-    setLoading(true);
     try {
       const data = await _requestRestoreCart(orderFormId);
 
@@ -787,18 +749,14 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       setOrderForm(data);
     } catch (error) {
       ExceptionProvider.captureException(error);
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
     <CartContext.Provider
       value={{
-        loading,
         topBarLoading,
         orderForm,
-        updateOrderForm,
         addItem,
         identifyCustomer,
         orderform,
@@ -824,10 +782,8 @@ export const useCart = () => {
   }
 
   const {
-    loading,
     topBarLoading,
     orderForm,
-    updateOrderForm,
     addItem,
     identifyCustomer,
     orderform,
@@ -838,10 +794,8 @@ export const useCart = () => {
     restoreCart,
   } = cartContext;
   return {
-    loading,
     topBarLoading,
     orderForm,
-    updateOrderForm,
     addItem,
     identifyCustomer,
     orderform,
