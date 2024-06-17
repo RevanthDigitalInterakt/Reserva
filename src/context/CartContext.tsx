@@ -464,7 +464,6 @@ export type TAddItemResponse = {
 } | undefined;
 
 interface CartContextProps {
-  identifyCustomer: () => Promise<void>;
   orders: (page: string) => Promise<IOrder[] | undefined>;
   searchNewOrders: (
     page: string,
@@ -549,20 +548,6 @@ function CartContextProvider({ children }: CartContextProviderProps) {
     }
   };
 
-  const identifyCustomer = async () => {
-    try {
-      if (orderForm?.orderFormId) {
-        await actions.REFRESH_ORDER_FORM()
-
-        const { data } = await RestoreData(orderForm?.orderFormId);
-
-        setOrderForm(data);
-      }
-    } catch (error) {
-      ExceptionProvider.captureException(error);
-    }
-  };
-
   useEffect(() => {
     orderform();
   }, []);
@@ -622,7 +607,6 @@ function CartContextProvider({ children }: CartContextProviderProps) {
   return (
     <CartContext.Provider
       value={{
-        identifyCustomer,
         orders,
         searchNewOrders,
         orderDetail,
@@ -644,14 +628,12 @@ export const useCart = () => {
   }
 
   const {
-    identifyCustomer,
     orders,
     searchNewOrders,
     orderDetail,
     restoreCart,
   } = cartContext;
   return {
-    identifyCustomer,
     orders,
     searchNewOrders,
     orderDetail,

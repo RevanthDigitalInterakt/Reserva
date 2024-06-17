@@ -90,12 +90,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       ExceptionProvider.captureException(error);
     }
 
-    // TODO
-    // if (profile?.email) {
-    //   await identifyCustomer(profile?.email);
-    // }
-    //
-    // orderform();
     setLoadingStatusBar(false);
     navigation.goBack();
   };
