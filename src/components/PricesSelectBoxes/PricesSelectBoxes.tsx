@@ -45,7 +45,6 @@ function PricesSelectBoxes({ selectedSize }: IPropsPriceSelectBoxes) {
     'changeStateIsVisibleModalWelcome',
   ]);
 
-  const { orderForm } = useCart();
   const { profile } = useAuthStore(['profile']);
   const hasDiscount = selectedSize?.hasDiscount;
 
@@ -71,7 +70,6 @@ function PricesSelectBoxes({ selectedSize }: IPropsPriceSelectBoxes) {
     selectPriceBasedOnUser();
   }, [
     hasDiscount,
-    orderForm,
     isPrime,
     isModalSignInVisible,
     selectPriceBasedOnUser,
