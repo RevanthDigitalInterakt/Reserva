@@ -1,14 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, Animated } from 'react-native';
+import {
+  View, Text, TouchableOpacity, Animated,
+} from 'react-native';
 import type { CashbackInfoProps } from './types';
 import styles from './styles';
 import IconInfo from '../../../assets/icons/IconInfo';
+import EventProvider from '../../utils/EventProvider';
 
-const CashbackInfo = ({ data }: CashbackInfoProps) => {
+function CashbackInfo({ data }: CashbackInfoProps) {
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const toggleTooltip = () => {
+    EventProvider.logEvent('cashback_info_click', {});
     setTooltipVisible(!tooltipVisible);
   };
 
@@ -45,11 +49,11 @@ const CashbackInfo = ({ data }: CashbackInfoProps) => {
           {data.infoCashbackPdpCollection.infoCashbackTitleTooltip}
         </Text>
         <Text style={styles.textTooltip}>
-        {data.infoCashbackPdpCollection.infoCashbackTextTooltip}
+          {data.infoCashbackPdpCollection.infoCashbackTextTooltip}
         </Text>
       </Animated.View>
     </View>
   );
-};
+}
 
 export default CashbackInfo;
