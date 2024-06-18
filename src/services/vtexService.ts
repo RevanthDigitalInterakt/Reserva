@@ -15,20 +15,6 @@ const CreateCart = async () => {
   return response;
 };
 
-const RestoreCart = async (orderFormId: string | undefined) => {
-  try {
-    const response = await vtexConfig.get(
-      `/checkout/pub/orderForm/${orderFormId}?sc=4&${new Date().getTime()}=cache`,
-    );
-
-    return response;
-  } catch (error) {
-    ExceptionProvider.captureException(error);
-
-    return null;
-  }
-};
-
 const GetPurchaseData = async (orderGroup: any) => {
   try {
     const response = await vtexConfig7.get(
@@ -79,5 +65,4 @@ export {
   Orders,
   SearchNewOrders,
   OrderDetail,
-  RestoreCart,
 };

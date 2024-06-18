@@ -14,14 +14,8 @@ import
   Orders,
   SearchNewOrders,
   OrderDetail,
-  RestoreCart,
 } from '../services/vtexService';
-import
-{
-  useCheckIfUserExistsLazyQuery,
-  useOrderFormAddSellerCouponMutation,
-  type OrderformOutput,
-} from '../base/graphql/generated';
+import { type OrderformOutput } from '../base/graphql/generated';
 import { setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
@@ -470,7 +464,6 @@ interface CartContextProps {
     cookie: string
   ) => Promise<IOrder[] | undefined>;
   orderDetail: (orderId: string) => Promise<IOrderId | undefined>;
-  restoreCart: (orderFormId: string) => Promise<void>;
 }
 
 export const CartContext = createContext<CartContextProps | null>(null);
@@ -491,48 +484,10 @@ function CartContextProvider({ children }: CartContextProviderProps) {
     }
   }, [orderForm?.orderFormId, orderForm?.items, actions.REFETCH_ORDER_FORM]);
 
-  const [orderFormAddSellerCoupon] = useOrderFormAddSellerCouponMutation({
-    context: { clientName: 'gateway' },
-  });
-
   const _requestOrderForm = async () => {
     const { data } = await CreateCart();
 
     setOrderForm(data);
-  };
-
-  const _requestRestoreCart = async (orderFormId: string): Promise<OrderForm> => {
-    const { data } = await RestoreCart(orderFormId);
-
-    if (orderFormId) {
-      setAsyncStorageItem('orderFormId', orderFormId);
-    }
-
-    setOrderForm(data);
-
-    return data;
-  };
-
-  const _selectedCouponSeller = async (sellerCouponCode: string) => {
-    try {
-      if (!orderForm?.orderFormId) return false;
-
-      const { data } = await orderFormAddSellerCoupon({
-        variables: {
-          coupon: sellerCouponCode,
-          orderFormId: orderForm.orderFormId,
-        },
-      });
-
-      if (data?.orderFormAddSellerCoupon) {
-        return true;
-      }
-
-      return false;
-    } catch (error) {
-      ExceptionProvider.captureException(error);
-    }
-    return false;
   };
 
   const orderform = async () => {
@@ -578,34 +533,12 @@ function CartContextProvider({ children }: CartContextProviderProps) {
     }
   };
 
-  const restoreCart = async (orderFormId: string) => {
-    try {
-      const data = await _requestRestoreCart(orderFormId);
-
-      const sellerCodeData = data?.marketingData?.marketingTags?.filter(
-        (item) => item.startsWith('code_CodigoVendedor='),
-      )[0];
-
-      if (sellerCodeData) {
-        const sellerId = sellerCodeData?.split('=')[1] as unknown as string | undefined;
-        if (sellerId) {
-          await _selectedCouponSeller(sellerId);
-        }
-      }
-
-      setOrderForm(data);
-    } catch (error) {
-      ExceptionProvider.captureException(error);
-    }
-  };
-
   return (
     <CartContext.Provider
       value={{
         orders,
         searchNewOrders,
         orderDetail,
-        restoreCart,
       }}
     >
       {children}
@@ -626,12 +559,10 @@ export const useCart = () => {
     orders,
     searchNewOrders,
     orderDetail,
-    restoreCart,
   } = cartContext;
   return {
     orders,
     searchNewOrders,
     orderDetail,
-    restoreCart,
   };
 };

@@ -35,8 +35,6 @@ export default function KitLookFooter() {
     installmentInfo,
   } = useBagStore(['actions', 'orderFormId', 'installmentInfo']);
 
-  const { restoreCart } = useCart();
-
   const onAddProductToCart = useCallback(async () => {
     try {
       if (!selectedKitItems || loading) return;
@@ -45,7 +43,7 @@ export default function KitLookFooter() {
 
       await actions.ADD_MULTIPLE_ITEMS(selectedKitItems);
 
-      await restoreCart(orderFormId);
+      await actions.REFETCH_ORDER_FORM();
 
       setShowAnimationBag(true);
     } catch (err) {
@@ -59,7 +57,6 @@ export default function KitLookFooter() {
     actions,
     loading,
     orderFormId,
-    restoreCart,
     selectedKitItems,
   ]);
 

@@ -15,7 +15,6 @@ import { Button } from '../../../../components/Button';
 import { Picker } from '../../../../components/Picker/Picker';
 import { Typography } from '../../../../components/Typography/Typography';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
-import { CepVerifyPostalCode } from '../../../../services/vtexService';
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import InputOption from '../../Components/InputOption';
 import type { IAddress } from '../../interface';

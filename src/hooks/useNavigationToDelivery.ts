@@ -47,7 +47,6 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     'appTotalizers',
     'hasPrimeSubscriptionInCart']);
 
-  const { restoreCart } = useCart();
   const { primeActive } = usePrimeInfo();
   const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
 
@@ -149,7 +148,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     }
 
     if (!profile.isComplete) {
-      await restoreCart(orderFormId);
+      await actions.REFETCH_ORDER_FORM();
 
       EventProvider.logEvent('complete_registration', {
         method: Method.Email,
@@ -189,7 +188,6 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     navigation,
     onTrackCheckoutEvents,
     orderFormId,
-    restoreCart,
   ]);
 
   return {

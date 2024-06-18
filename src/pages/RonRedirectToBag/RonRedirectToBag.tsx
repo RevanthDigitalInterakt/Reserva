@@ -5,7 +5,6 @@ import axios from 'axios';
 import { URLSearchParams } from 'react-native-url-polyfill';
 import { SafeAreaView } from 'react-native';
 import Config from 'react-native-config';
-import { useCart } from '../../context/CartContext';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import EventProvider from '../../utils/EventProvider';
 import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
@@ -57,8 +56,7 @@ export type IRonRedirectToBagProps = StackScreenProps<RootStackParamList, 'RonRe
 
 export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBagProps) {
   const { ronCode } = route?.params || {};
-  const { restoreCart } = useCart();
-  const { topBarLoading, packageItems } = useBagStore(['topBarLoading', 'packageItems']);;
+  const { topBarLoading, packageItems, actions } = useBagStore(['topBarLoading', 'packageItems', 'actions']);;
   const { setItem } = useAsyncStorageProvider();
   const [getRonRedirect] = useRonRedirectLazyQuery({ context: { clientName: 'gateway' } });
   const [finished, setFinished] = useState(false);
@@ -130,7 +128,7 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
     const { orderFormId, url, type: redirectType } = data.ronRedirect;
 
     if (redirectType === RonRedirectTypeEnum.Orderform && orderFormId) {
-      await restoreCart(orderFormId);
+      await actions.REFETCH_ORDER_FORM(orderFormId);
       await saveOrderFormItems(orderFormId);
       return;
     }
@@ -138,7 +136,7 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
     if (redirectType === RonRedirectTypeEnum.Custom && url) {
       handleCustomRedirect(url);
     }
-  }, [saveOrderFormItems, handleCustomRedirect, getRonRedirect, ronCode, restoreCart, navigation]);
+  }, [saveOrderFormItems, handleCustomRedirect, getRonRedirect, ronCode, navigation]);
 
   useEffect(() => {
     if (!finished && ronCode) {
