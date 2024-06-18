@@ -7,17 +7,29 @@ import {
 } from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
 import { MockedProvider } from '@apollo/client/testing';
+import type { StackScreenProps } from '@react-navigation/stack';
 import PrimeLP from '../PrimeLP';
 import { CartContext } from '../../../context/CartContext';
 import { ApolloMockLPPrime } from '../__mocks__/primeLPMocks';
 import * as useLandingPagePrimeQuery from '../../../base/graphql/generated';
 import { mockPrimeData } from '../../../../__mocks__/PrimeLP.mock';
 import { theme } from '../../../base/usereservappLegacy/theme';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
 
-// MOCKS
+type TNavigation = StackScreenProps<RootStackParamList, 'PrimeLP'>['navigation'];
+
 const mockAddItemFn = jest.fn();
 const mockGoBackFn = jest.fn();
 const mockHandleAddToCartPrime = jest.fn();
+const mockedNavigate = jest.fn();
+const mockAddListenerFn = jest.fn();
+
+const navigationMock: Partial<TNavigation> = {
+  navigate: mockedNavigate,
+  goBack: mockGoBackFn,
+  addListener: mockAddListenerFn,
+};
+
 const mockProfile = {
   __typename: 'ProfileOutput',
   email: 'fulano@gmail.com',
@@ -88,7 +100,13 @@ const TestingComponent = (
         { addItem: mockAddItemFn } as any
       }
       >
-        <PrimeLP />
+        <PrimeLP
+          navigation={navigationMock as TNavigation}
+          route={{
+            name: 'PrimeLP',
+            key: '',
+          }}
+        />
       </CartContext.Provider>
     </MockedProvider>
   </ThemeProvider>

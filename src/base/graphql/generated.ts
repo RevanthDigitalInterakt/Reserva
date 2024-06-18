@@ -1263,9 +1263,16 @@ export type PrimeDetailOutput = {
   installmentPrice: Scalars['Float']['output'];
   installmentQty: Scalars['Int']['output'];
   monthlyCashback: Scalars['Float']['output'];
+  primeFaq?: Maybe<Array<PrimeFaqItemOutput>>;
   productId: Scalars['Int']['output'];
   productSeller: Scalars['String']['output'];
   skuId: Scalars['Int']['output'];
+};
+
+export type PrimeFaqItemOutput = {
+  __typename?: 'PrimeFaqItemOutput';
+  textBody?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export type PrimeFaqOutput = {
@@ -2707,7 +2714,7 @@ export type InvoiceKeyQuery = { __typename?: 'Query', invoiceKey?: { __typename?
 export type LandingPagePrimeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LandingPagePrimeQuery = { __typename?: 'Query', landingPagePrime: { __typename?: 'PrimeDetailOutput', productId: number, skuId: number, productSeller: string, installmentQty: number, installmentPrice: number, monthlyCashback: number, discountFrom: number, discountPercentage: number } };
+export type LandingPagePrimeQuery = { __typename?: 'Query', landingPagePrime: { __typename?: 'PrimeDetailOutput', productId: number, skuId: number, productSeller: string, installmentQty: number, installmentPrice: number, monthlyCashback: number, discountFrom: number, discountPercentage: number, primeFaq?: Array<{ __typename?: 'PrimeFaqItemOutput', title?: string | null, textBody?: string | null }> | null } };
 
 export type MktinStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4990,6 +4997,10 @@ export const LandingPagePrimeDocument = gql`
     monthlyCashback
     discountFrom
     discountPercentage
+    primeFaq {
+      title
+      textBody
+    }
   }
 }
     `;
