@@ -11,7 +11,6 @@ import React, {
 import
 {
   CreateCart,
-  RestoreData,
   Orders,
   SearchNewOrders,
   OrderDetail,
@@ -493,10 +492,6 @@ function CartContextProvider({ children }: CartContextProviderProps) {
   }, [orderForm?.orderFormId, orderForm?.items, actions.REFETCH_ORDER_FORM]);
 
   const [orderFormAddSellerCoupon] = useOrderFormAddSellerCouponMutation({
-    context: { clientName: 'gateway' },
-  });
-
-  const [checkIfUserExist] = useCheckIfUserExistsLazyQuery({
     context: { clientName: 'gateway' },
   });
 
