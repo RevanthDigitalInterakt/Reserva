@@ -6,15 +6,7 @@ import {
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { IOrderId, type IOrder } from '../context/CartContext';
 
-const vtexConfig = instance;
 const vtexConfig7 = instance7;
-
-const CreateCart = async () => {
-  // cria o carrinho
-  // retorna um payload gigante pra ser preenchido de acordo.
-  const response = await vtexConfig.get('/checkout/pub/orderForm/?sc=4');
-  return response;
-};
 
 const GetPurchaseData = async (orderGroup: any) => {
   try {
@@ -52,7 +44,6 @@ const SearchNewOrders = async (page: string, email: string, cookie: string) => {
 };
 
 export {
-  CreateCart,
   GetPurchaseData,
   SearchNewOrders,
   OrderDetail,
