@@ -123,7 +123,7 @@ function PrimeLP({ navigation }: IPrimeLP) {
 
             <PrimeSubscribe data={data} onAddToCart={onAddToCart} />
 
-            <PrimeFAQ />
+            <PrimeFAQ data={data} />
           </ScrollView>
         )}
       </Box>

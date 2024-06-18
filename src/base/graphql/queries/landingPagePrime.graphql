@@ -8,5 +8,9 @@ query landingPagePrime {
         monthlyCashback
         discountFrom
         discountPercentage
+        primeFaq {
+            title
+            textBody
+        }
     }
 }
