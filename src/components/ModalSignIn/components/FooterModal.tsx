@@ -93,19 +93,8 @@ export function FooterModalPrime({
             Prime
           </Typography>
           {' '}
-          têm acesso a vantagens como descontos exclusivos e frete grátis em
-          compras acima de
-          {' '}
-          <Typography
-            fontSize={14}
-            color="fullBlack"
-            fontFamily="reservaSansBold"
-          >
-            R$
-            {' '}
-            {primeInformation?.discountFrom}
-          </Typography>
-          , toque no botão abaixo e comece agora mesmo a comprar!
+          têm acesso a vantagens como descontos exclusivos e frete grátis,
+          toque no botão abaixo e comece agora mesmo a comprar!
         </Typography>
       );
     }
@@ -154,16 +143,7 @@ export function FooterModalPrime({
         {' '}
         você pode aproveitar
 
-        todos os benefícios da sua assinatura em
-
-        compras acima de
-        {' '}
-        <View>
-          <Typography fontFamily="reservaSansBold" style={Styles.objectStyles.highlightedText}>
-            {primeInformation && `R$${primeInformation?.discountFrom}`}
-          </Typography>
-        </View>
-        !
+        todos os benefícios da sua assinatura.
       </Typography>
     );
   }, [profile, primeInformation]);
