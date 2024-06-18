@@ -6,7 +6,6 @@ import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import EventProvider from '../utils/EventProvider';
 import { useLandingPagePrimeLazyQuery } from '../base/graphql/generated';
 import { useApolloFetchPolicyStore } from '../zustand/useApolloFetchPolicyStore';
-import { useCart } from '../context/CartContext';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export function usePrimeInfo() {

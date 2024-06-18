@@ -2,7 +2,6 @@ import { Keyboard } from 'react-native';
 import { useCallback, useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { useCart } from '../context/CartContext';
 import EventProvider from '../utils/EventProvider';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
 import useDitoStore from '../zustand/useDitoStore';

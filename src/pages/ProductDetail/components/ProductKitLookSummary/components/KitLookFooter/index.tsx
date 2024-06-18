@@ -19,7 +19,6 @@ import { PriceCustom } from '../../../../../../modules/Checkout/components/Price
 import { useBagStore } from '../../../../../../zustand/useBagStore/useBagStore';
 import { useProductDetailStore } from '../../../../../../zustand/useProductDetail/useProductDetail';
 import { ExceptionProvider } from '../../../../../../base/providers/ExceptionProvider';
-import { useCart } from '../../../../../../context/CartContext';
 import { loadingSpinner } from '../../../../../../../assets/animations';
 import { ModalBag } from '../../../../../../components/ModalBag/ModalBag';
 

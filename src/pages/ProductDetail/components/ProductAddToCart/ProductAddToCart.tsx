@@ -3,7 +3,6 @@ import { Alert, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { styles } from '../ProductSelectors/ProductSelectors.styles';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
-import { useCart } from '../../../../context/CartContext';
 import EventProvider from '../../../../utils/EventProvider';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { ModalBag } from '../../../../components/ModalBag/ModalBag';

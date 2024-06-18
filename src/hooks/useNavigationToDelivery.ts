@@ -13,7 +13,6 @@ import {
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { usePrimeInfo } from './usePrimeInfo';
 import { usePrimeStore } from '../zustand/usePrimeStore/usePrimeStore';
-import { useCart } from '../context/CartContext';
 import { usePageLoadingStore } from '../zustand/usePageLoadingStore/usePageLoadingStore';
 import { Method } from '../utils/EventProvider/Event';
 import { mergeItemsPackage } from '../utils/mergeItemsPackage';

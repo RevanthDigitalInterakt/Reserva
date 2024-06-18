@@ -11,7 +11,6 @@ import { WishListProductCard } from '../../components/WishListProductCard/WishLi
 import wishListQueries from '../../graphql/wishlist/wishList';
 import { useWishlistActions } from '../../hooks/useWishlistActions';
 import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
-import { RestoreCart } from '../../services/vtexService';
 import EventProvider from '../../utils/EventProvider';
 import { createNavigateToProductParams } from '../../utils/createNavigateToProductParams';
 import { defaultBrand } from '../../utils/defaultWBrand';
@@ -180,8 +179,6 @@ function WishList() {
         skuId,
         orderFormItem ? orderFormItem.quantity + 1 : 1,
       );
-
-      await RestoreCart(orderFormId);
 
       setShowAnimationBag(true);
 
