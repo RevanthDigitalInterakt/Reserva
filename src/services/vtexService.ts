@@ -1,4 +1,3 @@
-import { CepResponse, postalCode } from '../config/postalCode';
 import {
   instance,
   instance2,
@@ -13,11 +12,6 @@ const CreateCart = async () => {
   // cria o carrinho
   // retorna um payload gigante pra ser preenchido de acordo.
   const response = await vtexConfig.get('/checkout/pub/orderForm/?sc=4');
-  return response;
-};
-
-const RestoreData = async (id: string) => {
-  const response = await vtexConfig.get(`checkout/pub/orderform/${id}?sc=4`);
   return response;
 };
 
@@ -47,16 +41,6 @@ const GetPurchaseData = async (orderGroup: any) => {
   // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)
   // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo
   // place order para varias compras.
-};
-
-const CepVerifyPostalCode = async (cep: string) => {
-  try {
-    const { data } = await postalCode.get(cep);
-    return data;
-  } catch (err) {
-    ExceptionProvider.captureException(err);
-    return { errors: err } as CepResponse;
-  }
 };
 
 const Orders = async (page: string) => {
@@ -91,8 +75,6 @@ const SearchNewOrders = async (page: string, email: string, cookie: string) => {
 
 export {
   CreateCart,
-  RestoreData,
-  CepVerifyPostalCode,
   GetPurchaseData,
   Orders,
   SearchNewOrders,
