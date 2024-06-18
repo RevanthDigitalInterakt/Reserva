@@ -10,7 +10,6 @@ import {
 } from '@testing-library/react-native';
 import Menu from '../Menu';
 import EventProvider from '../../../utils/EventProvider';
-import CartContextProvider from '../../../context/CartContext';
 import { AppMenuDocument } from '../../../base/graphql/generated';
 
 jest.mock('../../../utils/EventProvider', () => ({
@@ -153,9 +152,7 @@ describe('Componente Menu', () => {
     const Component = (
       <ThemeProvider theme={theme}>
         <MockedProvider mocks={apolloMocks} addTypename={false}>
-          <CartContextProvider>
-            <Menu navigation={mockNavigation} route={{ params: { indexMenuOpened: 1 } }} />
-          </CartContextProvider>
+          <Menu navigation={mockNavigation} route={{ params: { indexMenuOpened: 1 } }} />
         </MockedProvider>
       </ThemeProvider>
     );

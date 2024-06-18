@@ -13,7 +13,6 @@ import { ThemeProvider } from 'styled-components/native';
 import { theme } from '@usereservaapp/reserva-ui';
 import SignInScreen from '../SignIn';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
-import CartContextProvider from '../../../context/CartContext';
 
 type TNavigation = StackScreenProps<RootStackParamList, 'LoginAlternative'>['navigation'];
 
@@ -30,16 +29,14 @@ const navigationMock: Partial<TNavigation> = {
 const Component = (
   <ThemeProvider theme={theme}>
     <MockedProvider addTypename={false}>
-      <CartContextProvider>
-        <SignInScreen
-          navigation={navigationMock as TNavigation}
-          route={{
-            name: 'LoginAlternative',
-            key: '',
-            params: { comeFrom: 'Profile' },
-          }}
-        />
-      </CartContextProvider>
+      <SignInScreen
+        navigation={navigationMock as TNavigation}
+        route={{
+          name: 'LoginAlternative',
+          key: '',
+          params: { comeFrom: 'Profile' },
+        }}
+      />
     </MockedProvider>
   </ThemeProvider>
 );

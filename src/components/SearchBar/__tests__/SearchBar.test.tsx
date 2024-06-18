@@ -4,7 +4,6 @@ import { MockedProvider } from '@apollo/client/testing';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { SearchBar } from '../SearchBar';
 import { theme } from '../../../base/usereservappLegacy/theme';
-import CartContextProvider from '../../../context/CartContext';
 
 describe('SearchBar component', () => {
   const onValueChangeMock = jest.fn();
@@ -12,9 +11,7 @@ describe('SearchBar component', () => {
   const component = (
     <ThemeProvider theme={theme}>
       <MockedProvider addTypename={false}>
-        <CartContextProvider>
-          <SearchBar onValueChange={onValueChangeMock} />
-        </CartContextProvider>
+        <SearchBar onValueChange={onValueChangeMock} />
       </MockedProvider>
     </ThemeProvider>
   );

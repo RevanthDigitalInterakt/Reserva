@@ -2,7 +2,6 @@ import React from 'react';
 import { MockedProvider } from '@apollo/client/testing';
 import { render, fireEvent } from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
-import CartContextProvider from '../../../context/CartContext';
 import SearchWrapper from '../components/SearchWrapper';
 import { isValidInput, formatInput } from '../components/SearchWrapper/SearchWrapper';
 import { theme } from '../../../base/usereservappLegacy/theme';
@@ -10,9 +9,7 @@ import { theme } from '../../../base/usereservappLegacy/theme';
 const component = (
   <ThemeProvider theme={theme}>
     <MockedProvider addTypename={false}>
-      <CartContextProvider>
-        <SearchWrapper />
-      </CartContextProvider>
+      <SearchWrapper />
     </MockedProvider>
   </ThemeProvider>
 );

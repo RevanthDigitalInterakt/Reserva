@@ -8,14 +8,11 @@ import { MockedProvider } from '@apollo/client/testing';
 import { ThemeProvider } from 'styled-components/native';
 import { theme } from '../../../base/usereservappLegacy/theme';
 import AbandonedCart from '../AbandonedCart';
-import CartContextProvider from '../../../context/CartContext';
 
 const Component = (
   <ThemeProvider theme={theme}>
     <MockedProvider addTypename={false}>
-      <CartContextProvider>
-        <AbandonedCart />
-      </CartContextProvider>
+      <AbandonedCart />
     </MockedProvider>
   </ThemeProvider>
 );

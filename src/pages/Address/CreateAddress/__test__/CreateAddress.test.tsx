@@ -10,7 +10,6 @@ import {
 } from '@testing-library/react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import CreateAddress from '../CreateAddress';
-import CartContextProvider from '../../../../context/CartContext';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
 import { theme } from '../../../../base/usereservappLegacy/theme';
 
@@ -27,16 +26,14 @@ const navigationMock: Partial<TNavigation> = {
 const Component = (
   <ThemeProvider theme={theme}>
     <MockedProvider addTypename={false}>
-      <CartContextProvider>
-        <CreateAddress
-          navigation={navigationMock as TNavigation}
-          route={{
-            name: 'CreateAddress',
-            key: '',
-            params: { id: '' },
-          }}
-        />
-      </CartContextProvider>
+      <CreateAddress
+        navigation={navigationMock as TNavigation}
+        route={{
+          name: 'CreateAddress',
+          key: '',
+          params: { id: '' },
+        }}
+      />
     </MockedProvider>
   </ThemeProvider>
 );

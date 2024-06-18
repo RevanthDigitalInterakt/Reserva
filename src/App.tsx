@@ -7,7 +7,6 @@ import 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { linkingConfig } from './config/linking';
-import CartContextProvider from './context/CartContext';
 import ChronometerContextProvider from './context/ChronometerContext';
 import ContentfullContextProvider from './context/ContentfullContext';
 import { FirebaseContextProvider } from './context/FirebaseContext';
@@ -102,19 +101,17 @@ function App() {
                 onStartLoad(currentRouteName);
               }}
             >
-              <CartContextProvider>
-                <ContentfullContextProvider>
-                  <RegionalSearchContextProvider>
-                    <FirebaseContextProvider>
-                      <ChronometerContextProvider>
-                        <InitialScreen>
-                          <AppRouting />
-                        </InitialScreen>
-                      </ChronometerContextProvider>
-                    </FirebaseContextProvider>
-                  </RegionalSearchContextProvider>
-                </ContentfullContextProvider>
-              </CartContextProvider>
+              <ContentfullContextProvider>
+                <RegionalSearchContextProvider>
+                  <FirebaseContextProvider>
+                    <ChronometerContextProvider>
+                      <InitialScreen>
+                        <AppRouting />
+                      </InitialScreen>
+                    </ChronometerContextProvider>
+                  </FirebaseContextProvider>
+                </RegionalSearchContextProvider>
+              </ContentfullContextProvider>
             </NavigationContainer>
           </StatusBarContextProvider>
           <ToastProvider />

@@ -4,7 +4,7 @@ import {
   instance7,
 } from '../config/vtexConfig';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
-import type { IOrder } from '../context/CartContext';
+import { IOrderId, type IOrder } from '../context/CartContext';
 
 const vtexConfig = instance;
 const vtexConfig7 = instance7;
@@ -31,7 +31,7 @@ const GetPurchaseData = async (orderGroup: any) => {
 };
 
 const OrderDetail = async (orderId: string) => {
-  const response = await instance2.get(`/oms/user/orders/${orderId}`, {
+  const response = await instance2.get<IOrderId>(`/oms/user/orders/${orderId}`, {
     headers: {
       'X-VTEX-API-APPKEY': '',
     },

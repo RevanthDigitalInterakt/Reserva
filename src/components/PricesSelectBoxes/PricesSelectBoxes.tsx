@@ -5,7 +5,6 @@ import React, {
 import { View } from 'react-native';
 
 import testProps from '../../utils/testProps';
-import { useCart } from '../../context/CartContext';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import type { ProductSizeOutput } from '../../base/graphql/generated';

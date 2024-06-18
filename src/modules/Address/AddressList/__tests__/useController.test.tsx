@@ -4,7 +4,6 @@ import { MockedProvider } from '@apollo/client/testing';
 import AsyncStorageMock from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 import useController from '../controller/useController';
 import { ProfileAddressRemoveDocument as DELETE_ADDRESS_QUERY } from '../../../../base/graphql/generated';
-import CartContextProvider, { CartContext } from '../../../../context/CartContext';
 
 const mockProfile = {
   __typename: 'ProfileOutput',
@@ -120,9 +119,7 @@ describe('AddressList - controller', () => {
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <MockedProvider mocks={mocks}>
-        <CartContextProvider>
-          {children}
-        </CartContextProvider>
+        {children}
       </MockedProvider>
     );
 

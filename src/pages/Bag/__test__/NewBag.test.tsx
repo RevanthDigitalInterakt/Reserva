@@ -15,7 +15,6 @@ import NewBag from '../NewBag';
 import 'react-native-gesture-handler/jestSetup';
 import '../components/ProductList';
 import * as useBagStore from '../../../zustand/useBagStore/useBagStore';
-import CartContextProvider from '../../../context/CartContext';
 import { mockCurrentOrderForm } from './__mocks__/mockCurrentOrderForm';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { theme } from '../../../base/usereservappLegacy/theme';
@@ -65,16 +64,14 @@ jest.mock('../../../zustand/useApolloFetchPolicyStore', () => ({
 const Component = (
   <ThemeProvider theme={theme}>
     <MockedProvider mocks={apolloMocks} addTypename={false}>
-      <CartContextProvider>
-        <NewBag
-          navigation={navigationMock as TNavigation}
-          route={{
-            name: 'BagScreen',
-            key: '',
-            params: { isProfileComplete: false, orderFormId: '' },
-          }}
-        />
-      </CartContextProvider>
+      <NewBag
+        navigation={navigationMock as TNavigation}
+        route={{
+          name: 'BagScreen',
+          key: '',
+          params: { isProfileComplete: false, orderFormId: '' },
+        }}
+      />
     </MockedProvider>
   </ThemeProvider>
 );

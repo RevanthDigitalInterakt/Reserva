@@ -1,22 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
-import React, {
-  useState,
-  createContext,
-  type ReactNode,
-  useContext,
-  useEffect,
-} from 'react';
-
-import
-{
-  CreateCart,
-  OrderDetail,
-} from '../services/vtexService';
 import { type OrderformOutput } from '../base/graphql/generated';
-import { setAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
-import { useBagStore } from '../zustand/useBagStore/useBagStore';
-import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 interface ClientPreferencesData {
   attachmentId: string;
@@ -453,80 +437,3 @@ export type TAddItemResponse = {
   ok: boolean;
   message?: undefined;
 } | undefined;
-
-interface CartContextProps {
-  orderDetail: (orderId: string) => Promise<IOrderId | undefined>;
-}
-
-export const CartContext = createContext<CartContextProps | null>(null);
-
-interface CartContextProviderProps {
-  children?: ReactNode;
-}
-
-function CartContextProvider({ children }: CartContextProviderProps) {
-  const [orderForm, setOrderForm] = useState<OrderForm>();
-
-  const { actions } = useBagStore(['actions']);
-
-  useEffect(() => {
-    if (orderForm?.orderFormId && orderForm?.items) {
-      setAsyncStorageItem('orderFormId', orderForm?.orderFormId)
-        .then(actions.REFETCH_ORDER_FORM);
-    }
-  }, [orderForm?.orderFormId, orderForm?.items, actions.REFETCH_ORDER_FORM]);
-
-  const _requestOrderForm = async () => {
-    const { data } = await CreateCart();
-
-    setOrderForm(data);
-  };
-
-  const orderform = async () => {
-    try {
-      await _requestOrderForm();
-    } catch (error) {
-      ExceptionProvider.captureException(error);
-    }
-  };
-
-  useEffect(() => {
-    orderform();
-  }, []);
-
-  const orderDetail = async (orderId: string) => {
-    try {
-      const { data } = await OrderDetail(orderId);
-      return data || [];
-    } catch (error) {
-      ExceptionProvider.captureException(error);
-    }
-  };
-
-  return (
-    <CartContext.Provider
-      value={{
-        orderDetail,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
-  );
-}
-
-export default CartContextProvider;
-
-// hooks
-export const useCart = () => {
-  const cartContext = useContext(CartContext);
-  if (!cartContext) {
-    throw new Error('use Auth must be used within a AuthContextProvider');
-  }
-
-  const {
-    orderDetail,
-  } = cartContext;
-  return {
-    orderDetail,
-  };
-};
