@@ -11,8 +11,6 @@ import React, {
 import
 {
   CreateCart,
-  Orders,
-  SearchNewOrders,
   OrderDetail,
 } from '../services/vtexService';
 import { type OrderformOutput } from '../base/graphql/generated';
@@ -457,12 +455,6 @@ export type TAddItemResponse = {
 } | undefined;
 
 interface CartContextProps {
-  orders: (page: string) => Promise<IOrder[] | undefined>;
-  searchNewOrders: (
-    page: string,
-    email: string,
-    cookie: string
-  ) => Promise<IOrder[] | undefined>;
   orderDetail: (orderId: string) => Promise<IOrderId | undefined>;
 }
 
@@ -502,15 +494,6 @@ function CartContextProvider({ children }: CartContextProviderProps) {
     orderform();
   }, []);
 
-  const orders = async (page: string) => {
-    try {
-      const { data } = await Orders(page);
-      return data || [];
-    } catch (error) {
-      ExceptionProvider.captureException(error);
-    }
-  };
-
   const orderDetail = async (orderId: string) => {
     try {
       const { data } = await OrderDetail(orderId);
@@ -520,24 +503,9 @@ function CartContextProvider({ children }: CartContextProviderProps) {
     }
   };
 
-  const searchNewOrders = async (
-    page: string,
-    email: string,
-    cookie: string,
-  ) => {
-    try {
-      const { data } = await SearchNewOrders(page, email, cookie);
-      return data || [];
-    } catch (error) {
-      ExceptionProvider.captureException(error);
-    }
-  };
-
   return (
     <CartContext.Provider
       value={{
-        orders,
-        searchNewOrders,
         orderDetail,
       }}
     >
@@ -556,13 +524,9 @@ export const useCart = () => {
   }
 
   const {
-    orders,
-    searchNewOrders,
     orderDetail,
   } = cartContext;
   return {
-    orders,
-    searchNewOrders,
     orderDetail,
   };
 };

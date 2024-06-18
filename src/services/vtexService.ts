@@ -4,6 +4,7 @@ import {
   instance7,
 } from '../config/vtexConfig';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
+import type { IOrder } from '../context/CartContext';
 
 const vtexConfig = instance;
 const vtexConfig7 = instance7;
@@ -29,15 +30,6 @@ const GetPurchaseData = async (orderGroup: any) => {
   // place order para varias compras.
 };
 
-const Orders = async (page: string) => {
-  const response = await instance2.get(`/oms/user/orders/?page=${page}`, {
-    headers: {
-      'X-VTEX-API-APPKEY': '',
-    },
-  });
-  return response;
-};
-
 const OrderDetail = async (orderId: string) => {
   const response = await instance2.get(`/oms/user/orders/${orderId}`, {
     headers: {
@@ -48,7 +40,7 @@ const OrderDetail = async (orderId: string) => {
 };
 
 const SearchNewOrders = async (page: string, email: string, cookie: string) => {
-  const response = await instance.get(
+  const response = await instance.get<{ list: IOrder[], paging: { total: number } }>(
     `oms/user/orders/?page=${page}&per_page=20&includeProfileLastPurchases=true`,
     {
       headers: {
@@ -62,7 +54,6 @@ const SearchNewOrders = async (page: string, email: string, cookie: string) => {
 export {
   CreateCart,
   GetPurchaseData,
-  Orders,
   SearchNewOrders,
   OrderDetail,
 };
