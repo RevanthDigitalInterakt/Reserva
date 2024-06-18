@@ -60,6 +60,7 @@ function App() {
 
   useEffect(() => {
     firstLaunchedData();
+    actions.INITIAL_LOAD();
 
     onListenConnectivityEvents();
     remoteConfigStore.fetchInitialData(remoteConfig());
