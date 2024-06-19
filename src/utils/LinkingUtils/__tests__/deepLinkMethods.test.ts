@@ -1,4 +1,3 @@
-import { Linking } from 'react-native';
 import { deepLinkHelper } from '../deepLinkHelper';
 import {
   baseTabUrl,
@@ -8,9 +7,18 @@ import {
 } from '../static/deepLinkMethods';
 import { EXPECTED_RESULT, INPUTS_LINKS } from '../../../../__mocks__/webViewLinks';
 import { removeProtocol } from '../../removeProtocol';
+import { getApolloClient } from '../../getApolloClient';
+import { getAsyncStorageItem } from '../../../hooks/useAsyncStorageProvider';
 
 const DONTMATCHURL = undefined;
 const WEBVIEWOPEN = 'usereserva://webview/d?' as const;
+const gclidMock = 'CjwKCAjwscGjBhAXEiwAswQqNA0NVqJjj06ySZzHJSIPweMbdI3WvOI494VVhr3vequoTkfLDf15TBoCy2AQAvD_BwE';
+const orderformMock = '123';
+const URL_HOME = 'https://www.usereserva.com';
+const URL_HOME_VARIANT_1 = 'www.usereserva.com';
+const URL_HOME_VARIANT_2 = 'http://usereserva.com';
+const URL_HOME_VARIANT_3 = 'https://now.usereserva.io';
+const URL_META = 'usereserva://';
 
 jest.mock('react-native/Libraries/Utilities/Platform', () => {
   const Platform = jest.requireActual('react-native/Libraries/Utilities/Platform');
@@ -22,13 +30,36 @@ jest.mock('react-native/Libraries/Linking/Linking', () => ({
   openURL: jest.fn(() => Promise.resolve('mockResolve')),
 }));
 
-const gclidMock = 'CjwKCAjwscGjBhAXEiwAswQqNA0NVqJjj06ySZzHJSIPweMbdI3WvOI494VVhr3vequoTkfLDf15TBoCy2AQAvD_BwE';
+jest.mock('../../../hooks/useRemoteConfig', () => ({
+  useRemoteConfig: {
+    getState: jest.fn(() => ({
+      getBoolean: jest.fn(() => true),
+    })),
+  },
+}));
 
-const URL_HOME = 'https://www.usereserva.com';
-const URL_HOME_VARIANT_1 = 'www.usereserva.com';
-const URL_HOME_VARIANT_2 = 'http://usereserva.com';
-const URL_HOME_VARIANT_3 = 'https://now.usereserva.io';
-const URL_META = 'usereserva://';
+jest.mock('@datadog/mobile-react-native', () => ({
+  DdLogs: {
+    error: () => {},
+  },
+}));
+
+jest.mock('../../../hooks/useAsyncStorageProvider', () => ({
+  getAsyncStorageItem: jest.fn().mockReturnValue({ orderFormId: orderformMock }),
+}));
+
+jest.mock('../../getApolloClient', () => ({
+  getApolloClient: jest.fn(() => ({
+    mutate: jest.fn(() => Promise.resolve({
+      data: {
+        orderFormAddMultipleItem: {
+          orderFormId: orderformMock,
+          items: [],
+        },
+      },
+    })),
+  })),
+}));
 
 describe('utils | LinkingUtils | executeDeepLinkcase', () => {
   test('should return default url', async () => {
@@ -82,10 +113,10 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
       const expectedUrl = `${URL_HOME}/checkout/cart/add/?sku=66155&qty=1&seller=1&sc=1`;
 
       const result = await deepLinkHelper(expectedUrl);
-
-      expect(result).toEqual(defaultInitialUrl);
-      expect(Linking.openURL).toHaveBeenCalledTimes(1);
-      expect(Linking.openURL).toBeCalledWith(expectedUrl);
+      const expectUrl = `${URL_META}bag/${orderformMock}`;
+      expect(getApolloClient).toHaveBeenCalledTimes(1);
+      expect(getAsyncStorageItem).toHaveBeenCalledTimes(1);
+      expect(result).toEqual(expectUrl);
     });
   });
 
@@ -242,10 +273,39 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
 
   describe('test async deeplink facavc use case', () => {
     test('should redirect to FacaVc page', async () => {
-      const facaVoceCase = 'usereserva://criar';
+      const facaVoceCase = 'usereserva://facavc/criar';
+      const result = await deepLinkHelper(facaVoceCase);
+
+      expect(result).toEqual(facaVoceCase.concat('/null/null/null'));
+    });
+
+    test('should redirect to FacaVc page case 1', async () => {
+      const facaVoceCase = 'usereserva://facavc/criar/test';
+      const result = await deepLinkHelper(facaVoceCase);
+
+      expect(result).toEqual(facaVoceCase.concat('/null/null'));
+    });
+
+    test('should redirect to FacaVc page case 2', async () => {
+      const facaVoceCase = 'usereserva://facavc/criar/test/testeb';
+      const result = await deepLinkHelper(facaVoceCase);
+
+      expect(result).toEqual(facaVoceCase.concat('/null'));
+    });
+
+    test('should redirect to FacaVc page case 3', async () => {
+      const facaVoceCase = 'usereserva://facavc/criar/test/testeb/testec';
       const result = await deepLinkHelper(facaVoceCase);
 
       expect(result).toEqual(facaVoceCase);
+    });
+
+    test('should redirect to FacaVc page case 4', async () => {
+      const facaVoceCase = 'usereserva://facavc/criar/test/testeb/testec/other';
+      const expectFacaVoceCase = 'usereserva://facavc/criar/test/testeb/testec';
+      const result = await deepLinkHelper(facaVoceCase);
+
+      expect(result).toEqual(expectFacaVoceCase);
     });
   });
 
