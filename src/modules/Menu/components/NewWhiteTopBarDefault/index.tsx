@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { TopBar } from '../../../../components/TopBar';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
+import EventProvider from '../../../../utils/EventProvider';
 
 interface NewTopBarDefaultProps {
   showShadow?: Boolean;
@@ -12,6 +13,16 @@ export function NewWhiteTopBarDefault({ loading = false }: NewTopBarDefaultProps
   const navigation = useNavigation();
   const { allItemsQuantity } = useBagStore(['allItemsQuantity']);
 
+  const handleNavigateToMenu = () => {
+    navigation.navigate('Menu');
+    EventProvider.logEvent('menu-click', {});
+  };
+
+  const handleNavigateToBag = () => {
+    navigation.navigate('BagScreen');
+    EventProvider.logEvent('bag-click', {});
+  };
+
   return (
     <TopBar
       loading={loading}
@@ -21,13 +32,13 @@ export function NewWhiteTopBarDefault({ loading = false }: NewTopBarDefaultProps
         name: 'SideMenu',
         testID: 'com.usereserva:id/header_button_menu',
         size: 24,
-        onPress: () => navigation.navigate('Menu'),
+        onPress: () => handleNavigateToMenu,
       }}
       rightButton2={{
         name: 'Handbag',
         testID: 'com.usereserva:id/button_bag',
         size: 24,
-        onPress: () => navigation.navigate('BagScreen'),
+        onPress: () => handleNavigateToBag(),
         badgeCount: allItemsQuantity,
       }}
       height={50}

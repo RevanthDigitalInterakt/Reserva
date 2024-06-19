@@ -15,6 +15,11 @@ export const TopBarDefault: React.FC<{
   const { allItemsQuantity } = useBagStore(['allItemsQuantity']);
   const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
 
+  const handleNavigateToMenu = () => {
+    navigation.navigate('Menu');
+    EventProvider.logEvent('menu-click', {});
+  };
+
   return (
     <TopBar
       loading={loading}
@@ -26,14 +31,14 @@ export const TopBarDefault: React.FC<{
         name: 'SideMenu',
         testID: 'com.usereserva:id/header_button_menu',
         size: 24,
-        onPress: () => navigation.navigate('Menu'),
+        onPress: () => handleNavigateToMenu(),
       }}
       rightButton1={{
         name: 'Search',
         size: 24,
         testID: 'com.usereserva:id/header_button_search',
         onPress: () => {
-          EventProvider.logEvent('header_search_click', { open: 1 });
+          EventProvider.logEvent('top-bar-search-click', { open: 1 });
           navigation.navigate('SearchMenu');
           onStartLoad('Search');
         },

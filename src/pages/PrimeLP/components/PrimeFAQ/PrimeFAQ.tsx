@@ -2,26 +2,18 @@ import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import DropdownItem from '../../../../components/DropdownItem/DropdownItem';
 import { styles } from './PrimeFAQ.styles';
-import { usePrimeFaqQuery } from '../../../../base/graphql/generated';
-import { useApolloFetchPolicyStore } from '../../../../zustand/useApolloFetchPolicyStore';
+import { type PrimeDetailOutput } from '../../../../base/graphql/generated';
 import { Typography } from '../../../../components/Typography/Typography';
 
 function Divider() {
   return <View style={styles.divider} />;
 }
 
-function PrimeFAQ() {
-  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore([
-    'getFetchPolicyPerKey',
-  ]);
-
-  const { data } = usePrimeFaqQuery({
-    context: { clientName: 'gateway' },
-    fetchPolicy: getFetchPolicyPerKey('primeFAQ'),
-  });
-
-  const primeFAQInformation = useMemo(() => data?.primeFaq, [data?.primeFaq]);
-
+interface IPrimeFAQ {
+  data: PrimeDetailOutput;
+}
+function PrimeFAQ({ data }: IPrimeFAQ) {
+  const primeFAQ = useMemo(() => data?.primeFaq, [data?.primeFaq]);
   return (
     <View style={styles.container}>
       <Typography
@@ -32,16 +24,17 @@ function PrimeFAQ() {
         Perguntas Frequentes
       </Typography>
 
-      {primeFAQInformation?.map((item, index) => (
-        <>
+      {primeFAQ?.map((item, index) => (
+        <View
+          key={`primeFaqItem-${item.title}`}
+        >
           <DropdownItem
-            body={item.body}
-            title={item.title}
-            key={item.id}
+            title={item?.title ?? ''}
+            body={item?.textBody}
             justifyText
           />
-          {index !== primeFAQInformation.length - 1 && <Divider key={item.title} />}
-        </>
+          {index !== primeFAQ.length - 1 && <Divider key={item.title} />}
+        </View>
       ))}
     </View>
   );

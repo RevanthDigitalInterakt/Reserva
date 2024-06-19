@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { Alert, Linking, Platform } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import Config from 'react-native-config';
 import deviceInfoModule from 'react-native-device-info';
 import checkVersion from 'react-native-store-version';
@@ -59,15 +59,15 @@ export default function useCheckAppNewVersion() {
       const isMajor = semver.gt(remote, local);
       const isTarget = semver.eq(targetVersion, local);
 
-      if (isMajor
-        && (updateAllVersions || isTarget)
-        && (onlyPlatform === platform || onlyPlatform === 'all')) {
-        Alert.alert(
-          updateTitle ?? '',
-          updateDescription ?? '',
-          buttons,
-        );
-      }
+      // if (isMajor
+      //   && (updateAllVersions || isTarget)
+      //   && (onlyPlatform === platform || onlyPlatform === 'all')) {
+      //   Alert.alert(
+      //     updateTitle ?? '',
+      //     updateDescription ?? '',
+      //     buttons,
+      //   );
+      // }
     } catch (error) {
       ExceptionProvider.captureException(error);
     }
