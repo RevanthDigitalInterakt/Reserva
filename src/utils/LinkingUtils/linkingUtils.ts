@@ -1,18 +1,40 @@
-import { removeLastCharacterSlash } from '../removeLastCharacterSlash';
-import { registerMethods } from './static/deepLinkMethods';
+const handlePathsParams = (
+  path: string,
+  keyword: string,
+  numPaths: number = 0,
+): string => {
+  const keywordIndex = path.indexOf(keyword);
+  if (keywordIndex === -1) {
+    return path;
+  }
 
-const deepLinkHelper = async (initialUrl: string): Promise<string | undefined> => {
-  const url = removeLastCharacterSlash(initialUrl);
+  const beforeKeyword = path.substring(0, keywordIndex + keyword.length);
+  const afterKeywordParts = path
+    .substring(keywordIndex + keyword.length)
+    .split('/')
+    .filter(Boolean);
 
-  const route = await registerMethods.reduce(async (accPromise, executeDeepLinkCase) => {
-    const acc = await accPromise;
-    if (acc.match) return acc;
+  while (afterKeywordParts.length < numPaths) {
+    afterKeywordParts.push('null');
+  }
 
-    const result = await executeDeepLinkCase(url);
-    return result.match ? result : acc;
-  }, Promise.resolve({ match: false }));
+  const completePaths = afterKeywordParts.slice(0, numPaths);
 
-  return route.match ? route.strUrl : undefined;
+  return `${beforeKeyword}/${completePaths.join('/')}`;
 };
 
-export { deepLinkHelper };
+const splitPathParams = (path: string, keyword: string): string => {
+  if (!path || !keyword) {
+    return '';
+  }
+
+  const index = path.indexOf(keyword);
+
+  if (index === -1 || index + keyword.length >= path.length) {
+    return '';
+  }
+
+  return path.substring(index + keyword.length);
+};
+
+export { handlePathsParams, splitPathParams };

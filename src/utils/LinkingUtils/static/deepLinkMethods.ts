@@ -20,6 +20,7 @@ import {
 import { mergeItemsPackage } from '../../mergeItemsPackage';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import * as linkingUtils from '../linkingUtils';
 
 const { getBoolean } = useRemoteConfig.getState();
 
@@ -180,7 +181,8 @@ const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
-// const clusterCollectionUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
+// const clusterCollectionUseCase = async (initialUrl: string):
+//  Promise<ICustomMethodReturnParams> => {
 //   const splitPath = initialUrl.split('//')[1];
 //   const res = await fetch(`https://www.usereserva.com/${splitPath}`);
 //   const clusterId = (await res?.text())?.split('productClusterIds')[0]
@@ -324,14 +326,14 @@ const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
 
       try {
         const { data } = await getApolloClient().mutate<
-        OrderFormAddMultipleItemMutation,
-        OrderFormAddMultipleItemMutationVariables>({
-          mutation: OrderFormAddMultipleItemDocument,
-          context: { clientName: 'gateway' },
-          variables: {
-            input,
-          },
-        });
+          OrderFormAddMultipleItemMutation,
+          OrderFormAddMultipleItemMutationVariables>({
+            mutation: OrderFormAddMultipleItemDocument,
+            context: { clientName: 'gateway' },
+            variables: {
+              input,
+            },
+          });
 
         const { orderFormAddMultipleItem: orderForm } = data || {};
 
@@ -453,13 +455,26 @@ const webviewDeepLinkUseCase = (initialUrl: string): ICustomMethodReturnParams =
   return defaultCustomMethodReturn;
 };
 
-const webViewFacaVcUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+const webViewFacaVcUseCase = (
+  initialUrl: string,
+): ICustomMethodReturnParams => {
   const showWebviewFacavc = getBoolean('show_webview_facavc');
 
   if (initialUrl.includes('facavc/criar') && showWebviewFacavc) {
+    const numbersOfPathParams = 3;
+    const handleInitialUrlParams = linkingUtils.handlePathsParams(
+      initialUrl,
+      '/facavc/criar',
+      numbersOfPathParams,
+    );
+    const aditionalParams = linkingUtils.splitPathParams(
+      handleInitialUrlParams,
+      'facavc/criar',
+    );
+
     return {
       match: true,
-      strUrl: 'usereserva://facavc/criar',
+      strUrl: `usereserva://facavc/criar${aditionalParams}`,
     };
   }
 

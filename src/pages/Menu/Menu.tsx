@@ -5,7 +5,11 @@ import {
   BackHandler, Linking, ScrollView, View,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StackActions, useLinkTo, useNavigation } from '@react-navigation/native';
+import {
+  StackActions,
+  useLinkTo,
+  useNavigation,
+} from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -32,6 +36,7 @@ import { Typography } from '../../components/Typography/Typography';
 import { theme } from '../../base/usereservappLegacy/theme';
 import NewFixedMenuItem from './components/NewMenuFixedItem';
 import FormLink from '../../components/FormLink/FormLink';
+import { handlePathsParams } from '../../utils/LinkingUtils/linkingUtils';
 
 export type MenuProps = StackScreenProps<RootStackParamList, 'Menu'>;
 
@@ -40,7 +45,9 @@ function Menu() {
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const [openedIndex, setOpenedIndex] = useState<number>();
 
-  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
+  const { getFetchPolicyPerKey } = useApolloFetchPolicyStore([
+    'getFetchPolicyPerKey',
+  ]);
   const { profile } = useAuthStore(['profile']);
   const { getBoolean, getString } = useRemoteConfig();
   const linkTo = useLinkTo();
@@ -53,95 +60,123 @@ function Menu() {
     notifyOnNetworkStatusChange: true,
     context: { clientName: 'gateway' },
   });
-  const regionalizationActive = useMemo(() => getBoolean('regionalization'), [getBoolean]);
 
-  const trackEventAccessedDepartmentDito = useCallback(async (openedCategories: string) => {
-    if (!openedCategories) return;
+  const regionalizationActive = useMemo(
+    () => getBoolean('regionalization'),
+    [getBoolean],
+  );
 
-    const id = await getDitoUserID(profile?.email);
+  const trackEventAccessedDepartmentDito = useCallback(
+    async (openedCategories: string) => {
+      if (!openedCategories) return;
 
-    EventProvider.sendTrackEvent('acessou-departamento', {
-      id,
-      action: 'acessou-departamento',
-      data: {
-        nome_departamento: openedCategories,
-        origem: 'app',
-      },
-    });
-  }, [profile?.email]);
+      const id = await getDitoUserID(profile?.email);
+
+      EventProvider.sendTrackEvent('acessou-departamento', {
+        id,
+        action: 'acessou-departamento',
+        data: {
+          nome_departamento: openedCategories,
+          origem: 'app',
+        },
+      });
+    },
+    [profile?.email],
+  );
 
   const getTestEnvironment = useCallback(async () => {
     const res = await AsyncStorage.getItem('isTesting');
     setIsTesting(res === 'true');
   }, []);
 
-  const navigateFromMenu = useCallback((routeName: string) => {
-    navigation.navigate(routeName, { comeFrom: 'Menu' });
-  }, [navigation]);
+  const navigateFromMenu = useCallback(
+    (routeName: string) => {
+      navigation.navigate(routeName, { comeFrom: 'Menu' });
+    },
+    [navigation],
+  );
 
-  const onSelectMenuItem = useCallback((
-    index: number,
-    selectedItem: Omit<MenuCategoryItemOutput, '__typename'>,
-  ) => {
-    trackEventAccessedDepartmentDito(selectedItem.name);
+  const onSelectMenuItem = useCallback(
+    (
+      index: number,
+      selectedItem: Omit<MenuCategoryItemOutput, '__typename'>,
+    ) => {
+      trackEventAccessedDepartmentDito(selectedItem.name);
 
-    if (selectedItem.type === MenuItemTypeEnum.ParentCategory) {
-      setOpenedIndex(openedIndex === index ? undefined : index);
-      return;
-    }
-
-    BackHandler.addEventListener('hardwareBackPress', () => {
-      navigation.dispatch(StackActions.popToTop());
-      navigation.navigate('Menu');
-
-      return true;
-    });
-
-    if (
-      selectedItem.type === MenuItemTypeEnum.Category
-            || selectedItem.type === MenuItemTypeEnum.Collection
-    ) {
-      const navigateParams: {
-        facetInput: MenuCategoryItemOutput['facets'];
-        referenceId: Maybe<string> | undefined;
-        title: string;
-        comeFrom: string;
-        indexMenuOpened: number;
-        filters?: {
-          priceFilter: {
-            from: number;
-            to: number;
-          };
-        };
-      } = {
-        facetInput: selectedItem.facets,
-        referenceId: selectedItem.referenceId,
-        title: selectedItem.name,
-        comeFrom: 'Menu',
-        indexMenuOpened: index,
-      };
-
-      if (
-        (selectedItem.filters?.priceFilter?.from
-                    || selectedItem.filters?.priceFilter?.from === null)
-                && selectedItem.filters?.priceFilter?.to) {
-        navigateParams.filters = {
-          priceFilter: {
-            from: selectedItem.filters?.priceFilter?.from || 0,
-            to: selectedItem.filters?.priceFilter?.to || 0,
-          },
-        };
+      if (selectedItem.type === MenuItemTypeEnum.ParentCategory) {
+        setOpenedIndex(openedIndex === index ? undefined : index);
+        return;
       }
 
-      navigation.navigate('ProductCatalog', navigateParams);
+      BackHandler.addEventListener('hardwareBackPress', () => {
+        navigation.dispatch(StackActions.popToTop());
+        navigation.navigate('Menu');
 
-      return;
-    }
+        return true;
+      });
 
-    if (selectedItem.type === MenuItemTypeEnum.Deeplink && selectedItem.deeplinkUrl) {
-      linkTo(selectedItem.deeplinkUrl);
-    }
-  }, [linkTo, navigation, openedIndex, trackEventAccessedDepartmentDito]);
+      if (
+        selectedItem.type === MenuItemTypeEnum.Category
+        || selectedItem.type === MenuItemTypeEnum.Collection
+      ) {
+        const navigateParams: {
+          facetInput: MenuCategoryItemOutput['facets'];
+          referenceId: Maybe<string> | undefined;
+          title: string;
+          comeFrom: string;
+          indexMenuOpened: number;
+          filters?: {
+            priceFilter: {
+              from: number;
+              to: number;
+            };
+          };
+        } = {
+          facetInput: selectedItem.facets,
+          referenceId: selectedItem.referenceId,
+          title: selectedItem.name,
+          comeFrom: 'Menu',
+          indexMenuOpened: index,
+        };
+
+        if (
+          (selectedItem.filters?.priceFilter?.from
+            || selectedItem.filters?.priceFilter?.from === null)
+          && selectedItem.filters?.priceFilter?.to
+        ) {
+          navigateParams.filters = {
+            priceFilter: {
+              from: selectedItem.filters?.priceFilter?.from || 0,
+              to: selectedItem.filters?.priceFilter?.to || 0,
+            },
+          };
+        }
+
+        navigation.navigate('ProductCatalog', navigateParams);
+
+        return;
+      }
+
+      if (
+        selectedItem.type === MenuItemTypeEnum.Deeplink
+        && selectedItem.deeplinkUrl
+      ) {
+        const numberOfPathParams = 3;
+        let linkUrl = selectedItem.deeplinkUrl;
+
+        switch (true) {
+          case linkUrl.indexOf('/facavc/criar') !== -1:
+            linkUrl = handlePathsParams(linkUrl, '/facavc/criar', numberOfPathParams);
+            break;
+          default:
+            break;
+        }
+
+        linkTo(linkUrl);
+      }
+    },
+    [linkTo, navigation, openedIndex, trackEventAccessedDepartmentDito],
+  );
 
   useEffect(() => {
     getTestEnvironment();
@@ -177,21 +212,29 @@ function Menu() {
                   />
                 ))}
 
-                <Divider variant="fullWidth" marginBottom="nano" marginTop="nano" />
+                <Divider
+                  variant="fullWidth"
+                  marginBottom="nano"
+                  marginTop="nano"
+                />
 
                 {regionalizationActive && (
-                <FixedMenuItem
-                  iconName="Pin"
-                  testID="com.usereserva:id/menu_button_cep"
-                  title="Inserir ou alterar CEP"
-                  onPress={() => navigation.navigate('ChangeRegionalization')}
-                />
+                  <FixedMenuItem
+                    iconName="Pin"
+                    testID="com.usereserva:id/menu_button_cep"
+                    title="Inserir ou alterar CEP"
+                    onPress={() => navigation.navigate('ChangeRegionalization')}
+                  />
                 )}
 
                 <NewFixedMenuItem
                   iconName="profile"
                   testID="com.usereserva:id/menu_button_account"
-                  title={profile?.email ? `Olá, ${profile?.firstName || profile?.email}` : 'Acessar Conta'}
+                  title={
+                    profile?.email
+                      ? `Olá, ${profile?.firstName || profile?.email}`
+                      : 'Acessar Conta'
+                  }
                   onPress={() => {
                     if (profile?.email) {
                       navigation.navigate('Profile');
@@ -237,17 +280,22 @@ function Menu() {
                   onPress={() => navigateFromMenu('PrivacyPolicy')}
                 />
                 {showOnep5p && (
-                <NewFixedMenuItem
-                  iconName="cutlery"
-                  testID="com.usereserva:id/menu_button_privacy"
-                  title="1P=5P"
-                  onPress={() => navigation.navigate('PageOneP5P', { comeFrom: 'Menu' })}
-                />
+                  <NewFixedMenuItem
+                    iconName="cutlery"
+                    testID="com.usereserva:id/menu_button_privacy"
+                    title="1P=5P"
+                    onPress={() => navigation.navigate('PageOneP5P', { comeFrom: 'Menu' })}
+                  />
                 )}
               </View>
               {showForm === 'menu' ? (
                 <>
-                  <Divider variant="fullWidth" marginBottom="nano" marginTop="xxs" marginX="micro" />
+                  <Divider
+                    variant="fullWidth"
+                    marginBottom="nano"
+                    marginTop="xxs"
+                    marginX="micro"
+                  />
                   <FormLink />
                 </>
               ) : null}
@@ -255,8 +303,14 @@ function Menu() {
           )}
 
           <Box mt="xs" alignItems="center">
-            <Typography color="neutroFrio2" fontFamily="nunitoRegular" fontSize={11}>
-              {`Versão ${DeviceInfo.getVersion()} ${isTesting ? ' - Teste' : ''}`}
+            <Typography
+              color="neutroFrio2"
+              fontFamily="nunitoRegular"
+              fontSize={11}
+            >
+              {`Versão ${DeviceInfo.getVersion()} ${
+                isTesting ? ' - Teste' : ''
+              }`}
             </Typography>
           </Box>
         </ScrollView>

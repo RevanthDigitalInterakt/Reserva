@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import { Platform, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
@@ -15,6 +15,12 @@ interface IOnLoad {
 }
 
 export default function WebViewFacaVoce() {
+  const route = useRoute();
+
+  // Acessando os parâmetros da URL
+  const { params } = route;
+  console.log({ params });
+
   const navigation = useNavigation();
   const { orderFormId } = useBagStore(['orderFormId']);
   const { profile } = useAuthStore(['profile']);

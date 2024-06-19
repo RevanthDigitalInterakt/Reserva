@@ -1,5 +1,5 @@
 import { Linking } from 'react-native';
-import { deepLinkHelper } from '../linkingUtils';
+import { deepLinkHelper } from '../deepLinkHelper';
 import {
   baseTabUrl,
   defaultInitialUrl,
