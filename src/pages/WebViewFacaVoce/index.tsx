@@ -9,6 +9,7 @@ import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrack
 import testProps from '../../utils/testProps';
 import { TopBarMenu } from '../../modules/Menu/components/TopBarMenu';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
+import { handleObjectToQueryParams } from '../../utils/handleObjectToQueryParams';
 
 interface IOnLoad {
   nativeEvent: any;
@@ -16,10 +17,7 @@ interface IOnLoad {
 
 export default function WebViewFacaVoce() {
   const route = useRoute();
-
-  // Acessando os parâmetros da URL
   const { params } = route;
-  console.log({ params });
 
   const navigation = useNavigation();
   const { orderFormId } = useBagStore(['orderFormId']);
@@ -33,7 +31,15 @@ export default function WebViewFacaVoce() {
   const { sessionId } = trackPageViewStore.getState();
 
   const baseUrl = Config.R2U_URL;
-  const sourceUri = `${baseUrl}?context=app&client_id=${clientId}&session_id==${sessionId}&orderform_id=${orderFormId}`;
+  let sourceUri = `${baseUrl}?econtext=app&clint_id=${clientId}&session_id==${sessionId}&orderform_id=${orderFormId}`;
+
+  if (params) {
+    const validKeys: string[] = ['category', 'custom', 'type'];
+
+    const paramsToFind = handleObjectToQueryParams(params, validKeys);
+
+    if (paramsToFind.length) sourceUri = sourceUri.concat('&').concat(paramsToFind);
+  }
 
   const onMessage = async (event: WebViewMessageEvent) => {
     const { data } = event.nativeEvent;

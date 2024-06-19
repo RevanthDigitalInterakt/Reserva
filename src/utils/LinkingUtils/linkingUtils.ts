@@ -1,4 +1,4 @@
-const handlePathsParams = (
+export const handlePathsParams = (
   path: string,
   keyword: string,
   numPaths: number = 0,
@@ -23,7 +23,7 @@ const handlePathsParams = (
   return `${beforeKeyword}/${completePaths.join('/')}`;
 };
 
-const splitPathParams = (path: string, keyword: string): string => {
+export const splitPathParams = (path: string, keyword: string): string => {
   if (!path || !keyword) {
     return '';
   }
@@ -36,5 +36,3 @@ const splitPathParams = (path: string, keyword: string): string => {
 
   return path.substring(index + keyword.length);
 };
-
-export { handlePathsParams, splitPathParams };

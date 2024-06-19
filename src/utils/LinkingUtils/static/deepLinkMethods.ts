@@ -326,14 +326,14 @@ const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
 
       try {
         const { data } = await getApolloClient().mutate<
-          OrderFormAddMultipleItemMutation,
-          OrderFormAddMultipleItemMutationVariables>({
-            mutation: OrderFormAddMultipleItemDocument,
-            context: { clientName: 'gateway' },
-            variables: {
-              input,
-            },
-          });
+        OrderFormAddMultipleItemMutation,
+        OrderFormAddMultipleItemMutationVariables>({
+          mutation: OrderFormAddMultipleItemDocument,
+          context: { clientName: 'gateway' },
+          variables: {
+            input,
+          },
+        });
 
         const { orderFormAddMultipleItem: orderForm } = data || {};
 
@@ -459,17 +459,18 @@ const webViewFacaVcUseCase = (
   initialUrl: string,
 ): ICustomMethodReturnParams => {
   const showWebviewFacavc = getBoolean('show_webview_facavc');
+  const facaVcPath = 'facavc/criar';
 
-  if (initialUrl.includes('facavc/criar') && showWebviewFacavc) {
+  if (initialUrl.includes(facaVcPath) && showWebviewFacavc) {
     const numbersOfPathParams = 3;
     const handleInitialUrlParams = linkingUtils.handlePathsParams(
       initialUrl,
-      '/facavc/criar',
+      facaVcPath,
       numbersOfPathParams,
     );
     const aditionalParams = linkingUtils.splitPathParams(
       handleInitialUrlParams,
-      'facavc/criar',
+      facaVcPath,
     );
 
     return {

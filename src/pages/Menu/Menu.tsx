@@ -162,13 +162,15 @@ function Menu() {
         && selectedItem.deeplinkUrl
       ) {
         const numberOfPathParams = 3;
-        let linkUrl = selectedItem.deeplinkUrl;
+        const facaVcPath = '/facavc/criar';
+        let linkUrl: string;
 
         switch (true) {
-          case linkUrl.indexOf('/facavc/criar') !== -1:
-            linkUrl = handlePathsParams(linkUrl, '/facavc/criar', numberOfPathParams);
+          case selectedItem.deeplinkUrl.indexOf(facaVcPath) !== -1:
+            linkUrl = handlePathsParams(selectedItem.deeplinkUrl, facaVcPath, numberOfPathParams);
             break;
           default:
+            linkUrl = selectedItem.deeplinkUrl;
             break;
         }
 
