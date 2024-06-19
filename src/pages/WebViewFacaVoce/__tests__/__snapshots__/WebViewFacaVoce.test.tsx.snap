@@ -928,7 +928,7 @@ exports[`WebViewFacaVoce Should match snapshot 1`] = `
       messagingModuleName=""
       newSource={
         {
-          "uri": "https://mocked.url?context=app&client_id=mockClientId&session_id==mockSessionId&orderform_id=",
+          "uri": "https://mocked.url?context=app&client_id=mockClientId&session_id==mockSessionId&orderform_id=&category=categorymock&custom=custommock&type=typemock",
         }
       }
       onContentProcessDidTerminate={[Function]}
@@ -942,7 +942,7 @@ exports[`WebViewFacaVoce Should match snapshot 1`] = `
       saveFormDataDisabled={true}
       source={
         {
-          "uri": "https://mocked.url?context=app&client_id=mockClientId&session_id==mockSessionId&orderform_id=",
+          "uri": "https://mocked.url?context=app&client_id=mockClientId&session_id==mockSessionId&orderform_id=&category=categorymock&custom=custommock&type=typemock",
         }
       }
       style={

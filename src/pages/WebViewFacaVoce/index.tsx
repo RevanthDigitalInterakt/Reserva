@@ -31,7 +31,7 @@ export default function WebViewFacaVoce() {
   const { sessionId } = trackPageViewStore.getState();
 
   const baseUrl = Config.R2U_URL;
-  let sourceUri = `${baseUrl}?econtext=app&clint_id=${clientId}&session_id==${sessionId}&orderform_id=${orderFormId}`;
+  let sourceUri = `${baseUrl}?context=app&client_id=${clientId}&session_id==${sessionId}&orderform_id=${orderFormId}`;
 
   if (params) {
     const validKeys: string[] = ['category', 'custom', 'type'];
