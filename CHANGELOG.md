@@ -3,6 +3,7 @@
 ### 2.11.8
 
 - [30754 - Captar lead via aplicativo](https://dev.azure.com/areco/AReCO/_workitems/edit/30754)
+- [42418 - [APP] Parametrização url Faça vc](https://dev.azure.com/areco/AReCO/_workitems/edit/42418)
 
 ### 2.11.7
 
