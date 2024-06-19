@@ -1,5 +1,5 @@
 import { removeLastCharacterSlash } from '../removeLastCharacterSlash';
-import { registerMethods } from './static/deepLinkMethods';
+import { registerMethods, type ICustomMethodReturnParams } from './static/deepLinkMethods';
 
 const deepLinkHelper = async (
   initialUrl: string,
@@ -7,7 +7,7 @@ const deepLinkHelper = async (
   const url = removeLastCharacterSlash(initialUrl);
 
   const route = await registerMethods.reduce(
-    async (accPromise, executeDeepLinkCase) => {
+    async (accPromise: Promise<ICustomMethodReturnParams>, executeDeepLinkCase) => {
       const acc = await accPromise;
       if (acc.match) return acc;
 

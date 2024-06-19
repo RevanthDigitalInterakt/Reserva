@@ -24,9 +24,9 @@ import * as linkingUtils from '../linkingUtils';
 
 const { getBoolean } = useRemoteConfig.getState();
 
-interface ICustomMethodReturnParams {
+export interface ICustomMethodReturnParams {
   match: boolean;
-  strUrl: string;
+  strUrl?: string;
 }
 
 export const REGEX_PRODUCT_URL = {
