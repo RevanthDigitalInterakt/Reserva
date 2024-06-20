@@ -12,6 +12,8 @@
 
 - [41893 - Migração de dados do Prime para o Contentful (App)](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41893)
 
+- [41136 - Tagueamento PDC app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41136)
+
 ---
 
 ### 2.11.8
