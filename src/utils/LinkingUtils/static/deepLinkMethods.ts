@@ -19,7 +19,7 @@ import {
 } from '../../../base/graphql/generated';
 import { mergeItemsPackage } from '../../mergeItemsPackage';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
-import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import { syncRemoteConfig, useRemoteConfig } from '../../../hooks/useRemoteConfig';
 
 const { getBoolean } = useRemoteConfig.getState();
 
@@ -453,7 +453,8 @@ const webviewDeepLinkUseCase = (initialUrl: string): ICustomMethodReturnParams =
   return defaultCustomMethodReturn;
 };
 
-const webViewFacaVcUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+const webViewFacaVcUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
+  await syncRemoteConfig();
   const showWebviewFacavc = getBoolean('show_webview_facavc');
 
   if (initialUrl.includes('facavc/criar') && showWebviewFacavc) {
