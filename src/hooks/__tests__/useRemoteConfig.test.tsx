@@ -1,6 +1,10 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 import remoteConfig from '@react-native-firebase/remote-config';
-import { defaults, useRemoteConfig } from '../useRemoteConfig';
+import { defaults, syncRemoteConfig, useRemoteConfig } from '../useRemoteConfig';
+
+const FIVE_MINUTES_IN_MS = 300000;
+
+jest.useFakeTimers();
 
 describe('useRemoteConfig test', () => {
   it('should successfully fetch initial data', async () => {
@@ -58,5 +62,39 @@ describe('useRemoteConfig test', () => {
     expect(instance.getString).toHaveBeenCalledTimes(0);
     expect(typeof res).toBe('string');
     expect(res).toBe(defaults.pdp_button_add_bag);
+  });
+});
+
+describe('syncRemoteConfig tests', () => {
+  beforeEach(() => {
+    jest.clearAllTimers();
+  });
+
+  it('should resolve immediately if already initialized', async () => {
+    useRemoteConfig.getState = jest.fn().mockReturnValue({ initialized: true });
+    useRemoteConfig.subscribe = jest.fn();
+
+    await act(async () => {
+      await syncRemoteConfig();
+    });
+
+    expect(useRemoteConfig.getState).toHaveBeenCalled();
+    expect(useRemoteConfig.subscribe).not.toHaveBeenCalled();
+  });
+
+  it('should timeout after five minutes if not initialized', async () => {
+    useRemoteConfig.getState = jest.fn().mockReturnValue({ initialized: false });
+    useRemoteConfig.subscribe = jest.fn();
+
+    const promise = act(async () => {
+      await syncRemoteConfig();
+    });
+
+    jest.advanceTimersByTime(FIVE_MINUTES_IN_MS);
+
+    await promise;
+
+    expect(useRemoteConfig.getState).toHaveBeenCalled();
+    expect(useRemoteConfig.subscribe).toHaveBeenCalled();
   });
 });
