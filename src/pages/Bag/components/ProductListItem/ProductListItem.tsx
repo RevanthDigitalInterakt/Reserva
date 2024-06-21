@@ -42,8 +42,6 @@ function ProductListItem({
 
   const urlFacaVc = useMemo(() => data.urlFacaVc, [data.urlFacaVc]);
 
-  console.log('urlFacaVc AQUIIIIIIIII', urlFacaVc);
-
   return (
     <Box bg="white" marginTop="xxxs" testID="com.usereserva:id/BagProductList">
       {!!data.showFirstPurchaseDiscountMessage && (
