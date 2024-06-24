@@ -462,25 +462,16 @@ exports[`HelpCenter Should snapshot 1`] = `
     </View>
   </RCTSafeAreaView>
   <View
-    alignContent="flex-start"
-    flex={1}
-    paddingX="xxxs"
-    pt="xs"
     style={
       {
         "alignContent": "flex-start",
-        "flexBasis": 0,
-        "flexGrow": 1,
-        "flexShrink": 1,
-        "paddingLeft": 16,
-        "paddingRight": 16,
+        "flex": 1,
+        "paddingHorizontal": 35.15625,
         "paddingTop": 32,
       }
     }
   >
     <View
-      alignSelf="flex-start"
-      mb="nano"
       style={
         {
           "alignSelf": "flex-start",
@@ -492,15 +483,12 @@ exports[`HelpCenter Should snapshot 1`] = `
         style={
           {
             "fontFamily": "ReservaSerif-Regular",
-            "fontSize": 28,
+            "fontSize": 51.5625,
           }
         }
-        variant="tituloSessoes"
       />
     </View>
     <View
-      mb="micro"
-      mt="xxxs"
       style={
         {
           "marginBottom": 12,
