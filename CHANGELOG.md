@@ -1,4 +1,12 @@
+# APP RESERVA
+
 ## CHANGELOG
+
+### 2.11.10
+
+- [31946 - Migrar dados para o contentful > Central de ajuda app](https://dev.azure.com/areco/AReCO/_workitems/edit/31946)
+
+---
 
 ### 2.11.9
 

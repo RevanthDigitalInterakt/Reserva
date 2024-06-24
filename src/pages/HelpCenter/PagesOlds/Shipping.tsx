@@ -4,7 +4,7 @@ import {
   Image, SafeAreaView, ScrollView,
 } from 'react-native';
 
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { TopBarBackButton } from '../../../modules/Menu/components/TopBarBackButton';
 import { Box } from '../../../components/Box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import { Divider } from '../../../components/Divider/Divider';

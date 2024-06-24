@@ -6,7 +6,7 @@ import {
 import { Box } from '../../../components/Box/Box';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../components/Typography/Typography';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { TopBarBackButton } from '../../../modules/Menu/components/TopBarBackButton';
 import useOpenLink from '../../../hooks/useOpenLink';
 
 const windowWidth = Dimensions.get('window').width;

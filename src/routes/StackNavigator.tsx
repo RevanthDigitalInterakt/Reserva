@@ -27,7 +27,6 @@ import { HomeTabs } from './HomeTabs';
 import {
   AddressFlow,
   ForgotFlow,
-  HelpCenterFLow,
   LoginFlow,
   OrderFlow,
   ProductFlow,
@@ -38,6 +37,10 @@ import ZipCodeDelivery from '../pages/ZipCodeDelivery';
 import WebViewDoris from '../pages/WebViewDoris';
 import WebViewFacaVoce from '../pages/WebViewFacaVoce';
 import Newsletter from '../pages/Newsletter/Newsletter';
+import PageHelpCenter from '../pages/HelpCenter/Components/PageHelpCenter';
+import Exchange from '../pages/HelpCenter/pages/Exchange/Exchange';
+import type { SessionBodyCollectionOutput } from '../base/graphql/generated';
+import HelpCenter from '../pages/HelpCenter';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -151,12 +154,18 @@ export type RootStackParamList = {
   WebViewDeepLink: {
     uri: string
   },
-  ZipCodeDelivery: undefined
+  ZipCodeDelivery: undefined;
+  PageHelpCenter: {
+    title?: string;
+    data?: SessionBodyCollectionOutput['items'];
+  },
+  Exchange: {
+    url?: string;
+  }
 };
 
 const flows: Flow[] = [
   ...AddressFlow,
-  ...HelpCenterFLow,
   ...ForgotFlow,
   ...OrderFlow,
   ...LoginFlow,
@@ -201,6 +210,9 @@ export function MainStackScreen() {
       <MainStack.Screen name="PrimeLP" component={PrimeLP} />
       <MainStack.Screen name="PageOneP5P" component={PageOneP5P} />
       <MainStack.Screen name="Newsletter" component={Newsletter} />
+      <MainStack.Screen name="HelpCenter" component={HelpCenter} />
+      <MainStack.Screen name="PageHelpCenter" component={PageHelpCenter} />
+      <MainStack.Screen name="Exchange" component={Exchange} />
     </MainStack.Navigator>
   );
 }

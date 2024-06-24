@@ -40,6 +40,11 @@ export type BannerCategoryOutput = {
   name?: Maybe<Scalars['String']['output']>;
 };
 
+export type BodyImagesCollectionOutput = {
+  __typename?: 'BodyImagesCollectionOutput';
+  items?: Maybe<Array<ItemsBodyImagesCollectionOutput>>;
+};
+
 export type CashbackAllExpirationOutput = {
   __typename?: 'CashbackAllExpirationOutput';
   data: CashbackExpirationInfoOutput;
@@ -248,6 +253,26 @@ export type ConfigShippingBarOutput = {
   isFreeShipping?: Maybe<Scalars['Boolean']['output']>;
 };
 
+export type ContentHelpCenterImagesCollectionOutput = {
+  __typename?: 'ContentHelpCenterImagesCollectionOutput';
+  description?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
+};
+
+export type ContentItemsExpansePanelCollectionOutput = {
+  __typename?: 'ContentItemsExpansePanelCollectionOutput';
+  expanseContentItem?: Maybe<Scalars['String']['output']>;
+  expanseTitleItem?: Maybe<Scalars['String']['output']>;
+};
+
+export type ContentItemsHelpCenterCollectionOutput = {
+  __typename?: 'ContentItemsHelpCenterCollectionOutput';
+  linkUrl?: Maybe<Scalars['String']['output']>;
+  sessionBodyCollection?: Maybe<SessionBodyCollectionOutput>;
+  sessionTitle?: Maybe<Scalars['String']['output']>;
+};
+
 export type ContentfulCategoryDetailOutput = {
   __typename?: 'ContentfulCategoryDetailOutput';
   id: Scalars['String']['output'];
@@ -333,6 +358,23 @@ export type DorisOutput = {
   valid: Scalars['Boolean']['output'];
 };
 
+export type ExpansePanelOutput = {
+  __typename?: 'ExpansePanelOutput';
+  expansePanelCollection?: Maybe<ItemsExpansePanelCollectionOutput>;
+};
+
+export type FooterHelpCenterOutput = {
+  __typename?: 'FooterHelpCenterOutput';
+  footerLinkCollection?: Maybe<FooterLinkCollectionOutput>;
+  footerTitle?: Maybe<Scalars['String']['output']>;
+  textBody?: Maybe<Scalars['String']['output']>;
+};
+
+export type FooterLinkCollectionOutput = {
+  __typename?: 'FooterLinkCollectionOutput';
+  items?: Maybe<Array<ItemsFooterLinkCollectionOutput>>;
+};
+
 export type GenericOutput = {
   __typename?: 'GenericOutput';
   error: Scalars['Boolean']['output'];
@@ -349,6 +391,18 @@ export type HealthcheckOutput = {
   __typename?: 'HealthcheckOutput';
   status: Scalars['Boolean']['output'];
   version: Scalars['String']['output'];
+};
+
+export type HelpCenterCollectionsItemsOutput = {
+  __typename?: 'HelpCenterCollectionsItemsOutput';
+  footerHelpCenter?: Maybe<FooterHelpCenterOutput>;
+  itemsHelpCenterCollection?: Maybe<ItemsHelpCenterCollectionOutput>;
+  titleHelpCenter?: Maybe<Scalars['String']['output']>;
+};
+
+export type HelpCenterOutput = {
+  __typename?: 'HelpCenterOutput';
+  items?: Maybe<Array<HelpCenterCollectionsItemsOutput>>;
 };
 
 export type HomeCarouselItemFiltersOutput = {
@@ -475,6 +529,40 @@ export type InvoiceKeyOutput = {
   shippingQuarter?: Maybe<Scalars['String']['output']>;
   shippingReference?: Maybe<Scalars['String']['output']>;
   shippingState?: Maybe<Scalars['String']['output']>;
+};
+
+export type ItemsBodyImagesCollectionOutput = {
+  __typename?: 'ItemsBodyImagesCollectionOutput';
+  helpCenterImagesCollection?: Maybe<ItemsHelpCenterImagesCollectionOutput>;
+};
+
+export type ItemsExpansePanelCollectionOutput = {
+  __typename?: 'ItemsExpansePanelCollectionOutput';
+  items?: Maybe<Array<ContentItemsExpansePanelCollectionOutput>>;
+};
+
+export type ItemsFooterLinkCollectionOutput = {
+  __typename?: 'ItemsFooterLinkCollectionOutput';
+  linkHelpCenter?: Maybe<Scalars['String']['output']>;
+  linkTitle?: Maybe<Scalars['String']['output']>;
+};
+
+export type ItemsHelpCenterCollectionOutput = {
+  __typename?: 'ItemsHelpCenterCollectionOutput';
+  items?: Maybe<Array<ContentItemsHelpCenterCollectionOutput>>;
+};
+
+export type ItemsHelpCenterImagesCollectionOutput = {
+  __typename?: 'ItemsHelpCenterImagesCollectionOutput';
+  items?: Maybe<Array<ContentHelpCenterImagesCollectionOutput>>;
+};
+
+export type ItemsSessionBodyCollectionOutput = {
+  __typename?: 'ItemsSessionBodyCollectionOutput';
+  bodyImagesCollection?: Maybe<BodyImagesCollectionOutput>;
+  expansePanel?: Maybe<ExpansePanelOutput>;
+  helpCenterBodyText?: Maybe<Scalars['String']['output']>;
+  helpCenterSessionTitle?: Maybe<Scalars['String']['output']>;
 };
 
 export type LoggedInOutput = {
@@ -1046,6 +1134,7 @@ export type OrderformItemOutput = {
   tax: Scalars['Int']['output'];
   uniqueId: Scalars['String']['output'];
   unitMultiplier: Scalars['Int']['output'];
+  urlFacaVc: Scalars['String']['output'];
 };
 
 export type OrderformLogisticsInfoInput = {
@@ -1258,11 +1347,11 @@ export type PrimeConfigOutput = {
 
 export type PrimeDetailOutput = {
   __typename?: 'PrimeDetailOutput';
-  discountFrom: Scalars['Float']['output'];
-  discountPercentage: Scalars['Int']['output'];
-  installmentPrice: Scalars['Float']['output'];
-  installmentQty: Scalars['Int']['output'];
-  monthlyCashback: Scalars['Float']['output'];
+  discountFrom?: Maybe<Scalars['Float']['output']>;
+  discountPercentage?: Maybe<Scalars['Int']['output']>;
+  installmentPrice?: Maybe<Scalars['Float']['output']>;
+  installmentQty?: Maybe<Scalars['Int']['output']>;
+  monthlyCashback?: Maybe<Scalars['Float']['output']>;
   primeFaq?: Maybe<Array<PrimeFaqItemOutput>>;
   productId: Scalars['Int']['output'];
   productSeller: Scalars['String']['output'];
@@ -1629,6 +1718,7 @@ export type Query = {
   getCashbackTransaction: CashbackTransactionOutput;
   getCashbackWallet: CashbackWalletOutput;
   healthcheck: HealthcheckOutput;
+  helpCenterCollection: HelpCenterOutput;
   homeCarousels: Array<HomeCarouselOutput>;
   homeCountdown?: Maybe<HomeCountdownOutput>;
   homeMedias: Array<HomeMediaOutput>;
@@ -2028,6 +2118,11 @@ export type SendLeadInput = {
   idCampanha: Scalars['String']['input'];
   name: Scalars['String']['input'];
   phone: Scalars['String']['input'];
+};
+
+export type SessionBodyCollectionOutput = {
+  __typename?: 'SessionBodyCollectionOutput';
+  items?: Maybe<Array<ItemsSessionBodyCollectionOutput>>;
 };
 
 export type ShippingDeliveryOutput = {
@@ -2679,6 +2774,11 @@ export type DitoRedirectQueryVariables = Exact<{
 
 export type DitoRedirectQuery = { __typename?: 'Query', ditoRedirect?: { __typename?: 'DitoRedirectOutput', type: DitoRedirectTypeEnum, url?: string | null } | null };
 
+export type HelpCenterCollectionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HelpCenterCollectionQuery = { __typename?: 'Query', helpCenterCollection: { __typename?: 'HelpCenterOutput', items?: Array<{ __typename?: 'HelpCenterCollectionsItemsOutput', titleHelpCenter?: string | null, itemsHelpCenterCollection?: { __typename?: 'ItemsHelpCenterCollectionOutput', items?: Array<{ __typename?: 'ContentItemsHelpCenterCollectionOutput', sessionTitle?: string | null, linkUrl?: string | null, sessionBodyCollection?: { __typename?: 'SessionBodyCollectionOutput', items?: Array<{ __typename?: 'ItemsSessionBodyCollectionOutput', helpCenterSessionTitle?: string | null, helpCenterBodyText?: string | null, expansePanel?: { __typename?: 'ExpansePanelOutput', expansePanelCollection?: { __typename?: 'ItemsExpansePanelCollectionOutput', items?: Array<{ __typename?: 'ContentItemsExpansePanelCollectionOutput', expanseTitleItem?: string | null, expanseContentItem?: string | null }> | null } | null } | null, bodyImagesCollection?: { __typename?: 'BodyImagesCollectionOutput', items?: Array<{ __typename?: 'ItemsBodyImagesCollectionOutput', helpCenterImagesCollection?: { __typename?: 'ItemsHelpCenterImagesCollectionOutput', items?: Array<{ __typename?: 'ContentHelpCenterImagesCollectionOutput', title?: string | null, description?: string | null, url?: string | null }> | null } | null }> | null } | null }> | null } | null }> | null } | null, footerHelpCenter?: { __typename?: 'FooterHelpCenterOutput', footerTitle?: string | null, textBody?: string | null, footerLinkCollection?: { __typename?: 'FooterLinkCollectionOutput', items?: Array<{ __typename?: 'ItemsFooterLinkCollectionOutput', linkTitle?: string | null, linkHelpCenter?: string | null }> | null } | null } | null }> | null } };
+
 export type HomeCarouselsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2714,7 +2814,7 @@ export type InvoiceKeyQuery = { __typename?: 'Query', invoiceKey?: { __typename?
 export type LandingPagePrimeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LandingPagePrimeQuery = { __typename?: 'Query', landingPagePrime: { __typename?: 'PrimeDetailOutput', productId: number, skuId: number, productSeller: string, installmentQty: number, installmentPrice: number, monthlyCashback: number, discountFrom: number, discountPercentage: number, primeFaq?: Array<{ __typename?: 'PrimeFaqItemOutput', title?: string | null, textBody?: string | null }> | null } };
+export type LandingPagePrimeQuery = { __typename?: 'Query', landingPagePrime: { __typename?: 'PrimeDetailOutput', productId: number, skuId: number, productSeller: string, installmentQty?: number | null, installmentPrice?: number | null, monthlyCashback?: number | null, discountFrom?: number | null, discountPercentage?: number | null, primeFaq?: Array<{ __typename?: 'PrimeFaqItemOutput', title?: string | null, textBody?: string | null }> | null } };
 
 export type MktinStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4673,6 +4773,86 @@ export type DitoRedirectLazyQueryHookResult = ReturnType<typeof useDitoRedirectL
 export type DitoRedirectQueryResult = Apollo.QueryResult<DitoRedirectQuery, DitoRedirectQueryVariables>;
 export function refetchDitoRedirectQuery(variables: DitoRedirectQueryVariables) {
       return { query: DitoRedirectDocument, variables: variables }
+    }
+export const HelpCenterCollectionDocument = gql`
+    query helpCenterCollection {
+  helpCenterCollection {
+    items {
+      titleHelpCenter
+      itemsHelpCenterCollection {
+        items {
+          sessionTitle
+          linkUrl
+          sessionBodyCollection {
+            items {
+              helpCenterSessionTitle
+              helpCenterBodyText
+              expansePanel {
+                expansePanelCollection {
+                  items {
+                    expanseTitleItem
+                    expanseContentItem
+                  }
+                }
+              }
+              bodyImagesCollection {
+                items {
+                  helpCenterImagesCollection {
+                    items {
+                      title
+                      description
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      footerHelpCenter {
+        footerTitle
+        textBody
+        footerLinkCollection {
+          items {
+            linkTitle
+            linkHelpCenter
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useHelpCenterCollectionQuery__
+ *
+ * To run a query within a React component, call `useHelpCenterCollectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHelpCenterCollectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHelpCenterCollectionQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHelpCenterCollectionQuery(baseOptions?: Apollo.QueryHookOptions<HelpCenterCollectionQuery, HelpCenterCollectionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HelpCenterCollectionQuery, HelpCenterCollectionQueryVariables>(HelpCenterCollectionDocument, options);
+      }
+export function useHelpCenterCollectionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HelpCenterCollectionQuery, HelpCenterCollectionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HelpCenterCollectionQuery, HelpCenterCollectionQueryVariables>(HelpCenterCollectionDocument, options);
+        }
+export type HelpCenterCollectionQueryHookResult = ReturnType<typeof useHelpCenterCollectionQuery>;
+export type HelpCenterCollectionLazyQueryHookResult = ReturnType<typeof useHelpCenterCollectionLazyQuery>;
+export type HelpCenterCollectionQueryResult = Apollo.QueryResult<HelpCenterCollectionQuery, HelpCenterCollectionQueryVariables>;
+export function refetchHelpCenterCollectionQuery(variables?: HelpCenterCollectionQueryVariables) {
+      return { query: HelpCenterCollectionDocument, variables: variables }
     }
 export const HomeCarouselsDocument = gql`
     query homeCarousels {
