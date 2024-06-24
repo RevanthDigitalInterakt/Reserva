@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -17,6 +18,7 @@ import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton
 import { useHelpCenterStore } from '../../zustand/useHelpCenterStore/useHelpCenterStore';
 import { Divider } from '../../components/Divider/Divider';
 import type { ContentItemsHelpCenterCollectionOutput, Maybe, SessionBodyCollectionOutput } from '../../base/graphql/generated';
+import styles from './styles'
 
 type Props = StackScreenProps<RootStackParamList, 'HelpCenter'>;
 
@@ -71,7 +73,7 @@ export default function HelpCenter({ route }: Props) {
 
   return (
     <SafeAreaView
-      style={{ justifyContent: 'space-between', backgroundColor: 'white', flex: 1 }}
+      style={styles.safeContainer}
       {...testProps('com.usereserva:id/help_center_container')}
     >
       <TopBarBackButton
@@ -79,12 +81,12 @@ export default function HelpCenter({ route }: Props) {
         backButtonPress={() => navigateGoBack()}
       />
 
-      <Box flex={1} alignContent="flex-start" pt="xs" paddingX="xxxs">
-        <Box mb="nano" alignSelf="flex-start">
-          <Typography variant="tituloSessoes">{titleHelpCenter}</Typography>
-        </Box>
+      <View style={styles.mainContainer}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.txtTitle}>{titleHelpCenter}</Text>
+        </View>
 
-        <Box mb="micro" mt="xxxs">
+        <View style={styles.searchContainer}>
           <SearchBar
             testID="com.usereserva:id/help_center_input"
             height={36}
@@ -97,7 +99,7 @@ export default function HelpCenter({ route }: Props) {
               setFilter(newFilter);
             }}
           />
-        </Box>
+        </View>
 
         <ScrollView>
           <View>
@@ -112,7 +114,7 @@ export default function HelpCenter({ route }: Props) {
                     item.linkUrl,
                   )}
                 >
-                  <View style={{ flexDirection: 'row', marginTop: 24, marginBottom: 24 }}>
+                  <View style={styles.sessionTitleContainer}>
                     <View>
                       <Typography fontSize={14} fontFamily="nunitoBold">{item.sessionTitle}</Typography>
                     </View>
@@ -123,7 +125,7 @@ export default function HelpCenter({ route }: Props) {
             ))}
           </View>
         </ScrollView>
-      </Box>
+      </View>
     </SafeAreaView>
   );
 }
