@@ -31,6 +31,10 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginBottom: 24,
   },
+  txtSessionTitle: {
+    fontFamily: FONTS.NUNITO_BOLD,
+    fontSize: scale(12),
+  },
 });
 
 export default styles;

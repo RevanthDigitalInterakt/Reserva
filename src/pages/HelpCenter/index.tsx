@@ -15,7 +15,6 @@ import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
 import EventProvider from '../../utils/EventProvider';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
-import { Typography } from '../../components/Typography/Typography';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
 import { useHelpCenterStore } from '../../zustand/useHelpCenterStore/useHelpCenterStore';
@@ -143,7 +142,7 @@ export default function HelpCenter({ route }: Props) {
                 >
                   <View style={styles.sessionTitleContainer}>
                     <View>
-                      <Typography fontSize={14} fontFamily="nunitoBold">{item.sessionTitle}</Typography>
+                      <Text style={styles.txtSessionTitle}>{item.sessionTitle}</Text>
                     </View>
                   </View>
                 </TouchableOpacity>
