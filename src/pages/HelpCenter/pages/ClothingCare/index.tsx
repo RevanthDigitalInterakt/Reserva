@@ -9,7 +9,7 @@ export default function ClothingCareFragment() {
   const SIZE_ICONS_CARDS = scale(18);
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Box mb="nano">
         <Box
           backgroundColor="fullBlack"

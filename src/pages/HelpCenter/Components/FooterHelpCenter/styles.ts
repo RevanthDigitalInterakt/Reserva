@@ -4,7 +4,7 @@ import { FONTS } from '../../../../base/styles';
 
 const styles = StyleSheet.create({
   mainContainer: {
-    marginTop: scale(24),
+    marginTop: scale(28),
     marginBottom: scale(24),
     alignSelf: 'flex-start',
     paddingHorizontal: scale(15),

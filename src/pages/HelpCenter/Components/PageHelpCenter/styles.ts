@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     flex: 1,
-    paddingTop: 32,
+    paddingTop: scale(28),
     paddingHorizontal: scale(15),
   },
   containerTitle: {
@@ -26,25 +26,8 @@ const styles = StyleSheet.create({
   },
   containerBody: {
     alignSelf: 'flex-start',
+    marginTop: scale(16),
     marginBottom: scale(20),
-    marginTop: scale(20),
-  },
-  containerSessionTitle: {
-    marginBottom: 8,
-  },
-  txtSessionTitle: {
-    fontSize: scale(14),
-    fontFamily: FONTS.NUNITO_BOLD,
-  },
-  containerBodyText: {
-    marginBottom: 8,
-  },
-  txtBodyText: {
-    fontSize: scale(11),
-    fontFamily: FONTS.NUNITO_REGULAR,
-  },
-  containerImage: {
-    marginBottom: 8,
   },
 });
 

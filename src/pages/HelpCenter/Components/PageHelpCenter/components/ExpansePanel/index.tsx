@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { IconLegacy } from '../../../../../../components/IconLegacy/IconLegacy';
 import styles from './styles';
 import type { Maybe } from '../../../../../../base/graphql/generated';
+import { Divider } from '../../../../../../components/Divider/Divider';
 
 interface ExpansePanelProps {
   expanseTitleItem: Maybe<string> | undefined;
@@ -49,7 +50,7 @@ export function ExpansePanel({ expanseTitleItem, expanseContentItem }: ExpansePa
           </View>
         </View>
       )}
-
+      <Divider mt="xxxs" variant="fullWidth" />
     </View>
   );
 }

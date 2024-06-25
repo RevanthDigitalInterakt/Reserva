@@ -8,17 +8,24 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Box } from '../../components/Box/Box';
+import testProps from '../../utils/testProps';
+import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
+import EventProvider from '../../utils/EventProvider';
+import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
 import { Typography } from '../../components/Typography/Typography';
 import type { RootStackParamList } from '../../routes/StackNavigator';
-import testProps from '../../utils/testProps';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
 import { useHelpCenterStore } from '../../zustand/useHelpCenterStore/useHelpCenterStore';
 import { Divider } from '../../components/Divider/Divider';
-import type { ContentItemsHelpCenterCollectionOutput, Maybe, SessionBodyCollectionOutput } from '../../base/graphql/generated';
-import styles from './styles'
+import type {
+  ContentItemsHelpCenterCollectionOutput,
+  Maybe,
+  SessionBodyCollectionOutput,
+} from '../../base/graphql/generated';
+import styles from './styles';
 
 type Props = StackScreenProps<RootStackParamList, 'HelpCenter'>;
 
@@ -35,6 +42,9 @@ export default function HelpCenter({ route }: Props) {
     'loading',
     'itemsHelpCenter',
   ]);
+  const { getItem } = useAsyncStorageProvider();
+
+  const { profile } = useAuthStore(['profile']);
   const [
     filter,
     setFilter] = useState<Maybe<ContentItemsHelpCenterCollectionOutput[]> | undefined>();
@@ -55,19 +65,36 @@ export default function HelpCenter({ route }: Props) {
     }
   };
 
-  const handleButton = useCallback((
-    title: ContentItemsHelpCenterCollectionOutput['sessionTitle'],
-    data: SessionBodyCollectionOutput['items'],
-    url: ContentItemsHelpCenterCollectionOutput['linkUrl'],
-  ) => {
+  interface IHandleClickSession {
+    title: ContentItemsHelpCenterCollectionOutput['sessionTitle'];
+    data: SessionBodyCollectionOutput['items'];
+    url: ContentItemsHelpCenterCollectionOutput['linkUrl'];
+  }
+
+  const handleClickSession = useCallback(async ({
+    title,
+    data,
+    url,
+  }: IHandleClickSession) => {
+    if (title) {
+      const ditoId = profile?.email
+        ? await getItem('@Dito:userRef')
+        : await AsyncStorage.getItem('@Dito:anonymousID');
+
+      EventProvider.sendTrackEvent('acessou-central-de-ajuda', {
+        id: ditoId,
+        action: 'acessou-central-de-ajuda',
+        data: {
+          pagina: title.toLowerCase(),
+        },
+      });
+    }
+
     if (url) {
       navigation.navigate('Exchange', { url });
     } else {
       if (!title || !data) return;
-      navigation.navigate('PageHelpCenter', {
-        title,
-        data,
-      });
+      navigation.navigate('PageHelpCenter', { title, data });
     }
   }, []);
 
@@ -108,11 +135,11 @@ export default function HelpCenter({ route }: Props) {
                 <TouchableOpacity
                   key={`item-list-${item.sessionTitle}`}
                   {...testProps('com.usereserva:id/item_list_help_center')}
-                  onPress={() => handleButton(
-                    item.sessionTitle,
-                    item.sessionBodyCollection?.items,
-                    item.linkUrl,
-                  )}
+                  onPress={() => handleClickSession({
+                    title: item.sessionTitle,
+                    data: item.sessionBodyCollection?.items,
+                    url: item.linkUrl,
+                  })}
                 >
                   <View style={styles.sessionTitleContainer}>
                     <View>
