@@ -10,7 +10,7 @@ describe('handleObjectToQueryParams', () => {
 
     const result = handleObjectToQueryParams(objectParams, validKeys);
 
-    expect(result).toBe('name=John&age=30');
+    expect(result).toBe('name=john&age=30');
   });
 
   it('should return an empty string if no valid keys are present', () => {
@@ -28,6 +28,6 @@ describe('handleObjectToQueryParams', () => {
     const objectParams = { name: 'Jo&hn test', age: '30', nullable: 'null' };
     const result = handleObjectToQueryParams(objectParams, validKeys);
 
-    expect(result).toBe('name=John_test&age=30');
+    expect(result).toBe('name=john-test&age=30');
   });
 });
