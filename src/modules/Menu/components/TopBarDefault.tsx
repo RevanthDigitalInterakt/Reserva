@@ -17,7 +17,7 @@ export const TopBarDefault: React.FC<{
 
   const handleNavigateToMenu = () => {
     navigation.navigate('Menu');
-    EventProvider.logEvent('menu-click', {});
+    EventProvider.logEvent('menu_click', {});
   };
 
   return (
@@ -38,7 +38,7 @@ export const TopBarDefault: React.FC<{
         size: 24,
         testID: 'com.usereserva:id/header_button_search',
         onPress: () => {
-          EventProvider.logEvent('top-bar-search-click', { open: 1 });
+          EventProvider.logEvent('top_bar_search_click', { open: 1 });
           navigation.navigate('SearchMenu');
           onStartLoad('Search');
         },

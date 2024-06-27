@@ -25,6 +25,8 @@ type EventValues = {
   item_id: string;
   item_name: string;
   item_price: any;
+  item_size: string;
+  item_color: string;
   item_quantity: number;
   item_category: string;
   item_categories: string;
@@ -185,9 +187,8 @@ export namespace EventsOptions {
   };
   export type CardCashback = Pick<CardCashbackEventValues, 'value'>;
   export type PurchasePrime = Pick<EventValues, 'value'>;
-
   export type DorisButton = Pick<EventValues, 'product_id' | 'product_ean'>;
-
+  export type AddToCartFromWishlist = Pick<EventValues, 'item_name' | 'item_color' | 'item_size' | 'value'>;
 }
 
 export type EventOptionsFn =
@@ -405,51 +406,51 @@ export type EventOptionsFn =
     type: 'doris_button',
     payload: EventsOptions.DorisButton
   } | {
-    type: 'item-menu',
+    type: 'item_menu',
     payload: {
       itemName: string;
     }
   } | {
-    type: 'item-fixed-menu',
+    type: 'item_fixed_menu',
     payload: {
       itemName: string;
     }
   } | {
-    type: 'menu-click',
+    type: 'menu_click',
     payload: {}
   } | {
-    type: 'bag-click',
+    type: 'bag_click',
     payload: {}
   } | {
-    type: 'carousel-brand-click',
+    type: 'carousel_brand_click',
     payload: {
       reference: string;
     }
   } | {
-    type: 'header-search-click',
+    type: 'header_search_click',
     payload: {
       open: number;
     }
   } | {
-    type: 'home-tab-click',
+    type: 'home_tab_click',
     payload: {}
   } | {
-    type: 'offers-tab-click',
+    type: 'offers_tab_click',
     payload: {}
   } | {
-    type: 'roulet-tab-click',
+    type: 'roulet_tab_click',
     payload: {}
   } | {
-    type: 'wishlist-tab-click',
+    type: 'wishlist_tab_click',
     payload: {}
   } | {
-    type: 'profile-tab-click',
+    type: 'profile_tab_click',
     payload: {}
   } | {
-    type: 'call-center-tab-click',
+    type: 'call_center_tab_click',
     payload: {}
   } | {
-    type: 'top-bar-search-click',
+    type: 'top_bar_search_click',
     payload: {}
   }
   | {
@@ -463,4 +464,7 @@ export type EventOptionsFn =
   | {
     type: 'sort_button_click',
     payload: {}
+  } | {
+    type: 'add_to_cart_from_wishlist',
+    payload: EventsOptions.AddToCartFromWishlist
   };
