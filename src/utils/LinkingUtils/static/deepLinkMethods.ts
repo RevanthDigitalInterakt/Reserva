@@ -1,5 +1,6 @@
 import { URL } from 'react-native-url-polyfill';
 import { Platform } from 'react-native';
+import cheerio from 'cheerio';
 import { platformType } from '../../platformType';
 import { removeProtocol } from '../../removeProtocol';
 import { getAsyncStorageItem, setAsyncStorageItem } from '../../../hooks/useAsyncStorageProvider';
@@ -180,24 +181,52 @@ const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
-// const clusterCollectionUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
-//   const splitPath = initialUrl.split('//')[1];
-//   const res = await fetch(`https://www.usereserva.com/${splitPath}`);
-//   const clusterId = (await res?.text())?.split('productClusterIds')[0]
-//     ?.split('queryField')[1]
-//     ?.replace(/\\\"/g, '')
-//     .replace(':', '')
-//     .split(',')[0];
+const clusterCollectionUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
+  const splitPath = initialUrl.split('//')[1];
+  console.log('splitPath', splitPath);
+  // const res1 = await fetch(`https://www.usereserva.com/api/catalog_system/pub/products/search/${splitPath}`);
+  // console.log('res1', res1);
+  // const data = await res1.json();
+  // console.log('data', data);
+  const res = await fetch(`https://www.usereserva.com/${splitPath}`);
+  // Extrair o HTML da resposta
+  // Extrair o HTML da resposta
+  const html = await res.text();
 
-//   if (initialUrl.includes('/colecao-')) {
-//     return {
-//       match: true,
-//       strUrl: `usereserva://catalog/collection:${clusterId}`,
-//     };
-//   }
+  const $ = cheerio.load(html);
 
-//   return defaultCustomMethodReturn;
-// };
+  // Procurar pelo productClusterId no HTML
+  // Procurar pelo productClusterId no HTML
+  let clusterId;
+  $('script').each((i, script) => {
+    const content = $(script).html();
+    if (content.includes('productClusterIds')) {
+      // Tentar analisar como JSON
+      const jsonMatch = content.match(/\{.*"productClusterIds":\["(\d+)"\].*\}/);
+      if (jsonMatch) {
+        const jsonData = JSON.parse(jsonMatch[0]);
+        clusterId = jsonData.productClusterIds[0];
+        return false; // Interromper o loop quando encontrar
+      }
+    }
+  });
+  // const clusterId = (await res?.text())?.split('productClusterIds')[0]
+  //   ?.split('queryField')[1]
+  //   ?.replace(/\\\"/g, '')
+  //   .replace(':', '')
+  //   .split(',')[0];
+
+  console.log('clusterId', clusterId);
+
+  // if (initialUrl.includes('/colecao-')) {
+  //   return {
+  //     match: true,
+  //     strUrl: `usereserva://catalog/collection:${clusterId}`,
+  //   };
+  // }
+
+  return defaultCustomMethodReturn;
+};
 
 const accountWishListUseCase = (
   initialUrl: string,
@@ -324,14 +353,14 @@ const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
 
       try {
         const { data } = await getApolloClient().mutate<
-        OrderFormAddMultipleItemMutation,
-        OrderFormAddMultipleItemMutationVariables>({
-          mutation: OrderFormAddMultipleItemDocument,
-          context: { clientName: 'gateway' },
-          variables: {
-            input,
-          },
-        });
+          OrderFormAddMultipleItemMutation,
+          OrderFormAddMultipleItemMutationVariables>({
+            mutation: OrderFormAddMultipleItemDocument,
+            context: { clientName: 'gateway' },
+            variables: {
+              input,
+            },
+          });
 
         const { orderFormAddMultipleItem: orderForm } = data || {};
 
@@ -411,9 +440,9 @@ const webCatalogCollectionUseCase = async (initialUrl: string) => {
     return defaultCustomMethodReturn;
   }
 
-  // if (initialUrl.includes('colecao-')) {
-  //   return defaultCustomMethodReturn;
-  // }
+  if (initialUrl.includes('colecao-')) {
+    return defaultCustomMethodReturn;
+  }
   const searchRegExp = /\//g;
   const replacePathName = '|';
 
@@ -486,7 +515,7 @@ const registerMethods = [
   abandonedBagUseCase,
   webCatalogCollectionUseCase,
   webviewDeepLinkUseCase,
-  // clusterCollectionUseCase,
+  clusterCollectionUseCase,
 ];
 
 export { registerMethods };

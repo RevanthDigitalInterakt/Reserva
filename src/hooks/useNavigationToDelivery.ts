@@ -110,7 +110,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
 
   const goToWebviewCheckout = useCallback((value: string, comeFrom?: string) => {
     navigation.navigate('Checkout', {
-      url: `https://appqa.usereserva.com/checkout?orderFormId=${value}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
+      url: `${Config.URL_VTEX_QA}/checkout?orderFormId=${value}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
       comeFrom,
     });
   }, []);
