@@ -4,7 +4,7 @@ import {
 } from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
 import { MockedProvider } from '@apollo/client/testing';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { theme } from '../../../base/usereservappLegacy/theme';
 import WebViewFacaVoce from '..';
 import CartContextProvider from '../../../context/CartContext';
@@ -40,13 +40,21 @@ const Component = (
 jest.mock('@react-navigation/native', () => ({
   ...jest.requireActual('@react-navigation/native'),
   useNavigation: jest.fn(),
+  useRoute: jest.fn(),
 }));
 
 describe('WebViewFacaVoce', () => {
   const navigate = jest.fn();
+  const mockParams = {
+    type: 'typemock',
+    category: 'categorymock',
+    custom: 'custommock',
+    otherParams: 'value2',
+  };
 
   beforeAll(() => {
     (useNavigation as jest.Mock).mockReturnValue({ navigate });
+    (useRoute as jest.Mock).mockReturnValue({ params: mockParams });
   });
 
   beforeEach(() => {
@@ -96,6 +104,6 @@ describe('WebViewFacaVoce', () => {
 
   it('should have the correct source uri', () => {
     const webview = screen.getByTestId('com.usereserva:id/web_view_facavc');
-    expect(webview.props.source.uri).toBe('https://mocked.url?context=app&client_id=mockClientId&session_id==mockSessionId&orderform_id=');
+    expect(webview.props.source.uri).toBe('https://mocked.url?context=app&client_id=mockClientId&session_id==mockSessionId&orderform_id=&category=categorymock&custom=custommock&type=typemock');
   });
 });
