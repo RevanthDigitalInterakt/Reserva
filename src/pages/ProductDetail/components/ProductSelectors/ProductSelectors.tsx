@@ -169,7 +169,13 @@ function ProductSelectors() {
           <Box>
             <ScrollView horizontal>
               <SelectColor
-                onPress={setSelectedColor}
+                onPress={(color) => {
+                  EventProvider.logEvent('change_item_color', {
+                    item_id: selectedSize?.itemId,
+                    item_color: color,
+                  });
+                  setSelectedColor(color);
+                }}
                 size={30}
                 disabledColors={productDetail.disabledColors}
                 listColors={productDetail.colorUrls}
@@ -193,7 +199,13 @@ function ProductSelectors() {
                   size={38}
                   fontSize={12}
                   disbledOptions={disabledSizes}
-                  onSelectedChange={(val) => setSelectedSize(`${val}`)}
+                  onSelectedChange={(val) => {
+                    EventProvider.logEvent('change_item_size', {
+                      item_id: selectedSize?.itemId,
+                      item_size: val,
+                    });
+                    setSelectedSize(`${val}`);
+                  }}
                   optionsList={sizes}
                   defaultSelectedItem=""
                   selectedItem={handleSelectedItem}

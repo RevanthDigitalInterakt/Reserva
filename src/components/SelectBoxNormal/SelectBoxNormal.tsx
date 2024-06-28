@@ -10,6 +10,7 @@ import { decimalPart, integerPart } from '../../utils/numberUtils';
 import testProps from '../../utils/testProps';
 import { Typography } from '../Typography/Typography';
 import { styles } from './SelectBoxNormal.styles';
+import EventProvider from '../../utils/EventProvider';
 
 export interface SelectBoxNormalProps {
   onPress: (option: string) => void;
@@ -76,7 +77,10 @@ export function SelectBoxNormal({
   return (
     <TouchableOpacity
       style={styles.normalPrice}
-      onPress={() => onPress('priceNormal')}
+      onPress={() => {
+        EventProvider.logEvent('normal_price_box_click', {});
+        onPress('priceNormal');
+      }}
       disabled={isChecked}
       {...testProps('com.usereserva:id/select_box_price_normal')}
     >
