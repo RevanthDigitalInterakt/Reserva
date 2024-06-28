@@ -188,3 +188,13 @@ export const useRemoteConfig = create<IUseRemoteConfigStore>((set, getState) => 
     }
   },
 }));
+
+export const syncRemoteConfig = async () => {
+  if (!useRemoteConfig.getState().initialized) {
+    await new Promise((res, _) => {
+      useRemoteConfig.subscribe((cb) => res(cb.initialized));
+
+      setTimeout(() => res(null), FIVE_MINUTES_IN_MS);
+    });
+  }
+};
