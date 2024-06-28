@@ -10,6 +10,7 @@ import { useReturnPolicyConfigLazyQuery } from '../../../../base/graphql/generat
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 import { Divider } from '../../../../components/Divider/Divider';
 import styles from './styles';
+import EventProvider from '../../../../utils/EventProvider';
 
 function ReturnPolicy() {
   const { productDetail } = useProductDetailStore(['productDetail']);
@@ -35,6 +36,9 @@ function ReturnPolicy() {
   }, [fetchReturnPolicy]);
 
   const onToggle = useCallback((show: boolean) => {
+    EventProvider.logEvent('return_policy_click', {
+      item_id: productDetail?.productId,
+    });
     setShowSection(show);
   }, [productDetail]);
 

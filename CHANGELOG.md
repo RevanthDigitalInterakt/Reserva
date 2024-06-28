@@ -1,5 +1,12 @@
 ## CHANGELOG
 
+### 2.12.0
+
+- [41137 - Tagueamento PDP app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41137)
+- [42418 - [APP] Parametrização url Faça vc](https://dev.azure.com/areco/AReCO/_workitems/edit/42418)
+
+---
+
 ### 2.11.9
 
 - [41897 - Ajuste copy pop da pdp de prime](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41897)
@@ -8,7 +15,7 @@
 
 - [41136 - Tagueamento PDC app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41136)
 
-- [42418 - [APP] Parametrização url Faça vc](https://dev.azure.com/areco/AReCO/_workitems/edit/42418)
+
 
 ---
 
@@ -16,10 +23,14 @@
 
 - [30754 - Captar lead via aplicativo](https://dev.azure.com/areco/AReCO/_workitems/edit/30754)
 
+---
+
 ### 2.11.7
 
 - Alteração do valor do preço PRIME para R$ 25,00
 - [30601 - Faça você app - exibir experiência do Faça Vc](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30601)
+
+---
 
 ### 2.11.6
 

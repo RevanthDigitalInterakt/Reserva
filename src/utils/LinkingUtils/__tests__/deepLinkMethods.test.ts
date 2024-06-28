@@ -36,11 +36,12 @@ jest.mock('../../../hooks/useRemoteConfig', () => ({
       getBoolean: jest.fn(() => true),
     })),
   },
+  syncRemoteConfig: jest.fn()
 }));
 
 jest.mock('@datadog/mobile-react-native', () => ({
   DdLogs: {
-    error: () => {},
+    error: () => { },
   },
 }));
 

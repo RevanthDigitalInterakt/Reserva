@@ -19,7 +19,7 @@ import {
 } from '../../../base/graphql/generated';
 import { mergeItemsPackage } from '../../mergeItemsPackage';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
-import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import { syncRemoteConfig, useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import * as linkingUtils from '../linkingUtils';
 
 const { getBoolean } = useRemoteConfig.getState();
@@ -326,14 +326,14 @@ const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
 
       try {
         const { data } = await getApolloClient().mutate<
-        OrderFormAddMultipleItemMutation,
-        OrderFormAddMultipleItemMutationVariables>({
-          mutation: OrderFormAddMultipleItemDocument,
-          context: { clientName: 'gateway' },
-          variables: {
-            input,
-          },
-        });
+          OrderFormAddMultipleItemMutation,
+          OrderFormAddMultipleItemMutationVariables>({
+            mutation: OrderFormAddMultipleItemDocument,
+            context: { clientName: 'gateway' },
+            variables: {
+              input,
+            },
+          });
 
         const { orderFormAddMultipleItem: orderForm } = data || {};
 
@@ -455,9 +455,8 @@ const webviewDeepLinkUseCase = (initialUrl: string): ICustomMethodReturnParams =
   return defaultCustomMethodReturn;
 };
 
-const webViewFacaVcUseCase = (
-  initialUrl: string,
-): ICustomMethodReturnParams => {
+const webViewFacaVcUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
+  await syncRemoteConfig();
   const showWebviewFacavc = getBoolean('show_webview_facavc');
   const facaVcPath = 'facavc/criar';
 
