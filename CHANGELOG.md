@@ -1,9 +1,16 @@
+# APP RESERVA
+
 ## CHANGELOG
 
 ### 2.12.0
 
 - [41137 - Tagueamento PDP app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41137)
 - [42418 - [APP] Parametrização url Faça vc](https://dev.azure.com/areco/AReCO/_workitems/edit/42418)
+
+---
+### 2.11.10
+
+- [31946 - Migrar dados para o contentful > Central de ajuda app](https://dev.azure.com/areco/AReCO/_workitems/edit/31946)
 
 ---
 
