@@ -30,7 +30,7 @@ export function NewHomeCarousels() {
   const showShelf = getBoolean('show_shelf');
 
   const handleSearchButtonPress = () => {
-    EventProvider.logEvent('header-search-click', { open: 1 });
+    EventProvider.logEvent('header_search_click', { open: 1 });
     navigation.navigate('SearchMenu');
     onStartLoad('Search');
   };

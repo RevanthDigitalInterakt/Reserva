@@ -97,7 +97,7 @@ function Menu() {
   );
 
   const onSelectFixedMenuItem = (fixedMenuName: string) => {
-    EventProvider.logEvent('item-fixed-menu', {
+    EventProvider.logEvent('item_fixed_menu', {
       itemName: fixedMenuName,
     });
   };
@@ -110,9 +110,9 @@ function Menu() {
       trackEventAccessedDepartmentDito(selectedItem.name);
       // TODO: ADICIONAR EVENTO DE CLIQUE NO MENU
 
-      EventProvider.logEvent('item-menu', {
-        itemName: selectedItem.name,
-      });
+    EventProvider.logEvent('item_menu', {
+      itemName: selectedItem.name,
+    });
 
       if (selectedItem.type === MenuItemTypeEnum.ParentCategory) {
         setOpenedIndex(openedIndex === index ? undefined : index);

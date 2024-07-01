@@ -17,7 +17,7 @@ function HomeBrandsCarousel({ data }: IHomeBrandsCarousel) {
   const { width } = useWindowDimensions();
 
   const onPress = useCallback((reference: string): void => {
-    EventProvider.logEvent('carousel-brand-click', { reference });
+    EventProvider.logEvent('carousel_brand_click', { reference });
     if (!reference) {
       navigation.navigate('ProductCatalog');
     }
