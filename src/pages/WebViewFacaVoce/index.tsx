@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import { Platform, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
@@ -9,12 +9,16 @@ import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrack
 import testProps from '../../utils/testProps';
 import { TopBarMenu } from '../../modules/Menu/components/TopBarMenu';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
+import { handleObjectToQueryParams } from '../../utils/handleObjectToQueryParams';
 
 interface IOnLoad {
   nativeEvent: any;
 }
 
 export default function WebViewFacaVoce() {
+  const route = useRoute();
+  const { params } = route;
+
   const navigation = useNavigation();
   const { orderFormId } = useBagStore(['orderFormId']);
   const { profile } = useAuthStore(['profile']);
@@ -27,7 +31,15 @@ export default function WebViewFacaVoce() {
   const { sessionId } = trackPageViewStore.getState();
 
   const baseUrl = Config.R2U_URL;
-  const sourceUri = `${baseUrl}?context=app&client_id=${clientId}&session_id==${sessionId}&orderform_id=${orderFormId}`;
+  let sourceUri = `${baseUrl}?context=app&client_id=${clientId}&session_id==${sessionId}&orderform_id=${orderFormId}`;
+
+  if (params) {
+    const validKeys: string[] = ['category', 'custom', 'type'];
+
+    const paramsToFind = handleObjectToQueryParams(params, validKeys);
+
+    if (paramsToFind.length) sourceUri = sourceUri.concat('&').concat(paramsToFind);
+  }
 
   const onMessage = async (event: WebViewMessageEvent) => {
     const { data } = event.nativeEvent;

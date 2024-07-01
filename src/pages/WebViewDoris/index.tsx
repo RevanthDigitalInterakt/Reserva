@@ -1,12 +1,12 @@
-import React, { useRef, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import WebView, { WebViewMessageEvent } from "react-native-webview";
-import { Platform, View } from "react-native";
-import deviceInfo from "react-native-device-info";
-import { useBagStore } from "../../zustand/useBagStore/useBagStore";
-import { TopBarBackButton } from "../../modules/Menu/components/TopBarBackButton";
-import testProps from "../../utils/testProps";
-import useDorisStore from "../../zustand/useDorisStore";
+import React, { useRef, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import WebView, { WebViewMessageEvent } from 'react-native-webview';
+import { Platform, View } from 'react-native';
+import deviceInfo from 'react-native-device-info';
+import { useBagStore } from '../../zustand/useBagStore/useBagStore';
+import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
+import testProps from '../../utils/testProps';
+import useDorisStore from '../../zustand/useDorisStore';
 
 interface IItemRawMessage {
   identifier: string,
@@ -15,15 +15,15 @@ interface IItemRawMessage {
 
 export default function WebViewDoris() {
   const navigation = useNavigation();
-  const { actions, orderFormId } = useBagStore(["actions",   "orderFormId"]);
-  const { dorisUrl, setShowAnimationBagDoris } = useDorisStore(['dorisUrl', 'setShowAnimationBagDoris'])
+  const { actions, orderFormId } = useBagStore(['actions', 'orderFormId']);
+  const { dorisUrl, setShowAnimationBagDoris } = useDorisStore(['dorisUrl', 'setShowAnimationBagDoris']);
   const [loading, setLoading] = useState(false);
   const webviewRef = useRef(null);
 
   const injectedJavaScript = `
   window.metadata = { appVersion: "${deviceInfo.getVersion()}", platformType: "${
-    Platform.OS
-  }" }
+  Platform.OS
+}" }
 `;
 
   const onMessage = async (event: WebViewMessageEvent) => {
@@ -32,7 +32,7 @@ export default function WebViewDoris() {
     const { type, rawMessage } = JSON.parse(data);
 
     switch (type) {
-      case "add-to-cart": {
+      case 'add-to-cart': {
         const orderItems = rawMessage.data.map((itemRawMessage: IItemRawMessage) => ({
           id: itemRawMessage.identifier,
           seller: itemRawMessage.sellerId,
@@ -46,12 +46,12 @@ export default function WebViewDoris() {
           orderItems,
         });
 
-        setShowAnimationBagDoris(true)
+        setShowAnimationBagDoris(true);
 
-        return null; 
+        return null;
       }
 
-      case "error": {
+      case 'error': {
         navigation.goBack();
         return null;
       }
@@ -71,8 +71,8 @@ export default function WebViewDoris() {
         />
       </View>
       <WebView
-        {...testProps("web_view_doris")}
-        incognito={true}
+        {...testProps('web_view_doris')}
+        incognito
         ref={webviewRef}
         cacheEnabled={false}
         cacheMode="LOAD_NO_CACHE"
@@ -87,12 +87,13 @@ export default function WebViewDoris() {
           setLoading(nativeEvent.loading);
         }}
         injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
-        originWhitelist={["*"]}
+        originWhitelist={['*']}
         source={{ uri: dorisUrl }}
         javaScriptCanOpenWindowsAutomatically
         onMessage={onMessage}
         geolocationEnabled
         domStorageEnabled
+        allowsInlineMediaPlayback
       />
     </>
   );

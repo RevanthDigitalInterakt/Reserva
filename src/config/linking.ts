@@ -1,10 +1,12 @@
 import { Linking, Platform } from 'react-native';
-import { getPathFromState, type LinkingOptions } from '@react-navigation/native';
+import {
+  getPathFromState,
+  type LinkingOptions,
+} from '@react-navigation/native';
 import messaging from '@react-native-firebase/messaging';
 import appsFlyer from 'react-native-appsflyer';
 import { env } from './env';
-
-import { deepLinkHelper } from '../utils/LinkingUtils/linkingUtils';
+import { deepLinkHelper } from '../utils/LinkingUtils/deepLinkHelper';
 import { defaultInitialUrl } from '../utils/LinkingUtils/static/deepLinkMethods';
 import { platformType } from '../utils/platformType';
 
@@ -45,7 +47,7 @@ const routesConfig = {
           path: 'prime',
         },
         FacaVc: {
-          path: 'facavc/criar',
+          path: 'facavc/criar/:category/:type/:custom',
         },
         Newsletter: {
           path: 'newsletter',
@@ -67,7 +69,13 @@ export const urlHandler = async (url: string) => {
 };
 
 export const linkingConfig: LinkingOptions = {
-  prefixes: ['usereserva://', 'https://www.usereserva.com/', 'https://usereserva.io/', 'https://now.usereserva.io/', 'https://dito.vc/'],
+  prefixes: [
+    'usereserva://',
+    'https://www.usereserva.com/',
+    'https://usereserva.io/',
+    'https://now.usereserva.io/',
+    'https://dito.vc/',
+  ],
   config: routesConfig,
   getPathFromState(state) {
     return getPathFromState(state) || '';
@@ -130,15 +138,17 @@ export const linkingConfig: LinkingOptions = {
       (_) => { },
     );
 
-    const unsubscribeFCM = messaging().onNotificationOpenedApp(async (remoteMessage) => {
-      const { details } = JSON.parse(remoteMessage?.data?.data || '{}');
-      const url = details?.link || '';
-      // TODO testar com app minimizado
-      // TODO import { pushClicked } from '../../services/ditoService';
-      // TODO implementar o pushClicked da dito
-      const newUrl = await deepLinkHelper(url);
-      listener(newUrl);
-    });
+    const unsubscribeFCM = messaging().onNotificationOpenedApp(
+      async (remoteMessage) => {
+        const { details } = JSON.parse(remoteMessage?.data?.data || '{}');
+        const url = details?.link || '';
+        // TODO testar com app minimizado
+        // TODO import { pushClicked } from '../../services/ditoService';
+        // TODO implementar o pushClicked da dito
+        const newUrl = await deepLinkHelper(url);
+        listener(newUrl);
+      },
+    );
 
     const linkingSubscription = Linking.addEventListener('url', onReceiveURL);
 

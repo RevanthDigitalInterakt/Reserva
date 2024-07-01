@@ -8,6 +8,7 @@ import testProps from '../../../../utils/testProps';
 import { ProductPaymentDescription } from './components/ProductPaymentDescription';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
+import EventProvider from '../../../../utils/EventProvider';
 
 enum PaymentWaysEnum {
   CREDIT_CARD = 'creditCardPaymentGroup',
@@ -72,6 +73,7 @@ function PaymentWays() {
 }
 
 export function ProductPayment() {
+  const { productDetail } = useProductDetailStore(['productDetail']);
   const [showSection, setShowSection] = useState(false);
   const onToggle = (show: boolean) => setShowSection(show);
   return (
@@ -79,7 +81,12 @@ export function ProductPayment() {
       <Button
         {...testProps('about_this_product_button')}
         variant="semBorda"
-        onPress={() => onToggle(!showSection)}
+        onPress={() => {
+          onToggle(!showSection);
+          EventProvider.logEvent('payment_options_click', {
+            item_id: productDetail?.productId,
+          });
+        }}
         flexDirection="row"
       >
         <>
