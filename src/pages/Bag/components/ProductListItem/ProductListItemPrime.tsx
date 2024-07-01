@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View, ImageBackground } from 'react-native';
 
 import type { OrderFormQuery } from '../../../../base/graphql/generated';
 import { Box } from '../../../../components/Box/Box';
@@ -27,6 +27,8 @@ function ProductListItemPrime({
 
   const price = useMemo(() => (data.price / 12) / 100, [data.price]);
 
+  const urlFacaVc = useMemo(() => data.urlFacaVc, [data.urlFacaVc]);
+
   return (
     <Box bg="white" marginTop="xxxs" testID="com.usereserva:id/BagProductList">
       <Box flexDirection="row" height={152} justifyContent="space-between" flexGrow={1}>
@@ -36,11 +38,42 @@ function ProductListItemPrime({
               onPress={onPress}
               {...testProps(`product_card_bag_${slugify(data.productId + data.skuName)}_image`)}
             >
-              <ImageComponent
-                source={{ uri: data.imageSource }}
-                width={configDeviceSizes.DEVICE_WIDTH * 0.25}
-                resizeMode="contain"
-              />
+              {urlFacaVc ? (
+                <View>
+                  <ImageBackground
+                    source={{ uri: data.imageSource }}
+                    resizeMode="cover"
+                    style={{
+                      width: configDeviceSizes.DEVICE_WIDTH * 0.25,
+                      height: configDeviceSizes.DEVICE_WIDTH * 0.3,
+                      position: 'relative',
+                    }}
+                  >
+                    <ImageComponent
+                      source={{ uri: urlFacaVc }}
+                      resizeMode="contain"
+                      style={{
+                        width: configDeviceSizes.DEVICE_WIDTH * 0.12,
+                        height: configDeviceSizes.DEVICE_WIDTH * 0.12,
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: [{ translateX: -(configDeviceSizes.DEVICE_WIDTH * 0.06) },
+                          { translateY: -(configDeviceSizes.DEVICE_WIDTH * 0.06) }],
+                      }}
+                    />
+                  </ImageBackground>
+                </View>
+              ) : (
+                <ImageComponent
+                  source={{ uri: data.imageSource }}
+                  style={{
+                    width: configDeviceSizes.DEVICE_WIDTH * 0.25,
+                    height: configDeviceSizes.DEVICE_WIDTH * 0.3,
+                  }}
+                  resizeMode="contain"
+                />
+              )}
             </TouchableOpacity>
           </Box>
 
