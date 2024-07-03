@@ -59,11 +59,13 @@ function App() {
   }
 
   useEffect(() => {
-    firstLaunchedData();
-    actions.INITIAL_LOAD();
+    (async () => {
+      firstLaunchedData();
+      await actions.INITIAL_LOAD();
 
-    onListenConnectivityEvents();
-    remoteConfigStore.fetchInitialData(remoteConfig());
+      onListenConnectivityEvents();
+      remoteConfigStore.fetchInitialData(remoteConfig());
+    })();
   }, []);
 
   const getTestEnvironment = useCallback(async () => {
