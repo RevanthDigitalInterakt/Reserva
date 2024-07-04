@@ -1,5 +1,3 @@
-// @ts-nocheck
-/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -40,6 +38,11 @@ export type BannerCategoryOutput = {
   name?: Maybe<Scalars['String']['output']>;
 };
 
+export type BodyImagesCollectionOutput = {
+  __typename?: 'BodyImagesCollectionOutput';
+  items?: Maybe<Array<ItemsBodyImagesCollectionOutput>>;
+};
+
 export type CashbackAllExpirationOutput = {
   __typename?: 'CashbackAllExpirationOutput';
   data: CashbackExpirationInfoOutput;
@@ -53,11 +56,11 @@ export type CashbackAllOperationOutput = {
 };
 
 export type CashbackDataInput = {
-  document: Scalars['String']['input'];
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   status?: InputMaybe<CashbackStatusFilterEnum>;
   type?: InputMaybe<CashbackTypeTransactionEnum>;
+  userId: Scalars['String']['input'];
 };
 
 export type CashbackExpirationInfoOutput = {
@@ -163,10 +166,6 @@ export type CheckDeliveryTimeByProductInput = {
   seller: Scalars['String']['input'];
 };
 
-export type CheckEmailInput = {
-  email: Scalars['String']['input'];
-};
-
 export enum ClockScreenEnum {
   All = 'ALL',
   Category = 'CATEGORY',
@@ -218,6 +217,7 @@ export type ConfigOutput = {
   commercialBannerCollection: Array<ConfigCommercialBannerOutput>;
   countDownClock?: Maybe<ConfigCountdownClockOutput>;
   countDownClockReservaMini?: Maybe<ConfigCountdownClockReservaOutput>;
+  discountCodeBar: Array<DiscountCodeBarOutput>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   offersPage?: Maybe<Scalars['String']['output']>;
@@ -246,6 +246,26 @@ export type ConfigShippingBarOutput = {
   __typename?: 'ConfigShippingBarOutput';
   freeShippingValue?: Maybe<Scalars['Float']['output']>;
   isFreeShipping?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type ContentHelpCenterImagesCollectionOutput = {
+  __typename?: 'ContentHelpCenterImagesCollectionOutput';
+  description?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
+};
+
+export type ContentItemsExpansePanelCollectionOutput = {
+  __typename?: 'ContentItemsExpansePanelCollectionOutput';
+  expanseContentItem?: Maybe<Scalars['String']['output']>;
+  expanseTitleItem?: Maybe<Scalars['String']['output']>;
+};
+
+export type ContentItemsHelpCenterCollectionOutput = {
+  __typename?: 'ContentItemsHelpCenterCollectionOutput';
+  linkUrl?: Maybe<Scalars['String']['output']>;
+  sessionBodyCollection?: Maybe<SessionBodyCollectionOutput>;
+  sessionTitle?: Maybe<Scalars['String']['output']>;
 };
 
 export type ContentfulCategoryDetailOutput = {
@@ -313,6 +333,19 @@ export enum DeliveryChannelEnum {
   PickupInPoint = 'PICKUP_IN_POINT'
 }
 
+export type DiscountCodeBarOutput = {
+  __typename?: 'DiscountCodeBarOutput';
+  colorBar: Scalars['String']['output'];
+  colorButton: Scalars['String']['output'];
+  coupon: Scalars['String']['output'];
+  descriptionModal: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  shareMessage: Scalars['String']['output'];
+  titleBar: Scalars['String']['output'];
+  titleButton: Scalars['String']['output'];
+  titleModal: Scalars['String']['output'];
+};
+
 export type DitoRedirectInput = {
   code: Scalars['String']['input'];
 };
@@ -333,6 +366,23 @@ export type DorisOutput = {
   valid: Scalars['Boolean']['output'];
 };
 
+export type ExpansePanelOutput = {
+  __typename?: 'ExpansePanelOutput';
+  expansePanelCollection?: Maybe<ItemsExpansePanelCollectionOutput>;
+};
+
+export type FooterHelpCenterOutput = {
+  __typename?: 'FooterHelpCenterOutput';
+  footerLinkCollection?: Maybe<FooterLinkCollectionOutput>;
+  footerTitle?: Maybe<Scalars['String']['output']>;
+  textBody?: Maybe<Scalars['String']['output']>;
+};
+
+export type FooterLinkCollectionOutput = {
+  __typename?: 'FooterLinkCollectionOutput';
+  items?: Maybe<Array<ItemsFooterLinkCollectionOutput>>;
+};
+
 export type GenericOutput = {
   __typename?: 'GenericOutput';
   error: Scalars['Boolean']['output'];
@@ -349,6 +399,18 @@ export type HealthcheckOutput = {
   __typename?: 'HealthcheckOutput';
   status: Scalars['Boolean']['output'];
   version: Scalars['String']['output'];
+};
+
+export type HelpCenterCollectionsItemsOutput = {
+  __typename?: 'HelpCenterCollectionsItemsOutput';
+  footerHelpCenter?: Maybe<FooterHelpCenterOutput>;
+  itemsHelpCenterCollection?: Maybe<ItemsHelpCenterCollectionOutput>;
+  titleHelpCenter?: Maybe<Scalars['String']['output']>;
+};
+
+export type HelpCenterOutput = {
+  __typename?: 'HelpCenterOutput';
+  items?: Maybe<Array<HelpCenterCollectionsItemsOutput>>;
 };
 
 export type HomeCarouselItemFiltersOutput = {
@@ -475,6 +537,40 @@ export type InvoiceKeyOutput = {
   shippingQuarter?: Maybe<Scalars['String']['output']>;
   shippingReference?: Maybe<Scalars['String']['output']>;
   shippingState?: Maybe<Scalars['String']['output']>;
+};
+
+export type ItemsBodyImagesCollectionOutput = {
+  __typename?: 'ItemsBodyImagesCollectionOutput';
+  helpCenterImagesCollection?: Maybe<ItemsHelpCenterImagesCollectionOutput>;
+};
+
+export type ItemsExpansePanelCollectionOutput = {
+  __typename?: 'ItemsExpansePanelCollectionOutput';
+  items?: Maybe<Array<ContentItemsExpansePanelCollectionOutput>>;
+};
+
+export type ItemsFooterLinkCollectionOutput = {
+  __typename?: 'ItemsFooterLinkCollectionOutput';
+  linkHelpCenter?: Maybe<Scalars['String']['output']>;
+  linkTitle?: Maybe<Scalars['String']['output']>;
+};
+
+export type ItemsHelpCenterCollectionOutput = {
+  __typename?: 'ItemsHelpCenterCollectionOutput';
+  items?: Maybe<Array<ContentItemsHelpCenterCollectionOutput>>;
+};
+
+export type ItemsHelpCenterImagesCollectionOutput = {
+  __typename?: 'ItemsHelpCenterImagesCollectionOutput';
+  items?: Maybe<Array<ContentHelpCenterImagesCollectionOutput>>;
+};
+
+export type ItemsSessionBodyCollectionOutput = {
+  __typename?: 'ItemsSessionBodyCollectionOutput';
+  bodyImagesCollection?: Maybe<BodyImagesCollectionOutput>;
+  expansePanel?: Maybe<ExpansePanelOutput>;
+  helpCenterBodyText?: Maybe<Scalars['String']['output']>;
+  helpCenterSessionTitle?: Maybe<Scalars['String']['output']>;
 };
 
 export type LoggedInOutput = {
@@ -1046,6 +1142,7 @@ export type OrderformItemOutput = {
   tax: Scalars['Int']['output'];
   uniqueId: Scalars['String']['output'];
   unitMultiplier: Scalars['Int']['output'];
+  urlFacaVc: Scalars['String']['output'];
 };
 
 export type OrderformLogisticsInfoInput = {
@@ -1258,11 +1355,11 @@ export type PrimeConfigOutput = {
 
 export type PrimeDetailOutput = {
   __typename?: 'PrimeDetailOutput';
-  discountFrom: Scalars['Float']['output'];
-  discountPercentage: Scalars['Int']['output'];
-  installmentPrice: Scalars['Float']['output'];
-  installmentQty: Scalars['Int']['output'];
-  monthlyCashback: Scalars['Float']['output'];
+  discountFrom?: Maybe<Scalars['Float']['output']>;
+  discountPercentage?: Maybe<Scalars['Int']['output']>;
+  installmentPrice?: Maybe<Scalars['Float']['output']>;
+  installmentQty?: Maybe<Scalars['Int']['output']>;
+  monthlyCashback?: Maybe<Scalars['Float']['output']>;
   primeFaq?: Maybe<Array<PrimeFaqItemOutput>>;
   productId: Scalars['Int']['output'];
   productSeller: Scalars['String']['output'];
@@ -1613,7 +1710,6 @@ export type Query = {
   bannerCategory: Array<BannerCategoryOutput>;
   cashback: CashbackOutput;
   cep?: Maybe<CepOutput>;
-  checkIfUserExists: Scalars['Boolean']['output'];
   /** @deprecated Use new query `search` */
   checkSearchRedirect?: Maybe<Scalars['String']['output']>;
   config?: Maybe<ConfigOutput>;
@@ -1629,6 +1725,7 @@ export type Query = {
   getCashbackTransaction: CashbackTransactionOutput;
   getCashbackWallet: CashbackWalletOutput;
   healthcheck: HealthcheckOutput;
+  helpCenterCollection: HelpCenterOutput;
   homeCarousels: Array<HomeCarouselOutput>;
   homeCountdown?: Maybe<HomeCountdownOutput>;
   homeMedias: Array<HomeMediaOutput>;
@@ -1670,11 +1767,6 @@ export type QueryBannerCategoryArgs = {
 
 export type QueryCepArgs = {
   input: CepInput;
-};
-
-
-export type QueryCheckIfUserExistsArgs = {
-  input: CheckEmailInput;
 };
 
 
@@ -2028,6 +2120,11 @@ export type SendLeadInput = {
   idCampanha: Scalars['String']['input'];
   name: Scalars['String']['input'];
   phone: Scalars['String']['input'];
+};
+
+export type SessionBodyCollectionOutput = {
+  __typename?: 'SessionBodyCollectionOutput';
+  items?: Maybe<Array<ItemsSessionBodyCollectionOutput>>;
 };
 
 export type ShippingDeliveryOutput = {
@@ -2639,13 +2736,6 @@ export type CepQueryVariables = Exact<{
 
 export type CepQuery = { __typename?: 'Query', cep?: { __typename?: 'CepOutput', postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, neighborhood?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null } | null };
 
-export type CheckIfUserExistsQueryVariables = Exact<{
-  email: Scalars['String']['input'];
-}>;
-
-
-export type CheckIfUserExistsQuery = { __typename?: 'Query', checkIfUserExists: boolean };
-
 export type CheckSearchRedirectQueryVariables = Exact<{
   q: Scalars['String']['input'];
 }>;
@@ -2714,7 +2804,7 @@ export type InvoiceKeyQuery = { __typename?: 'Query', invoiceKey?: { __typename?
 export type LandingPagePrimeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LandingPagePrimeQuery = { __typename?: 'Query', landingPagePrime: { __typename?: 'PrimeDetailOutput', productId: number, skuId: number, productSeller: string, installmentQty: number, installmentPrice: number, monthlyCashback: number, discountFrom: number, discountPercentage: number, primeFaq?: Array<{ __typename?: 'PrimeFaqItemOutput', title?: string | null, textBody?: string | null }> | null } };
+export type LandingPagePrimeQuery = { __typename?: 'Query', landingPagePrime: { __typename?: 'PrimeDetailOutput', productId: number, skuId: number, productSeller: string, installmentQty?: number | null, installmentPrice?: number | null, monthlyCashback?: number | null, discountFrom?: number | null, discountPercentage?: number | null, primeFaq?: Array<{ __typename?: 'PrimeFaqItemOutput', title?: string | null, textBody?: string | null }> | null } };
 
 export type MktinStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4433,42 +4523,6 @@ export type CepLazyQueryHookResult = ReturnType<typeof useCepLazyQuery>;
 export type CepQueryResult = Apollo.QueryResult<CepQuery, CepQueryVariables>;
 export function refetchCepQuery(variables: CepQueryVariables) {
       return { query: CepDocument, variables: variables }
-    }
-export const CheckIfUserExistsDocument = gql`
-    query checkIfUserExists($email: String!) {
-  checkIfUserExists(input: {email: $email})
-}
-    `;
-
-/**
- * __useCheckIfUserExistsQuery__
- *
- * To run a query within a React component, call `useCheckIfUserExistsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCheckIfUserExistsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCheckIfUserExistsQuery({
- *   variables: {
- *      email: // value for 'email'
- *   },
- * });
- */
-export function useCheckIfUserExistsQuery(baseOptions: Apollo.QueryHookOptions<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>(CheckIfUserExistsDocument, options);
-      }
-export function useCheckIfUserExistsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>(CheckIfUserExistsDocument, options);
-        }
-export type CheckIfUserExistsQueryHookResult = ReturnType<typeof useCheckIfUserExistsQuery>;
-export type CheckIfUserExistsLazyQueryHookResult = ReturnType<typeof useCheckIfUserExistsLazyQuery>;
-export type CheckIfUserExistsQueryResult = Apollo.QueryResult<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>;
-export function refetchCheckIfUserExistsQuery(variables: CheckIfUserExistsQueryVariables) {
-      return { query: CheckIfUserExistsDocument, variables: variables }
     }
 export const CheckSearchRedirectDocument = gql`
     query checkSearchRedirect($q: String!) {

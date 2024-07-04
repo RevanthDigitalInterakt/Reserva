@@ -9,7 +9,6 @@ import { Box } from '../../../components/Box/Box';
 import { Button } from '../../../components/Button';
 import { Typography } from '../../../components/Typography/Typography';
 import UnderlineInput from '../../../components/UnderlineInput';
-import { useCart } from '../../../context/CartContext';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { validateEmail } from '../../../utils/validateEmail';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
@@ -19,7 +18,6 @@ export interface RegisterEmailProps
   extends StackScreenProps<RootStackParamList, 'RegisterEmail'> {}
 
 export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
-  const { verifyEmail } = useCart();
   const [email, setEmail] = useState('');
   const [showRecoveryPassword, setShowRecoveryPassword] = useState(false);
   const [inputError, setInputError] = useState('');
@@ -36,21 +34,20 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
       setInputError('Por favor, informe um e-mail válido.');
       return;
     }
-
-    const isEmailAlreadyExist = await verifyEmail(email);
-
-    if (isEmailAlreadyExist) {
-      setInputError('E-mail já cadastrado em nosso banco de dados');
-      setShowRecoveryPassword(true);
-      return;
-    }
-
+    
     try {
       const { data } = await signUpVerificationCode({
         variables: {
           input: { email },
         },
       });
+
+
+      if(!data?.signUpVerificationCode.ok){
+        setInputError('E-mail já cadastrado em nosso banco de dados');
+        setShowRecoveryPassword(true);
+        return
+      }
 
       if (data?.signUpVerificationCode?.cookies) {
         navigation.navigate(
