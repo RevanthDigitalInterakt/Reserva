@@ -46,6 +46,7 @@ export function HomeTabs() {
             options={{ headerShown: false }}
             listeners={{
               tabPress: () => {
+                EventProvider.logScreenViewEvent('/home');
                 EventProvider.logEvent('home_tab_click', {});
               },
             }}
@@ -55,6 +56,7 @@ export function HomeTabs() {
             component={NewProductCatalog}
             listeners={{
               tabPress: () => {
+                EventProvider.logScreenViewEvent('/offers');
                 EventProvider.logEvent('offers_tab_click', {});
               },
             }}
@@ -71,6 +73,7 @@ export function HomeTabs() {
               initialParams={{ label: 'Roleta' }}
               listeners={{
                 tabPress: () => {
+                  EventProvider.logScreenViewEvent('/roulet');
                   EventProvider.logEvent('roulet_tab_click', {});
                 },
 
@@ -87,6 +90,7 @@ export function HomeTabs() {
             options={{ headerShown: false }}
             listeners={{
               tabPress: () => {
+                EventProvider.logScreenViewEvent('/wishlist');
                 EventProvider.logEvent('wishlist_tab_click', {});
               },
             }}
@@ -98,6 +102,7 @@ export function HomeTabs() {
             options={{ headerShown: false }}
             listeners={{
               tabPress: () => {
+                EventProvider.logScreenViewEvent('/profile');
                 EventProvider.logEvent('profile_tab_click', {});
               },
             }}
@@ -107,6 +112,7 @@ export function HomeTabs() {
               name="Call"
               listeners={{
                 tabPress: () => {
+                  EventProvider.logScreenViewEvent('/call_center');
                   EventProvider.logEvent('call_center_tab_click', {});
                 },
               }}
