@@ -9,7 +9,7 @@ import { env } from '../../config/env';
 import {
   eventsName,
   eventsValue,
-  EventValueOptions,
+  type EventValueOptions,
   onlyGaEvents,
 } from './misc';
 import type { EventOptionsFn, EventsOptions } from './Event';
@@ -98,9 +98,9 @@ class EventProvider {
         onDeepLinkListener: true,
         timeToWaitForATTUserAuthorization: 10,
       },
-      (_) => {},
+      (_) => { },
       (error) => {
-        ExceptionProvider.captureException(error);
+        ExceptionProvider.captureException(error as any);
       },
     );
     this.analytics
@@ -149,6 +149,20 @@ class EventProvider {
     } catch (err) {
       ExceptionProvider.captureException(new Error('Error Log Event'), {
         args,
+        err,
+      });
+    }
+  }
+
+  public static async logScreenViewEvent(eventName: string) {
+    try {
+      await this.analytics.logScreenView({
+        screen_name: eventName,
+        screen_class: eventName,
+      });
+    } catch (err) {
+      ExceptionProvider.captureException(new Error('Error Log Screen View Event'), {
+        eventName,
         err,
       });
     }

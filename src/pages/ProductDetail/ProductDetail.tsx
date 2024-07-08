@@ -43,10 +43,8 @@ import { trackClickStore, type IData } from '../../zustand/useTrackClickStore/us
 import CashbackInfo from '../../components/CashbackInfo';
 import { ProductPayment } from './components/ProductPayment';
 import { Divider } from '../../components/Divider/Divider';
-import { Button } from '../../components/Button';
 import { useTrackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 import ReturnPolicy from './components/ReturnPolicy/ReturnPolicy';
-import useSearchStore from '../../zustand/useSearchStore';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -120,6 +118,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
       const { product } = data;
       trackEventDitoAccessProduct(data);
+      EventProvider.logScreenViewEvent(`/pdp/${product.productName?.replace(/ /g, '-').toLowerCase()}`);
 
       const newData: IData = {
         identifier: product.identifier || '',
