@@ -7,6 +7,7 @@ import { Platform, View } from 'react-native';
 import deviceInfo from 'react-native-device-info';
 import { WebView, type WebViewMessageEvent, type WebViewNavigation } from 'react-native-webview';
 
+import Config from 'react-native-config';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { Button } from '../../components/Button';
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
@@ -55,7 +56,7 @@ function WebviewCheckout() {
     const cookie = await getAsyncStorageItem('Auth:Cookie');
     try {
       await actions.CREATE_NEW_ORDER_FORM();
-      await axios.get('https://appqa.usereserva.com/api/checkout/pub/orderForm?forceNewCart=true&sc=4', { headers: { ...(cookie ? { cookie } : {}) } });
+      await axios.get(`${Config.URL_VTEX_QA}/api/checkout/pub/orderForm?forceNewCart=true&sc=4`, { headers: { ...(cookie ? { cookie } : {}) } });
     } catch (e) {
       ExceptionProvider.captureException(e);
     } finally {

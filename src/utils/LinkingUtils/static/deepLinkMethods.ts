@@ -191,12 +191,37 @@ const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
 //     .replace(':', '')
 //     .split(',')[0];
 
-//   if (initialUrl.includes('/colecao-')) {
-//     return {
-//       match: true,
-//       strUrl: `usereserva://catalog/collection:${clusterId}`,
-//     };
+// const $ = cheerio.load(html);
+
+// Procurar pelo productClusterId no HTML
+// Procurar pelo productClusterId no HTML
+// let clusterId;
+// $('script').each((i, script) => {
+//   const content = $(script).html();
+//   if (content.includes('productClusterIds')) {
+//     // Tentar analisar como JSON
+//     const jsonMatch = content.match(/\{.*"productClusterIds":\["(\d+)"\].*\}/);
+//     if (jsonMatch) {
+//       const jsonData = JSON.parse(jsonMatch[0]);
+//       clusterId = jsonData.productClusterIds[0];
+//       return false; // Interromper o loop quando encontrar
+//     }
 //   }
+// });
+// const clusterId = (await res?.text())?.split('productClusterIds')[0]
+//   ?.split('queryField')[1]
+//   ?.replace(/\\\"/g, '')
+//   .replace(':', '')
+//   .split(',')[0];
+
+// console.log('clusterId', clusterId);
+
+// if (initialUrl.includes('/colecao-')) {
+//   return {
+//     match: true,
+//     strUrl: `usereserva://catalog/collection:${clusterId}`,
+//   };
+// }
 
 //   return defaultCustomMethodReturn;
 // };
@@ -413,9 +438,9 @@ const webCatalogCollectionUseCase = async (initialUrl: string) => {
     return defaultCustomMethodReturn;
   }
 
-  // if (initialUrl.includes('colecao-')) {
-  //   return defaultCustomMethodReturn;
-  // }
+  if (initialUrl.includes('colecao-')) {
+    return defaultCustomMethodReturn;
+  }
   const searchRegExp = /\//g;
   const replacePathName = '|';
 

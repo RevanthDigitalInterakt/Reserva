@@ -1,4 +1,5 @@
 import type { AxiosRequestConfig } from 'axios';
+import Config from 'react-native-config';
 import { getAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 
 const applyCookieHeader = async (config: AxiosRequestConfig) => {
@@ -6,12 +7,12 @@ const applyCookieHeader = async (config: AxiosRequestConfig) => {
 
   const Cookie = 'VtexIdclientAutCookie_applojausereservaqa';
 
-  const BASE_URL_NEW_WEBVIEW = 'https://appqa.usereserva.com/api/';
+  const BASE_URL_NEW_WEBVIEW = `${Config.URL_VTEX_QA}/api/`;
 
   let newBaseURL = config.baseURL;
   const isBaseUrlWebview = [
     'https://www.usereserva.com/',
-    'https://lojausereserva.myvtex.com/api/']
+    Config.URL_BASE]
     .includes(config.baseURL ? config.baseURL : '');
 
   newBaseURL = isBaseUrlWebview ? BASE_URL_NEW_WEBVIEW : config.baseURL;
