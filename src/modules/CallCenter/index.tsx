@@ -23,6 +23,7 @@ function CallCenter() {
       EventProvider.logEvent('call_center_click', {
         phoneNumber,
       });
+      EventProvider.logScreenViewEvent('call_center_click');
     } catch (error) {
       ExceptionProvider.captureException(error);
     }
