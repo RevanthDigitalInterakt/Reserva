@@ -40,14 +40,14 @@ export function NewTransparentTopBarDefault({ loading = false }: NewTopBarDefaul
           testID: 'com.usereserva:id/header_button_menu',
           size: 24,
           color: 'white',
-          onPress: () => handleNavigateToMenu(),
+          onPress: handleNavigateToMenu,
         }}
         rightButton2={{
           name: 'Handbag',
           testID: 'com.usereserva:id/button_bag',
           size: 24,
           color: 'white',
-          onPress: () => handleNavigateToBag(),
+          onPress: handleNavigateToBag,
           badgeCount: allItemsQuantity,
         }}
         height={50}

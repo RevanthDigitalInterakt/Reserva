@@ -32,13 +32,13 @@ export function NewWhiteTopBarDefault({ loading = false }: NewTopBarDefaultProps
         name: 'SideMenu',
         testID: 'com.usereserva:id/header_button_menu',
         size: 24,
-        onPress: () => handleNavigateToMenu,
+        onPress: handleNavigateToMenu,
       }}
       rightButton2={{
         name: 'Handbag',
         testID: 'com.usereserva:id/button_bag',
         size: 24,
-        onPress: () => handleNavigateToBag(),
+        onPress: handleNavigateToBag,
         badgeCount: allItemsQuantity,
       }}
       height={50}
