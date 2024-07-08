@@ -35,9 +35,26 @@ jest.mock('../../../hooks/usePrimeInfo', () => ({
   usePrimeInfo: () => ({}),
 }));
 
+jest.mock('../../../utils/getApolloClient.ts', () => ({
+  getApolloClient: () => ({
+    mutate: jest.fn().mockResolvedValue({
+      data: {
+        trackPageView: {
+          success: true,
+        },
+      },
+    }),
+  }),
+}));
+
 jest.mock('react-native-background-timer', () => ({
   stopBackgroundTimer: jest.fn(),
   runBackgroundTimer: jest.fn(),
+}));
+
+jest.mock('react-native-tracking-transparency', () => ({
+  requestTrackingPermission: jest.fn(() => Promise.resolve()),
+  getTrackingStatus: jest.fn(() => Promise.resolve('authorized')),
 }));
 
 jest.mock('../../../zustand/useApolloFetchPolicyStore', () => ({
@@ -52,6 +69,14 @@ jest.mock('../../../zustand/useConnectivityStore', () => ({
     isConnected: true,
   }),
 }));
+
+jest.mock('react-native-webview', () => {
+  // eslint-disable-next-line global-require
+  const { View } = require('react-native');
+  return {
+    WebView: View,
+  };
+});
 
 jest.mock('../../../zustand/useHomeStore', () => ({
   useHomeStore: () => ({

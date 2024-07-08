@@ -8,6 +8,7 @@ import { decimalPart, integerPart } from '../../utils/numberUtils';
 import testProps from '../../utils/testProps';
 import { Typography } from '../Typography/Typography';
 import { styles } from './SelectBoxPrime.styles';
+import EventProvider from '../../utils/EventProvider';
 
 const goldBadgeImage = require('./assets/goldBadge.png');
 
@@ -51,7 +52,10 @@ export function SelectBoxPrime({
   return (
     <TouchableOpacity
       style={styles.primePrice}
-      onPress={() => onPress('pricePrime')}
+      onPress={() => {
+        EventProvider.logEvent('prime_price_box_click', {});
+        onPress('pricePrime');
+      }}
       disabled={isChecked}
       {...testProps('select_box_price_prime')}
     >

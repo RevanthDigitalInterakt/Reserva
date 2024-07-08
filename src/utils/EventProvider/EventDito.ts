@@ -101,6 +101,10 @@ export type TNewsletter = {
   telefone: string;
 };
 
+export type THelpCenter = {
+  pagina?: string;
+};
+
 export type TEventsDitoValues = {
   id: string | null;
   action: string;
@@ -117,7 +121,8 @@ export type TEventsDitoValues = {
   TAddToWishlist |
   TAccessBag |
   TStatusCart |
-  TNewsletter;
+  TNewsletter |
+  THelpCenter;
 };
 
 export namespace EventsOptions {
@@ -134,6 +139,7 @@ export namespace EventsOptions {
   export type AccessBagEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
   export type StatusCartEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
   export type NewsletterEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
+  export type HelpCenterEvent = Pick<TEventsDitoValues, | 'id' | 'action' | 'data'> & {};
 }
 // Os nomes dos eventos DEVEM ser enviados para a Dito em letras minúsculas
 export type TEventOptionsDitoFn =
@@ -188,4 +194,8 @@ export type TEventOptionsDitoFn =
     | {
       type: 'newsletter';
       payload: EventsOptions.NewsletterEvent;
+    }
+    | {
+      type: 'acessou-central-de-ajuda';
+      payload: EventsOptions.HelpCenterEvent;
     };

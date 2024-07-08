@@ -1,6 +1,5 @@
 import { URL } from 'react-native-url-polyfill';
 import { Platform } from 'react-native';
-import cheerio from 'cheerio';
 import { platformType } from '../../platformType';
 import { removeProtocol } from '../../removeProtocol';
 import { getAsyncStorageItem, setAsyncStorageItem } from '../../../hooks/useAsyncStorageProvider';
@@ -20,13 +19,14 @@ import {
 } from '../../../base/graphql/generated';
 import { mergeItemsPackage } from '../../mergeItemsPackage';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
-import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import { syncRemoteConfig, useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import * as linkingUtils from '../linkingUtils';
 
 const { getBoolean } = useRemoteConfig.getState();
 
-interface ICustomMethodReturnParams {
+export interface ICustomMethodReturnParams {
   match: boolean;
-  strUrl: string;
+  strUrl?: string;
 }
 
 export const REGEX_PRODUCT_URL = {
@@ -181,52 +181,50 @@ const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
-const clusterCollectionUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
-  const splitPath = initialUrl.split('//')[1];
-  console.log('splitPath', splitPath);
-  // const res1 = await fetch(`https://www.usereserva.com/api/catalog_system/pub/products/search/${splitPath}`);
-  // console.log('res1', res1);
-  // const data = await res1.json();
-  // console.log('data', data);
-  const res = await fetch(`https://www.usereserva.com/${splitPath}`);
-  // Extrair o HTML da resposta
-  // Extrair o HTML da resposta
-  const html = await res.text();
+// const clusterCollectionUseCase = async (initialUrl: string):
+//  Promise<ICustomMethodReturnParams> => {
+//   const splitPath = initialUrl.split('//')[1];
+//   const res = await fetch(`https://www.usereserva.com/${splitPath}`);
+//   const clusterId = (await res?.text())?.split('productClusterIds')[0]
+//     ?.split('queryField')[1]
+//     ?.replace(/\\\"/g, '')
+//     .replace(':', '')
+//     .split(',')[0];
 
-  const $ = cheerio.load(html);
+// const $ = cheerio.load(html);
 
-  // Procurar pelo productClusterId no HTML
-  // Procurar pelo productClusterId no HTML
-  let clusterId;
-  $('script').each((i, script) => {
-    const content = $(script).html();
-    if (content.includes('productClusterIds')) {
-      // Tentar analisar como JSON
-      const jsonMatch = content.match(/\{.*"productClusterIds":\["(\d+)"\].*\}/);
-      if (jsonMatch) {
-        const jsonData = JSON.parse(jsonMatch[0]);
-        clusterId = jsonData.productClusterIds[0];
-        return false; // Interromper o loop quando encontrar
-      }
-    }
-  });
-  // const clusterId = (await res?.text())?.split('productClusterIds')[0]
-  //   ?.split('queryField')[1]
-  //   ?.replace(/\\\"/g, '')
-  //   .replace(':', '')
-  //   .split(',')[0];
+// Procurar pelo productClusterId no HTML
+// Procurar pelo productClusterId no HTML
+// let clusterId;
+// $('script').each((i, script) => {
+//   const content = $(script).html();
+//   if (content.includes('productClusterIds')) {
+//     // Tentar analisar como JSON
+//     const jsonMatch = content.match(/\{.*"productClusterIds":\["(\d+)"\].*\}/);
+//     if (jsonMatch) {
+//       const jsonData = JSON.parse(jsonMatch[0]);
+//       clusterId = jsonData.productClusterIds[0];
+//       return false; // Interromper o loop quando encontrar
+//     }
+//   }
+// });
+// const clusterId = (await res?.text())?.split('productClusterIds')[0]
+//   ?.split('queryField')[1]
+//   ?.replace(/\\\"/g, '')
+//   .replace(':', '')
+//   .split(',')[0];
 
-  console.log('clusterId', clusterId);
+// console.log('clusterId', clusterId);
 
-  // if (initialUrl.includes('/colecao-')) {
-  //   return {
-  //     match: true,
-  //     strUrl: `usereserva://catalog/collection:${clusterId}`,
-  //   };
-  // }
+// if (initialUrl.includes('/colecao-')) {
+//   return {
+//     match: true,
+//     strUrl: `usereserva://catalog/collection:${clusterId}`,
+//   };
+// }
 
-  return defaultCustomMethodReturn;
-};
+//   return defaultCustomMethodReturn;
+// };
 
 const accountWishListUseCase = (
   initialUrl: string,
@@ -482,13 +480,26 @@ const webviewDeepLinkUseCase = (initialUrl: string): ICustomMethodReturnParams =
   return defaultCustomMethodReturn;
 };
 
-const webViewFacaVcUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+const webViewFacaVcUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
+  await syncRemoteConfig();
   const showWebviewFacavc = getBoolean('show_webview_facavc');
+  const facaVcPath = 'facavc/criar';
 
-  if (initialUrl.includes('facavc/criar') && showWebviewFacavc) {
+  if (initialUrl.includes(facaVcPath) && showWebviewFacavc) {
+    const numbersOfPathParams = 3;
+    const handleInitialUrlParams = linkingUtils.handlePathsParams(
+      initialUrl,
+      facaVcPath,
+      numbersOfPathParams,
+    );
+    const aditionalParams = linkingUtils.splitPathParams(
+      handleInitialUrlParams,
+      facaVcPath,
+    );
+
     return {
       match: true,
-      strUrl: 'usereserva://facavc/criar',
+      strUrl: `usereserva://facavc/criar${aditionalParams}`,
     };
   }
 
@@ -515,7 +526,7 @@ const registerMethods = [
   abandonedBagUseCase,
   webCatalogCollectionUseCase,
   webviewDeepLinkUseCase,
-  clusterCollectionUseCase,
+  // clusterCollectionUseCase,
 ];
 
 export { registerMethods };

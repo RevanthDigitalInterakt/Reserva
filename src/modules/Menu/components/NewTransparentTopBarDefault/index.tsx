@@ -17,12 +17,12 @@ export function NewTransparentTopBarDefault({ loading = false }: NewTopBarDefaul
 
   const handleNavigateToMenu = () => {
     navigation.navigate('Menu');
-    EventProvider.logEvent('menu-click', {});
+    EventProvider.logEvent('menu_click', {});
   };
 
   const handleNavigateToBag = () => {
     navigation.navigate('BagScreen');
-    EventProvider.logEvent('bag-click', {});
+    EventProvider.logEvent('bag_click', {});
   };
 
   return (

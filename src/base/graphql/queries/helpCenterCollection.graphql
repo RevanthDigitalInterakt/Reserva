@@ -1,0 +1,48 @@
+query helpCenterCollection {
+    helpCenterCollection {
+        items {
+            titleHelpCenter
+            itemsHelpCenterCollection {
+                items {
+                    sessionTitle
+                    linkUrl
+                    sessionBodyCollection {
+                        items {
+                            helpCenterSessionTitle
+                            helpCenterBodyText
+                            expansePanel {
+                                expansePanelCollection {
+                                    items {
+                                        expanseTitleItem
+                                        expanseContentItem
+                                    }
+                                }
+                            }
+                            bodyImagesCollection {
+                                items {
+                                    helpCenterImagesCollection {
+                                        items {
+                                            title
+                                            description
+                                            url
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            footerHelpCenter {
+                footerTitle
+                textBody
+                footerLinkCollection {
+                    items {
+                        linkTitle
+                        linkHelpCenter
+                    }
+                }
+            }
+        }
+    }
+}
