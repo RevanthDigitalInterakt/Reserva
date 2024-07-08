@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Platform } from 'react-native';
 import { platformType } from '../../../utils/platformType';
 import { TopBar } from '../../../components/TopBar';
@@ -15,16 +15,16 @@ export const TopBarDefault: React.FC<{
   const { allItemsQuantity } = useBagStore(['allItemsQuantity']);
   const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
 
-  const handleNavigateToMenu = () => {
+  const handleNavigateToMenu = useCallback(() => {
     navigation.navigate('Menu');
     EventProvider.logEvent('menu_click', {});
-  };
+  }, []);
 
-  const handleNavigateToSearch = () => {
+  const handleNavigateToSearch = useCallback(() => {
     EventProvider.logEvent('top_bar_search_click', { open: 1 });
     navigation.navigate('SearchMenu');
     onStartLoad('Search');
-  };
+  }, []);
 
   return (
     <TopBar
