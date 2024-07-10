@@ -19,6 +19,8 @@ export default function WebViewFacaVoce() {
   const route = useRoute();
   const { params } = route;
 
+  console.log('params', params);
+
   const navigation = useNavigation();
   const { orderFormId } = useBagStore(['orderFormId']);
   const { profile } = useAuthStore(['profile']);

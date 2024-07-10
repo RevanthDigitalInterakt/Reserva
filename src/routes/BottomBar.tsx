@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Dimensions, Platform } from 'react-native';
 
 import { Box } from '../components/Box/Box';
@@ -6,6 +6,7 @@ import { Button } from '../components/Button';
 import { IconLegacy } from '../components/IconLegacy/IconLegacy';
 import { Typography } from '../components/Typography/Typography';
 import IconComponent from '../components/IconComponent/IconComponent';
+import IconShirt from '../../assets/icons/IconShirt';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -26,6 +27,26 @@ export function BottomBarButton({
   testID,
   accessibilityLabel,
 }: BottomBarButtonProps) {
+  const renderIcon = useCallback((nameIcon: string) => {
+    if (nameIcon === 'FacaVc') {
+      return <IconShirt />;
+    }
+
+    if (nameIcon === 'Roulet') {
+      return (
+        <IconComponent icon="roulet" style={{ width: 25, height: 25, marginBottom: 4 }} />
+      );
+    }
+
+    return (
+      <IconLegacy
+        name={nameIcon}
+        color="preto"
+        size={25}
+        mb={4}
+      />
+    );
+  }, []);
   return (
     <Button
       mx="micro"
@@ -36,16 +57,7 @@ export function BottomBarButton({
       accessibilityLabel={accessibilityLabel}
     >
       <>
-        {iconName === 'Roulet' ? (
-          <IconComponent icon="roulet" style={{ width: 25, height: 25, marginBottom: 4 }} />
-        ) : (
-          <IconLegacy
-            name={iconName}
-            color={isSlected ? 'vermelhoAlerta' : 'preto'}
-            size={25}
-            mb={4}
-          />
-        )}
+        {renderIcon(iconName)}
         <Typography fontSize="9px" fontFamily="nunitoRegular" color={isSlected ? 'vermelhoAlerta' : 'preto'}>{label}</Typography>
       </>
     </Button>
