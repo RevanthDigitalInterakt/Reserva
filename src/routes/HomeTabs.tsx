@@ -25,7 +25,6 @@ export function HomeTabs() {
   const { getBoolean } = useRemoteConfig();
   const showRoulet = getBoolean('show_roulet');
   const showLabelFacavc = getBoolean('show_label_facavc');
-  console.log('show', showRoulet);
   const { hasTabBar } = useHomeStore(['hasTabBar']);
 
   return (
