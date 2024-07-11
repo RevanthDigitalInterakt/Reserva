@@ -500,4 +500,7 @@ export type EventOptionsFn =
   } | {
     type: 'faca_vc_tab_click',
     payload: {}
+  } | {
+    type: 'personalize_tab_click',
+    payload: {}
   };

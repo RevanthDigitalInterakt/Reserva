@@ -112,21 +112,6 @@ export function HomeTabs() {
 
           {!showRoulet ? (
             <Tab.Screen
-              name="Call"
-              listeners={{
-                tabPress: () => {
-                  EventProvider.logScreenViewEvent('/call_center');
-                  EventProvider.logEvent('call_center_tab_click', {});
-                },
-              }}
-              component={CallCenter}
-              initialParams={{ label: 'Central' }}
-              options={{ headerShown: false }}
-            />
-          ) : null}
-
-          {!showRoulet ? (
-            <Tab.Screen
               name="FacaVc"
               component={WebViewFacaVoce}
               initialParams={{ label: showLabelFacavc ? 'Faca.VC' : 'Personalize' }}
@@ -134,7 +119,14 @@ export function HomeTabs() {
               listeners={{
                 tabPress: () => {
                   EventProvider.logScreenViewEvent('/facavc');
-                  EventProvider.logEvent('faca_vc_tab_click', {});
+
+                  if (showLabelFacavc) {
+                    EventProvider.logEvent('faca_vc_tab_click', {});
+
+                    return;
+                  }
+
+                  EventProvider.logEvent('personalize_tab_click', {});
                 },
               }}
             />
