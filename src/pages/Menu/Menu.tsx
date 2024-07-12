@@ -110,9 +110,9 @@ function Menu() {
       trackEventAccessedDepartmentDito(selectedItem.name);
       // TODO: ADICIONAR EVENTO DE CLIQUE NO MENU
 
-    EventProvider.logEvent('item_menu', {
-      itemName: selectedItem.name,
-    });
+      EventProvider.logEvent(`item_menu-${selectedItem.name}`, {
+        itemName: selectedItem.name,
+      });
 
       if (selectedItem.type === MenuItemTypeEnum.ParentCategory) {
         setOpenedIndex(openedIndex === index ? undefined : index);
