@@ -4,6 +4,7 @@ import SearchSuggestionsPage from './components/SearchSuggestionsPage';
 import SearchResults from './components/SearchResultsPage';
 import useSearchStore, { SearchStatusEnum, SearchType } from '../../zustand/useSearchStore';
 import SearchWrapper from './components/SearchWrapper';
+import EventProvider from '../../utils/EventProvider';
 
 function NewSearch() {
   const {
@@ -13,6 +14,7 @@ function NewSearch() {
   } = useSearchStore(['status', 'onInit', 'initialized']);
 
   useEffect(() => {
+    EventProvider.logScreenViewEvent('/search');
     onInit(SearchType.SEARCH);
 
     return () => {
