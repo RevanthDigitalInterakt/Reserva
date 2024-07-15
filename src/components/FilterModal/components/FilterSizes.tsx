@@ -31,11 +31,8 @@ function FilterSizes({ data, selectedItems, onUpdate }: IFilterSizes) {
 
       <Box paddingY="micro" paddingX="micro">
         <RadioButtonsFilter
-          onSelectedChange={(size: string[]) => {
-            const items = size.filter(Boolean);
-            onUpdate(new Set(items));
-          }}
-          disbledOptions={[]}
+          onSelectedChange={(size: string[]) => onUpdate(new Set(size.filter(Boolean)))}
+          disabledOptions={[]}
           defaultSelectedItem={Array.from(selectedItems)}
           size="34px"
           fontSize="10px"

@@ -19,7 +19,7 @@ import { Divider } from '../Divider/Divider';
 import { Button } from '../Button';
 
 function getFacetValue(values: Set<{ value: string; hex?: string; }>) {
-  return new Set(Array.from(values).map((item) => item.hex || item.value));
+  return new Set(Array.from(values).map((item) => item.hex ?? item.value));
 }
 
 export interface IFilterModal {
