@@ -5,15 +5,15 @@ import { Button } from '../Button';
 import { Typography } from '../Typography/Typography';
 
 interface Option {
-  value: any;
+  value: string;
 }
 
 interface RadioButtonsFilterProps {
   optionsList: Option[];
   disabledOptions: string[];
-  defaultSelectedItem: any[];
+  defaultSelectedItem: string[];
   color?: keyof typeof theme.colors;
-  onSelectedChange: (item: any[]) => void;
+  onSelectedChange: (item: string[]) => void;
   size?: number | string;
   fontSize?: string | number;
 }
@@ -47,7 +47,7 @@ const RadioButtonsFilter: React.FC<RadioButtonsFilterProps> = React.memo(({
 
   if (!optionsList || optionsList.length === 0) return null;
 
-  const changeSelectedItems = useCallback((isSelected: boolean, value: any) => {
+  const changeSelectedItems = useCallback((isSelected: boolean, value: string) => {
     const updatedItems = isSelected
       ? defaultSelectedItem.filter(item => item != value)
       : [...defaultSelectedItem, value];
