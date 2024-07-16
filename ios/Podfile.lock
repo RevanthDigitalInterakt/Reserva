@@ -1295,6 +1295,8 @@ PODS:
   - hermes-engine (0.72.12):
     - hermes-engine/Pre-built (= 0.72.12)
   - hermes-engine/Pre-built (0.72.12)
+  - jail-monkey (2.8.0):
+    - React-Core
   - JWT (3.0.0-beta.14):
     - Base64 (~> 1.1.2)
   - leveldb-library (1.22.5)
@@ -1879,6 +1881,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - GoogleUtilities
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
+  - jail-monkey (from `../node_modules/jail-monkey`)
   - libevent (~> 2.1.12)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - OneSignal (< 4.0, >= 3.0)
@@ -2030,6 +2033,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   hermes-engine:
     :podspec: "../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
+  jail-monkey:
+    :path: "../node_modules/jail-monkey"
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
   Permission-AppTrackingTransparency:
@@ -2229,6 +2234,7 @@ SPEC CHECKSUMS:
   gRPC-Core: eee4be35df218649fe66d721a05a7f27a28f069b
   GTMSessionFetcher: 8000756fc1c19d2e5697b90311f7832d2e33f6cd
   hermes-engine: e89344b9e9e54351c3c5cac075e0275148fb37ba
+  jail-monkey: a71b35d482a70ecba844a90f002994012cf12a5d
   JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
   leveldb-library: e8eadf9008a61f9e1dde3978c086d2b6d9b9dc28
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
