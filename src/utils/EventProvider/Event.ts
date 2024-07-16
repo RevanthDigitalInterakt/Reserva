@@ -497,4 +497,10 @@ export type EventOptionsFn =
   } | {
     type: 'add_to_cart_from_wishlist',
     payload: EventsOptions.AddToCartFromWishlist
+  } | {
+    type: 'faca_vc_tab_click',
+    payload: {}
+  } | {
+    type: 'personalize_tab_click',
+    payload: {}
   };
