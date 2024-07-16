@@ -43,13 +43,13 @@ const RadioButtonsFilter: React.FC<RadioButtonsFilterProps> = React.memo(({
   fontSize = '10px',
   ...props
 }) => {
-  defaultSelectedItem = defaultSelectedItem.map(item => item.toUpperCase())
+  defaultSelectedItem = defaultSelectedItem.map((item: string) => item.toUpperCase())
 
   if (!optionsList || optionsList.length === 0) return null;
 
   const changeSelectedItems = useCallback((isSelected: boolean, value: string) => {
     const updatedItems = isSelected
-      ? defaultSelectedItem.filter(item => item != value)
+      ? defaultSelectedItem.filter((item: string) => item != value)
       : [...defaultSelectedItem, value];
 
     onSelectedChange(orderSizes(updatedItems));
@@ -57,7 +57,7 @@ const RadioButtonsFilter: React.FC<RadioButtonsFilterProps> = React.memo(({
 
   return (
     <Box alignItems="flex-start" flexWrap="wrap" flexDirection="row" {...props}>
-      {optionsList.map(({ value }, index) => {
+      {optionsList.map(({ value }, index: number) => {
         const isSelected = defaultSelectedItem.includes(value);
 
         return (
