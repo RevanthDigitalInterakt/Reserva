@@ -4,6 +4,7 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
 import analytics from '@react-native-firebase/analytics';
+import Config from 'react-native-config';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import EventProvider from '../utils/EventProvider';
 import { getBrands } from '../utils/getBrands';
