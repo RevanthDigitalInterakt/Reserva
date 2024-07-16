@@ -8,6 +8,7 @@ import { MenuProfile } from '../modules/Profile/pages/MenuProfile';
 import Home from '../pages/Home';
 import NewProductCatalog from '../pages/ProductCatalog';
 import WishList from '../pages/WishList/WishList';
+import WebViewFacaVoce from '../pages/WebViewFacaVoce';
 import { TabBar } from './TabBar';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { Modal } from '../components/Modal';
@@ -23,6 +24,7 @@ export function HomeTabs() {
   const { rouletCoupon, actions } = useBagStore(['rouletCoupon', 'actions']);
   const { getBoolean } = useRemoteConfig();
   const showRoulet = getBoolean('show_roulet');
+  const showLabelFacavc = getBoolean('show_label_facavc');
   const { hasTabBar } = useHomeStore(['hasTabBar']);
 
   return (
@@ -107,18 +109,26 @@ export function HomeTabs() {
               },
             }}
           />
+
           {!showRoulet ? (
             <Tab.Screen
-              name="Call"
+              name="FacaVc"
+              component={WebViewFacaVoce}
+              initialParams={{ label: showLabelFacavc ? 'Faca.VC' : 'Personalize' }}
+              options={{ headerShown: false }}
               listeners={{
                 tabPress: () => {
-                  EventProvider.logScreenViewEvent('/call_center');
-                  EventProvider.logEvent('call_center_tab_click', {});
+                  EventProvider.logScreenViewEvent('/facavc');
+
+                  if (showLabelFacavc) {
+                    EventProvider.logEvent('faca_vc_tab_click', {});
+
+                    return;
+                  }
+
+                  EventProvider.logEvent('personalize_tab_click', {});
                 },
               }}
-              component={CallCenter}
-              initialParams={{ label: 'Central' }}
-              options={{ headerShown: false }}
             />
           ) : null}
         </Tab.Navigator>

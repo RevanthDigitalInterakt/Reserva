@@ -2,6 +2,9 @@
 
 ## CHANGELOG
 
+### 2.13.0
+- [42216 - Ícone faça vc na tab bar do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/42216)
+
 ### 2.12.0
 
 - [41137 - Tagueamento PDP app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41137)
