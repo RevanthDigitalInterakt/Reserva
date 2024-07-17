@@ -2,11 +2,15 @@
 
 ## CHANGELOG
 
+### 2.13.0
+- [42216 - Ícone faça vc na tab bar do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/42216)
+- [46478 - Crash ao fazer busca no app](https://dev.azure.com/areco/AReCO/_workitems/edit/46478)
+
 ### 2.12.0
 
 - [41137 - Tagueamento PDP app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41137)
 - [42418 - [APP] Parametrização url Faça vc](https://dev.azure.com/areco/AReCO/_workitems/edit/42418)
-- [46478 - Crash ao fazer busca no app](https://dev.azure.com/areco/AReCO/_workitems/edit/46478)
+- [46165 - Menu lateral do app instável ao clicar](https://dev.azure.com/areco/AReCO/_workitems/edit/46165)
 
 ---
 ### 2.11.10
