@@ -4,6 +4,7 @@
 
 ### 2.13.0
 - [42216 - Ícone faça vc na tab bar do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/42216)
+- [46840 - Erro ao fazer troca de filtros](https://dev.azure.com/areco/AReCO/_workitems/edit/46840)
 
 ### 2.12.0
 
