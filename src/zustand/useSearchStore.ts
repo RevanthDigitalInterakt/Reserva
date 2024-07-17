@@ -196,10 +196,6 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
         });
       }
 
-      if (data.search.items.length === 0) {
-        DdLogs.error(`Empty cluster id: ${newParameters.facets[0]?.value}`, data);
-      }
-
       set(() => ({
         loading: false,
         ...(filters ? { filters } : {}),
