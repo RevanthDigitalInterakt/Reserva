@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native';
@@ -17,6 +17,7 @@ import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import CallCenter from '../modules/CallCenter';
 import { useHomeStore } from '../zustand/useHomeStore';
 import EventProvider from '../utils/EventProvider';
+import OffersPage from '../pages/Offers/OffersPage';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,6 +27,10 @@ export function HomeTabs() {
   const showRoulet = getBoolean('show_roulet');
   const showLabelFacavc = getBoolean('show_label_facavc');
   const { hasTabBar } = useHomeStore(['hasTabBar']);
+  const showNewOffersPage = useMemo(() => getBoolean('new_offers_page'), []);
+
+  const getOffersPage = useMemo(() => (showNewOffersPage
+    ? OffersPage : NewProductCatalog), [showNewOffersPage]);
 
   return (
     <>
@@ -55,7 +60,7 @@ export function HomeTabs() {
           />
           <Tab.Screen
             name="Offers"
-            component={NewProductCatalog}
+            component={getOffersPage}
             listeners={{
               tabPress: () => {
                 EventProvider.logScreenViewEvent('/offers');

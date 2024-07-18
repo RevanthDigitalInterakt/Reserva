@@ -10,8 +10,10 @@ import type {
   HomeMediaOutput,
   HomeMediasQuery,
   HomeMediasQueryVariables,
+  OffersCarouselsOutput,
+  OffersCarouselsQuery,
 } from '../base/graphql/generated';
-import { HomeCarouselsDocument, HomeConfigDocument, HomeMediasDocument } from '../base/graphql/generated';
+import { HomeCarouselsDocument, HomeConfigDocument, HomeMediasDocument, OffersCarouselsDocument } from '../base/graphql/generated';
 import { getApolloClient } from '../utils/getApolloClient';
 import { apolloFetchPolicyStore } from './useApolloFetchPolicyStore';
 
@@ -20,6 +22,7 @@ interface IHomeStore {
   hasTabBar: boolean;
   loaded: boolean;
   carousels: HomeCarouselOutput[];
+  offersCarousels: OffersCarouselsOutput[];
   medias: HomeMediaOutput[];
   offersPage?: string;
   commercialBannerCollection?: ConfigCommercialBannerOutput[],
@@ -32,6 +35,7 @@ const homeStore = create<IHomeStore>((set, getState) => ({
   hasTabBar: true,
   loaded: false,
   carousels: [],
+  offersCarousels: [],
   discountBar: undefined,
   offersPage: undefined,
   commercialBannerCollection: undefined,
@@ -46,15 +50,22 @@ const homeStore = create<IHomeStore>((set, getState) => ({
 
     const { getFetchPolicyPerKey } = apolloFetchPolicyStore.getState();
 
-    const { data } = await client.query<HomeCarouselsQuery, HomeCarouselsQueryVariables>({
+    const { data: homeData } = await client.query<HomeCarouselsQuery, HomeCarouselsQueryVariables>({
       context: { clientName: 'gateway' },
       fetchPolicy: getFetchPolicyPerKey('homeCarousels'),
       query: HomeCarouselsDocument,
     });
 
+    const { data: offersData } = await client.query<OffersCarouselsQuery>({
+      context: { clientName: 'gateway' },
+      fetchPolicy: getFetchPolicyPerKey('homeCarousels'),
+      query: OffersCarouselsDocument,
+    });
+
     set(() => ({
       loading: false,
-      carousels: data.homeCarousels,
+      carousels: homeData.homeCarousels,
+      offersCarousels: offersData.offersCarousels,
     }));
 
     const [medias, config] = await Promise.all([
