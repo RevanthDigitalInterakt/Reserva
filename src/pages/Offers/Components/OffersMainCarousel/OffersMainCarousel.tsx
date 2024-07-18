@@ -38,7 +38,7 @@ function OffersMainCarousel({ data }: IOffersMainCarousel) {
 
     return width && height
       ? (height * configDeviceSizes.DEVICE_WIDTH) / width
-      : 500;
+      : 400;
   }, [data.items]);
 
   const onPress = useCallback(
