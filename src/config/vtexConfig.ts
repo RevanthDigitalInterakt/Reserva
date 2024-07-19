@@ -64,7 +64,7 @@ const instance7 = axios.create({
 });
 
 const instance8 = axios.create({
-  baseURL: 'https://appqa.usereserva.com',
+  baseURL: Config.URL_VTEX_QA,
   timeout: 30000,
   headers,
 });

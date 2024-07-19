@@ -11,6 +11,7 @@ import {
 import Menu from '../Menu';
 import EventProvider from '../../../utils/EventProvider';
 import { AppMenuDocument } from '../../../base/graphql/generated';
+import { theme } from '../../../base/usereservappLegacy/theme';
 
 jest.mock('../../../utils/EventProvider', () => ({
   sendTrackEvent: jest.fn(),

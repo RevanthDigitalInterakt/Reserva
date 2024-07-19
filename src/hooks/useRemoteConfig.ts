@@ -71,6 +71,7 @@ export interface IRemoteConfigKeys {
   show_return_policy: boolean;
   show_doris_button: boolean;
   show_webview_facavc: boolean;
+  show_label_facavc: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -139,6 +140,7 @@ export const defaults: IRemoteConfigKeys = {
   show_return_policy: false,
   show_doris_button: false,
   show_webview_facavc: false,
+  show_label_facavc: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;
@@ -188,3 +190,13 @@ export const useRemoteConfig = create<IUseRemoteConfigStore>((set, getState) => 
     }
   },
 }));
+
+export const syncRemoteConfig = async () => {
+  if (!useRemoteConfig.getState().initialized) {
+    await new Promise((res, _) => {
+      useRemoteConfig.subscribe((cb) => res(cb.initialized));
+
+      setTimeout(() => res(null), FIVE_MINUTES_IN_MS);
+    });
+  }
+};

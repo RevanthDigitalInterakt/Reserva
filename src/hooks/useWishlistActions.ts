@@ -65,7 +65,7 @@ export function useWishlistActions() {
       if (isFavorite) {
         await onUnfavorite(product);
         EventProvider.logEvent(
-          'add_to_wishlist',
+          'remove_from_wishlist',
           {
             value: product.lowPrice,
             currency: 'BRL',

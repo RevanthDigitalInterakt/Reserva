@@ -67,7 +67,7 @@ export const authAfterware = new ApolloLink((operation, forward) => forward(oper
         expires,
       });
 
-      CookieManager.set('https://appqa.usereserva.com', {
+      CookieManager.set(`${Config.URL_VTEX_QA}`, {
         name: 'VtexIdclientAutCookie_applojausereservaqa',
         value: cookie,
         domain: 'appqa.usereserva.com',
@@ -76,7 +76,7 @@ export const authAfterware = new ApolloLink((operation, forward) => forward(oper
         expires,
       });
 
-      CookieManager.set('https://applojausereservaqa.myvtex.com', {
+      CookieManager.set(`${Config.URL_STORE_VTEX_QA}`, {
         name: 'VtexIdclientAutCookie_applojausereservaqa',
         value: cookie,
         domain: 'applojausereservaqa.myvtex.com',

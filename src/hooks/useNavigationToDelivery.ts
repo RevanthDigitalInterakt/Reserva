@@ -4,6 +4,7 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import appsFlyer from 'react-native-appsflyer';
 import analytics from '@react-native-firebase/analytics';
+import Config from 'react-native-config';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import EventProvider from '../utils/EventProvider';
 import { getBrands } from '../utils/getBrands';
@@ -108,7 +109,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
 
   const goToWebviewCheckout = useCallback((value: string, comeFrom?: string) => {
     navigation.navigate('Checkout', {
-      url: `https://appqa.usereserva.com/checkout?orderFormId=${value}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
+      url: `${Config.URL_VTEX_QA}/checkout?orderFormId=${value}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
       comeFrom,
     });
   }, []);

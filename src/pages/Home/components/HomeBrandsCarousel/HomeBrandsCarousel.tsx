@@ -6,6 +6,7 @@ import testProps from '../../../../utils/testProps';
 import ImageComponent from '../../../../components/ImageComponent/ImageComponent';
 import { BrandContainer, styles } from './HomeBrandsCarousel.styles';
 import NewBanner from '../../../../components/Banner/NewBanner';
+import EventProvider from '../../../../utils/EventProvider';
 
 interface IHomeBrandsCarousel {
   data: HomeCarouselOutput;
@@ -16,6 +17,7 @@ function HomeBrandsCarousel({ data }: IHomeBrandsCarousel) {
   const { width } = useWindowDimensions();
 
   const onPress = useCallback((reference: string): void => {
+    EventProvider.logEvent('carousel_brand_click', { reference });
     if (!reference) {
       navigation.navigate('ProductCatalog');
     }

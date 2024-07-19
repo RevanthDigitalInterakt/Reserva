@@ -155,6 +155,10 @@ export default function NewBag({ navigation }: TNewBagProps) {
     trackViewCart({ items, price: appTotalizers.total });
   }, [appTotalizers.total, items]);
 
+  useEffect(() => {
+    EventProvider.logScreenViewEvent('/bag');
+  }, []);
+
   return (
     <SafeAreaView style={bagStyles.safeArea} testID="com.usereserva:id/NewBag">
       {!items.length && (

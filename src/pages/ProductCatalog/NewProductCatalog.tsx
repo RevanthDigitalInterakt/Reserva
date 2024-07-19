@@ -43,6 +43,8 @@ function NewProductCatalog({ navigation, route }: Props) {
     'onInit',
   ]);
 
+  console.log('parameters', parameters);
+
   const [isGoingBack, setIsGoingBack] = useState(false);
   const [loadingMedias, setLoadingMedias] = useState(false);
   const { referenceId, filters } = route.params;
@@ -70,6 +72,8 @@ function NewProductCatalog({ navigation, route }: Props) {
         item_name: item?.productName,
       })),
     });
+
+    EventProvider.logScreenViewEvent(`/pdc/${parameters.facets.find((facet) => facet.key === 'productClusterIds')?.value}`);
   }, []);
 
   useEffect(() => {

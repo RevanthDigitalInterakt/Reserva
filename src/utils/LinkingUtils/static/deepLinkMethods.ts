@@ -19,13 +19,14 @@ import {
 } from '../../../base/graphql/generated';
 import { mergeItemsPackage } from '../../mergeItemsPackage';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
-import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import { syncRemoteConfig, useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import * as linkingUtils from '../linkingUtils';
 
 const { getBoolean } = useRemoteConfig.getState();
 
-interface ICustomMethodReturnParams {
+export interface ICustomMethodReturnParams {
   match: boolean;
-  strUrl: string;
+  strUrl?: string;
 }
 
 export const REGEX_PRODUCT_URL = {
@@ -180,7 +181,8 @@ const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
-// const clusterCollectionUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
+// const clusterCollectionUseCase = async (initialUrl: string):
+//  Promise<ICustomMethodReturnParams> => {
 //   const splitPath = initialUrl.split('//')[1];
 //   const res = await fetch(`https://www.usereserva.com/${splitPath}`);
 //   const clusterId = (await res?.text())?.split('productClusterIds')[0]
@@ -189,12 +191,37 @@ const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
 //     .replace(':', '')
 //     .split(',')[0];
 
-//   if (initialUrl.includes('/colecao-')) {
-//     return {
-//       match: true,
-//       strUrl: `usereserva://catalog/collection:${clusterId}`,
-//     };
+// const $ = cheerio.load(html);
+
+// Procurar pelo productClusterId no HTML
+// Procurar pelo productClusterId no HTML
+// let clusterId;
+// $('script').each((i, script) => {
+//   const content = $(script).html();
+//   if (content.includes('productClusterIds')) {
+//     // Tentar analisar como JSON
+//     const jsonMatch = content.match(/\{.*"productClusterIds":\["(\d+)"\].*\}/);
+//     if (jsonMatch) {
+//       const jsonData = JSON.parse(jsonMatch[0]);
+//       clusterId = jsonData.productClusterIds[0];
+//       return false; // Interromper o loop quando encontrar
+//     }
 //   }
+// });
+// const clusterId = (await res?.text())?.split('productClusterIds')[0]
+//   ?.split('queryField')[1]
+//   ?.replace(/\\\"/g, '')
+//   .replace(':', '')
+//   .split(',')[0];
+
+// console.log('clusterId', clusterId);
+
+// if (initialUrl.includes('/colecao-')) {
+//   return {
+//     match: true,
+//     strUrl: `usereserva://catalog/collection:${clusterId}`,
+//   };
+// }
 
 //   return defaultCustomMethodReturn;
 // };
@@ -324,14 +351,14 @@ const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
 
       try {
         const { data } = await getApolloClient().mutate<
-        OrderFormAddMultipleItemMutation,
-        OrderFormAddMultipleItemMutationVariables>({
-          mutation: OrderFormAddMultipleItemDocument,
-          context: { clientName: 'gateway' },
-          variables: {
-            input,
-          },
-        });
+          OrderFormAddMultipleItemMutation,
+          OrderFormAddMultipleItemMutationVariables>({
+            mutation: OrderFormAddMultipleItemDocument,
+            context: { clientName: 'gateway' },
+            variables: {
+              input,
+            },
+          });
 
         const { orderFormAddMultipleItem: orderForm } = data || {};
 
@@ -411,9 +438,9 @@ const webCatalogCollectionUseCase = async (initialUrl: string) => {
     return defaultCustomMethodReturn;
   }
 
-  // if (initialUrl.includes('colecao-')) {
-  //   return defaultCustomMethodReturn;
-  // }
+  if (initialUrl.includes('colecao-')) {
+    return defaultCustomMethodReturn;
+  }
   const searchRegExp = /\//g;
   const replacePathName = '|';
 
@@ -453,13 +480,26 @@ const webviewDeepLinkUseCase = (initialUrl: string): ICustomMethodReturnParams =
   return defaultCustomMethodReturn;
 };
 
-const webViewFacaVcUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+const webViewFacaVcUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
+  await syncRemoteConfig();
   const showWebviewFacavc = getBoolean('show_webview_facavc');
+  const facaVcPath = 'facavc/criar';
 
-  if (initialUrl.includes('facavc/criar') && showWebviewFacavc) {
+  if (initialUrl.includes(facaVcPath) && showWebviewFacavc) {
+    const numbersOfPathParams = 3;
+    const handleInitialUrlParams = linkingUtils.handlePathsParams(
+      initialUrl,
+      facaVcPath,
+      numbersOfPathParams,
+    );
+    const aditionalParams = linkingUtils.splitPathParams(
+      handleInitialUrlParams,
+      facaVcPath,
+    );
+
     return {
       match: true,
-      strUrl: 'usereserva://facavc/criar',
+      strUrl: `usereserva://facavc/criar${aditionalParams}`,
     };
   }
 
