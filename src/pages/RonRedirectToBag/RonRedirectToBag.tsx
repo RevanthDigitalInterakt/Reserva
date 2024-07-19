@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native';
 import Config from 'react-native-config';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import EventProvider from '../../utils/EventProvider';
-import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
+import useAsyncStorageProvider, { setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { adaptOrderFormItemsTrack } from '../../utils/adaptOrderFormItemsTrack';
 import { getBrands } from '../../utils/getBrands';
 import { defaultBrand } from '../../utils/defaultWBrand';
@@ -128,7 +128,8 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
     const { orderFormId, url, type: redirectType } = data.ronRedirect;
 
     if (redirectType === RonRedirectTypeEnum.Orderform && orderFormId) {
-      await actions.REFETCH_ORDER_FORM(orderFormId);
+      await setAsyncStorageItem('orderFormId', orderFormId);
+      await actions.REFETCH_ORDER_FORM();
       await saveOrderFormItems(orderFormId);
       return;
     }
