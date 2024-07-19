@@ -14,6 +14,7 @@ import ImageComponent from '../../../../components/ImageComponent/ImageComponent
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import testProps from '../../../../utils/testProps';
 import { styles } from './OffersMainCarousel.styles';
+import EventProvider from '../../../../utils/EventProvider';
 
 interface IOffersMainCarousel {
   data: OffersCarouselsOutput;
@@ -30,16 +31,6 @@ function OffersMainCarousel({ data }: IOffersMainCarousel) {
     () => (data.showtime || 10) * 1000,
     [data.showtime],
   );
-
-  const carouselHeight = useMemo(() => {
-    const [item] = data.items;
-
-    const { width, height } = item!.image;
-
-    return width && height
-      ? (height * configDeviceSizes.DEVICE_WIDTH) / width
-      : 400;
-  }, [data.items]);
 
   const onPress = useCallback(
     (item: HomeCarouselItemOutput) => {
@@ -74,6 +65,10 @@ function OffersMainCarousel({ data }: IOffersMainCarousel) {
         };
       }
 
+      EventProvider.logEvent('offers_main_banner_click', {
+        category: item.reference,
+      });
+
       return navigation.navigate('ProductCatalog', navigateParams);
     },
     [navigation],
@@ -85,7 +80,7 @@ function OffersMainCarousel({ data }: IOffersMainCarousel) {
         {...testProps('default_carrousel_content')}
         loop
         width={configDeviceSizes.DEVICE_WIDTH}
-        height={carouselHeight}
+        height={400}
         ref={(carousel) => {
           if (carousel) $carousel.current = carousel;
         }}
@@ -101,7 +96,10 @@ function OffersMainCarousel({ data }: IOffersMainCarousel) {
         panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
         data={data.items}
         style={{ backgroundColor: 'rgba(0, 0, 0, 0)', position: 'relative' }}
-        onSnapToItem={setCurrIndex}
+        onSnapToItem={(index) => {
+          setCurrIndex(index);
+          EventProvider.logEvent('offers_main_banner_slide', {});
+        }}
         renderItem={({ item }) => (
           <Box alignItems="flex-start" bg="white">
             <Box mb="quarck" width={1}>
@@ -113,7 +111,7 @@ function OffersMainCarousel({ data }: IOffersMainCarousel) {
                 <ImageComponent
                   style={[
                     {
-                      height: carouselHeight,
+                      height: 400,
                       borderBottomLeftRadius: 8,
                       borderBottomRightRadius: 8,
                     },
