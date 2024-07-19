@@ -25,6 +25,16 @@ describe('handlePathsParams', () => {
     const result = handlePathsParams('', 'products', 2);
     expect(result).toBe('');
   });
+
+  it('should be return null params and query params at finally string', () => {
+    const result = handlePathsParams('/api/v1/products?query=params&teste=teste', 'products', 2);
+    const result2 = handlePathsParams('/api/v1/products/teste?query=params&teste=teste', 'products', 2);
+    const result3 = handlePathsParams('/api/v1/products/teste/teste?query=params&teste=teste', 'products', 2);
+
+    expect(result).toBe('/api/v1/products/null/null?query=params&teste=teste');
+    expect(result2).toBe('/api/v1/products/teste/null?query=params&teste=teste');
+    expect(result3).toBe('/api/v1/products/teste/teste?query=params&teste=teste');
+  });
 });
 
 describe('splitPathParams', () => {

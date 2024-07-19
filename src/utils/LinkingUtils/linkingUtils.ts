@@ -1,26 +1,29 @@
 export const handlePathsParams = (
   path: string,
   keyword: string,
-  numPaths: number = 0,
+  numPaths: number = 3,
 ): string => {
-  const keywordIndex = path.indexOf(keyword);
+  const [basePath, queryParams] = path.split('?');
+
+  const keywordIndex = basePath?.indexOf(keyword);
   if (keywordIndex === -1) {
     return path;
   }
 
-  const beforeKeyword = path.substring(0, keywordIndex + keyword.length);
-  const afterKeywordParts = path
-    .substring(keywordIndex + keyword.length)
-    .split('/')
-    .filter(Boolean);
+  const beforeKeyword = basePath?.substring(0, keywordIndex! + keyword.length);
 
-  while (afterKeywordParts.length < numPaths) {
-    afterKeywordParts.push('null');
+  const afterKeyword = basePath?.substring(keywordIndex! + keyword.length);
+  let pathParts = afterKeyword?.split('/').filter(Boolean);
+
+  while (pathParts && pathParts.length < numPaths) {
+    pathParts?.push('null');
   }
 
-  const completePaths = afterKeywordParts.slice(0, numPaths);
+  const completePaths = pathParts?.slice(0, numPaths).join('/');
 
-  return `${beforeKeyword}/${completePaths.join('/')}`;
+  const querySuffix = queryParams && queryParams.trim() !== '' ? `?${queryParams}` : '';
+
+  return `${beforeKeyword}/${completePaths}${querySuffix}`;
 };
 
 export const splitPathParams = (path: string, keyword: string): string => {
