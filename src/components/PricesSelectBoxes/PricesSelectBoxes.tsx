@@ -8,7 +8,7 @@ import testProps from '../../utils/testProps';
 import { useCart } from '../../context/CartContext';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
-import type { ProductSizeOutput } from '../../base/graphql/generated';
+import type { ProductOutput, ProductSizeOutput } from '../../base/graphql/generated';
 
 import { usePrimeStore } from '../../zustand/usePrimeStore/usePrimeStore';
 
@@ -23,9 +23,10 @@ import { styles } from './PricesSelectBoxes.styles';
 
 interface IPropsPriceSelectBoxes {
   selectedSize: ProductSizeOutput | null;
+  hasPrime?: ProductOutput['hasPrime'] | null;
 }
 
-function PricesSelectBoxes({ selectedSize }: IPropsPriceSelectBoxes) {
+function PricesSelectBoxes({ selectedSize, hasPrime }: IPropsPriceSelectBoxes) {
   const [isNormalPriceSelected, setIsNormalPriceSelected] = useState(false);
   const [isPrimePriceSelected, setIsPrimePriceSelected] = useState(false);
   const [isModalSignInVisible, setIsModalSignInVisible] = useState(false);
@@ -165,13 +166,15 @@ function PricesSelectBoxes({ selectedSize }: IPropsPriceSelectBoxes) {
           não é cumulativo com produtos em liquidação.
         </Typography>
       ) : (
-        <SelectBoxPrime
-          installment={selectedSize?.prime?.installment}
-          isChecked={isPrimePriceSelected}
-          onPress={handleSelectBoxesPress}
-          savedValue={savedValueProduct()}
-          price={selectedSize?.prime?.price}
-        />
+        hasPrime !== false && (
+          <SelectBoxPrime
+            installment={selectedSize?.prime?.installment}
+            isChecked={isPrimePriceSelected}
+            onPress={handleSelectBoxesPress}
+            savedValue={savedValueProduct()}
+            price={selectedSize?.prime?.price}
+          />
+        )
       )}
     </View>
   );

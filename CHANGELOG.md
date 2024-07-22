@@ -2,7 +2,12 @@
 
 ## CHANGELOG
 
+### 2.14.0
+
+- [45931 - Remover preço Prime dos "Produtos Surpresa"](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45931)
+
 ### 2.13.0
+
 - [42216 - Ícone faça vc na tab bar do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/42216)
 
 ### 2.12.0
