@@ -37,7 +37,6 @@ import { checkoutService } from '../services/checkoutService';
 import EventProvider from '../utils/EventProvider';
 import
 {
-  useCheckIfUserExistsLazyQuery,
   useOrderFormAddSellerCouponMutation,
   useOrderFormRefreshDataMutation,
   type OrderformOutput,
@@ -526,7 +525,6 @@ interface CartContextProps {
     cookie: string
   ) => Promise<IOrder[] | undefined>;
   orderDetail: (orderId: string) => Promise<IOrderId | undefined>;
-  verifyEmail: (email: string) => Promise<boolean | undefined>;
   deleteCustomerProfile: (id: string) => Promise<boolean | undefined>;
   restoreCart: (orderFormId: string) => Promise<void>;
   sellerCode: string;
@@ -570,10 +568,6 @@ function CartContextProvider({ children }: CartContextProviderProps) {
   }, [orderForm?.orderFormId, orderForm?.items, actions.REFETCH_ORDER_FORM]);
 
   const [orderFormAddSellerCoupon] = useOrderFormAddSellerCouponMutation({
-    context: { clientName: 'gateway' },
-  });
-
-  const [checkIfUserExist] = useCheckIfUserExistsLazyQuery({
     context: { clientName: 'gateway' },
   });
 
@@ -660,21 +654,6 @@ function CartContextProvider({ children }: CartContextProviderProps) {
       ExceptionProvider.captureException(error);
     } finally {
       setTopBarLoading(false);
-    }
-  };
-
-  const verifyEmail = async (email: string) => {
-    try {
-      const { data } = await checkIfUserExist({
-        variables: {
-          email,
-        },
-      });
-
-      return data?.checkIfUserExists || false;
-    } catch (error) {
-      ExceptionProvider.captureException(error);
-      return false;
     }
   };
 
@@ -1143,7 +1122,6 @@ function CartContextProvider({ children }: CartContextProviderProps) {
         searchNewOrders,
         orderDetail,
         searchNewOrderDetail,
-        verifyEmail,
         restoreCart,
         sellerCode,
         sellerName,
@@ -1191,7 +1169,6 @@ export const useCart = () => {
     searchNewOrders,
     searchNewOrderDetail,
     orderDetail,
-    verifyEmail,
     deleteCustomerProfile,
     restoreCart,
     sellerCode,
@@ -1225,7 +1202,6 @@ export const useCart = () => {
     searchNewOrders,
     searchNewOrderDetail,
     orderDetail,
-    verifyEmail,
     deleteCustomerProfile,
     restoreCart,
     sellerCode,

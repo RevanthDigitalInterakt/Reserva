@@ -56,11 +56,11 @@ export type CashbackAllOperationOutput = {
 };
 
 export type CashbackDataInput = {
-  document: Scalars['String']['input'];
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   status?: InputMaybe<CashbackStatusFilterEnum>;
   type?: InputMaybe<CashbackTypeTransactionEnum>;
+  userId: Scalars['String']['input'];
 };
 
 export type CashbackExpirationInfoOutput = {
@@ -221,6 +221,7 @@ export type ConfigOutput = {
   commercialBannerCollection: Array<ConfigCommercialBannerOutput>;
   countDownClock?: Maybe<ConfigCountdownClockOutput>;
   countDownClockReservaMini?: Maybe<ConfigCountdownClockReservaOutput>;
+  discountCodeBar: Array<DiscountCodeBarOutput>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   offersPage?: Maybe<Scalars['String']['output']>;
@@ -335,6 +336,19 @@ export enum DeliveryChannelEnum {
   Delivery = 'DELIVERY',
   PickupInPoint = 'PICKUP_IN_POINT'
 }
+
+export type DiscountCodeBarOutput = {
+  __typename?: 'DiscountCodeBarOutput';
+  colorBar: Scalars['String']['output'];
+  colorButton: Scalars['String']['output'];
+  coupon: Scalars['String']['output'];
+  descriptionModal: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  shareMessage: Scalars['String']['output'];
+  titleBar: Scalars['String']['output'];
+  titleButton: Scalars['String']['output'];
+  titleModal: Scalars['String']['output'];
+};
 
 export type DitoRedirectInput = {
   code: Scalars['String']['input'];
