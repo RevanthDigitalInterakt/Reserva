@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components/native';
 import { MockedProvider } from '@apollo/client/testing';
 import { NewHomeCarousels } from '..';
 import { mockHomeCarouselQuery } from '../../../__test__/Home.mock';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 
 // MOCKS
 const mockNavigate = jest.fn();

@@ -7,6 +7,7 @@ import
 import Clipboard from '@react-native-clipboard/clipboard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TesterAreaViewComponent from '../TesterAreaViewComponent';
+import { theme } from '../../../../../base/usereservappLegacy/theme';
 
 const TestsIds = {
   buttons: {

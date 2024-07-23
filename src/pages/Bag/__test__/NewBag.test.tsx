@@ -10,7 +10,6 @@ import {
   type OrderFormQuery,
   OrderFormDocument,
 } from '../../../base/graphql/generated';
-import { orderFormMock } from '../components/ProductList/__mocks__/productListMock';
 import NewBag from '../NewBag';
 import 'react-native-gesture-handler/jestSetup';
 import '../components/ProductList';
@@ -39,7 +38,7 @@ const apolloMocks: Array<IApolloMock<OrderFormQuery>> = [
     },
     result: {
       data: {
-        orderForm: orderFormMock,
+        orderForm: mockCurrentOrderForm,
         __typename: 'Query',
       },
     },
@@ -109,6 +108,7 @@ describe('NewBag', () => {
         installmentsNumber: 1,
         totalPrice: 88,
       },
+      packageItems: [{ items: mockCurrentOrderForm.items }],
       productNotFound: 'Product Not found',
       selectableGift: null,
       deleteProductModal: {
@@ -170,6 +170,7 @@ describe('NewBag', () => {
       },
       topBarLoading: false,
       items: [],
+      packageItems: [{items: []}],
       initialLoad: false,
       initialized: true,
       installmentInfo: {
@@ -226,7 +227,7 @@ describe('NewBag', () => {
     expect(emptyBag).toBeOnTheScreen();
   });
 
-  it.only('should call handleNavigateToOffers when the EmptyBag button is pressed', async () => {
+  it('should call handleNavigateToOffers when the EmptyBag button is pressed', async () => {
     jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
       actions: {
         CLOSE_MODAL_DELETE_PRODUCT: jest.fn(),
@@ -241,6 +242,7 @@ describe('NewBag', () => {
       },
       topBarLoading: false,
       items: [],
+      packageItems: [{items: []}],
       initialLoad: false,
       initialized: true,
       installmentInfo: {
@@ -316,6 +318,7 @@ describe('NewBag', () => {
       },
       topBarLoading: false,
       items: mockCurrentOrderForm.items,
+      packageItems: [{items: mockCurrentOrderForm.items,}],
       initialLoad: false,
       initialized: true,
       installmentInfo: {

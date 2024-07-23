@@ -15,6 +15,7 @@ import EventProvider from '../../../utils/EventProvider';
 import { mockPurchaseData } from './mockPurchaseData';
 import * as vtexService from '../../../services/vtexService';
 import * as useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
+import { theme } from '../../../base/usereservappLegacy/theme';
 
 const mockUrlShipping = 'https://appqa.usereserva.com/checkout?orderFormId=$12345678/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping';
 const mockUrlPurchased = 'https://appqa.usereserva.com/checkout/orderPlaced?og=12345678';

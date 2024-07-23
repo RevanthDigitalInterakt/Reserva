@@ -1,22 +1,19 @@
-import React from 'react';
 import { MockedProvider } from '@apollo/client/testing';
-import { ThemeProvider } from 'styled-components/native';
-import { fireEvent, render } from '@testing-library/react-native';
 import { act } from '@testing-library/react-hooks';
+import { fireEvent, render } from '@testing-library/react-native';
+import type { DocumentNode } from 'graphql';
+import React from 'react';
 import appsFlyer from 'react-native-appsflyer';
+import { ThemeProvider } from 'styled-components/native';
 import BagFooter from '..';
-import EventProvider from '../../../../../utils/EventProvider';
-import * as useBagStore from '../../../../../zustand/useBagStore/useBagStore';
-import {
-  apolloMocks,
-  apolloMocksWithoutDataUser,
-  bagInfos,
-  currentOrderForm,
-  installmentInfo,
-} from '../__mocks__';
-import * as useAuthStore from '../../../../../zustand/useAuth/useAuthStore';
+import { OrderFormDocument, type OrderFormQuery } from '../../../../../base/graphql/generated';
 import { theme } from '../../../../../base/usereservappLegacy/theme';
+import EventProvider from '../../../../../utils/EventProvider';
 import { Method } from '../../../../../utils/EventProvider/Event';
+import * as useAuthStore from '../../../../../zustand/useAuth/useAuthStore';
+import * as useBagStore from '../../../../../zustand/useBagStore/useBagStore';
+import { mockCurrentOrderForm } from '../../../__test__/__mocks__/mockCurrentOrderForm';
+import { currentOrderForm } from '../../../../../../__mocks__/mockResponseUnavailableList';
 
 jest.mock('../../../../../utils/EventProvider');
 
@@ -36,23 +33,48 @@ jest.mock('../../../../../hooks/usePrimeInfo', () => ({
 
 const mockRemoveUnavailableItems = jest.fn();
 
+interface IApolloMock<T> {
+  request: {
+    query: DocumentNode;
+    variables: object;
+  };
+  result: {
+    data: T;
+  };
+}
+
+const apolloMocks: Array<IApolloMock<OrderFormQuery>> = [
+  {
+    request: {
+      query: OrderFormDocument,
+      variables: {},
+    },
+    result: {
+      data: {
+        orderForm: mockCurrentOrderForm,
+        __typename: 'Query',
+      },
+    },
+  },
+];
+
 jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
   actions: {
     REMOVE_UNAVAILABLE_ITEMS: mockRemoveUnavailableItems,
   },
   appTotalizers: {
-    delivery: bagInfos.totalBagDeliveryPrice,
-    discount: bagInfos.totalBagDiscountPrice,
-    items: bagInfos.totalBagItems,
-    total: bagInfos.totalBagItems,
+    delivery: 100,
+    discount: 10,
+    items: 3,
+    total: 90,
     __typename: 'OrderformAppTotalizersOutput',
   },
   orderFormId: '12578e89687rieoua186',
   installmentInfo: {
     __typename: 'OrderformInstallmentInfoOutput',
-    installmentPrice: installmentInfo.installmentPrice,
-    installmentsNumber: installmentInfo.installmentsNumber,
-    totalPrice: installmentInfo.totalPrice,
+    installmentPrice: 25,
+    installmentsNumber: 4,
+    totalPrice: 100,
   },
   items: currentOrderForm.items,
   topBarLoading: false,
@@ -174,7 +196,7 @@ describe('BagFooter Component', () => {
 
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
-        <MockedProvider mocks={apolloMocksWithoutDataUser}>
+        <MockedProvider mocks={currentOrderForm}>
             <BagFooter />
         </MockedProvider>
       </ThemeProvider>,

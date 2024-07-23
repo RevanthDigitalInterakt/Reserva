@@ -382,8 +382,8 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
       style={
         {
           "alignItems": "center",
-          "backgroundColor": "#FFF8FA",
-          "borderColor": "#A01E21",
+          "backgroundColor": "#fffdeb",
+          "borderColor": "#c4a968",
           "borderWidth": 1,
           "flexDirection": "row",
           "justifyContent": "space-between",
@@ -395,7 +395,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
         style={
           {
             "alignItems": "center",
-            "borderColor": "#A01E21",
+            "borderColor": "#c4a968",
             "borderRadius": 11,
             "borderWidth": 1,
             "height": 22,
@@ -424,7 +424,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                 "fontFamily": "ReservaSans-Regular",
               },
               {
-                "color": "#A01E21",
+                "color": "#9e7e2f",
                 "fontSize": 18,
                 "fontWeight": "400",
               },
@@ -464,7 +464,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "fontFamily": "ReservaSans-Regular",
                 },
                 {
-                  "color": "#A01E21",
+                  "color": "#9e7e2f",
                   "fontSize": 18,
                   "fontWeight": "400",
                 },
@@ -483,7 +483,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "fontFamily": "ReservaSans-Regular",
                 },
                 {
-                  "color": "#A01E21",
+                  "color": "#9e7e2f",
                   "fontSize": 24,
                   "fontWeight": "700",
                 },
@@ -495,15 +495,18 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
             69,
           </Text>
           <Text
-            color="vermelhoRSV"
             fontFamily="reservaSansRegular"
             fontWeight="bold"
             style={
-              {
-                "color": "#A00000",
-                "fontFamily": "ReservaSans-Regular",
-                "fontWeight": "700",
-              }
+              [
+                {
+                  "fontFamily": "ReservaSans-Regular",
+                  "fontWeight": "700",
+                },
+                {
+                  "color": "#9e7e2f",
+                },
+              ]
             }
           >
             80
@@ -560,6 +563,8 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "GuideSueter": [Circular],
                   "GuideSungaCueca": [Circular],
                   "QrcodeBackground": [Circular],
+                  "abandonedCartBag": [Circular],
+                  "addition": [Circular],
                   "americanExpress": [Circular],
                   "arrowInstruction": [Circular],
                   "arrowRight": [Circular],
@@ -567,10 +572,13 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "bannerCatalog": [Circular],
                   "bannerLogin": [Circular],
                   "bannerOffer": [Circular],
+                  "black1p5p": [Circular],
                   "cardFront": [Circular],
                   "cardVerso": [Circular],
                   "chat": [Circular],
                   "checkedBox": [Circular],
+                  "chevronLeftFill": [Circular],
+                  "chevronRightFill": [Circular],
                   "close": [Circular],
                   "clothingCare1": [Circular],
                   "clothingCareBleach": [Circular],
@@ -581,6 +589,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "config": [Circular],
                   "copy": [Circular],
                   "cupomModalBackground": [Circular],
+                  "cutlery": [Circular],
                   "discountFlag": [Circular],
                   "dividerReserva": [Circular],
                   "document": [Circular],
@@ -591,6 +600,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "faq": [Circular],
                   "filledHeart": [Circular],
                   "foraDoAr": [Circular],
+                  "green1p5p": [Circular],
                   "greenCheck": [Circular],
                   "headerLogin": [Circular],
                   "heart": [Circular],
@@ -606,6 +616,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "localReserva": [Circular],
                   "logoQRCode": [Circular],
                   "mastercard": [Circular],
+                  "newsletter": [Circular],
                   "noStoresFound": [Circular],
                   "noWishList": [Circular],
                   "pinPlace": [Circular],
@@ -631,8 +642,10 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "signup3": [Circular],
                   "signup4": [Circular],
                   "signup5": [Circular],
+                  "subtraction": [Circular],
                   "topBannerMock1": [Circular],
                   "twitter": [Circular],
+                  "umPCincoPLogo": [Circular],
                   "uncheckedBox": [Circular],
                   "unfilledHeart": [Circular],
                   "update": [Circular],
@@ -654,6 +667,8 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "GuideSueter": [Circular],
                   "GuideSungaCueca": [Circular],
                   "QrcodeBackground": [Circular],
+                  "abandonedCartBag": [Circular],
+                  "addition": [Circular],
                   "americanExpress": [Circular],
                   "arrowInstruction": [Circular],
                   "arrowRight": [Circular],
@@ -661,12 +676,17 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "bannerCatalog": [Circular],
                   "bannerLogin": [Circular],
                   "bannerOffer": [Circular],
+                  "black1p5p": [Circular],
                   "cardFront": [Circular],
                   "cardVerso": [Circular],
                   "chat": [Circular],
                   "checkedBox": [Circular],
+                  "checkedRounded": [Function],
+                  "chevronLeftFill": [Circular],
                   "chevronRight": [Function],
+                  "chevronRightFill": [Circular],
                   "close": [Circular],
+                  "closeIcon": [Function],
                   "clothingCare1": [Circular],
                   "clothingCareBleach": [Circular],
                   "clothingCareDrying": [Circular],
@@ -676,6 +696,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "config": [Circular],
                   "copy": [Circular],
                   "cupomModalBackground": [Circular],
+                  "cutlery": [Circular],
                   "discountFlag": [Circular],
                   "dividerReserva": [Circular],
                   "document": [Circular],
@@ -686,7 +707,9 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "faq": [Circular],
                   "filledHeart": [Circular],
                   "foraDoAr": [Circular],
+                  "green1p5p": [Circular],
                   "greenCheck": [Circular],
+                  "hanger": [Function],
                   "headerLogin": [Circular],
                   "heart": [Circular],
                   "help": [Circular],
@@ -697,12 +720,14 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "imageCashback": [Circular],
                   "imageNotFound": [Circular],
                   "info": [Function],
+                  "infoSuccess": [Function],
                   "instagram": [Circular],
                   "ios14": [Circular],
                   "localReserva": [Circular],
                   "logoPrime": [Function],
                   "logoQRCode": [Circular],
                   "mastercard": [Circular],
+                  "newsletter": [Circular],
                   "noStoresFound": [Circular],
                   "noWishList": [Circular],
                   "pinPlace": [Circular],
@@ -728,9 +753,12 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "signup3": [Circular],
                   "signup4": [Circular],
                   "signup5": [Circular],
+                  "sizeGuideIcon": [Function],
+                  "subtraction": [Circular],
                   "topBannerMock1": [Circular],
                   "trash": [Function],
                   "twitter": [Circular],
+                  "umPCincoPLogo": [Circular],
                   "uncheckedBox": [Circular],
                   "unfilledHeart": [Circular],
                   "update": [Circular],
@@ -740,9 +768,14 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "zoomHand": [Circular],
                 },
                 "svgs": {
+                  "checkedRounded": [Function],
                   "chevronRight": [Function],
+                  "closeIcon": [Function],
+                  "hanger": [Function],
                   "info": [Function],
+                  "infoSuccess": [Function],
                   "logoPrime": [Function],
+                  "sizeGuideIcon": [Function],
                   "trash": [Function],
                 },
               }
@@ -821,7 +854,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
                   "fontFamily": "ReservaSans-Regular",
                 },
                 {
-                  "color": "#A01E21",
+                  "color": "#9e7e2f",
                   "fontSize": 24,
                   "fontWeight": "700",
                 },
@@ -833,15 +866,18 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
             279,
           </Text>
           <Text
-            color="vermelhoRSV"
             fontFamily="reservaSansRegular"
             fontWeight="bold"
             style={
-              {
-                "color": "#A00000",
-                "fontFamily": "ReservaSans-Regular",
-                "fontWeight": "700",
-              }
+              [
+                {
+                  "fontFamily": "ReservaSans-Regular",
+                  "fontWeight": "700",
+                },
+                {
+                  "color": "#9e7e2f",
+                },
+              ]
             }
           >
             20
@@ -853,7 +889,7 @@ exports[`PricesSelectBoxes should match to snapshot 1`] = `
       style={
         {
           "alignItems": "center",
-          "backgroundColor": "#A01E21",
+          "backgroundColor": "#c4a968",
           "justifyContent": "center",
           "padding": 2,
           "width": 150,

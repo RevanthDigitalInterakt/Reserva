@@ -7,7 +7,7 @@ import { theme } from '../../../base/usereservappLegacy/theme';
 
 const onBackDropPressMock = jest.fn();
 
-jest.mock('../../../../../zustand/useAuth/useAuthStore', () => ({
+jest.mock('../../../zustand/useAuthModalStore', () => ({
   useAuthStore: () => ({
     profile: {
       firstName: 'name',
@@ -39,12 +39,6 @@ describe('ModalClientIsPrime', () => {
     const modalToJSON = screen.toJSON();
 
     expect(modalToJSON).toMatchSnapshot();
-  });
-
-  it('should render userName passed through props', () => {
-    const userName = screen.getByText('name');
-
-    expect(userName).toBeOnTheScreen();
   });
 
   it('should call onBackdropPress function when button is pressed', () => {

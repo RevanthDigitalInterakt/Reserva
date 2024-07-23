@@ -84,7 +84,6 @@ exports[`AbandonedCart snapshot 1`] = `
             "alignSelf": "center",
             "flexDirection": "row",
             "justifyContent": "space-between",
-            "marginTop": 10,
             "position": "relative",
           },
           {
@@ -141,7 +140,7 @@ exports[`AbandonedCart snapshot 1`] = `
             "borderWidth": 1,
             "height": 40,
             "justifyContent": "center",
-            "marginTop": 16,
+            "marginTop": 46.875,
             "width": 228,
           }
         }

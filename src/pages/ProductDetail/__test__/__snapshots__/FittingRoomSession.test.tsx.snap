@@ -28,6 +28,39 @@ exports[`FittingRoomSession should snapshot 1`] = `
     }
   >
     <View
+      style={{}}
+    >
+      <Modal
+        animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
+        hardwareAccelerated={false}
+        hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
+        onModalHide={[Function]}
+        onModalWillHide={[Function]}
+        onModalWillShow={[Function]}
+        onRequestClose={[Function]}
+        panResponderThreshold={4}
+        scrollHorizontal={false}
+        scrollOffset={0}
+        scrollOffsetMax={0}
+        scrollTo={null}
+        statusBarTranslucent={false}
+        supportedOrientations={
+          [
+            "portrait",
+            "landscape",
+          ]
+        }
+        swipeThreshold={100}
+        testID="com.usereserva:id/modal_bag"
+        transparent={true}
+        useNativeDriverForBackdrop={true}
+        visible={false}
+      />
+    </View>
+    <View
       accessibilityLabel="com.usereserva:id/component_button_doris"
       style={null}
       testID="com.usereserva:id/component_button_doris"
