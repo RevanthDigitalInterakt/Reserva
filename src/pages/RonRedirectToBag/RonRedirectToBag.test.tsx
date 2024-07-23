@@ -11,7 +11,6 @@ import
 } from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RonRedirectToBag from './RonRedirectToBag';
-import { CartContext } from '../../context/CartContext';
 import { RonRedirectDocument, type RonRedirectQuery, RonRedirectTypeEnum } from '../../base/graphql/generated';
 import { theme } from '../../base/usereservappLegacy/theme';
 
@@ -114,21 +113,11 @@ describe('RonRedirectToBag', () => {
   });
 
   it('renders without error and match snapshot', () => {
-    function MockedCartContext({ children }) {
-      return (
-        <CartContext.Provider value={{
-          orderform: jest.fn().mockResolvedValue({ orderFormId: '128adb08596442708ee89e2a0f561321' }),
-        }}
-        >
-          {children}
-        </CartContext.Provider>
-      );
-    }
+
 
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
         <MockedProvider addTypename={false} mocks={apolloMocks}>
-          <MockedCartContext>
             <RonRedirectToBag
               navigation={navigationMock as any}
               route={{
@@ -137,7 +126,6 @@ describe('RonRedirectToBag', () => {
                 key: '',
               }}
             />
-          </MockedCartContext>
         </MockedProvider>
       </ThemeProvider>
     );
@@ -148,22 +136,10 @@ describe('RonRedirectToBag', () => {
   });
 
   it('must load a ron with orderform code and setItem', async () => {
-    function MockedCartContext({ children }) {
-      return (
-        <CartContext.Provider value={{
-          orderform: jest.fn().mockResolvedValue({ orderFormId: '128adb08596442708ee89e2a0f561321' }),
-          restoreCart: jest.fn().mockResolvedValue({}),
-        }}
-        >
-          {children}
-        </CartContext.Provider>
-      );
-    }
 
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
         <MockedProvider addTypename={false} mocks={apolloMocks}>
-          <MockedCartContext>
             <RonRedirectToBag
               navigation={navigationMock as any}
               route={{
@@ -172,7 +148,6 @@ describe('RonRedirectToBag', () => {
                 key: '',
               }}
             />
-          </MockedCartContext>
         </MockedProvider>
       </ThemeProvider>
     );
@@ -189,22 +164,10 @@ describe('RonRedirectToBag', () => {
   });
 
   it('must load a ron with redirect home', async () => {
-    function MockedCartContext({ children }) {
-      return (
-        <CartContext.Provider value={{
-          orderform: jest.fn().mockResolvedValue({ orderFormId: '' }),
-          restoreCart: jest.fn().mockResolvedValue({}),
-        }}
-        >
-          {children}
-        </CartContext.Provider>
-      );
-    }
 
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
         <MockedProvider addTypename={false} mocks={apolloMocks}>
-          <MockedCartContext>
             <RonRedirectToBag
               navigation={navigationMock as any}
               route={{
@@ -213,7 +176,6 @@ describe('RonRedirectToBag', () => {
                 key: '',
               }}
             />
-          </MockedCartContext>
         </MockedProvider>
       </ThemeProvider>
     );
@@ -223,22 +185,10 @@ describe('RonRedirectToBag', () => {
   });
 
   it('must load a ron with product url', async () => {
-    function MockedCartContext({ children }) {
-      return (
-        <CartContext.Provider value={{
-          orderform: jest.fn().mockResolvedValue({ orderFormId: '128adb08596442708ee89e2a0f561321' }),
-          restoreCart: jest.fn().mockResolvedValue({}),
-        }}
-        >
-          {children}
-        </CartContext.Provider>
-      );
-    }
 
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
         <MockedProvider addTypename={false} mocks={apolloMocks}>
-          <MockedCartContext>
             <RonRedirectToBag
               navigation={navigationMock as any}
               route={{
@@ -247,7 +197,6 @@ describe('RonRedirectToBag', () => {
                 key: '',
               }}
             />
-          </MockedCartContext>
         </MockedProvider>
       </ThemeProvider>
     );
@@ -261,22 +210,9 @@ describe('RonRedirectToBag', () => {
   });
 
   it('must load a ron with catalog url', async () => {
-    function MockedCartContext({ children }) {
-      return (
-        <CartContext.Provider value={{
-          orderform: jest.fn().mockResolvedValue({ orderFormId: '128adb08596442708ee89e2a0f561321' }),
-          restoreCart: jest.fn().mockResolvedValue({}),
-        }}
-        >
-          {children}
-        </CartContext.Provider>
-      );
-    }
-
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
         <MockedProvider addTypename={false} mocks={apolloMocks}>
-          <MockedCartContext>
             <RonRedirectToBag
               navigation={navigationMock as any}
               route={{
@@ -285,7 +221,6 @@ describe('RonRedirectToBag', () => {
                 key: '',
               }}
             />
-          </MockedCartContext>
         </MockedProvider>
       </ThemeProvider>
     );

@@ -67,23 +67,9 @@ describe('AddressList - controller', () => {
       },
     ];
 
-    function MockedCartContext({ children }: { children: React.ReactNode }) {
-      return (
-        <CartContext.Provider value={{
-          refreshOrderFormData: jest.fn().mockResolvedValue({ orderFormId: '50e2a3c1631046feabb90e13f55e66cb' }),
-          identifyCustomer: jest.fn().mockResolvedValue(true),
-        }}
-        >
-          {children}
-        </CartContext.Provider>
-      );
-    }
-
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <MockedProvider mocks={mocks}>
-        <MockedCartContext>
           {children}
-        </MockedCartContext>
       </MockedProvider>
     );
 

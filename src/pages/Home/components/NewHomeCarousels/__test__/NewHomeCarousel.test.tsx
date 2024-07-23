@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react-native';
-import { theme } from '@usereservaapp/reserva-ui';
 import { ThemeProvider } from 'styled-components/native';
 import { MockedProvider } from '@apollo/client/testing';
 import { NewHomeCarousels } from '..';

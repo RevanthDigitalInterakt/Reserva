@@ -6,7 +6,6 @@ import { act } from '@testing-library/react-hooks';
 import appsFlyer from 'react-native-appsflyer';
 import BagFooter from '..';
 import EventProvider from '../../../../../utils/EventProvider';
-import { CartContext } from '../../../../../context/CartContext';
 import * as useBagStore from '../../../../../zustand/useBagStore/useBagStore';
 import {
   apolloMocks,
@@ -110,9 +109,7 @@ describe('BagFooter Component', () => {
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
         <MockedProvider mocks={apolloMocks}>
-          <CartContext.Provider value={{ restoreCart: mockRestoreCart } as any}>
             <BagFooter />
-          </CartContext.Provider>
         </MockedProvider>
       </ThemeProvider>,
     );
@@ -178,9 +175,7 @@ describe('BagFooter Component', () => {
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
         <MockedProvider mocks={apolloMocksWithoutDataUser}>
-          <CartContext.Provider value={{ restoreCart: mockRestoreCart } as any}>
             <BagFooter />
-          </CartContext.Provider>
         </MockedProvider>
       </ThemeProvider>,
     );

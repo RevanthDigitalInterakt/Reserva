@@ -10,7 +10,6 @@ import {
 import type { StackScreenProps } from '@react-navigation/stack';
 import { MockedProvider } from '@apollo/client/testing/react/MockedProvider';
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from '@usereservaapp/reserva-ui';
 import SignInScreen from '../SignIn';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 

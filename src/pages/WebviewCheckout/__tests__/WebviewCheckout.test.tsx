@@ -3,12 +3,10 @@ import {
   render,
   screen,
 } from '@testing-library/react-native';
-import { theme } from '@usereservaapp/reserva-ui';
 import React from 'react';
 import { ThemeProvider } from 'styled-components/native';
 
 import { act } from 'react-test-renderer';
-import { CartContext } from '../../../context/CartContext';
 import * as useBagStore from '../../../zustand/useBagStore/useBagStore';
 import { mockCurrentOrderForm } from '../../Bag/__test__/__mocks__/mockCurrentOrderForm';
 import WebviewCheckout from '../WebviewCheckout';
@@ -48,9 +46,7 @@ jest.mock('../../../components/LoadingCheckout/LoadingCheckout', () => 'LoadingC
 
 const TestingComponent = (
   <ThemeProvider theme={theme}>
-    <CartContext.Provider value={{ setOrderFormLegacy: jest.fn() } as any}>
       <WebviewCheckout />
-    </CartContext.Provider>
   </ThemeProvider>
 );
 
