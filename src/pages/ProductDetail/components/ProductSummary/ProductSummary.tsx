@@ -164,7 +164,12 @@ function ProductSummary() {
         }}
       />
 
-      {(!!showPrimeBox && !isGiftCard) && <PricesSelectBoxes selectedSize={selectedSize} />}
+      {(!!showPrimeBox && !isGiftCard) && (
+        <PricesSelectBoxes
+          hasPrime={productDetail?.hasPrime}
+          selectedSize={selectedSize}
+        />
+      )}
     </>
   );
 }
