@@ -1,9 +1,9 @@
 import React from 'react';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import OrderProduct from './OrderProduct';
-import type { IOrderId } from '../../../context/CartContext';
 import { Box } from '../../../components/Box/Box';
 import { Typography } from '../../../components/Typography/Typography';
+import type { IVtexServiceRequestOrder } from '../../../services/vtexService';
 
 export type IOrderData = {
   orderId: string;
@@ -60,7 +60,7 @@ export type IOrderData = {
 };
 
 interface IOrderDetailComponent {
-  data: IOrderId;
+  data: IVtexServiceRequestOrder;
   deliveryState: number;
 }
 

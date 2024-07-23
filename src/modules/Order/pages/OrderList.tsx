@@ -3,7 +3,6 @@ import LottieView from 'lottie-react-native';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { BackHandler, FlatList, SafeAreaView } from 'react-native';
-import { type IOrder } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Order from '../Components/Order';
 import EventProvider from '../../../utils/EventProvider';
@@ -14,10 +13,10 @@ import { Typography } from '../../../components/Typography/Typography';
 import { loadingSpinner } from '../../../../assets/animations';
 import { Button } from '../../../components/Button';
 import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
-import { SearchNewOrders } from '../../../services/vtexService';
+import { SearchNewOrders, type IVtexServiceRequestOrder } from '../../../services/vtexService';
 
 function OrderList() {
-  const [ordersList, setOrdersList] = useState<IOrder[]>([]);
+  const [ordersList, setOrdersList] = useState<IVtexServiceRequestOrder[]>([]);
   const [loading, setLoading] = useState(false);
   const [totalOrders, setTotalOrders] = useState(0);
   const [page, setPage] = useState(1);
