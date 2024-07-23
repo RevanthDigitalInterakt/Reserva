@@ -58,6 +58,13 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
         },
       });
 
+
+      if(!data?.signUpVerificationCode.ok){
+        setInputError('E-mail já cadastrado em nosso banco de dados');
+        setShowRecoveryPassword(true);
+        return
+      }
+
       if (data?.signUpVerificationCode?.cookies) {
         navigation.navigate(
           'ConfirmAccessCode',

@@ -9,6 +9,7 @@ import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreW
 interface IUseProductDetailStore {
   productDetail: ProductQuery['product'] | null;
   kit?: ProductKitOutput[] | null,
+  hasPrime?: ProductQuery['product']['hasPrime'] | null;
   selectedColor: ProductColorOutput | null;
   selectedSize: ProductSizeOutput | null;
   sizeIsSelected: boolean;
@@ -37,6 +38,7 @@ interface IUseProductDetailStore {
 export const productDetailStore = create<IUseProductDetailStore>((set, getState) => ({
   productDetail: null,
   kit: null,
+  hasPrime: null,
   selectedColor: null,
   selectedGiftCardEmail: undefined,
   sizeIsSelected: false,
@@ -72,12 +74,18 @@ export const productDetailStore = create<IUseProductDetailStore>((set, getState)
     });
   },
   setProduct: (data: ProductQuery['product'], routeParams?: IProductDetailRouteParams) => {
-    const { initialColor, initialSize, kit } = data;
+    const {
+      initialColor,
+      initialSize,
+      kit,
+      hasPrime,
+    } = data;
 
     set({
       ...getState(),
       productDetail: data,
       kit,
+      hasPrime,
       selectedColor: initialColor,
       selectedSize: initialSize,
       selectedGiftCardSku: routeParams?.skuId,

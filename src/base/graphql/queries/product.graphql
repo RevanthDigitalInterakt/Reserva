@@ -7,6 +7,7 @@ query product($input: ProductInput!) {
     identifier
     categoryTree
     disabledColors
+    hasPrime
     saleOff
     videoThumbnail
     kit {
