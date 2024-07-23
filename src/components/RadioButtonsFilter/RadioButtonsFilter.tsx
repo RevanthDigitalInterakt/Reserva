@@ -1,56 +1,64 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import type { theme } from '../../base/usereservappLegacy/theme';
 import { Box } from '../Box/Box';
 import { Button } from '../Button';
 import { Typography } from '../Typography/Typography';
 
-interface RadioButtonsFilterProps {
-  optionsList: any[];
-  disbledOptions: string[];
-  defaultSelectedItem: any;
-  color?: keyof typeof theme.colors;
-  onSelectedChange: (item: any) => void;
-  size: number | string;
-  fontSize: string | number;
+interface Option {
+  value: string;
 }
 
-function RadioButtonsFilter({
+interface RadioButtonsFilterProps {
+  optionsList: Option[];
+  disabledOptions: string[];
+  defaultSelectedItem: string[];
+  color?: keyof typeof theme.colors;
+  onSelectedChange: (item: string[]) => void;
+  size?: number | string;
+  fontSize?: string | number;
+}
+
+const orderSizes = (sizes: string[]) => sizes.sort((itemA, itemB) => {
+  const numA = parseInt(itemA, 10);
+  const numB = parseInt(itemB, 10);
+
+  if (!isNaN(numA) && !isNaN(numB)) {
+    return numA - numB;
+  }
+
+  if (!isNaN(numA)) return -1;
+  if (!isNaN(numB)) return 1;
+
+  return itemA.localeCompare(itemB);
+});
+
+
+const RadioButtonsFilter: React.FC<RadioButtonsFilterProps> = React.memo(({
   optionsList,
-  disbledOptions,
+  disabledOptions,
   defaultSelectedItem,
   color = 'preto',
   onSelectedChange,
   size = '34px',
   fontSize = '10px',
   ...props
-}: RadioButtonsFilterProps) {
-  const [selectedItems, setSelectedItem] = useState<any[]>(defaultSelectedItem);
+}) => {
+  defaultSelectedItem = defaultSelectedItem.map((item: string) => item.toUpperCase())
 
-  if (!optionsList || optionsList.length == 0) return null;
+  if (!optionsList || optionsList.length === 0) return null;
 
-  const orderSizes = (sizes: string[]) => sizes.sort((itemA, itemB) => {
-    if (parseInt(itemA, 10) > 0) return itemA > itemB ? -1 : 1;
+  const changeSelectedItems = useCallback((isSelected: boolean, value: string) => {
+    const updatedItems = isSelected
+      ? defaultSelectedItem.filter((item: string) => item != value)
+      : [...defaultSelectedItem, value];
 
-    if (itemA.charAt(0) === itemB.charAt(0)) {
-      if (itemA.length > itemB.length) return -1;
-      if (itemA.length < itemB.length) return 1;
-      return 0;
-    }
-    return itemA < itemB ? -1 : 1;
-  });
-
-  useEffect(() => {
-    orderSizes(optionsList.map((x) => x.value));
-  }, []);
-
-  useEffect(() => {
-    onSelectedChange(selectedItems);
-  }, [selectedItems]);
+    onSelectedChange(orderSizes(updatedItems));
+  }, [defaultSelectedItem, onSelectedChange]);
 
   return (
     <Box alignItems="flex-start" flexWrap="wrap" flexDirection="row" {...props}>
-      {optionsList.map(({ key, value }: any, index: number) => {
-        const isSelected = selectedItems.includes(value);
+      {optionsList.map(({ value }, index: number) => {
+        const isSelected = defaultSelectedItem.includes(value);
 
         return (
           <Box
@@ -60,22 +68,16 @@ function RadioButtonsFilter({
             alignSelf="flex-start"
             bg={isSelected ? color : 'white'}
             alignItems="center"
-            marginRight={index < optionsList.length ? 'micro' : null}
-            marginBottom={index < optionsList.length ? 'nano' : null}
+            marginRight={index < optionsList.length - 1 ? 'micro' : undefined}
+            marginBottom={index < optionsList.length - 1 ? 'nano' : undefined}
             borderRadius="pico"
             borderWidth="hairline"
             borderColor="divider"
           >
             <Button
-              disabled={disbledOptions?.includes(`${value}`)}
+              disabled={disabledOptions?.includes(value)}
               height={size}
-              onPress={() => {
-                if (isSelected) {
-                  setSelectedItem(orderSizes(selectedItems.filter((x) => x !== value)));
-                } else {
-                  setSelectedItem(orderSizes([...selectedItems, value]));
-                }
-              }}
+              onPress={() => changeSelectedItems(isSelected, value)}
             >
               <Typography
                 color={isSelected ? 'white' : color}
@@ -90,6 +92,6 @@ function RadioButtonsFilter({
       })}
     </Box>
   );
-}
+});
 
 export default RadioButtonsFilter;
