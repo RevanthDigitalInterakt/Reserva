@@ -82,7 +82,7 @@ function RadioButtonsFilter({
                 fontFamily="nunitoBold"
                 fontSize={fontSize}
               >
-                {value}
+                {value.toUpperCase()}
               </Typography>
             </Button>
           </Box>

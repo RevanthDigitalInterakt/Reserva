@@ -16,7 +16,7 @@ function FilterSizes({ data, selectedItems, onUpdate }: IFilterSizes) {
   const sizes = useMemo(() => (
     data.map((item) => ({
       ...item,
-      value: item.value.toUpperCase(),
+      value: item.value,
     }))
   ), [data]);
 
