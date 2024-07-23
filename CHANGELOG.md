@@ -6,6 +6,10 @@
 
 - [45931 - Remover preço Prime dos "Produtos Surpresa"](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45931)
 
+- [46840 - Erro ao fazer troca de filtros](https://dev.azure.com/areco/AReCO/_workitems/edit/46840)
+
+- [46478 - Crash ao fazer busca no app](https://dev.azure.com/areco/AReCO/_workitems/edit/46478)
+
 ### 2.13.0
 
 - [42216 - Ícone faça vc na tab bar do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/42216)

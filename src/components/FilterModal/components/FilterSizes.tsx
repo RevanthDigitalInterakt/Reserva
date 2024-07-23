@@ -16,7 +16,7 @@ function FilterSizes({ data, selectedItems, onUpdate }: IFilterSizes) {
   const sizes = useMemo(() => (
     data.map((item) => ({
       ...item,
-      value: item.value.toUpperCase(),
+      value: item.value,
     }))
   ), [data]);
 
@@ -35,7 +35,7 @@ function FilterSizes({ data, selectedItems, onUpdate }: IFilterSizes) {
             const items = size.filter(Boolean);
             onUpdate(new Set(items));
           }}
-          disbledOptions={[]}
+          disabledOptions={[]}
           defaultSelectedItem={Array.from(selectedItems)}
           size="34px"
           fontSize="10px"
