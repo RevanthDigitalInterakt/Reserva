@@ -8,7 +8,7 @@ import { DATA_FIRST, DATA_SECOND } from '../../../../../../__mocks__/mockRespons
 
 const handleDeleteMock = jest.fn();
 const handleNavigateDetails = jest.fn();
-const makeSut = (data: OrderFormQuery['orderForm']['items'][0]) => (
+const makeSut = (data: OrderFormQuery['orderForm']['packageItems'][0]['items'][0]) => (
   <ThemeProvider theme={theme}>
     <ProductUnavailableListItem
       data={data}

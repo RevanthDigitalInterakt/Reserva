@@ -15,11 +15,11 @@ const component = (
 );
 
 describe('SearchWrapper', () => {
-  it('should render SearchWrapper component', async () => {
+  it('should render SearchWrapper component', () => {
     render(component);
   });
 
-  it('should match with snapshot', async () => {
+  it('should match with snapshot', () => {
     const { toJSON } = render(component);
     expect(toJSON()).toMatchSnapshot();
   });

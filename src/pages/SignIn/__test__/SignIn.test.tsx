@@ -12,6 +12,7 @@ import { MockedProvider } from '@apollo/client/testing/react/MockedProvider';
 import { ThemeProvider } from 'styled-components/native';
 import SignInScreen from '../SignIn';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
+import { theme } from '../../../base/usereservappLegacy/theme';
 
 type TNavigation = StackScreenProps<RootStackParamList, 'LoginAlternative'>['navigation'];
 

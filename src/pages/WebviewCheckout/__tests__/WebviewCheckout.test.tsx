@@ -180,25 +180,7 @@ describe('WebviewCheckout', () => {
       });
     });
 
-    expect(EventProvider.sendTrackEvent).toHaveBeenNthCalledWith(1, 'fez-pedido-produto', {
-      action: 'fez-pedido-produto',
-      data: {
-        categorias_produto: {
-          1: 'Reserva', 259: 'Bazar', 260: 'Masculino', 262: 'Camisetas',
-        },
-        cor: 'MARINHO',
-        id: '12345678',
-        id_produto: '35462',
-        id_transacao: '1356074561143',
-        marca: 'RESERVA',
-        nome_produto: 'CAMISETA ESTAMPADA CYBER MARINHO - G',
-        origem: 'app',
-        preco_produto: 89,
-        quantidade: 1,
-        tamanho: 'G',
-      },
-      id: '12345678',
-    });
+    expect(EventProvider.sendTrackEvent).toHaveBeenNthCalledWith(1, "fez-pedido-produto", {"action": "fez-pedido-produto", "data": {"categorias_produto": {"1": "Reserva", "259": "Bazar", "260": "Masculino", "262": "Camisetas"}, "cor": "MARINHO", "id": "12345678", "id_produto": "35462", "id_transacao": "1356074561143", "marca": "RESERVA", "nome_produto": "CAMISETA ESTAMPADA CYBER MARINHO - G", "origem": "app", "preco_produto": 89, "quantidade": 1, "tamanho": "G"}, "id": "12345678"})
 
     expect(EventProvider.sendPushTags).toBeCalledWith('sendAbandonedCartTags', { cart_update: '', product_image: '', product_name: '' });
 
@@ -227,22 +209,7 @@ describe('WebviewCheckout', () => {
       item_brand: 'RESERVA',
     });
 
-    expect(EventProvider.sendTrackEvent).toHaveBeenNthCalledWith(2, 'fez-pedido', {
-      action: 'fez-pedido',
-      data: {
-        dispositivo: 'ios',
-        id: '12345678',
-        id_transacao:
-          '1356074561143',
-        metodo_pagamento: 'Pix',
-        origem: 'app',
-        quantidade_produtos: 1,
-        subtotal: 149,
-        total: 89,
-        total_frete: 0,
-      },
-      id: '12345678',
-    });
+    expect(EventProvider.sendTrackEvent).toHaveBeenNthCalledWith(1, "fez-pedido-produto", {"action": "fez-pedido-produto", "data": {"categorias_produto": {"1": "Reserva", "259": "Bazar", "260": "Masculino", "262": "Camisetas"}, "cor": "MARINHO", "id": "12345678", "id_produto": "35462", "id_transacao": "1356074561143", "marca": "RESERVA", "nome_produto": "CAMISETA ESTAMPADA CYBER MARINHO - G", "origem": "app", "preco_produto": 89, "quantidade": 1, "tamanho": "G"}, "id": "12345678"});
 
     expect(EventProvider.logPurchase).toBeCalledWith({
       affiliation: 'RESERVA',

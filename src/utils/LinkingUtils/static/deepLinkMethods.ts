@@ -441,6 +441,7 @@ const webCatalogCollectionUseCase = async (initialUrl: string) => {
   if (initialUrl.includes('colecao-')) {
     return defaultCustomMethodReturn;
   }
+
   const searchRegExp = /\//g;
   const replacePathName = '|';
 

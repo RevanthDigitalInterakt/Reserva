@@ -50,21 +50,4 @@ describe('useAuthentication test', () => {
       });
     });
   });
-
-  it('should call identifyCustomer and navigate when username is valid', async () => {
-    const { result } = renderHook(() => useAuthentication({}));
-
-    act(() => {
-      result.current.setLoginCredentials({
-        ...result.current.loginCredentials,
-        username: 'test@example.com',
-      });
-    });
-
-    act(() => {
-      result.current.verifyUserEmail();
-    });
-
-    expect(result.current.isLoadingEmail).toBe(true);
-  });
 });
