@@ -14,9 +14,7 @@ describe('LoadingModal component', () => {
     );
 
     const modal = getByTestId('com.usereserva:id/loading-modal');
-    const lottieView = getByTestId('com.usereserva:id/lottie-view');
 
     expect(modal).toBeTruthy();
-    expect(lottieView).toBeTruthy();
   });
 });

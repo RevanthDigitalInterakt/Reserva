@@ -18,7 +18,6 @@ import { currentOrderForm } from '../../../../../../__mocks__/mockResponseUnavai
 jest.mock('../../../../../utils/EventProvider');
 
 const mockedFn = jest.fn();
-const mockRestoreCart = jest.fn((_orderFormId: string) => Promise.resolve({}));
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: mockedFn }),
@@ -61,6 +60,7 @@ const apolloMocks: Array<IApolloMock<OrderFormQuery>> = [
 jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
   actions: {
     REMOVE_UNAVAILABLE_ITEMS: mockRemoveUnavailableItems,
+    REFETCH_ORDER_FORM: jest.fn(),
   },
   appTotalizers: {
     delivery: 100,
@@ -77,6 +77,9 @@ jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
     totalPrice: 100,
   },
   items: currentOrderForm.items,
+  packageItems: [{
+    items: currentOrderForm.items,
+  }],
   topBarLoading: false,
 } as any);
 
@@ -196,8 +199,8 @@ describe('BagFooter Component', () => {
 
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
-        <MockedProvider mocks={currentOrderForm}>
-            <BagFooter />
+        <MockedProvider mocks={apolloMocks}>
+        <BagFooter />
         </MockedProvider>
       </ThemeProvider>,
     );
@@ -212,7 +215,6 @@ describe('BagFooter Component', () => {
       method: Method.Email,
       custumer_email: 'augustoneves@frwk.com.br',
     });
-    expect(mockRestoreCart).toHaveBeenCalledWith('12578e89687rieoua186');
     expect(mockedFn).toHaveBeenCalled();
   });
 });

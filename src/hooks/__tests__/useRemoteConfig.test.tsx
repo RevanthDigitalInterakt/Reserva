@@ -3,15 +3,17 @@ import remoteConfig from '@react-native-firebase/remote-config';
 import { defaults, syncRemoteConfig, useRemoteConfig } from '../useRemoteConfig';
 
 const FIVE_MINUTES_IN_MS = 300000;
-
-jest.useFakeTimers();
+jest.useFakeTimers()
 
 describe('useRemoteConfig test', () => {
   it('should successfully fetch initial data', async () => {
     const { result } = renderHook(() => useRemoteConfig());
 
     const instance = remoteConfig();
-    await result.current.fetchInitialData(instance);
+    
+    await act(async() => {
+      await result.current.fetchInitialData(instance);
+    })
 
     expect(instance.setDefaults).toHaveBeenCalledWith(defaults);
     expect(instance.setConfigSettings).toHaveBeenCalled();
@@ -22,7 +24,10 @@ describe('useRemoteConfig test', () => {
     const { result } = renderHook(() => useRemoteConfig());
 
     const instance = remoteConfig();
-    await result.current.fetchInitialData(instance);
+
+    await act(async() => {
+      await result.current.fetchInitialData(instance);
+    })
 
     const res = result.current.getBoolean('balance_cashback_in_app');
 
@@ -34,6 +39,7 @@ describe('useRemoteConfig test', () => {
     const { result } = renderHook(() => useRemoteConfig());
 
     const instance = remoteConfig();
+
     const res = result.current.getBoolean('balance_cashback_in_app');
 
     expect(instance.getBoolean).toHaveBeenCalledTimes(0);
@@ -45,7 +51,10 @@ describe('useRemoteConfig test', () => {
     const { result } = renderHook(() => useRemoteConfig());
 
     const instance = remoteConfig();
-    await result.current.fetchInitialData(instance);
+
+    await act(async() => {
+      await result.current.fetchInitialData(instance);
+    })
 
     const res = result.current.getString('pdp_button_add_bag');
 
@@ -66,10 +75,6 @@ describe('useRemoteConfig test', () => {
 });
 
 describe('syncRemoteConfig tests', () => {
-  beforeEach(() => {
-    jest.clearAllTimers();
-  });
-
   it('should resolve immediately if already initialized', async () => {
     useRemoteConfig.getState = jest.fn().mockReturnValue({ initialized: true });
     useRemoteConfig.subscribe = jest.fn();

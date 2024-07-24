@@ -77,12 +77,7 @@ const Component = (
 
 describe('NewBag', () => {
   beforeEach(() => {
-    jest.useFakeTimers({ legacyFakeTimers: true });
     jest.clearAllMocks();
-  });
-
-  afterEach(() => {
-    jest.clearAllTimers();
   });
 
   it('should match with the snapshot', () => {
@@ -227,7 +222,7 @@ describe('NewBag', () => {
     expect(emptyBag).toBeOnTheScreen();
   });
 
-  it('should call handleNavigateToOffers when the EmptyBag button is pressed', async () => {
+  it('should call handleNavigateToOffers when the EmptyBag button is pressed', () => {
     jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
       actions: {
         CLOSE_MODAL_DELETE_PRODUCT: jest.fn(),
@@ -296,14 +291,14 @@ describe('NewBag', () => {
 
     const goToOffersButton = screen.getByTestId('com.usereserva:id/button_going_shopping_empty_bag');
 
-    await act(async () => {
-      await fireEvent.press(goToOffersButton);
+    act(async () => {
+       fireEvent.press(goToOffersButton);
     });
 
     expect(mockedNavigate).toHaveBeenCalledWith('Offers');
   });
 
-  it('should call handleBackTopBarButtonPress when topBarBackButton is pressed', async () => {
+  it('should call handleBackTopBarButtonPress when topBarBackButton is pressed', () => {
     jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
       actions: {
         CLOSE_MODAL_DELETE_PRODUCT: jest.fn(),
@@ -372,8 +367,8 @@ describe('NewBag', () => {
 
     const topBarBackButton = screen.getAllByTestId('com.usereserva:id/top_bar_button_go_back');
 
-    await act(async () => {
-      await topBarBackButton.forEach((button) => fireEvent.press(button));
+    act(async () => {
+       topBarBackButton.forEach((button) => fireEvent.press(button));
     });
 
     expect(mockGoBackFn).toBeCalled();
