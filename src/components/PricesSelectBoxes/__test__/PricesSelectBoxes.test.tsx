@@ -6,7 +6,6 @@ import {
 import { MockedProvider } from '@apollo/client/testing';
 import PricesSelectBoxes from '../PricesSelectBoxes';
 import { ApolloMockLPPrime } from '../../../pages/PrimeLP/__mocks__/primeLPMocks';
-import { CartContext } from '../../../context/CartContext';
 import * as useLandingPagePrimeQuery from '../../../base/graphql/generated';
 import { mockPrimeData } from '../../../../__mocks__/PrimeLP.mock';
 import { theme } from '../../../base/usereservappLegacy/theme';
@@ -91,9 +90,7 @@ function TestingComponent(selectedSize: any) {
   return (
     <ThemeProvider theme={theme}>
       <MockedProvider mocks={ApolloMockLPPrime} addTypename={false}>
-        <CartContext.Provider value={{ addItem: mockAddItemFn } as any}>
           <PricesSelectBoxes selectedSize={selectedSize} />
-        </CartContext.Provider>
       </MockedProvider>
     </ThemeProvider>
   );

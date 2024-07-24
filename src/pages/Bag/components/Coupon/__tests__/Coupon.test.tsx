@@ -4,7 +4,6 @@ import { ThemeProvider } from 'styled-components/native';
 import { fireEvent, render } from '@testing-library/react-native';
 import { act } from 'react-test-renderer';
 import CouponComponent from '..';
-import CartContextProvider from '../../../../../context/CartContext';
 import * as useBagStore from '../../../../../zustand/useBagStore/useBagStore';
 import subscribeNewsLetter from '../../../../../graphql/profile/newsLetter';
 import { theme } from '../../../../../base/usereservappLegacy/theme';
@@ -34,9 +33,7 @@ const ADD_DISCOUNT_COUPON_FN = jest.fn(() => Promise.resolve({}));
 const RenderCouponComponent = (
   <ThemeProvider theme={theme}>
     <MockedProvider mocks={apolloMocks}>
-      <CartContextProvider>
-        <CouponComponent />
-      </CartContextProvider>
+      <CouponComponent />
     </MockedProvider>
   </ThemeProvider>
 );

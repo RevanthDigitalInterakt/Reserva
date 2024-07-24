@@ -4,14 +4,11 @@ import { ThemeProvider } from 'styled-components/native';
 import { MockedProvider } from '@apollo/client/testing';
 import { theme } from '../../../base/usereservappLegacy/theme';
 import WebViewDoris from '..';
-import CartContextProvider from '../../../context/CartContext';
 
 const Component = (
   <ThemeProvider theme={theme}>
     <MockedProvider addTypename={false}>
-      <CartContextProvider>
-        <WebViewDoris />
-      </CartContextProvider>
+      <WebViewDoris />
     </MockedProvider>
   </ThemeProvider>
 );

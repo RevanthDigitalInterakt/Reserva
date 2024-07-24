@@ -6,7 +6,6 @@ import { render, screen } from '@testing-library/react-native';
 import Newsletter from '../Newsletter';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { theme } from '../../../base/usereservappLegacy/theme';
-import CartContextProvider from '../../../context/CartContext';
 
 type TNavigation = StackScreenProps<RootStackParamList, 'Newsletter'>['navigation'];
 
@@ -21,16 +20,14 @@ const navigationMock: Partial<TNavigation> = {
 const Component = (
   <ThemeProvider theme={theme}>
     <MockedProvider addTypename={false}>
-      <CartContextProvider>
-        <Newsletter
-          navigation={navigationMock as TNavigation}
-          route={{
-            name: 'Newsletter',
-            key: '',
-            params: '',
-          }}
-        />
-      </CartContextProvider>
+      <Newsletter
+        navigation={navigationMock as TNavigation}
+        route={{
+          name: 'Newsletter',
+          key: '',
+          params: '',
+        }}
+      />
     </MockedProvider>
   </ThemeProvider>
 );

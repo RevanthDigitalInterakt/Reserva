@@ -9,7 +9,6 @@ import { ThemeProvider } from 'styled-components/native';
 import { MockedProvider } from '@apollo/client/testing';
 import type { StackScreenProps } from '@react-navigation/stack';
 import PrimeLP from '../PrimeLP';
-import { CartContext } from '../../../context/CartContext';
 import { ApolloMockLPPrime } from '../__mocks__/primeLPMocks';
 import * as useLandingPagePrimeQuery from '../../../base/graphql/generated';
 import { mockPrimeData } from '../../../../__mocks__/PrimeLP.mock';
@@ -18,7 +17,6 @@ import type { RootStackParamList } from '../../../routes/StackNavigator';
 
 type TNavigation = StackScreenProps<RootStackParamList, 'PrimeLP'>['navigation'];
 
-const mockAddItemFn = jest.fn();
 const mockGoBackFn = jest.fn();
 const mockHandleAddToCartPrime = jest.fn();
 const mockedNavigate = jest.fn();
@@ -96,10 +94,6 @@ jest
 const TestingComponent = (
   <ThemeProvider theme={theme}>
     <MockedProvider mocks={ApolloMockLPPrime} addTypename={false}>
-      <CartContext.Provider value={
-        { addItem: mockAddItemFn } as any
-      }
-      >
         <PrimeLP
           navigation={navigationMock as TNavigation}
           route={{
@@ -107,7 +101,6 @@ const TestingComponent = (
             key: '',
           }}
         />
-      </CartContext.Provider>
     </MockedProvider>
   </ThemeProvider>
 );

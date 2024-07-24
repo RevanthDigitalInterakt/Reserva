@@ -3,7 +3,7 @@ import type { RootStackParamList } from '../routes/StackNavigator';
 
 export type IProductDetailRouteParams = StackScreenProps<RootStackParamList, 'ProductDetail'>['route']['params'];
 
-interface IParams {
+export interface IParams {
   skuId?: string;
   slug?: string;
   productId?: string;

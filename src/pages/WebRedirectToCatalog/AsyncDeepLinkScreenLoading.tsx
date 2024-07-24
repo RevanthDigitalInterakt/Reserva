@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
 import {  ActivityIndicator, SafeAreaView, View } from 'react-native';
 import type { RootStackParamList } from '../../routes/StackNavigator';
-import { useCart } from '../../context/CartContext';
 import useAsyncDeepLinkStore from '../../zustand/useAsyncDeepLinkStore/useAsyncDeepLinkStore';
-import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
 import type { TActionType } from '../../zustand/useAsyncDeepLinkStore/types/asyncDeepLinkStore';
 import { COLORS } from '../../base/styles/colors';
@@ -13,7 +11,6 @@ type TWebRedirectToCatalogProps = StackScreenProps<RootStackParamList, 'AsyncDee
 
 function AsyncDeepLinkScreenLoading({ route, navigation }: TWebRedirectToCatalogProps) {
   const { reducerKey, ...restParams } = route.params;
-  const { topBarLoading } = useCart();
   const { deepLinkLoading, fallBackRoute, dispatch } = useAsyncDeepLinkStore();
 
   useEffect(() => {

@@ -198,6 +198,7 @@ exports[`SearchBar component should match with the snapshot 1`] = `
       }
     >
       <TextInput
+        enablesReturnKeyAutomatically={true}
         onChangeText={[Function]}
         onSubmitEditing={[Function]}
         placeholderTextColor="#666666"

@@ -8,7 +8,6 @@ import EventProvider from "../../../../utils/EventProvider";
 import { defaultBrand } from "../../../../utils/defaultWBrand";
 import { createNavigateToProductParams } from "../../../../utils/createNavigateToProductParams";
 import { getBrands } from "../../../../utils/getBrands";
-import { useCart } from "../../../../context/CartContext";
 import ProductListItem from "../ProductListItem";
 import ProductListItemPrime from "../ProductListItem/ProductListItemPrime";
 import { mergeItemsPackage } from "../../../../utils/mergeItemsPackage";
@@ -21,7 +20,6 @@ import {
 import useSearchStore from "../../../../zustand/useSearchStore";
 
 export default function BagProductList() {
-  const { orderForm } = useCart();
   const { actions, packageItems, appTotalizers } = useBagStore([
     "actions",
     "packageItems",
@@ -123,10 +121,10 @@ export default function BagProductList() {
         item_category: "product",
         currency: "BRL",
         seller: item.seller,
-        item_brand: getBrands(orderForm?.items || []),
+        item_brand: getBrands(mergeItemsPackage(packageItems) || []),
       });
     },
-    [actions, orderForm?.items]
+    [actions, packageItems]
   );
 
   const handleSubCount = useCallback(

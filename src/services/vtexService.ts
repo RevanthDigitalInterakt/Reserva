@@ -1,134 +1,338 @@
-import { CepResponse, postalCode } from '../config/postalCode';
+//TODO move all requests to api-gw
+import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import {
   instance,
   instance2,
-  instance3,
-  instance4,
-  instance5,
   instance7,
 } from '../config/vtexConfig';
-import { ExceptionProvider } from '../base/providers/ExceptionProvider';
-
-const vtexConfig = instance;
-const vtexConfig2 = instance2;
-const vtexConfig3 = instance3;
-const vtexConfig4 = instance4;
-const vtexConfig5 = instance5;
 const vtexConfig7 = instance7;
 
-const CreateCart = async () => {
-  // cria o carrinho
-  // retorna um payload gigante pra ser preenchido de acordo.
-  const response = await vtexConfig.get('/checkout/pub/orderForm/?sc=4');
-  return response;
-};
+interface PriceDefinition {
+  calculatedSellingPrice: number;
+  total: number;
+  sellingPrices: { value: number; quantity: number }[];
+}
 
-const RestoreData = async (id: string) => {
-  const response = await vtexConfig.get(`checkout/pub/orderform/${id}?sc=4`);
-  return response;
-};
+interface AdditionalInfo {
+  dimension: any;
+  brandName: string;
+  brandId: string;
+  offeringInfo: any;
+  offeringType: any;
+  offeringTypeId: any;
+}
+interface PriceTag {
+  name: string;
+  value: number;
+  rawValue: number;
+  isPercentual: boolean;
+  identifier: string;
+}
+export interface IOrderFormItem {
+  unique: string;
+  id: string;
+  productId: string;
+  productRefId: string;
+  refId: string;
+  ean: any;
+  name: string;
+  skuName: string;
+  modalType: any;
+  parentItemIndex: any;
+  parentAssemblyBinding: any;
+  assemblies: any[];
+  priceValidUntil: string;
+  tax: number;
+  price: number;
+  listPrice: number;
+  manualPrice: any;
+  manualPriceAppliedBy: any;
+  sellingPrice: number;
+  rewardValue: number;
+  isGift: boolean;
+  additionalInfo: AdditionalInfo;
+  preSaleDate: any;
+  productCategoryIds: string;
+  productCategories: any;
+  quantity: number;
+  seller: string;
+  sellerChain: string[];
+  imageUrl: string;
+  detailUrl: string;
+  components: any[];
+  bundleItems: any[];
+  attachments: any[];
+  attachmentOfferings: any[];
+  offerings: any[];
+  priceTags: PriceTag[];
+  availability: string;
+  measurementUnit: string;
+  unitMultiplier: number;
+  manufacturerCode: any;
+  priceDefinition: PriceDefinition;
+}
 
-const UpdateItemToCart = async (
-  orderFormId: string | undefined,
-  quantity: number,
-  id: string,
-  seller: string,
-  index: number,
-  hasBundleItems = false,
-) => {
-  const response = await vtexConfig.post(
-    `/checkout/pub/orderForm/${orderFormId}/items/update?sc=4`,
-    {
-      noSplitItem: false,
-      orderItems: [
-        {
-          hasBundleItems,
-          index,
-          quantity,
-          id,
-          seller,
-        },
-      ],
-    },
-  );
+export interface ClientProfileData {
+  attachmentId: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  document: string;
+  documentType: string;
+  phone: string;
+  corporateName: any;
+  tradeName: any;
+  corporateDocument: any;
+  stateInscription: any;
+  corporatePhone: any;
+  isCorporate: boolean;
+}
 
-  // o retorno é o proprio carrinho com todos os itens
-  return response;
-};
+interface MarketingData {
+  utmSource: any;
+  utmMedium: any;
+  utmCampaign: any;
+  utmipage: any;
+  utmiPart: any;
+  utmiCampaign: any;
+  coupon: any;
+  marketingTags: string[];
+}
 
-const AddItemToCart = async (
-  orderFormId: string | undefined,
-  quantity: number,
-  id: string,
-  seller: string,
-) => {
-  const response = await vtexConfig.post(
-    `/checkout/pub/orderForm/${orderFormId}/items?sc=4`,
-    {
-      // modificar esse item de acordo com o modelo do carrinho
-      orderItems: [
-        {
-          quantity,
-          id,
-          seller,
-        },
-      ],
-    },
-  );
+interface AvailableAddresses {
+  addressType: string;
+  receiverName: string;
+  addressId: string;
+  postalCode: string;
+  city: string;
+  state: string;
+  country: string;
+  street: string;
+  number: string;
+  neighborhood: string;
+  complement: string;
+  reference: any;
+}
 
-  // o retorno é o proprio carrinho com todos os itens
-  return response;
-};
+interface LogisticsInfo {
+  itemIndex: number;
+  selectedSla: string;
+  selectedDeliveryChannel: string;
+  slas: Slas[];
+  shippingEstimateDate: string;
+  deliveryChannel: string;
+  pickupStoreInfo?: {
+    additionalInfo: string;
+    dockId: number | null;
+    friendlyName: string; // Apenas esse campo será utilizado
+    isPickupStore: boolean;
+  };
+}
 
-const RestoreCart = async (orderFormId: string | undefined) => {
-  try {
-    const response = await vtexConfig.get(
-      `/checkout/pub/orderForm/${orderFormId}?sc=4&${new Date().getTime()}=cache`,
-    );
+interface Slas {
+  id: string;
+  name: string;
+  deliveryIds: [DeliveryIds];
+  shippingEstimate: string;
+  shippingEstimateDate: any;
+  lockTTL: any;
+  availableDeliveryWindows: [];
+  deliveryWindow: any;
+  price: number;
+  tax: number;
+  pickupPointId: string;
+  deliveryChannel: string;
+}
+interface ShippingData {
+  attachmentId: string;
+  address: Address;
+  selectedAddresses: Address[];
+  availableAddresses: AvailableAddresses[];
+  logisticsInfo: LogisticsInfo[];
+  pickupPoints: PickupPoints[];
+}
 
-    return response;
-  } catch (error) {
-    ExceptionProvider.captureException(error);
+export interface PickupPoints {
+  friendlyName: string;
+  address: Address;
+  additionalInfo: string;
+  id: string;
+  businessHours: BusinessHours[];
+}
 
-    return null;
-  }
-};
+interface BusinessHours {
+  DayOfWeek: number;
+  OpeningTime: string;
+  ClosingTime: string;
+}
 
-const RemoveItemFromCart = async (
-  orderFormId: string | undefined,
-  id: string,
-  index: number,
-  seller: string,
-  quantity: number,
-) => {
-  const response = await vtexConfig.post(
-    `/checkout/pub/orderForm/${orderFormId}/items/update?sc=4`,
-    {
-      // modificar esse item de acordo com o modelo do carrinho
-      orderItems: [
-        {
-          seller,
-          id,
-          quantity,
-          index,
-        },
-      ],
-    },
-  );
+interface DeliveryIds {
+  courierId: string;
+  warehouseId: string;
+  dockId: string;
+  courierName: string;
+  quantity: number;
+}
 
-  // o retorno é o proprio carrinho com todos os itens
-  return response;
-};
+interface Address {
+  addressType: string;
+  receiverName: string;
+  addressId: string;
+  isDisposable: string;
+  postalCode: string;
+  city: string;
+  state: string;
+  country: string;
+  street: string;
+  number: string;
+  neighborhood: string;
+  complement: string;
+  geoCoordinates: number[];
+  reference: any;
+}
 
-const AddAddressToCart = async (orderFormId: any, address: any) => {
-  // APENAS adiciona endereço ao carrinho(orderForm)
-  const { data } = await vtexConfig.post(
-    `/checkout/pub/orderForm/${orderFormId}/attachments/shippingData?sc=4`,
-    address,
-  );
+interface TemplateOptions {
+  toggleCorporate: boolean;
+}
 
-  return data;
-};
+interface CurrencyFormatInfo {
+  currencyDecimalDigits: number;
+  currencyDecimalSeparator: string;
+  currencyGroupSeparator: string;
+  currencyGroupSize: number;
+  startsWithCurrencySymbol: boolean;
+}
+interface StorePreferencesData {
+  countryCode: string;
+  checkToSavePersonDataByDefault: boolean;
+  templateOptions: TemplateOptions;
+  timeZone: string;
+  currencyCode: string;
+  currencyLocale: number;
+  currencySymbol: string;
+  currencyFormatInfo: CurrencyFormatInfo;
+}
+
+export interface PackageAttachment {
+  packages: {
+    items: {
+      itemIndex: number;
+      quantity: number;
+      price: number;
+      description: number;
+      unitMultiplier: number;
+    }[];
+    courier: string;
+    invoiceNumber: string;
+    invoiceValue: number;
+    invoiceUrl: string;
+    issuanceDate: string;
+    trackingNumber: string;
+    invoiceKey: string;
+    trackingUrl: string;
+    embeddedInvoice: string;
+    type: string;
+    courierStatus: {
+      status: string;
+      finished: boolean;
+      deliveredDate: string;
+      data: {
+        lastChange: string;
+        city: null;
+        state: null;
+        description: string;
+        createDate: string;
+      }[];
+    };
+  }[];
+}
+
+interface Seller {
+  id: string;
+  name: string;
+  logo: string;
+}
+export interface IVtexServiceRequestOrder {
+  orderId: string;
+  sequence: string;
+  marketplaceOrderId: string;
+  marketplaceServicesEndpoint: string;
+  sellerOrderId: string;
+  origin: string;
+  affiliateId: string;
+  salesChannel: string;
+  merchantName: null;
+  status: string;
+  statusDescription: string;
+  value: number;
+  creationDate: string;
+  lastChange: string;
+  orderGroup: string;
+  totals: {
+    id: string;
+    name: string;
+    value: number;
+  }[];
+  items: IOrderFormItem[];
+  marketplaceItems: any[];
+  clientProfileData: ClientProfileData;
+  giftRegistryData: null;
+  marketingData: MarketingData;
+  ratesAndBenefitsData: {
+    id: string;
+    rateAndBenefitsIdentifiers: any[];
+  };
+  shippingData: ShippingData;
+  paymentData: any;
+  packageAttachment: PackageAttachment;
+  sellers: Seller[];
+  callCenterOperatorData: null;
+  followUpEmail: string;
+  lastMessage: null;
+  hostname: string;
+  invoiceData: {
+    address: null;
+    userPaymentInfo: null;
+  };
+  changesAttachment: null;
+  openTextField: null;
+  roundingError: number;
+  orderFormId: string;
+  commercialConditionData: null;
+  isCompleted: boolean;
+  customData: string;
+  storePreferencesData: StorePreferencesData;
+  allowCancellation: boolean;
+  allowEdition: boolean;
+  isCheckedIn: boolean;
+  marketplace: {
+    baseURL: boolean;
+    isCertified: null;
+    name: boolean;
+  };
+  authorizedDate: boolean;
+  invoicedDate: boolean;
+  cancelReason: null;
+  itemMetadata: {
+    Items: {
+      Id: string;
+      Seller: string;
+      Name: string;
+      SkuName: string;
+      ProductId: string;
+      RefId: string;
+      Ean: string;
+      ImageUrl: string;
+      DetailUrl: string;
+      AssemblyOptions: any[];
+    }[];
+  };
+  subscriptionData: null;
+  taxData: null;
+  checkedInPickupPointId: null;
+  cancellationData: null;
+}
+
 
 const GetPurchaseData = async (orderGroup: any) => {
   try {
@@ -144,113 +348,8 @@ const GetPurchaseData = async (orderGroup: any) => {
   // place order para varias compras.
 };
 
-const AddCustomerToOrder = async (
-  orderFormId: string | undefined,
-  customer: any,
-) => {
-  try {
-    const { data } = await vtexConfig.post(
-      `/checkout/pub/orderForm/${orderFormId}/attachments/clientProfileData`,
-      { ...customer },
-    );
-
-    return data;
-  } catch (err) {
-    ExceptionProvider.captureException(err);
-  }
-};
-
-const CepVerifyPostalCode = async (cep: string) => {
-  try {
-    const { data } = await postalCode.get(cep);
-    return data;
-  } catch (err) {
-    ExceptionProvider.captureException(err);
-    return { errors: err } as CepResponse;
-  }
-};
-
-const addToCoupon = async (orderFormId: string | undefined, coupon: string) => {
-  const response = await vtexConfig2.post(
-    `/checkout/pub/orderForm/${orderFormId}/coupons`,
-    {
-      text: coupon,
-    },
-  );
-  return response;
-};
-
-const removeCouponToOder = async (
-  orderFormId: string | undefined,
-  coupon: string,
-) => {
-  const response = await vtexConfig2.post(
-    `/checkout/pub/orderForm/${orderFormId}/coupons`,
-    {
-      text: coupon,
-    },
-  );
-  return response;
-};
-
-const removeSellerCouponToOder = async (
-  orderFormId: string | undefined,
-  marketingData: any,
-) => {
-  const response = await vtexConfig2.post(
-    `/checkout/pub/orderForm/${orderFormId}/attachments/marketingData`,
-    marketingData,
-  );
-  return response;
-};
-
-// reset user checkout
-const ResetUserCheckout = async (orderFormId?: string) => {
-  const response = await vtexConfig3.get(
-    `/checkout/changeToAnonymousUser/${orderFormId}`,
-  );
-  return response;
-};
-
-const SendUserEmail = async (email?: string) => {
-  const response = await vtexConfig4.get(
-    `/contactlist/${email}/true/newsletter/reserva`,
-  );
-  return response;
-};
-const ConvertZipCode = async (postalCode?: string) => {
-  const response = await vtexConfig3.get(
-    `/api/checkout/pub/postal-code/BRA/${postalCode}`,
-  );
-  return response;
-};
-
-const Tracking = async (cookie: string, order?: string) => {
-  const response = await vtexConfig5.get(`/oms/user/orders/${order}`, {
-    headers: {
-      Cookie: cookie,
-    },
-  });
-  return response;
-};
-const PickupPoint = async (longitude: string, latitude: string) => {
-  const response = await instance2.get(
-    `/checkout/pub/pickup-points?geoCoordinates=${longitude};${latitude}`,
-  );
-  return response;
-};
-
-const Orders = async (page: string) => {
-  const response = await instance2.get(`/oms/user/orders/?page=${page}`, {
-    headers: {
-      'X-VTEX-API-APPKEY': '',
-    },
-  });
-  return response;
-};
-
 const OrderDetail = async (orderId: string) => {
-  const response = await instance2.get(`/oms/user/orders/${orderId}`, {
+  const response = await instance2.get<IVtexServiceRequestOrder>(`/oms/user/orders/${orderId}`, {
     headers: {
       'X-VTEX-API-APPKEY': '',
     },
@@ -259,7 +358,7 @@ const OrderDetail = async (orderId: string) => {
 };
 
 const SearchNewOrders = async (page: string, email: string, cookie: string) => {
-  const response = await instance.get(
+  const response = await instance.get<{ list: IVtexServiceRequestOrder[], paging: { total: number } }>(
     `oms/user/orders/?page=${page}&per_page=20&includeProfileLastPurchases=true`,
     {
       headers: {
@@ -270,83 +369,7 @@ const SearchNewOrders = async (page: string, email: string, cookie: string) => {
   return response;
 };
 
-const SearchNewOrderDetail = async (
-  orderId: string,
-  email: string,
-  cookie: string,
-) => {
-  const response = await instance7.get(
-    `/oms/user/orders/${orderId}?clientEmail=${email}`,
-    {
-      headers: {
-        cookie,
-      },
-    },
-  );
-  return response;
-};
-
-const SetGiftSize = async (
-  orderFormId?: string | undefined,
-  giftId?: string | undefined,
-  id?: string | undefined,
-  seller?: string | undefined,
-) => {
-  const response = await instance7.post(
-    `/checkout/pub/orderForm/${orderFormId}/selectable-gifts/${giftId}`,
-    {
-      id: giftId,
-      selectedGifts: [
-        {
-          id,
-          seller,
-          index: 0,
-        },
-      ],
-      expectedOrderFormSections: [
-        'items',
-        'totalizers',
-        'clientProfileData',
-        'shippingData',
-        'paymentData',
-        'sellers',
-        'messages',
-        'marketingData',
-        'clientPreferencesData',
-        'storePreferencesData',
-        'giftRegistryData',
-        'ratesAndBenefitsData',
-        'openTextField',
-        'commercialConditionData',
-        'customData',
-      ],
-    },
-  );
-  return response;
-};
-
 export {
-  CreateCart,
-  RestoreData,
-  CepVerifyPostalCode,
-  UpdateItemToCart,
-  AddItemToCart,
-  AddAddressToCart,
-  GetPurchaseData,
-  AddCustomerToOrder,
-  RemoveItemFromCart,
-  addToCoupon,
-  removeCouponToOder,
-  removeSellerCouponToOder,
-  ResetUserCheckout,
-  SendUserEmail,
-  ConvertZipCode,
-  Tracking,
-  PickupPoint,
-  Orders,
-  SearchNewOrders,
-  SearchNewOrderDetail,
-  OrderDetail,
-  SetGiftSize,
-  RestoreCart,
+  GetPurchaseData, OrderDetail, SearchNewOrders
 };
+

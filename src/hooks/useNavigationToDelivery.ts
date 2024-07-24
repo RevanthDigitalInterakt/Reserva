@@ -14,7 +14,6 @@ import {
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { usePrimeInfo } from './usePrimeInfo';
 import { usePrimeStore } from '../zustand/usePrimeStore/usePrimeStore';
-import { useCart } from '../context/CartContext';
 import { usePageLoadingStore } from '../zustand/usePageLoadingStore/usePageLoadingStore';
 import { Method } from '../utils/EventProvider/Event';
 import { mergeItemsPackage } from '../utils/mergeItemsPackage';
@@ -48,7 +47,6 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     'appTotalizers',
     'hasPrimeSubscriptionInCart']);
 
-  const { restoreCart } = useCart();
   const { primeActive } = usePrimeInfo();
   const { onFinishLoad } = usePageLoadingStore(['onFinishLoad']);
 
@@ -150,7 +148,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     }
 
     if (!profile.isComplete) {
-      await restoreCart(orderFormId);
+      await actions.REFETCH_ORDER_FORM();
 
       EventProvider.logEvent('complete_registration', {
         method: Method.Email,
@@ -190,7 +188,6 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     navigation,
     onTrackCheckoutEvents,
     orderFormId,
-    restoreCart,
   ]);
 
   return {

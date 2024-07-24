@@ -6,14 +6,12 @@ import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import EventProvider from '../utils/EventProvider';
 import { useLandingPagePrimeLazyQuery } from '../base/graphql/generated';
 import { useApolloFetchPolicyStore } from '../zustand/useApolloFetchPolicyStore';
-import { useCart } from '../context/CartContext';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 
 export function usePrimeInfo() {
   const isTester = useIsTester();
   const { getBoolean, getString } = useRemoteConfig();
   const { profile } = useAuthStore(['profile']);
-  const { addItem } = useCart();
   const { hasPrimeSubscriptionInCart, actions } = useBagStore(['hasPrimeSubscriptionInCart', 'actions']);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
 
@@ -48,11 +46,11 @@ export function usePrimeInfo() {
         throw new Error('Ocorreu um erro.');
       }
 
-      await addItem({
-        quantity: 1,
-        itemId: `${data?.landingPagePrime.skuId}`,
-        seller: data?.landingPagePrime.productSeller,
-      });
+      await actions.ADD_ITEM(
+        data?.landingPagePrime.productSeller,
+        data?.landingPagePrime.skuId.toString(),
+        1,
+      );
 
       await actions.REFETCH_ORDER_FORM();
 
@@ -68,7 +66,7 @@ export function usePrimeInfo() {
     } catch (err) {
       ExceptionProvider.captureException(err);
     }
-  }, [actions, addItem, hasPrimeSubscriptionInCart, loadLpData]);
+  }, [actions, hasPrimeSubscriptionInCart, loadLpData]);
 
   return {
     isPrime,

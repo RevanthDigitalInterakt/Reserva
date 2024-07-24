@@ -108,6 +108,105 @@ export const mockCurrentOrderForm = {
       },
     },
   ],
+  packageItems: [
+    {
+      items: [
+        {
+          uniqueId: '52D9B57139FA4292909748AE8ED11774',
+          id: '90368',
+          productId: '3239',
+          productRefId: '0054128',
+          refId: '005412801401',
+          ean: '0054128014',
+          name: 'CAMISA ML SAMOA BRANCO - P',
+          skuName: 'BRANCO - P',
+          modalType: null,
+          parentItemIndex: null,
+          parentAssemblyBinding: null,
+          assemblies: [],
+          priceValidUntil: '2024-04-27T14:17:26Z',
+          tax: 0,
+          price: 27900,
+          listPrice: 39900,
+          manualPrice: null,
+          manualPriceAppliedBy: null,
+          sellingPrice: 19929,
+          rewardValue: 0,
+          isGift: false,
+          additionalInfo: {
+            dimension: null,
+            brandName: 'RESERVA',
+            brandId: '1',
+            offeringInfo: null,
+            offeringType: null,
+            offeringTypeId: null,
+          },
+          preSaleDate: null,
+          productCategoryIds: '/1/5/60/',
+          productCategories: {
+            1: 'Reserva',
+            5: 'Masculino',
+            60: 'camisas',
+          },
+          quantity: 1,
+          seller: '1',
+          sellerChain: [
+            '1',
+          ],
+          imageUrl: 'http://lojausereserva.vteximg.com.br/arquivos/ids/6413946-55-55/0054128014_01.jpg?v=637692018478770000',
+          detailUrl: '/camisa-ml-samoa0054128/p',
+          components: [],
+          bundleItems: [],
+          attachments: [],
+          attachmentOfferings: [],
+          offerings: [
+            {
+              type: 'Embalagem pra Presente',
+              id: '90310',
+              name: 'Embalagem pra Presente',
+              allowGiftMessage: true,
+              attachmentOfferings: [
+                {
+                  name: 'message',
+                  required: false,
+                  schema: {
+                    text: {
+                      maximumNumberOfCharacters: 300,
+                      domain: [],
+                    },
+                  },
+                },
+              ],
+              price: 0,
+            },
+          ],
+          priceTags: [
+            {
+              name: 'discount@price-f7c2175f-87a3-41fa-88c3-397b4ac987f3#a287b8e1-7b79-4ec4-86cf-f462598e10f6',
+              value: -7971,
+              rawValue: -79.71,
+              isPercentual: false,
+              identifier: 'f7c2175f-87a3-41fa-88c3-397b4ac987f3',
+              owner: 'lojausereserva',
+            },
+          ],
+          availability: 'available',
+          measurementUnit: 'un',
+          unitMultiplier: 1,
+          manufacturerCode: null,
+          priceDefinition: {
+            calculatedSellingPrice: 19929,
+            total: 19929,
+            sellingPrices: [
+              {
+                value: 19929,
+                quantity: 1,
+              },
+            ],
+          },
+        },
+      ],
+    }],
   selectableGifts: [],
   totalizers: [
     {

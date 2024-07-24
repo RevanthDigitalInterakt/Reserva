@@ -1,18 +1,5 @@
-import React, { ReactNode } from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { useAuthentication } from '../useAuthentication';
-import { CartContext } from '../../context/CartContext';
-
-const mockIdentifyCustomer = jest.fn();
-jest.setTimeout(10000);
-
-const makeSut = (children: ReactNode) => (
-  <CartContext.Provider
-    value={{ identifyCustomer: mockIdentifyCustomer } as any}
-  >
-    {children}
-  </CartContext.Provider>
-);
 
 jest.mock('../../zustand/useBagStore/useBagStore', () => ({
   useBagStore: () => ({
@@ -29,9 +16,7 @@ jest.mock('../../zustand/useDitoStore', () => ({
 
 describe('useAuthentication test', () => {
   it('should successfully initial datas', async () => {
-    const { result } = renderHook(() => useAuthentication({}), {
-      wrapper: ({ children }) => makeSut(children),
-    });
+    const { result } = renderHook(() => useAuthentication({}));
 
     const { loadingSignIn, isLoadingEmail, loginCredentials } = result.current;
 
@@ -50,9 +35,7 @@ describe('useAuthentication test', () => {
   });
 
   it('should set loadingSignIn to true during sign in', async () => {
-    const { result, waitFor } = renderHook(() => useAuthentication({}), {
-      wrapper: ({ children }) => makeSut(children),
-    });
+    const { result, waitFor } = renderHook(() => useAuthentication({}));
 
     act(() => {
       result.current.setEmailIsValid(true);
@@ -66,24 +49,5 @@ describe('useAuthentication test', () => {
         expect(result.current.loadingSignIn).toBe(false);
       });
     });
-  });
-
-  it('should call identifyCustomer and navigate when username is valid', async () => {
-    const { result } = renderHook(() => useAuthentication({}), {
-      wrapper: ({ children }) => makeSut(children),
-    });
-
-    act(() => {
-      result.current.setLoginCredentials({
-        ...result.current.loginCredentials,
-        username: 'test@example.com',
-      });
-    });
-
-    act(() => {
-      result.current.verifyUserEmail();
-    });
-
-    expect(result.current.isLoadingEmail).toBe(true);
   });
 });

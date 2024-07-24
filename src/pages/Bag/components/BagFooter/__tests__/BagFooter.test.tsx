@@ -1,28 +1,23 @@
-import React from 'react';
 import { MockedProvider } from '@apollo/client/testing';
-import { ThemeProvider } from 'styled-components/native';
-import { fireEvent, render } from '@testing-library/react-native';
 import { act } from '@testing-library/react-hooks';
+import { fireEvent, render } from '@testing-library/react-native';
+import type { DocumentNode } from 'graphql';
+import React from 'react';
 import appsFlyer from 'react-native-appsflyer';
+import { ThemeProvider } from 'styled-components/native';
 import BagFooter from '..';
-import EventProvider from '../../../../../utils/EventProvider';
-import { CartContext } from '../../../../../context/CartContext';
-import * as useBagStore from '../../../../../zustand/useBagStore/useBagStore';
-import {
-  apolloMocks,
-  apolloMocksWithoutDataUser,
-  bagInfos,
-  currentOrderForm,
-  installmentInfo,
-} from '../__mocks__';
-import * as useAuthStore from '../../../../../zustand/useAuth/useAuthStore';
+import { OrderFormDocument, type OrderFormQuery } from '../../../../../base/graphql/generated';
 import { theme } from '../../../../../base/usereservappLegacy/theme';
+import EventProvider from '../../../../../utils/EventProvider';
 import { Method } from '../../../../../utils/EventProvider/Event';
+import * as useAuthStore from '../../../../../zustand/useAuth/useAuthStore';
+import * as useBagStore from '../../../../../zustand/useBagStore/useBagStore';
+import { mockCurrentOrderForm } from '../../../__test__/__mocks__/mockCurrentOrderForm';
+import { currentOrderForm } from '../../../../../../__mocks__/mockResponseUnavailableList';
 
 jest.mock('../../../../../utils/EventProvider');
 
 const mockedFn = jest.fn();
-const mockRestoreCart = jest.fn((_orderFormId: string) => Promise.resolve({}));
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: mockedFn }),
@@ -37,25 +32,54 @@ jest.mock('../../../../../hooks/usePrimeInfo', () => ({
 
 const mockRemoveUnavailableItems = jest.fn();
 
+interface IApolloMock<T> {
+  request: {
+    query: DocumentNode;
+    variables: object;
+  };
+  result: {
+    data: T;
+  };
+}
+
+const apolloMocks: Array<IApolloMock<OrderFormQuery>> = [
+  {
+    request: {
+      query: OrderFormDocument,
+      variables: {},
+    },
+    result: {
+      data: {
+        orderForm: mockCurrentOrderForm,
+        __typename: 'Query',
+      },
+    },
+  },
+];
+
 jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
   actions: {
     REMOVE_UNAVAILABLE_ITEMS: mockRemoveUnavailableItems,
+    REFETCH_ORDER_FORM: jest.fn(),
   },
   appTotalizers: {
-    delivery: bagInfos.totalBagDeliveryPrice,
-    discount: bagInfos.totalBagDiscountPrice,
-    items: bagInfos.totalBagItems,
-    total: bagInfos.totalBagItems,
+    delivery: 100,
+    discount: 10,
+    items: 3,
+    total: 90,
     __typename: 'OrderformAppTotalizersOutput',
   },
   orderFormId: '12578e89687rieoua186',
   installmentInfo: {
     __typename: 'OrderformInstallmentInfoOutput',
-    installmentPrice: installmentInfo.installmentPrice,
-    installmentsNumber: installmentInfo.installmentsNumber,
-    totalPrice: installmentInfo.totalPrice,
+    installmentPrice: 25,
+    installmentsNumber: 4,
+    totalPrice: 100,
   },
   items: currentOrderForm.items,
+  packageItems: [{
+    items: currentOrderForm.items,
+  }],
   topBarLoading: false,
 } as any);
 
@@ -110,9 +134,7 @@ describe('BagFooter Component', () => {
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
         <MockedProvider mocks={apolloMocks}>
-          <CartContext.Provider value={{ restoreCart: mockRestoreCart } as any}>
             <BagFooter />
-          </CartContext.Provider>
         </MockedProvider>
       </ThemeProvider>,
     );
@@ -177,10 +199,8 @@ describe('BagFooter Component', () => {
 
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
-        <MockedProvider mocks={apolloMocksWithoutDataUser}>
-          <CartContext.Provider value={{ restoreCart: mockRestoreCart } as any}>
-            <BagFooter />
-          </CartContext.Provider>
+        <MockedProvider mocks={apolloMocks}>
+        <BagFooter />
         </MockedProvider>
       </ThemeProvider>,
     );
@@ -195,7 +215,6 @@ describe('BagFooter Component', () => {
       method: Method.Email,
       custumer_email: 'augustoneves@frwk.com.br',
     });
-    expect(mockRestoreCart).toHaveBeenCalledWith('12578e89687rieoua186');
     expect(mockedFn).toHaveBeenCalled();
   });
 });

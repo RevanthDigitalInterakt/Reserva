@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 
-import { useSignUpVerificationCodeMutation } from '../../../base/graphql/generated';
+import { useCheckIfUserExistsLazyQuery, useSignUpVerificationCodeMutation } from '../../../base/graphql/generated';
 import images from '../../../base/styles/icons';
 import { Box } from '../../../components/Box/Box';
 import { Button } from '../../../components/Button';
@@ -27,6 +27,10 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
     fetchPolicy: 'no-cache',
   });
 
+  const [checkIfUserExist] = useCheckIfUserExistsLazyQuery({
+    context: { clientName: 'gateway' },
+  });
+
   const handleEmailAccess = useCallback(async () => {
     const validEmail = validateEmail(email);
 
@@ -34,7 +38,19 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
       setInputError('Por favor, informe um e-mail válido.');
       return;
     }
-    
+
+    const { data } = await checkIfUserExist({
+      variables: {
+        email,
+      },
+    });
+
+    if (data?.checkIfUserExists) {
+      setInputError('E-mail já cadastrado em nosso banco de dados');
+      setShowRecoveryPassword(true);
+      return;
+    }
+
     try {
       const { data } = await signUpVerificationCode({
         variables: {

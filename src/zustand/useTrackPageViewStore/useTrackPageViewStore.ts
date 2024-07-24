@@ -42,21 +42,26 @@ export const trackPageViewStore = create<ITrackPageViewStore>((set, getState) =>
   sessionId: v4(),
   navigation: [],
   onSendTrack: async (navigation, elapsedTime) => {
-    const input: TrackPageViewInput = {
-      elapsedTime: parseInt(`${elapsedTime || 0}`, 10),
-      pageIdentifier: navigation.identifier,
-      pageType: navigation.type,
-      providers: [TrackProvidersEnum.Smarthint],
-      session: getState().sessionId,
-      originIdentifier: navigation.origin,
-      userEmail: await AsyncStorage.getItem('@Dito:anonymousID'),
-    };
-
-    await getApolloClient().mutate<TrackPageViewMutation, TrackPageViewMutationVariables>({
-      mutation: TrackPageViewDocument,
-      context: { clientName: 'gateway' },
-      variables: { input },
-    }).catch(ExceptionProvider.captureException);
+    try {
+      const userEmail = await AsyncStorage.getItem('@Dito:anonymousID');
+      const input: TrackPageViewInput = {
+        elapsedTime: parseInt(`${elapsedTime || 0}`, 10),
+        pageIdentifier: navigation.identifier,
+        pageType: navigation.type,
+        providers: [TrackProvidersEnum.Smarthint],
+        session: getState().sessionId,
+        originIdentifier: navigation.origin,
+        userEmail: userEmail || '',  // Garantir que userEmail não seja null
+      };
+  
+      await getApolloClient().mutate<TrackPageViewMutation, TrackPageViewMutationVariables>({
+        mutation: TrackPageViewDocument,
+        context: { clientName: 'gateway' },
+        variables: { input },
+      });
+    } catch (error) {
+      ExceptionProvider.captureException(error);
+    }
   },
   onUpdateNavigation: (identifier, type) => {
     const date = new Date();

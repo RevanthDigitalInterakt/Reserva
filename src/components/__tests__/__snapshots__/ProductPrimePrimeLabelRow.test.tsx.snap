@@ -21,7 +21,7 @@ exports[`ProductPrimePrimeLabelRow should match with the snapshot 1`] = `
     <Text
       style={
         {
-          "color": "#A01E21",
+          "color": "#c4a968",
           "fontFamily": "ReservaSans-Medium",
           "fontSize": 12,
           "letterSpacing": 0.05,
@@ -33,7 +33,7 @@ exports[`ProductPrimePrimeLabelRow should match with the snapshot 1`] = `
     <Text
       style={
         {
-          "color": "#A01E21",
+          "color": "#c4a968",
           "fontFamily": "ReservaSans-Medium",
           "fontSize": 12,
           "letterSpacing": 0.05,
@@ -45,7 +45,7 @@ exports[`ProductPrimePrimeLabelRow should match with the snapshot 1`] = `
     <Text
       style={
         {
-          "color": "#A01E21",
+          "color": "#c4a968",
           "fontFamily": "ReservaSans-Medium",
           "fontSize": 12,
           "letterSpacing": 0.05,
@@ -58,7 +58,7 @@ exports[`ProductPrimePrimeLabelRow should match with the snapshot 1`] = `
       style={
         [
           {
-            "backgroundColor": "#A01E21",
+            "backgroundColor": "#c4a968",
             "padding": 2,
           },
           {

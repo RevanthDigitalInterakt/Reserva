@@ -1,29 +1,26 @@
 import { useCallback, useEffect } from 'react';
 import { useBagStore } from '../useBagStore';
-import { useCart } from '../../../context/CartContext';
 import { setAsyncStorageItem } from '../../../hooks/useAsyncStorageProvider';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { usePageLoadingStore } from '../../usePageLoadingStore/usePageLoadingStore';
 
 const useInitialBag = () => {
-  const { orderForm } = useCart();
-  const { actions, topBarLoading } = useBagStore(['actions', 'topBarLoading']);
+  const { actions, topBarLoading, orderFormId } = useBagStore(['actions', 'topBarLoading', 'orderFormId']);
   const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
   const handleInitializeBag = useCallback(async () => {
-    if (!orderForm?.orderFormId) {
+    if (!orderFormId) {
       ExceptionProvider.captureException(
         new Error('Bag invalid OrderForm'),
-        { orderForm },
       );
 
       return;
     }
 
-    await setAsyncStorageItem('orderFormId', orderForm.orderFormId);
+    await setAsyncStorageItem('orderFormId', orderFormId);
 
     actions.INITIAL_LOAD();
-  }, [orderForm, actions]);
+  }, [orderFormId, actions]);
 
   useEffect(() => {
     handleInitializeBag();

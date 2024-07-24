@@ -8,7 +8,6 @@ import EventProvider from '../../../../utils/EventProvider';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import { createNavigateToProductParams } from '../../../../utils/createNavigateToProductParams';
 import { getBrands } from '../../../../utils/getBrands';
-import { useCart } from '../../../../context/CartContext';
 import ProductListItem from '../ProductListItem';
 import { productPackageListStyles } from './ProductPackageList.styles';
 import ProductUnavailable from '../ProductUnavailable';
@@ -17,12 +16,12 @@ import ProductListItemPrime from '../ProductListItem/ProductListItemPrime';
 import { useTrackClickAlgoliaStore } from '../../../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../../../base/graphql/generated';
 import useSearchStore from '../../../../zustand/useSearchStore';
+import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
 
 export default function BagProductPackageList() {
-  const { orderForm } = useCart();
   const { actions, packageItems, appTotalizers } = useBagStore(['actions', 'packageItems', 'appTotalizers']);
   const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
-  const { queryID } = useSearchStore(["queryID"]);
+  const { queryID } = useSearchStore(['queryID']);
   const navigation = useNavigation();
 
   const hasPackageItems = useMemo(
@@ -109,9 +108,9 @@ export default function BagProductPackageList() {
       item_category: 'product',
       currency: 'BRL',
       seller: item.seller,
-      item_brand: getBrands(orderForm?.items || []),
+      item_brand: getBrands(mergeItemsPackage(packageItems) || []),
     });
-  }, [actions, orderForm?.items]);
+  }, [actions, packageItems]);
 
   const handleSubCount = useCallback(async (
     countUpdated: number,

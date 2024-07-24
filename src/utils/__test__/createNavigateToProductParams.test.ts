@@ -1,4 +1,4 @@
-import { createNavigateToProductParams, IParams, IProductDetailRouteParams } from '../createNavigateToProductParams';
+import { createNavigateToProductParams, type IParams, type IProductDetailRouteParams } from '../createNavigateToProductParams';
 
 describe('createNavigateToProductParams', () => {
   test('should return an object with merged defaultParams and params', () => {

@@ -2,33 +2,28 @@
 
 exports[`Login snapshot 1`] = `
 <RCTSafeAreaView
-  emulateUnlessSupported={true}
   style={
-    Object {
+    {
       "backgroundColor": "#ffffff",
       "flex": 1,
     }
   }
 >
   <View
-    style={
-      Array [
-        Object {},
-      ]
-    }
+    style={{}}
   >
     <View
       left={10}
       position="absolute"
       style={
-        Array [
-          Object {
+        [
+          {
             "left": 10,
             "position": "absolute",
             "top": 10,
             "zIndex": 4,
           },
-          Object {
+          {
             "elevation": 3,
           },
         ]
@@ -39,15 +34,31 @@ exports[`Login snapshot 1`] = `
       <View
         alignItems="center"
         style={
-          Array [
-            Object {
-              "alignItems": "center",
-            },
-          ]
+          {
+            "alignItems": "center",
+          }
         }
       >
         <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
           accessible={true}
+          collapsable={false}
           focusable={true}
           onClick={[Function]}
           onResponderGrant={[Function]}
@@ -57,7 +68,7 @@ exports[`Login snapshot 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Object {
+            {
               "alignItems": "center",
               "justifyContent": "center",
               "opacity": 1,
@@ -65,33 +76,39 @@ exports[`Login snapshot 1`] = `
           }
         >
           <RNSVGSvgView
-            bbHeight={24}
-            bbWidth={24}
+            bbHeight="24"
+            bbWidth="24"
             color="preto"
             focusable={false}
             size={24}
             style={
-              Array [
-                Object {
+              [
+                {
                   "backgroundColor": "transparent",
                   "borderWidth": 0,
                 },
-                Array [
-                  Object {
-                    "color": "#333333",
-                    "height": 24,
-                    "width": 24,
-                  },
-                ],
-                Object {
+                {
+                  "color": "#333333",
+                  "height": 24,
+                  "width": 24,
+                },
+                {
                   "flex": 0,
                   "height": 24,
                   "width": 24,
                 },
               ]
             }
+            tintColor="preto"
           >
-            <RNSVGGroup>
+            <RNSVGGroup
+              fill={
+                {
+                  "payload": 4278190080,
+                  "type": 0,
+                }
+              }
+            >
               <RNSVGSvgView
                 align="xMidYMid"
                 bbHeight="100%"
@@ -102,18 +119,16 @@ exports[`Login snapshot 1`] = `
                 minX={0}
                 minY={0}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "transparent",
                       "borderWidth": 0,
                     },
-                    Array [
-                      Object {
-                        "height": "100%",
-                        "width": "100%",
-                      },
-                    ],
-                    Object {
+                    {
+                      "height": "100%",
+                      "width": "100%",
+                    },
+                    {
                       "flex": 0,
                       "height": "100%",
                       "width": "100%",
@@ -124,10 +139,23 @@ exports[`Login snapshot 1`] = `
                 vbWidth={18.225}
                 width="100%"
               >
-                <RNSVGGroup>
+                <RNSVGGroup
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
+                  }
+                >
                   <RNSVGGroup
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
                     matrix={
-                      Array [
+                      [
                         -1,
                         1.2246467991473532e-16,
                         -1.2246467991473532e-16,
@@ -142,7 +170,7 @@ exports[`Login snapshot 1`] = `
                       d="M7.5,18H23.725"
                       fill={null}
                       matrix={
-                        Array [
+                        [
                           1,
                           0,
                           0,
@@ -153,7 +181,7 @@ exports[`Login snapshot 1`] = `
                       }
                       name="Caminho_68"
                       propList={
-                        Array [
+                        [
                           "fill",
                           "stroke",
                           "strokeWidth",
@@ -161,7 +189,12 @@ exports[`Login snapshot 1`] = `
                           "strokeLinejoin",
                         ]
                       }
-                      stroke={4281545523}
+                      stroke={
+                        {
+                          "payload": 4281545523,
+                          "type": 0,
+                        }
+                      }
                       strokeLinecap={1}
                       strokeLinejoin={1}
                       strokeWidth="2"
@@ -170,7 +203,7 @@ exports[`Login snapshot 1`] = `
                       d="M18,7.5l8.113,8.113L18,23.725"
                       fill={null}
                       matrix={
-                        Array [
+                        [
                           1,
                           0,
                           0,
@@ -181,7 +214,7 @@ exports[`Login snapshot 1`] = `
                       }
                       name="Caminho_69"
                       propList={
-                        Array [
+                        [
                           "fill",
                           "stroke",
                           "strokeWidth",
@@ -189,7 +222,12 @@ exports[`Login snapshot 1`] = `
                           "strokeLinejoin",
                         ]
                       }
-                      stroke={4281545523}
+                      stroke={
+                        {
+                          "payload": 4281545523,
+                          "type": 0,
+                        }
+                      }
                       strokeLinecap={1}
                       strokeLinejoin={1}
                       strokeWidth="2"
@@ -206,8 +244,8 @@ exports[`Login snapshot 1`] = `
       onError={[Function]}
       resizeMode="cover"
       source={
-        Object {
-          "commons": Object {
+        {
+          "commons": {
             "GuideBermuda": [Circular],
             "GuideCalca": [Circular],
             "GuideCamiseta": [Circular],
@@ -220,6 +258,8 @@ exports[`Login snapshot 1`] = `
             "GuideSueter": [Circular],
             "GuideSungaCueca": [Circular],
             "QrcodeBackground": [Circular],
+            "abandonedCartBag": [Circular],
+            "addition": [Circular],
             "americanExpress": [Circular],
             "arrowInstruction": [Circular],
             "arrowRight": [Circular],
@@ -227,24 +267,39 @@ exports[`Login snapshot 1`] = `
             "bannerCatalog": [Circular],
             "bannerLogin": [Circular],
             "bannerOffer": [Circular],
+            "black1p5p": [Circular],
             "cardFront": [Circular],
             "cardVerso": [Circular],
+            "chat": [Circular],
             "checkedBox": [Circular],
+            "chevronLeftFill": [Circular],
+            "chevronRightFill": [Circular],
+            "close": [Circular],
             "clothingCare1": [Circular],
             "clothingCareBleach": [Circular],
             "clothingCareDrying": [Circular],
             "clothingCarePass": [Circular],
             "clothingCareProfessionalWashing": [Circular],
             "clothingCareWash": [Circular],
+            "config": [Circular],
+            "copy": [Circular],
             "cupomModalBackground": [Circular],
+            "cutlery": [Circular],
+            "discountFlag": [Circular],
             "dividerReserva": [Circular],
+            "document": [Circular],
             "elo": [Circular],
             "emptyProductCatalog": [Circular],
             "expand": [Circular],
             "facebook": [Circular],
+            "faq": [Circular],
             "filledHeart": [Circular],
             "foraDoAr": [Circular],
+            "green1p5p": [Circular],
+            "greenCheck": [Circular],
             "headerLogin": [Circular],
+            "heart": [Circular],
+            "help": [Circular],
             "homeMock1": [Circular],
             "homeMock2": [Circular],
             "homeMock3": [Circular],
@@ -252,25 +307,40 @@ exports[`Login snapshot 1`] = `
             "imageCashback": [Circular],
             "imageNotFound": [Circular],
             "instagram": [Circular],
+            "ios14": [Circular],
             "localReserva": [Circular],
             "logoQRCode": [Circular],
             "mastercard": [Circular],
+            "newsletter": [Circular],
             "noStoresFound": [Circular],
             "noWishList": [Circular],
+            "pinPlace": [Circular],
             "pinYou": [Circular],
+            "profile": [Circular],
             "purchaseConfirmation": [Circular],
             "raceImageBackground": [Circular],
+            "reservaIcon": [Circular],
+            "roulet": [Circular],
             "saleOff": [Circular],
             "search": [Circular],
             "searchNotFound": [Circular],
             "selectRectangle": [Circular],
             "share": [Circular],
+            "shipping1": [Circular],
+            "shipping2": [Circular],
             "shirt1": [Circular],
             "shirt2": [Circular],
             "shirt3": [Circular],
             "shirt4": [Circular],
+            "signup1": [Circular],
+            "signup2": [Circular],
+            "signup3": [Circular],
+            "signup4": [Circular],
+            "signup5": [Circular],
+            "subtraction": [Circular],
             "topBannerMock1": [Circular],
             "twitter": [Circular],
+            "umPCincoPLogo": [Circular],
             "uncheckedBox": [Circular],
             "unfilledHeart": [Circular],
             "update": [Circular],
@@ -279,7 +349,7 @@ exports[`Login snapshot 1`] = `
             "withoutInternet": [Circular],
             "zoomHand": [Circular],
           },
-          "default": Object {
+          "default": {
             "GuideBermuda": [Circular],
             "GuideCalca": [Circular],
             "GuideCamiseta": [Circular],
@@ -292,6 +362,8 @@ exports[`Login snapshot 1`] = `
             "GuideSueter": [Circular],
             "GuideSungaCueca": [Circular],
             "QrcodeBackground": [Circular],
+            "abandonedCartBag": [Circular],
+            "addition": [Circular],
             "americanExpress": [Circular],
             "arrowInstruction": [Circular],
             "arrowRight": [Circular],
@@ -299,52 +371,89 @@ exports[`Login snapshot 1`] = `
             "bannerCatalog": [Circular],
             "bannerLogin": [Circular],
             "bannerOffer": [Circular],
+            "black1p5p": [Circular],
             "cardFront": [Circular],
             "cardVerso": [Circular],
+            "chat": [Circular],
             "checkedBox": [Circular],
+            "checkedRounded": [Function],
+            "chevronLeftFill": [Circular],
             "chevronRight": [Function],
+            "chevronRightFill": [Circular],
+            "close": [Circular],
+            "closeIcon": [Function],
             "clothingCare1": [Circular],
             "clothingCareBleach": [Circular],
             "clothingCareDrying": [Circular],
             "clothingCarePass": [Circular],
             "clothingCareProfessionalWashing": [Circular],
             "clothingCareWash": [Circular],
+            "config": [Circular],
+            "copy": [Circular],
             "cupomModalBackground": [Circular],
+            "cutlery": [Circular],
+            "discountFlag": [Circular],
             "dividerReserva": [Circular],
+            "document": [Circular],
             "elo": [Circular],
             "emptyProductCatalog": [Circular],
             "expand": [Circular],
             "facebook": [Circular],
+            "faq": [Circular],
             "filledHeart": [Circular],
             "foraDoAr": [Circular],
+            "green1p5p": [Circular],
+            "greenCheck": [Circular],
+            "hanger": [Function],
             "headerLogin": [Circular],
+            "heart": [Circular],
+            "help": [Circular],
             "homeMock1": [Circular],
             "homeMock2": [Circular],
             "homeMock3": [Circular],
             "homeMock4": [Circular],
             "imageCashback": [Circular],
             "imageNotFound": [Circular],
+            "info": [Function],
+            "infoSuccess": [Function],
             "instagram": [Circular],
+            "ios14": [Circular],
             "localReserva": [Circular],
             "logoPrime": [Function],
             "logoQRCode": [Circular],
             "mastercard": [Circular],
+            "newsletter": [Circular],
             "noStoresFound": [Circular],
             "noWishList": [Circular],
+            "pinPlace": [Circular],
             "pinYou": [Circular],
+            "profile": [Circular],
             "purchaseConfirmation": [Circular],
             "raceImageBackground": [Circular],
+            "reservaIcon": [Circular],
+            "roulet": [Circular],
             "saleOff": [Circular],
             "search": [Circular],
             "searchNotFound": [Circular],
             "selectRectangle": [Circular],
             "share": [Circular],
+            "shipping1": [Circular],
+            "shipping2": [Circular],
             "shirt1": [Circular],
             "shirt2": [Circular],
             "shirt3": [Circular],
             "shirt4": [Circular],
+            "signup1": [Circular],
+            "signup2": [Circular],
+            "signup3": [Circular],
+            "signup4": [Circular],
+            "signup5": [Circular],
+            "sizeGuideIcon": [Function],
+            "subtraction": [Circular],
             "topBannerMock1": [Circular],
+            "trash": [Function],
             "twitter": [Circular],
+            "umPCincoPLogo": [Circular],
             "uncheckedBox": [Circular],
             "unfilledHeart": [Circular],
             "update": [Circular],
@@ -353,15 +462,22 @@ exports[`Login snapshot 1`] = `
             "withoutInternet": [Circular],
             "zoomHand": [Circular],
           },
-          "svgs": Object {
+          "svgs": {
+            "checkedRounded": [Function],
             "chevronRight": [Function],
+            "closeIcon": [Function],
+            "hanger": [Function],
+            "info": [Function],
+            "infoSuccess": [Function],
             "logoPrime": [Function],
+            "sizeGuideIcon": [Function],
+            "trash": [Function],
           },
         }
       }
       style={
-        Array [
-          Object {
+        [
+          {
             "height": 0,
             "width": 750,
           },
@@ -378,14 +494,14 @@ exports[`Login snapshot 1`] = `
     <View>
       <View
         style={
-          Object {
+          {
             "padding": 20,
           }
         }
       >
         <Text
           style={
-            Object {
+            {
               "fontFamily": "ReservaSerif-Regular",
               "fontSize": 22,
             }
@@ -395,7 +511,7 @@ exports[`Login snapshot 1`] = `
         </Text>
         <Text
           style={
-            Object {
+            {
               "fontFamily": "Nunito-SemiBold",
               "fontSize": 14,
               "marginTop": 20,
@@ -406,18 +522,18 @@ exports[`Login snapshot 1`] = `
         </Text>
         <View
           style={
-            Object {
+            {
               "marginVertical": 20,
             }
           }
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "borderBottomWidth": 1,
                 },
-                Object {
+                {
                   "borderBottomColor": "#333333",
                 },
               ]
@@ -425,7 +541,6 @@ exports[`Login snapshot 1`] = `
           >
             <TextInput
               accessibilityLabel="com.usereserva:id/login_input_email"
-              allowFontScaling={true}
               autoCapitalize="none"
               autoCorrect={false}
               keyboardType="email-address"
@@ -433,34 +548,32 @@ exports[`Login snapshot 1`] = `
               onChangeText={[Function]}
               onSubmitEditing={[Function]}
               placeholder="Digite seu e-mail"
-              rejectResponderTermination={true}
               returnKeyType="next"
               style={
-                Object {
+                {
                   "margin": 0,
                   "padding": 0,
                 }
               }
               testID="com.usereserva:id/login_input_email"
-              underlineColorAndroid="transparent"
               value=""
             />
           </View>
         </View>
         <View
           style={
-            Object {
+            {
               "marginVertical": 20,
             }
           }
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "borderBottomWidth": 1,
                 },
-                Object {
+                {
                   "borderBottomColor": "#333333",
                 },
               ]
@@ -468,7 +581,7 @@ exports[`Login snapshot 1`] = `
           >
             <View
               style={
-                Object {
+                {
                   "flexDirection": "row",
                   "justifyContent": "space-between",
                 }
@@ -476,7 +589,6 @@ exports[`Login snapshot 1`] = `
             >
               <TextInput
                 accessibilityLabel="com.usereserva:id/login_input_password"
-                allowFontScaling={true}
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardType="default"
@@ -484,36 +596,41 @@ exports[`Login snapshot 1`] = `
                 onChangeText={[Function]}
                 onSubmitEditing={[Function]}
                 placeholder="Digite sua senha"
-                rejectResponderTermination={true}
                 returnKeyType="send"
                 secureTextEntry={true}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "margin": 0,
                       "padding": 0,
                     },
-                    Object {
+                    {
                       "width": "90%",
                     },
                   ]
                 }
                 testID="com.usereserva:id/login_input_password"
-                underlineColorAndroid="transparent"
                 value=""
               />
               <RNGestureHandlerButton
                 collapsable={false}
+                delayLongPress={600}
+                enabled={true}
+                exclusive={true}
+                handlerTag={1}
+                handlerType="NativeViewGestureHandler"
                 onGestureEvent={[Function]}
                 onGestureHandlerEvent={[Function]}
                 onGestureHandlerStateChange={[Function]}
                 onHandlerStateChange={[Function]}
                 rippleColor={0}
+                touchSoundDisabled={false}
               >
                 <View
                   accessible={true}
+                  collapsable={false}
                   style={
-                    Object {
+                    {
                       "opacity": 1,
                     }
                   }
@@ -529,12 +646,12 @@ exports[`Login snapshot 1`] = `
                     minX={0}
                     minY={0}
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "backgroundColor": "transparent",
                           "borderWidth": 0,
                         },
-                        Object {
+                        {
                           "flex": 0,
                           "height": 24,
                           "width": 24,
@@ -548,7 +665,7 @@ exports[`Login snapshot 1`] = `
                     <RNSVGGroup
                       fill={null}
                       propList={
-                        Array [
+                        [
                           "fill",
                         ]
                       }
@@ -556,9 +673,15 @@ exports[`Login snapshot 1`] = `
                       <RNSVGPath
                         clipRule={0}
                         d="M22 12.0002C20.2531 15.5764 15.8775 19 11.9998 19C8.12201 19 3.74646 15.5764 2 11.9998"
+                        fill={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
                         fillRule={0}
                         propList={
-                          Array [
+                          [
                             "fillRule",
                             "stroke",
                             "strokeWidth",
@@ -566,7 +689,12 @@ exports[`Login snapshot 1`] = `
                             "strokeLinejoin",
                           ]
                         }
-                        stroke={4278190080}
+                        stroke={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
                         strokeLinecap={1}
                         strokeLinejoin={1}
                         strokeWidth="2"
@@ -574,9 +702,15 @@ exports[`Login snapshot 1`] = `
                       <RNSVGPath
                         clipRule={0}
                         d="M22 12.0002C20.2531 8.42398 15.8782 5 12.0005 5C8.1227 5 3.74646 8.42314 2 11.9998"
+                        fill={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
                         fillRule={0}
                         propList={
-                          Array [
+                          [
                             "fillRule",
                             "stroke",
                             "strokeWidth",
@@ -584,22 +718,38 @@ exports[`Login snapshot 1`] = `
                             "strokeLinejoin",
                           ]
                         }
-                        stroke={4278190080}
+                        stroke={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
                         strokeLinecap={1}
                         strokeLinejoin={1}
                         strokeWidth="2"
                       />
                       <RNSVGPath
                         d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
+                        fill={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
                         propList={
-                          Array [
+                          [
                             "stroke",
                             "strokeWidth",
                             "strokeLinecap",
                             "strokeLinejoin",
                           ]
                         }
-                        stroke={4278190080}
+                        stroke={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
                         strokeLinecap={1}
                         strokeLinejoin={1}
                         strokeWidth="2"
@@ -612,16 +762,23 @@ exports[`Login snapshot 1`] = `
           </View>
           <RNGestureHandlerButton
             collapsable={false}
+            delayLongPress={600}
+            enabled={true}
+            exclusive={true}
+            handlerTag={2}
+            handlerType="NativeViewGestureHandler"
             onGestureEvent={[Function]}
             onGestureHandlerEvent={[Function]}
             onGestureHandlerStateChange={[Function]}
             onHandlerStateChange={[Function]}
             rippleColor={0}
+            touchSoundDisabled={false}
           >
             <View
               accessible={true}
+              collapsable={false}
               style={
-                Object {
+                {
                   "marginTop": 5,
                   "opacity": 1,
                 }
@@ -630,7 +787,7 @@ exports[`Login snapshot 1`] = `
               <Text
                 accessibilityLabel="com.usereserva:id/esqueci-minha-senha"
                 style={
-                  Object {
+                  {
                     "fontFamily": "Nunito-Regular",
                     "textDecorationLine": "underline",
                   }
@@ -644,18 +801,25 @@ exports[`Login snapshot 1`] = `
         </View>
         <RNGestureHandlerButton
           collapsable={false}
+          delayLongPress={600}
+          enabled={true}
+          exclusive={true}
+          handlerTag={3}
+          handlerType="NativeViewGestureHandler"
           onGestureEvent={[Function]}
           onGestureHandlerEvent={[Function]}
           onGestureHandlerStateChange={[Function]}
           onHandlerStateChange={[Function]}
           rippleColor={0}
           testID="com.usereserva:id/login_button_submit"
+          touchSoundDisabled={false}
         >
           <View
             accessibilityLabel="com.usereserva:id/entrar_login_button"
             accessible={true}
+            collapsable={false}
             style={
-              Object {
+              {
                 "alignItems": "center",
                 "backgroundColor": "#ffffff",
                 "borderColor": "#000000",
@@ -669,7 +833,7 @@ exports[`Login snapshot 1`] = `
           >
             <Text
               style={
-                Object {
+                {
                   "fontFamily": "Nunito-SemiBold",
                   "fontSize": 14,
                   "letterSpacing": 1,
@@ -682,7 +846,7 @@ exports[`Login snapshot 1`] = `
         </RNGestureHandlerButton>
         <View
           style={
-            Object {
+            {
               "alignItems": "center",
               "flexDirection": "row",
               "justifyContent": "space-around",
@@ -693,7 +857,7 @@ exports[`Login snapshot 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "borderColor": "#BCBCBC",
                 "borderWidth": 1,
                 "width": "20%",
@@ -702,7 +866,7 @@ exports[`Login snapshot 1`] = `
           />
           <Text
             style={
-              Object {
+              {
                 "alignContent": "center",
                 "fontFamily": "Nunito-SemiBold",
               }
@@ -712,7 +876,7 @@ exports[`Login snapshot 1`] = `
           </Text>
           <View
             style={
-              Object {
+              {
                 "borderColor": "#BCBCBC",
                 "borderWidth": 1,
                 "width": "20%",
@@ -722,20 +886,27 @@ exports[`Login snapshot 1`] = `
         </View>
         <RNGestureHandlerButton
           collapsable={false}
+          delayLongPress={600}
+          enabled={true}
+          exclusive={true}
+          handlerTag={4}
+          handlerType="NativeViewGestureHandler"
           onGestureEvent={[Function]}
           onGestureHandlerEvent={[Function]}
           onGestureHandlerStateChange={[Function]}
           onHandlerStateChange={[Function]}
           rippleColor={0}
           testID="com.usereserva:id/cadastre_se_buttton"
+          touchSoundDisabled={false}
         >
           <View
             accessibilityLabel="com.usereserva:id/cadastre_se_buttton"
             accessible={true}
+            collapsable={false}
             style={
-              Object {
+              {
                 "alignItems": "center",
-                "backgroundColor": undefined,
+                "backgroundColor": "#333333",
                 "justifyContent": "center",
                 "opacity": 1,
                 "padding": 15,
@@ -744,13 +915,13 @@ exports[`Login snapshot 1`] = `
           >
             <Text
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "fontFamily": "Nunito-SemiBold",
                     "fontSize": 14,
                     "letterSpacing": 1,
                   },
-                  Object {
+                  {
                     "color": "#ffffff",
                   },
                 ]

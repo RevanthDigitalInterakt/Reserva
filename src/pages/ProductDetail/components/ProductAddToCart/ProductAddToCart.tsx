@@ -3,7 +3,6 @@ import { Alert, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { styles } from '../ProductSelectors/ProductSelectors.styles';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
-import { useCart } from '../../../../context/CartContext';
 import EventProvider from '../../../../utils/EventProvider';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { ModalBag } from '../../../../components/ModalBag/ModalBag';
@@ -21,7 +20,6 @@ import useSearchStore from '../../../../zustand/useSearchStore';
 
 function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
   const { getString, getBoolean } = useRemoteConfig();
-  const { restoreCart } = useCart();
   const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
   const { queryID } = useSearchStore(["queryID"]);
   const { actions, packageItems, orderFormId, appTotalizers } = useBagStore(['actions', 'orderFormId', 'packageItems', 'appTotalizers']);
@@ -97,8 +95,6 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
         orderFormItem ? orderFormItem.quantity + 1 : 1,
       );
 
-      await restoreCart(orderFormId);
-
       setShowAnimationBag(true);
       addTagsUponCartUpdate();
       setDrawerIsOpen(false);
@@ -116,7 +112,6 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
     loading,
     packageItems,
     orderFormId,
-    restoreCart,
     selectedSize,
     setDrawerIsOpen,
     sizeIsSelected,
