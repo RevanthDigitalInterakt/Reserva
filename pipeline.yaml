@@ -21,7 +21,7 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm install yarn 
+    npm install -g yarn 
     yarn
   displayName: 'Install dependencies'
   workingDirectory: $(Build.SourcesDirectory)
