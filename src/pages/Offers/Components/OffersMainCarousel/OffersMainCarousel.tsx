@@ -25,7 +25,7 @@ function OffersMainCarousel({ data }: IOffersMainCarousel) {
   const progressValue = useSharedValue<number>(0);
 
   const [currIndex, setCurrIndex] = useState(0);
-  const $carousel = useRef<ICarouselInstance>();
+  const carouselRef = useRef<ICarouselInstance>();
 
   const slideDelay = useMemo(
     () => (data.showtime || 10) * 1000,
@@ -82,7 +82,7 @@ function OffersMainCarousel({ data }: IOffersMainCarousel) {
         width={configDeviceSizes.DEVICE_WIDTH}
         height={400}
         ref={(carousel) => {
-          if (carousel) $carousel.current = carousel;
+          if (carousel) carouselRef.current = carousel;
         }}
         mode="parallax"
         modeConfig={{
@@ -136,7 +136,7 @@ function OffersMainCarousel({ data }: IOffersMainCarousel) {
             key={`offers-main-carousel-${item.image.url}`}
             length={data.items.length}
             slideDelay={slideDelay}
-            onFinishAnimation={() => $carousel.current?.next()}
+            onFinishAnimation={() => carouselRef.current?.next()}
           />
         ))}
       </View>
