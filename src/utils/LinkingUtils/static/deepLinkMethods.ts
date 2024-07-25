@@ -260,12 +260,13 @@ const catalogCollectionUseCase = (initialUrl: string): ICustomMethodReturnParams
   return defaultCustomMethodReturn;
 };
 
-const cartUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+const cartUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
   if (initialUrl.includes('#/cart')) {
     if (initialUrl.includes('?orderFormId')) {
       const splitOrderFormId = initialUrl.split('?orderFormId=')[1];
       if (splitOrderFormId) {
-        const splitCart = splitOrderFormId.split('#/cart')[0];
+        const splitCart = splitOrderFormId.split('#/cart')[0] || ''
+        await setAsyncStorageItem('orderFormId', splitCart)
         return {
           match: true,
           strUrl: `usereserva://bag/${splitCart}`,
