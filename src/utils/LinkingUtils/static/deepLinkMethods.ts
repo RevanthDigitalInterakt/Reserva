@@ -214,8 +214,6 @@ const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
 //   .replace(':', '')
 //   .split(',')[0];
 
-// console.log('clusterId', clusterId);
-
 // if (initialUrl.includes('/colecao-')) {
 //   return {
 //     match: true,
@@ -351,14 +349,14 @@ const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
 
       try {
         const { data } = await getApolloClient().mutate<
-          OrderFormAddMultipleItemMutation,
-          OrderFormAddMultipleItemMutationVariables>({
-            mutation: OrderFormAddMultipleItemDocument,
-            context: { clientName: 'gateway' },
-            variables: {
-              input,
-            },
-          });
+        OrderFormAddMultipleItemMutation,
+        OrderFormAddMultipleItemMutationVariables>({
+          mutation: OrderFormAddMultipleItemDocument,
+          context: { clientName: 'gateway' },
+          variables: {
+            input,
+          },
+        });
 
         const { orderFormAddMultipleItem: orderForm } = data || {};
 

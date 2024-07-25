@@ -10,6 +10,7 @@ import {
   type GetCustomerResponse,
 } from '../../api/MyCreditsAPI';
 import { CreditsView } from './Credits.view';
+import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 
 interface CreditsContainerProps {
   navigateBack: () => void;
@@ -36,8 +37,8 @@ export function CreditsContainer({ navigateBack }: CreditsContainerProps) {
           convertCentsToReal(Number(customer.data.SaldoMonetario)),
         );
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      ExceptionProvider.captureException(error);
     }
   }, [profile]);
 
