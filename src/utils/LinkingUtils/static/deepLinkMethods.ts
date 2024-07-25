@@ -305,7 +305,7 @@ const restoreCartUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
 };
 
 const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
-  if (initialUrl.includes('')) {
+  if (initialUrl.includes('/checkout/cart/add/?sku=')) {
     const url = initialUrl;
     const queryString = url.split('?')[1];
     const payload: { [key: string]: any } = {};
