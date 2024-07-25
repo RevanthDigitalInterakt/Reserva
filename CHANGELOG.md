@@ -2,6 +2,11 @@
 
 ## CHANGELOG
 
+### 2.22.5
+- [30695 - Redirecionamento das chamadas do checkout para o API Gateway](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30695)
+- Exclusão log DataDog
+- Correção deeplink do whatsaap
+
 ### 2.14.0
 
 - [45931 - Remover preço Prime dos "Produtos Surpresa"](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45931)
