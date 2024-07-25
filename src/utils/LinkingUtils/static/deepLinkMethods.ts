@@ -279,9 +279,8 @@ const cartUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParam
 };
 
 const restoreCartUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
-  if (initialUrl.includes('#/cart') && initialUrl.includes('/checkout/')) {
+  if (initialUrl.includes('#/cart') && initialUrl.includes('checkout')) {
     const orderFormId = await getAsyncStorageItem('orderFormId');
-
     if (orderFormId) {
       const { data } = await getApolloClient().query<OrderFormQuery, OrderFormQueryVariables>({
         query: OrderFormDocument,
@@ -293,7 +292,6 @@ const restoreCartUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
       const { orderForm: { packageItems } } = data;
 
       const mergedItems = mergeItemsPackage(packageItems);
-
       if (mergedItems.length) {
         return {
           match: true,
