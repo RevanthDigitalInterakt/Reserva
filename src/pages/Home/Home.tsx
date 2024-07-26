@@ -17,7 +17,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewBanner from '../../components/Banner/NewBanner';
 import { Box } from '../../components/Box/Box';
 import ModalSignUpComplete from '../../components/ModalSignUpComplete';
-import WithoutInternet from '../../components/WithoutInternet';
 import { useConnectivityStore } from '../../zustand/useConnectivityStore';
 import { COLORS } from '../../base/styles/colors';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
@@ -147,15 +146,14 @@ function ListFooter() {
 }
 
 function Home() {
-  const { onLoad, medias, loaded } = useHomeStore([
+  const { onLoad, medias, loading } = useHomeStore([
     'onLoad',
     'medias',
-    'loaded',
+    'loading',
   ]);
   const { showModalSignUpComplete } = useAuthModalStore([
     'showModalSignUpComplete',
   ]);
-  const { isConnected } = useConnectivityStore(['isConnected']);
 
   const { drawerIsOpen } = useProductDetailStore(['drawerIsOpen']);
   const { shelfItemData } = useShelfStore(['shelfItemData']);
@@ -186,17 +184,16 @@ function Home() {
   );
 
   useEffect(() => {
-    if (isConnected && !loaded) {
-      onLoad();
-    }
-  }, [isConnected, loaded]);
+    const doRequest = async () => onLoad();
+    doRequest();
+  }, []);
 
   useEffect(() => {
     trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);
     EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
   }, []);
 
-  if (!loaded && !isConnected) {
+  if (loading) {
     return (
       <Box flex={1} bg="white" {...testProps('home_container')}>
         {newHeaderIsActive ? (
@@ -204,7 +201,6 @@ function Home() {
         ) : (
           <TopBarDefault />
         )}
-        <WithoutInternet />
       </Box>
     );
   }
