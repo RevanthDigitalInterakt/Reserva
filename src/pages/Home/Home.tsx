@@ -17,7 +17,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewBanner from '../../components/Banner/NewBanner';
 import { Box } from '../../components/Box/Box';
 import ModalSignUpComplete from '../../components/ModalSignUpComplete';
-import { useConnectivityStore } from '../../zustand/useConnectivityStore';
 import { COLORS } from '../../base/styles/colors';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import {
@@ -151,6 +150,7 @@ function Home() {
     'medias',
     'loading',
   ]);
+
   const { showModalSignUpComplete } = useAuthModalStore([
     'showModalSignUpComplete',
   ]);
@@ -193,17 +193,6 @@ function Home() {
     EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
   }, []);
 
-  if (loading) {
-    return (
-      <Box flex={1} bg="white" {...testProps('home_container')}>
-        {newHeaderIsActive ? (
-          <NewTransparentTopBarDefault />
-        ) : (
-          <TopBarDefault />
-        )}
-      </Box>
-    );
-  }
 
   return (
     <>
@@ -265,9 +254,7 @@ function Home() {
                 />
               );
             }}
-            ListFooterComponent={
-              <ListFooter />
-            }
+            ListFooterComponent={!loading ? <ListFooter /> : null}
           />
         </SafeAreaView>
         {!!showModalSignUpComplete && <ModalSignUpComplete />}
