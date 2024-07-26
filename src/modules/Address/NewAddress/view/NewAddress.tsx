@@ -8,14 +8,13 @@ import {
   ScrollView,
 } from 'react-native';
 
-import { useProfileAddressMutation } from '../../../../base/graphql/generated';
+import { useCepLazyQuery, useProfileAddressMutation } from '../../../../base/graphql/generated';
 import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider';
 import { Box } from '../../../../components/Box/Box';
 import { Button } from '../../../../components/Button';
 import { Picker } from '../../../../components/Picker/Picker';
 import { Typography } from '../../../../components/Typography/Typography';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
-import { CepVerifyPostalCode } from '../../../../services/vtexService';
 import { TopBarBackButton } from '../../../Menu/components/TopBarBackButton';
 import InputOption from '../../Components/InputOption';
 import type { IAddress } from '../../interface';
@@ -33,6 +32,10 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
 
   const [profileAddress] = useProfileAddressMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
+
+  const [getCep] = useCepLazyQuery({
+    context: { clientName: 'gateway' },
   });
 
   const [initialValues, setInitialValues] = useState<TAddressProps>({
@@ -90,12 +93,6 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       ExceptionProvider.captureException(error);
     }
 
-    // TODO
-    // if (profile?.email) {
-    //   await identifyCustomer(profile?.email);
-    // }
-    //
-    // orderform();
     setLoadingStatusBar(false);
     navigation.goBack();
   };
@@ -191,14 +188,24 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
       setLoadingStatusBar(true);
 
       try {
+        const { data } = await getCep({
+          variables: {
+            input: { cep: postalCode },
+          },
+        });
+
+        if (!data?.cep) {
+          return;
+        }
+
         const {
           street, neighborhood, city, state,
-        } = await CepVerifyPostalCode(postalCode);
+        } = data.cep;
 
-        isValidField.street(street);
-        isValidField.neighborhood(neighborhood);
-        isValidField.city(city);
-        isValidField.state(state);
+        isValidField.street(street || '');
+        isValidField.neighborhood(neighborhood || '');
+        isValidField.city(city || '');
+        isValidField.state(state || '');
         isValidField.number(initialValues.number);
 
         setInitialValues({

@@ -7,7 +7,6 @@ import { MockedProvider } from '@apollo/client/testing';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { theme } from '../../../base/usereservappLegacy/theme';
 import WebViewFacaVoce from '..';
-import CartContextProvider from '../../../context/CartContext';
 
 jest.mock('react-native-config', () => ({
   R2U_URL: 'https://mocked.url',
@@ -30,9 +29,7 @@ jest.mock('../../../zustand/useAuth/useAuthStore', () => ({
 const Component = (
   <ThemeProvider theme={theme}>
     <MockedProvider addTypename={false}>
-      <CartContextProvider>
-        <WebViewFacaVoce />
-      </CartContextProvider>
+      <WebViewFacaVoce />
     </MockedProvider>
   </ThemeProvider>
 );

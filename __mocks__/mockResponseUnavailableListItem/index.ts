@@ -1,6 +1,6 @@
 import type { OrderFormQuery } from '../../src/base/graphql/generated';
 
-export const DATA_FIRST: OrderFormQuery['orderForm']['items'][0] = {
+export const DATA_FIRST: OrderFormQuery['orderForm']['packageItems'][0]['items'][0] = {
   productTitle: 'CAMISA ML SAMOA BRANCO',
   itemColor: 'BRANCO',
   itemSize: 'P',
@@ -28,12 +28,14 @@ export const DATA_FIRST: OrderFormQuery['orderForm']['items'][0] = {
   quantity: 1,
   disableCounter: false,
   sellingPrice: 19929,
-  __typename: 'OrderformItemOutput',
   productCategories: [],
   hasPrimeDiscount: false,
   isPrimeSubscription: false,
+  index: 0,
+  __typename: 'OrderformItemOutput',
+  urlFacaVc: ''
 };
-export const DATA_SECOND: OrderFormQuery['orderForm']['items'][0] = {
+export const DATA_SECOND: OrderFormQuery['orderForm']['packageItems'][0]['items'][0] = {
   productTitle: 'CAMISA ML SAMOA BRANCO',
   itemColor: 'BRANCO',
   itemSize: 'P',
@@ -65,4 +67,6 @@ export const DATA_SECOND: OrderFormQuery['orderForm']['items'][0] = {
   productCategories: [],
   hasPrimeDiscount: false,
   isPrimeSubscription: false,
+  index: 0,
+  urlFacaVc: ''
 };

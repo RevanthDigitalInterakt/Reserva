@@ -7,7 +7,6 @@ import {
   waitFor,
 } from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
-import CartContextProvider from '../../../context/CartContext';
 import HelpCenter from '../index';
 import { theme } from '../../../base/usereservappLegacy/theme';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
@@ -27,7 +26,6 @@ function Component() {
   return (
     <ThemeProvider theme={theme}>
       <MockedProvider mocks={helpCenterPageMocks} addTypename={false}>
-        <CartContextProvider>
           <HelpCenter
             navigation={navigationMock as TNavigation}
             route={{
@@ -37,7 +35,6 @@ function Component() {
             }}
 
           />
-        </CartContextProvider>
       </MockedProvider>
     </ThemeProvider>
   );

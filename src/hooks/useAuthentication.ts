@@ -2,7 +2,6 @@ import { Keyboard } from 'react-native';
 import { useCallback, useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { useCart } from '../context/CartContext';
 import EventProvider from '../utils/EventProvider';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
 import useDitoStore from '../zustand/useDitoStore';
@@ -10,6 +9,7 @@ import { getApolloClient } from '../utils/getApolloClient';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { Method } from '../utils/EventProvider/Event';
+import { identifyCustomer } from '../zustand/useAuth/methods/identifyCustomer';
 
 const initialLoginCredentials = {
   username: '',
@@ -34,7 +34,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [loginCredentials, setLoginCredentials] = useState(initialLoginCredentials);
 
-  const { onSignIn, onSignOut } = useAuthStore(['onSignIn', 'onSignOut']);
+  const { onSignIn, onSignOut, profile } = useAuthStore(['onSignIn', 'onSignOut', 'profile']);
   const { actions } = useBagStore(['actions']);
 
   const validateCredentials = () => {
@@ -71,8 +71,6 @@ export function useAuthentication({ closeModal }: IParamsHook) {
     }
   }, [navigation, onSignIn, validateCredentials]);
 
-  const { identifyCustomer } = useCart();
-
   const handleLogin = useCallback(async () => {
     if (emailIsValid && passwordIsValid) {
       setIsLoadingEmail(true);
@@ -105,10 +103,12 @@ export function useAuthentication({ closeModal }: IParamsHook) {
   }, [actions, onSignOut]);
 
   const verifyUserEmail = useCallback(async () => {
+    if (!profile) return;
+
     if (loginCredentials.username.trim().toLowerCase()) {
       setIsLoadingEmail(true);
 
-      await identifyCustomer()
+      await identifyCustomer({ id: profile.id, email: profile.email, name: profile.firstName || '' })
         .then(() => setIsLoadingEmail(false))
         .then(() => navigation?.navigate('DeliveryScreen', { comeFrom: 'Login' }));
     }

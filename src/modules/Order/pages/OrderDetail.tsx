@@ -16,7 +16,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { type IOrderId, useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import OrderDetailComponent from '../Components/OrderDetailComponent';
 import { platformType } from '../../../utils/platformType';
@@ -27,12 +26,12 @@ import { Button } from '../../../components/Button';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 import { useInvoiceKeyLazyQuery, useTrackingCodeLazyQuery } from '../../../base/graphql/generated';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
+import { OrderDetail, type IVtexServiceRequestOrder } from '../../../services/vtexService';
 
 function OrderList({ route }: any): React.ReactElement {
   const { order } = route.params;
   const navigation = useNavigation();
-  const { orderDetail } = useCart();
-  const [orderDetails, setOrderDetails] = useState<IOrderId>();
+  const [orderDetails, setOrderDetails] = useState<IVtexServiceRequestOrder>();
   const [, setCopiedText] = useClipboard();
   const [loading, setLoading] = useState(true);
   const [clickedIcon, setClickedIcon] = useState(false);
@@ -62,7 +61,7 @@ function OrderList({ route }: any): React.ReactElement {
   const fetchOrderDetail = async () => {
     if (profile?.authCookie != null) {
       setLoading(true);
-      const data = await orderDetail(order.orderId);
+      const { data } = await OrderDetail(order.orderId);
       setOrderDetails(data);
       setLoading(false);
     }

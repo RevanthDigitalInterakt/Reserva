@@ -466,6 +466,7 @@ exports[`WebViewDoris Should snapshot 1`] = `
   >
     <RNCWebView
       accessibilityLabel="com.usereserva:id/web_view_doris"
+      allowsInlineMediaPlayback={true}
       cacheEnabled={false}
       cacheMode="LOAD_NO_CACHE"
       clearCache={true}
@@ -474,6 +475,7 @@ exports[`WebViewDoris Should snapshot 1`] = `
       geolocationEnabled={true}
       hasOnFileDownload={false}
       hasOnOpenWindowEvent={false}
+      incognito={true}
       injectedJavaScriptBeforeContentLoaded="
   window.metadata = { appVersion: "unknown", platformType: "ios" }
 "
@@ -485,7 +487,7 @@ exports[`WebViewDoris Should snapshot 1`] = `
       messagingModuleName=""
       newSource={
         {
-          "uri": undefined,
+          "uri": "",
         }
       }
       onContentProcessDidTerminate={[Function]}
@@ -498,7 +500,7 @@ exports[`WebViewDoris Should snapshot 1`] = `
       onShouldStartLoadWithRequest={[Function]}
       source={
         {
-          "uri": undefined,
+          "uri": "",
         }
       }
       style={

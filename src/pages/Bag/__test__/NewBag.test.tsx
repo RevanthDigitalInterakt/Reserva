@@ -10,12 +10,10 @@ import {
   type OrderFormQuery,
   OrderFormDocument,
 } from '../../../base/graphql/generated';
-import { orderFormMock } from '../components/ProductList/__mocks__/productListMock';
 import NewBag from '../NewBag';
 import 'react-native-gesture-handler/jestSetup';
 import '../components/ProductList';
 import * as useBagStore from '../../../zustand/useBagStore/useBagStore';
-import CartContextProvider from '../../../context/CartContext';
 import { mockCurrentOrderForm } from './__mocks__/mockCurrentOrderForm';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { theme } from '../../../base/usereservappLegacy/theme';
@@ -40,7 +38,7 @@ const apolloMocks: Array<IApolloMock<OrderFormQuery>> = [
     },
     result: {
       data: {
-        orderForm: orderFormMock,
+        orderForm: mockCurrentOrderForm,
         __typename: 'Query',
       },
     },
@@ -65,28 +63,21 @@ jest.mock('../../../zustand/useApolloFetchPolicyStore', () => ({
 const Component = (
   <ThemeProvider theme={theme}>
     <MockedProvider mocks={apolloMocks} addTypename={false}>
-      <CartContextProvider>
-        <NewBag
-          navigation={navigationMock as TNavigation}
-          route={{
-            name: 'BagScreen',
-            key: '',
-            params: { isProfileComplete: false, orderFormId: '' },
-          }}
-        />
-      </CartContextProvider>
+      <NewBag
+        navigation={navigationMock as TNavigation}
+        route={{
+          name: 'BagScreen',
+          key: '',
+          params: { isProfileComplete: false, orderFormId: '' },
+        }}
+      />
     </MockedProvider>
   </ThemeProvider>
 );
 
 describe('NewBag', () => {
   beforeEach(() => {
-    jest.useFakeTimers({ legacyFakeTimers: true });
     jest.clearAllMocks();
-  });
-
-  afterEach(() => {
-    jest.clearAllTimers();
   });
 
   it('should match with the snapshot', () => {
@@ -112,6 +103,7 @@ describe('NewBag', () => {
         installmentsNumber: 1,
         totalPrice: 88,
       },
+      packageItems: [{ items: mockCurrentOrderForm.items }],
       productNotFound: 'Product Not found',
       selectableGift: null,
       deleteProductModal: {
@@ -173,6 +165,7 @@ describe('NewBag', () => {
       },
       topBarLoading: false,
       items: [],
+      packageItems: [{items: []}],
       initialLoad: false,
       initialized: true,
       installmentInfo: {
@@ -229,7 +222,7 @@ describe('NewBag', () => {
     expect(emptyBag).toBeOnTheScreen();
   });
 
-  it.only('should call handleNavigateToOffers when the EmptyBag button is pressed', async () => {
+  it('should call handleNavigateToOffers when the EmptyBag button is pressed', () => {
     jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
       actions: {
         CLOSE_MODAL_DELETE_PRODUCT: jest.fn(),
@@ -244,6 +237,7 @@ describe('NewBag', () => {
       },
       topBarLoading: false,
       items: [],
+      packageItems: [{items: []}],
       initialLoad: false,
       initialized: true,
       installmentInfo: {
@@ -297,14 +291,14 @@ describe('NewBag', () => {
 
     const goToOffersButton = screen.getByTestId('com.usereserva:id/button_going_shopping_empty_bag');
 
-    await act(async () => {
-      await fireEvent.press(goToOffersButton);
+    act(async () => {
+       fireEvent.press(goToOffersButton);
     });
 
     expect(mockedNavigate).toHaveBeenCalledWith('Offers');
   });
 
-  it('should call handleBackTopBarButtonPress when topBarBackButton is pressed', async () => {
+  it('should call handleBackTopBarButtonPress when topBarBackButton is pressed', () => {
     jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
       actions: {
         CLOSE_MODAL_DELETE_PRODUCT: jest.fn(),
@@ -319,6 +313,7 @@ describe('NewBag', () => {
       },
       topBarLoading: false,
       items: mockCurrentOrderForm.items,
+      packageItems: [{items: mockCurrentOrderForm.items,}],
       initialLoad: false,
       initialized: true,
       installmentInfo: {
@@ -372,8 +367,8 @@ describe('NewBag', () => {
 
     const topBarBackButton = screen.getAllByTestId('com.usereserva:id/top_bar_button_go_back');
 
-    await act(async () => {
-      await topBarBackButton.forEach((button) => fireEvent.press(button));
+    act(async () => {
+       topBarBackButton.forEach((button) => fireEvent.press(button));
     });
 
     expect(mockGoBackFn).toBeCalled();

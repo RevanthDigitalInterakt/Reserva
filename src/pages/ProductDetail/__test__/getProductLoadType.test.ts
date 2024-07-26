@@ -35,7 +35,7 @@ describe('getProductLoadType', () => {
     const result = getProductLoadType(MOCK_REQUIRED_PARAMS);
     expect(result).toEqual(MOCK_REQUIRED_RESULT);
   });
-  it.only('should return correct values when default params is passed', () => {
+  it('should return correct values when default params is passed', () => {
     const result = getProductLoadType(MOCK_DEFAULT_PARAMS);
     expect(result).toEqual(MOCK_DEFAULT_RESULT);
   });

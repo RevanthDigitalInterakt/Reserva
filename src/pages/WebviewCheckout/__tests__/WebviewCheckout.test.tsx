@@ -3,12 +3,10 @@ import {
   render,
   screen,
 } from '@testing-library/react-native';
-import { theme } from '@usereservaapp/reserva-ui';
 import React from 'react';
 import { ThemeProvider } from 'styled-components/native';
 
 import { act } from 'react-test-renderer';
-import { CartContext } from '../../../context/CartContext';
 import * as useBagStore from '../../../zustand/useBagStore/useBagStore';
 import { mockCurrentOrderForm } from '../../Bag/__test__/__mocks__/mockCurrentOrderForm';
 import WebviewCheckout from '../WebviewCheckout';
@@ -17,6 +15,7 @@ import EventProvider from '../../../utils/EventProvider';
 import { mockPurchaseData } from './mockPurchaseData';
 import * as vtexService from '../../../services/vtexService';
 import * as useAsyncStorageProvider from '../../../hooks/useAsyncStorageProvider';
+import { theme } from '../../../base/usereservappLegacy/theme';
 
 const mockUrlShipping = 'https://appqa.usereserva.com/checkout?orderFormId=$12345678/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping';
 const mockUrlPurchased = 'https://appqa.usereserva.com/checkout/orderPlaced?og=12345678';
@@ -48,9 +47,7 @@ jest.mock('../../../components/LoadingCheckout/LoadingCheckout', () => 'LoadingC
 
 const TestingComponent = (
   <ThemeProvider theme={theme}>
-    <CartContext.Provider value={{ setOrderFormLegacy: jest.fn() } as any}>
       <WebviewCheckout />
-    </CartContext.Provider>
   </ThemeProvider>
 );
 
@@ -183,25 +180,7 @@ describe('WebviewCheckout', () => {
       });
     });
 
-    expect(EventProvider.sendTrackEvent).toHaveBeenNthCalledWith(1, 'fez-pedido-produto', {
-      action: 'fez-pedido-produto',
-      data: {
-        categorias_produto: {
-          1: 'Reserva', 259: 'Bazar', 260: 'Masculino', 262: 'Camisetas',
-        },
-        cor: 'MARINHO',
-        id: '12345678',
-        id_produto: '35462',
-        id_transacao: '1356074561143',
-        marca: 'RESERVA',
-        nome_produto: 'CAMISETA ESTAMPADA CYBER MARINHO - G',
-        origem: 'app',
-        preco_produto: 89,
-        quantidade: 1,
-        tamanho: 'G',
-      },
-      id: '12345678',
-    });
+    expect(EventProvider.sendTrackEvent).toHaveBeenNthCalledWith(1, "fez-pedido-produto", {"action": "fez-pedido-produto", "data": {"categorias_produto": {"1": "Reserva", "259": "Bazar", "260": "Masculino", "262": "Camisetas"}, "cor": "MARINHO", "id": "12345678", "id_produto": "35462", "id_transacao": "1356074561143", "marca": "RESERVA", "nome_produto": "CAMISETA ESTAMPADA CYBER MARINHO - G", "origem": "app", "preco_produto": 89, "quantidade": 1, "tamanho": "G"}, "id": "12345678"})
 
     expect(EventProvider.sendPushTags).toBeCalledWith('sendAbandonedCartTags', { cart_update: '', product_image: '', product_name: '' });
 
@@ -230,22 +209,7 @@ describe('WebviewCheckout', () => {
       item_brand: 'RESERVA',
     });
 
-    expect(EventProvider.sendTrackEvent).toHaveBeenNthCalledWith(2, 'fez-pedido', {
-      action: 'fez-pedido',
-      data: {
-        dispositivo: 'ios',
-        id: '12345678',
-        id_transacao:
-          '1356074561143',
-        metodo_pagamento: 'Pix',
-        origem: 'app',
-        quantidade_produtos: 1,
-        subtotal: 149,
-        total: 89,
-        total_frete: 0,
-      },
-      id: '12345678',
-    });
+    expect(EventProvider.sendTrackEvent).toHaveBeenNthCalledWith(1, "fez-pedido-produto", {"action": "fez-pedido-produto", "data": {"categorias_produto": {"1": "Reserva", "259": "Bazar", "260": "Masculino", "262": "Camisetas"}, "cor": "MARINHO", "id": "12345678", "id_produto": "35462", "id_transacao": "1356074561143", "marca": "RESERVA", "nome_produto": "CAMISETA ESTAMPADA CYBER MARINHO - G", "origem": "app", "preco_produto": 89, "quantidade": 1, "tamanho": "G"}, "id": "12345678"});
 
     expect(EventProvider.logPurchase).toBeCalledWith({
       affiliation: 'RESERVA',

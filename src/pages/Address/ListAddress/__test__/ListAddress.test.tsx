@@ -12,7 +12,6 @@ import {
 import type { StackScreenProps } from '@react-navigation/stack';
 import ListAddress from '../ListAddress';
 import ModalConfirmDelete from '../components/ModalConfirmDelete';
-import CartContextProvider from '../../../../context/CartContext';
 import type { RootStackParamList } from '../../../../routes/StackNavigator';
 import { theme } from '../../../../base/usereservappLegacy/theme';
 
@@ -31,16 +30,14 @@ const navigationMock: Partial<TNavigation> = {
 const Component = (
   <ThemeProvider theme={theme}>
     <MockedProvider addTypename={false}>
-      <CartContextProvider>
-        <ListAddress
-          navigation={navigationMock as TNavigation}
-          route={{
-            name: 'AddressList',
-            key: '',
-            params: '',
-          }}
-        />
-      </CartContextProvider>
+      <ListAddress
+        navigation={navigationMock as TNavigation}
+        route={{
+          name: 'AddressList',
+          key: '',
+          params: '',
+        }}
+      />
     </MockedProvider>
   </ThemeProvider>
 );

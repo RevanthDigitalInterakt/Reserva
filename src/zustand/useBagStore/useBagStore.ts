@@ -120,10 +120,6 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         const orderFormId = await getAsyncStorageItem('orderFormId') || '';
 
-        if (!orderFormId) {
-          throw new Error('OrderForm inválido.');
-        }
-
         set(() => ({ initialLoad: true }));
 
         const { data } = await getApolloClient().query<OrderFormQuery, OrderFormQueryVariables>({

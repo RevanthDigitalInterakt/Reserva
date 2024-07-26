@@ -7,7 +7,6 @@ import { act } from '@testing-library/react-hooks';
 import { MockedProvider } from '@apollo/client/testing';
 import { ThemeProvider } from 'styled-components/native';
 
-import { CartContext } from '../../context/CartContext';
 import { mockPrimeData } from '../../../__mocks__/PrimeLP.mock';
 import * as useLandingPagePrimeQuery from '../../base/graphql/generated';
 import { ApolloMockLPPrime } from '../../pages/PrimeLP/__mocks__/primeLPMocks';
@@ -54,15 +53,10 @@ jest
 const Component = (
   <ThemeProvider theme={theme}>
     <MockedProvider mocks={ApolloMockLPPrime} addTypename={false}>
-      <CartContext.Provider value={
-      { addItem: mockAddItemFn } as any
-    }
-      >
         <ModalSignIn
           onClose={jest.fn()}
           isVisible
         />
-      </CartContext.Provider>
     </MockedProvider>
   </ThemeProvider>
 );

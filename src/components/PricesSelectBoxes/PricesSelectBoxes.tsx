@@ -5,7 +5,6 @@ import React, {
 import { View } from 'react-native';
 
 import testProps from '../../utils/testProps';
-import { useCart } from '../../context/CartContext';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import type { ProductOutput, ProductSizeOutput } from '../../base/graphql/generated';
@@ -46,7 +45,6 @@ function PricesSelectBoxes({ selectedSize, hasPrime }: IPropsPriceSelectBoxes) {
     'changeStateIsVisibleModalWelcome',
   ]);
 
-  const { orderForm } = useCart();
   const { profile } = useAuthStore(['profile']);
   const hasDiscount = selectedSize?.hasDiscount;
 
@@ -72,7 +70,6 @@ function PricesSelectBoxes({ selectedSize, hasPrime }: IPropsPriceSelectBoxes) {
     selectPriceBasedOnUser();
   }, [
     hasDiscount,
-    orderForm,
     isPrime,
     isModalSignInVisible,
     selectPriceBasedOnUser,

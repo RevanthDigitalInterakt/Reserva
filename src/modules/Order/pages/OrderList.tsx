@@ -3,7 +3,6 @@ import LottieView from 'lottie-react-native';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { BackHandler, FlatList, SafeAreaView } from 'react-native';
-import { type IOrder, useCart } from '../../../context/CartContext';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import Order from '../Components/Order';
 import EventProvider from '../../../utils/EventProvider';
@@ -14,10 +13,10 @@ import { Typography } from '../../../components/Typography/Typography';
 import { loadingSpinner } from '../../../../assets/animations';
 import { Button } from '../../../components/Button';
 import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
+import { SearchNewOrders, type IVtexServiceRequestOrder } from '../../../services/vtexService';
 
 function OrderList() {
-  const { searchNewOrders } = useCart();
-  const [ordersList, setOrdersList] = useState<IOrder[]>([]);
+  const [ordersList, setOrdersList] = useState<IVtexServiceRequestOrder[]>([]);
   const [loading, setLoading] = useState(false);
   const [totalOrders, setTotalOrders] = useState(0);
   const [page, setPage] = useState(1);
@@ -31,7 +30,7 @@ function OrderList() {
 
     setLoading(true);
 
-    const data = await searchNewOrders(page.toString(), profile.email, profile.authCookie);
+    const { data } = await SearchNewOrders(page.toString(), profile.email, profile.authCookie);
     if (data) {
       setOrdersList([...ordersList, ...data.list]);
       setTotalOrders(data.paging.total);

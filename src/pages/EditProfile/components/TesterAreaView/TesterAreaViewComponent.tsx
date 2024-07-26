@@ -3,12 +3,12 @@ import React, { useCallback, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { handleCopyTextToClipboard } from '../../../../utils/CopyToClipboard';
-import { useCart } from '../../../../context/CartContext';
 import useAsyncStorageProvider from '../../../../hooks/useAsyncStorageProvider';
 import EventProvider from '../../../../utils/EventProvider';
 import { Box } from '../../../../components/Box/Box';
 import { Typography } from '../../../../components/Typography/Typography';
 import { Toggle } from '../../../../components/Toggle/Toggle';
+import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 
 interface ITesterAreaViewComponentProps {
   handleToggleModalTesting: () => void
@@ -20,7 +20,7 @@ function TesterAreaViewComponent({
   const [oneSignalToken, setOneSignalToken] = useState<string>('');
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const { getItem, setItem } = useAsyncStorageProvider();
-  const { orderForm } = useCart();
+  const { orderFormId } = useBagStore(['orderFormId']);
 
   const handleChangeTesting = useCallback(async (currentValue: boolean) => {
     handleToggleModalTesting();
@@ -55,8 +55,8 @@ function TesterAreaViewComponent({
         </TouchableOpacity>
       </Box>
       <Box mb="nano" mt="nano">
-        <TouchableOpacity testID="com.usereserva:id/testerAreaView_button_copy_orderform_id" onPress={() => handleCopyTextToClipboard(orderForm?.orderFormId || '')}>
-          <Typography testID="com.usereserva:id/testerAreaView_orderform_id">{orderForm?.orderFormId || ''}</Typography>
+        <TouchableOpacity testID="com.usereserva:id/testerAreaView_button_copy_orderform_id" onPress={() => handleCopyTextToClipboard(orderFormId || '')}>
+          <Typography testID="com.usereserva:id/testerAreaView_orderform_id">{orderFormId || ''}</Typography>
         </TouchableOpacity>
       </Box>
       <Box flexDirection="row" marginY="micro" alignItems="center">

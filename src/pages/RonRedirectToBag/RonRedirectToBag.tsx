@@ -5,10 +5,9 @@ import axios from 'axios';
 import { URLSearchParams } from 'react-native-url-polyfill';
 import { SafeAreaView } from 'react-native';
 import Config from 'react-native-config';
-import { useCart } from '../../context/CartContext';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import EventProvider from '../../utils/EventProvider';
-import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
+import useAsyncStorageProvider, { setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { adaptOrderFormItemsTrack } from '../../utils/adaptOrderFormItemsTrack';
 import { getBrands } from '../../utils/getBrands';
 import { defaultBrand } from '../../utils/defaultWBrand';
@@ -18,6 +17,8 @@ import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton
 import { COLORS } from '../../base/styles/colors';
 import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
+import { useBagStore } from '../../zustand/useBagStore/useBagStore';
+import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
 
 interface IWiduResponse {
   destinyLink: string;
@@ -55,13 +56,13 @@ export type IRonRedirectToBagProps = StackScreenProps<RootStackParamList, 'RonRe
 
 export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBagProps) {
   const { ronCode } = route?.params || {};
-  const { topBarLoading, orderForm, restoreCart } = useCart();
+  const { topBarLoading, packageItems, actions } = useBagStore(['topBarLoading', 'packageItems', 'actions']);;
   const { setItem } = useAsyncStorageProvider();
   const [getRonRedirect] = useRonRedirectLazyQuery({ context: { clientName: 'gateway' } });
   const [finished, setFinished] = useState(false);
 
   const saveOrderFormItems = useCallback(async (orderFormId: string) => {
-    const productIds = new Set((orderForm?.items || []).map((item) => item.productId));
+    const productIds = new Set((mergeItemsPackage(packageItems) || []).map((item) => item.productId));
 
     await setItem('@RNOrder:RonItems', Array.from(productIds));
     await setItem('@RNSession:Ron', true);
@@ -73,8 +74,8 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
       'ron_open',
       {
         open: ronCode,
-        items: adaptOrderFormItemsTrack(orderForm?.items),
-        item_brand: getBrands(orderForm?.items || []),
+        items: adaptOrderFormItemsTrack(mergeItemsPackage(packageItems)),
+        item_brand: getBrands(mergeItemsPackage(packageItems) || []),
       },
     );
 
@@ -82,7 +83,7 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
       'BagScreen',
       { isProfileComplete: false, orderFormId },
     );
-  }, [setItem, orderForm, ronCode]);
+  }, [setItem, packageItems, ronCode]);
 
   const handleCustomRedirect = useCallback(async (url: string) => {
     const deepLinkUrl = await urlHandler(url);
@@ -127,7 +128,8 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
     const { orderFormId, url, type: redirectType } = data.ronRedirect;
 
     if (redirectType === RonRedirectTypeEnum.Orderform && orderFormId) {
-      await restoreCart(orderFormId);
+      await setAsyncStorageItem('orderFormId', orderFormId);
+      await actions.REFETCH_ORDER_FORM();
       await saveOrderFormItems(orderFormId);
       return;
     }
@@ -135,7 +137,7 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
     if (redirectType === RonRedirectTypeEnum.Custom && url) {
       handleCustomRedirect(url);
     }
-  }, [saveOrderFormItems, handleCustomRedirect, getRonRedirect, ronCode, restoreCart, navigation]);
+  }, [saveOrderFormItems, handleCustomRedirect, getRonRedirect, ronCode, navigation]);
 
   useEffect(() => {
     if (!finished && ronCode) {

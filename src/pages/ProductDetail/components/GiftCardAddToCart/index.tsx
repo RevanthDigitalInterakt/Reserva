@@ -3,7 +3,6 @@ import { Alert, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import DropShadow from 'react-native-drop-shadow';
 import { loadingSpinner } from '../../../../../assets/animations';
-import { useCart } from '../../../../context/CartContext';
 import EventProvider from '../../../../utils/EventProvider';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import { ModalBag } from '../../../../components/ModalBag/ModalBag';
@@ -16,7 +15,6 @@ import styles from './styles';
 import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
 
 export function GiftCardAddToCart() {
-  const { restoreCart } = useCart();
   const { actions, packageItems, orderFormId } = useBagStore(['actions', 'orderFormId', 'packageItems']);
   const {
     productDetail,
@@ -86,8 +84,6 @@ export function GiftCardAddToCart() {
         orderFormItem ? orderFormItem.quantity + 1 : 1,
       );
 
-      await restoreCart(orderFormId);
-
       setShowAnimationBag(true);
       addTagsUponCartUpdate();
     } catch (err) {
@@ -104,7 +100,6 @@ export function GiftCardAddToCart() {
     loading,
     packageItems,
     orderFormId,
-    restoreCart,
     selectedSize,
     buttonAddCartActive,
     selectedGiftCardEmail, selectedGiftCard, termsAccepted,

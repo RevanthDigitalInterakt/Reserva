@@ -1,6 +1,6 @@
-import type { IOrderFormItem } from '../context/CartContext';
+import type { OrderformItemOutput } from "../base/graphql/generated";
 
-export function adaptOrderFormItemsTrack(items?: IOrderFormItem[]) {
+export function adaptOrderFormItemsTrack(items?: OrderformItemOutput[]) {
   return (items || []).map((item) => ({
     price: item.price / 100,
     item_id: item.productId,

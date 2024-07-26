@@ -47,6 +47,7 @@ jest.mock('@datadog/mobile-react-native', () => ({
 
 jest.mock('../../../hooks/useAsyncStorageProvider', () => ({
   getAsyncStorageItem: jest.fn().mockReturnValue({ orderFormId: orderformMock }),
+  setAsyncStorageItem: jest.fn().mockReturnValue({ orderFormId: orderformMock }),
 }));
 
 jest.mock('../../getApolloClient', () => ({

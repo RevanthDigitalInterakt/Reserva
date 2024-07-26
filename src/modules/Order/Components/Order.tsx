@@ -58,13 +58,8 @@ interface IOrder {
   data: IOrderData;
 }
 
-function Order({ data }: IOrder) {
+function Order({ data: order }: IOrder) {
   const navigation = useNavigation();
-
-  const order = useMemo(() => ({
-    ...data,
-    status: data.status,
-  }), [data]);
 
   return (
     <TouchableOpacity onPress={() => navigation.navigate('OrderDetail', { order })}>
@@ -99,7 +94,7 @@ function Order({ data }: IOrder) {
             fontFamily="reservaSerifBold"
             color="vermelhoRSV"
           >
-            {data.orderId}
+            {order.orderId}
           </Typography>
 
           <Box mt="nano">

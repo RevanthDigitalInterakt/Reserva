@@ -7,7 +7,6 @@ import { ModalSignIn } from '..';
 import { ApolloMockLPPrime } from '../../../pages/PrimeLP/__mocks__/primeLPMocks';
 import * as useLandingPagePrimeQuery from '../../../base/graphql/generated';
 import { mockPrimeData } from '../../../../__mocks__/PrimeLP.mock';
-import { CartContext } from '../../../context/CartContext';
 import { theme } from '../../../base/usereservappLegacy/theme';
 
 jest.mock('../../../zustand/useApolloFetchPolicyStore', () => ({
@@ -38,9 +37,7 @@ function TestingComponent() {
   return (
     <ThemeProvider theme={theme}>
       <MockedProvider mocks={ApolloMockLPPrime} addTypename={false}>
-        <CartContext.Provider value={{ profile: { isPrime: true } } as any}>
           <ModalSignIn isVisible onClose={closeModal} />
-        </CartContext.Provider>
       </MockedProvider>
     </ThemeProvider>
   );
