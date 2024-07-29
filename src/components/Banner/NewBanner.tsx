@@ -8,11 +8,12 @@ import ImageComponent from '../ImageComponent/ImageComponent';
 
 interface INewBanner {
   image: string;
-  reference: string;
+  reference?: string | null;
   facets: { key: string; value: string; }[];
   reservaMini: boolean;
   orderBy: string;
   deepLinkNewsletter?: string | null;
+  deepLink?: string | null;
 }
 
 function NewBanner({
@@ -22,10 +23,17 @@ function NewBanner({
   reservaMini,
   orderBy,
   deepLinkNewsletter,
+  deepLink,
 }: INewBanner) {
   const navigation = useNavigation();
 
   const onPress = useCallback(() => {
+    if (deepLink?.length) {
+      Linking.openURL(deepLink);
+      return;
+    }
+
+    // TODO deprecate this on future
     if (deepLinkNewsletter?.includes('/newsletter')) {
       Linking.openURL(deepLinkNewsletter);
       return;

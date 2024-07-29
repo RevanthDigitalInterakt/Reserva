@@ -65,16 +65,21 @@ export const urlRon = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
-export const urlLandingPagePrime = (initialUrl: string): ICustomMethodReturnParams => {
-  try {
-    const url = new URL(initialUrl);
-
-    return url.pathname === '/prime'
-      ? { match: true, strUrl: 'usereserva://prime' }
-      : defaultCustomMethodReturn;
-  } catch (err) {
-    return defaultCustomMethodReturn;
+export const urlLandingPagePrime = (
+  initialUrl: string,
+): ICustomMethodReturnParams => {
+  if (initialUrl.includes('/prime')) {
+    try {
+      return {
+        match: true,
+        strUrl: 'usereserva://prime',
+      };
+    } catch (err) {
+      return defaultCustomMethodReturn;
+    }
   }
+
+  return defaultCustomMethodReturn;
 };
 
 const newsLetterUseCase = (
@@ -503,12 +508,12 @@ const webViewFacaVcUseCase = async (initialUrl: string): Promise<ICustomMethodRe
 };
 
 const registerMethods = [
+  urlLandingPagePrime,
   newsLetterUseCase,
   urlSiteCase,
   webViewFacaVcUseCase,
   urlGoogleGclidCase,
   urlRon,
-  urlLandingPagePrime,
   urlProductCase,
   urlMetaProductCase,
   colectionUseCase,

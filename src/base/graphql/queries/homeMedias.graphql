@@ -5,6 +5,7 @@ query homeMedias {
     linkMktIn
     reservaMini
     deepLinkNewsletter
+    deepLink
     orderBy
     reference
     facets {

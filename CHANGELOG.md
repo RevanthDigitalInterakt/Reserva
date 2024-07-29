@@ -2,7 +2,12 @@
 
 ## CHANGELOG
 
+### 2.22.6
+
+- [41768 - Transformar a landing de prime APP como componente de deeplink](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41768)
+
 ### 2.22.5
+
 - [30695 - Redirecionamento das chamadas do checkout para o API Gateway](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30695)
 - Exclusão log DataDog
 - Correção deeplink do whatsaap
