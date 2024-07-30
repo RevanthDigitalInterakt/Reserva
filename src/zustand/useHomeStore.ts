@@ -18,7 +18,6 @@ import { apolloFetchPolicyStore } from './useApolloFetchPolicyStore';
 interface IHomeStore {
   loading: boolean;
   hasTabBar: boolean;
-  loaded: boolean;
   carousels: HomeCarouselOutput[];
   medias: HomeMediaOutput[];
   offersPage?: string;
@@ -27,10 +26,9 @@ interface IHomeStore {
   setHasTabBar: (hasTabBar: boolean) => void;
 }
 
-const homeStore = create<IHomeStore>((set, getState) => ({
-  loading: false,
+const homeStore = create<IHomeStore>((set) => ({
+  loading: true,
   hasTabBar: true,
-  loaded: false,
   carousels: [],
   discountBar: undefined,
   offersPage: undefined,
@@ -40,42 +38,45 @@ const homeStore = create<IHomeStore>((set, getState) => ({
   onLoad: async () => {
     const client = getApolloClient();
 
-    if (getState().loaded) return;
-
-    set(() => ({ loading: true }));
-
     const { getFetchPolicyPerKey } = apolloFetchPolicyStore.getState();
 
-    const { data } = await client.query<HomeCarouselsQuery, HomeCarouselsQueryVariables>({
-      context: { clientName: 'gateway' },
-      fetchPolicy: getFetchPolicyPerKey('homeCarousels'),
-      query: HomeCarouselsDocument,
-    });
-
     set(() => ({
-      loading: false,
-      carousels: data.homeCarousels,
+      loading: true,
     }));
 
-    const [medias, config] = await Promise.all([
-      client.query<HomeMediasQuery, HomeMediasQueryVariables>({
+    try {
+      const { data } = await client.query<HomeCarouselsQuery, HomeCarouselsQueryVariables>({
         context: { clientName: 'gateway' },
-        fetchPolicy: getFetchPolicyPerKey('homeMedias'),
-        query: HomeMediasDocument,
-      }),
-      client.query<HomeConfigQuery, HomeConfigQueryVariables>({
-        context: { clientName: 'gateway' },
-        fetchPolicy: getFetchPolicyPerKey('homeConfig'),
-        query: HomeConfigDocument,
-      }),
-    ]);
+        fetchPolicy: getFetchPolicyPerKey('homeCarousels'),
+        query: HomeCarouselsDocument,
+      });
 
-    set(() => ({
-      medias: medias.data.homeMedias || [],
-      offersPage: config.data.homeConfig?.offersPage || undefined,
-      commercialBannerCollection: config.data.homeConfig?.commercialBannerCollection || undefined,
-      loaded: true,
-    }));
+      const [medias, config] = await Promise.all([
+        client.query<HomeMediasQuery, HomeMediasQueryVariables>({
+          context: { clientName: 'gateway' },
+          fetchPolicy: getFetchPolicyPerKey('homeMedias'),
+          query: HomeMediasDocument,
+        }),
+        client.query<HomeConfigQuery, HomeConfigQueryVariables>({
+          context: { clientName: 'gateway' },
+          fetchPolicy: getFetchPolicyPerKey('homeConfig'),
+          query: HomeConfigDocument,
+        }),
+      ]);
+
+      set(() => ({
+        medias: medias.data.homeMedias || [],
+        offersPage: config.data.homeConfig?.offersPage || undefined,
+        commercialBannerCollection: config.data.homeConfig?.commercialBannerCollection || undefined,
+        loading: false,
+        carousels: data.homeCarousels,
+      }));
+
+    } catch {
+      set(() => ({
+        loading: false,
+      }));
+    }
   },
 }));
 
