@@ -58,7 +58,9 @@ export type RootStackParamList = {
   PrimeLP: undefined;
   FacaVc: undefined;
   PageOneP5P: { comeFrom?: 'Menu' | 'Home' };
-  Newsletter: {};
+  Newsletter: {
+    headerImageUrl?: string;
+  };
   HelpCenter: { comeFrom?: 'Menu' | 'Other' };
   Checkout: { url: string };
   RegisterSuccess: { comeFrom: 'Profile' | 'Menu' | 'Checkout' | 'Favorite' };

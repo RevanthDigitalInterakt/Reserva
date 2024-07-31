@@ -2,7 +2,12 @@
 
 ## CHANGELOG
 
+### 2.22.7
+
+- [46461 - Melhoria na captação de leads app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46461)
+
 ### 2.22.6
+
 - [30695 - Redirecionamento das chamadas do checkout para o API Gateway](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30695)
 - Exclusão log DataDog
 - Correção deeplink do whatsaap
