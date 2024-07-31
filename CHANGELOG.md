@@ -2,6 +2,9 @@
 
 ## CHANGELOG
 
+### 2.22.7
+- [46427 - Implementação evento purchase Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46427)
+
 ### 2.22.6
 - [30695 - Redirecionamento das chamadas do checkout para o API Gateway](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30695)
 - Exclusão log DataDog
