@@ -63,26 +63,25 @@ stages:
         export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
       displayName: 'Set environment variables for builds'
 
-    # Step de aprovação
-    - task: DownloadSecureFile@1
-      name: apiKeyFileIOS
-      inputs:
-        secureFile: 'fastlane_6UD2X3PDZN.json'
-    
-    - task: DownloadSecureFile@1
-      name: apiKeyFileAndroid
-      inputs:
-        secureFile: 'play-store-credentials.json'
-
     - deployment: DeploymentJob
       displayName: 'Deploy to TestFlight and Play Store'
       environment: 
         name: Reserva-Mobile-App
-        resourceType: VirtualMachine
       strategy:
         runOnce:
           deploy:
             steps:
+
+            - script: |
+                export GIT_CONFIG_PARAMETERS="'url.https://$SYSTEM_ACCESSTOKEN@dev.azure.com.insteadof=https://ARECO@dev.azure.com'" 
+                git tag
+                yarn pipeline:semantic-release-pre:prod
+                bash scripts/deleteTag.sh
+              displayName: 'Increment version'
+              workingDirectory: $(Build.SourcesDirectory)
+              env: 
+                SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
             - script: |
                 fastlane ios beta api_key_path:$(apiKeyFileIOS.secureFilePath)
               displayName: 'Deploy to TestFlight'
@@ -94,3 +93,8 @@ stages:
               displayName: 'Deploy to Play Store Beta'
               workingDirectory: android
               timeoutInMinutes: 30000
+            
+            - script: |
+                yarn pipeline:semantic-release-post:prod
+              displayName: 'Commit version'
+              workingDirectory: $(Build.SourcesDirectory)
