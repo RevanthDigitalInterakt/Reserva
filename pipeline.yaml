@@ -4,9 +4,11 @@ pr: none
 
 variables:
   - group: mobile-variable-group
-
+  
 pool: 
-  name: Reserva_MacMini-Pool
+  # name: Reserva_MacMini-Pool
+  demands:
+  - agent.name -equals mac_agent_m1
 
 stages:
 - stage: Build
