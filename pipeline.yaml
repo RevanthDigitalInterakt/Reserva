@@ -11,7 +11,7 @@ stages:
 - stage: BuildAndDeploy
   displayName: 'Build and Deploy'
   jobs:
-  - deployment: BuildAndDeployJob # Usando 'deployment' ao invés de 'job' para poder associar ao ambiente
+  - deployment: BuildAndDeployJob 
     displayName: 'Build and Deploy Process'
     environment: 'Reserva-Mobile-App'  # Ambiente que requer aprovação
     strategy:
