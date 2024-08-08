@@ -62,22 +62,17 @@ export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) =
         }),
         ...(sku && { objectIDs: sku }),
         ...(positions && { positions }),
-        ...(queryID && { queryID: queryID }),
+        ...(queryID && { queryID }),
       },
     };
 
-    console.log(variables)
-
     try {
-      const mutation = await getApolloClient().mutate<TrackingMutation, TrackingMutationVariables>({
+      await getApolloClient().mutate<TrackingMutation, TrackingMutationVariables>({
         mutation: TrackingDocument,
         context: { clientName: 'gateway' },
         variables,
       });
-
-      console.log('mutation -> ', mutation)
     } catch (error) {
-      console.log(error)
       ExceptionProvider.captureException(error);
     }
   },

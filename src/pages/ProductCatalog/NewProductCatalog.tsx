@@ -43,8 +43,6 @@ function NewProductCatalog({ navigation, route }: Props) {
     'onInit',
   ]);
 
-  console.log('parameters', parameters);
-
   const [isGoingBack, setIsGoingBack] = useState(false);
   const [loadingMedias, setLoadingMedias] = useState(false);
   const { referenceId, filters } = route.params;
