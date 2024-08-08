@@ -71,6 +71,9 @@ type EventValues = {
   favorite: number;
   position: 'top' | 'bottom';
   page: string;
+  platform?: string;
+  model?: string;
+  ip?: string
 };
 
 type AbandonedCartEventValues = {
@@ -195,6 +198,7 @@ export namespace EventsOptions {
   export type PaymentOptions = Pick<EventValues, 'item_id'>;
   export type ReturnPolicy = Pick<EventValues, 'item_id'>;
   export type AddToCartFromWishlist = Pick<EventValues, 'item_name' | 'item_color' | 'item_size' | 'value'>;
+  export type MobileJailbroken = Pick<EventValues, 'platform' | 'model' | 'ip'>;
 }
 
 export type EventOptionsFn =
@@ -496,11 +500,14 @@ export type EventOptionsFn =
     payload: EventsOptions.ReturnPolicy;
   } | {
     type: 'add_to_cart_from_wishlist',
-    payload: EventsOptions.AddToCartFromWishlist
+    payload: EventsOptions.AddToCartFromWishlist;
   } | {
     type: 'faca_vc_tab_click',
     payload: {}
   } | {
     type: 'personalize_tab_click',
     payload: {}
+  } | {
+    type: 'mobile_jailbroken',
+    payload: EventsOptions.MobileJailbroken;
   };
