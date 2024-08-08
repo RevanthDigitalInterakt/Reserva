@@ -6,6 +6,7 @@
 - [30695 - Redirecionamento das chamadas do checkout para o API Gateway](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30695)
 - Exclusão log DataDog
 - Correção deeplink do whatsaap
+- [47163 - [PTM-129] Ausência de detecção de jailbreak (iOS)](https://dev.azure.com/ARECO/AReCO/_workitems/edit/47163)
 
 ### 2.14.0
 

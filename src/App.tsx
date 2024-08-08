@@ -6,7 +6,7 @@ import RNBootSplash from 'react-native-bootsplash';
 import 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
 import remoteConfig from '@react-native-firebase/remote-config';
-import { BackHandler, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import JailMonkey from 'jail-monkey';
 import DeviceInfo from 'react-native-device-info';
@@ -43,7 +43,7 @@ const DefaultTheme = {
 
 const isJailBroken = JailMonkey.isJailBroken();
 
-if (isJailBroken && !__DEV__) {
+if (isJailBroken) {
   const deviceProperties: EventsOptions.MobileJailbroken = {
     platform: Platform.OS,
     model: DeviceInfo.getModel(),
@@ -51,8 +51,6 @@ if (isJailBroken && !__DEV__) {
   };
 
   EventProvider.logEvent('mobile_jailbroken', deviceProperties);
-
-  BackHandler.exitApp();
 }
 
 function App() {
@@ -126,7 +124,7 @@ function App() {
                 <RegionalSearchContextProvider>
                   <FirebaseContextProvider>
                     <ChronometerContextProvider>
-                      {(isJailBroken && !__DEV__)
+                      {(isJailBroken)
                         ? (<ReservaJailbreakScreen />)
                         : (
                           <InitialScreen>
