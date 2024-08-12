@@ -41,6 +41,7 @@ import PageHelpCenter from '../pages/HelpCenter/Components/PageHelpCenter';
 import Exchange from '../pages/HelpCenter/pages/Exchange/Exchange';
 import type { SessionBodyCollectionOutput } from '../base/graphql/generated';
 import HelpCenter from '../pages/HelpCenter';
+import PrivacyPolicy from '../pages/PrivacyPolicy';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -215,6 +216,7 @@ export function MainStackScreen() {
       <MainStack.Screen name="HelpCenter" component={HelpCenter} />
       <MainStack.Screen name="PageHelpCenter" component={PageHelpCenter} />
       <MainStack.Screen name="Exchange" component={Exchange} />
+      <MainStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
     </MainStack.Navigator>
   );
 }
