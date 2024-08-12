@@ -1,0 +1,9 @@
+query offersPage {
+  offersPageCollectionFilter {
+    title
+    items {
+      collectionId
+      offerImage
+    }
+  }
+}

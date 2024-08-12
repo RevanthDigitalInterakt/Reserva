@@ -849,6 +849,18 @@ export type MutationWishlistRemoveProductArgs = {
   input: WishlistRemoveProductInput;
 };
 
+export type OffersPageCollectionFilter = {
+  __typename?: 'OffersPageCollectionFilter';
+  items: Array<OffersPageCollectionFilterItemOutput>;
+  title: Scalars['String']['output'];
+};
+
+export type OffersPageCollectionFilterItemOutput = {
+  __typename?: 'OffersPageCollectionFilterItemOutput';
+  collectionId: Scalars['String']['output'];
+  offerImage: Scalars['String']['output'];
+};
+
 export type OrderDetailIdInput = {
   orderId: Scalars['String']['input'];
 };
@@ -1741,6 +1753,7 @@ export type Query = {
   landingPagePrime: PrimeDetailOutput;
   mktinStatus: Scalars['Boolean']['output'];
   mostSearchedWords: Array<Scalars['String']['output']>;
+  offersPageCollectionFilter: OffersPageCollectionFilter;
   order: OrderDetailOutput;
   orderForm: OrderformOutput;
   orders: OrderPaginationOutput;
@@ -2839,6 +2852,11 @@ export type MostSearchedWordsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MostSearchedWordsQuery = { __typename?: 'Query', mostSearchedWords: Array<string> };
+
+export type OffersPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OffersPageQuery = { __typename?: 'Query', offersPageCollectionFilter: { __typename?: 'OffersPageCollectionFilter', title: string, items: Array<{ __typename?: 'OffersPageCollectionFilterItemOutput', collectionId: string, offerImage: string }> } };
 
 export type OrderFormQueryVariables = Exact<{
   orderFormId: Scalars['String']['input'];
@@ -5298,6 +5316,47 @@ export type MostSearchedWordsLazyQueryHookResult = ReturnType<typeof useMostSear
 export type MostSearchedWordsQueryResult = Apollo.QueryResult<MostSearchedWordsQuery, MostSearchedWordsQueryVariables>;
 export function refetchMostSearchedWordsQuery(variables?: MostSearchedWordsQueryVariables) {
       return { query: MostSearchedWordsDocument, variables: variables }
+    }
+export const OffersPageDocument = gql`
+    query offersPage {
+  offersPageCollectionFilter {
+    title
+    items {
+      collectionId
+      offerImage
+    }
+  }
+}
+    `;
+
+/**
+ * __useOffersPageQuery__
+ *
+ * To run a query within a React component, call `useOffersPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOffersPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOffersPageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOffersPageQuery(baseOptions?: Apollo.QueryHookOptions<OffersPageQuery, OffersPageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OffersPageQuery, OffersPageQueryVariables>(OffersPageDocument, options);
+      }
+export function useOffersPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OffersPageQuery, OffersPageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OffersPageQuery, OffersPageQueryVariables>(OffersPageDocument, options);
+        }
+export type OffersPageQueryHookResult = ReturnType<typeof useOffersPageQuery>;
+export type OffersPageLazyQueryHookResult = ReturnType<typeof useOffersPageLazyQuery>;
+export type OffersPageQueryResult = Apollo.QueryResult<OffersPageQuery, OffersPageQueryVariables>;
+export function refetchOffersPageQuery(variables?: OffersPageQueryVariables) {
+      return { query: OffersPageDocument, variables: variables }
     }
 export const OrderFormDocument = gql`
     query orderForm($orderFormId: String!) {
