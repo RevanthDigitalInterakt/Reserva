@@ -1,14 +1,13 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import {
+  View, Text, ScrollView, Linking,
+} from 'react-native';
 import { styles } from './styles';
 import { Card } from './components/Card';
 
 interface Offer {
-  info: string;
-  imageUrl: string;
+  offerImage: string;
   collectionId: string;
-  title: string;
-  prefix: string
 }
 
 interface OfferFilterCarouselProps {
@@ -17,8 +16,10 @@ interface OfferFilterCarouselProps {
 }
 
 export function OfferFilterCarousel({ offers, title }: OfferFilterCarouselProps) {
-  // TODO: function handleRedirectToPDCWithSelectedPrice
-  // TODO: function handleGetPricesCards
+  const handleRedirectToCatalog = (collectionId: string) => {
+    Linking.openURL(`usereserva://catalog/collection:${collectionId}`);
+  };
+  const handleFormatCollectionId = (collectionId: string) => collectionId.split(':')[1];
 
   return (
     <View style={styles.container}>
@@ -35,10 +36,10 @@ export function OfferFilterCarousel({ offers, title }: OfferFilterCarouselProps)
       >
         {offers.map((offer) => (
           <Card
-            prefix={offer.prefix}
-            title={offer.title}
-            imageUrl={offer.imageUrl}
-            info={offer.info}
+            handleRedirectToCatalog={() => handleRedirectToCatalog(
+              handleFormatCollectionId(offer.collectionId)!,
+            )}
+            imageUrl={offer.offerImage}
             key={offer.collectionId}
           />
         ))}
