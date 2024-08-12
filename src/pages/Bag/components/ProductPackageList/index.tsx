@@ -49,10 +49,20 @@ export default function BagProductPackageList() {
   }, [actions]);
 
   const onLoadItems = useCallback(() => {
-    const productIds = packageItems[0]?.items.map((payload) => payload.ean) as string[] | null | undefined;
+    const productIds = packageItems[0]?.items.map(
+      (payload) => payload.ean,
+    ) as string[] | null | undefined;
 
     if (packageItems.length > 1) {
       const packages = packageItems.map((packs) => packs.items);
+
+      const newArr = packages.map(
+        (item) => item.map((i) => ({
+          ean: i.ean,
+        })),
+      ).reduce((acc, cur) => acc.concat(cur), []);
+
+      const eans = newArr.map((item) => item.ean) as string[];
 
       const items = packages.map((item) => item.map((i) => ({
         discount: i.discountPercent,
@@ -65,7 +75,7 @@ export default function BagProductPackageList() {
         nameEvent: queryID
           ? TrackEventNameEnum.CartItemsSearch
           : TrackEventNameEnum.CartItems,
-        sku: productIds,
+        sku: eans,
         subTypeEvent: TrackEventSubTypeEnum.AddToCart,
         dataObject: items,
         totalPrice: appTotalizers.total,

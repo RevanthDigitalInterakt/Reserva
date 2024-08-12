@@ -25,6 +25,7 @@ interface ITrackAlgolInput {
   totalPrice?: number,
   queryID?: string | null,
   positions?: number[],
+  price?: number,
 }
 
 interface ITrackAlgoliaStore {
@@ -43,14 +44,14 @@ export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) =
     totalPrice,
     queryID,
     positions,
+    price,
   }) => {
     const user = await AsyncStorage.getItem('@Dito:anonymousID');
 
     const variables: TrackingMutationVariables = {
       input: {
         authenticatedUserToken: user || '',
-        userToken: 'apptest',
-        // userToken: getState().sessionId,
+        userToken: getState().sessionId,
         index: TrackEventIndexEnum.Default,
         eventType: typeEvent,
         eventName: nameEvent,
@@ -63,6 +64,7 @@ export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) =
         ...(sku && { objectIDs: sku }),
         ...(positions && { positions }),
         ...(queryID && { queryID }),
+        ...(price && { value: price }),
       },
     };
 
