@@ -14,6 +14,7 @@ interface INewBanner {
   orderBy: string;
   deepLinkNewsletter?: string | null;
   deepLink?: string | null;
+  headerImageUrl?: string;
 }
 
 function NewBanner({
@@ -24,6 +25,7 @@ function NewBanner({
   orderBy,
   deepLinkNewsletter,
   deepLink,
+  headerImageUrl,
 }: INewBanner) {
   const navigation = useNavigation();
 
@@ -35,7 +37,7 @@ function NewBanner({
 
     // TODO deprecate this on future
     if (deepLinkNewsletter?.includes('/newsletter')) {
-      Linking.openURL(deepLinkNewsletter);
+      navigation.navigate('Newsletter', { headerImageUrl });
       return;
     }
 

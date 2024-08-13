@@ -72,6 +72,8 @@ export interface IRemoteConfigKeys {
   show_doris_button: boolean;
   show_webview_facavc: boolean;
   show_label_facavc: boolean;
+  new_offers_page: boolean;
+  new_offers_page_tester: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -141,6 +143,8 @@ export const defaults: IRemoteConfigKeys = {
   show_doris_button: false,
   show_webview_facavc: false,
   show_label_facavc: false,
+  new_offers_page: false,
+  new_offers_page_tester: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;

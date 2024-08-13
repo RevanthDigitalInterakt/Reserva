@@ -503,4 +503,12 @@ export type EventOptionsFn =
   } | {
     type: 'personalize_tab_click',
     payload: {}
+  } | {
+    type: 'offers_main_banner_slide',
+    payload: {}
+  } | {
+    type: 'offers_main_banner_click',
+    payload: {
+      category: string;
+    }
   };

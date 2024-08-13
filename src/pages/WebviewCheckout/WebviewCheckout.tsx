@@ -157,6 +157,8 @@ function WebviewCheckout() {
         ref={webviewRef}
         renderLoading={() => <LoadingCheckout />}
         startInLoadingState
+        cacheMode="LOAD_NO_CACHE"
+        cacheEnabled={false}
         injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
         originWhitelist={['*']}
         testID="com.usereserva:id/web_view_checkout"

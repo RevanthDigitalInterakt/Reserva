@@ -6,6 +6,9 @@ query homeMedias {
     reservaMini
     deepLinkNewsletter
     deepLink
+    headerImage {
+      url
+    }
     orderBy
     reference
     facets {

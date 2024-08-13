@@ -193,7 +193,6 @@ function Home() {
     EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
   }, []);
 
-
   return (
     <>
       <ActivityTracking />
@@ -224,6 +223,7 @@ function Home() {
                       reservaMini={item.reservaMini}
                       deepLinkNewsletter={item?.deepLinkNewsletter}
                       deepLink={item?.deepLink}
+                      headerImageUrl={item?.headerImage?.url}
                     />
                   </>
                 );
@@ -239,6 +239,7 @@ function Home() {
                       reservaMini={item.reservaMini}
                       deepLinkNewsletter={item?.deepLinkNewsletter}
                       deepLink={item?.deepLink}
+                      headerImageUrl={item?.headerImage?.url}
                     />
                     <NewHomeCountDown />
                   </>
@@ -254,6 +255,7 @@ function Home() {
                   reservaMini={item.reservaMini}
                   deepLinkNewsletter={item?.deepLinkNewsletter}
                   deepLink={item?.deepLink}
+                  headerImageUrl={item?.headerImage?.url}
                 />
               );
             }}
