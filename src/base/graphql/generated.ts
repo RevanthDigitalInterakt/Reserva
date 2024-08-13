@@ -581,6 +581,18 @@ export type ItemsSessionBodyCollectionOutput = {
   helpCenterSessionTitle?: Maybe<Scalars['String']['output']>;
 };
 
+export type LastCartOutput = {
+  __typename?: 'LastCartOutput';
+  code?: Maybe<LastCartTypeEnum>;
+  orderFormId?: Maybe<Scalars['String']['output']>;
+};
+
+export enum LastCartTypeEnum {
+  AlreadySynced = 'ALREADY_SYNCED',
+  NoPreviousCart = 'NO_PREVIOUS_CART',
+  UpdatedCart = 'UPDATED_CART'
+}
+
 export type LoggedInOutput = {
   __typename?: 'LoggedInOutput';
   authCookie?: Maybe<Scalars['String']['output']>;
@@ -1741,6 +1753,7 @@ export type Query = {
   getCashbackOperation: CashbackAllOperationOutput;
   getCashbackTransaction: CashbackTransactionOutput;
   getCashbackWallet: CashbackWalletOutput;
+  getLastCart: LastCartOutput;
   healthcheck: HealthcheckOutput;
   helpCenterCollection: HelpCenterOutput;
   homeCarousels: Array<HomeCarouselOutput>;
@@ -1850,6 +1863,11 @@ export type QueryGetCashbackTransactionArgs = {
 
 export type QueryGetCashbackWalletArgs = {
   input: CashbackDataInput;
+};
+
+
+export type QueryGetLastCartArgs = {
+  input: OrderformInput;
 };
 
 
@@ -2822,8 +2840,7 @@ export type HomeCountdownQuery = { __typename?: 'Query', homeCountdown?: { __typ
 export type HomeMediasQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, deepLinkNewsletter?: string | null, deepLink?: string | null, orderBy: string, reference?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
-export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, deepLinkNewsletter?: string | null, orderBy: string, reference?: string | null, headerImage?: { __typename?: 'HomeCarouselItemImageOutput', url: string } | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
+export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, deepLinkNewsletter?: string | null, deepLink?: string | null, orderBy: string, reference?: string | null, headerImage?: { __typename?: 'HomeCarouselItemImageOutput', url: string } | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
 
 export type InfoCashbackPdpCollectionQueryVariables = Exact<{ [key: string]: never; }>;
 
