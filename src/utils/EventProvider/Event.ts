@@ -71,6 +71,7 @@ type EventValues = {
   favorite: number;
   position: 'top' | 'bottom';
   page: string;
+  locationEnabled: string;
 };
 
 type AbandonedCartEventValues = {
@@ -195,6 +196,7 @@ export namespace EventsOptions {
   export type PaymentOptions = Pick<EventValues, 'item_id'>;
   export type ReturnPolicy = Pick<EventValues, 'item_id'>;
   export type AddToCartFromWishlist = Pick<EventValues, 'item_name' | 'item_color' | 'item_size' | 'value'>;
+  export type DeviceInfoTrack = Pick<EventValues, 'locationEnabled'>;
 }
 
 export type EventOptionsFn =
@@ -511,4 +513,7 @@ export type EventOptionsFn =
     payload: {
       category: string;
     }
+  } | {
+    type: 'device_info',
+    payload: EventsOptions.DeviceInfoTrack,
   };
