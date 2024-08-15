@@ -6,6 +6,8 @@ import RNBootSplash from 'react-native-bootsplash';
 import 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
 import remoteConfig from '@react-native-firebase/remote-config';
+import { Platform } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 import { linkingConfig } from './config/linking';
 import ChronometerContextProvider from './context/ChronometerContext';
 import ContentfullContextProvider from './context/ContentfullContext';
@@ -27,9 +29,12 @@ import DatadogComponentProvider from './components/DatadogComponentProvider';
 import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
 import { useConnectivityStore } from './zustand/useConnectivityStore';
 import { useBagStore } from './zustand/useBagStore/useBagStore';
-import { Platform } from 'react-native';
-import messaging from '@react-native-firebase/messaging';
 import { useNotification } from './hooks/useNotification';
+import { getDeviceInfoMemory, getDeviceInfoModel, getDeviceInfoStorage } from './utils/Device/deviceUtils';
+
+const { model, so } = getDeviceInfoModel();
+const { freeMemory, totalMemory, usedMemory } = getDeviceInfoMemory();
+const { freeStorage, totalStorage, usedStorage } = getDeviceInfoStorage();
 
 const DefaultTheme = {
   colors: {
@@ -80,6 +85,22 @@ function App() {
 
   useEffect(() => {
     EventProvider.initializeModules();
+
+    EventProvider.logEvent('device_info_memory', {
+      model,
+      so,
+      totalMemory,
+      freeMemory,
+      usedMemory,
+    });
+
+    EventProvider.logEvent('device_info_storage', {
+      model,
+      so,
+      totalStorage,
+      freeStorage,
+      usedStorage,
+    });
   }, []);
 
   return (

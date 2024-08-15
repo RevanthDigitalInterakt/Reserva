@@ -15,7 +15,9 @@ export type EventName =
   | 'add_shipping_info'
   | 'select_item'
   | 'view_item_list'
-  | 'add_payment_info';
+  | 'add_payment_info'
+  | 'device_info_memory'
+  | 'device_info_storage';
 
 export type EventNameOptions = Record<EventName, string>;
 
@@ -44,7 +46,15 @@ export type EventValuesName =
   | 'search_term'
   | 'item_list_id'
   | 'item_list_name'
-  | 'payment_type';
+  | 'payment_type'
+  | 'model'
+  | 'so'
+  | 'freeMemory'
+  | 'totalMemory'
+  | 'usedMemory'
+  | 'freeStorage'
+  | 'totalStorage'
+  | 'usedStorage';
 
 export type EventValueOptions = Record<EventValuesName, string>;
 
@@ -65,6 +75,8 @@ export const eventsName: EventNameOptions = {
   select_item: 'select_item',
   view_item_list: 'view_item_list',
   add_payment_info: 'add_payment_info',
+  device_info_memory: 'device_info_memory',
+  device_info_storage: 'device_info_storage',
 };
 
 export const eventsValue: EventValueOptions = {
@@ -93,6 +105,14 @@ export const eventsValue: EventValueOptions = {
   item_list_id: 'item_list_id',
   item_list_name: 'item_list_name',
   payment_type: 'payment_type',
+  model: 'model',
+  so: 'so',
+  freeMemory: 'freeMemory',
+  totalMemory: 'totalMemory',
+  usedMemory: 'usedMemory',
+  freeStorage: 'freeStorage',
+  totalStorage: 'totalStorage',
+  usedStorage: 'usedStorage',
 };
 
 export const onlyGaEvents = [
@@ -108,4 +128,6 @@ export const onlyGaEvents = [
   'page_load_time',
   'sign_up',
   'click_card_cashback',
+  'device_info_memory',
+  'device_info_storage',
 ];

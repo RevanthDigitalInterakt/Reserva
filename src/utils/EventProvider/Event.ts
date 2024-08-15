@@ -25,8 +25,6 @@ type EventValues = {
   item_id?: string;
   item_name: string;
   item_price: any;
-  item_size: string;
-  item_color: string;
   item_quantity: number;
   item_category: string;
   item_categories: string;
@@ -71,6 +69,14 @@ type EventValues = {
   favorite: number;
   position: 'top' | 'bottom';
   page: string;
+  model: string;
+  so: string;
+  freeMemory: string;
+  totalMemory: string;
+  usedMemory: string;
+  freeStorage: string;
+  totalStorage: string;
+  usedStorage: string;
 };
 
 type AbandonedCartEventValues = {
@@ -195,6 +201,22 @@ export namespace EventsOptions {
   export type PaymentOptions = Pick<EventValues, 'item_id'>;
   export type ReturnPolicy = Pick<EventValues, 'item_id'>;
   export type AddToCartFromWishlist = Pick<EventValues, 'item_name' | 'item_color' | 'item_size' | 'value'>;
+  export type DeviceInfoMemory = Pick<
+  EventValues,
+  | 'model'
+  | 'so'
+  | 'totalMemory'
+  | 'freeMemory'
+  | 'usedMemory'
+  >;
+  export type DeviceInfoStorage = Pick<
+  EventValues,
+  | 'model'
+  | 'so'
+  | 'totalStorage'
+  | 'freeStorage'
+  | 'usedStorage'
+  >;
 }
 
 export type EventOptionsFn =
@@ -511,4 +533,10 @@ export type EventOptionsFn =
     payload: {
       category: string;
     }
+  } | {
+    type: 'device_info_memory',
+    payload: EventsOptions.DeviceInfoMemory,
+  } | {
+    type: 'device_info_storage',
+    payload: EventsOptions.DeviceInfoStorage
   };
