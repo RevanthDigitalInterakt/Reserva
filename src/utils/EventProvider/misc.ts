@@ -116,4 +116,5 @@ export const onlyGaEvents = [
   'page_load_time',
   'sign_up',
   'click_card_cashback',
+  'mobile_jailbroken',
 ];
