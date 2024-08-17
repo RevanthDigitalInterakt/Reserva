@@ -1,13 +1,25 @@
 import React from 'react';
 import {
-  View, Text, ScrollView, Linking,
+  View, Text, ScrollView,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { styles } from './styles';
 import { Card } from './components/Card';
+import type { IFilters } from '../../utils/generateFacets';
 
 interface Offer {
   offerImage: string;
   collectionId: string;
+  offerName: string;
+  fromPriceFilter?: string | null;
+  toPriceFilter?: string | null;
+  sizeFilter?: string | null;
+  colorFilter?: string | null;
+}
+
+interface NavigateToCatalogParams {
+  filters?: IFilters;
+  referenceId?: string;
 }
 
 interface OfferFilterCarouselProps {
@@ -16,10 +28,42 @@ interface OfferFilterCarouselProps {
 }
 
 export function OfferFilterCarousel({ offers, title }: OfferFilterCarouselProps) {
-  const handleRedirectToCatalog = (collectionId: string) => {
-    Linking.openURL(`usereserva://catalog/collection:${collectionId}`);
+  const navigation = useNavigation();
+  const handleRedirectToCatalog = (offer: Offer) => {
+    const navigationParams: NavigateToCatalogParams = {
+      filters: { },
+      referenceId: undefined,
+    };
+
+    if (offer.colorFilter) {
+      navigationParams.filters!.colors = [
+        {
+          key: 'cor',
+          value: offer.colorFilter[0]?.toLowerCase() || '',
+        },
+      ];
+    }
+    if (offer.sizeFilter) {
+      navigationParams.filters!.sizes = [
+        {
+          key: 'tamanho',
+          value: offer.sizeFilter[0]?.toUpperCase() || '',
+        },
+      ];
+    }
+    if (offer.fromPriceFilter && offer.toPriceFilter) {
+      navigationParams.filters!.priceFilter = {
+        from: Number(offer.fromPriceFilter),
+        to: Number(offer.toPriceFilter),
+      };
+    }
+
+    if (offer.collectionId) {
+      navigationParams.referenceId = offer.collectionId;
+    }
+
+    navigation.navigate('ProductCatalog', navigationParams);
   };
-  const handleFormatCollectionId = (collectionId: string) => collectionId.split(':')[1];
 
   return (
     <View style={styles.container}>
@@ -37,10 +81,10 @@ export function OfferFilterCarousel({ offers, title }: OfferFilterCarouselProps)
         {offers.map((offer) => (
           <Card
             handleRedirectToCatalog={() => handleRedirectToCatalog(
-              handleFormatCollectionId(offer.collectionId)!,
+              offer,
             )}
             imageUrl={offer.offerImage}
-            key={offer.collectionId}
+            key={offer.offerName}
           />
         ))}
       </ScrollView>
