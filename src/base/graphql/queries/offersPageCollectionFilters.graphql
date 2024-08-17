@@ -4,6 +4,11 @@ query offersPage {
     items {
       collectionId
       offerImage
+      offerName
+      fromPriceFilter
+      toPriceFilter
+      sizeFilter
+      colorFilter
     }
   }
 }

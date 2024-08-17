@@ -500,8 +500,10 @@ export type HomeCountdownThemeOutput = {
 export type HomeMediaOutput = {
   __typename?: 'HomeMediaOutput';
   creativeName?: Maybe<Scalars['String']['output']>;
+  deepLink?: Maybe<Scalars['String']['output']>;
   deepLinkNewsletter?: Maybe<Scalars['String']['output']>;
   facets: Array<ProductFacetOutput>;
+  headerImage?: Maybe<HomeCarouselItemImageOutput>;
   id: Scalars['ID']['output'];
   image: HomeCarouselItemImageOutput;
   linkMktIn?: Maybe<Scalars['String']['output']>;
@@ -509,7 +511,7 @@ export type HomeMediaOutput = {
   mkt: Scalars['Boolean']['output'];
   orderBy: Scalars['String']['output'];
   promotionName?: Maybe<Scalars['String']['output']>;
-  reference: Scalars['String']['output'];
+  reference?: Maybe<Scalars['String']['output']>;
   reservaMini: Scalars['Boolean']['output'];
 };
 
@@ -858,7 +860,12 @@ export type OffersPageCollectionFilter = {
 export type OffersPageCollectionFilterItemOutput = {
   __typename?: 'OffersPageCollectionFilterItemOutput';
   collectionId: Scalars['String']['output'];
+  colorFilter?: Maybe<Scalars['String']['output']>;
+  fromPriceFilter?: Maybe<Scalars['String']['output']>;
   offerImage: Scalars['String']['output'];
+  offerName: Scalars['String']['output'];
+  sizeFilter?: Maybe<Scalars['String']['output']>;
+  toPriceFilter?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderDetailIdInput = {
@@ -2824,7 +2831,7 @@ export type HomeCountdownQuery = { __typename?: 'Query', homeCountdown?: { __typ
 export type HomeMediasQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, deepLinkNewsletter?: string | null, orderBy: string, reference: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
+export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, deepLinkNewsletter?: string | null, orderBy: string, reference?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
 
 export type InfoCashbackPdpCollectionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2856,7 +2863,7 @@ export type MostSearchedWordsQuery = { __typename?: 'Query', mostSearchedWords: 
 export type OffersPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type OffersPageQuery = { __typename?: 'Query', offersPageCollectionFilter: { __typename?: 'OffersPageCollectionFilter', title: string, items: Array<{ __typename?: 'OffersPageCollectionFilterItemOutput', collectionId: string, offerImage: string }> } };
+export type OffersPageQuery = { __typename?: 'Query', offersPageCollectionFilter: { __typename?: 'OffersPageCollectionFilter', title: string, items: Array<{ __typename?: 'OffersPageCollectionFilterItemOutput', collectionId: string, offerImage: string, offerName: string, fromPriceFilter?: string | null, toPriceFilter?: string | null, sizeFilter?: string | null, colorFilter?: string | null }> } };
 
 export type OrderFormQueryVariables = Exact<{
   orderFormId: Scalars['String']['input'];
@@ -5324,6 +5331,11 @@ export const OffersPageDocument = gql`
     items {
       collectionId
       offerImage
+      offerName
+      fromPriceFilter
+      toPriceFilter
+      sizeFilter
+      colorFilter
     }
   }
 }
