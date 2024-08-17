@@ -18,7 +18,15 @@ interface IOffersStore {
   commercialBannerCollection?: ConfigCommercialBannerOutput[],
   collectionFilters: {
     title: string;
-    items: { collectionId: string; offerImage: string }[]
+    items: {
+      collectionId: string;
+      offerImage: string;
+      offerName: string;
+      fromPriceFilter?: string | null;
+      toPriceFilter?: string | null;
+      sizeFilter?: string | null;
+      colorFilter?: string | null;
+    }[]
   }
   onLoad: () => Promise<void>;
   setHasTabBar: (hasTabBar: boolean) => void;
