@@ -182,8 +182,8 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
 
         trackClick.onTrackClick(newData, data.search.identifier || '', type);
         trackStore.onTrackPageView(data.search.identifier || '', type);
-        trackEventSearchDito(newParameters.q, data.search.count);
-        EventProvider.logEvent('view_search_results', { search_term: newParameters.q });
+        trackEventSearchDito(String(newParameters.q), data.search.count);
+        EventProvider.logEvent('view_search_results', { search_term: String(newParameters.q) });
       }
 
       if (searchType === SearchType.CATALOG) {
@@ -201,7 +201,7 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
         ...(filters ? { filters } : {}),
         result: data.search.items,
         resultCount: data.search.count,
-      }));
+      } as ISearchStore));
     } catch (err) {
       ExceptionProvider.captureException(err);
     }
@@ -225,12 +225,23 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
         },
       });
 
+      const resultCount = data.search.items.length ? data.search.count : 0;
+
+      if (resultCount === 0 && state.result.length === 0) {
+        set(() => ({
+          loading: false,
+          parameters: { ...state.parameters, page: 0 },
+        } as ISearchStore));
+
+        useSearchStore().doFetchMore()
+      }
+
       set(() => ({
         loading: false,
         parameters: newParameters,
         result: [...state.result, ...data.search.items],
-        resultCount: data.search.count,
-      }));
+        resultCount,
+      } as ISearchStore));
     } catch (err) {
       ExceptionProvider.captureException(err);
     }

@@ -21,8 +21,10 @@ import useSearchStore from '../../../../zustand/useSearchStore';
 function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
   const { getString, getBoolean } = useRemoteConfig();
   const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
-  const { queryID } = useSearchStore(["queryID"]);
-  const { actions, packageItems, orderFormId, appTotalizers } = useBagStore(['actions', 'orderFormId', 'packageItems', 'appTotalizers']);
+  const { queryID } = useSearchStore(['queryID']);
+  const {
+    actions, packageItems, orderFormId, appTotalizers,
+  } = useBagStore(['actions', 'orderFormId', 'packageItems', 'appTotalizers']);
   const {
     productDetail,
     selectedColor,
@@ -78,7 +80,7 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
           : TrackEventNameEnum.CartItems,
         sku: [orderFormItem?.ean || ''],
         subTypeEvent: TrackEventSubTypeEnum.AddToCart,
-        dataObject:         [
+        dataObject: [
           {
             discount: orderFormItem?.discountPercent || 0,
             price: orderFormItem?.price || 0,

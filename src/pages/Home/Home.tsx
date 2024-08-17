@@ -223,6 +223,7 @@ function Home() {
                       reference={item.reference}
                       reservaMini={item.reservaMini}
                       deepLinkNewsletter={item?.deepLinkNewsletter}
+                      headerImageUrl={item?.headerImage?.url}
                     />
                   </>
                 );
@@ -237,6 +238,7 @@ function Home() {
                       reference={item.reference}
                       reservaMini={item.reservaMini}
                       deepLinkNewsletter={item?.deepLinkNewsletter}
+                      headerImageUrl={item?.headerImage?.url}
                     />
                     <NewHomeCountDown />
                   </>
@@ -251,6 +253,7 @@ function Home() {
                   reference={item.reference}
                   reservaMini={item.reservaMini}
                   deepLinkNewsletter={item?.deepLinkNewsletter}
+                  headerImageUrl={item?.headerImage?.url}
                 />
               );
             }}
