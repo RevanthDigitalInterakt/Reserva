@@ -25,8 +25,6 @@ type EventValues = {
   item_id?: string;
   item_name: string;
   item_price: any;
-  item_size: string;
-  item_color: string;
   item_quantity: number;
   item_category: string;
   item_categories: string;
@@ -511,4 +509,52 @@ export type EventOptionsFn =
     payload: {
       category: string;
     }
+  } | {
+    type: 'login_forgot_password_click',
+    payload: {}
+  } | {
+    type: 'login_click',
+    payload: {}
+  } | {
+    type: 'login_register_click',
+    payload: {}
+  } | {
+    type: 'signup_register_email_click',
+    payload: {}
+  } | {
+    type: 'signup_recover_password_click',
+    payload: {}
+  } | {
+    type: 'signup_create_password_click',
+    payload: {}
+  } | {
+    type: 'profile_edit_click',
+    payload: {}
+  } | {
+    type: 'profile_my_orders_click',
+    payload: {}
+  } | {
+    type: 'profile_favorites_click',
+    payload: {}
+  } | {
+    type: 'profile_my_account_click',
+    payload: {}
+  } | {
+    type: 'profile_my_cashback_click',
+    payload: {}
+  } | {
+    type: 'profile_my_credits_click',
+    payload: {}
+  } | {
+    type: 'profile_my_addresses_click',
+    payload: {}
+  } | {
+    type: 'profile_change_password_click',
+    payload: {}
+  } | {
+    type: 'profile_my_portfolio_click',
+    payload: {}
+  } | {
+    type: 'profile_logout_click',
+    payload: {}
   };

@@ -15,7 +15,23 @@ export type EventName =
   | 'add_shipping_info'
   | 'select_item'
   | 'view_item_list'
-  | 'add_payment_info';
+  | 'add_payment_info'
+  | 'login_forgot_password_click'
+  | 'login_click'
+  | 'login_register_click'
+  | 'signup_recover_password_click'
+  | 'signup_register_email_click'
+  | 'signup_create_password_click'
+  | 'profile_edit_click'
+  | 'profile_my_orders_click'
+  | 'profile_favorites_click'
+  | 'profile_my_account_click'
+  | 'profile_my_cashback_click'
+  | 'profile_my_credits_click'
+  | 'profile_my_addresses_click'
+  | 'profile_change_password_click'
+  | 'profile_my_portfolio_click'
+  | 'profile_logout_click';
 
 export type EventNameOptions = Record<EventName, string>;
 
@@ -65,6 +81,22 @@ export const eventsName: EventNameOptions = {
   select_item: 'select_item',
   view_item_list: 'view_item_list',
   add_payment_info: 'add_payment_info',
+  login_forgot_password_click: 'login_forgot_password_click',
+  login_click: 'login_click',
+  login_register_click: 'login_register_click',
+  signup_recover_password_click: 'signup_recover_password_click',
+  signup_register_email_click: 'signup_register_email_click',
+  signup_create_password_click: 'signup_create_password_click',
+  profile_edit_click: 'profile_edit_click',
+  profile_my_orders_click: 'profile_my_orders_click',
+  profile_favorites_click: 'profile_favorites_click',
+  profile_my_account_click: 'profile_my_account_click',
+  profile_my_cashback_click: 'profile_my_cashback_click',
+  profile_my_credits_click: 'profile_my_credits_click',
+  profile_my_addresses_click: 'profile_my_addresses_click',
+  profile_change_password_click: 'profile_change_password_click',
+  profile_my_portfolio_click: 'profile_my_portfolio_click',
+  profile_logout_click: 'profile_logout_click',
 };
 
 export const eventsValue: EventValueOptions = {
@@ -108,4 +140,20 @@ export const onlyGaEvents = [
   'page_load_time',
   'sign_up',
   'click_card_cashback',
+  'login_forgot_password_click',
+  'login_click',
+  'login_register_click',
+  'signup_register_email_click',
+  'signup_recover_password_click',
+  'signup_create_password_click',
+  'profile_edit_click',
+  'profile_my_orders_click',
+  'profile_favorites_click',
+  'profile_my_account_click',
+  'profile_my_cashback_click',
+  'profile_my_credits_click',
+  'profile_my_addresses_click',
+  'profile_change_password_click',
+  'profile_my_portfolio_click',
+  'profile_logout_click',
 ];

@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import
@@ -71,7 +72,6 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   const [code, setCode] = useState('');
   const [cpf, setCpf] = useState('');
   const [requestCookie, setRequestCookie] = useState(cookies);
-  const [passwordError, setPasswordError] = useState('');
   const [passwords, setPasswords] = useState({
     first: '',
     confirm: '',
@@ -81,6 +81,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   const [signUpVerificationCode] = useSignUpVerificationCodeMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
+  const passwordError = '';
   const { ModalWithoutInternet } = useCheckConnection({});
 
   const trackEventSignUpDito = useCallback(async (emailDito: string, cpfDito: string) => {
@@ -129,6 +130,8 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   const { handleDitoRegister } = useInitialDito();
 
   const handleSignUp = useCallback(async () => {
+    EventProvider.logEvent('signup_create_password_click', {});
+
     const variables = {
       input: {
         email,
@@ -306,7 +309,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
                   <TextInput
                     placeholder="Digite seu CPF"
                     onChangeText={(value) => applyCpfMask(value)}
-                    autoCompleteType="off"
+                    autoComplete="off"
                     autoCapitalize="none"
                     onEndEditing={(e) => verifyCPF(e.nativeEvent.text)}
                     keyboardType="number-pad"
@@ -342,7 +345,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
                   <UnderlineInput
                     isSecureText
                     testID="confirmaccess_input_password"
-                    onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
+                    onFocus={(_) => scrollViewRef.current?.scrollToEnd()}
                     onChangeText={(text) => setPasswords({ ...passwords, first: text })}
                     placeholder="Digite sua nova senha"
                   />
@@ -355,7 +358,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
                   <UnderlineInput
                     testID="confirmaccess_input_confirm_password"
                     isSecureText
-                    onFocus={(event) => scrollViewRef.current?.scrollToEnd()}
+                    onFocus={(_) => scrollViewRef.current?.scrollToEnd()}
                     onChangeText={(text) => setPasswords({ ...passwords, confirm: text })}
                     placeholder="Confirme sua nova senha"
                   />
