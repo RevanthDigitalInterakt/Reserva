@@ -32,7 +32,7 @@ import { useBagStore } from './zustand/useBagStore/useBagStore';
 import { useNotification } from './hooks/useNotification';
 import { getDeviceInfoMemory, getDeviceInfoModel, getDeviceInfoStorage } from './utils/Device/deviceUtils';
 
-const { model, so } = getDeviceInfoModel();
+const { model, os } = getDeviceInfoModel();
 const { freeMemory, totalMemory, usedMemory } = getDeviceInfoMemory();
 const { freeStorage, totalStorage, usedStorage } = getDeviceInfoStorage();
 
@@ -88,7 +88,7 @@ function App() {
 
     EventProvider.logEvent('device_info_memory', {
       model,
-      so,
+      os,
       totalMemory,
       freeMemory,
       usedMemory,
@@ -96,7 +96,7 @@ function App() {
 
     EventProvider.logEvent('device_info_storage', {
       model,
-      so,
+      os,
       totalStorage,
       freeStorage,
       usedStorage,

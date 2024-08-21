@@ -48,7 +48,7 @@ export type EventValuesName =
   | 'item_list_name'
   | 'payment_type'
   | 'model'
-  | 'so'
+  | 'os'
   | 'freeMemory'
   | 'totalMemory'
   | 'usedMemory'
@@ -106,7 +106,7 @@ export const eventsValue: EventValueOptions = {
   item_list_name: 'item_list_name',
   payment_type: 'payment_type',
   model: 'model',
-  so: 'so',
+  os: 'os',
   freeMemory: 'freeMemory',
   totalMemory: 'totalMemory',
   usedMemory: 'usedMemory',

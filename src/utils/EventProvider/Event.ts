@@ -70,7 +70,7 @@ type EventValues = {
   position: 'top' | 'bottom';
   page: string;
   model: string;
-  so: string;
+  os: string;
   freeMemory: string;
   totalMemory: string;
   usedMemory: string;
@@ -204,7 +204,7 @@ export namespace EventsOptions {
   export type DeviceInfoMemory = Pick<
   EventValues,
   | 'model'
-  | 'so'
+  | 'os'
   | 'totalMemory'
   | 'freeMemory'
   | 'usedMemory'
@@ -212,7 +212,7 @@ export namespace EventsOptions {
   export type DeviceInfoStorage = Pick<
   EventValues,
   | 'model'
-  | 'so'
+  | 'os'
   | 'totalStorage'
   | 'freeStorage'
   | 'usedStorage'

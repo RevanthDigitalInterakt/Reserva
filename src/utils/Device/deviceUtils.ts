@@ -20,7 +20,7 @@ type DeviceInfoModelType = {
   name: string,
   model: string,
   ip: string,
-  so: string,
+  os: string,
   version: string | number,
 };
 
@@ -52,14 +52,14 @@ export const getDeviceInfoModel = (): DeviceInfoModelType => {
   const name = DeviceInfo.getDeviceNameSync();
   const model = DeviceInfo.getModel();
   const ip = DeviceInfo.getIpAddressSync();
-  const so = Platform.OS;
+  const os = Platform.OS;
   const version = Platform.Version;
 
   return {
     name,
     model,
     ip,
-    so,
+    os,
     version,
   };
 };
