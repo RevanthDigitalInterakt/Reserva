@@ -1,7 +1,8 @@
 import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
-const convertBytesToGb = (bytes: number): string => (bytes / (1024 * 1024 * 1024)).toFixed(2);
+const oneGigabyte = 1024 * 1024 * 1024;
+const convertBytesToGigabytes = (bytes: number): string => (bytes / oneGigabyte).toFixed(2);
 
 type DeviceInfoMemoryType = {
   totalMemory: string,
@@ -29,9 +30,9 @@ export const getDeviceInfoMemory = (): DeviceInfoMemoryType => {
   const freeMemory = totalMemory - usedMemory;
 
   return {
-    totalMemory: convertBytesToGb(totalMemory),
-    usedMemory: convertBytesToGb(usedMemory),
-    freeMemory: convertBytesToGb(freeMemory),
+    totalMemory: convertBytesToGigabytes(totalMemory),
+    usedMemory: convertBytesToGigabytes(usedMemory),
+    freeMemory: convertBytesToGigabytes(freeMemory),
   };
 };
 
@@ -41,9 +42,9 @@ export const getDeviceInfoStorage = (): DeviceInfoStorageType => {
   const usedStorage = totalStorage - freeStorage;
 
   return {
-    totalStorage: convertBytesToGb(totalStorage),
-    usedStorage: convertBytesToGb(usedStorage),
-    freeStorage: convertBytesToGb(freeStorage),
+    totalStorage: convertBytesToGigabytes(totalStorage),
+    usedStorage: convertBytesToGigabytes(usedStorage),
+    freeStorage: convertBytesToGigabytes(freeStorage),
   };
 };
 

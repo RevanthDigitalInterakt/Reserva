@@ -2,6 +2,10 @@
 
 ## CHANGELOG
 
+### 2.22.8
+
+- [46641 - Implementação evento memória do dispositivo](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46641)
+
 ### 2.22.7
 
 - [46461 - Melhoria na captação de leads app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46461)
