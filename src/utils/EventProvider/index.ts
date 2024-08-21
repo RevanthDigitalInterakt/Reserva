@@ -134,7 +134,6 @@ class EventProvider {
 
       if (onlyGaEvents.includes(eventName)) return;
 
-      // @ts-ignore
       const afEventName = eventsName[eventName];
       const afEventsValues = this.parseValues(eventValues);
 
