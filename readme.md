@@ -87,9 +87,9 @@ Antes de começar, verifique se você tem:
 
 ### Incrementar o Version e Build Number
 
-- Primeiramente, verifique a versão atual em `Targets > reserva > Identity`, como exemplo **Version 2.22.7** e **Build 2023000200.2.22.7**.
+- Primeiramente, verifique a versão atual em `Targets > reserva > Identity`, como exemplo **Version 2.22.7** e **Build 2023000200.2.22.8**.
 
-**Obs:** Para substituir o build number (`2023000200.2.22.7`) em todos os arquivos exibidos na sua busca, você pode seguir o mesmo processo.
+**Obs:** Para substituir o build number (`2023000200.2.22.8`) em todos os arquivos exibidos na sua busca, você pode seguir o mesmo processo.
 
 ### Substituição de Versão nos Arquivos
 
