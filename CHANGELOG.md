@@ -2,9 +2,6 @@
 
 ## CHANGELOG
 
-### 2.22.8
-- [51905 - Evento de localização habilitada](https://dev.azure.com/ARECO/AReCO/_workitems/edit/51905)
-
 ### 2.22.7
 
 - [46461 - Melhoria na captação de leads app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46461)
@@ -13,7 +10,10 @@
 - [48417 - Atualização política de privacidade Arezzo + Soma](https://dev.azure.com/ARECO/AReCO/_workitems/edit/48417)
 - [41045 - Home promocional - Carrossel de promoções](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41045)
 - [41537 - Implementação evento CTR Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41537)
-
+- [51905 - Evento de localização habilitada](https://dev.azure.com/ARECO/AReCO/_workitems/edit/51905)
+- [45649 - Alteração na captura de eventos para produtos no GA4](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45649)
+- [47163 - [PTM-129] Ausência de detecção de jailbreak (iOS)](https://dev.azure.com/ARECO/AReCO/_workitems/edit/47163)
+- [46514 - Correção Doris](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46514)
 
 ### 2.22.6
 
