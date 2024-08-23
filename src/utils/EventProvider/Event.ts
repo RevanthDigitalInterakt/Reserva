@@ -23,9 +23,9 @@ export enum Actions {
 
 type EventValues = {
   item_id?: string;
-  item_name: string;
-  item_price: any;
-  item_quantity: number;
+  item_name?: string;
+  item_price?: any;
+  item_quantity?: number;
   item_category: string;
   item_categories: string;
   item_size: string | number;
@@ -52,7 +52,7 @@ type EventValues = {
   value?: number;
   tax: number;
   shipping: number;
-  transaction_id: '';
+  transaction_id: string;
   order_form_id: string;
   items: Items[];
   search_term: string;
@@ -116,11 +116,14 @@ export namespace EventsOptions {
   EventValues,
   | 'item_id'
   | 'item_price'
+  | 'item_name'
   | 'item_quantity'
   | 'item_category'
+  | 'item_brand'
   | 'currency'
   | 'seller'
-  | 'item_brand'
+  | 'price'
+  | 'quantity'
   >;
   export type AddToCartPrime = Pick<
   EventValues,

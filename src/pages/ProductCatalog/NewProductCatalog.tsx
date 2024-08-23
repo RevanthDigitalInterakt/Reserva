@@ -64,6 +64,7 @@ function NewProductCatalog({ navigation, route }: Props) {
 
   useEffect(() => {
     EventProvider.logEvent('view_item_list', {
+      item_brand: '',
       items: result.map((item) => ({
         price: item?.currentPrice,
         item_id: item?.productId,
