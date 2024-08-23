@@ -1,27 +1,27 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useCallback, useMemo } from "react";
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useMemo } from 'react';
 import {
   ActivityIndicator,
   FlatList,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
-} from "react-native";
+} from 'react-native';
 import {
   TrackEventNameEnum,
   TrackEventTypeEnum,
   type ProductListOutput,
-} from "../../base/graphql/generated";
-import { COLORS } from "../../base/styles/colors";
-import { usePrimeInfo } from "../../hooks/usePrimeInfo";
-import { useRemoteConfig } from "../../hooks/useRemoteConfig";
-import { useWishlistActions } from "../../hooks/useWishlistActions";
-import EventProvider from "../../utils/EventProvider";
-import { defaultBrand } from "../../utils/defaultWBrand";
-import { Box } from "../Box/Box";
-import { ProductVerticalListCard } from "../ProductVerticalListCard";
-import { Typography } from "../Typography/Typography";
-import { useTrackClickAlgoliaStore } from "../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore";
-import useSearchStore from "../../zustand/useSearchStore";
+} from '../../base/graphql/generated';
+import { COLORS } from '../../base/styles/colors';
+import { usePrimeInfo } from '../../hooks/usePrimeInfo';
+import { useRemoteConfig } from '../../hooks/useRemoteConfig';
+import { useWishlistActions } from '../../hooks/useWishlistActions';
+import EventProvider from '../../utils/EventProvider';
+import { defaultBrand } from '../../utils/defaultWBrand';
+import { Box } from '../Box/Box';
+import { ProductVerticalListCard } from '../ProductVerticalListCard';
+import { Typography } from '../Typography/Typography';
+import { useTrackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
+import useSearchStore from '../../zustand/useSearchStore';
 
 interface ListProductsProps {
   data: ProductListOutput[];
@@ -47,19 +47,18 @@ function NewListVerticalProducts({
   const navigation = useNavigation();
   const { getBoolean } = useRemoteConfig();
   const { primeActive } = usePrimeInfo();
-  const { onTrack } = useTrackClickAlgoliaStore(["onTrack"]);
-  const { queryID } = useSearchStore(["queryID"]);
-  const { checkIsFavorite, onToggleFavorite, loadingSkuId } =
-    useWishlistActions();
+  const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
+  const { queryID } = useSearchStore(['queryID']);
+  const { checkIsFavorite, onToggleFavorite, loadingSkuId } = useWishlistActions();
 
   const showThumbColors = useMemo(
-    () => getBoolean("show_pdc_thumb_color"),
-    [getBoolean]
+    () => getBoolean('show_pdc_thumb_color'),
+    [getBoolean],
   );
 
   const showPrimePrice = useMemo(
-    () => getBoolean("show_price_prime_pdc") && primeActive,
-    [getBoolean, primeActive]
+    () => getBoolean('show_price_prime_pdc') && primeActive,
+    [getBoolean, primeActive],
   );
 
   const onRenderItem = useCallback(
@@ -75,12 +74,12 @@ function NewListVerticalProducts({
           prime={
             item.prime && showPrimePrice
               ? {
-                  primePrice: item.prime.price,
-                  primeInstallments: {
-                    number: item.prime.installment.number || 0,
-                    value: item.prime.installment.value || 0,
-                  },
-                }
+                primePrice: item.prime.price,
+                primeInstallments: {
+                  number: item.prime.installment.number || 0,
+                  value: item.prime.installment.value || 0,
+                },
+              }
               : null
           }
           productTitle={item.productName}
@@ -94,10 +93,11 @@ function NewListVerticalProducts({
           installmentsPrice={item.installment.value}
           loadingFavorite={loadingSkuId === item.skuId}
           onClickImage={() => {
-            EventProvider.logEvent("page_view", {
+            const itemPosistion = data.indexOf(item);
+            EventProvider.logEvent('page_view', {
               item_brand: defaultBrand.picapau,
             });
-            EventProvider.logEvent("select_item", {
+            EventProvider.logEvent('select_item', {
               item_list_id: item.productId,
               item_list_name: item.productName,
               item_brand: item.brand,
@@ -107,7 +107,7 @@ function NewListVerticalProducts({
               cacheGoingBackRequest();
             }
             // @ts-ignore
-            navigation.navigate("ProductDetail", { skuId: item.skuId });
+            navigation.navigate('ProductDetail', { skuId: item.skuId });
             onTrack({
               typeEvent: TrackEventTypeEnum.Click,
               nameEvent: queryID
@@ -115,6 +115,7 @@ function NewListVerticalProducts({
                 : TrackEventNameEnum.ClickedItems,
               sku: [item.ean],
               queryID,
+              positions: [itemPosistion],
             });
           }}
           colors={showThumbColors ? item.colors || [] : []}
@@ -147,7 +148,7 @@ function NewListVerticalProducts({
       onToggleFavorite,
       showPrimePrice,
       showThumbColors,
-    ]
+    ],
   );
 
   const Footer = useMemo(() => {
@@ -185,7 +186,7 @@ function NewListVerticalProducts({
             fontFamily="nunitoRegular"
             fontSize={16}
           >
-            {"\n"}
+            {'\n'}
             Produtos não encontrados
           </Typography>
         </Box>

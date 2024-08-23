@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
   },
 
   containerBody: {
-    borderRadius: 8,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
     padding: scale(25),
     elevation: 5,
     backgroundColor: COLORS.WHITE,

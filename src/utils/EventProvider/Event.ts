@@ -25,8 +25,6 @@ type EventValues = {
   item_id?: string;
   item_name: string;
   item_price: any;
-  item_size: string;
-  item_color: string;
   item_quantity: number;
   item_category: string;
   item_categories: string;
@@ -74,6 +72,7 @@ type EventValues = {
   platform?: string;
   model?: string;
   ip?: string
+  locationEnabled: string;
 };
 
 type AbandonedCartEventValues = {
@@ -199,6 +198,7 @@ export namespace EventsOptions {
   export type ReturnPolicy = Pick<EventValues, 'item_id'>;
   export type AddToCartFromWishlist = Pick<EventValues, 'item_name' | 'item_color' | 'item_size' | 'value'>;
   export type MobileJailbroken = Pick<EventValues, 'platform' | 'model' | 'ip'>;
+  export type DeviceInfoTrack = Pick<EventValues, 'locationEnabled'>;
 }
 
 export type EventOptionsFn =
@@ -510,4 +510,15 @@ export type EventOptionsFn =
   } | {
     type: 'mobile_jailbroken',
     payload: EventsOptions.MobileJailbroken;
+  } | {
+    type: 'offers_main_banner_slide',
+    payload: {}
+  } | {
+    type: 'offers_main_banner_click',
+    payload: {
+      category: string;
+    }
+  } | {
+    type: 'device_info',
+    payload: EventsOptions.DeviceInfoTrack,
   };

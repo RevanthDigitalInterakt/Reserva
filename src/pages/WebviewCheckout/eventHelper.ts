@@ -285,6 +285,7 @@ export const triggerEventAfterPurchaseCompleted = async (
       })),
       totalPrice: dataPurchaseCompleted?.orderValue,
       queryID,
+      price: dataPurchaseCompleted.orderValue,
     });
 
   trackOrderStore.getState().onTrack(dataPurchaseCompleted, userMail);

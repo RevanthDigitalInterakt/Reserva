@@ -14,6 +14,7 @@ import timezone from 'dayjs/plugin/timezone';
 import { WebView, type WebViewMessageEvent } from 'react-native-webview';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DeviceInfo from 'react-native-device-info';
 import NewBanner from '../../components/Banner/NewBanner';
 import { Box } from '../../components/Box/Box';
 import ModalSignUpComplete from '../../components/ModalSignUpComplete';
@@ -191,8 +192,11 @@ function Home() {
   useEffect(() => {
     trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);
     EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
-  }, []);
 
+    DeviceInfo.isLocationEnabled().then((enabled) => {
+      EventProvider.logEvent('device_info', { locationEnabled: enabled ? 'enabled' : 'disabled' });
+    });
+  }, []);
 
   return (
     <>
@@ -223,6 +227,7 @@ function Home() {
                       reference={item.reference}
                       reservaMini={item.reservaMini}
                       deepLinkNewsletter={item?.deepLinkNewsletter}
+                      headerImageUrl={item?.headerImage?.url}
                     />
                   </>
                 );
@@ -237,6 +242,7 @@ function Home() {
                       reference={item.reference}
                       reservaMini={item.reservaMini}
                       deepLinkNewsletter={item?.deepLinkNewsletter}
+                      headerImageUrl={item?.headerImage?.url}
                     />
                     <NewHomeCountDown />
                   </>
@@ -251,6 +257,7 @@ function Home() {
                   reference={item.reference}
                   reservaMini={item.reservaMini}
                   deepLinkNewsletter={item?.deepLinkNewsletter}
+                  headerImageUrl={item?.headerImage?.url}
                 />
               );
             }}

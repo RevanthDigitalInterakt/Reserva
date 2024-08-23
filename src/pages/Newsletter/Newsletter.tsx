@@ -16,8 +16,10 @@ import { FormNewsletter } from './components/FormNewsletter/FormNewsletter';
 
 type INewsletterProps = StackScreenProps<RootStackParamList, 'Newsletter'>;
 
-export default function Newsletter({ navigation }: INewsletterProps) {
+export default function Newsletter({ navigation, route }: INewsletterProps) {
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const headerImageUrl = route.params?.headerImageUrl;
 
   const onBackdropPress = useCallback(() => {
     setOpenModal(false);
@@ -37,7 +39,8 @@ export default function Newsletter({ navigation }: INewsletterProps) {
           <View>
             <Image
               style={styles.imageHeader}
-              source={images.newsletter}
+              source={headerImageUrl ? { uri: headerImageUrl } : images.newsletter}
+              resizeMode="cover"
             />
           </View>
           <View style={styles.containerBody}>

@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 enum FeedbackMessageEnum {
   MIN_INPUT_SIZE_2 = 'Minimo de 2 caracterers para esse campo',
-  MIN_INPUT_SIZE_12 = 'O telefone deve ter mais ou igual a 12 números',
+  MIN_INPUT_SIZE_12 = 'O telefone deve ter mais ou igual a 11 números',
   MAX_INPUT_SIZE_30 = 'Máximo de 30 caracterers para esse campo',
   REQUIRED_FULL_NAME = 'Insira um nome',
   REQUIRED_EMAIL = 'Insira seu e-mail',
@@ -20,5 +20,5 @@ export const emailSchema = Yup.string()
   .required(FeedbackMessageEnum.REQUIRED_EMAIL);
 
 export const phoneNumberSchema = Yup.string()
-  .min(12, FeedbackMessageEnum.MIN_INPUT_SIZE_12)
+  .min(11, FeedbackMessageEnum.MIN_INPUT_SIZE_12)
   .required(FeedbackMessageEnum.PHONE_NUMBER);
