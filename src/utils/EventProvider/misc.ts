@@ -15,7 +15,8 @@ export type EventName =
   | 'add_shipping_info'
   | 'select_item'
   | 'view_item_list'
-  | 'add_payment_info';
+  | 'add_payment_info'
+  | 'mobile_jailbroken';
 
 export type EventNameOptions = Record<EventName, string>;
 
@@ -47,7 +48,16 @@ export type EventValuesName =
   | 'seller'
   | 'price'
   | 'quantity'
-  | 'method';
+  | 'method'
+  | 'product_currency'
+  | 'method'
+  | 'search_term'
+  | 'item_list_id'
+  | 'item_list_name'
+  | 'payment_type'
+  | 'platform'
+  | 'model'
+  | 'ip';
 
 export type EventValueOptions = Record<EventValuesName, string>;
 
@@ -68,6 +78,7 @@ export const eventsName: EventNameOptions = {
   select_item: 'select_item',
   view_item_list: 'view_item_list',
   add_payment_info: 'add_payment_info',
+  mobile_jailbroken: 'mobile_jailbroken',
 };
 
 export const eventsValue: EventValueOptions = {
@@ -97,6 +108,9 @@ export const eventsValue: EventValueOptions = {
   item_list_name: 'item_list_name',
   payment_type: 'payment_type',
   item_brand: 'af_brand',
+  platform: 'af_platform',
+  model: 'af_model',
+  ip: 'af_ip',
 };
 
 export const onlyGaEvents = [
@@ -112,4 +126,5 @@ export const onlyGaEvents = [
   'page_load_time',
   'sign_up',
   'click_card_cashback',
+  'mobile_jailbroken',
 ];

@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
-import { Linking, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 import testProps from '../../utils/testProps';
 import { Box } from '../Box/Box';
@@ -13,6 +13,7 @@ interface INewBanner {
   reservaMini: boolean;
   orderBy: string;
   deepLinkNewsletter?: string | null;
+  headerImageUrl?: string;
 }
 
 function NewBanner({
@@ -22,12 +23,13 @@ function NewBanner({
   reservaMini,
   orderBy,
   deepLinkNewsletter,
+  headerImageUrl,
 }: INewBanner) {
   const navigation = useNavigation();
 
   const onPress = useCallback(() => {
     if (deepLinkNewsletter?.includes('/newsletter')) {
-      Linking.openURL(deepLinkNewsletter);
+      navigation.navigate('Newsletter', { headerImageUrl });
       return;
     }
 

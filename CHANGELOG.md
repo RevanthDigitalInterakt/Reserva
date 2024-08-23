@@ -2,10 +2,25 @@
 
 ## CHANGELOG
 
+### 2.22.8
+- [51905 - Evento de localização habilitada](https://dev.azure.com/ARECO/AReCO/_workitems/edit/51905)
+
+### 2.22.7
+
+- [46461 - Melhoria na captação de leads app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46461)
+- [46427 - Implementação evento purchase Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46427)
+- [46801 - Loop ao usar filtro e ordenação](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46801)
+- [48417 - Atualização política de privacidade Arezzo + Soma](https://dev.azure.com/ARECO/AReCO/_workitems/edit/48417)
+- [41045 - Home promocional - Carrossel de promoções](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41045)
+- [41537 - Implementação evento CTR Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41537)
+
+
 ### 2.22.6
+
 - [30695 - Redirecionamento das chamadas do checkout para o API Gateway](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30695)
 - Exclusão log DataDog
 - Correção deeplink do whatsaap
+- [47163 - [PTM-129] Ausência de detecção de jailbreak (iOS)](https://dev.azure.com/ARECO/AReCO/_workitems/edit/47163)
 
 ### 2.14.0
 

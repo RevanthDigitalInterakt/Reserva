@@ -10,8 +10,12 @@ import type {
   HomeMediaOutput,
   HomeMediasQuery,
   HomeMediasQueryVariables,
+  OffersCarouselsOutput,
+  OffersCarouselsQuery,
 } from '../base/graphql/generated';
-import { HomeCarouselsDocument, HomeConfigDocument, HomeMediasDocument } from '../base/graphql/generated';
+import {
+  HomeCarouselsDocument, HomeConfigDocument, HomeMediasDocument, OffersCarouselsDocument,
+} from '../base/graphql/generated';
 import { getApolloClient } from '../utils/getApolloClient';
 import { apolloFetchPolicyStore } from './useApolloFetchPolicyStore';
 
@@ -19,6 +23,7 @@ interface IHomeStore {
   loading: boolean;
   hasTabBar: boolean;
   carousels: HomeCarouselOutput[];
+  offersCarousels: OffersCarouselsOutput[];
   medias: HomeMediaOutput[];
   offersPage?: string;
   commercialBannerCollection?: ConfigCommercialBannerOutput[],
@@ -30,6 +35,7 @@ const homeStore = create<IHomeStore>((set) => ({
   loading: true,
   hasTabBar: true,
   carousels: [],
+  offersCarousels: [],
   discountBar: undefined,
   offersPage: undefined,
   commercialBannerCollection: undefined,
@@ -40,8 +46,22 @@ const homeStore = create<IHomeStore>((set) => ({
 
     const { getFetchPolicyPerKey } = apolloFetchPolicyStore.getState();
 
+    const { data: homeData } = await client.query<HomeCarouselsQuery, HomeCarouselsQueryVariables>({
+      context: { clientName: 'gateway' },
+      fetchPolicy: getFetchPolicyPerKey('homeCarousels'),
+      query: HomeCarouselsDocument,
+    });
+
+    const { data: offersData } = await client.query<OffersCarouselsQuery>({
+      context: { clientName: 'gateway' },
+      fetchPolicy: getFetchPolicyPerKey('homeCarousels'),
+      query: OffersCarouselsDocument,
+    });
+
     set(() => ({
       loading: true,
+      carousels: homeData.homeCarousels,
+      offersCarousels: offersData.offersCarousels,
     }));
 
     try {
@@ -71,7 +91,6 @@ const homeStore = create<IHomeStore>((set) => ({
         loading: false,
         carousels: data.homeCarousels,
       }));
-
     } catch {
       set(() => ({
         loading: false,

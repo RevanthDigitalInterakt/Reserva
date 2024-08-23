@@ -263,7 +263,7 @@ export const triggerEventAfterPurchaseCompleted = async (
         categorias_produto: item?.productCategories,
         tamanho: item?.skuName?.split('-')?.[1]?.trim() || '',
         cor: item?.skuName?.split('-')?.[0]?.trim() || '',
-        preco_produto: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,
+        preco_produto: (item?.priceDefinition?.calculatedSellingPrice ?? 0) / 100,
         origem: 'app',
       },
     });
@@ -282,10 +282,11 @@ export const triggerEventAfterPurchaseCompleted = async (
       dataObject: dataPurchaseCompleted.orderFormItems.map((item) => ({
         discount: item?.discountPercent || 0,
         quantity: item?.quantity || 0,
-        price: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,
+        price: (item?.priceDefinition?.calculatedSellingPrice ?? 0) / 100,
       })),
       totalPrice: dataPurchaseCompleted?.orderValue,
       queryID,
+      price: dataPurchaseCompleted.orderValue,
     },
   );
 
