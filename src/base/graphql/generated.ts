@@ -143,6 +143,12 @@ export type CashbackWalletOutput = {
   userStatus: Scalars['String']['output'];
 };
 
+export type CategoryCardsOutput = {
+  __typename?: 'CategoryCardsOutput';
+  sectionCardTitle?: Maybe<Scalars['String']['output']>;
+  sectionMediaCards?: Maybe<Array<SectionMediaCardsOutput>>;
+};
+
 export type CepInput = {
   cep: Scalars['String']['input'];
 };
@@ -581,6 +587,18 @@ export type ItemsSessionBodyCollectionOutput = {
   helpCenterSessionTitle?: Maybe<Scalars['String']['output']>;
 };
 
+export type LastCartOutput = {
+  __typename?: 'LastCartOutput';
+  code?: Maybe<LastCartTypeEnum>;
+  orderFormId?: Maybe<Scalars['String']['output']>;
+};
+
+export enum LastCartTypeEnum {
+  AlreadySynced = 'ALREADY_SYNCED',
+  NoPreviousCart = 'NO_PREVIOUS_CART',
+  UpdatedCart = 'UPDATED_CART'
+}
+
 export type LoggedInOutput = {
   __typename?: 'LoggedInOutput';
   authCookie?: Maybe<Scalars['String']['output']>;
@@ -853,10 +871,28 @@ export type MutationWishlistRemoveProductArgs = {
 
 export type OffersCarouselsOutput = {
   __typename?: 'OffersCarouselsOutput';
+  categoryCards?: Maybe<CategoryCardsOutput>;
   items: Array<HomeCarouselItemOutput>;
   showtime?: Maybe<Scalars['Int']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   type: HomePageSectionTypeEnum;
+};
+
+export type OffersPageCollectionFilter = {
+  __typename?: 'OffersPageCollectionFilter';
+  items: Array<OffersPageCollectionFilterItemOutput>;
+  title: Scalars['String']['output'];
+};
+
+export type OffersPageCollectionFilterItemOutput = {
+  __typename?: 'OffersPageCollectionFilterItemOutput';
+  collectionId?: Maybe<Scalars['String']['output']>;
+  colorFilter?: Maybe<Array<Scalars['String']['output']>>;
+  fromPriceFilter?: Maybe<Scalars['String']['output']>;
+  offerImage: Scalars['String']['output'];
+  offerName: Scalars['String']['output'];
+  sizeFilter?: Maybe<Array<Scalars['String']['output']>>;
+  toPriceFilter?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderDetailIdInput = {
@@ -1741,6 +1777,7 @@ export type Query = {
   getCashbackOperation: CashbackAllOperationOutput;
   getCashbackTransaction: CashbackTransactionOutput;
   getCashbackWallet: CashbackWalletOutput;
+  getLastCart: LastCartOutput;
   healthcheck: HealthcheckOutput;
   helpCenterCollection: HelpCenterOutput;
   homeCarousels: Array<HomeCarouselOutput>;
@@ -1752,6 +1789,7 @@ export type Query = {
   mktinStatus: Scalars['Boolean']['output'];
   mostSearchedWords: Array<Scalars['String']['output']>;
   offersCarousels: Array<OffersCarouselsOutput>;
+  offersPageCollectionFilter: OffersPageCollectionFilter;
   order: OrderDetailOutput;
   orderForm: OrderformOutput;
   orders: OrderPaginationOutput;
@@ -1850,6 +1888,11 @@ export type QueryGetCashbackTransactionArgs = {
 
 export type QueryGetCashbackWalletArgs = {
   input: CashbackDataInput;
+};
+
+
+export type QueryGetLastCartArgs = {
+  input: OrderformInput;
 };
 
 
@@ -2122,6 +2165,17 @@ export enum SearchProviderEnum {
 
 export type SearchProviderInput = {
   value?: InputMaybe<SearchProviderEnum>;
+};
+
+export type SectionMediaCardsOutput = {
+  __typename?: 'SectionMediaCardsOutput';
+  deepLink?: Maybe<Scalars['String']['output']>;
+  deepLinkNewsletter?: Maybe<Scalars['String']['output']>;
+  facets?: Maybe<Array<ProductFacetOutput>>;
+  headerImage?: Maybe<HomeCarouselItemImageOutput>;
+  id?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<HomeCarouselItemImageOutput>;
+  reference?: Maybe<Scalars['String']['output']>;
 };
 
 export type SellerInfoInput = {
@@ -2854,7 +2908,7 @@ export type MostSearchedWordsQuery = { __typename?: 'Query', mostSearchedWords: 
 export type OffersCarouselsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type OffersCarouselsQuery = { __typename?: 'Query', offersCarousels: Array<{ __typename?: 'OffersCarouselsOutput', type: HomePageSectionTypeEnum, title?: string | null, showtime?: number | null, items: Array<{ __typename?: 'HomeCarouselItemOutput', mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, reference: string, orderBy: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string, height?: number | null, width?: number | null }, filters?: { __typename?: 'HomeCarouselItemFiltersOutput', priceFilter?: { __typename?: 'HomeCarouselItemPricesFilterOutput', from?: number | null, to?: number | null } | null } | null }> }> };
+export type OffersCarouselsQuery = { __typename?: 'Query', offersCarousels: Array<{ __typename?: 'OffersCarouselsOutput', type: HomePageSectionTypeEnum, title?: string | null, showtime?: number | null, items: Array<{ __typename?: 'HomeCarouselItemOutput', mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, reference: string, orderBy: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string, height?: number | null, width?: number | null }, filters?: { __typename?: 'HomeCarouselItemFiltersOutput', priceFilter?: { __typename?: 'HomeCarouselItemPricesFilterOutput', from?: number | null, to?: number | null } | null } | null }>, categoryCards?: { __typename?: 'CategoryCardsOutput', sectionCardTitle?: string | null, sectionMediaCards?: Array<{ __typename?: 'SectionMediaCardsOutput', id?: string | null, deepLink?: string | null, deepLinkNewsletter?: string | null, reference?: string | null, headerImage?: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } | null, facets?: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> | null, image?: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } | null }> | null } | null }> };
 
 export type OrderFormQueryVariables = Exact<{
   orderFormId: Scalars['String']['input'];
@@ -5344,6 +5398,27 @@ export const OffersCarouselsDocument = gql`
         priceFilter {
           from
           to
+        }
+      }
+    }
+    categoryCards {
+      sectionCardTitle
+      sectionMediaCards {
+        id
+        deepLink
+        deepLinkNewsletter
+        reference
+        headerImage {
+          url
+          title
+        }
+        facets {
+          key
+          value
+        }
+        image {
+          url
+          title
         }
       }
     }
