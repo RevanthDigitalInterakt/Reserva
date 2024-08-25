@@ -2,17 +2,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAsyncStorageItem } from '../hooks/useAsyncStorageProvider';
 import EventProvider from './EventProvider';
 import { defaultBrand } from './defaultWBrand';
-import { getBrands } from './getBrands';
-import type { OrderFormQuery } from '../base/graphql/generated';
+import type { OrderFormQuery, ProductQuery } from '../base/graphql/generated';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { mergeItemsPackage } from './mergeItemsPackage';
+import { getBrands } from './getBrands';
 
-export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderFormQuery['orderForm']) => {
+type TrackingOrderFormType = {
+  id: string
+  orderForm?: OrderFormQuery['orderForm']
+  productDetail?: ProductQuery['product'] | null
+};
+
+export const trackingOrderFormAddItem = async (trackingProduct: TrackingOrderFormType) => {
   try {
-    const mergedItems = mergeItemsPackage(orderForm?.packageItems || []);
+    const mergedItems = mergeItemsPackage(trackingProduct.orderForm?.packageItems || []);
 
     const product = mergedItems.find(
-      (item) => item.id === id,
+      (item) => item.id === trackingProduct.id,
     );
 
     if (!product) {
@@ -24,16 +30,17 @@ export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderForm
     });
 
     EventProvider.logEvent('add_to_cart', {
-      item_id: id,
-      item_price: (product?.price || 0) / 100, // convertPrice
-      item_quantity: product.quantity,
+      item_id: trackingProduct.id,
+      item_name: trackingProduct.productDetail?.productName || product.productTitle,
       item_category: 'product',
-      currency: 'BRL',
-      seller: product.seller,
       item_brand: getBrands(mergedItems || []),
+      currency: 'BRL',
+      price: (product?.price || 0) / 100,
+      quantity: product.quantity,
+      seller: product.seller,
     });
 
-    const ditoId = orderForm?.clientProfileData?.email
+    const ditoId = trackingProduct.orderForm?.clientProfileData?.email
       ? await getAsyncStorageItem('@Dito:userRef')
       : await AsyncStorage.getItem('@Dito:anonymousID');
 
@@ -42,13 +49,13 @@ export const trackingOrderFormAddItem = async (id: string, orderForm?: OrderForm
       action: 'adicionou-produto-ao-carrinho',
       data: {
         marca: product?.additionalInfo?.brandName || '',
-        id_produto: id,
+        id_produto: trackingProduct.id,
         nome_produto: product?.name || '',
         categorias_produto: Object.entries(product.productCategories)
           .map(([categoryId, categoryName]) => `${categoryId}: ${categoryName}`)
           .join(', '),
-        tamanho: product.skuName.split(' - ')[1],
-        cor: product.skuName.split(' - ')[0],
+        tamanho: product.skuName.split(' - ')[1] || '',
+        cor: product.skuName.split(' - ')[0] || '',
         preco_produto: (product.sellingPrice || 0) / 100, // convertPrice
         origem: 'app',
       },

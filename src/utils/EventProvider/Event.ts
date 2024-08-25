@@ -23,11 +23,9 @@ export enum Actions {
 
 type EventValues = {
   item_id?: string;
-  item_name: string;
-  item_price: any;
-  item_size: string;
-  item_color: string;
-  item_quantity: number;
+  item_name?: string;
+  item_price?: any;
+  item_quantity?: number;
   item_category: string;
   item_categories: string;
   item_size: string | number;
@@ -54,7 +52,7 @@ type EventValues = {
   value?: number;
   tax: number;
   shipping: number;
-  transaction_id: '';
+  transaction_id: string;
   order_form_id: string;
   items: Items[];
   search_term: string;
@@ -71,6 +69,10 @@ type EventValues = {
   favorite: number;
   position: 'top' | 'bottom';
   page: string;
+  platform?: string;
+  model?: string;
+  ip?: string
+  locationEnabled: string;
 };
 
 type AbandonedCartEventValues = {
@@ -114,11 +116,14 @@ export namespace EventsOptions {
   EventValues,
   | 'item_id'
   | 'item_price'
+  | 'item_name'
   | 'item_quantity'
   | 'item_category'
+  | 'item_brand'
   | 'currency'
   | 'seller'
-  | 'item_brand'
+  | 'price'
+  | 'quantity'
   >;
   export type AddToCartPrime = Pick<
   EventValues,
@@ -195,6 +200,8 @@ export namespace EventsOptions {
   export type PaymentOptions = Pick<EventValues, 'item_id'>;
   export type ReturnPolicy = Pick<EventValues, 'item_id'>;
   export type AddToCartFromWishlist = Pick<EventValues, 'item_name' | 'item_color' | 'item_size' | 'value'>;
+  export type MobileJailbroken = Pick<EventValues, 'platform' | 'model' | 'ip'>;
+  export type DeviceInfoTrack = Pick<EventValues, 'locationEnabled'>;
 }
 
 export type EventOptionsFn =
@@ -496,13 +503,16 @@ export type EventOptionsFn =
     payload: EventsOptions.ReturnPolicy;
   } | {
     type: 'add_to_cart_from_wishlist',
-    payload: EventsOptions.AddToCartFromWishlist
+    payload: EventsOptions.AddToCartFromWishlist;
   } | {
     type: 'faca_vc_tab_click',
     payload: {}
   } | {
     type: 'personalize_tab_click',
     payload: {}
+  } | {
+    type: 'mobile_jailbroken',
+    payload: EventsOptions.MobileJailbroken;
   } | {
     type: 'offers_main_banner_slide',
     payload: {}
@@ -511,4 +521,7 @@ export type EventOptionsFn =
     payload: {
       category: string;
     }
+  } | {
+    type: 'device_info',
+    payload: EventsOptions.DeviceInfoTrack,
   };
