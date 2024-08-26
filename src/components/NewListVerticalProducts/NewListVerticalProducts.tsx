@@ -62,43 +62,46 @@ function NewListVerticalProducts({
     [getBoolean, primeActive],
   );
 
+  const onClickCart = useCallback((item: ProductListOutput) => {
+    const itemPosistion = data.indexOf(item);
+
+    EventProvider.logEvent('page_view', {
+      item_brand: defaultBrand.picapau,
+    });
+
+    EventProvider.logEvent('select_item', {
+      item_list_id: item.productId,
+      item_list_name: item.productName,
+      item_brand: item.brand,
+    });
+
+    if (cacheGoingBackRequest) {
+      cacheGoingBackRequest();
+    }
+
+    navigation.navigate('ProductDetail', { skuId: item.skuId });
+    onTrack({
+      typeEvent: TrackEventTypeEnum.Click,
+      nameEvent: queryID
+        ? TrackEventNameEnum.ClickedItemsSearch
+        : TrackEventNameEnum.ClickedItems,
+      sku: [item.ean],
+      queryID,
+      positions: [itemPosistion],
+    });
+  }, []);
+
   const onRenderItem = useCallback(
     (item: ProductListOutput) => (
-      <TouchableOpacity
-        onPress={() => {
-          const itemPosistion = data.indexOf(item);
-          EventProvider.logEvent('page_view', {
-            item_brand: defaultBrand.picapau,
-          });
-          EventProvider.logEvent('select_item', {
-            item_list_id: item.productId,
-            item_list_name: item.productName,
-            item_brand: item.brand,
-          });
-
-          if (cacheGoingBackRequest) {
-            cacheGoingBackRequest();
-          }
-
-          // @ts-ignore
-          navigation.navigate('ProductDetail', { skuId: item.skuId });
-          onTrack({
-            typeEvent: TrackEventTypeEnum.Click,
-            nameEvent: queryID
-              ? TrackEventNameEnum.ClickedItemsSearch
-              : TrackEventNameEnum.ClickedItems,
-            sku: [item.ean],
-            queryID,
-            positions: [itemPosistion],
-          });
-        }}
+      <Box
+        flex={1}
+        alignItems="center"
+        justifyContent="center"
+        marginY="xs"
+        height={showThumbColors ? 375 : 353}
       >
-        <Box
-          flex={1}
-          alignItems="center"
-          justifyContent="center"
-          marginY="xs"
-          height={showThumbColors ? 375 : 353}
+        <TouchableOpacity
+          onPress={() => onClickCart(item)}
         >
           <ProductVerticalListCard
             prime={
@@ -169,8 +172,8 @@ function NewListVerticalProducts({
             }
             testID={`com.usereserva:id/productcard_vertical_${item.skuId}`}
           />
-        </Box>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </Box>
     ),
     [
       checkIsFavorite,
