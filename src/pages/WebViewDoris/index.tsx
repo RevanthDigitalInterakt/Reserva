@@ -72,11 +72,8 @@ export default function WebViewDoris() {
       </View>
       <WebView
         {...testProps('web_view_doris')}
-        incognito
         ref={webviewRef}
-        cacheEnabled={false}
-        cacheMode="LOAD_NO_CACHE"
-        clearCache
+        cacheEnabled
         startInLoadingState
         onLoadStart={(event) => {
           const { nativeEvent } = event;
