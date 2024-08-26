@@ -2,6 +2,11 @@
 
 ## CHANGELOG
 
+### 2.22.8
+
+- [46328 - [PTM-131] Ajuste backend vulnerabilidade app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46328)
+
+
 ### 2.22.7
 
 - [46461 - Melhoria na captação de leads app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46461)
