@@ -17,7 +17,7 @@ import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import EventProvider from '../../../utils/EventProvider';
 
 export interface RegisterEmailProps
-  extends StackScreenProps<RootStackParamList, 'RegisterEmail'> {}
+  extends StackScreenProps<RootStackParamList, 'RegisterEmail'> { }
 
 export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -96,16 +96,16 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
     }
   }, [email]);
 
-  const pressButton = () => {
+  const pressButton = useCallback(() => {
     if (showRecoveryPassword) {
       EventProvider.logEvent('signup_recover_password_click', {});
-
       handleEmailRecovery();
-      return;
+    } else {
+      EventProvider.logEvent('signup_register_email_click', {});
+      handleEmailAccess();
     }
-    EventProvider.logEvent('signup_register_email_click', {});
-    handleEmailAccess();
-  };
+  }, [showRecoveryPassword]);
+
 
   useEffect(() => {
     setInputError('');
