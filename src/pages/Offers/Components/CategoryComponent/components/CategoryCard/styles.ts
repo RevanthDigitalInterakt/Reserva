@@ -1,6 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { COLORS } from '../../../../../../base/styles';
 import configDeviceSizes from '../../../../../../utils/configDeviceSizes';
+import { platformType } from '../../../../../../utils/platformType';
 
 export const styles = StyleSheet.create({
   childContainer: {
@@ -16,7 +17,11 @@ export const styles = StyleSheet.create({
       height: 7,
     },
     shadowOpacity: 0.6,
-    shadowRadius: 13,
-    elevation: 5,
+    shadowRadius: Platform.OS === platformType.ANDROID ? 13 : 7,
+    elevation: Platform.OS === platformType.ANDROID ? 7 : 0,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
   },
 });

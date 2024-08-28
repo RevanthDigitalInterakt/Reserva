@@ -1,3 +1,5 @@
+import type { Maybe } from '../../base/graphql/generated';
+
 export type Items = {
   price?: number;
   item_id?: string;
@@ -73,6 +75,8 @@ type EventValues = {
   model?: string;
   ip?: string
   locationEnabled: string;
+  category: Maybe<string> | undefined;
+  banner_position: Maybe<string> | undefined;
 };
 
 type AbandonedCartEventValues = {
@@ -202,6 +206,7 @@ export namespace EventsOptions {
   export type AddToCartFromWishlist = Pick<EventValues, 'item_name' | 'item_color' | 'item_size' | 'value'>;
   export type MobileJailbroken = Pick<EventValues, 'platform' | 'model' | 'ip'>;
   export type DeviceInfoTrack = Pick<EventValues, 'locationEnabled'>;
+  export type OffersCategoryBanner = Pick<EventValues, 'category' | 'banner_position'>;
 }
 
 export type EventOptionsFn =
@@ -524,4 +529,7 @@ export type EventOptionsFn =
   } | {
     type: 'device_info',
     payload: EventsOptions.DeviceInfoTrack,
+  } | {
+    type: 'offers_category_banner_click',
+    payload: EventsOptions.OffersCategoryBanner,
   };

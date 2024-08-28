@@ -3,20 +3,24 @@ import { View } from 'react-native';
 import CategoryCard from '../CategoryCard';
 import { styles } from './styles';
 import { useHomeStore } from '../../../../../../zustand/useHomeStore';
+import testProps from '../../../../../../utils/testProps';
 
 export default function CardWrapper() {
   const { offersCarousels } = useHomeStore(['offersCarousels']);
 
-  const sectionMediaCards = offersCarousels.map((item) => item?.categoryCards);
+  const [SectionMediaCardsOutput] = offersCarousels
+    .map((item) => item?.categoryCards?.sectionMediaCards);
 
-  if (!sectionMediaCards) return null;
+  if (!SectionMediaCardsOutput) return null;
 
   return (
-    <View style={styles.mainContainer}>
-      {sectionMediaCards.map((item) => (
+    <View {...testProps('category_wrapper_component')} style={styles.mainContainer}>
+      {SectionMediaCardsOutput?.map((item) => (
         <CategoryCard
-          key={item?.sectionMediaCards?.map((x) => x.id)}
-          item={item?.sectionMediaCards}
+          key={item.id}
+          id={item.id}
+          url={item.image?.url}
+          referenceId={item.reference}
         />
       ))}
     </View>

@@ -2,6 +2,10 @@
 
 ## CHANGELOG
 
+### 2.22.8
+
+- [46645 - Home promocional - Componente de categoria](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46645)
+
 ### 2.22.7
 
 - [46461 - Melhoria na captação de leads app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46461)
