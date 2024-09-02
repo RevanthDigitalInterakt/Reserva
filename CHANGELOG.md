@@ -2,6 +2,10 @@
 
 ## CHANGELOG
 
+### 2.22.8
+
+- [46461 - Contador e banner antigo aparecendo na home momentaneamente](https://dev.azure.com/ARECO/AReCO/_workitems/edit/48402)
+
 ### 2.22.7
 
 - [46461 - Melhoria na captação de leads app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46461)

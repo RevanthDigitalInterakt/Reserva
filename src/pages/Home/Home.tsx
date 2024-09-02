@@ -8,17 +8,21 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import utc from 'dayjs/plugin/utc';
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
 import { WebView, type WebViewMessageEvent } from 'react-native-webview';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeviceInfo from 'react-native-device-info';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+import { TrackPageTypeEnum } from '../../base/graphql/generated';
+import { COLORS } from '../../base/styles/colors';
+import AbandonedCart from '../../components/AbandonedCart/AbandonedCart';
+import { ActivityTracking } from '../../components/ActivityTracking';
 import NewBanner from '../../components/Banner/NewBanner';
 import { Box } from '../../components/Box/Box';
+import { Drawer } from '../../components/Drawer';
 import ModalSignUpComplete from '../../components/ModalSignUpComplete';
-import { COLORS } from '../../base/styles/colors';
+import OneP5P from '../../components/OneP5P/OneP5P';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import {
   NewTransparentTopBarDefault,
@@ -29,24 +33,16 @@ import EventProvider from '../../utils/EventProvider';
 import { defaultBrand } from '../../utils/defaultWBrand';
 import testProps from '../../utils/testProps';
 import useAuthModalStore from '../../zustand/useAuthModalStore';
-import { useHomeStore } from '../../zustand/useHomeStore';
-import HomeCarousels from './components/HomeCarousels';
-import HomeCountDown from './components/HomeCountDown';
-import HomeDiscountModal from './components/HomeDiscountModal';
-import { NewHomeCarousels } from './components/NewHomeCarousels';
-import useHomeHeader from './hooks/useHomeHeader';
-import styles from './styles';
 import { useBagStore } from '../../zustand/useBagStore/useBagStore';
-import { ActivityTracking } from '../../components/ActivityTracking';
-import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
-import { TrackPageTypeEnum } from '../../base/graphql/generated';
-import OneP5P from '../../components/OneP5P/OneP5P';
-import { Drawer } from '../../components/Drawer';
+import { useHomeStore } from '../../zustand/useHomeStore';
 import { useProductDetailStore } from '../../zustand/useProductDetail/useProductDetail';
 import { useShelfStore } from '../../zustand/useShelfStore/useShelfStore';
-import ShowcaseDrawerContent from './components/ShowcaseDrawerContent/ShowcaseDrawerContent';
+import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
+import { NewHomeCarousels } from './components/NewHomeCarousels';
 import { NewHomeCountDown } from './components/NewHomeCountDown.tsx';
-import AbandonedCart from '../../components/AbandonedCart/AbandonedCart';
+import ShowcaseDrawerContent from './components/ShowcaseDrawerContent/ShowcaseDrawerContent';
+import useHomeHeader from './hooks/useHomeHeader';
+import styles from './styles';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -116,17 +112,10 @@ function RouletWebview() {
   ) : null;
 }
 
-function ListHeader({ newHeaderIsActive }: { newHeaderIsActive: boolean }) {
+function ListHeader() {
   return (
     <Box style={{ overflow: 'hidden' }}>
-      {newHeaderIsActive ? (
-        <NewHomeCarousels />
-      ) : (
-        <>
-          <HomeCountDown />
-          <HomeCarousels />
-        </>
-      )}
+      <NewHomeCarousels />
     </Box>
   );
 }
@@ -158,8 +147,7 @@ function Home() {
 
   const { drawerIsOpen } = useProductDetailStore(['drawerIsOpen']);
   const { shelfItemData } = useShelfStore(['shelfItemData']);
-  const { getBoolean, getString } = useRemoteConfig();
-  const newHeaderIsActive = getBoolean('show_new_header');
+  const { getString } = useRemoteConfig();
 
   const {
     handleScroll,
@@ -167,22 +155,6 @@ function Home() {
     transparentTopBarAnimated,
     whiteTopBarAnimated,
   } = useHomeHeader();
-
-  const renderHeader = () => (
-    <>
-      <Animated.View style={[styles.topBarDefault, topBarDefaultAnimated]}>
-        <TopBarDefault />
-      </Animated.View>
-      <Animated.View
-        style={[styles.transparentTopBar, transparentTopBarAnimated]}
-      >
-        <NewTransparentTopBarDefault />
-      </Animated.View>
-      <Animated.View style={[styles.whiteTopBar, whiteTopBarAnimated]}>
-        <NewWhiteTopBarDefault />
-      </Animated.View>
-    </>
-  );
 
   useEffect(() => {
     const doRequest = async () => onLoad();
@@ -202,13 +174,22 @@ function Home() {
     <>
       <ActivityTracking />
       <Box flex={1} bg="white" {...testProps('home_container')}>
-        {newHeaderIsActive ? renderHeader() : <TopBarDefault />}
-        {!newHeaderIsActive ? <HomeDiscountModal /> : null}
+        <Animated.View style={[styles.topBarDefault, topBarDefaultAnimated]}>
+          <TopBarDefault />
+        </Animated.View>
+        <Animated.View
+          style={[styles.transparentTopBar, transparentTopBarAnimated]}
+        >
+          <NewTransparentTopBarDefault />
+        </Animated.View>
+        <Animated.View style={[styles.whiteTopBar, whiteTopBarAnimated]}>
+          <NewWhiteTopBarDefault />
+        </Animated.View>
         <SafeAreaView {...testProps('home_count_down_container')}>
           <RouletWebview />
           <FlatList
             ListHeaderComponent={
-              <ListHeader newHeaderIsActive={newHeaderIsActive} />
+              <ListHeader />
             }
             bounces
             onScroll={handleScroll}
