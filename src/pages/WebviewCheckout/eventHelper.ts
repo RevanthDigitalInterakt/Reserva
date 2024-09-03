@@ -6,6 +6,7 @@ import { trackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTr
 import { useSearchStore } from '../../zustand/useSearchStore';
 import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../base/graphql/generated';
 import { trackOrderStore } from '../../zustand/useTrackOrderStore/useTrackOrderStore';
+import { removeSkuColorProductName } from '../../utils/products/removeSkuColorProductName';
 
 export function getURLParameter(url: string, name: string): string {
   const match = url.match(new RegExp(`[\\?&]${name.replace(/[\[\]]/g, '\\$&')}=([^&#]*)`));
@@ -258,17 +259,17 @@ export const triggerEventAfterPurchaseCompleted = async (
         quantidade: item?.quantity,
         marca: dataPurchaseCompleted?.item_brand,
         id_produto: item?.productId,
-        nome_produto: item?.name,
+        nome_produto: removeSkuColorProductName(item?.name, item?.skuName),
         categorias_produto: item?.productCategories,
         tamanho: item?.skuName?.split('-')?.[1]?.trim() || '',
         cor: item?.skuName?.split('-')?.[0]?.trim() || '',
-        preco_produto: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,
+        preco_produto: (item?.priceDefinition?.calculatedSellingPrice ?? 0) / 100,
         origem: 'app',
       },
     });
   });
 
-  const queryID = useSearchStore.getState().queryID;
+  const { queryID } = useSearchStore.getState();
 
   trackClickAlgoliaStore.getState().onTrack(
     {
@@ -281,12 +282,13 @@ export const triggerEventAfterPurchaseCompleted = async (
       dataObject: dataPurchaseCompleted.orderFormItems.map((item) => ({
         discount: item?.discountPercent || 0,
         quantity: item?.quantity || 0,
-        price: item?.priceDefinition?.calculatedSellingPrice / 100 ?? 0,
+        price: (item?.priceDefinition?.calculatedSellingPrice ?? 0) / 100,
       })),
       totalPrice: dataPurchaseCompleted?.orderValue,
       queryID,
       price: dataPurchaseCompleted.orderValue,
-    });
+    },
+  );
 
   trackOrderStore.getState().onTrack(dataPurchaseCompleted, userMail);
 
