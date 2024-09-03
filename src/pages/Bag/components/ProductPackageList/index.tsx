@@ -17,9 +17,11 @@ import { useTrackClickAlgoliaStore } from '../../../../zustand/useTrackAlgoliaSt
 import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../../../base/graphql/generated';
 import useSearchStore from '../../../../zustand/useSearchStore';
 import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
+import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 
 export default function BagProductPackageList() {
   const { actions, packageItems, appTotalizers } = useBagStore(['actions', 'packageItems', 'appTotalizers']);
+  const { productDetail } = useProductDetailStore(['productDetail']);
   const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
   const { queryID } = useSearchStore(['queryID']);
   const navigation = useNavigation();
@@ -113,12 +115,13 @@ export default function BagProductPackageList() {
 
     EventProvider.logEvent('add_to_cart', {
       item_id: item.id,
-      item_price: (item.price || 0) / 100,
-      item_quantity: countUpdated,
+      item_name: productDetail?.productName || item.productTitle,
       item_category: 'product',
-      currency: 'BRL',
-      seller: item.seller,
       item_brand: getBrands(mergeItemsPackage(packageItems) || []),
+      currency: 'BRL',
+      price: (item.price || 0) / 100,
+      quantity: countUpdated,
+      seller: item.seller,
     });
   }, [actions, packageItems]);
 

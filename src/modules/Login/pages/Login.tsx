@@ -20,6 +20,7 @@ import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { useNavigationToDelivery } from '../../../hooks/useNavigationToDelivery';
 import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
+import EventProvider from '../../../utils/EventProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -81,6 +82,7 @@ export function LoginScreen({
 
   const doLogin = useCallback(async () => {
     try {
+      EventProvider.logEvent('login_click', {});
       const profile = await handleLogin();
       if (profile) {
         afterLogin(profile);
@@ -208,6 +210,7 @@ export function LoginScreen({
               <Box mt="micro" mb="quarck">
                 <TouchableOpacity
                   onPress={() => {
+                    EventProvider.logEvent('login_forgot_password_click', {});
                     navigation.navigate('ForgotEmail', {});
                   }}
                 >
@@ -276,6 +279,7 @@ export function LoginScreen({
             variant="primarioEstreito"
             disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
             onPress={() => {
+              EventProvider.logEvent('login_register_click', {});
               navigation.navigate('RegisterEmail', {});
             }}
           />

@@ -15,7 +15,24 @@ export type EventName =
   | 'add_shipping_info'
   | 'select_item'
   | 'view_item_list'
-  | 'add_payment_info';
+  | 'add_payment_info'
+  | 'login_forgot_password_click'
+  | 'login_click'
+  | 'login_register_click'
+  | 'signup_recover_password_click'
+  | 'signup_register_email_click'
+  | 'signup_create_password_click'
+  | 'profile_edit_click'
+  | 'profile_my_orders_click'
+  | 'profile_favorites_click'
+  | 'profile_my_account_click'
+  | 'profile_my_cashback_click'
+  | 'profile_my_credits_click'
+  | 'profile_my_addresses_click'
+  | 'profile_change_password_click'
+  | 'profile_my_portfolio_click'
+  | 'profile_logout_click'
+  | 'mobile_jailbroken';
 
 export type EventNameOptions = Record<EventName, string>;
 
@@ -26,8 +43,9 @@ export type EventValuesName =
   | 'item_quantity'
   | 'item_category'
   | 'item_categories'
-  | 'currency'
-  | 'seller'
+  | 'item_list_id'
+  | 'item_list_name'
+  | 'item_brand'
   | 'custumer_email'
   | 'content_ids'
   | 'content_type'
@@ -35,16 +53,27 @@ export type EventValuesName =
   | 'product_name'
   | 'product_category'
   | 'product_price'
-  | 'search_string'
+  | 'product_currency'
+  | 'payment_type'
   | 'search_ids'
+  | 'search_term'
+  | 'search_string'
   | 'price'
   | 'quantity'
+  | 'currency'
+  | 'seller'
+  | 'price'
+  | 'quantity'
+  | 'method'
   | 'product_currency'
   | 'method'
   | 'search_term'
   | 'item_list_id'
   | 'item_list_name'
-  | 'payment_type';
+  | 'payment_type'
+  | 'platform'
+  | 'model'
+  | 'ip';
 
 export type EventValueOptions = Record<EventValuesName, string>;
 
@@ -65,6 +94,23 @@ export const eventsName: EventNameOptions = {
   select_item: 'select_item',
   view_item_list: 'view_item_list',
   add_payment_info: 'add_payment_info',
+  login_forgot_password_click: 'login_forgot_password_click',
+  login_click: 'login_click',
+  login_register_click: 'login_register_click',
+  signup_recover_password_click: 'signup_recover_password_click',
+  signup_register_email_click: 'signup_register_email_click',
+  signup_create_password_click: 'signup_create_password_click',
+  profile_edit_click: 'profile_edit_click',
+  profile_my_orders_click: 'profile_my_orders_click',
+  profile_favorites_click: 'profile_favorites_click',
+  profile_my_account_click: 'profile_my_account_click',
+  profile_my_cashback_click: 'profile_my_cashback_click',
+  profile_my_credits_click: 'profile_my_credits_click',
+  profile_my_addresses_click: 'profile_my_addresses_click',
+  profile_change_password_click: 'profile_change_password_click',
+  profile_my_portfolio_click: 'profile_my_portfolio_click',
+  profile_logout_click: 'profile_logout_click',
+  mobile_jailbroken: 'mobile_jailbroken',
 };
 
 export const eventsValue: EventValueOptions = {
@@ -93,6 +139,10 @@ export const eventsValue: EventValueOptions = {
   item_list_id: 'item_list_id',
   item_list_name: 'item_list_name',
   payment_type: 'payment_type',
+  item_brand: 'af_brand',
+  platform: 'af_platform',
+  model: 'af_model',
+  ip: 'af_ip',
 };
 
 export const onlyGaEvents = [
@@ -108,4 +158,21 @@ export const onlyGaEvents = [
   'page_load_time',
   'sign_up',
   'click_card_cashback',
+  'login_forgot_password_click',
+  'login_click',
+  'login_register_click',
+  'signup_register_email_click',
+  'signup_recover_password_click',
+  'signup_create_password_click',
+  'profile_edit_click',
+  'profile_my_orders_click',
+  'profile_favorites_click',
+  'profile_my_account_click',
+  'profile_my_cashback_click',
+  'profile_my_credits_click',
+  'profile_my_addresses_click',
+  'profile_change_password_click',
+  'profile_my_portfolio_click',
+  'profile_logout_click',
+  'mobile_jailbroken',
 ];

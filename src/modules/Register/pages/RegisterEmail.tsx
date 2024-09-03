@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import type { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
@@ -13,9 +14,10 @@ import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { validateEmail } from '../../../utils/validateEmail';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import EventProvider from '../../../utils/EventProvider';
 
 export interface RegisterEmailProps
-  extends StackScreenProps<RootStackParamList, 'RegisterEmail'> {}
+  extends StackScreenProps<RootStackParamList, 'RegisterEmail'> { }
 
 export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -58,11 +60,10 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
         },
       });
 
-
-      if(!data?.signUpVerificationCode.ok){
+      if (!data?.signUpVerificationCode.ok) {
         setInputError('E-mail já cadastrado em nosso banco de dados');
         setShowRecoveryPassword(true);
-        return
+        return;
       }
 
       if (data?.signUpVerificationCode?.cookies) {
@@ -94,6 +95,17 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
       ExceptionProvider.captureException(err);
     }
   }, [email]);
+
+  const pressButton = useCallback(() => {
+    if (showRecoveryPassword) {
+      EventProvider.logEvent('signup_recover_password_click', {});
+      handleEmailRecovery();
+    } else {
+      EventProvider.logEvent('signup_register_email_click', {});
+      handleEmailAccess();
+    }
+  }, [showRecoveryPassword]);
+
 
   useEffect(() => {
     setInputError('');
@@ -141,7 +153,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
           mt={37}
           variant={showRecoveryPassword ? 'primarioEstreitoOutline' : 'primarioEstreito'}
           title={showRecoveryPassword ? 'RECUPERAR SENHA' : 'CADASTRAR E-MAIL'}
-          onPress={showRecoveryPassword ? handleEmailRecovery : handleEmailAccess}
+          onPress={pressButton}
           testID="com.usereserva:id/register_button_recover"
           disabled={!email.length}
           inline
