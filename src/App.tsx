@@ -8,6 +8,8 @@ import { ThemeProvider } from 'styled-components/native';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
+import JailMonkey from 'jail-monkey';
+import DeviceInfo from 'react-native-device-info';
 import { linkingConfig } from './config/linking';
 import ChronometerContextProvider from './context/ChronometerContext';
 import ContentfullContextProvider from './context/ContentfullContext';
@@ -15,8 +17,6 @@ import { FirebaseContextProvider } from './context/FirebaseContext';
 import RegionalSearchContextProvider from './context/RegionalSearchContext';
 import StatusBarContextProvider from './context/StatusBarContext';
 import useAsyncStorageProvider from './hooks/useAsyncStorageProvider';
-import InitialScreen from './InitialScreen';
-import { AppRouting } from './routes/AppRouting';
 import EventProvider from './utils/EventProvider';
 import ToastProvider from './utils/Toast';
 import { useRemoteConfig } from './hooks/useRemoteConfig';
@@ -35,12 +35,28 @@ import { getDeviceInfoMemory, getDeviceInfoModel, getDeviceInfoStorage } from '.
 const { model, os } = getDeviceInfoModel();
 const { freeMemory, totalMemory, usedMemory } = getDeviceInfoMemory();
 const { freeStorage, totalStorage, usedStorage } = getDeviceInfoStorage();
+import InitialScreen from './InitialScreen';
+import { AppRouting } from './routes/AppRouting';
+import ReservaJailbreakScreen from './ReservaJailbreakScreen';
+import type { EventsOptions } from './utils/EventProvider/Event';
 
 const DefaultTheme = {
   colors: {
     background: theme.colors.backgroundApp,
   },
 };
+
+const isJailBroken = JailMonkey.isJailBroken();
+
+if (isJailBroken) {
+  const deviceProperties: EventsOptions.MobileJailbroken = {
+    platform: Platform.OS,
+    model: DeviceInfo.getModel(),
+    ip: DeviceInfo.getIpAddressSync(),
+  };
+
+  EventProvider.logEvent('mobile_jailbroken', deviceProperties);
+}
 
 function App() {
   useApolloFetchPolicyStore(['initialized']);
@@ -129,9 +145,13 @@ function App() {
                 <RegionalSearchContextProvider>
                   <FirebaseContextProvider>
                     <ChronometerContextProvider>
-                      <InitialScreen>
-                        <AppRouting />
-                      </InitialScreen>
+                      {(isJailBroken)
+                        ? (<ReservaJailbreakScreen />)
+                        : (
+                          <InitialScreen>
+                            <AppRouting />
+                          </InitialScreen>
+                        )}
                     </ChronometerContextProvider>
                   </FirebaseContextProvider>
                 </RegionalSearchContextProvider>

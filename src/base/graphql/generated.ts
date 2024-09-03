@@ -581,6 +581,18 @@ export type ItemsSessionBodyCollectionOutput = {
   helpCenterSessionTitle?: Maybe<Scalars['String']['output']>;
 };
 
+export type LastCartOutput = {
+  __typename?: 'LastCartOutput';
+  code?: Maybe<LastCartTypeEnum>;
+  orderFormId?: Maybe<Scalars['String']['output']>;
+};
+
+export enum LastCartTypeEnum {
+  AlreadySynced = 'ALREADY_SYNCED',
+  NoPreviousCart = 'NO_PREVIOUS_CART',
+  UpdatedCart = 'UPDATED_CART'
+}
+
 export type LoggedInOutput = {
   __typename?: 'LoggedInOutput';
   authCookie?: Maybe<Scalars['String']['output']>;
@@ -851,12 +863,46 @@ export type MutationWishlistRemoveProductArgs = {
   input: WishlistRemoveProductInput;
 };
 
+export type OffersPageCollectionFilter = {
+  __typename?: 'OffersPageCollectionFilter';
+  items: Array<OffersPageCollectionFilterItemOutput>;
+  title: Scalars['String']['output'];
+};
+
+export type OffersPageCollectionFilterItemOutput = {
+  __typename?: 'OffersPageCollectionFilterItemOutput';
+  collectionId: Scalars['String']['output'];
+  colorFilter?: Maybe<Scalars['String']['output']>;
+  fromPriceFilter?: Maybe<Scalars['String']['output']>;
+  offerImage: Scalars['String']['output'];
+  offerName: Scalars['String']['output'];
+  sizeFilter?: Maybe<Scalars['String']['output']>;
+  toPriceFilter?: Maybe<Scalars['String']['output']>;
+}
+
 export type OffersCarouselsOutput = {
   __typename?: 'OffersCarouselsOutput';
   items: Array<HomeCarouselItemOutput>;
   showtime?: Maybe<Scalars['Int']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   type: HomePageSectionTypeEnum;
+};
+
+export type OffersPageCollectionFilter = {
+  __typename?: 'OffersPageCollectionFilter';
+  items: Array<OffersPageCollectionFilterItemOutput>;
+  title: Scalars['String']['output'];
+};
+
+export type OffersPageCollectionFilterItemOutput = {
+  __typename?: 'OffersPageCollectionFilterItemOutput';
+  collectionId?: Maybe<Scalars['String']['output']>;
+  colorFilter?: Maybe<Array<Scalars['String']['output']>>;
+  fromPriceFilter?: Maybe<Scalars['String']['output']>;
+  offerImage: Scalars['String']['output'];
+  offerName: Scalars['String']['output'];
+  sizeFilter?: Maybe<Array<Scalars['String']['output']>>;
+  toPriceFilter?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrderDetailIdInput = {
@@ -1741,6 +1787,7 @@ export type Query = {
   getCashbackOperation: CashbackAllOperationOutput;
   getCashbackTransaction: CashbackTransactionOutput;
   getCashbackWallet: CashbackWalletOutput;
+  getLastCart: LastCartOutput;
   healthcheck: HealthcheckOutput;
   helpCenterCollection: HelpCenterOutput;
   homeCarousels: Array<HomeCarouselOutput>;
@@ -1751,7 +1798,9 @@ export type Query = {
   landingPagePrime: PrimeDetailOutput;
   mktinStatus: Scalars['Boolean']['output'];
   mostSearchedWords: Array<Scalars['String']['output']>;
+  offersPageCollectionFilter: OffersPageCollectionFilter;
   offersCarousels: Array<OffersCarouselsOutput>;
+  offersPageCollectionFilter: OffersPageCollectionFilter;
   order: OrderDetailOutput;
   orderForm: OrderformOutput;
   orders: OrderPaginationOutput;
@@ -1850,6 +1899,11 @@ export type QueryGetCashbackTransactionArgs = {
 
 export type QueryGetCashbackWalletArgs = {
   input: CashbackDataInput;
+};
+
+
+export type QueryGetLastCartArgs = {
+  input: OrderformInput;
 };
 
 
@@ -2822,6 +2876,7 @@ export type HomeCountdownQuery = { __typename?: 'Query', homeCountdown?: { __typ
 export type HomeMediasQueryVariables = Exact<{ [key: string]: never; }>;
 
 
+export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, deepLinkNewsletter?: string | null, orderBy: string, reference?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
 export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, deepLinkNewsletter?: string | null, orderBy: string, reference?: string | null, headerImage?: { __typename?: 'HomeCarouselItemImageOutput', url: string } | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
 
 export type InfoCashbackPdpCollectionQueryVariables = Exact<{ [key: string]: never; }>;
@@ -2851,6 +2906,10 @@ export type MostSearchedWordsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MostSearchedWordsQuery = { __typename?: 'Query', mostSearchedWords: Array<string> };
 
+export type OffersPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OffersPageQuery = { __typename?: 'Query', offersPageCollectionFilter: { __typename?: 'OffersPageCollectionFilter', title: string, items: Array<{ __typename?: 'OffersPageCollectionFilterItemOutput', collectionId: string, offerImage: string, offerName: string, fromPriceFilter?: string | null, toPriceFilter?: string | null, sizeFilter?: string | null, colorFilter?: string | null }> } };
 export type OffersCarouselsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -5318,6 +5377,19 @@ export type MostSearchedWordsQueryResult = Apollo.QueryResult<MostSearchedWordsQ
 export function refetchMostSearchedWordsQuery(variables?: MostSearchedWordsQueryVariables) {
       return { query: MostSearchedWordsDocument, variables: variables }
     }
+export const OffersPageDocument = gql`
+    query offersPage {
+  offersPageCollectionFilter {
+    title
+    items {
+      collectionId
+      offerImage
+      offerName
+      fromPriceFilter
+      toPriceFilter
+      sizeFilter
+      colorFilter
+`
 export const OffersCarouselsDocument = gql`
     query offersCarousels {
   offersCarousels {
@@ -5352,6 +5424,10 @@ export const OffersCarouselsDocument = gql`
     `;
 
 /**
+ * __useOffersPageQuery__
+ *
+ * To run a query within a React component, call `useOffersPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOffersPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * __useOffersCarouselsQuery__
  *
  * To run a query within a React component, call `useOffersCarouselsQuery` and pass it any options that fit your needs.
@@ -5361,11 +5437,25 @@ export const OffersCarouselsDocument = gql`
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
+ * const { data, loading, error } = useOffersPageQuery({
  * const { data, loading, error } = useOffersCarouselsQuery({
  *   variables: {
  *   },
  * });
  */
+export function useOffersPageQuery(baseOptions?: Apollo.QueryHookOptions<OffersPageQuery, OffersPageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OffersPageQuery, OffersPageQueryVariables>(OffersPageDocument, options);
+      }
+export function useOffersPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OffersPageQuery, OffersPageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OffersPageQuery, OffersPageQueryVariables>(OffersPageDocument, options);
+        }
+export type OffersPageQueryHookResult = ReturnType<typeof useOffersPageQuery>;
+export type OffersPageLazyQueryHookResult = ReturnType<typeof useOffersPageLazyQuery>;
+export type OffersPageQueryResult = Apollo.QueryResult<OffersPageQuery, OffersPageQueryVariables>;
+export function refetchOffersPageQuery(variables?: OffersPageQueryVariables) {
+      return { query: OffersPageDocument, variables: variables }
 export function useOffersCarouselsQuery(baseOptions?: Apollo.QueryHookOptions<OffersCarouselsQuery, OffersCarouselsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<OffersCarouselsQuery, OffersCarouselsQueryVariables>(OffersCarouselsDocument, options);

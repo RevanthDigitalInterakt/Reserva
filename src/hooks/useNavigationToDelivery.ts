@@ -18,6 +18,7 @@ import { usePageLoadingStore } from '../zustand/usePageLoadingStore/usePageLoadi
 import { Method } from '../utils/EventProvider/Event';
 import { mergeItemsPackage } from '../utils/mergeItemsPackage';
 import type { ProfileOutput } from '../base/graphql/generated';
+import { removeSkuColorProductName } from '../utils/products/removeSkuColorProductName';
 
 interface IUseNavigationToDeliveryReturn {
   handleNavigateToDelivery: (value: any, comeFrom?: string) => void;
@@ -67,12 +68,12 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
       const { total, discount, delivery } = appTotalizers;
 
       const newMergedItems = mergedItems.map((item) => ({
-        price: (item.price / 100) || 0,
         item_id: item.productId,
-        quantity: item.quantity,
-        item_name: item.name,
+        item_name: removeSkuColorProductName(item.name, item.skuName),
         item_variant: item.skuName,
         item_category: 'product',
+        price: (item.price / 100) || 0,
+        quantity: item.quantity,
       }));
 
       EventProvider.logEvent('begin_checkout', {

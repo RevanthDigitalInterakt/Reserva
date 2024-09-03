@@ -20,6 +20,8 @@ import { getURLParameter, prepareEventDataPurchaseCompleted, triggerEventAfterPu
 import LoadingCheckout from '../../components/LoadingCheckout/LoadingCheckout';
 import { ModalClientIsPrime } from '../../components/ModalClientIsPrime/ModalClientIsPrime';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
+import type { Items } from '../../utils/EventProvider/Event';
+import { removeSkuColorProductName } from '../../utils/products/removeSkuColorProductName';
 
 /**
  "Be very careful with the implementation as
@@ -88,11 +90,17 @@ function WebviewCheckout() {
     navigation.navigate('Home');
   }, [navigation]);
 
+  const handleProductNameToEvent = (items: Items[]): Items[] => items.map((item) => ({
+    ...item,
+    item_name: removeSkuColorProductName(String(item.item_name), String(item.item_variant)),
+  }));
+
   const doEventPurchaseCompleted = useCallback(async () => {
     try {
       const orderGroupId = getURLParameter(navState, 'og');
-      const { data: dataOrderGroup } = await GetPurchaseData(orderGroupId);
+      const { data: dataOrderGroup } = await GetPurchaseData(orderGroupId) || {};
       const dataPurchaseCompleted = prepareEventDataPurchaseCompleted(dataOrderGroup, orderFormId);
+      dataPurchaseCompleted.adaptItems = handleProductNameToEvent(dataPurchaseCompleted.adaptItems);
       await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '');
     } catch (e) {
       ExceptionProvider.captureException(e);
@@ -110,18 +118,21 @@ function WebviewCheckout() {
     switch (newData.type) {
       case 'add_shipping_info': {
         const {
-          coupon, currency, items, item_brand,
-        } = newData?.rawMessage?.data;
+          coupon, currency, items, item_brand: itemBrand,
+        } = newData?.rawMessage?.data || [];
 
         EventProvider.logEvent('add_shipping_info', {
-          coupon, currency, items, item_brand,
+          item_brand: itemBrand,
+          items: handleProductNameToEvent(items),
+          coupon,
+          currency,
         });
         return null;
       }
 
       case 'page_view': {
-        const { item_brand } = newData?.rawMessage?.data;
-        EventProvider.logEvent('page_view', { item_brand });
+        const { item_brand: itemBrand } = newData?.rawMessage?.data || [];
+        EventProvider.logEvent('page_view', { item_brand: itemBrand });
         return null;
       }
 
@@ -157,6 +168,8 @@ function WebviewCheckout() {
         ref={webviewRef}
         renderLoading={() => <LoadingCheckout />}
         startInLoadingState
+        cacheMode="LOAD_NO_CACHE"
+        cacheEnabled={false}
         injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
         originWhitelist={['*']}
         testID="com.usereserva:id/web_view_checkout"
