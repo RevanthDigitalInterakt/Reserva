@@ -2,9 +2,10 @@
 
 ## CHANGELOG
 
-### 2.22.8
+### 2.23.0
 
 - [41138 - Tagueamento perfil app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41138)
+- [52424 - Erro ao adicionar produto na sacola ao baixar o app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52424)
 
 ### 2.22.7
 
