@@ -6,8 +6,10 @@ import type {
   HomeMediaOutput,
   OffersPageQuery,
   OffersPageQueryVariables,
+  OffersPageCollectionBannerCarouselQuery as BannerCarouselQuery,
+  OffersPageCollectionBannerCarouselQueryVariables as BannerCarouselQueryVariables,
 } from '../base/graphql/generated';
-import { OffersPageDocument } from '../base/graphql/generated';
+import { OffersPageDocument, OffersPageCollectionBannerCarouselDocument as BannerCarouselDocument } from '../base/graphql/generated';
 import { getApolloClient } from '../utils/getApolloClient';
 
 interface IOffersStore {
@@ -19,13 +21,20 @@ interface IOffersStore {
   collectionFilters: {
     title: string;
     items: {
-      collectionId: string;
+      collectionId?: string | null | undefined;
       offerImage: string;
       offerName: string;
       fromPriceFilter?: string | null;
       toPriceFilter?: string | null;
-      sizeFilter?: string | null;
-      colorFilter?: string | null;
+      sizeFilter?: string[] | null | undefined;
+      colorFilter?: string[] | null | undefined;
+    }[]
+  }
+  bannerCarousel: {
+    title: string;
+    items: {
+      id?: string | null | undefined;
+      banner: string;
     }[]
   }
   onLoad: () => Promise<void>;
@@ -43,6 +52,10 @@ const offersStore = create<IOffersStore>((set) => ({
     items: [],
     title: '',
   },
+  bannerCarousel: {
+    title: '',
+    items: [],
+  },
   medias: [],
   setHasTabBar: (hasTabBar) => set(() => ({ hasTabBar })),
   onLoad: async () => {
@@ -51,15 +64,29 @@ const offersStore = create<IOffersStore>((set) => ({
       loading: true,
     }));
     try {
-      const { data } = await client.query<OffersPageQuery, OffersPageQueryVariables>({
+      const collectionFiltersPromise = client.query<OffersPageQuery, OffersPageQueryVariables>({
         context: { clientName: 'gateway' },
         query: OffersPageDocument,
       });
+      const bannerCarouselPromise = client
+        .query<BannerCarouselQuery, BannerCarouselQueryVariables>({
+        context: { clientName: 'gateway' },
+        query: BannerCarouselDocument,
+      });
+
+      const [collectionFilters, bannerCarousel] = await Promise.all([
+        collectionFiltersPromise,
+        bannerCarouselPromise,
+      ]);
 
       set(() => ({
         collectionFilters: {
-          items: data.offersPageCollectionFilter.items,
-          title: data.offersPageCollectionFilter.title,
+          items: collectionFilters.data.offersPageCollectionFilter.items,
+          title: collectionFilters.data.offersPageCollectionFilter.title,
+        },
+        bannerCarousel: {
+          items: bannerCarousel.data.offersPageCollectionBannerCarousel.items,
+          title: bannerCarousel.data.offersPageCollectionBannerCarousel.title,
         },
       }));
     } catch {
