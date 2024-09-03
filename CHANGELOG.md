@@ -2,6 +2,9 @@
 
 ## CHANGELOG
 
+### 2.22.8
+- [52424 - Erro ao adicionar produto na sacola ao baixar o app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52424)
+
 ### 2.22.7
 
 - [46461 - Melhoria na captação de leads app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46461)
