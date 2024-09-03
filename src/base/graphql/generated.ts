@@ -143,6 +143,12 @@ export type CashbackWalletOutput = {
   userStatus: Scalars['String']['output'];
 };
 
+export type CategoryCardsOutput = {
+  __typename?: 'CategoryCardsOutput';
+  sectionCardTitle?: Maybe<Scalars['String']['output']>;
+  sectionMediaCards?: Maybe<Array<SectionMediaCardsOutput>>;
+};
+
 export type CepInput = {
   cep: Scalars['String']['input'];
 };
@@ -863,29 +869,25 @@ export type MutationWishlistRemoveProductArgs = {
   input: WishlistRemoveProductInput;
 };
 
-export type OffersPageCollectionFilter = {
-  __typename?: 'OffersPageCollectionFilter';
-  items: Array<OffersPageCollectionFilterItemOutput>;
-  title: Scalars['String']['output'];
-};
-
-export type OffersPageCollectionFilterItemOutput = {
-  __typename?: 'OffersPageCollectionFilterItemOutput';
-  collectionId: Scalars['String']['output'];
-  colorFilter?: Maybe<Scalars['String']['output']>;
-  fromPriceFilter?: Maybe<Scalars['String']['output']>;
-  offerImage: Scalars['String']['output'];
-  offerName: Scalars['String']['output'];
-  sizeFilter?: Maybe<Scalars['String']['output']>;
-  toPriceFilter?: Maybe<Scalars['String']['output']>;
-}
-
 export type OffersCarouselsOutput = {
   __typename?: 'OffersCarouselsOutput';
+  categoryCards?: Maybe<CategoryCardsOutput>;
   items: Array<HomeCarouselItemOutput>;
   showtime?: Maybe<Scalars['Int']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   type: HomePageSectionTypeEnum;
+};
+
+export type OffersPageBannerCarousel = {
+  __typename?: 'OffersPageBannerCarousel';
+  items: Array<OffersPageCollectionBannerCarouselItemOutput>;
+  title: Scalars['String']['output'];
+};
+
+export type OffersPageCollectionBannerCarouselItemOutput = {
+  __typename?: 'OffersPageCollectionBannerCarouselItemOutput';
+  banner: Scalars['String']['output'];
+  id?: Maybe<Scalars['String']['output']>;
 };
 
 export type OffersPageCollectionFilter = {
@@ -1798,8 +1800,8 @@ export type Query = {
   landingPagePrime: PrimeDetailOutput;
   mktinStatus: Scalars['Boolean']['output'];
   mostSearchedWords: Array<Scalars['String']['output']>;
-  offersPageCollectionFilter: OffersPageCollectionFilter;
   offersCarousels: Array<OffersCarouselsOutput>;
+  offersPageCollectionBannerCarousel: OffersPageBannerCarousel;
   offersPageCollectionFilter: OffersPageCollectionFilter;
   order: OrderDetailOutput;
   orderForm: OrderformOutput;
@@ -2176,6 +2178,17 @@ export enum SearchProviderEnum {
 
 export type SearchProviderInput = {
   value?: InputMaybe<SearchProviderEnum>;
+};
+
+export type SectionMediaCardsOutput = {
+  __typename?: 'SectionMediaCardsOutput';
+  deepLink?: Maybe<Scalars['String']['output']>;
+  deepLinkNewsletter?: Maybe<Scalars['String']['output']>;
+  facets?: Maybe<Array<ProductFacetOutput>>;
+  headerImage?: Maybe<HomeCarouselItemImageOutput>;
+  id?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<HomeCarouselItemImageOutput>;
+  reference?: Maybe<Scalars['String']['output']>;
 };
 
 export type SellerInfoInput = {
@@ -2876,7 +2889,6 @@ export type HomeCountdownQuery = { __typename?: 'Query', homeCountdown?: { __typ
 export type HomeMediasQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, deepLinkNewsletter?: string | null, orderBy: string, reference?: string | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
 export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, deepLinkNewsletter?: string | null, orderBy: string, reference?: string | null, headerImage?: { __typename?: 'HomeCarouselItemImageOutput', url: string } | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
 
 export type InfoCashbackPdpCollectionQueryVariables = Exact<{ [key: string]: never; }>;
@@ -2906,14 +2918,20 @@ export type MostSearchedWordsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MostSearchedWordsQuery = { __typename?: 'Query', mostSearchedWords: Array<string> };
 
-export type OffersPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type OffersPageQuery = { __typename?: 'Query', offersPageCollectionFilter: { __typename?: 'OffersPageCollectionFilter', title: string, items: Array<{ __typename?: 'OffersPageCollectionFilterItemOutput', collectionId: string, offerImage: string, offerName: string, fromPriceFilter?: string | null, toPriceFilter?: string | null, sizeFilter?: string | null, colorFilter?: string | null }> } };
 export type OffersCarouselsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type OffersCarouselsQuery = { __typename?: 'Query', offersCarousels: Array<{ __typename?: 'OffersCarouselsOutput', type: HomePageSectionTypeEnum, title?: string | null, showtime?: number | null, items: Array<{ __typename?: 'HomeCarouselItemOutput', mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, reference: string, orderBy: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string, height?: number | null, width?: number | null }, filters?: { __typename?: 'HomeCarouselItemFiltersOutput', priceFilter?: { __typename?: 'HomeCarouselItemPricesFilterOutput', from?: number | null, to?: number | null } | null } | null }> }> };
+
+export type OffersPageCollectionBannerCarouselQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OffersPageCollectionBannerCarouselQuery = { __typename?: 'Query', offersPageCollectionBannerCarousel: { __typename?: 'OffersPageBannerCarousel', title: string, items: Array<{ __typename?: 'OffersPageCollectionBannerCarouselItemOutput', id?: string | null, banner: string }> } };
+
+export type OffersPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OffersPageQuery = { __typename?: 'Query', offersPageCollectionFilter: { __typename?: 'OffersPageCollectionFilter', title: string, items: Array<{ __typename?: 'OffersPageCollectionFilterItemOutput', collectionId?: string | null, offerImage: string, offerName: string, fromPriceFilter?: string | null, toPriceFilter?: string | null, sizeFilter?: Array<string> | null, colorFilter?: Array<string> | null }> } };
 
 export type OrderFormQueryVariables = Exact<{
   orderFormId: Scalars['String']['input'];
@@ -5377,19 +5395,6 @@ export type MostSearchedWordsQueryResult = Apollo.QueryResult<MostSearchedWordsQ
 export function refetchMostSearchedWordsQuery(variables?: MostSearchedWordsQueryVariables) {
       return { query: MostSearchedWordsDocument, variables: variables }
     }
-export const OffersPageDocument = gql`
-    query offersPage {
-  offersPageCollectionFilter {
-    title
-    items {
-      collectionId
-      offerImage
-      offerName
-      fromPriceFilter
-      toPriceFilter
-      sizeFilter
-      colorFilter
-`
 export const OffersCarouselsDocument = gql`
     query offersCarousels {
   offersCarousels {
@@ -5424,10 +5429,6 @@ export const OffersCarouselsDocument = gql`
     `;
 
 /**
- * __useOffersPageQuery__
- *
- * To run a query within a React component, call `useOffersPageQuery` and pass it any options that fit your needs.
- * When your component renders, `useOffersPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * __useOffersCarouselsQuery__
  *
  * To run a query within a React component, call `useOffersCarouselsQuery` and pass it any options that fit your needs.
@@ -5437,8 +5438,94 @@ export const OffersCarouselsDocument = gql`
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useOffersPageQuery({
  * const { data, loading, error } = useOffersCarouselsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOffersCarouselsQuery(baseOptions?: Apollo.QueryHookOptions<OffersCarouselsQuery, OffersCarouselsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OffersCarouselsQuery, OffersCarouselsQueryVariables>(OffersCarouselsDocument, options);
+      }
+export function useOffersCarouselsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OffersCarouselsQuery, OffersCarouselsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OffersCarouselsQuery, OffersCarouselsQueryVariables>(OffersCarouselsDocument, options);
+        }
+export type OffersCarouselsQueryHookResult = ReturnType<typeof useOffersCarouselsQuery>;
+export type OffersCarouselsLazyQueryHookResult = ReturnType<typeof useOffersCarouselsLazyQuery>;
+export type OffersCarouselsQueryResult = Apollo.QueryResult<OffersCarouselsQuery, OffersCarouselsQueryVariables>;
+export function refetchOffersCarouselsQuery(variables?: OffersCarouselsQueryVariables) {
+      return { query: OffersCarouselsDocument, variables: variables }
+    }
+export const OffersPageCollectionBannerCarouselDocument = gql`
+    query OffersPageCollectionBannerCarousel {
+  offersPageCollectionBannerCarousel {
+    items {
+      id
+      banner
+    }
+    title
+  }
+}
+    `;
+
+/**
+ * __useOffersPageCollectionBannerCarouselQuery__
+ *
+ * To run a query within a React component, call `useOffersPageCollectionBannerCarouselQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOffersPageCollectionBannerCarouselQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOffersPageCollectionBannerCarouselQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOffersPageCollectionBannerCarouselQuery(baseOptions?: Apollo.QueryHookOptions<OffersPageCollectionBannerCarouselQuery, OffersPageCollectionBannerCarouselQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OffersPageCollectionBannerCarouselQuery, OffersPageCollectionBannerCarouselQueryVariables>(OffersPageCollectionBannerCarouselDocument, options);
+      }
+export function useOffersPageCollectionBannerCarouselLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OffersPageCollectionBannerCarouselQuery, OffersPageCollectionBannerCarouselQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OffersPageCollectionBannerCarouselQuery, OffersPageCollectionBannerCarouselQueryVariables>(OffersPageCollectionBannerCarouselDocument, options);
+        }
+export type OffersPageCollectionBannerCarouselQueryHookResult = ReturnType<typeof useOffersPageCollectionBannerCarouselQuery>;
+export type OffersPageCollectionBannerCarouselLazyQueryHookResult = ReturnType<typeof useOffersPageCollectionBannerCarouselLazyQuery>;
+export type OffersPageCollectionBannerCarouselQueryResult = Apollo.QueryResult<OffersPageCollectionBannerCarouselQuery, OffersPageCollectionBannerCarouselQueryVariables>;
+export function refetchOffersPageCollectionBannerCarouselQuery(variables?: OffersPageCollectionBannerCarouselQueryVariables) {
+      return { query: OffersPageCollectionBannerCarouselDocument, variables: variables }
+    }
+export const OffersPageDocument = gql`
+    query offersPage {
+  offersPageCollectionFilter {
+    title
+    items {
+      collectionId
+      offerImage
+      offerName
+      fromPriceFilter
+      toPriceFilter
+      sizeFilter
+      colorFilter
+    }
+  }
+}
+    `;
+
+/**
+ * __useOffersPageQuery__
+ *
+ * To run a query within a React component, call `useOffersPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOffersPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOffersPageQuery({
  *   variables: {
  *   },
  * });
@@ -5456,19 +5543,6 @@ export type OffersPageLazyQueryHookResult = ReturnType<typeof useOffersPageLazyQ
 export type OffersPageQueryResult = Apollo.QueryResult<OffersPageQuery, OffersPageQueryVariables>;
 export function refetchOffersPageQuery(variables?: OffersPageQueryVariables) {
       return { query: OffersPageDocument, variables: variables }
-export function useOffersCarouselsQuery(baseOptions?: Apollo.QueryHookOptions<OffersCarouselsQuery, OffersCarouselsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<OffersCarouselsQuery, OffersCarouselsQueryVariables>(OffersCarouselsDocument, options);
-      }
-export function useOffersCarouselsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OffersCarouselsQuery, OffersCarouselsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<OffersCarouselsQuery, OffersCarouselsQueryVariables>(OffersCarouselsDocument, options);
-        }
-export type OffersCarouselsQueryHookResult = ReturnType<typeof useOffersCarouselsQuery>;
-export type OffersCarouselsLazyQueryHookResult = ReturnType<typeof useOffersCarouselsLazyQuery>;
-export type OffersCarouselsQueryResult = Apollo.QueryResult<OffersCarouselsQuery, OffersCarouselsQueryVariables>;
-export function refetchOffersCarouselsQuery(variables?: OffersCarouselsQueryVariables) {
-      return { query: OffersCarouselsDocument, variables: variables }
     }
 export const OrderFormDocument = gql`
     query orderForm($orderFormId: String!) {
