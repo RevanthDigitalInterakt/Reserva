@@ -2,8 +2,19 @@
 
 ## CHANGELOG
 
-### 2.22.8
+### 2.23.1
 - [46646 - Home promocional - Vitrines](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46646)
+
+### 2.23.0
+
+- [41138 - Tagueamento perfil app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41138)
+- [52424 - Erro ao adicionar produto na sacola ao baixar o app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52424)
+- [34940 - Tornar o nome e preço do produto clicável na PDC - app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/34940)
+- [46641 - Implementação evento memória do dispositivo](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46641)
+- [41768 - Transformar a landing de prime APP como componente de deeplink](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41768)
+- [51905 - Evento de localização habilitada](https://dev.azure.com/ARECO/AReCO/_workitems/edit/51905)
+- [45649 - Alteração na captura de eventos para produtos no GA4](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45649)
+- [46514 - Correção Doris](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46514)
 
 ### 2.22.7
 
@@ -13,10 +24,8 @@
 - [48417 - Atualização política de privacidade Arezzo + Soma](https://dev.azure.com/ARECO/AReCO/_workitems/edit/48417)
 - [41045 - Home promocional - Carrossel de promoções](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41045)
 - [41537 - Implementação evento CTR Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41537)
-- [51905 - Evento de localização habilitada](https://dev.azure.com/ARECO/AReCO/_workitems/edit/51905)
-- [45649 - Alteração na captura de eventos para produtos no GA4](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45649)
-- [47163 - [PTM-129] Ausência de detecção de jailbreak (iOS)](https://dev.azure.com/ARECO/AReCO/_workitems/edit/47163)
-- [46514 - Correção Doris](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46514)
+
+---
 
 ### 2.22.6
 
@@ -24,6 +33,16 @@
 - Exclusão log DataDog
 - Correção deeplink do whatsaap
 - [47163 - [PTM-129] Ausência de detecção de jailbreak (iOS)](https://dev.azure.com/ARECO/AReCO/_workitems/edit/47163)
+
+---
+
+### 2.22.5
+
+- [30695 - Redirecionamento das chamadas do checkout para o API Gateway](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30695)
+- Exclusão log DataDog
+- Correção deeplink do whatsaap
+
+---
 
 ### 2.14.0
 
@@ -33,9 +52,13 @@
 
 - [46478 - Crash ao fazer busca no app](https://dev.azure.com/areco/AReCO/_workitems/edit/46478)
 
+---
+
 ### 2.13.0
 
 - [42216 - Ícone faça vc na tab bar do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/42216)
+
+---
 
 ### 2.12.0
 
@@ -44,6 +67,7 @@
 - [46165 - Menu lateral do app instável ao clicar](https://dev.azure.com/areco/AReCO/_workitems/edit/46165)
 
 ---
+
 ### 2.11.10
 
 - [31946 - Migrar dados para o contentful > Central de ajuda app](https://dev.azure.com/areco/AReCO/_workitems/edit/31946)

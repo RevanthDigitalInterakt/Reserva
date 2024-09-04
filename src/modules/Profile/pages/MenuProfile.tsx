@@ -145,7 +145,10 @@ export function MenuProfile() {
               <Box testID="com.usereserva:id/menu_profile_avatar">
                 <Avatar
                   imageStyle={{ width: 60, height: 60, borderRadius: 60 }}
-                  onPress={() => navigation.navigate('EditProfile')}
+                  onPress={() => {
+                    EventProvider.logEvent('profile_edit_click', {});
+                    navigation.navigate('EditProfile');
+                  }}
                   {...imageProfile ? { imageSource: { uri: imageProfile } } : { buttonEdit: true }}
                 />
               </Box>
@@ -176,7 +179,10 @@ export function MenuProfile() {
                   title="Meus pedidos"
                   descr="Acompanhe seus pedidos"
                   icon="Handbag"
-                  onPress={() => navigation.navigate('OrderList')}
+                  onPress={() => {
+                    EventProvider.logEvent('profile_my_orders_click', {});
+                    navigation.navigate('OrderList');
+                  }}
                 />
               </Box>
 
@@ -185,7 +191,10 @@ export function MenuProfile() {
                   title="Favoritos"
                   descr="Veja os produtos que você curtiu"
                   icon="Heart"
-                  onPress={() => navigation.navigate('WishList')}
+                  onPress={() => {
+                    EventProvider.logEvent('profile_favorites_click', {});
+                    navigation.navigate('WishList');
+                  }}
                 />
               </Box>
 
@@ -194,7 +203,10 @@ export function MenuProfile() {
                   title="Minha conta"
                   descr="Visualize e edite suas informações"
                   icon="Profile"
-                  onPress={() => navigation.navigate('EditProfile')}
+                  onPress={() => {
+                    EventProvider.logEvent('profile_my_account_click', {});
+                    navigation.navigate('EditProfile');
+                  }}
                 />
               </Box>
 
@@ -205,7 +217,10 @@ export function MenuProfile() {
                   icon="Cashback"
                   arrowDown
                   dropdownActive={cashbackDropOpen}
-                  onPress={() => setCashbackDropOpen(!cashbackDropOpen)}
+                  onPress={() => {
+                    EventProvider.logEvent('profile_my_cashback_click', {});
+                    setCashbackDropOpen(!cashbackDropOpen);
+                  }}
                 />
               </Box>
 
@@ -219,7 +234,10 @@ export function MenuProfile() {
                   <Box paddingX="xxs">
                     <TouchableOpacity
                       {...testProps('com.usereserva:id/my_cashback_button')}
-                      onPress={() => navigation.navigate(MyCashbackScreensRoutes.MY_WALLET)}
+                      onPress={() => {
+                        EventProvider.logEvent('profile_my_portfolio_click', {});
+                        navigation.navigate(MyCashbackScreensRoutes.MY_WALLET);
+                      }}
                     >
                       <Typography fontFamily="nunitoRegular" fontSize={14}>
                         Ver minha carteira
@@ -235,7 +253,10 @@ export function MenuProfile() {
                     title="Meus créditos"
                     descr="Visualize seus créditos"
                     icon="Credit"
-                    onPress={() => navigation.navigate('credits')}
+                    onPress={() => {
+                      EventProvider.logEvent('profile_my_credits_click', {});
+                      navigation.navigate('credits');
+                    }}
                   />
                 </Box>
               )}
@@ -246,6 +267,7 @@ export function MenuProfile() {
                   descr="Consulte e adicione seus endereços"
                   icon="Pin"
                   onPress={() => {
+                    EventProvider.logEvent('profile_my_addresses_click', {});
                     navigation.navigate('AddressList');
                   }}
                 />
@@ -256,7 +278,10 @@ export function MenuProfile() {
                   title="Alterar senha"
                   descr="Altere a senha da sua conta"
                   icon="Lock"
-                  onPress={() => navigation.navigate('EditPassword')}
+                  onPress={() => {
+                    EventProvider.logEvent('profile_change_password_click', {});
+                    navigation.navigate('EditPassword');
+                  }}
                 />
               </Box>
 
@@ -267,7 +292,10 @@ export function MenuProfile() {
                   testID="com.usereserva:id/profile_button_logout"
                   width={150}
                   disabled={isLoading}
-                  onPress={handleLogout}
+                  onPress={() => {
+                    EventProvider.logEvent('profile_logout_click', {});
+                    handleLogout();
+                  }}
                   title="LOGOUT"
                   variant="primarioEstreitoOutline"
                 />
