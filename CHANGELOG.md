@@ -11,8 +11,8 @@
 - [46641 - Implementação evento memória do dispositivo](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46641)
 - [41768 - Transformar a landing de prime APP como componente de deeplink](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41768)
 - [51905 - Evento de localização habilitada](https://dev.azure.com/ARECO/AReCO/_workitems/edit/51905)
-- [45649 - Alteração na captura de eventos para produtos no GA4](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45649)
-- [46514 - Correção Doris](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46514)
+
+---
 
 ### 2.22.7
 
