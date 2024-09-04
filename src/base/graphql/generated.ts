@@ -1,5 +1,3 @@
-// @ts-nocheck
-/* eslint-disable */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -866,6 +864,11 @@ export type MutationWishlistRemoveProductArgs = {
 export type OffersCarouselsOutput = {
   __typename?: 'OffersCarouselsOutput';
   items: Array<HomeCarouselItemOutput>;
+  shelfProductsBottom?: Maybe<Scalars['String']['output']>;
+  shelfProductsTop?: Maybe<Scalars['String']['output']>;
+  shelfSubtitleBottom?: Maybe<Scalars['String']['output']>;
+  shelfSubtitleTop?: Maybe<Scalars['String']['output']>;
+  shelfTitle?: Maybe<Scalars['String']['output']>;
   showtime?: Maybe<Scalars['Int']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   type: HomePageSectionTypeEnum;
@@ -2890,7 +2893,7 @@ export type MostSearchedWordsQuery = { __typename?: 'Query', mostSearchedWords: 
 export type OffersCarouselsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type OffersCarouselsQuery = { __typename?: 'Query', offersCarousels: Array<{ __typename?: 'OffersCarouselsOutput', type: HomePageSectionTypeEnum, title?: string | null, showtime?: number | null, items: Array<{ __typename?: 'HomeCarouselItemOutput', mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, reference: string, orderBy: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string, height?: number | null, width?: number | null }, filters?: { __typename?: 'HomeCarouselItemFiltersOutput', priceFilter?: { __typename?: 'HomeCarouselItemPricesFilterOutput', from?: number | null, to?: number | null } | null } | null }> }> };
+export type OffersCarouselsQuery = { __typename?: 'Query', offersCarousels: Array<{ __typename?: 'OffersCarouselsOutput', type: HomePageSectionTypeEnum, title?: string | null, showtime?: number | null, shelfProductsBottom?: string | null, shelfProductsTop?: string | null, shelfSubtitleBottom?: string | null, shelfSubtitleTop?: string | null, shelfTitle?: string | null, items: Array<{ __typename?: 'HomeCarouselItemOutput', mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, reference: string, orderBy: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string, height?: number | null, width?: number | null }, filters?: { __typename?: 'HomeCarouselItemFiltersOutput', priceFilter?: { __typename?: 'HomeCarouselItemPricesFilterOutput', from?: number | null, to?: number | null } | null } | null }> }> };
 
 export type OrderFormQueryVariables = Exact<{
   orderFormId: Scalars['String']['input'];
@@ -5383,6 +5386,11 @@ export const OffersCarouselsDocument = gql`
         }
       }
     }
+    shelfProductsBottom
+    shelfProductsTop
+    shelfSubtitleBottom
+    shelfSubtitleTop
+    shelfTitle
   }
 }
     `;

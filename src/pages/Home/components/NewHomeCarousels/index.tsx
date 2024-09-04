@@ -19,7 +19,6 @@ import styles from './styles';
 import { Box } from '../../../../components/Box/Box';
 import { RouletCouponCard } from '../RouletCouponCard';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
-import { HomeShowcase } from '../HomeShowcase/HomeShowcase';
 
 export function NewHomeCarousels() {
   const { carousels, loading } = useHomeStore(['carousels', 'loading']);
@@ -59,7 +58,6 @@ export function NewHomeCarousels() {
       [HomePageSectionTypeEnum.Brands]: () => (
         <>
           <HomeBrandsCarousel data={item} />
-          <HomeShowcase />
           <CommercialBanner />
           {getString('count_down_position') === 'A' && <NewHomeCountDown />}
         </>

@@ -24,6 +24,13 @@ interface IHomeStore {
   hasTabBar: boolean;
   carousels: HomeCarouselOutput[];
   offersCarousels: OffersCarouselsOutput[];
+  shelfOffers: {
+    shelfProductsBottom: string,
+    shelfProductsTop: string,
+    shelfSubtitleBottom: string,
+    shelfSubtitleTop: string,
+    shelfTitle: string,
+  }
   medias: HomeMediaOutput[];
   offersPage?: string;
   commercialBannerCollection?: ConfigCommercialBannerOutput[],
@@ -38,6 +45,13 @@ const homeStore = create<IHomeStore>((set) => ({
   offersCarousels: [],
   discountBar: undefined,
   offersPage: undefined,
+  shelfOffers: {
+    shelfProductsBottom: '',
+    shelfProductsTop: '',
+    shelfSubtitleBottom: '',
+    shelfSubtitleTop: '',
+    shelfTitle: '',
+  },
   commercialBannerCollection: undefined,
   medias: [],
   setHasTabBar: (hasTabBar) => set(() => ({ hasTabBar })),
@@ -62,6 +76,13 @@ const homeStore = create<IHomeStore>((set) => ({
       loading: true,
       carousels: homeData.homeCarousels,
       offersCarousels: offersData.offersCarousels,
+      shelfOffers: {
+        shelfTitle: offersData.offersCarousels[0]?.shelfTitle || '',
+        shelfProductsBottom: offersData.offersCarousels[0]?.shelfProductsBottom || '',
+        shelfProductsTop: offersData.offersCarousels[0]?.shelfProductsTop || '',
+        shelfSubtitleBottom: offersData.offersCarousels[0]?.shelfSubtitleBottom || '',
+        shelfSubtitleTop: offersData.offersCarousels[0]?.shelfSubtitleTop || '',
+      },
     }));
 
     try {

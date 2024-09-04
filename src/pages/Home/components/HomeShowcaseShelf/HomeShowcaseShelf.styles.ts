@@ -8,12 +8,15 @@ export const styles = StyleSheet.create({
   shelfTitle: {
     fontFamily: FONTS.RESERVA_DISPLAY_REGULAR,
     fontSize: 24,
+    marginLeft: 20,
   },
   shelfContainer: {
-    marginTop: 10,
+    marginTop: 0,
   },
   shelf: {
+    flexDirection: 'row',
+    marginHorizontal: 10,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
 });

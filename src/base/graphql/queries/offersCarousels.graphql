@@ -26,5 +26,10 @@ query offersCarousels {
                 }
             }
         }
+        shelfProductsBottom
+        shelfProductsTop
+        shelfSubtitleBottom
+        shelfSubtitleTop
+        shelfTitle
     }
 }

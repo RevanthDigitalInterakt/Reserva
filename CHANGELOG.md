@@ -2,6 +2,9 @@
 
 ## CHANGELOG
 
+### 2.22.8
+- [46646 - Home promocional - Vitrines](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46646)
+
 ### 2.22.7
 
 - [46461 - Melhoria na captação de leads app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46461)

@@ -135,7 +135,7 @@ export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
         ) : null}
       </View>
       {product.flags.map((flag) => {
-        if (flag.type === 'savings') {
+        if (flag.type === 'savings' && flag.value && flag.value > 0) {
           return (
             <View style={styles.discountContainer}>
               <View style={styles.discountContainerFlag} key={flag.type}>
@@ -146,19 +146,6 @@ export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
                   OFF
                 </Text>
               </View>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: COLORS.BLACK,
-                  width: 35,
-                  height: 35,
-                  borderRadius: 30,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                onPress={() => onClickItem(product)}
-              >
-                <IconAddToBag />
-              </TouchableOpacity>
             </View>
           );
         }
