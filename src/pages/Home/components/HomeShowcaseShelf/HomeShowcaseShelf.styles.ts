@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { FONTS } from '../../../../base/styles/fonts';
+import { COLORS } from '../../../../base/styles';
 
 export const styles = StyleSheet.create({
   container: {
@@ -18,5 +19,15 @@ export const styles = StyleSheet.create({
     marginHorizontal: 10,
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  actionTitleContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  actionTitleText: {
+    color: COLORS.SHELF_DARK_GRAY,
+    fontFamily: FONTS.NUNITO_SEMI_BOLD,
+    fontSize: 12,
   },
 });

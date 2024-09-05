@@ -36,8 +36,8 @@ export default function Shelf({ dataShelf }: IShelfProps) {
           {dataShelf.shelfName}
         </Text>
         <TouchableOpacity onPress={onClickShowAll}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text style={{ color: '#969CA4', fontFamily: FONTS.NUNITO_SEMI_BOLD, fontSize: 12 }}>
+          <View style={styles.actionTitleContent}>
+            <Text style={styles.actionTitleText}>
               Ver tudo
             </Text>
             <IconDropdown />
