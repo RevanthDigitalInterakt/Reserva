@@ -89,7 +89,7 @@ const offersStore = create<IOffersStore>((set) => ({
           title: bannerCarousel.data.offersPageCollectionBannerCarousel.title,
         },
       }));
-    } catch {
+    } catch { /* empty */ } finally {
       set(() => ({
         loading: false,
       }));
