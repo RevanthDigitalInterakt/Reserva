@@ -147,7 +147,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         });
 
         set(() => ({
-          orderFormId,
+          orderFormId: orderForm.orderFormId,
           messages: orderForm.messages,
           clientProfileData: orderForm.clientProfileData,
           packageItems: orderForm.packageItems,
@@ -199,7 +199,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         });
 
         set(() => ({
-          orderFormId,
+          orderFormId: orderForm.orderFormId,
           messages: orderForm.messages,
           clientProfileData: orderForm.clientProfileData,
           packageItems: orderForm.packageItems,

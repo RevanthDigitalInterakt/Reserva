@@ -224,9 +224,10 @@ function Home() {
                       facets={item.facets}
                       image={item.image.url}
                       orderBy={item.orderBy}
-                      reference={item.reference}
+                      reference={item?.reference}
                       reservaMini={item.reservaMini}
                       deepLinkNewsletter={item?.deepLinkNewsletter}
+                      deepLink={item?.deepLink}
                       headerImageUrl={item?.headerImage?.url}
                     />
                   </>
@@ -239,9 +240,10 @@ function Home() {
                       facets={item.facets}
                       image={item.image.url}
                       orderBy={item.orderBy}
-                      reference={item.reference}
+                      reference={item?.reference}
                       reservaMini={item.reservaMini}
                       deepLinkNewsletter={item?.deepLinkNewsletter}
+                      deepLink={item?.deepLink}
                       headerImageUrl={item?.headerImage?.url}
                     />
                     <NewHomeCountDown />
@@ -254,9 +256,10 @@ function Home() {
                   facets={item.facets}
                   image={item.image.url}
                   orderBy={item.orderBy}
-                  reference={item.reference}
+                  reference={item?.reference}
                   reservaMini={item.reservaMini}
                   deepLinkNewsletter={item?.deepLinkNewsletter}
+                  deepLink={item?.deepLink}
                   headerImageUrl={item?.headerImage?.url}
                 />
               );

@@ -1,6 +1,6 @@
 {
   "name": "reserva",
-  "version": "2.22.7",
+  "version": "2.23.0",
   "private": true,
   "scripts": {
     "setup-ios-permissions": "react-native setup-ios-permissions && pod-install",
