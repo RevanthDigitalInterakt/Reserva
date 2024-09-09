@@ -1025,6 +1025,7 @@ exports[`Newsletter should be match snapshot 1`] = `
       >
         <View>
           <Image
+            resizeMode="cover"
             source={
               {
                 "commons": {
@@ -1091,6 +1092,7 @@ exports[`Newsletter should be match snapshot 1`] = `
                   "instagram": [Circular],
                   "ios14": [Circular],
                   "localReserva": [Circular],
+                  "logo": [Circular],
                   "logoQRCode": [Circular],
                   "mastercard": [Circular],
                   "newsletter": [Circular],
@@ -1201,12 +1203,14 @@ exports[`Newsletter should be match snapshot 1`] = `
                   "instagram": [Circular],
                   "ios14": [Circular],
                   "localReserva": [Circular],
+                  "logo": [Circular],
                   "logoPrime": [Function],
                   "logoQRCode": [Circular],
                   "mastercard": [Circular],
                   "newsletter": [Circular],
                   "noStoresFound": [Circular],
                   "noWishList": [Circular],
+                  "personalize": [Function],
                   "pinPlace": [Circular],
                   "pinYou": [Circular],
                   "profile": [Circular],
@@ -1252,6 +1256,7 @@ exports[`Newsletter should be match snapshot 1`] = `
                   "info": [Function],
                   "infoSuccess": [Function],
                   "logoPrime": [Function],
+                  "personalize": [Function],
                   "sizeGuideIcon": [Function],
                   "trash": [Function],
                 },
@@ -1271,7 +1276,8 @@ exports[`Newsletter should be match snapshot 1`] = `
           style={
             {
               "backgroundColor": "#ffffff",
-              "borderRadius": 8,
+              "borderBottomLeftRadius": 8,
+              "borderBottomRightRadius": 8,
               "elevation": 5,
               "padding": 58.59375,
               "shadowColor": "#000000",
@@ -1611,6 +1617,7 @@ exports[`Newsletter should be match snapshot 1`] = `
                   "instagram": [Circular],
                   "ios14": [Circular],
                   "localReserva": [Circular],
+                  "logo": [Circular],
                   "logoQRCode": [Circular],
                   "mastercard": [Circular],
                   "newsletter": [Circular],
@@ -1721,12 +1728,14 @@ exports[`Newsletter should be match snapshot 1`] = `
                   "instagram": [Circular],
                   "ios14": [Circular],
                   "localReserva": [Circular],
+                  "logo": [Circular],
                   "logoPrime": [Function],
                   "logoQRCode": [Circular],
                   "mastercard": [Circular],
                   "newsletter": [Circular],
                   "noStoresFound": [Circular],
                   "noWishList": [Circular],
+                  "personalize": [Function],
                   "pinPlace": [Circular],
                   "pinYou": [Circular],
                   "profile": [Circular],
@@ -1772,6 +1781,7 @@ exports[`Newsletter should be match snapshot 1`] = `
                   "info": [Function],
                   "infoSuccess": [Function],
                   "logoPrime": [Function],
+                  "personalize": [Function],
                   "sizeGuideIcon": [Function],
                   "trash": [Function],
                 },

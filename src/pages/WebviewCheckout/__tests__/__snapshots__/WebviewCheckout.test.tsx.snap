@@ -465,7 +465,8 @@ exports[`WebviewCheckout should initial render webview 1`] = `
     }
   >
     <RNCWebView
-      cacheEnabled={true}
+      cacheEnabled={false}
+      cacheMode="LOAD_NO_CACHE"
       domStorageEnabled={true}
       fraudulentWebsiteWarningEnabled={true}
       geolocationEnabled={true}
