@@ -6,7 +6,7 @@ import { Button } from '../components/Button';
 import { IconLegacy } from '../components/IconLegacy/IconLegacy';
 import { Typography } from '../components/Typography/Typography';
 import IconComponent from '../components/IconComponent/IconComponent';
-import IconShirt from '../../assets/icons/IconShirt';
+import Personalize from '../base/svgs/Personalize';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -29,7 +29,7 @@ export function BottomBarButton({
 }: BottomBarButtonProps) {
   const renderIcon = useCallback((nameIcon: string) => {
     if (nameIcon === 'FacaVc') {
-      return <IconShirt />;
+      return <Personalize />;
     }
 
     if (nameIcon === 'Roulet') {

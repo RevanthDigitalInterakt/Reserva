@@ -143,6 +143,12 @@ export type CashbackWalletOutput = {
   userStatus: Scalars['String']['output'];
 };
 
+export type CategoryCardsOutput = {
+  __typename?: 'CategoryCardsOutput';
+  sectionCardTitle?: Maybe<Scalars['String']['output']>;
+  sectionMediaCards?: Maybe<Array<SectionMediaCardsOutput>>;
+};
+
 export type CepInput = {
   cep: Scalars['String']['input'];
 };
@@ -865,6 +871,7 @@ export type MutationWishlistRemoveProductArgs = {
 
 export type OffersCarouselsOutput = {
   __typename?: 'OffersCarouselsOutput';
+  categoryCards?: Maybe<CategoryCardsOutput>;
   items: Array<HomeCarouselItemOutput>;
   showtime?: Maybe<Scalars['Int']['output']>;
   title?: Maybe<Scalars['String']['output']>;
@@ -1594,6 +1601,7 @@ export type ProductOutput = {
   colorUrls: Array<ProductColorUrlOutput>;
   colors: Array<ProductColorOutput>;
   disabledColors: Array<Scalars['String']['output']>;
+  fvcProductReference?: Maybe<Scalars['String']['output']>;
   giftCard?: Maybe<ProductGiftCardOutput>;
   hasPrime?: Maybe<Scalars['Boolean']['output']>;
   identifier?: Maybe<Scalars['String']['output']>;
@@ -2158,6 +2166,17 @@ export enum SearchProviderEnum {
 
 export type SearchProviderInput = {
   value?: InputMaybe<SearchProviderEnum>;
+};
+
+export type SectionMediaCardsOutput = {
+  __typename?: 'SectionMediaCardsOutput';
+  deepLink?: Maybe<Scalars['String']['output']>;
+  deepLinkNewsletter?: Maybe<Scalars['String']['output']>;
+  facets?: Maybe<Array<ProductFacetOutput>>;
+  headerImage?: Maybe<HomeCarouselItemImageOutput>;
+  id?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<HomeCarouselItemImageOutput>;
+  reference?: Maybe<Scalars['String']['output']>;
 };
 
 export type SellerInfoInput = {
@@ -2914,7 +2933,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, paymentSystemGroupName?: Array<string> | null, identifier?: string | null, categoryTree: Array<string>, disabledColors: Array<string>, hasPrime?: boolean | null, saleOff: boolean, videoThumbnail?: string | null, kit?: Array<{ __typename?: 'ProductKitOutput', productId: string, productName: string, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', colorId: string, colorName?: string | null, colorUrl: string, disabled: boolean, images: Array<string>, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }> }> | null, giftCard?: { __typename?: 'ProductGiftCardOutput', terms: string, howItWorks: string, options: Array<{ __typename?: 'ProductGiftCardOptionOutput', itemId: string, name: string, ean: string, seller: string, images: Array<string> }> } | null, priceRange?: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } } | null, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null } | null } };
+export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, paymentSystemGroupName?: Array<string> | null, identifier?: string | null, categoryTree: Array<string>, disabledColors: Array<string>, hasPrime?: boolean | null, saleOff: boolean, videoThumbnail?: string | null, fvcProductReference?: string | null, kit?: Array<{ __typename?: 'ProductKitOutput', productId: string, productName: string, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', colorId: string, colorName?: string | null, colorUrl: string, disabled: boolean, images: Array<string>, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }> }> | null, giftCard?: { __typename?: 'ProductGiftCardOutput', terms: string, howItWorks: string, options: Array<{ __typename?: 'ProductGiftCardOptionOutput', itemId: string, name: string, ean: string, seller: string, images: Array<string> }> } | null, priceRange?: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } } | null, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null } | null } };
 
 export type ProductDeliveryTimeQueryVariables = Exact<{
   input: CheckDeliveryTimeByProductInput;
@@ -5616,6 +5635,7 @@ export const ProductDocument = gql`
     initialSize {
       ...productSizeFragment
     }
+    fvcProductReference
   }
 }
     ${KitFragmentFragmentDoc}

@@ -16,7 +16,9 @@ export type EventName =
   | 'select_item'
   | 'view_item_list'
   | 'add_payment_info'
-  | 'mobile_jailbroken';
+  | 'mobile_jailbroken'
+  | 'pdp_icon_fvc'
+  | 'pdp_button_rainbow_fvc';
 
 export type EventNameOptions = Record<EventName, string>;
 
@@ -79,6 +81,8 @@ export const eventsName: EventNameOptions = {
   view_item_list: 'view_item_list',
   add_payment_info: 'add_payment_info',
   mobile_jailbroken: 'mobile_jailbroken',
+  pdp_icon_fvc: 'pdp_icon_fvc',
+  pdp_button_rainbow_fvc: 'pdp_button_rainbow_fvc',
 };
 
 export const eventsValue: EventValueOptions = {
@@ -127,4 +131,6 @@ export const onlyGaEvents = [
   'sign_up',
   'click_card_cashback',
   'mobile_jailbroken',
+  'pdp_icon_fvc',
+  'pdp_button_rainbow_fvc',
 ];

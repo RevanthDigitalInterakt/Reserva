@@ -162,6 +162,7 @@ function ProductSummary() {
           setImageIndex(handledIndex);
           return handledIndex;
         }}
+        fvcProductReference={productDetail?.fvcProductReference || ''}
       />
 
       {(!!showPrimeBox && !isGiftCard) && (

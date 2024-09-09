@@ -524,4 +524,10 @@ export type EventOptionsFn =
   } | {
     type: 'device_info',
     payload: EventsOptions.DeviceInfoTrack,
+  } | {
+    type: 'pdp_button_rainbow_fvc',
+    payload: {},
+  } | {
+    type: 'pdp_icon_fvc',
+    payload: {},
   };

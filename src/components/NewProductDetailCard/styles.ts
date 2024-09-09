@@ -2,21 +2,24 @@ import { StyleSheet } from 'react-native';
 import { COLORS, FONTS } from '../../base/styles';
 import { scale } from '../../utils/scale';
 
-const styles = (discountTag: boolean) => StyleSheet.create({
+const styles = (
+  discountTag: boolean = false,
+  personalizeTag: boolean = false,
+) => StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
   },
   flagWrapper: {
     position: 'absolute',
-    top: 0,
+    top: personalizeTag ? 60 : 0,
     left: 0,
     zIndex: 1,
     elevation: 3,
   },
   saleOffWrapper: {
     position: 'absolute',
-    top: discountTag ? 80 : 0,
+    top: discountTag ? personalizeTag ? 140 : 80 : personalizeTag ? 80 : 0,
     left: 0,
     elevation: 3,
     zIndex: 1,
@@ -67,6 +70,44 @@ const styles = (discountTag: boolean) => StyleSheet.create({
   shareIcon: {
     width: 16,
     height: 16,
+  },
+  personalizeWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    top: '2%',
+    left: '4%',
+    zIndex: 1,
+    elevation: 3,
+  },
+  personalizeButton: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    height: 37,
+    maxWidth: 130,
+  },
+  personalizeIconBackground: {
+    backgroundColor: 'white',
+    borderRadius: 18,
+    padding: 2,
+  },
+  personalizeIcon: {
+    width: 16,
+    height: 16,
+  },
+  personalizeAnimateTextContainer: {
+    overflow: 'hidden',
+    height: '100%',
+    justifyContent: 'center',
+    marginLeft: 0,
+    maxWidth: 120,
+  },
+  personalizeAnimateTextStyle: {
+    color: 'black',
+    fontSize: 16,
   },
   zoomButtonWrapper: {
     position: 'absolute',

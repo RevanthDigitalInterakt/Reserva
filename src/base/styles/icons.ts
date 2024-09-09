@@ -117,6 +117,7 @@ export const svgs = {
   hanger: require('../svgs/HangerIcon').default,
   sizeGuideIcon: require('../svgs/SizeGuideIcon').default,
   checkedRounded: require('../svgs/CheckedRounded').default,
+  personalize: require('../svgs/Personalize').default,
 };
 
 type TIconsKeys = keyof typeof commons;

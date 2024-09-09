@@ -57,5 +57,6 @@ query product($input: ProductInput!) {
     initialSize {
       ...productSizeFragment
     }
+    fvcProductReference
   }
 }
