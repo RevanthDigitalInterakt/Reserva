@@ -143,6 +143,12 @@ export type CashbackWalletOutput = {
   userStatus: Scalars['String']['output'];
 };
 
+export type CategoryCardsOutput = {
+  __typename?: 'CategoryCardsOutput';
+  sectionCardTitle?: Maybe<Scalars['String']['output']>;
+  sectionMediaCards?: Maybe<Array<SectionMediaCardsOutput>>;
+};
+
 export type CepInput = {
   cep: Scalars['String']['input'];
 };
@@ -865,6 +871,7 @@ export type MutationWishlistRemoveProductArgs = {
 
 export type OffersCarouselsOutput = {
   __typename?: 'OffersCarouselsOutput';
+  categoryCards?: Maybe<CategoryCardsOutput>;
   items: Array<HomeCarouselItemOutput>;
   showtime?: Maybe<Scalars['Int']['output']>;
   title?: Maybe<Scalars['String']['output']>;
@@ -2160,6 +2167,17 @@ export type SearchProviderInput = {
   value?: InputMaybe<SearchProviderEnum>;
 };
 
+export type SectionMediaCardsOutput = {
+  __typename?: 'SectionMediaCardsOutput';
+  deepLink?: Maybe<Scalars['String']['output']>;
+  deepLinkNewsletter?: Maybe<Scalars['String']['output']>;
+  facets?: Maybe<Array<ProductFacetOutput>>;
+  headerImage?: Maybe<HomeCarouselItemImageOutput>;
+  id?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<HomeCarouselItemImageOutput>;
+  reference?: Maybe<Scalars['String']['output']>;
+};
+
 export type SellerInfoInput = {
   sellerId: Scalars['String']['input'];
 };
@@ -2851,7 +2869,7 @@ export type HomeCountdownQuery = { __typename?: 'Query', homeCountdown?: { __typ
 export type HomeMediasQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, deepLinkNewsletter?: string | null, orderBy: string, reference?: string | null, headerImage?: { __typename?: 'HomeCarouselItemImageOutput', url: string } | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
+export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, deepLinkNewsletter?: string | null, deepLink?: string | null, orderBy: string, reference?: string | null, headerImage?: { __typename?: 'HomeCarouselItemImageOutput', url: string } | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
 
 export type InfoCashbackPdpCollectionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2884,6 +2902,11 @@ export type OffersCarouselsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type OffersCarouselsQuery = { __typename?: 'Query', offersCarousels: Array<{ __typename?: 'OffersCarouselsOutput', type: HomePageSectionTypeEnum, title?: string | null, showtime?: number | null, items: Array<{ __typename?: 'HomeCarouselItemOutput', mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, reference: string, orderBy: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string, height?: number | null, width?: number | null }, filters?: { __typename?: 'HomeCarouselItemFiltersOutput', priceFilter?: { __typename?: 'HomeCarouselItemPricesFilterOutput', from?: number | null, to?: number | null } | null } | null }> }> };
+
+export type OffersPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OffersPageQuery = { __typename?: 'Query', offersPageCollectionFilter: { __typename?: 'OffersPageCollectionFilter', title: string, items: Array<{ __typename?: 'OffersPageCollectionFilterItemOutput', collectionId?: string | null, offerImage: string, offerName: string, fromPriceFilter?: string | null, toPriceFilter?: string | null, sizeFilter?: Array<string> | null, colorFilter?: Array<string> | null }> } };
 
 export type OrderFormQueryVariables = Exact<{
   orderFormId: Scalars['String']['input'];
@@ -5060,6 +5083,7 @@ export const HomeMediasDocument = gql`
     linkMktIn
     reservaMini
     deepLinkNewsletter
+    deepLink
     headerImage {
       url
     }
@@ -5372,6 +5396,52 @@ export type OffersCarouselsLazyQueryHookResult = ReturnType<typeof useOffersCaro
 export type OffersCarouselsQueryResult = Apollo.QueryResult<OffersCarouselsQuery, OffersCarouselsQueryVariables>;
 export function refetchOffersCarouselsQuery(variables?: OffersCarouselsQueryVariables) {
       return { query: OffersCarouselsDocument, variables: variables }
+    }
+export const OffersPageDocument = gql`
+    query offersPage {
+  offersPageCollectionFilter {
+    title
+    items {
+      collectionId
+      offerImage
+      offerName
+      fromPriceFilter
+      toPriceFilter
+      sizeFilter
+      colorFilter
+    }
+  }
+}
+    `;
+
+/**
+ * __useOffersPageQuery__
+ *
+ * To run a query within a React component, call `useOffersPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOffersPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOffersPageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOffersPageQuery(baseOptions?: Apollo.QueryHookOptions<OffersPageQuery, OffersPageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OffersPageQuery, OffersPageQueryVariables>(OffersPageDocument, options);
+      }
+export function useOffersPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OffersPageQuery, OffersPageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OffersPageQuery, OffersPageQueryVariables>(OffersPageDocument, options);
+        }
+export type OffersPageQueryHookResult = ReturnType<typeof useOffersPageQuery>;
+export type OffersPageLazyQueryHookResult = ReturnType<typeof useOffersPageLazyQuery>;
+export type OffersPageQueryResult = Apollo.QueryResult<OffersPageQuery, OffersPageQueryVariables>;
+export function refetchOffersPageQuery(variables?: OffersPageQueryVariables) {
+      return { query: OffersPageDocument, variables: variables }
     }
 export const OrderFormDocument = gql`
     query orderForm($orderFormId: String!) {

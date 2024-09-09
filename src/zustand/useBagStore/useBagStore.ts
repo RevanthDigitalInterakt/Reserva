@@ -54,7 +54,6 @@ import {
 import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
 import { getApolloClient } from '../../utils/getApolloClient';
 import type { IBagStore } from './types/bagStore';
-
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { getAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { handleCopyTextToClipboard } from '../../utils/CopyToClipboard';
@@ -148,7 +147,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         });
 
         set(() => ({
-          orderFormId,
+          orderFormId: orderForm.orderFormId,
           messages: orderForm.messages,
           clientProfileData: orderForm.clientProfileData,
           packageItems: orderForm.packageItems,
@@ -200,7 +199,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         });
 
         set(() => ({
-          orderFormId,
+          orderFormId: orderForm.orderFormId,
           messages: orderForm.messages,
           clientProfileData: orderForm.clientProfileData,
           packageItems: orderForm.packageItems,
@@ -839,7 +838,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           hasPrimeSubscriptionInCart: orderForm?.hasPrimeSubscriptionInCart,
         }));
 
-        await trackingOrderFormAddItem(id, orderForm);
+        await trackingOrderFormAddItem({ id, orderForm, productDetail });
       } catch (error) {
         ExceptionProvider.captureException(error);
         set(() => ({ error: error.message }));
@@ -914,7 +913,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           hasPrimeSubscriptionInCart: orderForm?.hasPrimeSubscriptionInCart,
         }));
 
-        await trackingOrderFormAddItem(orderItems?.orderFormId, orderForm);
+        await trackingOrderFormAddItem({ id: orderItems?.orderFormId, orderForm, productDetail });
       } catch (error) {
         set(() => ({ error: error.message }));
 

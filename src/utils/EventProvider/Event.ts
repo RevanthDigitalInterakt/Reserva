@@ -23,11 +23,9 @@ export enum Actions {
 
 type EventValues = {
   item_id?: string;
-  item_name: string;
-  item_price: any;
-  item_size: string;
-  item_color: string;
-  item_quantity: number;
+  item_name?: string;
+  item_price?: any;
+  item_quantity?: number;
   item_category: string;
   item_categories: string;
   item_size: string | number;
@@ -54,7 +52,7 @@ type EventValues = {
   value?: number;
   tax: number;
   shipping: number;
-  transaction_id: '';
+  transaction_id: string;
   order_form_id: string;
   items: Items[];
   search_term: string;
@@ -71,6 +69,17 @@ type EventValues = {
   favorite: number;
   position: 'top' | 'bottom';
   page: string;
+  os: string;
+  freeMemory: string;
+  totalMemory: string;
+  usedMemory: string;
+  freeStorage: string;
+  totalStorage: string;
+  usedStorage: string;
+  platform?: string;
+  model?: string;
+  ip?: string
+  locationEnabled: string;
 };
 
 type AbandonedCartEventValues = {
@@ -92,50 +101,53 @@ export namespace EventsOptions {
   export type RemoveFromCart = Pick<EventValues, 'item_id' | 'item_categories' | 'item_brand'>;
   export type ProductListView = Pick<EventValues, 'content_type' | 'item_brand'>;
   export type CheckoutInitiated = Pick<
-  EventValues,
-  'price' | 'content_type' | 'content_ids' | 'currency' | 'quantity'
+    EventValues,
+    'price' | 'content_type' | 'content_ids' | 'currency' | 'quantity'
   >;
   export type CompleteRegistration = Pick<
-  EventValues,
-  'method' | 'custumer_email'
+    EventValues,
+    'method' | 'custumer_email'
   >;
   export type OpenRonUrl = Pick<
-  EventValues,
-  'order_form_id'
+    EventValues,
+    'order_form_id'
   >;
   export type ProductView = Pick<
-  EventValues,
-  | 'product_id'
-  | 'product_category'
-  | 'product_price'
-  | 'product_currency'
+    EventValues,
+    | 'product_id'
+    | 'product_category'
+    | 'product_price'
+    | 'product_currency'
   >;
   export type AddToCart = Pick<
-  EventValues,
-  | 'item_id'
-  | 'item_price'
-  | 'item_quantity'
-  | 'item_category'
-  | 'currency'
-  | 'seller'
-  | 'item_brand'
+    EventValues,
+    | 'item_id'
+    | 'item_price'
+    | 'item_name'
+    | 'item_quantity'
+    | 'item_category'
+    | 'item_brand'
+    | 'currency'
+    | 'seller'
+    | 'price'
+    | 'quantity'
   >;
   export type AddToCartPrime = Pick<
-  EventValues,
-  | 'item_id'
-  | 'item_quantity'
-  | 'seller'
+    EventValues,
+    | 'item_id'
+    | 'item_quantity'
+    | 'seller'
   >;
   export type Purchase = Pick<
-  EventValues,
-  | 'affiliation'
-  | 'coupon'
-  | 'currency'
-  | 'items'
-  | 'shipping'
-  | 'tax'
-  | 'transaction_id'
-  | 'value'
+    EventValues,
+    | 'affiliation'
+    | 'coupon'
+    | 'currency'
+    | 'items'
+    | 'shipping'
+    | 'tax'
+    | 'transaction_id'
+    | 'value'
   > & {};
   export type ViewItem = Pick<EventValues, 'currency' | 'items' | 'value' | 'item_brand'>;
   export type BeginCheckout = Pick<EventValues, 'items' | 'value' | 'coupon' | 'currency' | 'item_brand'>;
@@ -144,28 +156,28 @@ export namespace EventsOptions {
   export type ViewItemList = Pick<EventValues, 'items' | 'item_brand'>;
   export type AddPaymentInfo = Pick<EventValues, 'coupon' | 'currency' | 'items' | 'payment_type' | 'value' | 'item_brand'>;
   export type RonOpen = Pick<
-  EventValues,
-  'items'
-  | 'open'
-  | 'item_brand'
+    EventValues,
+    'items'
+    | 'open'
+    | 'item_brand'
   >;
   export type RonPurchase = Pick<
-  EventValues,
-  | 'coupon'
-  | 'currency'
-  | 'items'
-  | 'transaction_id'
-  | 'value'
-  | 'item_brand'
+    EventValues,
+    | 'coupon'
+    | 'currency'
+    | 'items'
+    | 'transaction_id'
+    | 'value'
+    | 'item_brand'
   >;
   export type ClickAccessibilityApp = Pick<
-  EventValues,
-  | 'email'
-  | 'appState'
+    EventValues,
+    | 'email'
+    | 'appState'
   >;
   export type AppState = Pick<
-  EventValues,
-  | 'appState'
+    EventValues,
+    | 'appState'
   >;
   export type ProductSlideImages = Pick<EventValues, | 'product_id' | 'index'>;
   export type ProductViewSizeGuide = Pick<EventValues, | 'product_id' | 'show'>;
@@ -195,6 +207,24 @@ export namespace EventsOptions {
   export type PaymentOptions = Pick<EventValues, 'item_id'>;
   export type ReturnPolicy = Pick<EventValues, 'item_id'>;
   export type AddToCartFromWishlist = Pick<EventValues, 'item_name' | 'item_color' | 'item_size' | 'value'>;
+  export type DeviceInfoMemory = Pick<
+    EventValues,
+    | 'model'
+    | 'os'
+    | 'totalMemory'
+    | 'freeMemory'
+    | 'usedMemory'
+  >;
+  export type DeviceInfoStorage = Pick<
+    EventValues,
+    | 'model'
+    | 'os'
+    | 'totalStorage'
+    | 'freeStorage'
+    | 'usedStorage'
+  >;
+  export type MobileJailbroken = Pick<EventValues, 'platform' | 'model' | 'ip'>;
+  export type DeviceInfoTrack = Pick<EventValues, 'locationEnabled'>;
 }
 
 export type EventOptionsFn =
@@ -496,13 +526,16 @@ export type EventOptionsFn =
     payload: EventsOptions.ReturnPolicy;
   } | {
     type: 'add_to_cart_from_wishlist',
-    payload: EventsOptions.AddToCartFromWishlist
+    payload: EventsOptions.AddToCartFromWishlist;
   } | {
     type: 'faca_vc_tab_click',
     payload: {}
   } | {
     type: 'personalize_tab_click',
     payload: {}
+  } | {
+    type: 'mobile_jailbroken',
+    payload: EventsOptions.MobileJailbroken;
   } | {
     type: 'offers_main_banner_slide',
     payload: {}
@@ -511,4 +544,61 @@ export type EventOptionsFn =
     payload: {
       category: string;
     }
+  } | {
+    type: 'device_info_memory',
+    payload: EventsOptions.DeviceInfoMemory,
+  } | {
+    type: 'device_info_storage',
+    payload: EventsOptions.DeviceInfoStorage
+  } | {
+    type: 'login_forgot_password_click',
+    payload: {}
+  } | {
+    type: 'login_click',
+    payload: {}
+  } | {
+    type: 'login_register_click',
+    payload: {}
+  } | {
+    type: 'signup_register_email_click',
+    payload: {}
+  } | {
+    type: 'signup_recover_password_click',
+    payload: {}
+  } | {
+    type: 'signup_create_password_click',
+    payload: {}
+  } | {
+    type: 'profile_edit_click',
+    payload: {}
+  } | {
+    type: 'profile_my_orders_click',
+    payload: {}
+  } | {
+    type: 'profile_favorites_click',
+    payload: {}
+  } | {
+    type: 'profile_my_account_click',
+    payload: {}
+  } | {
+    type: 'profile_my_cashback_click',
+    payload: {}
+  } | {
+    type: 'profile_my_credits_click',
+    payload: {}
+  } | {
+    type: 'profile_my_addresses_click',
+    payload: {}
+  } | {
+    type: 'profile_change_password_click',
+    payload: {}
+  } | {
+    type: 'profile_my_portfolio_click',
+    payload: {}
+  } | {
+    type: 'profile_logout_click',
+    payload: {}
+  } | {
+    type: 'device_info',
+    payload: EventsOptions.DeviceInfoTrack,
   };

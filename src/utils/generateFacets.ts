@@ -10,6 +10,8 @@ export interface IGenerateFacetsParams {
   reference?: string,
   categories?: string[],
   priceFilter?: IPriceRange,
+  colors?: { key: string, value: string }[],
+  sizes?: { key: string, value: string }[],
 }
 
 export interface IFilters extends IGenerateFacetsParams {}
@@ -79,11 +81,15 @@ export const generateFacets = (filters?:IGenerateFacetsParams): IFacet[] => {
 
   if (!filters) return facets;
 
-  const { reference, categories, priceFilter } = filters;
+  const {
+    reference, categories, priceFilter, colors, sizes,
+  } = filters;
 
   if (reference) facets.push(...handleReference(reference));
   if (categories) facets.push(...handleCategories(categories));
   if (priceFilter) facets.push(handlePriceFilter(priceFilter));
+  if (colors) facets.push(...colors.map(({ key, value }) => ({ key, value })));
+  if (sizes) facets.push(...sizes.map(({ key, value }) => ({ key, value })));
 
   const uniqueFacets = facets.filter(
     (facet, index, self) => index === self.findIndex(
