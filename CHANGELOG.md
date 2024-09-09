@@ -2,6 +2,10 @@
 
 ## CHANGELOG
 
+### 2.23.1
+
+- [46328 - [PTM-131] Ajuste backend vulnerabilidade app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46328)
+
 
 ### 2.23.0
 

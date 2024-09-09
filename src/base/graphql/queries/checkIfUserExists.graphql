@@ -1,3 +1,0 @@
-query checkIfUserExists($email: String!) {
-    checkIfUserExists(input:{email: $email})
-}
