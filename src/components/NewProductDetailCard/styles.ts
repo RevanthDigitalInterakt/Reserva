@@ -82,7 +82,7 @@ const styles = (
   },
   personalizeButton: {
     flexDirection: 'row',
-    backgroundColor: 'white',
+    backgroundColor: COLORS.WHITE,
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -90,7 +90,7 @@ const styles = (
     maxWidth: 130,
   },
   personalizeIconBackground: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.WHITE,
     borderRadius: 18,
     padding: 2,
   },
@@ -106,7 +106,7 @@ const styles = (
     maxWidth: 120,
   },
   personalizeAnimateTextStyle: {
-    color: 'black',
+    color: COLORS.BLACK,
     fontSize: 16,
   },
   zoomButtonWrapper: {

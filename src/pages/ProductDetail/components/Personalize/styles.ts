@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../../../base/styles';
 
 const styles = StyleSheet.create({
   button: {
@@ -7,12 +8,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: 'white',
+    backgroundColor: COLORS.WHITE,
     borderRadius: 20,
     borderWidth: 2,
     borderColor: 'transparent',
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: COLORS.BLACK,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -32,8 +33,8 @@ const styles = StyleSheet.create({
   animatedView: {
     borderRadius: 10,
     borderWidth: 2.1,
-    backgroundColor: 'white',
-    shadowColor: '#b8b894',
+    backgroundColor: COLORS.WHITE,
+    shadowColor: COLORS.LIGHT_OLIVE_GREEN,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.30,
     shadowRadius: 3.65,
