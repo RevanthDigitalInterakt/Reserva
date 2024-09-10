@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
+  View,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from 'react-native';
@@ -23,6 +24,7 @@ import { ProductVerticalListCard } from '../ProductVerticalListCard';
 import { Typography } from '../Typography/Typography';
 import { useTrackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 import useSearchStore from '../../zustand/useSearchStore';
+import { ProductKitLookVerticalListCard } from '../ProductKitLookVerticalListCard';
 
 interface ListProductsProps {
   data: ProductListOutput[];
@@ -63,7 +65,7 @@ function NewListVerticalProducts({
   );
 
   const onClickCart = useCallback((item: ProductListOutput) => {
-    const itemPosistion = data.indexOf(item);
+    const itemPosition = data.indexOf(item);
 
     EventProvider.logEvent('page_view', {
       item_brand: defaultBrand.picapau,
@@ -87,93 +89,140 @@ function NewListVerticalProducts({
         : TrackEventNameEnum.ClickedItems,
       sku: [item.ean],
       queryID,
-      positions: [itemPosistion],
+      positions: [itemPosition],
     });
   }, []);
 
+  const showKit = data.map((x) => x.action === 'ShowKit');
+
   const onRenderItem = useCallback(
     (item: ProductListOutput) => (
-      <Box
-        flex={1}
-        alignItems="center"
-        justifyContent="center"
-        marginY="xs"
-        height={showThumbColors ? 375 : 353}
-      >
-        <TouchableOpacity
-          onPress={() => onClickCart(item)}
-        >
-          <ProductVerticalListCard
-            prime={
-              item.prime && showPrimePrice
-                ? {
-                  primePrice: item.prime.price,
-                  primeInstallments: {
-                    number: item.prime.installment.number || 0,
-                    value: item.prime.installment.value || 0,
-                  },
+      <>
+        {!showKit && (
+          <Box
+            flex={1}
+            alignItems="center"
+            justifyContent="center"
+            marginY="xs"
+            height={showThumbColors ? 375 : 353}
+          >
+            <TouchableOpacity
+              onPress={() => onClickCart(item)}
+            >
+              <ProductVerticalListCard
+                prime={
+                  item.prime && showPrimePrice
+                    ? {
+                      primePrice: item.prime.price,
+                      primeInstallments: {
+                        number: item.prime.installment.number || 0,
+                        value: item.prime.installment.value || 0,
+                      },
+                    }
+                    : null
                 }
-                : null
-            }
-            productTitle={item.productName}
-            priceWithDiscount={item.currentPrice}
-            price={item.listPrice}
-            installmentsEqualPrime={item.installmentEqualPrime}
-            currency="R$"
-            showThumbColors={showThumbColors}
-            imageSource={item.image}
-            installmentsNumber={item.installment.number}
-            installmentsPrice={item.installment.value}
-            loadingFavorite={loadingSkuId === item.skuId}
-            onClickImage={() => {
-              const itemPosistion = data.indexOf(item);
-              EventProvider.logEvent('page_view', {
-                item_brand: defaultBrand.picapau,
-              });
-              EventProvider.logEvent('select_item', {
-                item_list_id: item.productId,
-                item_list_name: item.productName,
-                item_brand: item.brand,
-              });
+                productTitle={item.productName}
+                priceWithDiscount={item.currentPrice}
+                price={item.listPrice}
+                installmentsEqualPrime={item.installmentEqualPrime}
+                currency="R$"
+                showThumbColors={showThumbColors}
+                imageSource={item.image}
+                installmentsNumber={item.installment.number}
+                installmentsPrice={item.installment.value}
+                loadingFavorite={loadingSkuId === item.skuId}
+                onClickImage={() => {
+                  const itemPosition = data.indexOf(item);
+                  EventProvider.logEvent('page_view', {
+                    item_brand: defaultBrand.picapau,
+                  });
+                  EventProvider.logEvent('select_item', {
+                    item_list_id: item.productId,
+                    item_list_name: item.productName,
+                    item_brand: item.brand,
+                  });
 
-              if (cacheGoingBackRequest) {
-                cacheGoingBackRequest();
-              }
-              // @ts-ignore
-              navigation.navigate('ProductDetail', { skuId: item.skuId });
-              onTrack({
-                typeEvent: TrackEventTypeEnum.Click,
-                nameEvent: queryID
-                  ? TrackEventNameEnum.ClickedItemsSearch
-                  : TrackEventNameEnum.ClickedItems,
-                sku: [item.ean],
-                queryID,
-                positions: [itemPosistion],
-              });
-            }}
-            colors={showThumbColors ? item.colors || [] : []}
-            isFavorited={checkIsFavorite(item.skuId)}
-            onClickFavorite={() => {
-              onToggleFavorite({
-                productId: item.skuId,
-                ean: item.ean,
-                skuId: item.skuId,
-                brand: item.brand,
-                productName: item.productName,
-                category: item.category,
-                size: item.size,
-                colorName: item.colorName,
-                lowPrice: item.currentPrice,
-                skuName: item.skuName,
-              });
-            }}
-            discountTag={
-              item.discountPercentage ? item.discountPercentage : undefined
-            }
-            testID={`com.usereserva:id/productcard_vertical_${item.skuId}`}
-          />
-        </TouchableOpacity>
-      </Box>
+                  if (cacheGoingBackRequest) {
+                    cacheGoingBackRequest();
+                  }
+                  // @ts-ignore
+                  navigation.navigate('ProductDetail', { skuId: item.skuId });
+                  onTrack({
+                    typeEvent: TrackEventTypeEnum.Click,
+                    nameEvent: queryID
+                      ? TrackEventNameEnum.ClickedItemsSearch
+                      : TrackEventNameEnum.ClickedItems,
+                    sku: [item.ean],
+                    queryID,
+                    positions: [itemPosition],
+                  });
+                }}
+                colors={showThumbColors ? item.colors || [] : []}
+                isFavorited={checkIsFavorite(item.skuId)}
+                onClickFavorite={() => {
+                  onToggleFavorite({
+                    productId: item.skuId,
+                    ean: item.ean,
+                    skuId: item.skuId,
+                    brand: item.brand,
+                    productName: item.productName,
+                    category: item.category,
+                    size: item.size,
+                    colorName: item.colorName,
+                    lowPrice: item.currentPrice,
+                    skuName: item.skuName,
+                  });
+                }}
+                discountTag={
+                  item.discountPercentage ? item.discountPercentage : undefined
+                }
+                testID={`com.usereserva:id/productcard_vertical_${item.skuId}`}
+              />
+            </TouchableOpacity>
+          </Box>
+        )}
+
+        {showKit && (
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <TouchableOpacity
+              onPress={() => onClickCart(item)}
+            >
+              <ProductKitLookVerticalListCard
+                productTitle={item.productName}
+                imageSource={item.image}
+                onClickImage={() => {
+                  const itemPosition = data.indexOf(item);
+                  EventProvider.logEvent('page_view', {
+                    item_brand: defaultBrand.picapau,
+                  });
+                  EventProvider.logEvent('select_item', {
+                    item_list_id: item.productId,
+                    item_list_name: item.productName,
+                    item_brand: item.brand,
+                  });
+
+                  if (cacheGoingBackRequest) {
+                    cacheGoingBackRequest();
+                  }
+                  navigation.navigate('ProductDetail', { skuId: item.skuId });
+                  onTrack({
+                    typeEvent: TrackEventTypeEnum.Click,
+                    nameEvent: queryID
+                      ? TrackEventNameEnum.ClickedItemsSearch
+                      : TrackEventNameEnum.ClickedItems,
+                    sku: [item.ean],
+                    queryID,
+                    positions: [itemPosition],
+                  });
+                }}
+                testID={`com.usereserva:id/productcard_vertical_${item.skuId}`}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
+      </>
     ),
     [
       checkIsFavorite,
