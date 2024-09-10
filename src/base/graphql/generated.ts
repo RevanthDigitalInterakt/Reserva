@@ -2814,13 +2814,6 @@ export type CepQueryVariables = Exact<{
 
 export type CepQuery = { __typename?: 'Query', cep?: { __typename?: 'CepOutput', postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, neighborhood?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null } | null };
 
-export type CheckIfUserExistsQueryVariables = Exact<{
-  email: Scalars['String']['input'];
-}>;
-
-
-export type CheckIfUserExistsQuery = { __typename?: 'Query', checkIfUserExists: boolean };
-
 export type CheckSearchRedirectQueryVariables = Exact<{
   q: Scalars['String']['input'];
 }>;
@@ -4624,42 +4617,6 @@ export type CepLazyQueryHookResult = ReturnType<typeof useCepLazyQuery>;
 export type CepQueryResult = Apollo.QueryResult<CepQuery, CepQueryVariables>;
 export function refetchCepQuery(variables: CepQueryVariables) {
       return { query: CepDocument, variables: variables }
-    }
-export const CheckIfUserExistsDocument = gql`
-    query checkIfUserExists($email: String!) {
-  checkIfUserExists(input: {email: $email})
-}
-    `;
-
-/**
- * __useCheckIfUserExistsQuery__
- *
- * To run a query within a React component, call `useCheckIfUserExistsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCheckIfUserExistsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCheckIfUserExistsQuery({
- *   variables: {
- *      email: // value for 'email'
- *   },
- * });
- */
-export function useCheckIfUserExistsQuery(baseOptions: Apollo.QueryHookOptions<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>(CheckIfUserExistsDocument, options);
-      }
-export function useCheckIfUserExistsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>(CheckIfUserExistsDocument, options);
-        }
-export type CheckIfUserExistsQueryHookResult = ReturnType<typeof useCheckIfUserExistsQuery>;
-export type CheckIfUserExistsLazyQueryHookResult = ReturnType<typeof useCheckIfUserExistsLazyQuery>;
-export type CheckIfUserExistsQueryResult = Apollo.QueryResult<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>;
-export function refetchCheckIfUserExistsQuery(variables: CheckIfUserExistsQueryVariables) {
-      return { query: CheckIfUserExistsDocument, variables: variables }
     }
 export const CheckSearchRedirectDocument = gql`
     query checkSearchRedirect($q: String!) {
