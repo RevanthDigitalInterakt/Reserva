@@ -25,6 +25,7 @@ import { Typography } from '../Typography/Typography';
 import { useTrackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 import useSearchStore from '../../zustand/useSearchStore';
 import { ProductKitLookVerticalListCard } from '../ProductKitLookVerticalListCard';
+import styles from './styles';
 
 interface ListProductsProps {
   data: ProductListOutput[];
@@ -93,7 +94,35 @@ function NewListVerticalProducts({
     });
   }, []);
 
-  const showKit = data.map((x) => x.action === 'ShowKit');
+  const onClickImage = useCallback((item: ProductListOutput) => {
+    const itemPosition = data.indexOf(item);
+
+    EventProvider.logEvent('page_view', {
+      item_brand: defaultBrand.picapau,
+    });
+    EventProvider.logEvent('select_item', {
+      item_list_id: item.productId,
+      item_list_name: item.productName,
+      item_brand: item.brand,
+    });
+
+    if (cacheGoingBackRequest) {
+      cacheGoingBackRequest();
+    }
+    // @ts-ignore
+    navigation.navigate('ProductDetail', { skuId: item.skuId });
+    onTrack({
+      typeEvent: TrackEventTypeEnum.Click,
+      nameEvent: queryID
+        ? TrackEventNameEnum.ClickedItemsSearch
+        : TrackEventNameEnum.ClickedItems,
+      sku: [item.ean],
+      queryID,
+      positions: [itemPosition],
+    });
+  }, []);
+
+  const showKit = data.map((item) => item.action === 'ShowKit');
 
   const onRenderItem = useCallback(
     (item: ProductListOutput) => (
@@ -131,32 +160,7 @@ function NewListVerticalProducts({
                 installmentsNumber={item.installment.number}
                 installmentsPrice={item.installment.value}
                 loadingFavorite={loadingSkuId === item.skuId}
-                onClickImage={() => {
-                  const itemPosition = data.indexOf(item);
-                  EventProvider.logEvent('page_view', {
-                    item_brand: defaultBrand.picapau,
-                  });
-                  EventProvider.logEvent('select_item', {
-                    item_list_id: item.productId,
-                    item_list_name: item.productName,
-                    item_brand: item.brand,
-                  });
-
-                  if (cacheGoingBackRequest) {
-                    cacheGoingBackRequest();
-                  }
-                  // @ts-ignore
-                  navigation.navigate('ProductDetail', { skuId: item.skuId });
-                  onTrack({
-                    typeEvent: TrackEventTypeEnum.Click,
-                    nameEvent: queryID
-                      ? TrackEventNameEnum.ClickedItemsSearch
-                      : TrackEventNameEnum.ClickedItems,
-                    sku: [item.ean],
-                    queryID,
-                    positions: [itemPosition],
-                  });
-                }}
+                onClickImage={() => onClickImage(item)}
                 colors={showThumbColors ? item.colors || [] : []}
                 isFavorited={checkIsFavorite(item.skuId)}
                 onClickFavorite={() => {
@@ -184,7 +188,7 @@ function NewListVerticalProducts({
 
         {showKit && (
           <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+            style={styles.mainContainer}
           >
             <TouchableOpacity
               onPress={() => onClickCart(item)}
@@ -192,31 +196,7 @@ function NewListVerticalProducts({
               <ProductKitLookVerticalListCard
                 productTitle={item.productName}
                 imageSource={item.image}
-                onClickImage={() => {
-                  const itemPosition = data.indexOf(item);
-                  EventProvider.logEvent('page_view', {
-                    item_brand: defaultBrand.picapau,
-                  });
-                  EventProvider.logEvent('select_item', {
-                    item_list_id: item.productId,
-                    item_list_name: item.productName,
-                    item_brand: item.brand,
-                  });
-
-                  if (cacheGoingBackRequest) {
-                    cacheGoingBackRequest();
-                  }
-                  navigation.navigate('ProductDetail', { skuId: item.skuId });
-                  onTrack({
-                    typeEvent: TrackEventTypeEnum.Click,
-                    nameEvent: queryID
-                      ? TrackEventNameEnum.ClickedItemsSearch
-                      : TrackEventNameEnum.ClickedItems,
-                    sku: [item.ean],
-                    queryID,
-                    positions: [itemPosition],
-                  });
-                }}
+                onClickImage={() => onClickImage(item)}
                 testID={`com.usereserva:id/productcard_vertical_${item.skuId}`}
               />
             </TouchableOpacity>
