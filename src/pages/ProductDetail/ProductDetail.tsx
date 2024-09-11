@@ -118,6 +118,13 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
       const { product } = data;
       trackEventDitoAccessProduct(data);
+
+      const existsFvcProductReference = !!product?.fvcProductReference;
+
+      if (existsFvcProductReference) {
+        EventProvider.logEvent('pdp_open_product_with_ref_fvc', {});
+      }
+
       EventProvider.logScreenViewEvent(`/pdp/${product.productName?.replace(/ /g, '-').toLowerCase()}`);
 
       const newData: IData = {

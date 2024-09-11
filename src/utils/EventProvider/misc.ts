@@ -19,6 +19,7 @@ export type EventName =
   | 'mobile_jailbroken'
   | 'pdp_icon_fvc'
   | 'pdp_button_rainbow_fvc'
+  | 'pdp_open_product_with_ref_fvc'
   | 'device_info_memory'
   | 'device_info_storage'
   | 'login_forgot_password_click'
@@ -128,6 +129,7 @@ export const eventsName: EventNameOptions = {
   mobile_jailbroken: 'mobile_jailbroken',
   pdp_icon_fvc: 'pdp_icon_fvc',
   pdp_button_rainbow_fvc: 'pdp_button_rainbow_fvc',
+  pdp_open_product_with_ref_fvc: 'pdp_open_product_with_ref_fvc',
 };
 
 export const eventsValue: EventValueOptions = {
@@ -203,4 +205,5 @@ export const onlyGaEvents = [
   'mobile_jailbroken',
   'pdp_icon_fvc',
   'pdp_button_rainbow_fvc',
+  'pdp_open_product_with_ref_fvc',
 ];
