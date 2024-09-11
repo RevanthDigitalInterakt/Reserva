@@ -5,32 +5,27 @@ platform :ios do
 
   lane :beta do |options|
 
-  gym(
-    scheme: "reserva",
-    xcargs: "-jobs 4",
-    workspace: "reserva.xcworkspace",
-    export_method: "app-store",
-    configuration: "Release",
-    output_directory: "build",
-    include_bitcode: false,
-    include_symbols: false,
-    skip_profile_detection: true,
-    clean: true,
-    codesigning_identity: "iPhone Distribution: Tiferet Comercio de Roupas LTDA (N3UDSXJ25B)",
-    export_options: {
-      method: "app-store",
-      provisioningProfiles: {
-        "com.globalsys.reserva" => "match.com.globalsys.reserva",
-        "com.globalsys.reserva.OneSignalNotificationServiceExtension" => "match.com.globalsys.reserva.oneSignal"
+    gym(
+      scheme: "reserva",
+      xcargs: "-jobs 4",
+      workspace: "reserva.xcworkspace",
+      export_method: "app-store",
+      configuration: "Release",
+      output_directory: "build",
+      include_bitcode: false,
+      include_symbols: false,
+      skip_profile_detection: false,
+      clean: true,
+      export_options: {
+        method: "app-store"
       }
-    }
-  )
+    )
 
-  pilot(
-      api_key_path: options[:api_key_path],
-      ipa: "build/reserva.ipa",
-      skip_waiting_for_build_processing: true	 
-  )
+  # pilot(
+  #     api_key_path: options[:api_key_path],
+  #     ipa: "build/reserva.ipa",
+  #     skip_waiting_for_build_processing: true	 
+  # )
 
   end
 end
