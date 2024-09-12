@@ -29,10 +29,8 @@ stages:
           
 
           - script: |
-              /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
               brew -v
-              brew install fastlane
-              whereis ruby
+              fastlane -v
               ruby -v 
             displayName: 'Install Fastlane'
 
