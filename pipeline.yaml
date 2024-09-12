@@ -29,6 +29,7 @@ stages:
           
 
           - script: |
+              echo $PATH
               brew -v
               fastlane -v
               ruby -v 
