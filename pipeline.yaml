@@ -5,7 +5,7 @@ variables:
   - group: mobile-variable-group
 
 pool: 
-  name: Reserva_Pool_Mac
+  name: Reserva_MacMini-Pool
 
 stages:
 - stage: BuildAndDeploy
