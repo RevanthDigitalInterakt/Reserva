@@ -26,8 +26,10 @@ stages:
             inputs:
               versionSpec: '20.9.0'
             displayName: 'Install Node.js'
+          
 
           - script: |
+              /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
               brew -v
               brew install fastlane
               whereis ruby
