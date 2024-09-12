@@ -28,73 +28,57 @@ stages:
             displayName: 'Install Node.js'
 
           - script: |
-              curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-              export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-              [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # Load NVM
-            displayName: 'Nvm Installation'
-
-          - script: |
-              export LANG=en_US.UTF-8
-              nvm use 20
-              npm install -g yarn 
               yarn
             displayName: 'Install dependencies'
             workingDirectory: $(Build.SourcesDirectory)
 
-          - task: DownloadSecureFile@1
-            name: apiKeyFileIOS
-            inputs:
-              secureFile: 'fastlane_6UD2X3PDZN.json'
+          # - task: DownloadSecureFile@1
+          #   name: apiKeyFileIOS
+          #   inputs:
+          #     secureFile: 'fastlane_6UD2X3PDZN.json'
               
-          - task: DownloadSecureFile@1
-            name: apiKeyFileAndroid
-            inputs:
-              secureFile: 'play-store-credentials.json'
+          # - task: DownloadSecureFile@1
+          #   name: apiKeyFileAndroid
+          #   inputs:
+          #     secureFile: 'play-store-credentials.json'
+
+          # - script: |
+          #     export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+          #     export ANDROID_HOME=/Users/ec2-user/Library/Android/sdk
+          #     export PATH=$PATH:$ANDROID_HOME/emulator
+          #     export PATH=$PATH:$ANDROID_HOME/tools
+          #     export PATH=$PATH:$ANDROID_HOME/tools/bin
+          #     export PATH=$PATH:$ANDROID_HOME/platform-tools
+          #     export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk-bundle
+          #     export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+          #   displayName: 'Set environment variables'
+
+          # - script: |
+          #     export GIT_CONFIG_PARAMETERS="'url.https://$SYSTEM_ACCESSTOKEN@dev.azure.com.insteadof=https://ARECO@dev.azure.com'" 
+          #     git tag
+          #     yarn pipeline:semantic-release-pre:prod
+          #     bash scripts/deleteTag.sh
+          #   displayName: 'Increment version'
+          #   workingDirectory: $(Build.SourcesDirectory)
+          #   env: 
+          #     SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
           - script: |
-              cd ios
-              pod deintegrate
-              pod cache clean --all
-              rm -rf /Library/Developer/Xcode/DerivedData/
-              pod install
-            displayName: 'Install CocoaPods dependencies'
-            workingDirectory: $(Build.SourcesDirectory)
-
-          - script: |
-              export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
-              export ANDROID_HOME=/Users/ec2-user/Library/Android/sdk
-              export PATH=$PATH:$ANDROID_HOME/emulator
-              export PATH=$PATH:$ANDROID_HOME/tools
-              export PATH=$PATH:$ANDROID_HOME/tools/bin
-              export PATH=$PATH:$ANDROID_HOME/platform-tools
-              export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk-bundle
-              export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
-            displayName: 'Set environment variables'
-
-          - script: |
-              export GIT_CONFIG_PARAMETERS="'url.https://$SYSTEM_ACCESSTOKEN@dev.azure.com.insteadof=https://ARECO@dev.azure.com'" 
-              git tag
-              yarn pipeline:semantic-release-pre:prod
-              bash scripts/deleteTag.sh
-            displayName: 'Increment version'
-            workingDirectory: $(Build.SourcesDirectory)
-            env: 
-              SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-
-          - script: |
-              fastlane ios beta api_key_path:$(apiKeyFileIOS.secureFilePath)
+              fastlane ios beta 
+              # api_key_path:$(apiKeyFileIOS.secureFilePath)
             displayName: 'Deploy to TestFlight'
             workingDirectory: ios
             timeoutInMinutes: 30000
 
           - script: |
-              export ANDROID_HOME=/Users/ec2-user/Library/Android/sdk
-              fastlane android beta api_key_path:$(apiKeyFileAndroid.secureFilePath)
+              export ANDROID_HOME=/Users/admin/Library/Android/sdk
+              fastlane android beta 
+              # api_key_path:$(apiKeyFileAndroid.secureFilePath)
             displayName: 'Deploy to Play Store Beta'
             workingDirectory: android
             timeoutInMinutes: 30000
 
-          - script: |
-              yarn pipeline:semantic-release-post:prod
-            displayName: 'Commit version'
-            workingDirectory: $(Build.SourcesDirectory)
+          # - script: |
+          #     yarn pipeline:semantic-release-post:prod
+          #   displayName: 'Commit version'
+          #   workingDirectory: $(Build.SourcesDirectory)
