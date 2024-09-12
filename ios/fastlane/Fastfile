@@ -7,7 +7,7 @@ platform :ios do
 
     gym(
       scheme: "reserva",
-      xcargs: "-jobs 4",
+      xcargs: "-jobs 4 -allowProvisioningUpdates",
       workspace: "reserva.xcworkspace",
       export_method: "app-store",
       configuration: "Release",
