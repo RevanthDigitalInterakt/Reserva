@@ -28,6 +28,13 @@ stages:
             displayName: 'Install Node.js'
 
           - script: |
+              brew -v
+              brew install fastlane
+              whereis ruby
+              ruby -v 
+            displayName: 'Install Fastlane'
+
+          - script: |
               export LANG=en_US.UTF-8
               yarn
             displayName: 'Install dependencies'
