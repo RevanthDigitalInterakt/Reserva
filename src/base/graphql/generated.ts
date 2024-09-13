@@ -2902,7 +2902,7 @@ export type MostSearchedWordsQuery = { __typename?: 'Query', mostSearchedWords: 
 export type OffersCarouselsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type OffersCarouselsQuery = { __typename?: 'Query', offersCarousels: Array<{ __typename?: 'OffersCarouselsOutput', type: HomePageSectionTypeEnum, title?: string | null, showtime?: number | null, items: Array<{ __typename?: 'HomeCarouselItemOutput', mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, reference: string, orderBy: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string, height?: number | null, width?: number | null }, filters?: { __typename?: 'HomeCarouselItemFiltersOutput', priceFilter?: { __typename?: 'HomeCarouselItemPricesFilterOutput', from?: number | null, to?: number | null } | null } | null }> }> };
+export type OffersCarouselsQuery = { __typename?: 'Query', offersCarousels: Array<{ __typename?: 'OffersCarouselsOutput', type: HomePageSectionTypeEnum, title?: string | null, showtime?: number | null, items: Array<{ __typename?: 'HomeCarouselItemOutput', mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, reference: string, orderBy: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string, height?: number | null, width?: number | null }, filters?: { __typename?: 'HomeCarouselItemFiltersOutput', priceFilter?: { __typename?: 'HomeCarouselItemPricesFilterOutput', from?: number | null, to?: number | null } | null } | null }>, categoryCards?: { __typename?: 'CategoryCardsOutput', sectionCardTitle?: string | null, sectionMediaCards?: Array<{ __typename?: 'SectionMediaCardsOutput', id?: string | null, deepLink?: string | null, deepLinkNewsletter?: string | null, reference?: string | null, headerImage?: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } | null, facets?: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> | null, image?: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } | null }> | null } | null }> };
 
 export type OffersPageQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5362,6 +5362,27 @@ export const OffersCarouselsDocument = gql`
         priceFilter {
           from
           to
+        }
+      }
+    }
+    categoryCards {
+      sectionCardTitle
+      sectionMediaCards {
+        id
+        deepLink
+        deepLinkNewsletter
+        reference
+        headerImage {
+          url
+          title
+        }
+        facets {
+          key
+          value
+        }
+        image {
+          url
+          title
         }
       }
     }
