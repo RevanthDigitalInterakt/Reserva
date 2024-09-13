@@ -26,14 +26,6 @@ stages:
             inputs:
               versionSpec: '20.9.0'
             displayName: 'Install Node.js'
-          
-          - script: |
-              echo "This pipeline is being executed by: $(Build.RequestedFor)"
-            displayName: 'Show who triggered the pipeline'
-
-          - script: |
-              /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-            displayName: 'Install Homebrew'
 
           - script: |
               export LANG=en_US.UTF-8
