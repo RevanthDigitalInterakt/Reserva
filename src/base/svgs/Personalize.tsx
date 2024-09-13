@@ -11,7 +11,7 @@ import {
   type SvgProps,
 } from 'react-native-svg';
 
-export default function IconShirt(props: SvgProps) {
+export default function Personalize(props: SvgProps) {
   return (
     <Svg
       width="33"

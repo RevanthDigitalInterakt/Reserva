@@ -105,53 +105,53 @@ export namespace EventsOptions {
   export type RemoveFromCart = Pick<EventValues, 'item_id' | 'item_categories' | 'item_brand'>;
   export type ProductListView = Pick<EventValues, 'content_type' | 'item_brand'>;
   export type CheckoutInitiated = Pick<
-    EventValues,
-    'price' | 'content_type' | 'content_ids' | 'currency' | 'quantity'
+  EventValues,
+  'price' | 'content_type' | 'content_ids' | 'currency' | 'quantity'
   >;
   export type CompleteRegistration = Pick<
-    EventValues,
-    'method' | 'custumer_email'
+  EventValues,
+  'method' | 'custumer_email'
   >;
   export type OpenRonUrl = Pick<
-    EventValues,
-    'order_form_id'
+  EventValues,
+  'order_form_id'
   >;
   export type ProductView = Pick<
-    EventValues,
-    | 'product_id'
-    | 'product_category'
-    | 'product_price'
-    | 'product_currency'
+  EventValues,
+  | 'product_id'
+  | 'product_category'
+  | 'product_price'
+  | 'product_currency'
   >;
   export type AddToCart = Pick<
-    EventValues,
-    | 'item_id'
-    | 'item_price'
-    | 'item_name'
-    | 'item_quantity'
-    | 'item_category'
-    | 'item_brand'
-    | 'currency'
-    | 'seller'
-    | 'price'
-    | 'quantity'
+  EventValues,
+  | 'item_id'
+  | 'item_price'
+  | 'item_name'
+  | 'item_quantity'
+  | 'item_category'
+  | 'item_brand'
+  | 'currency'
+  | 'seller'
+  | 'price'
+  | 'quantity'
   >;
   export type AddToCartPrime = Pick<
-    EventValues,
-    | 'item_id'
-    | 'item_quantity'
-    | 'seller'
+  EventValues,
+  | 'item_id'
+  | 'item_quantity'
+  | 'seller'
   >;
   export type Purchase = Pick<
-    EventValues,
-    | 'affiliation'
-    | 'coupon'
-    | 'currency'
-    | 'items'
-    | 'shipping'
-    | 'tax'
-    | 'transaction_id'
-    | 'value'
+  EventValues,
+  | 'affiliation'
+  | 'coupon'
+  | 'currency'
+  | 'items'
+  | 'shipping'
+  | 'tax'
+  | 'transaction_id'
+  | 'value'
   > & {};
   export type ViewItem = Pick<EventValues, 'currency' | 'items' | 'value' | 'item_brand'>;
   export type BeginCheckout = Pick<EventValues, 'items' | 'value' | 'coupon' | 'currency' | 'item_brand'>;
@@ -160,28 +160,28 @@ export namespace EventsOptions {
   export type ViewItemList = Pick<EventValues, 'items' | 'item_brand'>;
   export type AddPaymentInfo = Pick<EventValues, 'coupon' | 'currency' | 'items' | 'payment_type' | 'value' | 'item_brand'>;
   export type RonOpen = Pick<
-    EventValues,
-    'items'
-    | 'open'
-    | 'item_brand'
+  EventValues,
+  'items'
+  | 'open'
+  | 'item_brand'
   >;
   export type RonPurchase = Pick<
-    EventValues,
-    | 'coupon'
-    | 'currency'
-    | 'items'
-    | 'transaction_id'
-    | 'value'
-    | 'item_brand'
+  EventValues,
+  | 'coupon'
+  | 'currency'
+  | 'items'
+  | 'transaction_id'
+  | 'value'
+  | 'item_brand'
   >;
   export type ClickAccessibilityApp = Pick<
-    EventValues,
-    | 'email'
-    | 'appState'
+  EventValues,
+  | 'email'
+  | 'appState'
   >;
   export type AppState = Pick<
-    EventValues,
-    | 'appState'
+  EventValues,
+  | 'appState'
   >;
   export type ProductSlideImages = Pick<EventValues, | 'product_id' | 'index'>;
   export type ProductViewSizeGuide = Pick<EventValues, | 'product_id' | 'show'>;
@@ -212,20 +212,20 @@ export namespace EventsOptions {
   export type ReturnPolicy = Pick<EventValues, 'item_id'>;
   export type AddToCartFromWishlist = Pick<EventValues, 'item_name' | 'item_color' | 'item_size' | 'value'>;
   export type DeviceInfoMemory = Pick<
-    EventValues,
-    | 'model'
-    | 'os'
-    | 'totalMemory'
-    | 'freeMemory'
-    | 'usedMemory'
+  EventValues,
+  | 'model'
+  | 'os'
+  | 'totalMemory'
+  | 'freeMemory'
+  | 'usedMemory'
   >;
   export type DeviceInfoStorage = Pick<
-    EventValues,
-    | 'model'
-    | 'os'
-    | 'totalStorage'
-    | 'freeStorage'
-    | 'usedStorage'
+  EventValues,
+  | 'model'
+  | 'os'
+  | 'totalStorage'
+  | 'freeStorage'
+  | 'usedStorage'
   >;
   export type MobileJailbroken = Pick<EventValues, 'platform' | 'model' | 'ip'>;
   export type DeviceInfoTrack = Pick<EventValues, 'locationEnabled'>;
@@ -609,4 +609,13 @@ export type EventOptionsFn =
   } | {
     type: 'offers_category_banner_click',
     payload: EventsOptions.OffersCategoryBanner,
+  } | {
+    type: 'pdp_button_rainbow_fvc',
+    payload: {},
+  } | {
+    type: 'pdp_icon_fvc',
+    payload: {},
+  } | {
+    type: 'pdp_open_product_with_ref_fvc',
+    payload: {},
   };
