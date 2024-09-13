@@ -71,7 +71,7 @@ stages:
             workingDirectory: android
             timeoutInMinutes: 30000
 
-          # - script: |
-          #     yarn pipeline:semantic-release-post:prod
-          #   displayName: 'Commit version'
-          #   workingDirectory: $(Build.SourcesDirectory)
+          - script: |
+              yarn pipeline:semantic-release-post:prod
+            displayName: 'Commit version'
+            workingDirectory: $(Build.SourcesDirectory)
