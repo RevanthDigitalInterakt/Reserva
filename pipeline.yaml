@@ -67,12 +67,12 @@ stages:
           #   env: 
           #     SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
-          - script: |
-              fastlane ios beta 
-              # api_key_path:$(apiKeyFileIOS.secureFilePath)
-            displayName: 'Deploy to TestFlight'
-            workingDirectory: ios
-            timeoutInMinutes: 30000
+          # - script: |
+          #     fastlane ios beta 
+          #     # api_key_path:$(apiKeyFileIOS.secureFilePath)
+          #   displayName: 'Deploy to TestFlight'
+          #   workingDirectory: ios
+          #   timeoutInMinutes: 30000
 
           - script: |
               export ANDROID_HOME=/Users/admin/Library/Android/sdk
