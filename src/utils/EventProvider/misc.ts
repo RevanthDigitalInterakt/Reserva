@@ -16,6 +16,28 @@ export type EventName =
   | 'select_item'
   | 'view_item_list'
   | 'add_payment_info'
+  | 'mobile_jailbroken'
+  | 'pdp_icon_fvc'
+  | 'pdp_button_rainbow_fvc'
+  | 'pdp_open_product_with_ref_fvc'
+  | 'device_info_memory'
+  | 'device_info_storage'
+  | 'login_forgot_password_click'
+  | 'login_click'
+  | 'login_register_click'
+  | 'signup_recover_password_click'
+  | 'signup_register_email_click'
+  | 'signup_create_password_click'
+  | 'profile_edit_click'
+  | 'profile_my_orders_click'
+  | 'profile_favorites_click'
+  | 'profile_my_account_click'
+  | 'profile_my_cashback_click'
+  | 'profile_my_credits_click'
+  | 'profile_my_addresses_click'
+  | 'profile_change_password_click'
+  | 'profile_my_portfolio_click'
+  | 'profile_logout_click'
   | 'mobile_jailbroken';
 
 export type EventNameOptions = Record<EventName, string>;
@@ -55,6 +77,14 @@ export type EventValuesName =
   | 'item_list_id'
   | 'item_list_name'
   | 'payment_type'
+  | 'model'
+  | 'os'
+  | 'freeMemory'
+  | 'totalMemory'
+  | 'usedMemory'
+  | 'freeStorage'
+  | 'totalStorage'
+  | 'usedStorage'
   | 'platform'
   | 'model'
   | 'ip';
@@ -78,7 +108,28 @@ export const eventsName: EventNameOptions = {
   select_item: 'select_item',
   view_item_list: 'view_item_list',
   add_payment_info: 'add_payment_info',
+  device_info_memory: 'device_info_memory',
+  device_info_storage: 'device_info_storage',
+  login_forgot_password_click: 'login_forgot_password_click',
+  login_click: 'login_click',
+  login_register_click: 'login_register_click',
+  signup_recover_password_click: 'signup_recover_password_click',
+  signup_register_email_click: 'signup_register_email_click',
+  signup_create_password_click: 'signup_create_password_click',
+  profile_edit_click: 'profile_edit_click',
+  profile_my_orders_click: 'profile_my_orders_click',
+  profile_favorites_click: 'profile_favorites_click',
+  profile_my_account_click: 'profile_my_account_click',
+  profile_my_cashback_click: 'profile_my_cashback_click',
+  profile_my_credits_click: 'profile_my_credits_click',
+  profile_my_addresses_click: 'profile_my_addresses_click',
+  profile_change_password_click: 'profile_change_password_click',
+  profile_my_portfolio_click: 'profile_my_portfolio_click',
+  profile_logout_click: 'profile_logout_click',
   mobile_jailbroken: 'mobile_jailbroken',
+  pdp_icon_fvc: 'pdp_icon_fvc',
+  pdp_button_rainbow_fvc: 'pdp_button_rainbow_fvc',
+  pdp_open_product_with_ref_fvc: 'pdp_open_product_with_ref_fvc',
 };
 
 export const eventsValue: EventValueOptions = {
@@ -107,6 +158,13 @@ export const eventsValue: EventValueOptions = {
   item_list_id: 'item_list_id',
   item_list_name: 'item_list_name',
   payment_type: 'payment_type',
+  os: 'os',
+  freeMemory: 'freeMemory',
+  totalMemory: 'totalMemory',
+  usedMemory: 'usedMemory',
+  freeStorage: 'freeStorage',
+  totalStorage: 'totalStorage',
+  usedStorage: 'usedStorage',
   item_brand: 'af_brand',
   platform: 'af_platform',
   model: 'af_model',
@@ -126,5 +184,26 @@ export const onlyGaEvents = [
   'page_load_time',
   'sign_up',
   'click_card_cashback',
+  'device_info_memory',
+  'device_info_storage',
+  'login_forgot_password_click',
+  'login_click',
+  'login_register_click',
+  'signup_register_email_click',
+  'signup_recover_password_click',
+  'signup_create_password_click',
+  'profile_edit_click',
+  'profile_my_orders_click',
+  'profile_favorites_click',
+  'profile_my_account_click',
+  'profile_my_cashback_click',
+  'profile_my_credits_click',
+  'profile_my_addresses_click',
+  'profile_change_password_click',
+  'profile_my_portfolio_click',
+  'profile_logout_click',
   'mobile_jailbroken',
+  'pdp_icon_fvc',
+  'pdp_button_rainbow_fvc',
+  'pdp_open_product_with_ref_fvc',
 ];

@@ -1,9 +1,9 @@
+/* eslint-disable react/function-component-definition */
 import type { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
-
-import { useCheckIfUserExistsLazyQuery, useSignUpVerificationCodeMutation } from '../../../base/graphql/generated';
+import { useSignUpVerificationCodeMutation } from '../../../base/graphql/generated';
 import images from '../../../base/styles/icons';
 import { Box } from '../../../components/Box/Box';
 import { Button } from '../../../components/Button';
@@ -13,9 +13,10 @@ import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { validateEmail } from '../../../utils/validateEmail';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
+import EventProvider from '../../../utils/EventProvider';
 
 export interface RegisterEmailProps
-  extends StackScreenProps<RootStackParamList, 'RegisterEmail'> {}
+  extends StackScreenProps<RootStackParamList, 'RegisterEmail'> { }
 
 export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -27,27 +28,11 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
     fetchPolicy: 'no-cache',
   });
 
-  const [checkIfUserExist] = useCheckIfUserExistsLazyQuery({
-    context: { clientName: 'gateway' },
-  });
-
   const handleEmailAccess = useCallback(async () => {
     const validEmail = validateEmail(email);
 
     if (!validEmail) {
       setInputError('Por favor, informe um e-mail válido.');
-      return;
-    }
-
-    const { data } = await checkIfUserExist({
-      variables: {
-        email,
-      },
-    });
-
-    if (data?.checkIfUserExists) {
-      setInputError('E-mail já cadastrado em nosso banco de dados');
-      setShowRecoveryPassword(true);
       return;
     }
 
@@ -58,11 +43,10 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
         },
       });
 
-
-      if(!data?.signUpVerificationCode.ok){
+      if (!data?.signUpVerificationCode.ok) {
         setInputError('E-mail já cadastrado em nosso banco de dados');
         setShowRecoveryPassword(true);
-        return
+        return;
       }
 
       if (data?.signUpVerificationCode?.cookies) {
@@ -94,6 +78,17 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
       ExceptionProvider.captureException(err);
     }
   }, [email]);
+
+  const pressButton = useCallback(() => {
+    if (showRecoveryPassword) {
+      EventProvider.logEvent('signup_recover_password_click', {});
+      handleEmailRecovery();
+    } else {
+      EventProvider.logEvent('signup_register_email_click', {});
+      handleEmailAccess();
+    }
+  }, [showRecoveryPassword]);
+
 
   useEffect(() => {
     setInputError('');
@@ -141,7 +136,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
           mt={37}
           variant={showRecoveryPassword ? 'primarioEstreitoOutline' : 'primarioEstreito'}
           title={showRecoveryPassword ? 'RECUPERAR SENHA' : 'CADASTRAR E-MAIL'}
-          onPress={showRecoveryPassword ? handleEmailRecovery : handleEmailAccess}
+          onPress={pressButton}
           testID="com.usereserva:id/register_button_recover"
           disabled={!email.length}
           inline

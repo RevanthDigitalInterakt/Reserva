@@ -143,6 +143,12 @@ export type CashbackWalletOutput = {
   userStatus: Scalars['String']['output'];
 };
 
+export type CategoryCardsOutput = {
+  __typename?: 'CategoryCardsOutput';
+  sectionCardTitle?: Maybe<Scalars['String']['output']>;
+  sectionMediaCards?: Maybe<Array<SectionMediaCardsOutput>>;
+};
+
 export type CepInput = {
   cep: Scalars['String']['input'];
 };
@@ -865,6 +871,7 @@ export type MutationWishlistRemoveProductArgs = {
 
 export type OffersCarouselsOutput = {
   __typename?: 'OffersCarouselsOutput';
+  categoryCards?: Maybe<CategoryCardsOutput>;
   items: Array<HomeCarouselItemOutput>;
   showtime?: Maybe<Scalars['Int']['output']>;
   title?: Maybe<Scalars['String']['output']>;
@@ -1594,6 +1601,7 @@ export type ProductOutput = {
   colorUrls: Array<ProductColorUrlOutput>;
   colors: Array<ProductColorOutput>;
   disabledColors: Array<Scalars['String']['output']>;
+  fvcProductReference?: Maybe<Scalars['String']['output']>;
   giftCard?: Maybe<ProductGiftCardOutput>;
   hasPrime?: Maybe<Scalars['Boolean']['output']>;
   identifier?: Maybe<Scalars['String']['output']>;
@@ -2158,6 +2166,17 @@ export enum SearchProviderEnum {
 
 export type SearchProviderInput = {
   value?: InputMaybe<SearchProviderEnum>;
+};
+
+export type SectionMediaCardsOutput = {
+  __typename?: 'SectionMediaCardsOutput';
+  deepLink?: Maybe<Scalars['String']['output']>;
+  deepLinkNewsletter?: Maybe<Scalars['String']['output']>;
+  facets?: Maybe<Array<ProductFacetOutput>>;
+  headerImage?: Maybe<HomeCarouselItemImageOutput>;
+  id?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<HomeCarouselItemImageOutput>;
+  reference?: Maybe<Scalars['String']['output']>;
 };
 
 export type SellerInfoInput = {
@@ -2795,13 +2814,6 @@ export type CepQueryVariables = Exact<{
 
 export type CepQuery = { __typename?: 'Query', cep?: { __typename?: 'CepOutput', postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, neighborhood?: string | null, reference?: string | null, geoCoordinates?: Array<number> | null } | null };
 
-export type CheckIfUserExistsQueryVariables = Exact<{
-  email: Scalars['String']['input'];
-}>;
-
-
-export type CheckIfUserExistsQuery = { __typename?: 'Query', checkIfUserExists: boolean };
-
 export type CheckSearchRedirectQueryVariables = Exact<{
   q: Scalars['String']['input'];
 }>;
@@ -2858,7 +2870,7 @@ export type HomeCountdownQuery = { __typename?: 'Query', homeCountdown?: { __typ
 export type HomeMediasQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, deepLinkNewsletter?: string | null, orderBy: string, reference?: string | null, headerImage?: { __typename?: 'HomeCarouselItemImageOutput', url: string } | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
+export type HomeMediasQuery = { __typename?: 'Query', homeMedias: Array<{ __typename?: 'HomeMediaOutput', id: string, mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, deepLinkNewsletter?: string | null, deepLink?: string | null, orderBy: string, reference?: string | null, headerImage?: { __typename?: 'HomeCarouselItemImageOutput', url: string } | null, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } }> };
 
 export type InfoCashbackPdpCollectionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2890,7 +2902,12 @@ export type MostSearchedWordsQuery = { __typename?: 'Query', mostSearchedWords: 
 export type OffersCarouselsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type OffersCarouselsQuery = { __typename?: 'Query', offersCarousels: Array<{ __typename?: 'OffersCarouselsOutput', type: HomePageSectionTypeEnum, title?: string | null, showtime?: number | null, items: Array<{ __typename?: 'HomeCarouselItemOutput', mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, reference: string, orderBy: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string, height?: number | null, width?: number | null }, filters?: { __typename?: 'HomeCarouselItemFiltersOutput', priceFilter?: { __typename?: 'HomeCarouselItemPricesFilterOutput', from?: number | null, to?: number | null } | null } | null }> }> };
+export type OffersCarouselsQuery = { __typename?: 'Query', offersCarousels: Array<{ __typename?: 'OffersCarouselsOutput', type: HomePageSectionTypeEnum, title?: string | null, showtime?: number | null, items: Array<{ __typename?: 'HomeCarouselItemOutput', mkt: boolean, linkMktIn?: string | null, reservaMini: boolean, reference: string, orderBy: string, facets: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }>, image: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string, height?: number | null, width?: number | null }, filters?: { __typename?: 'HomeCarouselItemFiltersOutput', priceFilter?: { __typename?: 'HomeCarouselItemPricesFilterOutput', from?: number | null, to?: number | null } | null } | null }>, categoryCards?: { __typename?: 'CategoryCardsOutput', sectionCardTitle?: string | null, sectionMediaCards?: Array<{ __typename?: 'SectionMediaCardsOutput', id?: string | null, deepLink?: string | null, deepLinkNewsletter?: string | null, reference?: string | null, headerImage?: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } | null, facets?: Array<{ __typename?: 'ProductFacetOutput', key: string, value: string }> | null, image?: { __typename?: 'HomeCarouselItemImageOutput', url: string, title: string } | null }> | null } | null }> };
+
+export type OffersPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OffersPageQuery = { __typename?: 'Query', offersPageCollectionFilter: { __typename?: 'OffersPageCollectionFilter', title: string, items: Array<{ __typename?: 'OffersPageCollectionFilterItemOutput', collectionId?: string | null, offerImage: string, offerName: string, fromPriceFilter?: string | null, toPriceFilter?: string | null, sizeFilter?: Array<string> | null, colorFilter?: Array<string> | null }> } };
 
 export type OrderFormQueryVariables = Exact<{
   orderFormId: Scalars['String']['input'];
@@ -2914,7 +2931,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, paymentSystemGroupName?: Array<string> | null, identifier?: string | null, categoryTree: Array<string>, disabledColors: Array<string>, hasPrime?: boolean | null, saleOff: boolean, videoThumbnail?: string | null, kit?: Array<{ __typename?: 'ProductKitOutput', productId: string, productName: string, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', colorId: string, colorName?: string | null, colorUrl: string, disabled: boolean, images: Array<string>, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }> }> | null, giftCard?: { __typename?: 'ProductGiftCardOutput', terms: string, howItWorks: string, options: Array<{ __typename?: 'ProductGiftCardOptionOutput', itemId: string, name: string, ean: string, seller: string, images: Array<string> }> } | null, priceRange?: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } } | null, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null } | null } };
+export type ProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductOutput', action: ProductResultActionEnum, productId: string, productName: string, paymentSystemGroupName?: Array<string> | null, identifier?: string | null, categoryTree: Array<string>, disabledColors: Array<string>, hasPrime?: boolean | null, saleOff: boolean, videoThumbnail?: string | null, fvcProductReference?: string | null, kit?: Array<{ __typename?: 'ProductKitOutput', productId: string, productName: string, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', colorId: string, colorName?: string | null, colorUrl: string, disabled: boolean, images: Array<string>, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }> }> | null, giftCard?: { __typename?: 'ProductGiftCardOutput', terms: string, howItWorks: string, options: Array<{ __typename?: 'ProductGiftCardOptionOutput', itemId: string, name: string, ean: string, seller: string, images: Array<string> }> } | null, priceRange?: { __typename?: 'ProductPriceRangeOutput', sellingPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number }, listPrice: { __typename?: 'ProductPriceLevelOutput', highPrice: number, lowPrice: number } } | null, share: { __typename?: 'ProductShareOutput', title: string, message: string, url: string }, properties: { __typename?: 'ProductPropertiesOutput', description?: string | null, isAssinaturaSimples?: boolean | null, composition?: string | null }, colorUrls: Array<{ __typename?: 'ProductColorUrlOutput', id: string, url: string }>, colors: Array<{ __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> }>, initialColor?: { __typename?: 'ProductColorOutput', images: Array<string>, colorId: string, colorUrl: string, colorName?: string | null, disabled: boolean, sizes: Array<{ __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } | null, initialSize?: { __typename?: 'ProductSizeOutput', itemId: string, skuName: string, size: string, ean: string, seller: string, listPrice: number, currentPrice: number, discountPercent: number, hasDiscount: boolean, availableQuantity: number, disabled: boolean, installment: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number }, prime?: { __typename?: 'PrimeInfoOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null } | null } };
 
 export type ProductDeliveryTimeQueryVariables = Exact<{
   input: CheckDeliveryTimeByProductInput;
@@ -4601,42 +4618,6 @@ export type CepQueryResult = Apollo.QueryResult<CepQuery, CepQueryVariables>;
 export function refetchCepQuery(variables: CepQueryVariables) {
       return { query: CepDocument, variables: variables }
     }
-export const CheckIfUserExistsDocument = gql`
-    query checkIfUserExists($email: String!) {
-  checkIfUserExists(input: {email: $email})
-}
-    `;
-
-/**
- * __useCheckIfUserExistsQuery__
- *
- * To run a query within a React component, call `useCheckIfUserExistsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCheckIfUserExistsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCheckIfUserExistsQuery({
- *   variables: {
- *      email: // value for 'email'
- *   },
- * });
- */
-export function useCheckIfUserExistsQuery(baseOptions: Apollo.QueryHookOptions<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>(CheckIfUserExistsDocument, options);
-      }
-export function useCheckIfUserExistsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>(CheckIfUserExistsDocument, options);
-        }
-export type CheckIfUserExistsQueryHookResult = ReturnType<typeof useCheckIfUserExistsQuery>;
-export type CheckIfUserExistsLazyQueryHookResult = ReturnType<typeof useCheckIfUserExistsLazyQuery>;
-export type CheckIfUserExistsQueryResult = Apollo.QueryResult<CheckIfUserExistsQuery, CheckIfUserExistsQueryVariables>;
-export function refetchCheckIfUserExistsQuery(variables: CheckIfUserExistsQueryVariables) {
-      return { query: CheckIfUserExistsDocument, variables: variables }
-    }
 export const CheckSearchRedirectDocument = gql`
     query checkSearchRedirect($q: String!) {
   checkSearchRedirect(q: $q)
@@ -5103,6 +5084,7 @@ export const HomeMediasDocument = gql`
     linkMktIn
     reservaMini
     deepLinkNewsletter
+    deepLink
     headerImage {
       url
     }
@@ -5383,6 +5365,27 @@ export const OffersCarouselsDocument = gql`
         }
       }
     }
+    categoryCards {
+      sectionCardTitle
+      sectionMediaCards {
+        id
+        deepLink
+        deepLinkNewsletter
+        reference
+        headerImage {
+          url
+          title
+        }
+        facets {
+          key
+          value
+        }
+        image {
+          url
+          title
+        }
+      }
+    }
   }
 }
     `;
@@ -5415,6 +5418,52 @@ export type OffersCarouselsLazyQueryHookResult = ReturnType<typeof useOffersCaro
 export type OffersCarouselsQueryResult = Apollo.QueryResult<OffersCarouselsQuery, OffersCarouselsQueryVariables>;
 export function refetchOffersCarouselsQuery(variables?: OffersCarouselsQueryVariables) {
       return { query: OffersCarouselsDocument, variables: variables }
+    }
+export const OffersPageDocument = gql`
+    query offersPage {
+  offersPageCollectionFilter {
+    title
+    items {
+      collectionId
+      offerImage
+      offerName
+      fromPriceFilter
+      toPriceFilter
+      sizeFilter
+      colorFilter
+    }
+  }
+}
+    `;
+
+/**
+ * __useOffersPageQuery__
+ *
+ * To run a query within a React component, call `useOffersPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOffersPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOffersPageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOffersPageQuery(baseOptions?: Apollo.QueryHookOptions<OffersPageQuery, OffersPageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OffersPageQuery, OffersPageQueryVariables>(OffersPageDocument, options);
+      }
+export function useOffersPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OffersPageQuery, OffersPageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OffersPageQuery, OffersPageQueryVariables>(OffersPageDocument, options);
+        }
+export type OffersPageQueryHookResult = ReturnType<typeof useOffersPageQuery>;
+export type OffersPageLazyQueryHookResult = ReturnType<typeof useOffersPageLazyQuery>;
+export type OffersPageQueryResult = Apollo.QueryResult<OffersPageQuery, OffersPageQueryVariables>;
+export function refetchOffersPageQuery(variables?: OffersPageQueryVariables) {
+      return { query: OffersPageDocument, variables: variables }
     }
 export const OrderFormDocument = gql`
     query orderForm($orderFormId: String!) {
@@ -5616,6 +5665,7 @@ export const ProductDocument = gql`
     initialSize {
       ...productSizeFragment
     }
+    fvcProductReference
   }
 }
     ${KitFragmentFragmentDoc}

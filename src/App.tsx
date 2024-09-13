@@ -30,6 +30,11 @@ import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadin
 import { useConnectivityStore } from './zustand/useConnectivityStore';
 import { useBagStore } from './zustand/useBagStore/useBagStore';
 import { useNotification } from './hooks/useNotification';
+import { getDeviceInfoMemory, getDeviceInfoModel, getDeviceInfoStorage } from './utils/Device/deviceUtils';
+
+const { model, os } = getDeviceInfoModel();
+const { freeMemory, totalMemory, usedMemory } = getDeviceInfoMemory();
+const { freeStorage, totalStorage, usedStorage } = getDeviceInfoStorage();
 import InitialScreen from './InitialScreen';
 import { AppRouting } from './routes/AppRouting';
 import ReservaJailbreakScreen from './ReservaJailbreakScreen';
@@ -96,6 +101,22 @@ function App() {
 
   useEffect(() => {
     EventProvider.initializeModules();
+
+    EventProvider.logEvent('device_info_memory', {
+      model,
+      os,
+      totalMemory,
+      freeMemory,
+      usedMemory,
+    });
+
+    EventProvider.logEvent('device_info_storage', {
+      model,
+      os,
+      totalStorage,
+      freeStorage,
+      usedStorage,
+    });
   }, []);
 
   return (

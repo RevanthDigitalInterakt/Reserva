@@ -1,3 +1,5 @@
+import type { Maybe } from '../../base/graphql/generated';
+
 export type Items = {
   price?: number;
   item_id?: string;
@@ -69,10 +71,19 @@ type EventValues = {
   favorite: number;
   position: 'top' | 'bottom';
   page: string;
+  os: string;
+  freeMemory: string;
+  totalMemory: string;
+  usedMemory: string;
+  freeStorage: string;
+  totalStorage: string;
+  usedStorage: string;
   platform?: string;
   model?: string;
   ip?: string
   locationEnabled: string;
+  category: Maybe<string> | undefined;
+  banner_position: Maybe<string> | undefined;
 };
 
 type AbandonedCartEventValues = {
@@ -200,8 +211,25 @@ export namespace EventsOptions {
   export type PaymentOptions = Pick<EventValues, 'item_id'>;
   export type ReturnPolicy = Pick<EventValues, 'item_id'>;
   export type AddToCartFromWishlist = Pick<EventValues, 'item_name' | 'item_color' | 'item_size' | 'value'>;
+  export type DeviceInfoMemory = Pick<
+  EventValues,
+  | 'model'
+  | 'os'
+  | 'totalMemory'
+  | 'freeMemory'
+  | 'usedMemory'
+  >;
+  export type DeviceInfoStorage = Pick<
+  EventValues,
+  | 'model'
+  | 'os'
+  | 'totalStorage'
+  | 'freeStorage'
+  | 'usedStorage'
+  >;
   export type MobileJailbroken = Pick<EventValues, 'platform' | 'model' | 'ip'>;
   export type DeviceInfoTrack = Pick<EventValues, 'locationEnabled'>;
+  export type OffersCategoryBanner = Pick<EventValues, 'category' | 'banner_position'>;
 }
 
 export type EventOptionsFn =
@@ -522,6 +550,72 @@ export type EventOptionsFn =
       category: string;
     }
   } | {
+    type: 'device_info_memory',
+    payload: EventsOptions.DeviceInfoMemory,
+  } | {
+    type: 'device_info_storage',
+    payload: EventsOptions.DeviceInfoStorage
+  } | {
+    type: 'login_forgot_password_click',
+    payload: {}
+  } | {
+    type: 'login_click',
+    payload: {}
+  } | {
+    type: 'login_register_click',
+    payload: {}
+  } | {
+    type: 'signup_register_email_click',
+    payload: {}
+  } | {
+    type: 'signup_recover_password_click',
+    payload: {}
+  } | {
+    type: 'signup_create_password_click',
+    payload: {}
+  } | {
+    type: 'profile_edit_click',
+    payload: {}
+  } | {
+    type: 'profile_my_orders_click',
+    payload: {}
+  } | {
+    type: 'profile_favorites_click',
+    payload: {}
+  } | {
+    type: 'profile_my_account_click',
+    payload: {}
+  } | {
+    type: 'profile_my_cashback_click',
+    payload: {}
+  } | {
+    type: 'profile_my_credits_click',
+    payload: {}
+  } | {
+    type: 'profile_my_addresses_click',
+    payload: {}
+  } | {
+    type: 'profile_change_password_click',
+    payload: {}
+  } | {
+    type: 'profile_my_portfolio_click',
+    payload: {}
+  } | {
+    type: 'profile_logout_click',
+    payload: {}
+  } | {
     type: 'device_info',
     payload: EventsOptions.DeviceInfoTrack,
+  } | {
+    type: 'offers_category_banner_click',
+    payload: EventsOptions.OffersCategoryBanner,
+  } | {
+    type: 'pdp_button_rainbow_fvc',
+    payload: {},
+  } | {
+    type: 'pdp_icon_fvc',
+    payload: {},
+  } | {
+    type: 'pdp_open_product_with_ref_fvc',
+    payload: {},
   };
