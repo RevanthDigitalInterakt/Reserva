@@ -27,6 +27,9 @@ stages:
               versionSpec: '20.9.0'
             displayName: 'Install Node.js'
           
+          - script: |
+              echo "This pipeline is being executed by: $(Build.RequestedFor)"
+            displayName: 'Show who triggered the pipeline'
 
           - script: |
               echo $SUDO_PASS | sudo -S /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
