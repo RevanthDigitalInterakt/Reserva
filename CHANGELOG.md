@@ -4,6 +4,7 @@
 
 ### 2.23.1
 
+- [42726 - Botão do Faça vc na PDP](https://dev.azure.com/ARECO/AReCO/_workitems/edit/42726)
 - [46328 - [PTM-131] Ajuste backend vulnerabilidade app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46328)
 
 

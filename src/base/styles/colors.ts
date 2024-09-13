@@ -61,4 +61,5 @@ export const COLORS = {
   GRAY62: '#9E9E9E',
   DIM_GRAY: '#6C6C6C',
   BACKGROUND_GOLD_PRIME: '#c5a967',
+  LIGHT_OLIVE_GREEN: '#b8b894',
 };
