@@ -22,7 +22,7 @@ describe('Personalize component', () => {
 
     const button = getByTestId('com.usereserva:id/pdp_button_rainbow_fvc');
     const buttonText = getByText('PERSONALIZE DO SEU JEITO');
-    const externalText = getByText('Agora você pode personalizar esta peça com um texto ou uma imagem. Experimente!');
+    const externalText = getByText('Agora você pode personalizar esta peça. Experimente!');
 
     expect(button).toBeTruthy();
     expect(buttonText).toBeTruthy();

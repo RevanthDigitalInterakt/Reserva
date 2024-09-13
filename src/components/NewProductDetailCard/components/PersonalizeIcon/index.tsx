@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Animated, Text, View } from 'react-native';
+import { Animated, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import IconComponent from '../../../IconComponent/IconComponent';
 import styles from '../../styles';
@@ -17,6 +17,7 @@ export default function PersonalizeIcon({
 }) {
   const widthAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(1)).current;
+  const textOpacity = useRef(new Animated.Value(0)).current;
   const navigate = useNavigation();
   const TwoSeconds = 2 * 1000;
   const sevenSeconds = 7 * 1000;
@@ -30,21 +31,30 @@ export default function PersonalizeIcon({
     },
   ).start();
 
+  const animateTextOpacity = () => {
+    Animated.timing(textOpacity, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
   const animateScale = () => {
-    // Pulse size logo
     Animated.sequence([
       Animated.timing(scaleAnim, {
         toValue: 1.3,
         duration: 600,
         useNativeDriver: true,
       }),
-      // Open Personalize text
       Animated.timing(scaleAnim, {
         toValue: 1,
         duration: 500,
         useNativeDriver: true,
       }),
-    ]).start(() => animateTiming(150));
+    ]).start(() => {
+      animateTiming(150);
+      setTimeout(animateTextOpacity, 300);
+    });
   };
 
   useEffect(() => {
@@ -81,7 +91,14 @@ export default function PersonalizeIcon({
           width: widthAnim,
         }}
         >
-          <Text style={styles(discountTag, true).personalizeAnimateTextStyle}>Personalize</Text>
+          <View>
+            <Animated.Text
+              style={[styles(discountTag, true).personalizeAnimateTextStyle,
+                { opacity: textOpacity }]}
+            >
+              Personalize
+            </Animated.Text>
+          </View>
         </Animated.View>
       </TouchableOpacity>
     </View>

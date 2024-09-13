@@ -1,9 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import {
-  View, Text,
-  Animated,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, Animated } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { Divider } from '../../../../components/Divider/Divider';
@@ -12,44 +8,74 @@ import testProps from '../../../../utils/testProps';
 import IconComponent from '../../../../components/IconComponent/IconComponent';
 import EventProvider from '../../../../utils/EventProvider';
 
-interface IPersonalizeComponent { fvcReferenceProduct: string }
+interface IPersonalizeComponent {
+  fvcReferenceProduct: string;
+}
 
 export default function Personalize({ fvcReferenceProduct }: IPersonalizeComponent) {
-  const animatedValue = useRef(new Animated.Value(0)).current;
   const navigate = useNavigation();
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const OneSecond = 1000;
+  const FiveSeconds = 5 * 1000;
+
+  const animateScale = () => {
+    Animated.sequence([
+      Animated.timing(scaleAnim, {
+        toValue: 1.05,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.delay(OneSecond),
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
 
   useEffect(() => {
-    Animated.loop(
-      Animated.timing(animatedValue, {
-        toValue: 1,
-        duration: 3000,
-        useNativeDriver: false,
-      }),
-    ).start();
+    const intervalId = setInterval(animateScale, FiveSeconds);
+    return () => clearInterval(intervalId);
   }, []);
-
-  const borderColor = animatedValue.interpolate({
-    inputRange: [0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4],
-    outputRange: ['red', 'pink', 'yellow', 'green', 'blue', 'green', 'yellow', 'pink'],
-  });
 
   const redirectWebview = () => {
     EventProvider.logEvent('pdp_button_rainbow_fvc', {});
     navigate.navigate('FacaVc', { type: fvcReferenceProduct });
   };
+
+  const animatedButtonStyle = {
+    transform: [{ scale: scaleAnim }],
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: scaleAnim.interpolate({
+      inputRange: [1, 1.08],
+      outputRange: [3, 3],
+    }),
+    shadowOpacity: scaleAnim.interpolate({
+      inputRange: [1, 1.08],
+      outputRange: [0, 0.3],
+    }),
+    elevation: scaleAnim.interpolate({
+      inputRange: [1, 1.08],
+      outputRange: [0, 3],
+    }),
+  };
+
   return (
     <View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => redirectWebview()}
-        {...testProps('com.usereserva:id/pdp_button_rainbow_fvc')}
-      >
-        <Animated.View style={[StyleSheet.absoluteFill, styles.animatedView, { borderColor }]} />
-        <IconComponent icon="personalize" />
-        <Text style={styles.buttonText}>PERSONALIZE DO SEU JEITO</Text>
-      </TouchableOpacity>
+      <Animated.View style={[styles.animatedView, animatedButtonStyle]}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={redirectWebview}
+          {...testProps('com.usereserva:id/pdp_button_rainbow_fvc')}
+        >
+          <IconComponent icon="personalize" />
+          <Text style={styles.buttonText}>PERSONALIZE DO SEU JEITO</Text>
+        </TouchableOpacity>
+      </Animated.View>
       <Text style={styles.externalText}>
-        Agora você pode personalizar esta peça com um texto ou uma imagem. Experimente!
+        Agora você pode personalizar esta peça. Experimente!
       </Text>
       <Divider variant="fullWidth" my="xs" />
     </View>
