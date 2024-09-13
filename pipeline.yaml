@@ -66,7 +66,7 @@ stages:
           - script: |
               export ANDROID_HOME=/Users/admin/Library/Android/sdk
               fastlane android beta 
-              # api_key_path:$(apiKeyFileAndroid.secureFilePath)
+              api_key_path:$(apiKeyFileAndroid.secureFilePath)
             displayName: 'Deploy to Play Store Beta'
             workingDirectory: android
             timeoutInMinutes: 30000
