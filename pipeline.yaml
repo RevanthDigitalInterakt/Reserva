@@ -29,7 +29,7 @@ stages:
           
 
           - script: |
-              /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+              echo $SUDO_PASS | sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
             displayName: 'Install Homebrew'
 
           - script: |
