@@ -29,13 +29,8 @@ stages:
           
 
           - script: |
-              mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
-              export PATH=$HOME/homebrew/bin:$PATH
-              echo $PATH
-              brew -v
-              brew install fastlane
-              ruby -v 
-            displayName: 'Install Fastlane'
+              sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            displayName: 'Install Homebrew'
 
           - script: |
               export LANG=en_US.UTF-8
