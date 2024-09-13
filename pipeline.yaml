@@ -32,8 +32,7 @@ stages:
             displayName: 'Show who triggered the pipeline'
 
           - script: |
-              echo "sudo pass $(SUDO_PASS)"
-              echo $(SUDO_PASS) | sudo -S /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+              /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
             displayName: 'Install Homebrew'
 
           - script: |
