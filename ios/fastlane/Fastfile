@@ -21,11 +21,11 @@ platform :ios do
       }
     )
 
-  # pilot(
-  #     api_key_path: options[:api_key_path],
-  #     ipa: "build/reserva.ipa",
-  #     skip_waiting_for_build_processing: true	 
-  # )
+    pilot(
+        api_key_path: options[:api_key_path],
+        ipa: "build/reserva.ipa",
+        skip_waiting_for_build_processing: true	 
+    )
 
   end
 end
