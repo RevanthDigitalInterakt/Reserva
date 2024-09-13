@@ -1,5 +1,5 @@
 module.exports = {
-  branches: ['main'],
+  branches: ['feat/refact-pipeline'],
   plugins: [
     ['@semantic-release/git', {
       // eslint-disable-next-line no-template-curly-in-string
