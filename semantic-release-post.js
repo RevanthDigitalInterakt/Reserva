@@ -6,7 +6,6 @@ module.exports = {
       message: 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
       assets: [
         'ios/reserva/Info.plist',
-        'ios/OneSignalNotificationServiceExtension/Info.plist',
         'ios/reserva.xcodeproj/project.pbxproj',
         'ios/reservaTests/Info.plist',
         'android/app/build.gradle',
