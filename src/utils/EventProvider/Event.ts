@@ -430,6 +430,10 @@ export type EventOptionsFn =
     payload: EventsOptions.CallCenterClick
   }
   | {
+    type: 'call_center_click_prime',
+    payload: EventsOptions.CallCenterClick
+  }
+  | {
     type: 'call_center_tab_click',
     payload: {}
   }
