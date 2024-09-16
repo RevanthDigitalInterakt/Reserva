@@ -1,5 +1,5 @@
 module.exports = {
-  branches: ['feat/refact-pipeline'],
+  branches: ['main'],
   plugins: [
     [
       "@semantic-release/commit-analyzer",
