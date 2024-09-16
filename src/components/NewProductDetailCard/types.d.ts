@@ -23,4 +23,5 @@ export interface ProductDetailCardProps {
   avaibleUnits?: number;
   testID?: string;
   videoThumbnail?: string;
+  fvcProductReference?: string;
 }

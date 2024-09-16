@@ -55,8 +55,8 @@ function OffersMainCarousel({ data }: IOffersMainCarousel) {
       };
       if (
         (item.filters?.priceFilter?.from
-                    || item.filters?.priceFilter?.from === null)
-                && item.filters?.priceFilter?.to) {
+          || item.filters?.priceFilter?.from === null)
+        && item.filters?.priceFilter?.to) {
         navigateParams.filters = {
           priceFilter: {
             from: item.filters?.priceFilter?.from || 0,
@@ -112,8 +112,6 @@ function OffersMainCarousel({ data }: IOffersMainCarousel) {
                   style={[
                     {
                       height: 400,
-                      borderBottomLeftRadius: 8,
-                      borderBottomRightRadius: 8,
                     },
                   ]}
                   resizeMode="cover"

@@ -29,6 +29,7 @@ export function HomeTabs() {
   const { hasTabBar } = useHomeStore(['hasTabBar']);
 
   const isTester = useIsTester();
+
   const showNewOffersPage = useMemo(
     () => getBoolean(isTester ? 'new_offers_page_tester' : 'new_offers_page'),
     [getBoolean, isTester],
