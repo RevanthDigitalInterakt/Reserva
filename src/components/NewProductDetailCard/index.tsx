@@ -44,6 +44,8 @@ export function NewProductDetailCard({
     [getBoolean, isTester],
   );
 
+  const showButtonsPdpFacavc = useMemo(() => getBoolean('show_buttons_pdp_facavc'), []);
+
   const hasZoomButton = useMemo(() => (
     videoActive ? showZoomButton : true
   ), [videoActive, showZoomButton]);
@@ -56,12 +58,12 @@ export function NewProductDetailCard({
   return (
     <View style={styles().container}>
       <View>
-        {personalizeIcon && (
-        <PersonalizeIcon
-          discountTag={!!discountTag}
-          testID={String(testID)}
-          productReference={fvcProductReference}
-        />
+        {showButtonsPdpFacavc && personalizeIcon && (
+          <PersonalizeIcon
+            discountTag={!!discountTag}
+            testID={String(testID)}
+            productReference={fvcProductReference}
+          />
         )}
         {!!discountTag && (
           <View style={styles(!!discountTag, !!personalizeIcon).flagWrapper}>

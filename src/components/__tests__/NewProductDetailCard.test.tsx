@@ -180,7 +180,7 @@ describe('NewProductDetailCard', () => {
   });
 
   it('should render PersonalizeIcon when fvcProductReference is provided', () => {
-    (useRemoteConfig as unknown as jest.Mock).mockReturnValue({ getBoolean: jest.fn(() => false) });
+    (useRemoteConfig as unknown as jest.Mock).mockReturnValue({ getBoolean: jest.fn(() => true) });
     (useIsTester as jest.Mock).mockReturnValue(false);
 
     const { getByTestId } = render(
@@ -213,5 +213,40 @@ describe('NewProductDetailCard', () => {
 
     const personalizeIcon = getByTestId('product-detail-card_pdp_icon_fvc');
     expect(personalizeIcon).toBeTruthy();
+  });
+
+  it('should be not render PersonalizeIcon when fvcProductReference is provided with future flag false', () => {
+    (useRemoteConfig as unknown as jest.Mock).mockReturnValue({ getBoolean: jest.fn(() => false) });
+    (useIsTester as jest.Mock).mockReturnValue(false);
+
+    const { queryByTestId } = render(
+      <NewProductDetailCard
+        images={['image1.jpg']}
+        discountTag={50}
+        saleOff=""
+        title="Product Title"
+        giftCardFirstPriceOption="R$ 99,99"
+        imagesHeight={200}
+        imagesWidth={200}
+        onClickShare={jest.fn()}
+        onGoBackImage={jest.fn()}
+        onGoNextImage={jest.fn()}
+        onClickFavorite={jest.fn()}
+        isFavorited={false}
+        loadingFavorite={false}
+        setModalZoom={jest.fn()}
+        imageIndexActual={() => 0}
+        avaibleUnits={5}
+        showZoomButton
+        videoThumbnail=""
+        testID="product-detail-card"
+        fvcProductReference="REF123"
+        installmentsNumber={0}
+        installmentsPrice={0}
+        price={0}
+      />,
+    );
+
+    expect(queryByTestId('product-detail-card_pdp_icon_fvc')).toBeNull();
   });
 });
