@@ -1,5 +1,5 @@
 module.exports = {
-  branches: ['main'],
+  branches: ['feat/refact-pipeline'],
   plugins: [
     'semantic-release-react-native',
     ['@semantic-release/npm', {
