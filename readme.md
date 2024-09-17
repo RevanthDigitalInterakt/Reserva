@@ -4,14 +4,18 @@ reserva e-commerce app
 
 ## Configurações de Ambiente
 
-Para utilizar este projeto, você precisará ter as seguintes configurações de ambiente:
+Para utilizar este projeto, você precisará ter as seguintes configurações de ambiente, essas configurações servem para rodar o projeto em um agent do Azure Devops no Sistema operacional MAC OS.
 
-- Geral: <https://reactnative.dev/docs/environment-setup>
-- HomeBrew: <https://brew.sh/>
-- Node.js: brew install node
-- Watchman: brew install watchman
-- CocoaPods: sudo gem install cocoapods
-- Xcode: <https://apps.apple.com/br/app/xcode/id497799835?mt=15>
+* Geral: React Native Environment Setup 
+* HomeBrew: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" - Versão: 4.3.21
+* Node.js: brew install node - Versão: v20.16.0
+* Watchman: brew install watchman - Versão: 2024.08.26.00
+* CocoaPods: brew install --cask cocoapods - Versão: 1.15.2
+* Fastlane: brew install fastlane
+* Ruby: Instalado juntamente com o Fastlane - Versão: ruby 2.6.10p210
+* RubyGems: Instalado juntamente com o Fastlane - Versão: 3.0.3.1
+* Xcode: Xcode on App Store  - 15.4 (15F31d)
+
 
 executar app android:
 
