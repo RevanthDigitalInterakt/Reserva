@@ -10,6 +10,7 @@ import { COLORS, FONTS } from '../../base/styles';
 import { Divider } from '../Divider/Divider';
 import { useLandingPagePrimeQuery } from '../../base/graphql/generated';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
+import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 
 interface PrimeDiscountProps {
   discountPrime?: number;
@@ -22,6 +23,11 @@ export default function PrimeDiscount({
   setOpenModal,
   setNegativeValue,
 }: PrimeDiscountProps) {
+  const {
+    appTotalizers,
+  } = useBagStore([
+    'appTotalizers',
+  ]);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { onAddPrimeToCart, isPrime } = usePrimeInfo();
   const handleClick = useCallback(async () => {
@@ -38,11 +44,17 @@ export default function PrimeDiscount({
 
   const data = useMemo(() => rawData?.landingPagePrime, [rawData?.landingPagePrime]);
 
+  const showPrimePrice = useMemo(
+    () => discountPrime != null
+    && discountPrime <= appTotalizers.total,
+    [appTotalizers.total, discountPrime],
+  );
+
   return (
     <>
       {!isPrime && (<Divider variant="fullWidth" marginY="xs" />)}
 
-      {discountPrime !== null && (
+      {showPrimePrice && (
         <View style={styles.container}>
           <View style={styles.iconContainer}>
             <IconDiamond />
