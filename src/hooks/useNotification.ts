@@ -7,10 +7,9 @@ import { Linking } from 'react-native';
 import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
 
 export const useNotification = () => {
-
   const [channelId, setChannelId] = useState('');
   const [notifications, setNotifications] = useState<
-    FirebaseMessagingTypes.RemoteMessage[]
+  FirebaseMessagingTypes.RemoteMessage[]
   >([]);
   useEffect(() => {
     const notify = async () => {
@@ -18,7 +17,7 @@ export const useNotification = () => {
         for (let i = 0; i < notifications.length; i++) {
           const data = JSON.parse(notifications[i]?.data?.data as string);
 
-          const details = data.details;     
+          const { details } = data;
 
           if (details?.title && details?.message) {
             const not = {
@@ -34,7 +33,7 @@ export const useNotification = () => {
                 reference: String(data.reference),
                 link: String(details.link),
               },
-            };         
+            };
             await notifee.displayNotification(not);
           }
         }
@@ -45,18 +44,15 @@ export const useNotification = () => {
   }, [notifications]);
 
   const onMessageReceived = async (message: any) => {
-    
     const hasNotifiedBefore = notifications.find(
-      notification =>
-        (notification?.data?.details as any)?.notification ===
-        (message.data?.details as any)?.notification,
+      (notification) => (notification?.data?.details as any)?.notification
+        === (message.data?.details as any)?.notification,
     );
 
     if (!hasNotifiedBefore) {
-      setNotifications(prev => [...prev, message]);
+      setNotifications((prev) => [...prev, message]);
     }
   };
-
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(onMessageReceived);

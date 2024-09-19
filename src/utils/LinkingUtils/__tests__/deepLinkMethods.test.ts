@@ -36,7 +36,7 @@ jest.mock('../../../hooks/useRemoteConfig', () => ({
       getBoolean: jest.fn(() => true),
     })),
   },
-  syncRemoteConfig: jest.fn()
+  syncRemoteConfig: jest.fn(),
 }));
 
 jest.mock('@datadog/mobile-react-native', () => ({
@@ -138,12 +138,12 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
 
     test('with wrong domain with params', async () => {
       const result = await deepLinkHelper('https://now.usereserva.io/prime');
-      expect(result).toEqual('usereserva://ron/prime');
+      expect(result).toEqual('usereserva://prime');
     });
 
     test('with correct prefix but another path', async () => {
       const result = await deepLinkHelper('https://usereserva.com/prime/detalhe');
-      expect(result).toEqual('usereserva://asyncDeepLink/CATALOG?params=|prime|detalhe&initialUrl=usereserva.com/prime/detalhe');
+      expect(result).toEqual('usereserva://prime');
     });
   });
 

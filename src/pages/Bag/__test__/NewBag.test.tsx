@@ -165,7 +165,7 @@ describe('NewBag', () => {
       },
       topBarLoading: false,
       items: [],
-      packageItems: [{items: []}],
+      packageItems: [{ items: [] }],
       initialLoad: false,
       initialized: true,
       installmentInfo: {
@@ -237,7 +237,7 @@ describe('NewBag', () => {
       },
       topBarLoading: false,
       items: [],
-      packageItems: [{items: []}],
+      packageItems: [{ items: [] }],
       initialLoad: false,
       initialized: true,
       installmentInfo: {
@@ -292,7 +292,7 @@ describe('NewBag', () => {
     const goToOffersButton = screen.getByTestId('com.usereserva:id/button_going_shopping_empty_bag');
 
     act(async () => {
-       fireEvent.press(goToOffersButton);
+      fireEvent.press(goToOffersButton);
     });
 
     expect(mockedNavigate).toHaveBeenCalledWith('Offers');
@@ -313,7 +313,7 @@ describe('NewBag', () => {
       },
       topBarLoading: false,
       items: mockCurrentOrderForm.items,
-      packageItems: [{items: mockCurrentOrderForm.items,}],
+      packageItems: [{ items: mockCurrentOrderForm.items }],
       initialLoad: false,
       initialized: true,
       installmentInfo: {
@@ -368,7 +368,7 @@ describe('NewBag', () => {
     const topBarBackButton = screen.getAllByTestId('com.usereserva:id/top_bar_button_go_back');
 
     act(async () => {
-       topBarBackButton.forEach((button) => fireEvent.press(button));
+      topBarBackButton.forEach((button) => fireEvent.press(button));
     });
 
     expect(mockGoBackFn).toBeCalled();

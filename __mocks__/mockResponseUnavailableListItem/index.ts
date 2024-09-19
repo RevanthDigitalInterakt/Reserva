@@ -33,7 +33,7 @@ export const DATA_FIRST: OrderFormQuery['orderForm']['packageItems'][0]['items']
   isPrimeSubscription: false,
   index: 0,
   __typename: 'OrderformItemOutput',
-  urlFacaVc: ''
+  urlFacaVc: '',
 };
 export const DATA_SECOND: OrderFormQuery['orderForm']['packageItems'][0]['items'][0] = {
   productTitle: 'CAMISA ML SAMOA BRANCO',
@@ -68,5 +68,5 @@ export const DATA_SECOND: OrderFormQuery['orderForm']['packageItems'][0]['items'
   hasPrimeDiscount: false,
   isPrimeSubscription: false,
   index: 0,
-  urlFacaVc: ''
+  urlFacaVc: '',
 };

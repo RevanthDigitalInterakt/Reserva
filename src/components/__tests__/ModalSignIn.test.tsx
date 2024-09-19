@@ -53,10 +53,10 @@ jest
 const Component = (
   <ThemeProvider theme={theme}>
     <MockedProvider mocks={ApolloMockLPPrime} addTypename={false}>
-        <ModalSignIn
-          onClose={jest.fn()}
-          isVisible
-        />
+      <ModalSignIn
+        onClose={jest.fn()}
+        isVisible
+      />
     </MockedProvider>
   </ThemeProvider>
 );

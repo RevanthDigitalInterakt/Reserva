@@ -94,13 +94,13 @@ jest
 const TestingComponent = (
   <ThemeProvider theme={theme}>
     <MockedProvider mocks={ApolloMockLPPrime} addTypename={false}>
-        <PrimeLP
-          navigation={navigationMock as TNavigation}
-          route={{
-            name: 'PrimeLP',
-            key: '',
-          }}
-        />
+      <PrimeLP
+        navigation={navigationMock as TNavigation}
+        route={{
+          name: 'PrimeLP',
+          key: '',
+        }}
+      />
     </MockedProvider>
   </ThemeProvider>
 );

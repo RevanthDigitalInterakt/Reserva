@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { Keyboard } from 'react-native';
-import { DdLogs } from '@datadog/mobile-react-native';
 import { createZustandStoreWithSelectors } from '../utils/createZustandStoreWithSelectors';
 import {
   type ProductListOutput,
@@ -233,7 +232,7 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
           parameters: { ...state.parameters, page: 0 },
         } as ISearchStore));
 
-        useSearchStore().doFetchMore()
+        useSearchStore().doFetchMore();
       }
 
       set(() => ({

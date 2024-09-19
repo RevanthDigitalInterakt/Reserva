@@ -73,7 +73,7 @@ const expireTimes: { [key in TCacheKeys]: number } = {
   search: TWO_MINUTES,
   searchFacets: TWO_MINUTES,
   searchAutocompleteSuggestions: ONE_DAY,
-  InfoCashbackPdpCollection: ONE_DAY
+  InfoCashbackPdpCollection: ONE_DAY,
 };
 
 interface IApolloFetchPolicyStore {
@@ -119,7 +119,7 @@ export const apolloFetchPolicyStore = create<IApolloFetchPolicyStore>()(
         search: 0,
         searchFacets: 0,
         searchAutocompleteSuggestions: 0,
-        InfoCashbackPdpCollection: 0
+        InfoCashbackPdpCollection: 0,
       },
       getFetchPolicyPerKey: (key: TCacheKeys) => {
         if (DISABLED_CACHE_POLICY) return 'network-only';

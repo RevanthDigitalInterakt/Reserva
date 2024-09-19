@@ -89,7 +89,6 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
     }
   };
 
-
   useEffect(() => {
     setInputError('');
     setShowRecoveryPassword(false);

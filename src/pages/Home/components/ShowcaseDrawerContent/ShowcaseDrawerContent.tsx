@@ -83,7 +83,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
         orderFormItem ? orderFormItem.quantity + 1 : 1,
       );
 
-      setAddedToCart(true)
+      setAddedToCart(true);
       setOnLoading(false);
     } catch (error) {
       setOnLoading(false);
@@ -93,7 +93,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
 
   const onSelectColor = useCallback((colorID: string) => {
     setSelectedColor(colorID);
-    setAddedToCart(false)
+    setAddedToCart(false);
     const sizes = product?.colors?.find((x) => x.colorId === colorID);
     setProductImage(sizes?.images[0] || '');
 
@@ -102,7 +102,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
 
   const onSelectSize = useCallback((sizeID: string) => {
     setSelectedSize(sizeID);
-    setAddedToCart(false)
+    setAddedToCart(false);
   }, []);
 
   const onSelectPrice = useCallback((price: number, priceType: string) => {
@@ -411,7 +411,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
               <IconAddToFavorite />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={onAddToCart} style={[styles.buttonAddToBag, {backgroundColor: addedToCart ? COLORS.BACKGROUND_LICHT_GRAY : COLORS.SHELF_GREEN,}]}>
+            <TouchableOpacity onPress={onAddToCart} style={[styles.buttonAddToBag, { backgroundColor: addedToCart ? COLORS.BACKGROUND_LICHT_GRAY : COLORS.SHELF_GREEN }]}>
               {onLoading ? (
                 <ActivityIndicator size="small" color={COLORS.WHITE} />
               ) : (
@@ -419,9 +419,12 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
                   {addedToCart ? <IconCheck /> : <></>}
                   <Text style={[styles.textButtonAddToBag, {
                     color: addedToCart ? COLORS.BLACK : COLORS.WHITE,
-                    marginLeft: addedToCart ? 5 : null
-                }]}>{addedToCart ? 'PRODUTO ADICIONADO COM SUCESSO!' : 'ADICIONAR À SACOLA'}</Text>
-            
+                    marginLeft: addedToCart ? 5 : null,
+                  }]}
+                  >
+                    {addedToCart ? 'PRODUTO ADICIONADO COM SUCESSO!' : 'ADICIONAR À SACOLA'}
+                  </Text>
+
                 </>
               )}
             </TouchableOpacity>

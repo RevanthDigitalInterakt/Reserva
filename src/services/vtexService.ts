@@ -1,10 +1,11 @@
-//TODO move all requests to api-gw
+// TODO move all requests to api-gw
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import {
   instance,
   instance2,
   instance7,
 } from '../config/vtexConfig';
+
 const vtexConfig7 = instance7;
 
 interface PriceDefinition {
@@ -333,7 +334,6 @@ export interface IVtexServiceRequestOrder {
   cancellationData: null;
 }
 
-
 const GetPurchaseData = async (orderGroup: any) => {
   try {
     const response = await vtexConfig7.get(
@@ -370,6 +370,5 @@ const SearchNewOrders = async (page: string, email: string, cookie: string) => {
 };
 
 export {
-  GetPurchaseData, OrderDetail, SearchNewOrders
+  GetPurchaseData, OrderDetail, SearchNewOrders,
 };
-

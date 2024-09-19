@@ -101,10 +101,10 @@ exports[`CategoryComponent should match to snapshot 1`] = `
             "opacity": 1,
             "shadowColor": "#000000",
             "shadowOffset": {
-              "height": 7,
+              "height": 8,
               "width": 0,
             },
-            "shadowOpacity": 0.6,
+            "shadowOpacity": 0.09,
             "shadowRadius": 7,
             "width": 150,
           }
@@ -172,10 +172,10 @@ exports[`CategoryComponent should match to snapshot 1`] = `
             "opacity": 1,
             "shadowColor": "#000000",
             "shadowOffset": {
-              "height": 7,
+              "height": 8,
               "width": 0,
             },
-            "shadowOpacity": 0.6,
+            "shadowOpacity": 0.09,
             "shadowRadius": 7,
             "width": 150,
           }
@@ -243,10 +243,10 @@ exports[`CategoryComponent should match to snapshot 1`] = `
             "opacity": 1,
             "shadowColor": "#000000",
             "shadowOffset": {
-              "height": 7,
+              "height": 8,
               "width": 0,
             },
-            "shadowOpacity": 0.6,
+            "shadowOpacity": 0.09,
             "shadowRadius": 7,
             "width": 150,
           }
@@ -314,10 +314,10 @@ exports[`CategoryComponent should match to snapshot 1`] = `
             "opacity": 1,
             "shadowColor": "#000000",
             "shadowOffset": {
-              "height": 7,
+              "height": 8,
               "width": 0,
             },
-            "shadowOpacity": 0.6,
+            "shadowOpacity": 0.09,
             "shadowRadius": 7,
             "width": 150,
           }
@@ -385,10 +385,10 @@ exports[`CategoryComponent should match to snapshot 1`] = `
             "opacity": 1,
             "shadowColor": "#000000",
             "shadowOffset": {
-              "height": 7,
+              "height": 8,
               "width": 0,
             },
-            "shadowOpacity": 0.6,
+            "shadowOpacity": 0.09,
             "shadowRadius": 7,
             "width": 150,
           }
@@ -456,10 +456,10 @@ exports[`CategoryComponent should match to snapshot 1`] = `
             "opacity": 1,
             "shadowColor": "#000000",
             "shadowOffset": {
-              "height": 7,
+              "height": 8,
               "width": 0,
             },
-            "shadowOpacity": 0.6,
+            "shadowOpacity": 0.09,
             "shadowRadius": 7,
             "width": 150,
           }
@@ -527,10 +527,10 @@ exports[`CategoryComponent should match to snapshot 1`] = `
             "opacity": 1,
             "shadowColor": "#000000",
             "shadowOffset": {
-              "height": 7,
+              "height": 8,
               "width": 0,
             },
-            "shadowOpacity": 0.6,
+            "shadowOpacity": 0.09,
             "shadowRadius": 7,
             "width": 150,
           }
@@ -598,10 +598,10 @@ exports[`CategoryComponent should match to snapshot 1`] = `
             "opacity": 1,
             "shadowColor": "#000000",
             "shadowOffset": {
-              "height": 7,
+              "height": 8,
               "width": 0,
             },
-            "shadowOpacity": 0.6,
+            "shadowOpacity": 0.09,
             "shadowRadius": 7,
             "width": 150,
           }

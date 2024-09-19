@@ -1,4 +1,4 @@
-import { sanitizeString } from "../sanitizeString";
+import { sanitizeString } from '../sanitizeString';
 
 describe('sanitizeString', () => {
   test('should convert string to lowercase', () => {
