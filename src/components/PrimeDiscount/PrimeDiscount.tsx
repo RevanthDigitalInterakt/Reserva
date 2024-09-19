@@ -50,34 +50,34 @@ export default function PrimeDiscount({
     [appTotalizers.total, discountPrime],
   );
 
+  if (!showPrimePrice) {
+    return null;
+  }
+
   return (
     <>
       {!isPrime && (<Divider variant="fullWidth" marginY="xs" />)}
-
-      {showPrimePrice && (
-        <View style={styles.container}>
-          <View style={styles.iconContainer}>
-            <IconDiamond />
-          </View>
-          <View style={styles.containerText}>
-            <Text style={styles.text}>
-              {isPrime ? 'Desconto Prime' : 'Valor para assinantes'}
-              {!isPrime && <Text style={styles.boldText}> Prime</Text>}
-            </Text>
-          </View>
-          <View style={styles.containerPriceCustom}>
-            <PriceCustom
-              fontFamily={FONTS.RESERVA_SANS_BOLD}
-              color={COLORS.DARK_GOLD_TEXT}
-              sizeInteger={14}
-              sizeDecimal={14}
-              num={discountPrime || 0}
-              negative={setNegativeValue}
-            />
-          </View>
+      <View style={styles.container}>
+        <View style={styles.iconContainer}>
+          <IconDiamond />
         </View>
-      )}
-
+        <View style={styles.containerText}>
+          <Text style={styles.text}>
+            {isPrime ? 'Desconto Prime' : 'Valor para assinantes'}
+            {!isPrime && <Text style={styles.boldText}> Prime</Text>}
+          </Text>
+        </View>
+        <View style={styles.containerPriceCustom}>
+          <PriceCustom
+            fontFamily={FONTS.RESERVA_SANS_BOLD}
+            color={COLORS.DARK_GOLD_TEXT}
+            sizeInteger={14}
+            sizeDecimal={14}
+            num={discountPrime || 0}
+            negative={setNegativeValue}
+          />
+        </View>
+      </View>
       {!isPrime && (
         <>
           <Button
