@@ -91,9 +91,9 @@ Antes de começar, verifique se você tem:
 
 ### Incrementar o Version e Build Number
 
-- Primeiramente, verifique a versão atual em `Targets > reserva > Identity`, como exemplo **Version 2.23.1** e **Build 2023000200.2.23.1**.
+- Primeiramente, verifique a versão atual em `Targets > reserva > Identity`, como exemplo **Version 2.25.0** e **Build 2023000200.2.25.0**.
 
-**Obs:** Para substituir o build number (`2023000200.2.23.1`) em todos os arquivos exibidos na sua busca, você pode seguir o mesmo processo.
+**Obs:** Para substituir o build number (`2023000200.2.25.0`) em todos os arquivos exibidos na sua busca, você pode seguir o mesmo processo.
 
 ### Substituição de Versão nos Arquivos
 
@@ -107,12 +107,12 @@ Para realizar o replace da versão em todos esses arquivos de maneira eficiente,
 #### Fazendo a Substituição Global
 
 - **Buscar por todos os arquivos:** Insira o número da versão atual (`2.22.7`) na caixa de texto de busca. Todos os arquivos onde essa versão está presente serão listados abaixo.
-- **Substituir por uma nova versão:** Na caixa de texto logo abaixo da busca, insira a nova versão que você deseja usar, por exemplo, `2.23.1`.
+- **Substituir por uma nova versão:** Na caixa de texto logo abaixo da busca, insira a nova versão que você deseja usar, por exemplo, `2.25.0`.
 - **Aplicar Substituições:** Se estiver tudo correto, clique no ícone de substituição (as duas setas em forma de círculo) para substituir todos os casos encontrados pela nova versão.
 
 ### Confirmando as Alterações
 
-**Caminhos onde a versão `2.23.1` precisa ser alterada:**
+**Caminhos onde a versão `2.25.0` precisa ser alterada:**
 
 - **Arquivo:** `package.json`
   - **Caminho:** `./package.json`
