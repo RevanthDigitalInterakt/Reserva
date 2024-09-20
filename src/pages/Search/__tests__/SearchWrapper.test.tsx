@@ -32,21 +32,21 @@ describe('SearchWrapper', () => {
   });
 
   it('should be return valid input text', () => {
-    const exampleValidTexts = ['  Text mock', 'Mock Test']
-    
-    exampleValidTexts.map(text => expect(isValidInput(text!)).toBeTruthy())
-  })
-  
+    const exampleValidTexts = ['  Text mock', 'Mock Test'];
+
+    exampleValidTexts.map((text) => expect(isValidInput(text!)).toBeTruthy());
+  });
+
   it('should be return invalid input text', () => {
-    const exampleInvalidTexts = [' ', '']
-    
-    exampleInvalidTexts.map(text => expect(isValidInput(text!)).toBeFalsy())
-  })
-  
+    const exampleInvalidTexts = [' ', ''];
+
+    exampleInvalidTexts.map((text) => expect(isValidInput(text!)).toBeFalsy());
+  });
+
   it('should be return formatted input text', () => {
-    const exampleInputText = '   Text Example'
-    const exampleOutputText = 'Text Example'
-    
-    expect(formatInput(exampleInputText)).toEqual(exampleOutputText)
-  })
+    const exampleInputText = '   Text Example';
+    const exampleOutputText = 'Text Example';
+
+    expect(formatInput(exampleInputText)).toEqual(exampleOutputText);
+  });
 });

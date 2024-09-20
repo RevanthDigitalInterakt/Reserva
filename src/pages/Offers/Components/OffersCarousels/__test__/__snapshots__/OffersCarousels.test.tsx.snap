@@ -1,7 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`OffersCarousel should match to snapshot 1`] = `
-<View>
+<View
+  style={
+    {
+      "height": 400,
+    }
+  }
+>
   <View
     accessibilityLabel="com.usereserva:id/carousels_cards"
     testID="com.usereserva:id/carousels_cards"

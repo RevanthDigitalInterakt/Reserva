@@ -37,7 +37,7 @@ function TestingComponent() {
   return (
     <ThemeProvider theme={theme}>
       <MockedProvider mocks={ApolloMockLPPrime} addTypename={false}>
-          <ModalSignIn isVisible onClose={closeModal} />
+        <ModalSignIn isVisible onClose={closeModal} />
       </MockedProvider>
     </ThemeProvider>
   );

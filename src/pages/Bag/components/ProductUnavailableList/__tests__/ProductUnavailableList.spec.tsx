@@ -18,7 +18,7 @@ jest.spyOn(useBagStore, 'useBagStore').mockReturnValue({
   actions: {
     ACTIVE_MODAL_DELETE_PRODUCT: handleActiveModalDelete,
   },
-  packageItems: [{items: currentOrderForm.items}]
+  packageItems: [{ items: currentOrderForm.items }],
 } as any);
 
 describe('UnavailableList', () => {

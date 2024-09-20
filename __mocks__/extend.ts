@@ -140,3 +140,7 @@ jest.mock('react-native/Libraries/TurboModule/TurboModuleRegistry', () => {
     },
   };
 });
+
+jest.mock('react-native-config', () => ({
+  DORIS_URL: 'http://mocked-url.com',
+}));

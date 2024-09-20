@@ -1,14 +1,14 @@
-import React from "react";
-import { View } from "react-native";
+import React from 'react';
+import { View } from 'react-native';
 
-import SizeGuide from "./components/SizeGuide";
-import FooterDoris from "./components/FooterDoris";
-import { Divider } from "../../../../components/Divider/Divider";
-import styles from "./styles";
-import ButtonDoris from "./components/ButtonDoris";
-import testProps from "../../../../utils/testProps";
-import { ModalBag } from "../../../../components/ModalBag/ModalBag";
-import useDorisStore from "../../../../zustand/useDorisStore";
+import SizeGuide from './components/SizeGuide';
+import FooterDoris from './components/FooterDoris';
+import { Divider } from '../../../../components/Divider/Divider';
+import styles from './styles';
+import ButtonDoris from './components/ButtonDoris';
+import testProps from '../../../../utils/testProps';
+import { ModalBag } from '../../../../components/ModalBag/ModalBag';
+import useDorisStore from '../../../../zustand/useDorisStore';
 
 interface IFittingRoomSession {
   categoryTree?: { name: string }[] | null;
@@ -23,9 +23,9 @@ export default function FittingRoomSession({
   productEan,
   isValidProductDoris,
 }: IFittingRoomSession) {
-  const { showAnimationBagDoris, setShowAnimationBagDoris } = useDorisStore(['showAnimationBagDoris', 'setShowAnimationBagDoris'])
+  const { showAnimationBagDoris, setShowAnimationBagDoris } = useDorisStore(['showAnimationBagDoris', 'setShowAnimationBagDoris']);
   return (
-    <View {...testProps("fitting_room_session")}>
+    <View {...testProps('fitting_room_session')}>
       {isValidProductDoris && !!categoryTree?.length && (
         <Divider variant="fullWidth" my="xs" />
       )}

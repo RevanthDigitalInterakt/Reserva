@@ -127,7 +127,7 @@ function WishList() {
 
   const handleFavorite = useCallback(async (data) => {
     const {
-      product, installmentPrice, skuName, skuId, colorName, size, ean
+      product, installmentPrice, skuName, skuId, colorName, size, ean,
     } = data;
 
     setLoadingSkuId(skuId);

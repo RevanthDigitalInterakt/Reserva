@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { Platform, TouchableOpacity } from 'react-native';
-import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { stringToReal } from '../../../utils/stringToReal';
