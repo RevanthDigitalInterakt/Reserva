@@ -2,6 +2,10 @@
 
 ## CHANGELOG
 
+### 2.23.2
+
+- [54036 - Erro deeplink produto não encontrado](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54036)
+
 ### 2.23.1
 
 - [46645 - Home promocional - Componente de categoria](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46645)

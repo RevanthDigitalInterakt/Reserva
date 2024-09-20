@@ -1,14 +1,15 @@
 import { Linking, Platform } from 'react-native';
-import { deeplinkService } from '../../../../../services/deeplinkService';
-import { platformType } from '../../../../../utils/platformType';
+import { DeeplinkPathDocument } from '../../../../../base/graphql/generated';
+import { ExceptionProvider } from '../../../../../base/providers/ExceptionProvider';
+import type { IDeepLinkQuery, IDeepLinkRoute } from '../../../../../graphql/DeepLink/DeepLinkQuery';
 import type { IListContentQuery, ListContent } from '../../../../../graphql/facets/facetsQuery';
 import { listContentQuery } from '../../../../../graphql/facets/facetsQuery';
-import type { IFallBackRoute } from '../../../types/asyncDeepLinkStore';
-import type { IDeepLinkQuery, IDeepLinkRoute } from '../../../../../graphql/DeepLink/DeepLinkQuery';
-import { DeeplinkPathDocument } from '../../../../../base/graphql/generated';
 import DeepLinkPathModule from '../../../../../NativeModules/DeepLinkPathModule';
+import { deeplinkService } from '../../../../../services/deeplinkService';
+import { formatProductClusterIds } from '../../../../../utils/formatProductClusterIds';
 import { getApolloClient } from '../../../../../utils/getApolloClient';
-import { ExceptionProvider } from '../../../../../base/providers/ExceptionProvider';
+import { platformType } from '../../../../../utils/platformType';
+import type { IFallBackRoute } from '../../../types/asyncDeepLinkStore';
 
 interface IExtensionsInArray {
   after: string[];
@@ -179,7 +180,7 @@ export const catalogService = async (pathName: string, fullUrl: string): Promise
     return {
       routeName: 'ProductCatalog',
       params: {
-        referenceId: `queryField=${queryField.replace(REGEX.searchRegExp, ',')}&mapField=${mapField}`,
+        referenceId: `queryField=${queryField.replace(REGEX.searchRegExp, ',')}&mapField=${formatProductClusterIds(mapField)}`,
         safeArea: true,
         search: false,
         orderBy: '',
