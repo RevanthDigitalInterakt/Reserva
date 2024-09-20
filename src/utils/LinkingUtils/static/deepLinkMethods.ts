@@ -268,8 +268,8 @@ const cartUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParam
     if (initialUrl.includes('?orderFormId')) {
       const splitOrderFormId = initialUrl.split('?orderFormId=')[1];
       if (splitOrderFormId) {
-        const splitCart = splitOrderFormId.split('#/cart')[0] || ''
-        await setAsyncStorageItem('orderFormId', splitCart)
+        const splitCart = splitOrderFormId.split('#/cart')[0] || '';
+        await setAsyncStorageItem('orderFormId', splitCart);
         return {
           match: true,
           strUrl: `usereserva://bag/${splitCart}`,

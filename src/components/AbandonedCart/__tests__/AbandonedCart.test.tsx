@@ -2,7 +2,6 @@ import React from 'react';
 import {
   render,
   screen,
-  waitFor,
 } from '@testing-library/react-native';
 import { MockedProvider } from '@apollo/client/testing';
 import { ThemeProvider } from 'styled-components/native';
@@ -23,12 +22,12 @@ describe('AbandonedCart', () => {
   });
 
   it('snapshot', () => {
-    render(Component)
+    render(Component);
     expect(screen.toJSON()).toMatchSnapshot();
   });
 
   it('should must be the rendering component', () => {
-    render(Component)
+    render(Component);
     const mainContainer = screen.getAllByTestId('com.usereserva:id/abandoned_cart_container');
     const headerContainer = screen.getAllByTestId('com.usereserva:id/abandoned_cart_header_container');
     const carrousel = screen.getAllByTestId('com.usereserva:id/abandoned_cart_carrousel_content');

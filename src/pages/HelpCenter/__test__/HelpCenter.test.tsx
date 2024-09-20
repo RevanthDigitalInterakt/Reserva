@@ -26,15 +26,14 @@ function Component() {
   return (
     <ThemeProvider theme={theme}>
       <MockedProvider mocks={helpCenterPageMocks} addTypename={false}>
-          <HelpCenter
-            navigation={navigationMock as TNavigation}
-            route={{
-              name: 'HelpCenter',
-              key: '',
-              params: { comeFrom: 'Menu' },
-            }}
-
-          />
+        <HelpCenter
+          navigation={navigationMock as TNavigation}
+          route={{
+            name: 'HelpCenter',
+            key: '',
+            params: { comeFrom: 'Menu' },
+          }}
+        />
       </MockedProvider>
     </ThemeProvider>
   );

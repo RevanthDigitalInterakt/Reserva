@@ -2,8 +2,19 @@
 
 ## CHANGELOG
 
-### 2.23.1
+### 2.23.2
+
 - [46646 - Home promocional - Vitrines](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46646)
+
+### 2.23.1
+
+- [46645 - Home promocional - Componente de categoria](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46645)
+- [42726 - Botão do Faça vc na PDP](https://dev.azure.com/ARECO/AReCO/_workitems/edit/42726)
+- [46328 - [PTM-131] Ajuste backend vulnerabilidade app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46328)
+- [48402 - Contador e banner antigo aparecendo na home momentaneamente](https://dev.azure.com/ARECO/AReCO/_workitems/edit/48402)
+- Codepush: removed callback in user registration and added future flag for facavc pdp buttons
+
+---
 
 ### 2.23.0
 
@@ -13,8 +24,8 @@
 - [46641 - Implementação evento memória do dispositivo](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46641)
 - [41768 - Transformar a landing de prime APP como componente de deeplink](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41768)
 - [51905 - Evento de localização habilitada](https://dev.azure.com/ARECO/AReCO/_workitems/edit/51905)
-- [45649 - Alteração na captura de eventos para produtos no GA4](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45649)
-- [46514 - Correção Doris](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46514)
+
+---
 
 ### 2.22.7
 

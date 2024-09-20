@@ -3,6 +3,7 @@ import { SafeAreaView, ScrollView, View } from 'react-native';
 import { OffersCarousels } from './Components/OffersCarousels/OffersCarousels';
 import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
 import { HomeShowcase } from '../Home/components/HomeShowcase/HomeShowcase';
+import CategoryComponent from './Components/CategoryComponent/CategoryComponent';
 
 function OffersPage() {
   return (
@@ -15,6 +16,8 @@ function OffersPage() {
           <View style={{ padding: 10 }}>
             <HomeShowcase />
           </View>
+          <OffersCarousels />
+          <CategoryComponent />
         </ScrollView>
       </SafeAreaView>
     </View>

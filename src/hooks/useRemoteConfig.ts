@@ -71,6 +71,7 @@ export interface IRemoteConfigKeys {
   show_return_policy: boolean;
   show_doris_button: boolean;
   show_webview_facavc: boolean;
+  show_buttons_pdp_facavc: boolean;
   show_label_facavc: boolean;
   new_offers_page: boolean;
   new_offers_page_tester: boolean;
@@ -142,6 +143,7 @@ export const defaults: IRemoteConfigKeys = {
   show_return_policy: false,
   show_doris_button: false,
   show_webview_facavc: false,
+  show_buttons_pdp_facavc: false,
   show_label_facavc: false,
   new_offers_page: false,
   new_offers_page_tester: false,

@@ -1,8 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
   Linking,
+  Text,
+  View,
 } from 'react-native';
 
 import { TopBarDefault } from '../Menu/components/TopBarDefault';
@@ -12,11 +14,17 @@ import { Button } from '../../components/Button';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import EventProvider from '../../utils/EventProvider';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
+import { usePrimeInfo } from '../../hooks/usePrimeInfo';
+import styles from './styles';
+import { ModalSignIn } from '../../components/ModalSignIn';
 
 function CallCenter() {
   const { getNumber } = useRemoteConfig();
+  const { isPrime } = usePrimeInfo();
 
   const phoneNumber = getNumber('call_center_number');
+
+  const [isModalSignInVisible, setIsModalSignInVisible] = useState(false);
 
   const onClickCallCenter = useCallback(() => {
     try {
@@ -29,12 +37,32 @@ function CallCenter() {
     }
   }, [phoneNumber]);
 
+  const onClickCallCenterPrime = useCallback(() => {
+    try {
+      EventProvider.logEvent('call_center_click_prime', {
+        phoneNumber,
+      });
+      EventProvider.logScreenViewEvent('call_center_click_prime');
+    } catch (error) {
+      ExceptionProvider.captureException(error);
+    }
+    if (!isPrime) {
+      setIsModalSignInVisible(true);
+    } else {
+      Linking.openURL(`whatsapp://send?phone=${phoneNumber}`);
+    }
+  }, [phoneNumber]);
+
   return (
     <SafeAreaView
       flex={1}
       style={{ justifyContent: 'space-between' }}
       backgroundColor="white"
     >
+      <ModalSignIn
+        isVisible={isModalSignInVisible}
+        onClose={() => setIsModalSignInVisible(false)}
+      />
       <TopBarDefault />
 
       <ScrollView>
@@ -55,12 +83,30 @@ function CallCenter() {
           </Box>
 
           <Box width="100%">
+            {!isPrime && (
+
+            <>
+              <Button
+                onPress={() => {
+                  onClickCallCenter();
+                  Linking.openURL(`whatsapp://send?phone=${phoneNumber}`);
+                }}
+                title="NÃO SOU ASSINANTE PRIME"
+                variant="primarioEstreito"
+                inline
+                borderRadius="nano"
+              />
+              <View style={styles.container}>
+                <View style={styles.divider} />
+                <Text style={styles.text}>ou</Text>
+                <View style={styles.divider} />
+              </View>
+            </>
+            )}
             <Button
-              onPress={() => {
-                onClickCallCenter();
-                Linking.openURL(`whatsapp://send?phone=${phoneNumber}`);
-              }}
-              title="WHATSAPP RESERVA"
+              onPress={onClickCallCenterPrime}
+              style={styles.primeButton}
+              title="SOU ASSINANTE PRIME"
               variant="primarioEstreito"
               inline
               borderRadius="nano"

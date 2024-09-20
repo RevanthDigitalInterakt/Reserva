@@ -2,17 +2,16 @@ import React, { useMemo } from 'react';
 import LottieView from 'lottie-react-native';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { loadingSpinner } from '../../../assets/animations';
-
 import { ImageSlider } from './components/ImageSlider';
 import IconComponent from '../IconComponent/IconComponent';
-import { FlagDiscount } from '../FlagDiscount/FlagDiscount';
-
 import type { ProductDetailCardProps } from './types';
 import { useIsTester } from '../../hooks/useIsTester';
 import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 import { CarrouselMedias } from '../ProductDetailCardLegacy/components/CarrouselMedias';
 import styles from './styles';
 import { Box } from '../Box/Box';
+import { FlagDiscount } from '../FlagDiscount/FlagDiscount';
+import PersonalizeIcon from './components/PersonalizeIcon';
 
 export function NewProductDetailCard({
   images,
@@ -34,14 +33,18 @@ export function NewProductDetailCard({
   showZoomButton,
   videoThumbnail,
   testID,
+  fvcProductReference,
 }: ProductDetailCardProps) {
   const isTester = useIsTester();
   const { getBoolean } = useRemoteConfig();
+  const personalizeIcon = !!fvcProductReference;
 
   const videoActive = useMemo(
     () => getBoolean(isTester ? 'pdp_show_video_tester' : 'pdp_show_video'),
     [getBoolean, isTester],
   );
+
+  const showButtonsPdpFacavc = useMemo(() => getBoolean('show_buttons_pdp_facavc'), []);
 
   const hasZoomButton = useMemo(() => (
     videoActive ? showZoomButton : true
@@ -53,10 +56,17 @@ export function NewProductDetailCard({
   );
 
   return (
-    <View style={styles(!!discountTag).container}>
+    <View style={styles().container}>
       <View>
+        {showButtonsPdpFacavc && personalizeIcon && (
+          <PersonalizeIcon
+            discountTag={!!discountTag}
+            testID={String(testID)}
+            productReference={fvcProductReference}
+          />
+        )}
         {!!discountTag && (
-          <View style={styles(!!discountTag).flagWrapper}>
+          <View style={styles(!!discountTag, !!personalizeIcon).flagWrapper}>
             <FlagDiscount
               discountTag={discountTag}
               isDetail
@@ -65,9 +75,9 @@ export function NewProductDetailCard({
         )}
         {saleOff && (
           <View
-            style={styles(!!discountTag).saleOffWrapper}
+            style={styles(!!discountTag, !!personalizeIcon).saleOffWrapper}
           >
-            <IconComponent icon="saleOff" style={styles(!!discountTag).saleOffIcon} width={80} height={80} />
+            <IconComponent icon="saleOff" style={styles(!!discountTag, !!personalizeIcon).saleOffIcon} width={80} height={80} />
           </View>
         )}
 
@@ -165,13 +175,15 @@ export function NewProductDetailCard({
         </View>
       </View>
 
-      {isTheLastUnits && (
-        <View style={styles(!!discountTag).lastUnitsWrapper}>
-          <Text style={styles(!!discountTag).lastUnitsText}>
-            ÚLTIMAS UNIDADES
-          </Text>
-        </View>
-      )}
+      {
+        isTheLastUnits && (
+          <View style={styles(!!discountTag).lastUnitsWrapper}>
+            <Text style={styles(!!discountTag).lastUnitsText}>
+              ÚLTIMAS UNIDADES
+            </Text>
+          </View>
+        )
+      }
 
       <View style={styles(!!discountTag).productInfoWrapper}>
         <View style={styles(!!discountTag).productInfoContentWrapper}>

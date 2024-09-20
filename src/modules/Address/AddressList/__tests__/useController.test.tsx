@@ -69,7 +69,7 @@ describe('AddressList - controller', () => {
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <MockedProvider mocks={mocks}>
-          {children}
+        {children}
       </MockedProvider>
     );
 

@@ -89,8 +89,8 @@ const useWishlistStore = create<IWishlistStore>((set, getState) => ({
       const client = await getApolloClient();
 
       const { data } = await client.mutate<
-        WishlistAddProductMutation,
-        WishlistAddProductMutationVariables
+      WishlistAddProductMutation,
+      WishlistAddProductMutationVariables
       >({
         mutation: WishlistAddProductDocument,
         context: { clientName: 'gateway' },
@@ -119,8 +119,8 @@ const useWishlistStore = create<IWishlistStore>((set, getState) => ({
       const client = await getApolloClient();
 
       const { data } = await client.mutate<
-        WishlistRemoveProductMutation,
-        WishlistRemoveProductMutationVariables
+      WishlistRemoveProductMutation,
+      WishlistRemoveProductMutationVariables
       >({
         mutation: WishlistRemoveProductDocument,
         context: { clientName: 'gateway' },

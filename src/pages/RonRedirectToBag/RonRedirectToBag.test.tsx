@@ -113,19 +113,17 @@ describe('RonRedirectToBag', () => {
   });
 
   it('renders without error and match snapshot', () => {
-
-
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
         <MockedProvider addTypename={false} mocks={apolloMocks}>
-            <RonRedirectToBag
-              navigation={navigationMock as any}
-              route={{
-                params: { ronCode: '' },
-                name: 'RonRedirectToBag',
-                key: '',
-              }}
-            />
+          <RonRedirectToBag
+            navigation={navigationMock as any}
+            route={{
+              params: { ronCode: '' },
+              name: 'RonRedirectToBag',
+              key: '',
+            }}
+          />
         </MockedProvider>
       </ThemeProvider>
     );
@@ -139,14 +137,14 @@ describe('RonRedirectToBag', () => {
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
         <MockedProvider addTypename={false} mocks={apolloMocks}>
-            <RonRedirectToBag
-              navigation={navigationMock as any}
-              route={{
-                params: { ronCode: RON_ORDERFORM_CODE },
-                name: 'RonRedirectToBag',
-                key: '',
-              }}
-            />
+          <RonRedirectToBag
+            navigation={navigationMock as any}
+            route={{
+              params: { ronCode: RON_ORDERFORM_CODE },
+              name: 'RonRedirectToBag',
+              key: '',
+            }}
+          />
         </MockedProvider>
       </ThemeProvider>
     );
@@ -163,18 +161,17 @@ describe('RonRedirectToBag', () => {
   });
 
   it('must load a ron with redirect home', async () => {
-
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
         <MockedProvider addTypename={false} mocks={apolloMocks}>
-            <RonRedirectToBag
-              navigation={navigationMock as any}
-              route={{
-                params: { ronCode: RON_INVALID_CODE },
-                name: 'RonRedirectToBag',
-                key: '',
-              }}
-            />
+          <RonRedirectToBag
+            navigation={navigationMock as any}
+            route={{
+              params: { ronCode: RON_INVALID_CODE },
+              name: 'RonRedirectToBag',
+              key: '',
+            }}
+          />
         </MockedProvider>
       </ThemeProvider>
     );
@@ -187,35 +184,35 @@ describe('RonRedirectToBag', () => {
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
         <MockedProvider addTypename={false} mocks={apolloMocks}>
-            <RonRedirectToBag
-              navigation={navigationMock as any}
-              route={{
-                params: { ronCode: RON_REDIRECT_PRODUCT_CODE },
-                name: 'RonRedirectToBag',
-                key: '',
-              }}
-            />
+          <RonRedirectToBag
+            navigation={navigationMock as any}
+            route={{
+              params: { ronCode: RON_REDIRECT_PRODUCT_CODE },
+              name: 'RonRedirectToBag',
+              key: '',
+            }}
+          />
         </MockedProvider>
       </ThemeProvider>
     );
 
     render(ComponentForSnapShot);
 
-    expect(replaceFn).toHaveBeenCalledWith('')
+    expect(replaceFn).toHaveBeenCalledWith('');
   });
 
   it.skip('must load a ron with catalog url', async () => {
     const ComponentForSnapShot = (
       <ThemeProvider theme={theme}>
         <MockedProvider addTypename={false} mocks={apolloMocks}>
-            <RonRedirectToBag
-              navigation={navigationMock as any}
-              route={{
-                params: { ronCode: RON_REDIRECT_CATALOG_CODE },
-                name: 'RonRedirectToBag',
-                key: '',
-              }}
-            />
+          <RonRedirectToBag
+            navigation={navigationMock as any}
+            route={{
+              params: { ronCode: RON_REDIRECT_CATALOG_CODE },
+              name: 'RonRedirectToBag',
+              key: '',
+            }}
+          />
         </MockedProvider>
       </ThemeProvider>
     );

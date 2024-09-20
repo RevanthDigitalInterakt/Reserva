@@ -1,4 +1,4 @@
-import type { OrderformItemOutput } from "../base/graphql/generated";
+import type { OrderformItemOutput } from '../base/graphql/generated';
 
 export function adaptOrderFormItemsTrack(items?: OrderformItemOutput[]) {
   return (items || []).map((item) => ({
