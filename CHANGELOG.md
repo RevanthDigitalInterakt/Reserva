@@ -2,7 +2,7 @@
 
 ## CHANGELOG
 
-### 2.23.2
+### 2.25.0
 
 - [54036 - Erro deeplink produto não encontrado](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54036)
 
