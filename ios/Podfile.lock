@@ -1858,12 +1858,19 @@ PODS:
   - RNScreens (3.30.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
+  - RNSentry (5.33.1):
+    - hermes-engine
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
+    - React-hermes
+    - Sentry/HybridSDK (= 8.36.0)
   - RNSha256 (1.4.10):
     - React-Core
   - RNShare (9.2.3):
     - React-Core
   - RNSVG (13.14.0):
     - React-Core
+  - Sentry/HybridSDK (8.36.0)
   - SocketRocket (0.6.1)
   - SSZipArchive (2.2.3)
   - Yoga (1.14.0)
@@ -1956,6 +1963,7 @@ DEPENDENCIES:
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSha256 (from `../node_modules/react-native-sha256`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -2011,6 +2019,7 @@ SPEC REPOS:
     - PLCrashReporter
     - PromisesObjC
     - PromisesSwift
+    - Sentry
     - SocketRocket
     - SSZipArchive
 
@@ -2177,6 +2186,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
   RNSha256:
     :path: "../node_modules/react-native-sha256"
   RNShare:
@@ -2316,9 +2327,11 @@ SPEC CHECKSUMS:
   RNPermissions: 54b22c815d5d966705e4d5d8b801e65c0e363966
   RNReanimated: 068e508188021cbe24ae25c6cb2827d0abf6054e
   RNScreens: 5280f062ab6aee9e7c27fa1f43480b977b922974
+  RNSentry: b66de7515ae09a4ada52aa31625ef1953c53760c
   RNSha256: e1bc64e9e50b293d5282bb4caa1b2043931f1c9d
   RNShare: da6d90b6dc332f51f86498041d6e34211f96b630
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
+  Sentry: f8374b5415bc38dfb5645941b3ae31230fbeae57
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: 87e59f6d458e5061d2421086c5de994b3f7cd151
