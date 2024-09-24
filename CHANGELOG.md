@@ -1,10 +1,10 @@
-# APP RESERVA
+# App Reserva
 
 ## CHANGELOG
 
-### 2.23.2
+### 2.25.0
 
-- [46646 - Home promocional - Vitrines](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46646)
+- [54036 - Erro deeplink produto não encontrado](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54036)
 
 ### 2.23.1
 
