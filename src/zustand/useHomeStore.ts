@@ -19,11 +19,13 @@ import {
 import { getApolloClient } from '../utils/getApolloClient';
 import { apolloFetchPolicyStore } from './useApolloFetchPolicyStore';
 
-interface IHomeStore {
+export interface IHomeStore {
   loading: boolean;
   hasTabBar: boolean;
   carousels: HomeCarouselOutput[];
   offersCarousels: OffersCarouselsOutput[];
+  medias: HomeMediaOutput[];
+  offersPage?: string;
   shelfOffers: {
     shelfProductsBottom: string,
     shelfProductsTop: string,
@@ -31,8 +33,6 @@ interface IHomeStore {
     shelfSubtitleTop: string,
     shelfTitle: string,
   }
-  medias: HomeMediaOutput[];
-  offersPage?: string;
   commercialBannerCollection?: ConfigCommercialBannerOutput[],
   onLoad: () => Promise<void>;
   setHasTabBar: (hasTabBar: boolean) => void;
@@ -111,7 +111,7 @@ const homeStore = create<IHomeStore>((set) => ({
         commercialBannerCollection: config.data.homeConfig?.commercialBannerCollection || undefined,
         loading: false,
         carousels: data.homeCarousels,
-      }));
+      } as IHomeStore));
     } catch {
       set(() => ({
         loading: false,

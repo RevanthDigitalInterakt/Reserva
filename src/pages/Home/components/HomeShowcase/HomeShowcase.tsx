@@ -1,12 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, FlatList } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from './HomeShowcase.styles';
 import Shelf from '../HomeShowcaseShelf/HomeShowcaseShelf';
-import useSearchStore, { SearchType } from '../../../../zustand/useSearchStore';
-import { generateFacets } from '../../../../utils/generateFacets';
-import { useHomeStore } from '../../../../zustand/useHomeStore';
-import { getShelfData } from '../../../../utils/getShelfData';
-import { sliceData } from '../../../../utils/sliceData';
+import useRecommendationShelf from '../../../../zustand/useRecommendation/useRecommendationShelf';
 
 export interface IRsvFlag {
   type: string;
@@ -48,76 +45,28 @@ export interface IRsvRecommendation {
   shelfName: string;
   shelfTitle: string;
   products: IRsvProduct[];
-  id: string;
 }
 
 export function HomeShowcase() {
-  const {
-    onSearch,
-    result,
-    onInit,
-    shelf,
-  } = useSearchStore([
-    'onSearch',
-    'result',
-    'onInit',
-    'shelf',
-  ]);
-
-  const { shelfOffers } = useHomeStore(['shelfOffers']);
-
-  const defaultFacets = useMemo(() => generateFacets({
-    reference: shelfOffers.shelfProductsTop,
-  }), []);
-
-  const shelfReference = useMemo(() => generateFacets({
-    reference: shelfOffers.shelfProductsBottom,
-  }), []);
-
-  const [payload, setPayload] = useState<IRsvRecommendation[]>([]);
+  const { onSearchShelf } = useRecommendationShelf();
+  const [shelf, setShelf] = useState<IRsvRecommendation[]>([]);
 
   useEffect(() => {
-    if (result && result.length > 0) {
-      const shelfTop = getShelfData(result);
-      const shelfBottom = getShelfData(shelf);
-
-      const shelfSliced = sliceData(shelfBottom, 6);
-      const arrSliced = sliceData(shelfTop, 6);
-
-      const shelfInfo = [
-        {
-          shelfTitle: shelfOffers.shelfTitle,
-          shelfName: shelfOffers.shelfSubtitleTop,
-          products: arrSliced,
-          id: shelfOffers.shelfProductsTop,
-        },
-        {
-          shelfTitle: '',
-          shelfName: shelfOffers.shelfSubtitleBottom,
-          products: shelfSliced,
-          id: shelfOffers.shelfProductsBottom,
-        },
-      ];
-
-      setPayload(shelfInfo);
+    async function handleGetShelf() {
+      const user = await AsyncStorage.getItem('@Dito:anonymousID');
+      const data = await onSearchShelf(user ?? '');
+      setShelf(data as IRsvRecommendation[]);
     }
-  }, [result]);
 
-  useEffect(() => {
-    onInit(SearchType.CATALOG);
-    onSearch({
-      facets: defaultFacets,
-    }, undefined, { facets: shelfReference });
-  }, [onInit, onSearch]);
+    handleGetShelf();
+  }, [onSearchShelf]);
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={payload}
-        renderItem={({ item }) => (
-          <Shelf dataShelf={item} />
-        )}
-        keyExtractor={(item, index) => item.shelfName + index.toString()}
+        data={shelf}
+        renderItem={({ item }) => <Shelf dataShelf={item} />}
+        keyExtractor={(item, index) => item.shelfTitle + index.toString()}
       />
     </View>
   );

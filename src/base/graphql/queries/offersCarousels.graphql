@@ -24,13 +24,13 @@ query offersCarousels {
           from
           to
         }
-        shelfProductsBottom
-        shelfProductsTop
-        shelfSubtitleBottom
-        shelfSubtitleTop
-        shelfTitle
       }
     }
+    shelfProductsBottom
+    shelfProductsTop
+    shelfSubtitleBottom
+    shelfSubtitleTop
+    shelfTitle
     categoryCards{
       sectionCardTitle
       sectionMediaCards {

@@ -68,7 +68,7 @@ interface ISearchStoreFilters {
   price?: { from: number; to: number }
 }
 
-interface ISearchStore {
+export interface ISearchStore {
   initialized: boolean,
   loading: boolean;
   searchType: SearchType;
@@ -77,13 +77,12 @@ interface ISearchStore {
   parameters: SearchProductInput;
   resultCount: number;
   result: ProductListOutput[];
-  shelf: ProductListOutput[];
   queryID?: string | null;
   setQueryID: (queryID: string) => void
   onInit: (searchType: SearchType) => void,
   setStatus: (status: SearchStatusEnum) => void;
   setQ: (s: string) => void;
-  onSearch: (input: Partial<Omit<SearchProductInput, 'perPage'>>, filters?: ISearchStoreFilters, shelfId?: Partial<Omit<SearchProductInput, 'perPage'>>) => Promise<void>;
+  onSearch: (input: Partial<Omit<SearchProductInput, 'perPage'>>, filters?: ISearchStoreFilters) => Promise<void>;
   doFetchMore: () => void;
 }
 
@@ -110,7 +109,6 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
     analitycsTags: ['app'],
   },
   result: [],
-  shelf: [],
   queryID: '',
   setQueryID: (queryID: string) => set(() => ({
     queryID,
@@ -125,7 +123,7 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
     const newParameters = { ...getState().parameters, q };
     set(() => ({ parameters: newParameters }));
   },
-  onSearch: async (parameters, filters, shelfId) => {
+  onSearch: async (parameters, filters) => {
     try {
       const client = getApolloClient();
 
@@ -142,12 +140,6 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
         ...parameters,
       };
 
-      const shelfParameters = {
-        ...{ provider },
-        ...getState().parameters,
-        ...shelfId,
-      };
-
       set(() => ({
         loading: true,
         result: [],
@@ -155,22 +147,6 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
         status: SearchStatusEnum.RESULT,
         parameters: newParameters,
       }));
-
-      if (shelfId) {
-        const { data: payload } = await client.query<SearchQuery, SearchQueryVariables>({
-          notifyOnNetworkStatusChange: true,
-          context: { clientName: 'gateway' },
-          fetchPolicy: 'no-cache',
-          query: SearchDocument,
-          variables: {
-            input: shelfParameters,
-          },
-        });
-
-        set(() => ({
-          shelf: payload.search.items,
-        } as ISearchStore));
-      }
 
       const { data } = await client.query<SearchQuery, SearchQueryVariables>({
         notifyOnNetworkStatusChange: true,
@@ -256,7 +232,7 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
           parameters: { ...state.parameters, page: 0 },
         } as ISearchStore));
 
-        useSearchStore().doFetchMore();
+        state.doFetchMore();
       }
 
       set(() => ({

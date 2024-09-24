@@ -1,53 +1,27 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import {
   Text,
   View,
   FlatList,
-  TouchableOpacity,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { styles } from './HomeShowcaseShelf.styles';
 import type { IRsvRecommendation } from '../HomeShowcase/HomeShowcase';
 import { HomeShowcaseCards } from '../HomeShowcaseCards/HomeShowcaseCards';
-import { FONTS } from '../../../../base/styles';
-import IconDropdown from '../../../../../assets/icons/IconDropdown';
 
 interface IShelfProps {
   dataShelf: IRsvRecommendation;
 }
 
 export default function Shelf({ dataShelf }: IShelfProps) {
-  const { navigate } = useNavigation();
-
-  const onClickShowAll = useCallback(() => {
-    navigate('ProductCatalog', { referenceId: dataShelf.id });
-  }, []);
-
   return (
     <View style={styles.shelfContainer}>
-      <Text style={styles.shelfTitle}>{dataShelf.shelfTitle}</Text>
       <View style={styles.shelf}>
-        <Text style={{
-          fontFamily: FONTS.RESERVA_SANS_BOLD,
-          fontSize: 14,
-          marginTop: 5,
-        }}
-        >
-          {dataShelf.shelfName}
-        </Text>
-        <TouchableOpacity onPress={onClickShowAll}>
-          <View style={styles.actionTitleContent}>
-            <Text style={styles.actionTitleText}>
-              Ver tudo
-            </Text>
-            <IconDropdown />
-          </View>
-        </TouchableOpacity>
+        <Text style={styles.shelfTitle}>{dataShelf.shelfTitle}</Text>
       </View>
       <FlatList
         horizontal
         data={dataShelf.products}
-        keyExtractor={(item, index) => item.productId + index.toString()}
+        keyExtractor={(item) => item.productId}
         renderItem={({ item }) => <HomeShowcaseCards product={item} />}
       />
     </View>

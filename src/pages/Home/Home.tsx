@@ -40,9 +40,10 @@ import { useShelfStore } from '../../zustand/useShelfStore/useShelfStore';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { NewHomeCarousels } from './components/NewHomeCarousels';
 import { NewHomeCountDown } from './components/NewHomeCountDown.tsx';
-import ShowcaseDrawerContent from './components/ShowcaseDrawerContent/ShowcaseDrawerContent';
+import { useShelfOffersStore } from '../../zustand/useShelfOffersStore/useShelfOffersStore';
 import useHomeHeader from './hooks/useHomeHeader';
 import styles from './styles';
+import ShowcaseDrawerContent from './components/ShowcaseDrawerContent/ShowcaseDrawerContent';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -135,10 +136,16 @@ function ListFooter() {
 }
 
 function Home() {
-  const { onLoad, medias, loading } = useHomeStore([
+  const {
+    onLoad,
+    medias,
+    loading,
+    shelfOffers,
+  } = useHomeStore([
     'onLoad',
     'medias',
     'loading',
+    'shelfOffers',
   ]);
 
   const { showModalSignUpComplete } = useAuthModalStore([
@@ -147,6 +154,7 @@ function Home() {
 
   const { drawerIsOpen } = useProductDetailStore(['drawerIsOpen']);
   const { shelfItemData } = useShelfStore(['shelfItemData']);
+  const { onLoadOffersShelf } = useShelfOffersStore(['onLoadOffersShelf']);
   const { getString } = useRemoteConfig();
 
   const {
@@ -160,6 +168,12 @@ function Home() {
     const doRequest = async () => onLoad();
     doRequest();
   }, []);
+
+  useEffect(() => {
+    if (shelfOffers) {
+      onLoadOffersShelf(shelfOffers);
+    }
+  }, [shelfOffers]);
 
   useEffect(() => {
     trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);

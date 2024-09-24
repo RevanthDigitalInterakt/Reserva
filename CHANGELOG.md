@@ -2,6 +2,10 @@
 
 ## CHANGELOG
 
+### 2.25.1
+
+- [46646 - Home promocional - Vitrines](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46646)
+
 ### 2.25.0
 
 - [54036 - Erro deeplink produto não encontrado](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54036)

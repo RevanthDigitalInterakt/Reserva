@@ -3,15 +3,9 @@ import {
   View, Text, Image, TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { trackClickStore, type IData } from '../../../../zustand/useTrackClickStore/useTrackClickStore';
-import { TrackPageTypeEnum } from '../../../../base/graphql/generated';
-import { integerPart, decimalPart } from '../../../../utils/numberUtils';
-import { styles } from './HomeShowcaseCards.styles';
-import { Skeleton } from '../../../../modules/Checkout/components/Skeleton';
-import IconAddToBag from '../../../../../assets/icons/IconAddToBag';
-import { COLORS } from '../../../../base/styles';
-import { useShelfStore } from '../../../../zustand/useShelfStore/useShelfStore';
-import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+import styles from './styles';
+import { Skeleton } from '../../../../../modules/Checkout/components/Skeleton';
+import { decimalPart, integerPart } from '../../../../../utils/numberUtils';
 
 interface IRsvFlag {
   type: string;
@@ -49,27 +43,14 @@ interface IRsvProduct {
   prices: IRsvPrice;
 }
 
-interface IHomeShowcaseCardsProps {
+interface IShelfItemCardProps {
   product: IRsvProduct;
 }
 
-export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
-  const { onGetShelfItemData } = useShelfStore(['onGetShelfItemData']);
-  const { setDrawerIsOpen } = useProductDetailStore(['setDrawerIsOpen']);
+export function ShelfItemCard({ product }: IShelfItemCardProps) {
   const { navigate } = useNavigation();
 
-  const newData: IData = {
-    identifier: product.productLink || '',
-    productId: product.productId,
-  };
-
-  const onClickItem = useCallback((data: IRsvProduct) => {
-    onGetShelfItemData(data);
-    setDrawerIsOpen(true);
-  }, [onGetShelfItemData, setDrawerIsOpen]);
-
   const onClickCard = useCallback((data: IRsvProduct) => {
-    trackClickStore.getState().onSendTrackClick(newData, TrackPageTypeEnum.Home);
     // @ts-ignore
     navigate('ProductDetail', { skuId: data.sku[0]?.sizes[0]?.skuId });
   }, []);
@@ -97,48 +78,48 @@ export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
       onPress={() => onClickCard(product)}
     >
       <Image
-        source={{ uri: product.image }}
+        source={{ uri: product?.image }}
         style={styles.productImage}
       />
       <Text style={styles.productName}>
-        {product.productName.length > 18 ? `${product.productName.substring(0, 16).trim()}..` : product.productName}
+        {product?.productName.length > 18 ? `${product?.productName.substring(0, 16).trim()}..` : product?.productName}
       </Text>
       <View style={styles.priceContainer}>
-        {product.prices.salePrice !== 0 ? (
+        {product?.prices?.salePrice !== 0 ? (
           <>
             <Text style={styles.salePrice}>
-              {`R$ ${integerPart(product.prices.salePrice || 0)}`}
+              {`R$ ${integerPart(product?.prices?.salePrice || 0)}`}
             </Text>
             <Text style={styles.decimalPart}>
-              {`,${decimalPart(product.prices.salePrice || 0)}`}
+              {`,${decimalPart(product?.prices?.salePrice || 0)}`}
             </Text>
           </>
         ) : (
           <>
             <Text style={styles.salePrice}>
-              {`R$ ${integerPart(product.prices.listPrice || 0)}`}
+              {`R$ ${integerPart(product?.prices?.listPrice || 0)}`}
             </Text>
             <Text style={styles.decimalPart}>
-              {`,${decimalPart(product.prices.listPrice || 0)}`}
+              {`,${decimalPart(product?.prices?.listPrice || 0)}`}
             </Text>
           </>
         )}
-        {product.prices.salePrice !== 0 ? (
+        {product?.prices?.salePrice !== 0 ? (
           <>
             <Text style={styles.listPrice}>
-              {`${integerPart(product.prices.listPrice || 0)}`}
+              {`${integerPart(product?.prices?.listPrice || 0)}`}
             </Text>
             <Text style={styles.listPriceDecimal}>
-              {`,${decimalPart(product.prices.listPrice || 0)}`}
+              {`,${decimalPart(product?.prices?.listPrice || 0)}`}
             </Text>
           </>
         ) : null}
       </View>
       {product.flags.map((flag) => {
-        if (flag.type === 'savings') {
+        if (flag.type === 'savings' && flag.value && flag.value > 0) {
           return (
-            <View style={styles.discountContainer}>
-              <View style={styles.discountContainerFlag} key={flag.type}>
+            <View style={styles.discountContainer} key={`${flag.text} + ${flag.value}`}>
+              <View style={styles.discountContainerFlag}>
                 <Text style={styles.discountFlag}>
                   {`${flag.value}%`}
                 </Text>
@@ -146,19 +127,6 @@ export function HomeShowcaseCards({ product }: IHomeShowcaseCardsProps) {
                   OFF
                 </Text>
               </View>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: COLORS.BLACK,
-                  width: 35,
-                  height: 35,
-                  borderRadius: 30,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                onPress={() => onClickItem(product)}
-              >
-                <IconAddToBag />
-              </TouchableOpacity>
             </View>
           );
         }
