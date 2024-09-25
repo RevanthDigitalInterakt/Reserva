@@ -35,6 +35,8 @@ import InitialScreen from './InitialScreen';
 import { AppRouting } from './routes/AppRouting';
 import ReservaJailbreakScreen from './ReservaJailbreakScreen';
 import type { EventsOptions } from './utils/EventProvider/Event';
+import Sentry from './config/sentryConfig';
+
 
 const { model, os } = getDeviceInfoModel();
 const { freeMemory, totalMemory, usedMemory } = getDeviceInfoMemory();
@@ -83,11 +85,11 @@ function App() {
     (async () => {
       firstLaunchedData();
       await actions.INITIAL_LOAD();
-
       onListenConnectivityEvents();
       remoteConfigStore.fetchInitialData(remoteConfig());
     })();
   }, []);
+
 
   const getTestEnvironment = useCallback(async () => {
     const res = await AsyncStorage.getItem('isTesting');
@@ -165,4 +167,4 @@ function App() {
   );
 }
 
-export default App;
+export default Sentry.wrap(App)
