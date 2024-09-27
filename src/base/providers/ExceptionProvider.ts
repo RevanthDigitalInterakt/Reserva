@@ -1,6 +1,6 @@
 import { DdRum, DdSdkReactNative } from '@datadog/mobile-react-native';
 import { navigationRef } from '../../utils/navigationRef';
-import * as Sentry from '@sentry/react-native';
+import Sentry from '../../config/sentryConfig';
 
 export interface IUser {
   id: string;
