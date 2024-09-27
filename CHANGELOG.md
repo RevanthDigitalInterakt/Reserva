@@ -1,7 +1,20 @@
-# APP RESERVA
+# App Reserva
 
 ## CHANGELOG
 
+### 2.25.0
+
+- [54036 - Erro deeplink produto não encontrado](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54036)
+
+### 2.23.1
+
+- [46645 - Home promocional - Componente de categoria](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46645)
+- [42726 - Botão do Faça vc na PDP](https://dev.azure.com/ARECO/AReCO/_workitems/edit/42726)
+- [46328 - [PTM-131] Ajuste backend vulnerabilidade app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46328)
+- [48402 - Contador e banner antigo aparecendo na home momentaneamente](https://dev.azure.com/ARECO/AReCO/_workitems/edit/48402)
+- Codepush: removed callback in user registration and added future flag for facavc pdp buttons
+
+---
 
 ### 2.23.0
 

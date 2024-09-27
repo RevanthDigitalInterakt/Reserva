@@ -38,7 +38,7 @@ export function OffersCarousels() {
   }
 
   return (
-    <View>
+    <View style={{ height: 400 }}>
       {offersCarousels.map((carousel) => (
         <View
           {...testProps('carousels_cards')}

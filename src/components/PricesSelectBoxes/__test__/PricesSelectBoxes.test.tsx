@@ -90,7 +90,7 @@ function TestingComponent(selectedSize: any) {
   return (
     <ThemeProvider theme={theme}>
       <MockedProvider mocks={ApolloMockLPPrime} addTypename={false}>
-          <PricesSelectBoxes selectedSize={selectedSize} />
+        <PricesSelectBoxes selectedSize={selectedSize} />
       </MockedProvider>
     </ThemeProvider>
   );

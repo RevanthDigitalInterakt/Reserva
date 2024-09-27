@@ -32,7 +32,6 @@ const orderSizes = (sizes: string[]) => sizes.sort((itemA, itemB) => {
   return itemA.localeCompare(itemB);
 });
 
-
 const RadioButtonsFilter: React.FC<RadioButtonsFilterProps> = React.memo(({
   optionsList,
   disabledOptions,
@@ -43,7 +42,7 @@ const RadioButtonsFilter: React.FC<RadioButtonsFilterProps> = React.memo(({
   fontSize = '10px',
   ...props
 }) => {
-  defaultSelectedItem = defaultSelectedItem.map((item: string) => item.toUpperCase())
+  defaultSelectedItem = defaultSelectedItem.map((item: string) => item.toUpperCase());
 
   if (!optionsList || optionsList.length === 0) return null;
 

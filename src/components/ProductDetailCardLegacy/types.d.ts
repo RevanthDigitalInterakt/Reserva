@@ -23,4 +23,5 @@ export interface ProductDetailCardLegacyProps {
   avaibleUnits?: number;
   testID?: string;
   mktplaceNameComponent?: React.ReactNode;
+  fvcProductReference?: string;
 }

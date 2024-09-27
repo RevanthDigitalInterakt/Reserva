@@ -31,14 +31,14 @@ import { useConnectivityStore } from './zustand/useConnectivityStore';
 import { useBagStore } from './zustand/useBagStore/useBagStore';
 import { useNotification } from './hooks/useNotification';
 import { getDeviceInfoMemory, getDeviceInfoModel, getDeviceInfoStorage } from './utils/Device/deviceUtils';
-
-const { model, os } = getDeviceInfoModel();
-const { freeMemory, totalMemory, usedMemory } = getDeviceInfoMemory();
-const { freeStorage, totalStorage, usedStorage } = getDeviceInfoStorage();
 import InitialScreen from './InitialScreen';
 import { AppRouting } from './routes/AppRouting';
 import ReservaJailbreakScreen from './ReservaJailbreakScreen';
 import type { EventsOptions } from './utils/EventProvider/Event';
+
+const { model, os } = getDeviceInfoModel();
+const { freeMemory, totalMemory, usedMemory } = getDeviceInfoMemory();
+const { freeStorage, totalStorage, usedStorage } = getDeviceInfoStorage();
 
 const DefaultTheme = {
   colors: {

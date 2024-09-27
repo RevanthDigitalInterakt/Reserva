@@ -51,9 +51,9 @@ export const trackPageViewStore = create<ITrackPageViewStore>((set, getState) =>
         providers: [TrackProvidersEnum.Smarthint],
         session: getState().sessionId,
         originIdentifier: navigation.origin,
-        userEmail: userEmail || '',  // Garantir que userEmail não seja null
+        userEmail: userEmail || '', // Garantir que userEmail não seja null
       };
-  
+
       await getApolloClient().mutate<TrackPageViewMutation, TrackPageViewMutationVariables>({
         mutation: TrackPageViewDocument,
         context: { clientName: 'gateway' },

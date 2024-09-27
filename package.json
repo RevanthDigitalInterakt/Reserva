@@ -1,6 +1,6 @@
 {
   "name": "reserva",
-  "version": "2.23.0",
+  "version": "2.25.0",
   "private": true,
   "scripts": {
     "setup-ios-permissions": "react-native setup-ios-permissions && pod-install",
@@ -185,7 +185,7 @@
       "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/?!((jest-)?@react-native|react-native|react-native-modal|react-native-progress|lottie-react-native)",
+      "node_modules/?!((jest-)?@react-native|react-native|react-native-modal|react-native-progress|lottie-react-native|react-native-config)",
       "jest-runner"
     ],
     "automock": false,

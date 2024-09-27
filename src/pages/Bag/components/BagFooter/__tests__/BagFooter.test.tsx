@@ -134,7 +134,7 @@ describe('BagFooter Component', () => {
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
         <MockedProvider mocks={apolloMocks}>
-            <BagFooter />
+          <BagFooter />
         </MockedProvider>
       </ThemeProvider>,
     );
@@ -200,7 +200,7 @@ describe('BagFooter Component', () => {
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
         <MockedProvider mocks={apolloMocks}>
-        <BagFooter />
+          <BagFooter />
         </MockedProvider>
       </ThemeProvider>,
     );

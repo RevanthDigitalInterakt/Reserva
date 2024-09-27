@@ -5,6 +5,12 @@ import { MockedProvider } from '@apollo/client/testing';
 import { theme } from '../../../base/usereservappLegacy/theme';
 import WebViewDoris from '..';
 
+jest.mock('../../../zustand/useBagStore/useBagStore', () => ({
+  useBagStore: () => ({
+    orderformId: '123',
+  }),
+}));
+
 const Component = (
   <ThemeProvider theme={theme}>
     <MockedProvider addTypename={false}>

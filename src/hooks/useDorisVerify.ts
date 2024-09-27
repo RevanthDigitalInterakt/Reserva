@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { useVerifyDorisProductLazyQuery } from '../base/graphql/generated';
 // import { useRemoteConfig } from './useRemoteConfig';

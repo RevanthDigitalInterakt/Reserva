@@ -101,7 +101,7 @@ function ProductSummary() {
     productName: productDetail?.productName,
     productId: productDetail?.productId,
     skuId: selectedGiftCardSku!,
-    ean: selectedSize?.ean
+    ean: selectedSize?.ean,
   } : {
     productName: productDetail?.productName,
     productId: selectedSize?.itemId || '',
@@ -112,7 +112,7 @@ function ProductSummary() {
     skuName: selectedSize?.skuName || '',
     category: '',
     brand: '',
-    ean: selectedSize?.ean
+    ean: selectedSize?.ean,
   };
 
   const isLoadingFavorite = isGiftCard
@@ -162,6 +162,7 @@ function ProductSummary() {
           setImageIndex(handledIndex);
           return handledIndex;
         }}
+        fvcProductReference={productDetail?.fvcProductReference || ''}
       />
 
       {(!!showPrimeBox && !isGiftCard) && (
