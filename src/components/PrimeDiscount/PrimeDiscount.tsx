@@ -45,6 +45,7 @@ export default function PrimeDiscount({
   const data = useMemo(() => rawData?.landingPagePrime, [rawData?.landingPagePrime]);
 
   const showPrimePrice = useMemo(
+    // TO DO: Passar essa validação para o backend
     () => discountPrime != null
     && discountPrime <= appTotalizers.total,
     [appTotalizers.total, discountPrime],
