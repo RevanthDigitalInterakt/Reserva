@@ -45,7 +45,7 @@ function InitialScreen({ children }: IProps) {
 
     if (profile) {
       handleDitoRegister();
-    }   
+    }
 
     await onPrimeConfig();
   }, [

@@ -1,12 +1,12 @@
-import React, { useCallback } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React, { useCallback } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-import IconComponent from "../../../../../../components/IconComponent/IconComponent";
-import styles from "./styles";
-import testProps from "../../../../../../utils/testProps";
-import EventProvider from "../../../../../../utils/EventProvider";
-import useDorisStore from "../../../../../../zustand/useDorisStore";
+import IconComponent from '../../../../../../components/IconComponent/IconComponent';
+import styles from './styles';
+import testProps from '../../../../../../utils/testProps';
+import EventProvider from '../../../../../../utils/EventProvider';
+import useDorisStore from '../../../../../../zustand/useDorisStore';
 
 interface IButtonDoris {
   enabledBtnFullDoris: boolean;
@@ -20,15 +20,15 @@ export default function ButtonDoris({
   productId,
 }: IButtonDoris) {
   const navigation = useNavigation();
-  const { setDorisUrl } = useDorisStore(['setDorisUrl'])
+  const { setDorisUrl } = useDorisStore(['setDorisUrl']);
   const goToWebviewDoris = useCallback(async (ean?: string) => {
     if (!ean) return;
 
-    setDorisUrl(ean)
-    navigation.navigate("Doris");
+    setDorisUrl(ean);
+    navigation.navigate('Doris');
 
     if (productId) {
-      EventProvider.logEvent("doris_button", {
+      EventProvider.logEvent('doris_button', {
         product_id: productId,
         product_ean: ean,
       });
@@ -37,16 +37,16 @@ export default function ButtonDoris({
 
   return (
     <View
-      {...testProps("component_button_doris")}
+      {...testProps('component_button_doris')}
       style={enabledBtnFullDoris ? styles.containerDoris : null}
     >
       <View style={styles.containerNew}>
-        <Text {...testProps("txt_new")} style={styles.txtNew}>
+        <Text {...testProps('txt_new')} style={styles.txtNew}>
           NOVO
         </Text>
       </View>
       <TouchableOpacity
-        {...testProps("button_doris")}
+        {...testProps('button_doris')}
         onPress={() => goToWebviewDoris(productEan)}
       >
         <View

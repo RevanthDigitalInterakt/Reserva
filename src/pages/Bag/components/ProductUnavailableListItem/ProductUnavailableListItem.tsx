@@ -38,11 +38,11 @@ export function ProductUnavailableListItem({
 
   return (
     <>
-      <Box 
-      flexDirection="row" 
-      alignItems="center" 
-      marginTop="xxs"
-      testID='com.usereserva:id/ProductUnavailableListItem'
+      <Box
+        flexDirection="row"
+        alignItems="center"
+        marginTop="xxs"
+        testID="com.usereserva:id/ProductUnavailableListItem"
       >
         <IconComponent icon="info" />
         <Typography

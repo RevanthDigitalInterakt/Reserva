@@ -2,8 +2,8 @@
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-ActivityIndicator,
-Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity,
+  ActivityIndicator,
+  Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,8 +13,8 @@ import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import UnderlineInput from '../../../components/UnderlineInput';
 import { platformType } from '../../../utils/platformType';
 import {
-SignUpDocumentTypeEnum,
-useSignUpMutation, useSignUpVerificationCodeMutation,
+  SignUpDocumentTypeEnum,
+  useSignUpMutation, useSignUpVerificationCodeMutation,
 } from '../../../base/graphql/generated';
 import isValidCPF from '../../../utils/CPFValidator';
 import useAuthModalStore from '../../../zustand/useAuthModalStore';

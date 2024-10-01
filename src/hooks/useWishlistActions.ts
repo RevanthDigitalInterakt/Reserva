@@ -7,7 +7,7 @@ import { trackEventDitoAddWishlist } from '../utils/trackEventDitoAddWishlist';
 import { navigateUsingRef } from '../utils/navigationRef';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { trackClickAlgoliaStore } from '../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
-import { TrackEventTypeEnum, TrackEventNameEnum, TrackEventSubTypeEnum } from '../base/graphql/generated';
+import { TrackEventTypeEnum, TrackEventNameEnum } from '../base/graphql/generated';
 import { useSearchStore } from '../zustand/useSearchStore';
 
 export function useWishlistActions() {
@@ -86,7 +86,7 @@ export function useWishlistActions() {
         },
       );
 
-      const queryID = useSearchStore.getState().queryID;
+      const { queryID } = useSearchStore.getState();
       trackClickAlgoliaStore.getState().onTrack({
         typeEvent: TrackEventTypeEnum.Conversion,
         nameEvent: queryID
@@ -97,9 +97,9 @@ export function useWishlistActions() {
         dataObject: [{
           discount: 0,
           price: product.lowPrice || 1,
-          quantity: 1
+          quantity: 1,
         }],
-        totalPrice: product.lowPrice || 1
+        totalPrice: product.lowPrice || 1,
       });
 
       await onFavorite(product);

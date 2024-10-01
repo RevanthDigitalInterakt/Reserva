@@ -3,17 +3,17 @@ import remoteConfig from '@react-native-firebase/remote-config';
 import { defaults, syncRemoteConfig, useRemoteConfig } from '../useRemoteConfig';
 
 const FIVE_MINUTES_IN_MS = 300000;
-jest.useFakeTimers()
+jest.useFakeTimers();
 
 describe('useRemoteConfig test', () => {
   it('should successfully fetch initial data', async () => {
     const { result } = renderHook(() => useRemoteConfig());
 
     const instance = remoteConfig();
-    
-    await act(async() => {
+
+    await act(async () => {
       await result.current.fetchInitialData(instance);
-    })
+    });
 
     expect(instance.setDefaults).toHaveBeenCalledWith(defaults);
     expect(instance.setConfigSettings).toHaveBeenCalled();
@@ -25,9 +25,9 @@ describe('useRemoteConfig test', () => {
 
     const instance = remoteConfig();
 
-    await act(async() => {
+    await act(async () => {
       await result.current.fetchInitialData(instance);
-    })
+    });
 
     const res = result.current.getBoolean('balance_cashback_in_app');
 
@@ -52,9 +52,9 @@ describe('useRemoteConfig test', () => {
 
     const instance = remoteConfig();
 
-    await act(async() => {
+    await act(async () => {
       await result.current.fetchInitialData(instance);
-    })
+    });
 
     const res = result.current.getString('pdp_button_add_bag');
 

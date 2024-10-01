@@ -79,7 +79,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
     }
   }, [email]);
 
-  const pressButton = useCallback(() => {
+  const pressButton = () => {
     if (showRecoveryPassword) {
       EventProvider.logEvent('signup_recover_password_click', {});
       handleEmailRecovery();
@@ -87,8 +87,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
       EventProvider.logEvent('signup_register_email_click', {});
       handleEmailAccess();
     }
-  }, [showRecoveryPassword]);
-
+  };
 
   useEffect(() => {
     setInputError('');

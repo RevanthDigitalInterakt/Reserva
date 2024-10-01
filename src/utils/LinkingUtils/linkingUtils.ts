@@ -13,7 +13,7 @@ export const handlePathsParams = (
   const beforeKeyword = basePath?.substring(0, keywordIndex! + keyword.length);
 
   const afterKeyword = basePath?.substring(keywordIndex! + keyword.length);
-  let pathParts = afterKeyword?.split('/').filter(Boolean);
+  const pathParts = afterKeyword?.split('/').filter(Boolean);
 
   while (pathParts && pathParts.length < numPaths) {
     pathParts?.push('null');

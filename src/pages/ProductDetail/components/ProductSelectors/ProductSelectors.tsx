@@ -30,6 +30,7 @@ import OneP5P from '../../../../components/OneP5P/OneP5P';
 import FittingRoomSession from '../FittingRoomSession';
 import { SizeGuideImages } from '../FittingRoomSession/components/SizeGuide';
 import { useDorisVerify } from '../../../../hooks/useDorisVerify';
+import Personalize from '../Personalize';
 
 function ProductSelectors() {
   const [showModal, setShowModal] = useState(false);
@@ -61,7 +62,9 @@ function ProductSelectors() {
   const showRoulet = getBoolean('show_roulet');
   const showOnep5p = useMemo(() => getBoolean('show_onep5p_pdp'), []);
   const addToBagButtonIsFixed = useMemo(() => getBoolean('add_to_bag_button_is_fixed'), []);
+  const showButtonsPdpFacavc = useMemo(() => getBoolean('show_buttons_pdp_facavc'), []);
   const { verifyProductDoris, isValidProductDoris } = useDorisVerify();
+  const existsFvcProductReference = !!productDetail?.fvcProductReference;
 
   const doSelectSizeTrack = useCallback(() => {
     try {
@@ -219,6 +222,8 @@ function ProductSelectors() {
               productEan={selectedSize?.ean}
               isValidProductDoris={isValidProductDoris}
             />
+
+            {showButtonsPdpFacavc && existsFvcProductReference && <Personalize fvcReferenceProduct={productDetail?.fvcProductReference || ''} />}
 
             {showOnep5p && addToBagButtonIsFixed && (<OneP5P comingFrom="PDP" />)}
 

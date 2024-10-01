@@ -2,9 +2,9 @@ import React from 'react';
 import { ThemeProvider } from 'styled-components/native';
 import { MockedProvider } from '@apollo/client/testing';
 import { render, fireEvent } from '@testing-library/react-native';
+import { act } from 'react-test-renderer';
 import { SearchBar } from '../SearchBar';
 import { theme } from '../../../base/usereservappLegacy/theme';
-import { act } from 'react-test-renderer';
 
 describe('SearchBar component', () => {
   const onValueChangeMock = jest.fn();
@@ -22,7 +22,7 @@ describe('SearchBar component', () => {
   });
 
   it('should match with the snapshot', () => {
-    const { toJSON } = render(component)
+    const { toJSON } = render(component);
     expect(toJSON()).toMatchSnapshot();
   });
 
@@ -40,8 +40,7 @@ describe('SearchBar component', () => {
     const textInput = getByPlaceholderText('Search');
     act(() => {
       fireEvent.changeText(textInput, 'test');
-
-    })
+    });
     expect(onValueChangeMock).toHaveBeenCalledWith('test');
   });
   it('calls onClickAutocomplete correctly when an autocomplete item is clicked', () => {

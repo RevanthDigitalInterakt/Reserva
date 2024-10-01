@@ -7,6 +7,12 @@ import {
 import FittingRoomSession from '../components/FittingRoomSession';
 import ButtonDoris from '../components/FittingRoomSession/components/ButtonDoris';
 
+jest.mock('../../../zustand/useBagStore/useBagStore', () => ({
+  useBagStore: () => ({
+    orderformId: '123',
+  }),
+}));
+
 const mockedNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: mockedNavigate }),

@@ -11,13 +11,12 @@ jest.mock('../../base/graphql/generated', () => ({
   ],
 }));
 
-
 describe('CashBackBalance', () => {
   afterAll(() => {
     jest.clearAllMocks();
   });
   it('should return match snapshot', () => {
-    const { toJSON } = render(<CashBackBalance/>);
+    const { toJSON } = render(<CashBackBalance />);
     expect(toJSON()).toMatchSnapshot();
   });
 });

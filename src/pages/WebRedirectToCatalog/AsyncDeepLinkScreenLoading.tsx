@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
-import {  ActivityIndicator, SafeAreaView, View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, View } from 'react-native';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import useAsyncDeepLinkStore from '../../zustand/useAsyncDeepLinkStore/useAsyncDeepLinkStore';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
@@ -31,8 +31,8 @@ function AsyncDeepLinkScreenLoading({ route, navigation }: TWebRedirectToCatalog
   return (
     <SafeAreaView style={{ justifyContent: 'space-between', flex: 1, backgroundColor: COLORS.WHITE }}>
       <TopBarBackButton showShadow loading={deepLinkLoading} />
-      <View style={{flex: 1, justifyContent: 'center', alignItems:'center'}}>
-      {deepLinkLoading && <ActivityIndicator size="large" />}
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        {deepLinkLoading && <ActivityIndicator size="large" />}
       </View>
     </SafeAreaView>
   );
