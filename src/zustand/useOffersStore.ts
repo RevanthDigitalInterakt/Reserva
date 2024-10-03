@@ -21,13 +21,13 @@ interface IOffersStore {
   collectionFilters: {
     title: string;
     items: {
-      collectionId?: string | null | undefined;
+      collectionId: string;
       offerImage: string;
       offerName: string;
       fromPriceFilter?: string | null;
       toPriceFilter?: string | null;
-      sizeFilter?: string[] | null | undefined;
-      colorFilter?: string[] | null | undefined;
+      sizeFilter: string;
+      colorFilter?: string;
     }[]
   }
   bannerCarousel: {
