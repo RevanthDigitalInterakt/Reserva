@@ -36,7 +36,9 @@ export default function BagFooter() {
 
   const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
   const showPrimeDiscount = useMemo(() => getBoolean('show_prime_discount'), [getBoolean]);
-  const totalDiscountPrime = useMemo(() => prime?.totalDiscount, [prime]);
+
+  const totalDiscountPrime = useMemo(() => prime?.totalDiscount, [prime?.totalDiscount]);
+  const totalPrime = useMemo(() => prime?.total, [prime?.total]);
 
   if (!items?.length) {
     return null;
@@ -96,9 +98,11 @@ export default function BagFooter() {
           </Box>
         )}
       </Box>
-      {isPrime && showPrimeDiscount && (
+      {showPrimeDiscount && (
         <PrimeDiscount
+          type="BagFooter"
           setNegativeValue
+          totalPrime={totalPrime}
           discountPrime={totalDiscountPrime}
         />
       )}

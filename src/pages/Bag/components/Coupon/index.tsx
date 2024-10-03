@@ -38,7 +38,9 @@ export default function CouponComponent() {
   const [openModal, setOpenModal] = useState(false);
 
   const showPrimeDiscount = useMemo(() => getBoolean('show_prime_discount'), [getBoolean]);
-  const discountPrime = useMemo(() => prime?.total, [prime]);
+
+  const totalPrime = useMemo(() => prime?.total, [prime?.total]);
+  const totalDiscountPrime = useMemo(() => prime?.totalDiscount, [prime?.totalDiscount]);
 
   const handleSetCouponValue = useCallback((key: 'seller' | 'discount', currValue: string) => {
     setCouponsValue((oldValue) => ({
@@ -256,8 +258,12 @@ export default function CouponComponent() {
           num={appTotalizers.total}
         />
       </Box>
-      {!isPrime && showPrimeDiscount && (
-        <PrimeDiscount discountPrime={discountPrime} setOpenModal={setOpenModal} />
+      {showPrimeDiscount && (
+        <PrimeDiscount
+          type="BagCoupon"
+          totalPrime={totalPrime}
+          discountPrime={totalDiscountPrime}
+          setOpenModal={setOpenModal} />
       )}
       {openModal && showPrimeDiscount && (
         <ModalNowIsPrime isVisible={openModal} onBackdropPress={() => setOpenModal(false)} />
