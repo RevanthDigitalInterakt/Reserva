@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
   childrenContainer: {
     backgroundColor: COLORS.WHITE,
     paddingHorizontal: scale(14),
-    height: 300,
   },
   containerRow: {
     flexDirection: 'row',

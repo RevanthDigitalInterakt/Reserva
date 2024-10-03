@@ -19,13 +19,20 @@ import {
 import { getApolloClient } from '../utils/getApolloClient';
 import { apolloFetchPolicyStore } from './useApolloFetchPolicyStore';
 
-interface IHomeStore {
+export interface IHomeStore {
   loading: boolean;
   hasTabBar: boolean;
   carousels: HomeCarouselOutput[];
   offersCarousels: OffersCarouselsOutput[];
   medias: HomeMediaOutput[];
   offersPage?: string;
+  shelfOffers: {
+    shelfProductsBottom: string,
+    shelfProductsTop: string,
+    shelfSubtitleBottom: string,
+    shelfSubtitleTop: string,
+    shelfTitle: string,
+  }
   commercialBannerCollection?: ConfigCommercialBannerOutput[],
   onLoad: () => Promise<void>;
   setHasTabBar: (hasTabBar: boolean) => void;
@@ -38,6 +45,13 @@ const homeStore = create<IHomeStore>((set) => ({
   offersCarousels: [],
   discountBar: undefined,
   offersPage: undefined,
+  shelfOffers: {
+    shelfProductsBottom: '',
+    shelfProductsTop: '',
+    shelfSubtitleBottom: '',
+    shelfSubtitleTop: '',
+    shelfTitle: '',
+  },
   commercialBannerCollection: undefined,
   medias: [],
   setHasTabBar: (hasTabBar) => set(() => ({ hasTabBar })),
@@ -62,6 +76,13 @@ const homeStore = create<IHomeStore>((set) => ({
       loading: true,
       carousels: homeData.homeCarousels,
       offersCarousels: offersData.offersCarousels,
+      shelfOffers: {
+        shelfTitle: offersData.offersCarousels[0]?.shelfTitle || '',
+        shelfProductsBottom: offersData.offersCarousels[0]?.shelfProductsBottom || '',
+        shelfProductsTop: offersData.offersCarousels[0]?.shelfProductsTop || '',
+        shelfSubtitleBottom: offersData.offersCarousels[0]?.shelfSubtitleBottom || '',
+        shelfSubtitleTop: offersData.offersCarousels[0]?.shelfSubtitleTop || '',
+      },
     }));
 
     try {
@@ -90,7 +111,7 @@ const homeStore = create<IHomeStore>((set) => ({
         commercialBannerCollection: config.data.homeConfig?.commercialBannerCollection || undefined,
         loading: false,
         carousels: data.homeCarousels,
-      }));
+      } as IHomeStore));
     } catch {
       set(() => ({
         loading: false,

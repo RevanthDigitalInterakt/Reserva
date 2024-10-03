@@ -10,13 +10,34 @@ import type { RootStackParamList } from '../../routes/StackNavigator';
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
 
 function OffersPage({ navigation, route }: Props) {
+import { ShelfOffers } from './Components/ShelfOffers';
+import { useShelfOffersStore } from '../../zustand/useShelfOffersStore/useShelfOffersStore';
+import { SkeletonWrapper } from './Components/Skeleton';
+import { useHomeStore } from '../../zustand/useHomeStore';
+import styles from './styles';
+
+function OffersPage() {
+  const { loading: loadingHome } = useHomeStore(['loading']);
+  const { loading: loadingOffers } = useShelfOffersStore(['loading']);
+
+  const {
+    skeletonBannerOffers,
+    skeletonBannerCategoryOffers,
+    skeletonShelfOffers,
+  } = SkeletonWrapper();
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.mainContainer}>
       <TopBarDefault showShadow />
-      <SafeAreaView>
+      <SafeAreaView style={styles.containerSafeArea}>
         <ScrollView>
           <OffersCarousels />
           <CategoryComponent />
+          {loadingHome ? skeletonBannerOffers({ loading: true }) : <OffersCarousels />}
+
+          {loadingHome ? skeletonBannerCategoryOffers({ loading: true }) : <CategoryComponent />}
+
+          {loadingOffers ? skeletonShelfOffers({ loading: true }) : <ShelfOffers />}
+
           <NewProductCatalog
             navigation={navigation}
             route={route}

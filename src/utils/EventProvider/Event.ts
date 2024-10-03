@@ -622,4 +622,7 @@ export type EventOptionsFn =
   } | {
     type: 'pdp_open_product_with_ref_fvc',
     payload: {},
+  } | {
+    type: 'shelf_offers_button_see_more',
+    payload: {},
   };
