@@ -6,6 +6,8 @@
 
 - [41937 - Nova PDC para kit look no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41937)
 
+---
+
 ### 2.25.1
 
 - [54540 - Ajuste campo af_content para captura de dados do Meta](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54540)

@@ -15,10 +15,10 @@ query search($input: SearchProductInput!) {
       size
       colorName
       image
-      action
       listPrice
       currentPrice
       hasDiscount
+      isKitLook
       discountPercentage
       prime {
         price

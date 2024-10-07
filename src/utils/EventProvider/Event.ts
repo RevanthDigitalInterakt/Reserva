@@ -230,6 +230,7 @@ export namespace EventsOptions {
   export type MobileJailbroken = Pick<EventValues, 'platform' | 'model' | 'ip'>;
   export type DeviceInfoTrack = Pick<EventValues, 'locationEnabled'>;
   export type OffersCategoryBanner = Pick<EventValues, 'category' | 'banner_position'>;
+  export type KitLookPDC = Pick<EventValues, 'item_id' | 'item_name'>;
 }
 
 export type EventOptionsFn =
@@ -622,4 +623,7 @@ export type EventOptionsFn =
   } | {
     type: 'pdp_open_product_with_ref_fvc',
     payload: {},
+  } | {
+    type: 'pdc_click_kit_look_item',
+    payload: EventsOptions.KitLookPDC,
   };

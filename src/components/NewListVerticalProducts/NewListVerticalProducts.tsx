@@ -65,41 +65,25 @@ function NewListVerticalProducts({
     [getBoolean, primeActive],
   );
 
-  const onClickCart = useCallback((item: ProductListOutput) => {
+  const showPdcKitLook = useMemo(
+    () => getBoolean('show_pdc_kit_look'),
+    [getBoolean],
+  );
+
+  const onClickProduct = useCallback((item: ProductListOutput, isKitLook?: boolean) => {
     const itemPosition = data.indexOf(item);
 
-    EventProvider.logEvent('page_view', {
-      item_brand: defaultBrand.picapau,
-    });
-
-    EventProvider.logEvent('select_item', {
-      item_list_id: item.productId,
-      item_list_name: item.productName,
-      item_brand: item.brand,
-    });
-
-    if (cacheGoingBackRequest) {
-      cacheGoingBackRequest();
+    if (isKitLook) {
+      EventProvider.logEvent('pdc_click_kit_look_item', {
+        item_id: item.productId,
+        item_name: item.productName,
+      });
     }
 
-    navigation.navigate('ProductDetail', { skuId: item.skuId });
-    onTrack({
-      typeEvent: TrackEventTypeEnum.Click,
-      nameEvent: queryID
-        ? TrackEventNameEnum.ClickedItemsSearch
-        : TrackEventNameEnum.ClickedItems,
-      sku: [item.ean],
-      queryID,
-      positions: [itemPosition],
-    });
-  }, []);
-
-  const onClickImage = useCallback((item: ProductListOutput) => {
-    const itemPosition = data.indexOf(item);
-
     EventProvider.logEvent('page_view', {
       item_brand: defaultBrand.picapau,
     });
+
     EventProvider.logEvent('select_item', {
       item_list_id: item.productId,
       item_list_name: item.productName,
@@ -122,12 +106,10 @@ function NewListVerticalProducts({
     });
   }, []);
 
-  const showKit = data.map((item) => item.action === 'ShowKit');
-
   const onRenderItem = useCallback(
-    (item: ProductListOutput) => (
+    (item: ProductListOutput, isKitLook: ProductListOutput['isKitLook']) => (
       <>
-        {!showKit && (
+        {!isKitLook && (
           <Box
             flex={1}
             alignItems="center"
@@ -136,7 +118,7 @@ function NewListVerticalProducts({
             height={showThumbColors ? 375 : 353}
           >
             <TouchableOpacity
-              onPress={() => onClickCart(item)}
+              onPress={() => onClickProduct(item)}
             >
               <ProductVerticalListCard
                 prime={
@@ -160,7 +142,7 @@ function NewListVerticalProducts({
                 installmentsNumber={item.installment.number}
                 installmentsPrice={item.installment.value}
                 loadingFavorite={loadingSkuId === item.skuId}
-                onClickImage={() => onClickImage(item)}
+                onClickImage={() => onClickProduct(item)}
                 colors={showThumbColors ? item.colors || [] : []}
                 isFavorited={checkIsFavorite(item.skuId)}
                 onClickFavorite={() => {
@@ -186,17 +168,17 @@ function NewListVerticalProducts({
           </Box>
         )}
 
-        {showKit && (
+        {isKitLook && showPdcKitLook && (
           <View
             style={styles.mainContainer}
           >
             <TouchableOpacity
-              onPress={() => onClickCart(item)}
+              onPress={() => onClickProduct(item, isKitLook)}
             >
               <ProductKitLookVerticalListCard
                 productTitle={item.productName}
                 imageSource={item.image}
-                onClickImage={() => onClickImage(item)}
+                onClickImage={() => onClickProduct(item, isKitLook)}
                 testID={`com.usereserva:id/productcard_vertical_${item.skuId}`}
               />
             </TouchableOpacity>
@@ -259,7 +241,7 @@ function NewListVerticalProducts({
       }}
       ListFooterComponent={Footer}
       onEndReachedThreshold={0.5}
-      renderItem={({ item }) => onRenderItem(item)}
+      renderItem={({ item }) => onRenderItem(item, item.isKitLook)}
     />
   );
 }

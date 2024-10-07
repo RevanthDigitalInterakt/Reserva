@@ -174,10 +174,6 @@ export type CheckDeliveryTimeByProductInput = {
   seller: Scalars['String']['input'];
 };
 
-export type CheckEmailInput = {
-  email: Scalars['String']['input'];
-};
-
 export enum ClockScreenEnum {
   All = 'ALL',
   Category = 'CATEGORY',
@@ -873,6 +869,11 @@ export type OffersCarouselsOutput = {
   __typename?: 'OffersCarouselsOutput';
   categoryCards?: Maybe<CategoryCardsOutput>;
   items: Array<HomeCarouselItemOutput>;
+  shelfProductsBottom?: Maybe<Scalars['String']['output']>;
+  shelfProductsTop?: Maybe<Scalars['String']['output']>;
+  shelfSubtitleBottom?: Maybe<Scalars['String']['output']>;
+  shelfSubtitleTop?: Maybe<Scalars['String']['output']>;
+  shelfTitle?: Maybe<Scalars['String']['output']>;
   showtime?: Maybe<Scalars['Int']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   type: HomePageSectionTypeEnum;
@@ -1566,7 +1567,6 @@ export type ProductKitOutput = {
 
 export type ProductListOutput = {
   __typename?: 'ProductListOutput';
-  action?: Maybe<ProductResultActionEnum>;
   brand: Scalars['String']['output'];
   category?: Maybe<Scalars['String']['output']>;
   colorName?: Maybe<Scalars['String']['output']>;
@@ -1580,6 +1580,7 @@ export type ProductListOutput = {
   images?: Maybe<Array<Scalars['String']['output']>>;
   installment: ProductPriceInstallmentOutput;
   installmentEqualPrime?: Maybe<ProductSizeInstallmentOutput>;
+  isKitLook?: Maybe<Scalars['Boolean']['output']>;
   listPrice: Scalars['Float']['output'];
   objectId?: Maybe<Scalars['String']['output']>;
   prime?: Maybe<ProductListPrimeOutput>;
@@ -1781,7 +1782,6 @@ export type Query = {
   bannerCategory: Array<BannerCategoryOutput>;
   cashback: CashbackOutput;
   cep?: Maybe<CepOutput>;
-  checkIfUserExists: Scalars['Boolean']['output'];
   /** @deprecated Use new query `search` */
   checkSearchRedirect?: Maybe<Scalars['String']['output']>;
   config?: Maybe<ConfigOutput>;
@@ -1842,11 +1842,6 @@ export type QueryBannerCategoryArgs = {
 
 export type QueryCepArgs = {
   input: CepInput;
-};
-
-
-export type QueryCheckIfUserExistsArgs = {
-  input: CheckEmailInput;
 };
 
 
@@ -2992,7 +2987,7 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'SearchOutput', queryID?: string | null, identifier?: string | null, count: number, items: Array<{ __typename?: 'ProductListOutput', productId: string, skuId: string, ean: string, skuName: string, productName: string, colors?: Array<string> | null, brand: string, category?: string | null, size?: string | null, colorName?: string | null, image: string, action?: ProductResultActionEnum | null, listPrice: number, currentPrice: number, hasDiscount: boolean, discountPercentage: number, prime?: { __typename?: 'ProductListPrimeOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number }, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } };
+export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'SearchOutput', queryID?: string | null, identifier?: string | null, count: number, items: Array<{ __typename?: 'ProductListOutput', productId: string, skuId: string, ean: string, skuName: string, productName: string, colors?: Array<string> | null, brand: string, category?: string | null, size?: string | null, colorName?: string | null, image: string, listPrice: number, currentPrice: number, hasDiscount: boolean, isKitLook?: boolean | null, discountPercentage: number, prime?: { __typename?: 'ProductListPrimeOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number }, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } };
 
 export type SearchAutocompleteSuggestionsQueryVariables = Exact<{
   q: Scalars['String']['input'];
@@ -6036,10 +6031,10 @@ export const SearchDocument = gql`
       size
       colorName
       image
-      action
       listPrice
       currentPrice
       hasDiscount
+      isKitLook
       discountPercentage
       prime {
         price
