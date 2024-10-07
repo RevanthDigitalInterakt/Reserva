@@ -134,7 +134,7 @@ export const eventsName: EventNameOptions = {
 
 export const eventsValue: EventValueOptions = {
   item_id: 'af_content_id',
-  item_name: 'af_content',
+  item_name: 'af_content_name',
   item_price: 'af_price',
   item_quantity: 'af_quantity',
   quantity: 'af_quantity',
