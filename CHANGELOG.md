@@ -2,6 +2,12 @@
 
 ## CHANGELOG
 
+### 2.25.2
+
+- [54973 - Erro parâmetro srsltid no Google](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54973)
+
+---
+
 ### 2.25.1
 
 - [54540 - Ajuste campo af_content para captura de dados do Meta](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54540)
