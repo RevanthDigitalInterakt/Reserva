@@ -30,8 +30,8 @@ export interface ICustomMethodReturnParams {
 }
 
 export const REGEX_PRODUCT_URL = {
-  IS_PRODUCT_URL: /(?:\b\/p\b.?)/gm,
-  REMOVE_INVALID_WORDS: /\b\/p\b/gi,
+  IS_PRODUCT_URL: /\/p\b/gm,
+  REMOVE_INVALID_WORDS: /\/p\b/gi,
   IS_META_PRODUCT_URL: /product\?slug/gm,
 } as const;
 
@@ -43,7 +43,14 @@ export const defaultInitialUrl = 'usereserva://home-tabs';
 
 export const webCatalogUrl = 'https://www.usereserva.com/catalog/';
 
-export const productUrl = 'usereserva://product?';
+export const productUrlWithSlug = 'usereserva://product?slug=';
+
+export const productUrlWithSkuId = 'usereserva://product?skuId=';
+
+export const productUrlWithIdSku = 'usereserva://product?idsku=';
+
+export const productUrlWithProductId = 'usereserva://product?productId=';
+
 
 export const metaProductUrl = 'usereserva://product?slug=';
 
@@ -157,19 +164,40 @@ const urlProductCase = (initialUrl: string): ICustomMethodReturnParams => {
   if (regex.test(initialUrl.toLowerCase())) {
     const url = new URL(initialUrl);
 
-    if (!url.search.length) {
-      url.searchParams.append(
-        'slug',
-        url.pathname
-          .replace(REGEX_PRODUCT_URL.REMOVE_INVALID_WORDS, '')
-          .replace('/', ''),
-      );
+    const productId = url.searchParams.get('productId');
+    if (productId) {
+      return {
+        match: true,
+        strUrl: `${productUrlWithProductId}${productId}`,
+      };
     }
 
-    return {
-      match: true,
-      strUrl: `${productUrl}${url.search.replace('?', '')}`,
-    };
+    const skuId = url.searchParams.get('skuId') || url.searchParams.get('skuid')
+    if (skuId) {
+      return {
+        match: true,
+        strUrl: `${productUrlWithSkuId}${skuId}`,
+      };
+    }
+
+    const idSku = url.searchParams.get('idsku')
+    if (idSku) {
+      return {
+        match: true,
+        strUrl: `${productUrlWithIdSku}${idSku}`,
+      };
+    }
+
+    const slug = url.pathname
+      .replace(REGEX_PRODUCT_URL.REMOVE_INVALID_WORDS, '')
+      .replace(/^\//, '');
+
+    if (slug) {
+      return {
+        match: true,
+        strUrl: `${productUrlWithSlug}${slug}`,
+      };
+    }
   }
 
   return defaultCustomMethodReturn;
@@ -353,14 +381,14 @@ const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
 
       try {
         const { data } = await getApolloClient().mutate<
-        OrderFormAddMultipleItemMutation,
-        OrderFormAddMultipleItemMutationVariables>({
-          mutation: OrderFormAddMultipleItemDocument,
-          context: { clientName: 'gateway' },
-          variables: {
-            input,
-          },
-        });
+          OrderFormAddMultipleItemMutation,
+          OrderFormAddMultipleItemMutationVariables>({
+            mutation: OrderFormAddMultipleItemDocument,
+            context: { clientName: 'gateway' },
+            variables: {
+              input,
+            },
+          });
 
         const { orderFormAddMultipleItem: orderForm } = data || {};
 
