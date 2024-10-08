@@ -124,8 +124,6 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
     set(() => ({ parameters: newParameters }));
   },
   onSearch: async (parameters, filters) => {
-    console.log('parameters', parameters);
-    console.log('filters', filters);
     try {
       const client = getApolloClient();
 
