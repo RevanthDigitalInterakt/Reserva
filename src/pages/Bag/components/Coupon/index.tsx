@@ -13,7 +13,7 @@ import { Typography } from '../../../../components/Typography/Typography';
 import { TextField } from '../../../../components/TextField/TextField';
 import { Button } from '../../../../components/Button';
 import { PriceCustom } from '../../../../modules/Checkout/components/PriceCustom';
-import PrimeDiscount from '../../../../components/PrimeDiscount/PrimeDiscount';
+import PrimeDiscount, { PrimeDiscountType } from '../../../../components/PrimeDiscount/PrimeDiscount';
 import { ModalNowIsPrime } from '../../../../components/ModalNowIsPrime/ModalNowIsPrime';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
@@ -260,10 +260,11 @@ export default function CouponComponent() {
       </Box>
       {showPrimeDiscount && (
         <PrimeDiscount
-          type="BagCoupon"
+          type={PrimeDiscountType.BagCoupon}
           totalPrime={totalPrime}
           discountPrime={totalDiscountPrime}
-          setOpenModal={setOpenModal} />
+          setOpenModal={setOpenModal}
+        />
       )}
       {openModal && showPrimeDiscount && (
         <ModalNowIsPrime isVisible={openModal} onBackdropPress={() => setOpenModal(false)} />

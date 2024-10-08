@@ -2,9 +2,17 @@
 
 ## CHANGELOG
 
+### 2.26.0
+
+- [45936 - Preço do desconto do prime no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45936)
+
+---
+
 ### 2.25.0
 
 - [54036 - Erro deeplink produto não encontrado](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54036)
+
+---
 
 ### 2.23.1
 

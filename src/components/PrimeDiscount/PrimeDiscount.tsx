@@ -11,8 +11,13 @@ import { Divider } from '../Divider/Divider';
 import { useLandingPagePrimeQuery } from '../../base/graphql/generated';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 
+export enum PrimeDiscountType {
+  BagCoupon = 'BagCoupon',
+  BagFooter = 'BagFooter',
+}
+
 interface PrimeDiscountProps {
-  type: "BagCoupon" | "BagFooter";
+  type: PrimeDiscountType;
   totalPrime: number | null | undefined;
   discountPrime: number | undefined;
   setOpenModal?: (value: boolean) => void;
@@ -42,13 +47,13 @@ export default function PrimeDiscount({
 
   const data = useMemo(() => rawData?.landingPagePrime, [rawData?.landingPagePrime]);
 
-  const isAdvantage = useMemo(() => !!discountPrime && discountPrime > 0, [discountPrime])
+  const isAdvantage = useMemo(() => !!discountPrime && discountPrime > 0, [discountPrime]);
 
   const hasRenderBagCupon = !isPrime && isAdvantage;
 
-  const hasRenderBagFooter = isPrime && isAdvantage
+  const hasRenderBagFooter = isPrime && isAdvantage;
 
-  //Quando usuário não é prime, e o carrinho dele tem vangatens de desconto com prime.
+  // Quando usuário não é prime, e o carrinho dele tem vangatens de desconto com prime.
   if (hasRenderBagCupon && type === 'BagCoupon') {
     return (
       <>
@@ -89,7 +94,7 @@ export default function PrimeDiscount({
           descontos e frete grátis em todos os seus pedidos!*
         </Text>
       </>
-    )
+    );
   }
 
   if (hasRenderBagFooter && type === 'BagFooter') {
@@ -117,6 +122,5 @@ export default function PrimeDiscount({
     );
   }
 
-  return null
-
+  return null;
 }

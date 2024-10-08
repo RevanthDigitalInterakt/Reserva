@@ -9,7 +9,7 @@ import { Box } from '../../../../components/Box/Box';
 import { Typography } from '../../../../components/Typography/Typography';
 import { Button } from '../../../../components/Button';
 import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
-import PrimeDiscount from '../../../../components/PrimeDiscount/PrimeDiscount';
+import PrimeDiscount, { PrimeDiscountType } from '../../../../components/PrimeDiscount/PrimeDiscount';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
@@ -100,7 +100,7 @@ export default function BagFooter() {
       </Box>
       {showPrimeDiscount && (
         <PrimeDiscount
-          type="BagFooter"
+          type={PrimeDiscountType.BagFooter}
           setNegativeValue
           totalPrime={totalPrime}
           discountPrime={totalDiscountPrime}
