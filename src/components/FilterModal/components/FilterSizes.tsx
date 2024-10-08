@@ -11,6 +11,8 @@ interface IFilterSizes {
 }
 
 function FilterSizes({ data, selectedItems, onUpdate }: IFilterSizes) {
+  console.log('data', data);
+  console.log('selectedItems', selectedItems);
   const [showSection, setShowSection] = useState(false);
 
   const sizes = useMemo(() => (

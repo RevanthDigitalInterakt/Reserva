@@ -81,7 +81,7 @@ function FilterModal({ onClose, visible, defaultFacets }: IFilterModal) {
 
       const categories = facets.categories.filter((item) => selectedCategories.has(item.value));
       const colors = facets.colors.filter((item) => selectedColors.has(item.hex));
-      const sizes = facets.sizes.filter((item) => selectedSizes.has(item.value));
+      const sizes = facets.sizes.filter((item) => selectedSizes.has(item.value.toUpperCase()));
       const priceRange = selectedPriceRange
         ? { from: selectedPriceRange?.from, to: selectedPriceRange.to }
         : undefined;
