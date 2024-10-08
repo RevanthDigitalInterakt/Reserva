@@ -18,8 +18,9 @@ import EventProvider from '../../../utils/EventProvider';
 export interface RegisterEmailProps
   extends StackScreenProps<RootStackParamList, 'RegisterEmail'> { }
 
-export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
+export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation, route }) => {
   const [email, setEmail] = useState('');
+  const { comeFrom } = route.params || {};
   const [showRecoveryPassword, setShowRecoveryPassword] = useState(false);
   const [inputError, setInputError] = useState('');
 
@@ -52,7 +53,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation }) => {
       if (data?.signUpVerificationCode?.cookies) {
         navigation.navigate(
           'ConfirmAccessCode',
-          { email, cookies: data?.signUpVerificationCode?.cookies },
+          { email, cookies: data?.signUpVerificationCode?.cookies, comeFrom },
         );
       }
     } catch (err) {
