@@ -1,9 +1,10 @@
-# App Reserva
+# APP RESERVA
 
 ## CHANGELOG
 
-### 2.26.0
+### 2.25.1
 
+- [54540 - Ajuste campo af_content para captura de dados do Meta](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54540)
 - [45936 - Preço do desconto do prime no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45936)
 
 ---
