@@ -34,6 +34,7 @@ import { Typography } from '../../../components/Typography/Typography';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { Method } from '../../../utils/EventProvider/Event';
 import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
+import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 
 export interface PasswordCheckProps {
   text: string;
@@ -71,6 +72,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   } = useBagStore(['orderFormId']);
   const [isLoading, setIsLoading] = useState(false);
   const { email, cookies, comeFrom } = route.params;
+  const { getBoolean } = useRemoteConfig();
   const [showError, setShowError] = useState(false);
   const [code, setCode] = useState('');
   const [cpf, setCpf] = useState('');
@@ -131,7 +133,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   });
 
   const goToWebviewCheckout = useCallback(() => navigation.navigate('Checkout', {
-    url: `${Config.URL_VTEX_QA}/checkout?orderFormId=${orderFormId}/&test=2&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
+    url: `${Config.URL_VTEX_QA}/checkout?orderFormId=${orderFormId}/&test=2&document=${removeNonNumbers(cpf)}&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
   }), [orderFormId]);
 
   const { handleDitoRegister } = useInitialDito();
@@ -173,7 +175,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         // TODO rebase PR Feature/SRN-202 dito send accessed category
         handleDitoRegister();
         setModalSignUpComplete(true);
-        if (comeFrom === 'BagScreen') {
+        if (comeFrom === 'BagScreen' && getBoolean('should_redirect_to_checkout')) {
           goToWebviewCheckout();
           return;
         }
