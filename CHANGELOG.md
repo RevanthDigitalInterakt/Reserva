@@ -2,6 +2,9 @@
 
 ## CHANGELOG
 
+### 2.25.2
+- [53320 - Usuário não consegue selecionar alguns tamanhos nos filtros](https://dev.azure.com/ARECO/AReCO/_workitems/edit/53320)
+
 ### 2.25.1
 
 - [54540 - Ajuste campo af_content para captura de dados do Meta](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54540)
