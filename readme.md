@@ -218,4 +218,4 @@ Agora seu aplicativo está disponível na App Store! Lembre-se de monitorar o fe
 
 ![Screenshot](https://play-lh.googleusercontent.com/Ma1OmGcoMBAjTuV6FHcM5TZ4tK3bfdvjD_ICJs5zM5YDwu8ROiKd--FhXvTljbi6HQ=w1280-h976-rw)
 
-- **Reserva** - [usereserva.com](usereserva.com)
+* **Reserva** - [usereserva.com](usereserva.com)
