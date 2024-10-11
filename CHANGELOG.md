@@ -2,6 +2,12 @@
 
 ## CHANGELOG
 
+### 2.25.2
+
+- [52951 - Integração da plataforma de disparo de envio de push](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52951)
+
+---
+
 ### 2.25.1
 
 - [54540 - Ajuste campo af_content para captura de dados do Meta](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54540)
