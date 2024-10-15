@@ -79,6 +79,19 @@ export function HomeTabs() {
             }}
             options={{ headerShown: false }}
           />
+          <Tab.Screen
+            name="NewOffersPage"
+            component={OffersPage}
+            listeners={{
+              tabPress: () => {
+                EventProvider.logScreenViewEvent('/new-offers-page');
+                EventProvider.logEvent('new_offers_page_click', {});
+              },
+            }}
+            options={{
+              headerShown: false,
+            }}
+          />
           {showRoulet ? (
             <Tab.Screen
               name="Roulet"
