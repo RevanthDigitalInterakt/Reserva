@@ -186,6 +186,17 @@ const colectionUseCase = (initialUrl: string): ICustomMethodReturnParams => {
   return defaultCustomMethodReturn;
 };
 
+const newOffersPageUseCase = (initialUrl: string): ICustomMethodReturnParams => {
+  if (initialUrl.endsWith('/colecao-ofertas')) {
+    return {
+      match: true,
+      strUrl: `${baseTabUrl}/colecao-ofertas`,
+    };
+  }
+
+  return defaultCustomMethodReturn;
+};
+
 // const clusterCollectionUseCase = async (initialUrl: string):
 //  Promise<ICustomMethodReturnParams> => {
 //   const splitPath = initialUrl.split('//')[1];
@@ -506,6 +517,7 @@ const webViewFacaVcUseCase = async (initialUrl: string): Promise<ICustomMethodRe
 };
 
 const registerMethods = [
+  newOffersPageUseCase,
   urlLandingPagePrime,
   newsLetterUseCase,
   urlSiteCase,
