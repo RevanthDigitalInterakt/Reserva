@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
-import { Platform, View, Alert } from 'react-native';
+import { Platform, View } from 'react-native';
 import deviceInfo from 'react-native-device-info';
 import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import { TopBarBackButton } from '../../modules/Menu/components/TopBarBackButton';
@@ -52,7 +52,6 @@ export default function WebViewDoris() {
       }
 
       case 'error': {
-        Alert.alert('Erro na Doris');
         return null;
       }
 
