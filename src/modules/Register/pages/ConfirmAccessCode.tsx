@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Config from 'react-native-config';
 import images from '../../../base/styles/icons';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
@@ -32,6 +33,8 @@ import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../components/Typography/Typography';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { Method } from '../../../utils/EventProvider/Event';
+import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
+import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 
 export interface PasswordCheckProps {
   text: string;
@@ -64,8 +67,12 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     setModalSignUpComplete,
     showModalCheckConnection,
   } = useAuthModalStore(['setModalSignUpComplete', 'showModalCheckConnection']);
+  const {
+    orderFormId,
+  } = useBagStore(['orderFormId']);
   const [isLoading, setIsLoading] = useState(false);
-  const { email, cookies } = route.params;
+  const { email, cookies, comeFrom } = route.params;
+  const { getBoolean } = useRemoteConfig();
   const [showError, setShowError] = useState(false);
   const [code, setCode] = useState('');
   const [cpf, setCpf] = useState('');
@@ -125,6 +132,10 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
 
+  const goToWebviewCheckout = useCallback(() => navigation.navigate('Checkout', {
+    url: `${Config.URL_VTEX_QA}/checkout?orderFormId=${orderFormId}/&test=2&document=${removeNonNumbers(cpf)}&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
+  }), [orderFormId]);
+
   const { handleDitoRegister } = useInitialDito();
 
   const handleSignUp = useCallback(async () => {
@@ -164,6 +175,10 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         // TODO rebase PR Feature/SRN-202 dito send accessed category
         handleDitoRegister();
         setModalSignUpComplete(true);
+        if (comeFrom === 'BagScreen' && getBoolean('should_redirect_to_checkout')) {
+          goToWebviewCheckout();
+          return;
+        }
         navigation.navigate('Home');
       }
     } catch (e) {
@@ -188,6 +203,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     setModalSignUpComplete,
     signUp,
     trackEventSignUpDito,
+    comeFrom,
   ]);
 
   useEffect(() => {
