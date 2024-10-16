@@ -1,5 +1,6 @@
 import { DdRum, DdSdkReactNative } from '@datadog/mobile-react-native';
 import { navigationRef } from '../../utils/navigationRef';
+import Sentry from '../../config/sentryConfig';
 
 export interface IUser {
   id: string;
@@ -19,9 +20,31 @@ export class ExceptionProvider {
     breadcrumbs?: { [key: string]: unknown },
   ) {
     if (!params) {
-      // TODO datadog
-
+      Sentry.captureException(error);
+      return;
     }
+
+    Sentry.withScope((scope) => {
+      Object.keys(params).forEach((key) => {
+        scope.setExtra(key, params[key]);
+      });
+
+      if (tags && Object.keys(tags).length) {
+        Object.keys(tags).forEach((key) => {
+          // @ts-ignore
+          scope.setTag(key, tags[key]);
+        });
+      }
+
+      if (breadcrumbs && Object.keys(breadcrumbs).length) {
+        Object.keys(breadcrumbs).forEach((key) => {
+          // @ts-ignore
+          scope.addBreadcrumb(key, breadcrumbs[key]);
+        });
+      }
+
+      Sentry.captureException(error);
+    });
   }
 
   static trackScreen() {
@@ -40,7 +63,7 @@ export class ExceptionProvider {
       this.oldRouteName = screenName;
       this.oldRouteParams = params;
 
-      // TODO datadog
+      Sentry.addBreadcrumb({ message: screenName, category: 'navigation', data: params });
 
       DdRum.startView(
         screenName,
@@ -60,11 +83,13 @@ export class ExceptionProvider {
       email: user.email,
     });
 
-    // TODO datadog
+    Sentry.configureScope((scope) => {
+      scope.setUser({ email: user.email });
+    });
   }
 
   static unsetUser() {
     DdSdkReactNative.setUser({});
-    // TODO datadog
+    Sentry.setUser(null);
   }
 }
