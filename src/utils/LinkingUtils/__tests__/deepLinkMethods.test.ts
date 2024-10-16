@@ -2,8 +2,11 @@ import { deepLinkHelper } from '../deepLinkHelper';
 import {
   baseTabUrl,
   defaultInitialUrl,
-  productUrl,
   metaProductUrl,
+  productUrlWithIdSku,
+  productUrlWithProductId,
+  productUrlWithSkuId,
+  productUrlWithSlug,
 } from '../static/deepLinkMethods';
 import { EXPECTED_RESULT, INPUTS_LINKS } from '../../../../__mocks__/webViewLinks';
 import { removeProtocol } from '../../removeProtocol';
@@ -150,36 +153,38 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
   describe('test urlProductCase ', () => {
     describe('when Query Params', () => {
       test('should return productUrl, query params skuId', async () => {
-        const expectedQueryParams = 'skuId=340005';
-        const expectedResult = `${productUrl}${expectedQueryParams}`;
-        const expectedResultWithGclid = `usereserva://product?idsku=${expectedQueryParams}&gclid=${gclidMock}`;
+        const id = '340005';
+        const expectedResult1 = `${productUrlWithSkuId}${id}`;
+        const expectedResult2 = `${productUrlWithIdSku}${id}`;
 
         const result = await deepLinkHelper(
-          `${URL_HOME}/mochila-bold-331-0056263/p?${expectedQueryParams}`,
+          `${URL_HOME}/mochila-bold-331-0056263/p?skuId=340005`,
         );
 
         const result2 = await deepLinkHelper(
-          `${URL_HOME}/tenis-rsv-yankee0078812/p?idsku=${expectedQueryParams}&gclid=${gclidMock}`,
+          `${URL_HOME}/tenis-rsv-yankee0078812/p?idsku=340005`,
         );
 
-        expect(result).toEqual(expectedResult);
-        expect(result2).toEqual(expectedResultWithGclid);
+        expect(result).toEqual(expectedResult1);
+        expect(result2).toEqual(expectedResult2);
       });
 
       test('should return productUrl, query params skuid lowercase ', async () => {
+        const expected = `${productUrlWithSkuId}3232`
+
         const result = await deepLinkHelper(
           `${URL_HOME}/mochila-bold-331-0056263/p?skuid=3232`,
         );
 
-        expect(result).toEqual(`${productUrl}skuid=3232`);
+        expect(result).toEqual(expected);
       });
 
       test('should return productUrl, query params productId', async () => {
-        const expectedQueryParams = 'productId=340005';
-        const expectedResult = `${productUrl}${expectedQueryParams}`;
+        const expectedQueryParams = '340005';
+        const expectedResult = `${productUrlWithProductId}${expectedQueryParams}`;
 
         const result = await deepLinkHelper(
-          `${URL_HOME}/mochila-bold-331-0056263/p?${expectedQueryParams}`,
+          `${URL_HOME}/mochila-bold-331-0056263/p?productId=340005`,
         );
 
         expect(result).toEqual(expectedResult);
@@ -189,11 +194,35 @@ describe('utils | LinkingUtils | executeDeepLinkcase', () => {
         test('should return productUrl, without query params and slug param', async () => {
           const productSlug = 'mochila-bold-331-0056263';
 
-          const expectedResult = `${productUrl}slug=${productSlug}`;
+          const expectedResult = `${productUrlWithSlug}${productSlug}`;
 
           const result = await deepLinkHelper(
             `${URL_HOME}/${productSlug}/p`,
           );
+
+          expect(result).toEqual(expectedResult);
+        });
+
+        test('should return productUrl, query params srsltid', async () => {
+          const productSlug = 'tenis-rsv-r-broox-l-e-0088509';
+
+          const expectedResult = `${productUrlWithSlug}${productSlug}`;
+
+          const input = `${URL_HOME}/tenis-rsv-r-broox-l-e-0088509/p?srsltid=token`
+
+          const result = await deepLinkHelper(input);
+
+          expect(result).toEqual(expectedResult);
+        });
+
+        test('should return productUrl, query params changes', async () => {
+          const productSlug = 'tenis-rsv-r-broox-l-e-0088509';
+
+          const expectedResult = `${productUrlWithSlug}${productSlug}`;
+
+          const input = `${URL_HOME}/tenis-rsv-r-broox-l-e-0088509/p?gad_source=token&gbraid=123456`
+
+          const result = await deepLinkHelper(input);
 
           expect(result).toEqual(expectedResult);
         });
