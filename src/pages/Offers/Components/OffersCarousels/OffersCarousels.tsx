@@ -42,7 +42,7 @@ export function OffersCarousels() {
       {offersCarousels.map((carousel) => (
         <View
           {...testProps('carousels_cards')}
-          key={`item-${carousel.type}-${carousel.showtime}-${carousel.items.length}`}
+          key={`offers-item-${carousel.type}-${carousel.showtime}-${carousel.items.length}`}
         >
           {renderCarousel(carousel)}
         </View>

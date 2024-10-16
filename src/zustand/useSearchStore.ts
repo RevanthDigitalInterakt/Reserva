@@ -68,7 +68,7 @@ interface ISearchStoreFilters {
   price?: { from: number; to: number }
 }
 
-interface ISearchStore {
+export interface ISearchStore {
   initialized: boolean,
   loading: boolean;
   searchType: SearchType;
@@ -232,7 +232,7 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
           parameters: { ...state.parameters, page: 0 },
         } as ISearchStore));
 
-        useSearchStore().doFetchMore();
+        state.doFetchMore();
       }
 
       set(() => ({

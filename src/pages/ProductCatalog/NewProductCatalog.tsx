@@ -20,11 +20,16 @@ import EventProvider from '../../utils/EventProvider';
 import ProductCatalogHeader from './components/ProductCatalogHeader/ProductCatalogHeader';
 import { scale } from '../../utils/scale';
 
-type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'>;
+type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'> & {
+  showTabBar?: boolean;
+  showWhatsappButton?: boolean;
+};
 
 const defaultReference = 'collection:2407';
 
-function NewProductCatalog({ navigation, route }: Props) {
+function NewProductCatalog({
+  navigation, route, showTabBar = true, showWhatsappButton = true,
+}: Props) {
   const {
     doFetchMore,
     loading,
@@ -113,6 +118,7 @@ function NewProductCatalog({ navigation, route }: Props) {
       <SafeAreaView>
         <ProductCatalogHeader
           defaultFacets={defaultFacets}
+          showWhatsappButton={showWhatsappButton}
         />
         <NewListVerticalProducts
           data={result}
@@ -154,10 +160,12 @@ function NewProductCatalog({ navigation, route }: Props) {
 
   return (
     <Box flex={1} backgroundColor="white" height={800}>
-      <TopBarDefaultBackButton
-        loading={loading}
-        cacheGoingBackRequest={() => setIsGoingBack(true)}
-      />
+      {showTabBar && (
+        <TopBarDefaultBackButton
+          loading={loading}
+          cacheGoingBackRequest={() => setIsGoingBack(true)}
+        />
+      )}
 
       {renderList}
     </Box>

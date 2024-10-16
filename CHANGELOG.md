@@ -14,6 +14,10 @@
 
 ---
 
+### 2.25.1
+
+- [46646 - Home promocional - Vitrines](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46646)
+
 ### 2.25.0
 
 - [54036 - Erro deeplink produto não encontrado](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54036)
@@ -81,7 +85,7 @@
 
 ### 2.13.0
 
-- [42216 - Ícone faça vc na tab bar do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/42216)
+- [42216 - Ýcone faça vc na tab bar do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/42216)
 
 ---
 
