@@ -35,7 +35,7 @@ export function HomeTabs() {
     [getBoolean, isTester],
   );
 
-  const getOffersPage = useMemo(() => (!showNewOffersPage
+  const getOffersPage = useMemo(() => (showNewOffersPage
     ? OffersPage : NewProductCatalog), [showNewOffersPage]);
 
   return (

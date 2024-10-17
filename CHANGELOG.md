@@ -2,9 +2,14 @@
 
 ## CHANGELOG
 
-### 2.25.2
+### 2.26.0
 
+- [52676 - Ativar código de monitoramento do SENTRY no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52676)
 - [54973 - Erro parâmetro srsltid no Google](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54973)
+- [46643 - Home promocional - Explore mais ofertas](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46643)
+- [46644 - Home promocional - Lista de produto com todas as ofertas](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46644)
+- [46646 - Home promocional - Vitrines](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46646)
+- [52617 - Reduzir jornada de compra novo usuário](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52617)
 - [53320 - Usuário não consegue selecionar alguns tamanhos nos filtros](https://dev.azure.com/ARECO/AReCO/_workitems/edit/53320)
 
 ---
