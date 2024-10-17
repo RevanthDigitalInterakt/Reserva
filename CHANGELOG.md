@@ -11,6 +11,7 @@
 - [46646 - Home promocional - Vitrines](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46646)
 - [52617 - Reduzir jornada de compra novo usuário](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52617)
 - [53320 - Usuário não consegue selecionar alguns tamanhos nos filtros](https://dev.azure.com/ARECO/AReCO/_workitems/edit/53320)
+- [55628 - Error build APP Sentry](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55628)
 
 ---
 
