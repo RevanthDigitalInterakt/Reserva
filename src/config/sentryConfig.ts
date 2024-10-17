@@ -18,4 +18,4 @@ Sentry.init({
   // enableSpotlight: __DEV__,
 });
 
-export default Sentry
+export default Sentry;

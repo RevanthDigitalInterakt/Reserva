@@ -9,7 +9,6 @@ import { Platform } from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
 import DeviceInfo from 'react-native-device-info';
 import 'react-native-gesture-handler';
-
 import { ThemeProvider } from 'styled-components/native';
 import { ExceptionProvider } from './base/providers/ExceptionProvider';
 import { theme } from './base/usereservappLegacy/theme';
@@ -90,7 +89,6 @@ function App() {
     })();
   }, []);
 
-
   const getTestEnvironment = useCallback(async () => {
     const res = await AsyncStorage.getItem('isTesting');
 
@@ -167,4 +165,4 @@ function App() {
   );
 }
 
-export default Sentry.wrap(App)
+export default Sentry.wrap(App);
