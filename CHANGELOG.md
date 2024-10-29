@@ -2,6 +2,12 @@
 
 ## CHANGELOG
 
+### 2.26.1
+
+- [54322 - Items Clicked After Search - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54322)
+
+---
+
 ### 2.26.0
 
 - [52676 - Ativar código de monitoramento do SENTRY no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52676)

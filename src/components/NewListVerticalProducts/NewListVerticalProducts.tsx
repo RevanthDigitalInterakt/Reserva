@@ -87,7 +87,7 @@ function NewListVerticalProducts({
         : TrackEventNameEnum.ClickedItems,
       sku: [item.ean],
       queryID,
-      positions: [itemPosistion],
+      positions: [itemPosistion + 1],
     });
   }, []);
 
@@ -148,7 +148,7 @@ function NewListVerticalProducts({
                   : TrackEventNameEnum.ClickedItems,
                 sku: [item.ean],
                 queryID,
-                positions: [itemPosistion],
+                positions: [itemPosistion + 1],
               });
             }}
             colors={showThumbColors ? item.colors || [] : []}
@@ -182,6 +182,7 @@ function NewListVerticalProducts({
       onToggleFavorite,
       showPrimePrice,
       showThumbColors,
+      data,
     ],
   );
 

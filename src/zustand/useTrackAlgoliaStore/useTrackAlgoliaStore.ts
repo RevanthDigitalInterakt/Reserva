@@ -68,6 +68,8 @@ export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) =
       },
     };
 
+    console.log('var', variables);
+
     try {
       await getApolloClient().mutate<TrackingMutation, TrackingMutationVariables>({
         mutation: TrackingDocument,
