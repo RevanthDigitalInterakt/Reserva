@@ -62,9 +62,15 @@ function NewListVerticalProducts({
     [getBoolean, primeActive],
   );
 
-  const onClickCart = useCallback((item: ProductListOutput) => {
-    const itemPosistion = data.indexOf(item);
+  const getPosition = useCallback((item: ProductListOutput) => {
+    const itemPosition = data.indexOf(item);
 
+    if (itemPosition < 0) return [0];
+
+    return [itemPosition + 1];
+  }, [data]);
+
+  const onClickCart = useCallback((item: ProductListOutput) => {
     EventProvider.logEvent('page_view', {
       item_brand: defaultBrand.picapau,
     });
@@ -87,7 +93,7 @@ function NewListVerticalProducts({
         : TrackEventNameEnum.ClickedItems,
       sku: [item.ean],
       queryID,
-      positions: [itemPosistion + 1],
+      positions: getPosition(item),
     });
   }, []);
 
@@ -126,7 +132,6 @@ function NewListVerticalProducts({
             installmentsPrice={item.installment.value}
             loadingFavorite={loadingSkuId === item.skuId}
             onClickImage={() => {
-              const itemPosistion = data.indexOf(item);
               EventProvider.logEvent('page_view', {
                 item_brand: defaultBrand.picapau,
               });
@@ -148,7 +153,7 @@ function NewListVerticalProducts({
                   : TrackEventNameEnum.ClickedItems,
                 sku: [item.ean],
                 queryID,
-                positions: [itemPosistion + 1],
+                positions: getPosition(item),
               });
             }}
             colors={showThumbColors ? item.colors || [] : []}
