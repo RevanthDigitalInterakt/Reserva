@@ -14,6 +14,11 @@
 - [55628 - Error build APP Sentry](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55628)
 
 ---
+### 2.25.2
+
+- [52951 - Integração da plataforma de disparo de envio de push](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52951)
+
+---
 
 ### 2.25.1
 

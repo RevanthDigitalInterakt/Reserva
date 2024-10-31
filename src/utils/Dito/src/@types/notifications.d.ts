@@ -13,7 +13,7 @@ type NotificationResponse = {
 type TokenRequest = {
   id: string;
   token: string;
-  platform: 'Apple iPhone' | 'Android'
+  platform: string;
 };
 
 type TokenResponse = {
