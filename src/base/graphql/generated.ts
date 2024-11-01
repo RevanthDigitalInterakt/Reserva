@@ -3007,7 +3007,7 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'SearchOutput', queryID?: string | null, identifier?: string | null, count: number, items: Array<{ __typename?: 'ProductListOutput', productId: string, skuId: string, ean: string, skuName: string, productName: string, colors?: Array<string> | null, brand: string, category?: string | null, size?: string | null, colorName?: string | null, image: string, listPrice: number, currentPrice: number, hasDiscount: boolean, discountPercentage: number, prime?: { __typename?: 'ProductListPrimeOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number }, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } };
+export type SearchQuery = { __typename?: 'Query', search: { __typename?: 'SearchOutput', queryID?: string | null, identifier?: string | null, count: number, items: Array<{ __typename?: 'ProductListOutput', productId: string, skuId: string, ean: string, skuName: string, productName: string, colors?: Array<string> | null, brand: string, category?: string | null, size?: string | null, colorName?: string | null, image: string, listPrice: number, currentPrice: number, hasDiscount: boolean, isKitLook?: boolean | null, discountPercentage: number, prime?: { __typename?: 'ProductListPrimeOutput', price: number, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number } } | null, installment: { __typename?: 'ProductPriceInstallmentOutput', value: number, number: number }, installmentEqualPrime?: { __typename?: 'ProductSizeInstallmentOutput', value: number, number: number } | null }> } };
 
 export type SearchAutocompleteSuggestionsQueryVariables = Exact<{
   q: Scalars['String']['input'];
@@ -6100,6 +6100,7 @@ export const SearchDocument = gql`
       listPrice
       currentPrice
       hasDiscount
+      isKitLook
       discountPercentage
       prime {
         price

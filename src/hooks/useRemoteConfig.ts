@@ -76,6 +76,7 @@ export interface IRemoteConfigKeys {
   show_label_facavc: boolean;
   new_offers_page: boolean;
   new_offers_page_tester: boolean;
+  show_pdc_kit_look: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -149,6 +150,7 @@ export const defaults: IRemoteConfigKeys = {
   show_label_facavc: false,
   new_offers_page: false,
   new_offers_page_tester: false,
+  show_pdc_kit_look: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;
