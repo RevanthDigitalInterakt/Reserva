@@ -27,6 +27,7 @@ import { Button } from '../../../components/Button';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import FormLink from '../../../components/FormLink/FormLink';
 import CardCashback from '../../../components/CashBackBalance';
+import UxCam from '../../../utils/UxCam';
 
 export function MenuProfile() {
   const navigation = useNavigation();
@@ -131,6 +132,10 @@ export function MenuProfile() {
       checkPhoneTime(profile?.id);
     }
   }, [profile]);
+
+  useEffect(() => {
+    UxCam.tagScreen('Profile Screen');
+  }, []);
 
   return (
     <Box flex={1} backgroundColor="white">

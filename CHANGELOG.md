@@ -4,6 +4,7 @@
 
 ### 2.26.1
 
+- [54481 - Implementação UX Cam](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54481)
 - [54322 - Items Clicked After Search - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54322)
 - [41937 - Nova PDC para kit look no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41937)
 

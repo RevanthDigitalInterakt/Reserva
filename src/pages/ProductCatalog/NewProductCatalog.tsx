@@ -19,6 +19,7 @@ import { useHomeStore } from '../../zustand/useHomeStore';
 import EventProvider from '../../utils/EventProvider';
 import ProductCatalogHeader from './components/ProductCatalogHeader/ProductCatalogHeader';
 import { scale } from '../../utils/scale';
+import UxCam from '../../utils/UxCam';
 
 type Props = StackScreenProps<RootStackParamList, 'ProductCatalog'> & {
   showTabBar?: boolean;
@@ -78,6 +79,10 @@ function NewProductCatalog({
     });
 
     EventProvider.logScreenViewEvent(`/pdc/${parameters.facets.find((facet) => facet.key === 'productClusterIds')?.value}`);
+    UxCam.tagScreen('Product Catalog Screen');
+    UxCam.logEvent('product catalog view', {
+      reference,
+    });
   }, []);
 
   useEffect(() => {
