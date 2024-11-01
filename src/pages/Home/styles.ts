@@ -17,14 +17,15 @@ const styles = StyleSheet.create({
   },
   rouletWrapper: {
     width: '100%',
-    height: '100%',
+    height: configDeviceSizes.DEVICE_HEIGHT,
     backgroundColor: 'transparent',
     position: 'absolute',
+    top: -20,
     zIndex: 999,
   },
   webView: {
     width: '100%',
-    height: configDeviceSizes.DEVICE_HEIGHT * 0.54,
+    height: configDeviceSizes.DEVICE_HEIGHT * 0.80,
     backgroundColor: 'rgba(0, 0, 0, 0.45)',
     zIndex: 999,
   },
