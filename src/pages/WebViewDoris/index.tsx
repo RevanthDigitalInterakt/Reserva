@@ -52,7 +52,6 @@ export default function WebViewDoris() {
       }
 
       case 'error': {
-        navigation.goBack();
         return null;
       }
 
