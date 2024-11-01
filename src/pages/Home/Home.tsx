@@ -69,7 +69,9 @@ function RouletWebview() {
           timestamp: parsed?.timestamp,
           blocked: false,
         }));
-        actions.CLOSE_ROULET();
+        if (parsed?.data?.closeMethod === 'button-click') {
+          actions.CLOSE_ROULET();
+        }
       }
     }
   }, []);
@@ -178,12 +180,15 @@ function Home() {
     medias,
     loading,
     shelfOffers,
+    setHasTabBar,
   } = useHomeStore([
     'onLoad',
     'medias',
     'loading',
     'shelfOffers',
+    'setHasTabBar',
   ]);
+  const { rouletIsOpen } = useBagStore(['rouletIsOpen']);
 
   const { showModalSignUpComplete } = useAuthModalStore([
     'showModalSignUpComplete',
@@ -220,6 +225,14 @@ function Home() {
       EventProvider.logEvent('device_info', { locationEnabled: enabled ? 'enabled' : 'disabled' });
     });
   }, []);
+
+  useEffect(() => {
+    if (rouletIsOpen) {
+      setHasTabBar(false);
+    } else {
+      setHasTabBar(true);
+    }
+  }, [rouletIsOpen]);
 
   return (
     <>
