@@ -1,40 +1,41 @@
 import { ApolloProvider } from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import messaging from '@react-native-firebase/messaging';
+import remoteConfig from '@react-native-firebase/remote-config';
 import { NavigationContainer } from '@react-navigation/native';
+import JailMonkey from 'jail-monkey';
 import React, { useCallback, useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
+import DeviceInfo from 'react-native-device-info';
 import 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
-import remoteConfig from '@react-native-firebase/remote-config';
-import { Platform } from 'react-native';
-import messaging from '@react-native-firebase/messaging';
-import JailMonkey from 'jail-monkey';
-import DeviceInfo from 'react-native-device-info';
+import { ExceptionProvider } from './base/providers/ExceptionProvider';
+import { theme } from './base/usereservappLegacy/theme';
+import DatadogComponentProvider from './components/DatadogComponentProvider';
 import { linkingConfig } from './config/linking';
+import Sentry from './config/sentryConfig';
 import ChronometerContextProvider from './context/ChronometerContext';
 import ContentfullContextProvider from './context/ContentfullContext';
 import { FirebaseContextProvider } from './context/FirebaseContext';
 import RegionalSearchContextProvider from './context/RegionalSearchContext';
 import StatusBarContextProvider from './context/StatusBarContext';
-import useAsyncStorageProvider from './hooks/useAsyncStorageProvider';
-import EventProvider from './utils/EventProvider';
-import ToastProvider from './utils/Toast';
-import { useRemoteConfig } from './hooks/useRemoteConfig';
 import useApolloClientHook from './hooks/useApolloClientHook';
-import { useApolloFetchPolicyStore } from './zustand/useApolloFetchPolicyStore';
-import { navigationRef } from './utils/navigationRef';
-import { theme } from './base/usereservappLegacy/theme';
-import { ExceptionProvider } from './base/providers/ExceptionProvider';
-import DatadogComponentProvider from './components/DatadogComponentProvider';
-import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
-import { useConnectivityStore } from './zustand/useConnectivityStore';
-import { useBagStore } from './zustand/useBagStore/useBagStore';
+import useAsyncStorageProvider from './hooks/useAsyncStorageProvider';
 import { useNotification } from './hooks/useNotification';
-import { getDeviceInfoMemory, getDeviceInfoModel, getDeviceInfoStorage } from './utils/Device/deviceUtils';
+import { useRemoteConfig } from './hooks/useRemoteConfig';
 import InitialScreen from './InitialScreen';
-import { AppRouting } from './routes/AppRouting';
 import ReservaJailbreakScreen from './ReservaJailbreakScreen';
+import { AppRouting } from './routes/AppRouting';
+import { getDeviceInfoMemory, getDeviceInfoModel, getDeviceInfoStorage } from './utils/Device/deviceUtils';
+import EventProvider from './utils/EventProvider';
 import type { EventsOptions } from './utils/EventProvider/Event';
+import { navigationRef } from './utils/navigationRef';
+import ToastProvider from './utils/Toast';
+import { useApolloFetchPolicyStore } from './zustand/useApolloFetchPolicyStore';
+import { useBagStore } from './zustand/useBagStore/useBagStore';
+import { useConnectivityStore } from './zustand/useConnectivityStore';
+import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
 
 const { model, os } = getDeviceInfoModel();
 const { freeMemory, totalMemory, usedMemory } = getDeviceInfoMemory();
@@ -83,7 +84,6 @@ function App() {
     (async () => {
       firstLaunchedData();
       await actions.INITIAL_LOAD();
-
       onListenConnectivityEvents();
       remoteConfigStore.fetchInitialData(remoteConfig());
     })();
@@ -165,4 +165,4 @@ function App() {
   );
 }
 
-export default App;
+export default Sentry.wrap(App);

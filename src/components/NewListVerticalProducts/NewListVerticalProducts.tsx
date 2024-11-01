@@ -70,9 +70,15 @@ function NewListVerticalProducts({
     [getBoolean],
   );
 
-  const onClickProduct = useCallback((item: ProductListOutput, isKitLook?: boolean) => {
+  const getPosition = useCallback((item: ProductListOutput) => {
     const itemPosition = data.indexOf(item);
 
+    if (itemPosition < 0) return [0];
+
+    return [itemPosition + 1];
+  }, [data]);
+
+  const onClickProduct = useCallback((item: ProductListOutput, isKitLook?: boolean) => {
     if (isKitLook) {
       EventProvider.logEvent('pdc_click_kit_look_item', {
         item_id: item.productId,
@@ -102,12 +108,12 @@ function NewListVerticalProducts({
         : TrackEventNameEnum.ClickedItems,
       sku: [item.ean],
       queryID,
-      positions: [itemPosition],
+      positions: getPosition(item),
     });
   }, []);
 
   const onRenderItem = useCallback(
-    (item: ProductListOutput, isKitLook: ProductListOutput['isKitLook']) => (
+    (item: ProductListOutput, isKitLook?: ProductListOutput['isKitLook']) => (
       <>
         {!isKitLook && (
           <Box
@@ -193,6 +199,7 @@ function NewListVerticalProducts({
       onToggleFavorite,
       showPrimePrice,
       showThumbColors,
+      data,
     ],
   );
 
@@ -241,7 +248,7 @@ function NewListVerticalProducts({
       }}
       ListFooterComponent={Footer}
       onEndReachedThreshold={0.5}
-      renderItem={({ item }) => onRenderItem(item, item.isKitLook)}
+      renderItem={({ item }) => onRenderItem(item, item?.isKitLook)}
     />
   );
 }

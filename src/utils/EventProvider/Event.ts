@@ -626,4 +626,7 @@ export type EventOptionsFn =
   } | {
     type: 'pdc_click_kit_look_item',
     payload: EventsOptions.KitLookPDC,
+  } | {
+    type: 'shelf_offers_button_see_more',
+    payload: {},
   };

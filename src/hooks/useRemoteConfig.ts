@@ -50,6 +50,7 @@ export interface IRemoteConfigKeys {
   show_item_price_tester: boolean;
   show_add_zip_code_delivery: boolean;
   show_add_zip_code_delivery_tester: boolean;
+  should_redirect_to_checkout: boolean;
   pdp_show_gift_card: boolean;
   show_user_feedback_form: string;
   show_shelf: boolean;
@@ -98,6 +99,7 @@ export const defaults: IRemoteConfigKeys = {
   show_pdc_thumb_color: false,
   cashback_in_store: false,
   balance_cashback_in_app: false,
+  should_redirect_to_checkout: false,
   EMAIL_TESTERS: [],
   appName: 'My App',
   appVersion: '1.0.0',

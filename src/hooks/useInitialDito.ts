@@ -40,7 +40,7 @@ export default function useInitialDito() {
     await createMobileToken({
       id,
       token: deviceToken,
-      platform: 'Android',
+      platform: Platform.OS === 'ios' ? 'Apple iPhone' : 'Android',
     });
   }, []);
 

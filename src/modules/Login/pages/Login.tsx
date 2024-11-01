@@ -280,7 +280,9 @@ export function LoginScreen({
             disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
             onPress={() => {
               EventProvider.logEvent('login_register_click', {});
-              navigation.navigate('RegisterEmail', {});
+              navigation.navigate('RegisterEmail', {
+                comeFrom,
+              });
             }}
           />
         </Box>

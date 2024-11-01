@@ -40,9 +40,10 @@ import { useShelfStore } from '../../zustand/useShelfStore/useShelfStore';
 import { trackPageViewStore } from '../../zustand/useTrackPageViewStore/useTrackPageViewStore';
 import { NewHomeCarousels } from './components/NewHomeCarousels';
 import { NewHomeCountDown } from './components/NewHomeCountDown.tsx';
-import ShowcaseDrawerContent from './components/ShowcaseDrawerContent/ShowcaseDrawerContent';
+import { useShelfOffersStore } from '../../zustand/useShelfOffersStore/useShelfOffersStore';
 import useHomeHeader from './hooks/useHomeHeader';
 import styles from './styles';
+import ShowcaseDrawerContent from './components/ShowcaseDrawerContent/ShowcaseDrawerContent';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -68,9 +69,9 @@ function RouletWebview() {
           timestamp: parsed?.timestamp,
           blocked: false,
         }));
-      }
-      if (parsed?.data?.closeMethod === 'button-click') {
-        actions.CLOSE_ROULET();
+        if (parsed?.data?.closeMethod === 'button-click') {
+          actions.CLOSE_ROULET();
+        }
       }
     }
   }, []);
@@ -80,6 +81,12 @@ function RouletWebview() {
     [],
   );
 
+  useEffect(() => {
+    setTimeout(() => {
+      actions.SET_ROULET_LOADING(false);
+    }, 5000);
+  }, [rouletIsOpen]);
+
   return rouletIsOpen ? (
     <View
       style={styles.rouletWrapper}
@@ -88,10 +95,43 @@ function RouletWebview() {
         source={{
           uri: webViewUri,
         }}
+        javaScriptEnabled
         style={styles.webView}
         cacheEnabled={false}
         cacheMode="LOAD_NO_CACHE"
-        onMessage={onHandleMessage}
+        onMessage={(event) => {
+          onHandleMessage(event);
+        }}
+        injectedJavaScript={`
+          (function() {
+            // Listener para capturar mensagens enviadas pelo React Native
+            document.addEventListener('message', function(event) {
+              console.log('Message from React Native:', event.data);
+              window.ReactNativeWebView.postMessage(JSON.stringify({
+                type: 'window-event',
+                data: event
+              }));
+            });
+      
+            // Listener para capturar mensagens do escopo global (window)
+            window.addEventListener('message', function(event) {
+              console.log('Window message:', event.data);
+              window.ReactNativeWebView.postMessage(JSON.stringify({
+                type: 'window-event',
+                data: event
+              }));
+            });
+      
+            // Enviar mensagem de inicialização para testar conexão
+            setTimeout(function() {
+              window.ReactNativeWebView.postMessage(JSON.stringify({
+                type: 'init',
+                message: 'WebView initialized successfully'
+              }));
+            }, 1000);
+          })();
+          true; // Assegura que o script é validado no Android
+        `}
       />
 
       <View
@@ -135,11 +175,20 @@ function ListFooter() {
 }
 
 function Home() {
-  const { onLoad, medias, loading } = useHomeStore([
+  const {
+    onLoad,
+    medias,
+    loading,
+    shelfOffers,
+    setHasTabBar,
+  } = useHomeStore([
     'onLoad',
     'medias',
     'loading',
+    'shelfOffers',
+    'setHasTabBar',
   ]);
+  const { rouletIsOpen } = useBagStore(['rouletIsOpen']);
 
   const { showModalSignUpComplete } = useAuthModalStore([
     'showModalSignUpComplete',
@@ -147,6 +196,7 @@ function Home() {
 
   const { drawerIsOpen } = useProductDetailStore(['drawerIsOpen']);
   const { shelfItemData } = useShelfStore(['shelfItemData']);
+  const { onLoadOffersShelf } = useShelfOffersStore(['onLoadOffersShelf']);
   const { getString } = useRemoteConfig();
 
   const {
@@ -162,6 +212,12 @@ function Home() {
   }, []);
 
   useEffect(() => {
+    if (shelfOffers) {
+      onLoadOffersShelf(shelfOffers);
+    }
+  }, [shelfOffers]);
+
+  useEffect(() => {
     trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);
     EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
 
@@ -169,6 +225,14 @@ function Home() {
       EventProvider.logEvent('device_info', { locationEnabled: enabled ? 'enabled' : 'disabled' });
     });
   }, []);
+
+  useEffect(() => {
+    if (rouletIsOpen) {
+      setHasTabBar(false);
+    } else {
+      setHasTabBar(true);
+    }
+  }, [rouletIsOpen]);
 
   return (
     <>
