@@ -968,28 +968,29 @@ PODS:
     - JWT (~> 3.0.0-beta.12)
     - React-Core
     - SSZipArchive (~> 2.2.2)
-  - DatadogCore (2.7.1):
-    - DatadogInternal (= 2.7.1)
-  - DatadogCrashReporting (2.7.1):
-    - DatadogInternal (= 2.7.1)
-    - PLCrashReporter (~> 1.11.1)
-  - DatadogInternal (2.7.1)
-  - DatadogLogs (2.7.1):
-    - DatadogInternal (= 2.7.1)
-  - DatadogRUM (2.7.1):
-    - DatadogInternal (= 2.7.1)
-  - DatadogSDKReactNative (2.3.2):
-    - DatadogCore (~> 2.7.1)
-    - DatadogCrashReporting (~> 2.7.1)
-    - DatadogLogs (~> 2.7.1)
-    - DatadogRUM (~> 2.7.1)
-    - DatadogTrace (~> 2.7.1)
-    - DatadogWebViewTracking (~> 2.7.1)
+  - DatadogCore (2.14.2):
+    - DatadogInternal (= 2.14.2)
+  - DatadogCrashReporting (2.14.2):
+    - DatadogInternal (= 2.14.2)
+    - PLCrashReporter (~> 1.11.2)
+  - DatadogInternal (2.14.2)
+  - DatadogLogs (2.14.2):
+    - DatadogInternal (= 2.14.2)
+  - DatadogRUM (2.14.2):
+    - DatadogInternal (= 2.14.2)
+  - DatadogSDKReactNative (2.4.3):
+    - DatadogCore (~> 2.14.1)
+    - DatadogCrashReporting (~> 2.14.1)
+    - DatadogLogs (~> 2.14.1)
+    - DatadogRUM (~> 2.14.1)
+    - DatadogTrace (~> 2.14.1)
+    - DatadogWebViewTracking (~> 2.14.1)
     - React-Core
-  - DatadogTrace (2.7.1):
-    - DatadogInternal (= 2.7.1)
-  - DatadogWebViewTracking (2.7.1):
-    - DatadogInternal (= 2.7.1)
+  - DatadogTrace (2.14.2):
+    - DatadogInternal (= 2.14.2)
+    - OpenTelemetrySwiftApi (= 1.6.0)
+  - DatadogWebViewTracking (2.14.2):
+    - DatadogInternal (= 2.14.2)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.72.12)
   - FBReactNativeSpec (0.72.12):
@@ -1310,15 +1311,15 @@ PODS:
     - nanopb/encode (= 2.30909.1)
   - nanopb/decode (2.30909.1)
   - nanopb/encode (2.30909.1)
-  - OneSignal (3.12.9):
-    - OneSignal/OneSignalCore (= 3.12.9)
-    - OneSignal/OneSignalExtension (= 3.12.9)
-    - OneSignal/OneSignalOutcomes (= 3.12.9)
-  - OneSignal/OneSignalCore (3.12.9)
-  - OneSignal/OneSignalExtension (3.12.9):
+  - OneSignal (3.12.10):
+    - OneSignal/OneSignalCore (= 3.12.10)
+    - OneSignal/OneSignalExtension (= 3.12.10)
+    - OneSignal/OneSignalOutcomes (= 3.12.10)
+  - OneSignal/OneSignalCore (3.12.10)
+  - OneSignal/OneSignalExtension (3.12.10):
     - OneSignal/OneSignalCore
     - OneSignal/OneSignalOutcomes
-  - OneSignal/OneSignalOutcomes (3.12.9):
+  - OneSignal/OneSignalOutcomes (3.12.10):
     - OneSignal/OneSignalCore
   - OneSignalXCFramework (3.12.6):
     - OneSignalXCFramework/OneSignalCore (= 3.12.6)
@@ -1330,6 +1331,7 @@ PODS:
     - OneSignalXCFramework/OneSignalOutcomes
   - OneSignalXCFramework/OneSignalOutcomes (3.12.6):
     - OneSignalXCFramework/OneSignalCore
+  - OpenTelemetrySwiftApi (1.6.0)
   - Permission-AppTrackingTransparency (3.10.1):
     - RNPermissions
   - Permission-Camera (3.10.1):
@@ -2016,6 +2018,7 @@ SPEC REPOS:
     - nanopb
     - OneSignal
     - OneSignalXCFramework
+    - OpenTelemetrySwiftApi
     - PLCrashReporter
     - PromisesObjC
     - PromisesSwift
@@ -2206,14 +2209,14 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: 1e2348957acdbcad360b80a264a90799984b2ba6
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   CodePush: 9eddecce05cd10491e2673b259c85885a462be33
-  DatadogCore: 4a4cdf7beca3aa12b7095bebd926acea1a865a99
-  DatadogCrashReporting: f8b4ea638acaf58b68bbc51cb62a2d876f763241
-  DatadogInternal: b9217da25018284c087a2ed4b9bb3b0f26c767c0
-  DatadogLogs: 3b4132eefa67f196bb3ab2d603c1a2acd1292615
-  DatadogRUM: 8845815ba89f5ab8ceee765ee268f7de36f3e35d
-  DatadogSDKReactNative: 4367bbafa363ab39112c8e273ad79e1d46c3d9fa
-  DatadogTrace: a63da746c609bd4c683bca61a94429889e33b11e
-  DatadogWebViewTracking: 713f862ddd89173e0a3f5342cefa23def40f0f48
+  DatadogCore: a3429f62b7da0e715e179833b3daa0203ba2a5ad
+  DatadogCrashReporting: 3b5e496c1f61971a93b9a1bff3312297be03f031
+  DatadogInternal: 11798eea970f195ad720168f9a51712e71affe33
+  DatadogLogs: 4192cc1979467ce0c2521d73ba92b6197e0c7f06
+  DatadogRUM: f732009eba7a848d6e2df9ef12944e30f0e94ba2
+  DatadogSDKReactNative: f418f95923dc78ad7b4dcd1710804f1672d8abfa
+  DatadogTrace: 5687191622d91152f10616e206500fe5acd8a342
+  DatadogWebViewTracking: cb818ee5943de63940b4f536320361c17af0f7b1
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: a31ac2336aea59512b5b982f8e231f65d7d148e1
   FBReactNativeSpec: 0976da6bc1ebd3ea9b3a65d04be2c0117d304c4c
@@ -2252,8 +2255,9 @@ SPEC CHECKSUMS:
   lottie-ios: e047b1d2e6239b787cc5e9755b988869cf190494
   lottie-react-native: e3205322282d72e23efb3bff3287d0bd16fb1b01
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
-  OneSignal: b1f62219a71dee69e64df7b7b8dff0a402b209d1
+  OneSignal: 9ce8e9f235a6e25e7ef399f0853623ceb50f59ad
   OneSignalXCFramework: ff1c970b7aeb4ac0fe48fb35393eb5d8bf378135
+  OpenTelemetrySwiftApi: 657da8071c2908caecce11548e006f779924ff9c
   Permission-AppTrackingTransparency: 4cc82857ad23dfff007cf03757e56c5705259d56
   Permission-Camera: 9b70902f34a83c10e198d2d01f0e453e58842776
   Permission-LocationAlways: 0a0de4637662cfdf3603d6933779da2bdd657306
