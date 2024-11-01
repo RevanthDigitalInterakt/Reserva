@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import JailMonkey from 'jail-monkey';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
+import RNBootSplash from 'react-native-bootsplash';
 import DeviceInfo from 'react-native-device-info';
 import 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
@@ -128,7 +129,9 @@ function App() {
               theme={DefaultTheme}
               onReady={async () => {
                 ExceptionProvider.trackScreen();
-                // RNBootSplash.hide();
+                setTimeout(() => {
+                  RNBootSplash.hide();
+                }, 2000);
                 onStartLoad(navigationRef.current?.getCurrentRoute()?.name);
                 await actions.ROULET_COUPON_INITIAL_LOAD();
               }}
