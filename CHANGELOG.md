@@ -2,6 +2,12 @@
 
 ## CHANGELOG
 
+### 2.26.2
+
+- [54329 - Favoritos exibindo a parcela ao invés do preço cheio](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54329)
+
+---
+
 ### 2.26.1
 
 - [54322 - Items Clicked After Search - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54322)
