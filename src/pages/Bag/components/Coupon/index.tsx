@@ -41,6 +41,7 @@ export default function CouponComponent() {
 
   const totalPrime = useMemo(() => prime?.total, [prime?.total]);
   const totalDiscountPrime = useMemo(() => prime?.totalDiscount, [prime?.totalDiscount]);
+  const renderAppPrime = useMemo(() => prime?.renderApp, [prime?.renderApp]);
 
   const handleSetCouponValue = useCallback((key: 'seller' | 'discount', currValue: string) => {
     setCouponsValue((oldValue) => ({
@@ -263,6 +264,7 @@ export default function CouponComponent() {
           type={PrimeDiscountType.BagCoupon}
           totalPrime={totalPrime}
           discountPrime={totalDiscountPrime}
+          renderApp={renderAppPrime}
           setOpenModal={setOpenModal}
         />
       )}

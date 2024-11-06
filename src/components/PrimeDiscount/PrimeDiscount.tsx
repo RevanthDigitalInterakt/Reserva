@@ -20,6 +20,7 @@ interface PrimeDiscountProps {
   type: PrimeDiscountType;
   totalPrime: number | null | undefined;
   discountPrime: number | undefined;
+  renderApp: boolean | undefined;
   setOpenModal?: (value: boolean) => void;
   setNegativeValue?: boolean;
 }
@@ -28,6 +29,7 @@ export default function PrimeDiscount({
   type,
   totalPrime,
   discountPrime,
+  renderApp,
   setOpenModal,
   setNegativeValue,
 }: PrimeDiscountProps) {
@@ -45,13 +47,13 @@ export default function PrimeDiscount({
     fetchPolicy: getFetchPolicyPerKey('landingPagePrime'),
   });
 
+  console.log(discountPrime, totalPrime, renderApp, 'aa');
+
   const data = useMemo(() => rawData?.landingPagePrime, [rawData?.landingPagePrime]);
 
-  const isAdvantage = useMemo(() => !!discountPrime && discountPrime > 0, [discountPrime]);
+  const hasRenderBagCupon = !isPrime && renderApp;
 
-  const hasRenderBagCupon = !isPrime && isAdvantage;
-
-  const hasRenderBagFooter = isPrime && isAdvantage;
+  const hasRenderBagFooter = isPrime && !!discountPrime && discountPrime > 0;
 
   // Quando usuário não é prime, e o carrinho dele tem vangatens de desconto com prime.
   if (hasRenderBagCupon && type === 'BagCoupon') {
