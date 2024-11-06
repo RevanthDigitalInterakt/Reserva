@@ -47,8 +47,6 @@ export default function PrimeDiscount({
     fetchPolicy: getFetchPolicyPerKey('landingPagePrime'),
   });
 
-  console.log(discountPrime, totalPrime, renderApp, 'aa');
-
   const data = useMemo(() => rawData?.landingPagePrime, [rawData?.landingPagePrime]);
 
   const hasRenderBagCupon = !isPrime && renderApp;
