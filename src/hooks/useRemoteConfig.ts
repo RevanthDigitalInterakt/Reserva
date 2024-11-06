@@ -50,6 +50,7 @@ export interface IRemoteConfigKeys {
   show_item_price_tester: boolean;
   show_add_zip_code_delivery: boolean;
   show_add_zip_code_delivery_tester: boolean;
+  should_redirect_to_checkout: boolean;
   pdp_show_gift_card: boolean;
   show_user_feedback_form: string;
   show_shelf: boolean;
@@ -75,6 +76,7 @@ export interface IRemoteConfigKeys {
   show_label_facavc: boolean;
   new_offers_page: boolean;
   new_offers_page_tester: boolean;
+  show_pdc_kit_look: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -97,6 +99,7 @@ export const defaults: IRemoteConfigKeys = {
   show_pdc_thumb_color: false,
   cashback_in_store: false,
   balance_cashback_in_app: false,
+  should_redirect_to_checkout: false,
   EMAIL_TESTERS: [],
   appName: 'My App',
   appVersion: '1.0.0',
@@ -147,6 +150,7 @@ export const defaults: IRemoteConfigKeys = {
   show_label_facavc: false,
   new_offers_page: false,
   new_offers_page_tester: false,
+  show_pdc_kit_look: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;

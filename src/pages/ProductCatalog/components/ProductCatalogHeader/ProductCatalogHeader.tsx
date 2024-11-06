@@ -18,9 +18,12 @@ const SHOW_FILTER_BUTTON = true;
 
 interface ProductCatalogHeaderProps {
   defaultFacets: SearchProductFacetInput[];
+  showWhatsappButton?: boolean;
 }
 
-function ProductCatalogHeader({ defaultFacets }: ProductCatalogHeaderProps) {
+function ProductCatalogHeader(
+  { defaultFacets, showWhatsappButton = true }: ProductCatalogHeaderProps,
+) {
   const [filterVisible, setFilterVisible] = useState(false);
   const [sortVisible, setSortVisible] = useState(false);
   const { resultCount } = useSearchStore(['resultCount', 'filters']);
@@ -62,30 +65,32 @@ function ProductCatalogHeader({ defaultFacets }: ProductCatalogHeaderProps) {
 
   return (
     <View style={styles.container}>
-      <Box bg="dropDownBorderColor">
-        <Button
-          p="nano"
-          onPress={onClickWhatsappButton}
-          {...testProps('com.usereserva:id/whatssapp_button_product_catalog')}
-        >
-          <Box flexDirection="row">
-            <IconLegacy name="Whatsapp" size={16} color="preto" />
-            <Box marginX="nano">
-              <Typography
-                color="preto"
-                fontFamily="nunitoSemiBold"
-                fontSize={11}
-              >
-                Chama no Whats! Seja atendido sem sair de casa.
-                {' '}
-                <Typography style={{ textDecorationLine: 'underline' }}>
-                  Clique aqui!
+      {showWhatsappButton && (
+        <Box bg="dropDownBorderColor">
+          <Button
+            p="nano"
+            onPress={onClickWhatsappButton}
+            {...testProps('com.usereserva:id/whatssapp_button_product_catalog')}
+          >
+            <Box flexDirection="row">
+              <IconLegacy name="Whatsapp" size={16} color="preto" />
+              <Box marginX="nano">
+                <Typography
+                  color="preto"
+                  fontFamily="nunitoSemiBold"
+                  fontSize={11}
+                >
+                  Chama no Whats! Seja atendido sem sair de casa.
+                  {' '}
+                  <Typography style={{ textDecorationLine: 'underline' }}>
+                    Clique aqui!
+                  </Typography>
                 </Typography>
-              </Typography>
+              </Box>
             </Box>
-          </Box>
-        </Button>
-      </Box>
+          </Button>
+        </Box>
+      )}
       <Box paddingY="micro" flexDirection="row" justifyContent="center">
         <Box width={1 / 2}>
           <Button

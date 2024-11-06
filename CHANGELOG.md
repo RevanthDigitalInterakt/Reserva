@@ -1,10 +1,34 @@
-# APP RESERVA
+# APP Reserva
 
 ## CHANGELOG
-
-### 2.25.2
+### 2.26.3
 
 - [45936 - Preço do desconto do prime no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45936)
+
+---
+
+### 2.26.1
+
+- [54322 - Items Clicked After Search - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54322)
+- [41937 - Nova PDC para kit look no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41937)
+
+---
+
+### 2.26.0
+
+- [52676 - Ativar código de monitoramento do SENTRY no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52676)
+- [54973 - Erro parâmetro srsltid no Google](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54973)
+- [46643 - Home promocional - Explore mais ofertas](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46643)
+- [46644 - Home promocional - Lista de produto com todas as ofertas](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46644)
+- [46646 - Home promocional - Vitrines](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46646)
+- [52617 - Reduzir jornada de compra novo usuário](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52617)
+- [53320 - Usuário não consegue selecionar alguns tamanhos nos filtros](https://dev.azure.com/ARECO/AReCO/_workitems/edit/53320)
+- [55628 - Error build APP Sentry](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55628)
+
+---
+### 2.25.2
+
+- [52951 - Integração da plataforma de disparo de envio de push](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52951)
 
 ---
 
@@ -12,7 +36,8 @@
 
 - [54540 - Ajuste campo af_content para captura de dados do Meta](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54540)
 
----
+
+- [46646 - Home promocional - Vitrines](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46646)
 
 ### 2.25.0
 
@@ -81,7 +106,7 @@
 
 ### 2.13.0
 
-- [42216 - Ícone faça vc na tab bar do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/42216)
+- [42216 - Ýcone faça vc na tab bar do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/42216)
 
 ---
 

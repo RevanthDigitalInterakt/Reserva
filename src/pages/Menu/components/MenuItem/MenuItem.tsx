@@ -19,7 +19,7 @@ interface IMenuItem {
 
 function MenuItem({ data, opened, onPress }: IMenuItem) {
   const nameItem = data.name.toUpperCase();
-  const itemsAddBadge = ['PERSONALIZAÇÕES'];
+  const itemsAddBadge = ['PERSONALIZAÇÕES', 'KIT LOOK'];
 
   return (
     <Box>

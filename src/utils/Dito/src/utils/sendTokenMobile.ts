@@ -4,7 +4,7 @@ import { ExceptionProvider } from '../../../../base/providers/ExceptionProvider'
 type TSendMobileToken = {
   id: string,
   token: string,
-  platform: 'Android',
+  platform: string,
 };
 
 async function createMobileToken({
