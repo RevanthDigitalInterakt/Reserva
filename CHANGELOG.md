@@ -2,7 +2,7 @@
 
 ## CHANGELOG
 
-### 2.27.1
+### 2.26.2
 - [56122 - Erro ao logar no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56122)
 
 ---
