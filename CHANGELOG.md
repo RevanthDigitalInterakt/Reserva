@@ -2,6 +2,11 @@
 
 ## CHANGELOG
 
+### 2.27.1
+- [56122 - Erro ao logar no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56122)
+
+---
+
 ### 2.26.1
 
 - [54322 - Items Clicked After Search - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54322)

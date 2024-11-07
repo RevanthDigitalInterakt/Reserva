@@ -90,6 +90,6 @@ export class ExceptionProvider {
 
   static unsetUser() {
     DdSdkReactNative.setUser({});
-    Sentry.setUser(null);
+    // Sentry.setUser(null);
   }
 }

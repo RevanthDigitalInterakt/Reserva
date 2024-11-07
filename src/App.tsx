@@ -147,16 +147,13 @@ function App() {
                 <RegionalSearchContextProvider>
                   <FirebaseContextProvider>
                     <ChronometerContextProvider>
-                      <InitialScreen>
-                        <AppRouting />
-                      </InitialScreen>
-                      {/* {(isJailBroken)
+                      {(isJailBroken)
                         ? (<ReservaJailbreakScreen />)
                         : (
                           <InitialScreen>
                             <AppRouting />
                           </InitialScreen>
-                        )} */}
+                        )}
                     </ChronometerContextProvider>
                   </FirebaseContextProvider>
                 </RegionalSearchContextProvider>
