@@ -2,6 +2,9 @@
 
 ## CHANGELOG
 
+### 2.26.3
+- [Tag de conversão não funciona - Doris](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56288)
+
 ### 2.26.2
 - [Remover sentry wrap do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56122)
 - [56122 - Erro ao logar no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56122)
