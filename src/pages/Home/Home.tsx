@@ -44,6 +44,7 @@ import { useShelfOffersStore } from '../../zustand/useShelfOffersStore/useShelfO
 import useHomeHeader from './hooks/useHomeHeader';
 import styles from './styles';
 import ShowcaseDrawerContent from './components/ShowcaseDrawerContent/ShowcaseDrawerContent';
+import UxCam from '../../utils/UxCam';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -224,6 +225,7 @@ function Home() {
     DeviceInfo.isLocationEnabled().then((enabled) => {
       EventProvider.logEvent('device_info', { locationEnabled: enabled ? 'enabled' : 'disabled' });
     });
+    UxCam.tagScreen('Home Screen');
   }, []);
 
   useEffect(() => {

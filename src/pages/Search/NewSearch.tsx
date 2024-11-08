@@ -5,6 +5,7 @@ import SearchResults from './components/SearchResultsPage';
 import useSearchStore, { SearchStatusEnum, SearchType } from '../../zustand/useSearchStore';
 import SearchWrapper from './components/SearchWrapper';
 import EventProvider from '../../utils/EventProvider';
+import UxCam from '../../utils/UxCam';
 
 function NewSearch() {
   const {
@@ -17,6 +18,7 @@ function NewSearch() {
     EventProvider.logScreenViewEvent('/search');
     onInit(SearchType.SEARCH);
 
+    UxCam.tagScreen('Search Screen');
     return () => {
       onInit(SearchType.SEARCH);
     };
