@@ -87,6 +87,8 @@ export default function WebViewDoris() {
         source={{ uri: dorisUrl }}
         javaScriptCanOpenWindowsAutomatically
         onMessage={onMessage}
+        useWebKit
+        contentInsetAdjustmentBehavior="always"
         geolocationEnabled
         domStorageEnabled
         allowsInlineMediaPlayback

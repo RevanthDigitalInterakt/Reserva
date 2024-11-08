@@ -7,6 +7,7 @@ import styles from './styles';
 import testProps from '../../../../../../utils/testProps';
 import EventProvider from '../../../../../../utils/EventProvider';
 import useDorisStore from '../../../../../../zustand/useDorisStore';
+import { useBagStore } from '../../../../../../zustand/useBagStore/useBagStore';
 
 interface IButtonDoris {
   enabledBtnFullDoris: boolean;
@@ -21,10 +22,11 @@ export default function ButtonDoris({
 }: IButtonDoris) {
   const navigation = useNavigation();
   const { setDorisUrl } = useDorisStore(['setDorisUrl']);
+  const { orderFormId } = useBagStore(['orderFormId']);
   const goToWebviewDoris = useCallback(async (ean?: string) => {
     if (!ean) return;
 
-    setDorisUrl(ean);
+    setDorisUrl(ean, orderFormId);
     navigation.navigate('Doris');
 
     if (productId) {
