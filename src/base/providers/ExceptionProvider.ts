@@ -20,31 +20,31 @@ export class ExceptionProvider {
     breadcrumbs?: { [key: string]: unknown },
   ) {
     if (!params) {
-      Sentry.captureException(error);
-      return;
+      // Sentry.captureException(error);
+      // return;
     }
 
-    Sentry.withScope((scope) => {
-      Object.keys(params).forEach((key) => {
-        scope.setExtra(key, params[key]);
-      });
+    // Sentry.withScope((scope) => {
+    //   Object.keys(params).forEach((key) => {
+    //     scope.setExtra(key, params[key]);
+    //   });
 
-      if (tags && Object.keys(tags).length) {
-        Object.keys(tags).forEach((key) => {
-          // @ts-ignore
-          scope.setTag(key, tags[key]);
-        });
-      }
+    //   if (tags && Object.keys(tags).length) {
+    //     Object.keys(tags).forEach((key) => {
+    //       // @ts-ignore
+    //       scope.setTag(key, tags[key]);
+    //     });
+    //   }
 
-      if (breadcrumbs && Object.keys(breadcrumbs).length) {
-        Object.keys(breadcrumbs).forEach((key) => {
-          // @ts-ignore
-          scope.addBreadcrumb(key, breadcrumbs[key]);
-        });
-      }
+    //   if (breadcrumbs && Object.keys(breadcrumbs).length) {
+    //     Object.keys(breadcrumbs).forEach((key) => {
+    //       // @ts-ignore
+    //       scope.addBreadcrumb(key, breadcrumbs[key]);
+    //     });
+    //   }
 
-      Sentry.captureException(error);
-    });
+    //   Sentry.captureException(error);
+    // });
   }
 
   static trackScreen() {
@@ -63,7 +63,7 @@ export class ExceptionProvider {
       this.oldRouteName = screenName;
       this.oldRouteParams = params;
 
-      Sentry.addBreadcrumb({ message: screenName, category: 'navigation', data: params });
+      // Sentry.addBreadcrumb({ message: screenName, category: 'navigation', data: params });
 
       DdRum.startView(
         screenName,
@@ -83,13 +83,13 @@ export class ExceptionProvider {
       email: user.email,
     });
 
-    Sentry.configureScope((scope) => {
-      scope.setUser({ email: user.email });
-    });
+    // Sentry.configureScope((scope) => {
+    //   scope.setUser({ email: user.email });
+    // });
   }
 
   static unsetUser() {
     DdSdkReactNative.setUser({});
-    Sentry.setUser(null);
+    // Sentry.setUser(null);
   }
 }

@@ -168,8 +168,6 @@ export const authStore = create<IAuthStore>((set, getState) => ({
 
       return profile;
     } catch (err) {
-      ExceptionProvider.captureException(err, { email, password });
-
       throw new Error(err);
     }
   },

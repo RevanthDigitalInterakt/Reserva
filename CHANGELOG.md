@@ -2,6 +2,11 @@
 
 ## CHANGELOG
 
+### 2.26.2
+- [56122 - Erro ao logar no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56122)
+
+---
+
 ### 2.26.1
 
 - [54481 - Implementação UX Cam](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54481)
