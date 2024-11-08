@@ -3,6 +3,7 @@
 ## CHANGELOG
 
 ### 2.26.2
+- [Remover sentry wrap do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56122)
 - [56122 - Erro ao logar no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56122)
 
 - [54329 - Favoritos exibindo a parcela ao invés do preço cheio](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54329)
