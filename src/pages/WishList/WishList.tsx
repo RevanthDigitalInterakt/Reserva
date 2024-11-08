@@ -1,6 +1,6 @@
 import { useLazyQuery } from '@apollo/client';
 import React, {
-  useCallback, useEffect, useMemo, useState,
+  useCallback, useEffect, useState,
 } from 'react';
 import { Alert, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -25,8 +25,6 @@ import SkeletonWishList from './SkeletonWishList';
 import { mapProductToFavoriteItem } from './adaptWishList';
 import { Box } from '../../components/Box/Box';
 import { Typography } from '../../components/Typography/Typography';
-import { useRemoteConfig } from '../../hooks/useRemoteConfig';
-import { useIsTester } from '../../hooks/useIsTester';
 import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
 import UxCam from '../../utils/UxCam';
 
@@ -37,11 +35,6 @@ function WishList() {
   const [loadingAddToBag, setLoadingAddToBag] = useState(false);
   const [loadingSkuId, setLoadingSkuId] = useState<string | null>(null);
   const [showAnimationBag, setShowAnimationBag] = useState(false);
-
-  const { getBoolean } = useRemoteConfig();
-  const isTester = useIsTester();
-
-  const showProductPrice = useMemo(() => getBoolean(isTester ? 'show_item_price_tester' : 'show_item_price'), [getBoolean, isTester]);
 
   const { profile, initialized: initializedAuth } = useAuthStore(['profile', 'initialized']);
 
@@ -262,10 +255,7 @@ function WishList() {
                       color={item.colorName}
                       size={item.size}
                       title={item.product?.productName}
-                      price={
-                        showProductPrice
-                          ? item.product?.priceRange.sellingPrice.highPrice : item.installmentPrice
-                      }
+                      price={item.product?.priceRange.sellingPrice.lowPrice}
                       imageUrl={item?.imageUrl}
                       onClickFavorite={() => handleFavorite(item)}
                       onClickBagButton={() => onAddProductToCart(item)}

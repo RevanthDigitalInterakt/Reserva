@@ -5,6 +5,8 @@
 ### 2.26.2
 - [56122 - Erro ao logar no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56122)
 
+- [54329 - Favoritos exibindo a parcela ao invés do preço cheio](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54329)
+
 ---
 
 ### 2.26.1
