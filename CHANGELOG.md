@@ -2,6 +2,9 @@
 
 ## CHANGELOG
 
+### 2.26.4
+- [Ajuste posição negativa ou zero na result list da Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56727)
+
 ### 2.26.3
 - [Tag de conversão não funciona - Doris](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56288)
 
