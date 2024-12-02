@@ -2,6 +2,10 @@
 
 ## CHANGELOG
 
+### 2.26.4
+- [Implementação evento Revenue, Average order value e Purchase Rate - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55205)
+
+
 ### 2.26.3
 - [Tag de conversão não funciona - Doris](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56288)
 
