@@ -2,8 +2,9 @@
 
 ## CHANGELOG
 
-### 2.26.4
+### 2.26.5
 - [Implementação evento Revenue, Average order value e Purchase Rate - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55205)
+- [Preço do produto zerado nos favoritos](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56038)
 
 
 ### 2.26.3
