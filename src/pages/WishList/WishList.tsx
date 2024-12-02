@@ -247,44 +247,41 @@ function WishList() {
                     <Typography variant="tituloSessoes">Favoritos</Typography>
                   </Box>
                 )}
-                renderItem={({ item }) => {
-                  console.log('item', JSON.stringify(item.product?.priceRange));
-                  return (
-                    <Box marginBottom="xxxs" height={150}>
-                      <WishListProductCard
-                        loadingWishList={(loadingSkuId === item.skuId)}
-                        testID={`producthorizontal_card_${slugify(item.skuId)}`}
-                        color={item.colorName}
-                        isAvailable={item.availableProduct}
-                        size={item.size}
-                        title={item.product?.productName}
-                        price={item.product?.priceRange.sellingPrice.lowPrice}
-                        imageUrl={item?.imageUrl}
-                        onClickFavorite={() => handleFavorite(item)}
-                        onClickBagButton={() => onAddProductToCart(item)}
-                        loadingBagButton={loadingAddToBag}
-                        handleNavigateToProductDetail={() => {
-                          const { productId, productSku } = item;
-                          if (productSku?.name) {
-                            EventProvider.logEvent('page_view', {
-                              item_brand: defaultBrand.picapau,
-                            });
-                            EventProvider.logEvent('select_item', {
-                              item_list_id: productId || '',
-                              item_list_name: productSku?.name?.split('-')[0] || '',
-                              item_brand: getBrandByUrl(wishProducts),
-                            });
-                          }
+                renderItem={({ item }) => (
+                  <Box marginBottom="xxxs" height={150}>
+                    <WishListProductCard
+                      loadingWishList={(loadingSkuId === item.skuId)}
+                      testID={`producthorizontal_card_${slugify(item.skuId)}`}
+                      color={item.colorName}
+                      isAvailable={item.availableProduct}
+                      size={item.size}
+                      title={item.product?.productName}
+                      price={item.product?.priceRange.sellingPrice.lowPrice}
+                      imageUrl={item?.imageUrl}
+                      onClickFavorite={() => handleFavorite(item)}
+                      onClickBagButton={() => onAddProductToCart(item)}
+                      loadingBagButton={loadingAddToBag}
+                      handleNavigateToProductDetail={() => {
+                        const { productId, productSku } = item;
+                        if (productSku?.name) {
+                          EventProvider.logEvent('page_view', {
+                            item_brand: defaultBrand.picapau,
+                          });
+                          EventProvider.logEvent('select_item', {
+                            item_list_id: productId || '',
+                            item_list_name: productSku?.name?.split('-')[0] || '',
+                            item_brand: getBrandByUrl(wishProducts),
+                          });
+                        }
 
-                          navigation.navigate('ProductDetail', createNavigateToProductParams({
-                            productId: item?.product?.productId,
-                            skuId: item?.productSku?.itemId,
-                          }));
-                        }}
-                      />
-                    </Box>
-                  );
-                }}
+                        navigation.navigate('ProductDetail', createNavigateToProductParams({
+                          productId: item?.product?.productId,
+                          skuId: item?.productSku?.itemId,
+                        }));
+                      }}
+                    />
+                  </Box>
+                )}
               />
             </Box>
           )}

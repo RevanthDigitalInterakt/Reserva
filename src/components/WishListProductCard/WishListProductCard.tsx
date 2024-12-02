@@ -45,8 +45,6 @@ export function WishListProductCard({
   testID,
   isAvailable = true,
 }: IWishListProductCard) {
-  console.log('price', price);
-
   return (
     <Box
       flexDirection="row"
