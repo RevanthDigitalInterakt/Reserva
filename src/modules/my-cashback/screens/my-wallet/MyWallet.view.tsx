@@ -20,7 +20,6 @@ export interface MyWalletViewProps {
   selectedBalance: BalanceType;
   userExpireBalance: CashbackQuery['cashback']['expiration'] | null;
   changeSelectedBalance: (balanceType: BalanceType) => void;
-  convertCentsToReal: (cents: number) => number;
   formatDate: (date: string) => string;
   handleToggleBalanceVisibility: () => void;
   changeOperationFilter: (filter: FilterOptions) => void;
@@ -69,7 +68,6 @@ export function MyWalletView({
   balance,
   formatDate,
   operationFilter,
-  convertCentsToReal,
   userOperationsFiltered,
   userExpireBalance,
   totalPending,
@@ -238,7 +236,7 @@ export function MyWalletView({
           fontFamily="reservaSansBold"
           sizeInterger={42}
           sizeDecimal={24}
-          num={convertCentsToReal(totalPending || 0)}
+          num={totalPending || 0}
           color="preto"
         />
         <Box>
@@ -278,7 +276,7 @@ export function MyWalletView({
                 <Typography fontFamily="nunitoRegular" fontSize={14} color="preto">
                   R$
                   {' '}
-                  {convertCentsToReal(operation?.cashbackAmountInCents)}
+                  {operation?.cashbackAmountInCents}
                 </Typography>
               </Box>
               <Box style={{ flex: 1 }}>
