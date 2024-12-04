@@ -246,6 +246,7 @@ export const prepareEventDataPurchaseCompleted = (
 export const triggerEventAfterPurchaseCompleted = async (
   dataPurchaseCompleted: any,
   userMail: string,
+  itemsSkus: string[],
 ) => {
   const userRefDito = await getAsyncStorageItem('@Dito:userRef') || '';
 
@@ -278,7 +279,7 @@ export const triggerEventAfterPurchaseCompleted = async (
       nameEvent: queryID
         ? TrackEventNameEnum.PurchasedItemsSearch
         : TrackEventNameEnum.PurchasedItems,
-      sku: [dataPurchaseCompleted.ean],
+      sku: itemsSkus,
       subTypeEvent: TrackEventSubTypeEnum.Purchase,
       dataObject: dataPurchaseCompleted.orderFormItems.map((item) => ({
         discount: item?.discountPercent || 0,

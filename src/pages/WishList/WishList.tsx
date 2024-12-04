@@ -253,6 +253,7 @@ function WishList() {
                       loadingWishList={(loadingSkuId === item.skuId)}
                       testID={`producthorizontal_card_${slugify(item.skuId)}`}
                       color={item.colorName}
+                      isAvailable={item.availableProduct}
                       size={item.size}
                       title={item.product?.productName}
                       price={item.product?.priceRange.sellingPrice.lowPrice}
