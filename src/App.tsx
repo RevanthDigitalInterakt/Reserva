@@ -14,7 +14,6 @@ import { ExceptionProvider } from './base/providers/ExceptionProvider';
 import { theme } from './base/usereservappLegacy/theme';
 import DatadogComponentProvider from './components/DatadogComponentProvider';
 import { linkingConfig } from './config/linking';
-import Sentry from './config/sentryConfig';
 import ChronometerContextProvider from './context/ChronometerContext';
 import ContentfullContextProvider from './context/ContentfullContext';
 import { FirebaseContextProvider } from './context/FirebaseContext';
