@@ -54,9 +54,9 @@ function OrderProduct({ orderItem }: IOrderProduct) {
                 }}
               >
 
-                {orderItem.attachments.length === 0 ? (
+                {orderItem.attachments.length > 0 ? (
                   <ImageBackground
-                    source={{ uri: 'https://lojausereserva.vteximg.com.br/arquivos/ids/8950091/0093702563_01.jpg?v=638669546807730000' }}
+                    source={{ uri: orderItem?.imageUrl }}
                     resizeMode="contain"
                     style={{
                       width: configDeviceSizes.DEVICE_WIDTH * 0.25,
@@ -65,7 +65,7 @@ function OrderProduct({ orderItem }: IOrderProduct) {
                     }}
                   >
                     <Image
-                      source={{ uri: 'https://s3.sa-east-1.amazonaws.com/faca.vc/f12b1c63-5d36-4caa-a6f8-6af46f3c2cbf-fv' }}
+                      source={{ uri: orderItem.attachments[0] }}
                       resizeMode="contain"
                       style={{
                         width: configDeviceSizes.DEVICE_WIDTH * 0.12,

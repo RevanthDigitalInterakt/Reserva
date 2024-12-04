@@ -2,6 +2,11 @@
 
 ## CHANGELOG
 
+### 2.27.1
+- [52667 Ajuste imagem customizada do faça vc na sacola e pedidos](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52667)
+
+---
+
 ### 2.26.3
 - [Tag de conversão não funciona - Doris](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56288)
 
