@@ -168,6 +168,8 @@ export const prepareEventDataPurchaseCompleted = (
 
     const resOrderId = purchaseOrderForm.map((order: any) => order?.orderId.split('-')[0]);
 
+    const resLastOrderId = purchaseOrderForm.map((order: any) => order?.orderId);
+
     const condensedResOrderId = condenseArray(resOrderId).toString();
 
     const resPaymentDataInfo = purchaseOrderForm.map((order: any) => order.paymentData);
@@ -236,7 +238,7 @@ export const prepareEventDataPurchaseCompleted = (
         condensedResMarketingData[0]?.utmMedium === null
           ? ''
           : condensedResMarketingData[0]?.utmMedium,
-
+      resLastOrderId: JSON.stringify(resLastOrderId[0]),
     };
   } catch (e) {
     throw new Error(e);
