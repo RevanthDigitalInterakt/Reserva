@@ -1,6 +1,11 @@
 # APP Reserva
 
 ## CHANGELOG
+### 2.26.3
+
+- [45936 - Preço do desconto do prime no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45936)
+
+---
 
 ### 2.26.5
 - [Implementação evento Revenue, Average order value e Purchase Rate - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55205)
