@@ -10,11 +10,13 @@ import { IconLegacy } from '../IconLegacy/IconLegacy';
 import ImageComponent from '../ImageComponent/ImageComponent';
 import { Typography } from '../Typography/Typography';
 import EventProvider from '../../utils/EventProvider';
+import UxCam from '../../utils/UxCam';
 
 interface IWishListProductCard {
   currency?: string;
   discountTag?: string;
   imageUrl: string;
+  isAvailable?: boolean;
   size: string;
   color: string;
   title: string;
@@ -41,6 +43,7 @@ export function WishListProductCard({
   loadingWishList,
   loadingBagButton,
   testID,
+  isAvailable = true,
 }: IWishListProductCard) {
   return (
     <Box
@@ -127,42 +130,27 @@ export function WishListProductCard({
             </Box>
             <Box flexDirection="row" alignItems="center">
               <Box>
-                <Box flexDirection="row" alignItems="flex-end">
-                  <Typography
-                    fontFamily="nunitoBold"
-                    fontSize={15}
-                    color="neutroFrio2"
-                  >
-                    <Typography fontFamily="nunitoRegular" color="neutroFrio2">
-                      {'Por\n'}
-                      <Typography
-                        fontFamily="nunitoBold"
-                        color={discountTag ? 'neutroFrio2' : 'preto'}
-                      >
-                        {currency || 'R$'}
-                      </Typography>
-                    </Typography>
-                  </Typography>
-                  <Typography
-                    fontFamily="nunitoBold"
-                    fontSize={15}
-                    color={discountTag ? 'neutroFrio2' : 'preto'}
-                    style={
-                      discountTag
-                        ? {
-                          textDecorationLine: 'line-through',
-                        }
-                        : {}
-                    }
-                  >
-                    {discountTag
-                      ? `${integerPart(price)},`
-                      : `\n${integerPart(price)},`}
-                  </Typography>
-                  <Box mb="nano">
+                {isAvailable ? (
+
+                  <Box flexDirection="row" alignItems="flex-end">
                     <Typography
                       fontFamily="nunitoBold"
-                      fontSize={1}
+                      fontSize={15}
+                      color="neutroFrio2"
+                    >
+                      <Typography fontFamily="nunitoRegular" color="neutroFrio2">
+                        {'Por\n'}
+                        <Typography
+                          fontFamily="nunitoBold"
+                          color={discountTag ? 'neutroFrio2' : 'preto'}
+                        >
+                          {currency || 'R$'}
+                        </Typography>
+                      </Typography>
+                    </Typography>
+                    <Typography
+                      fontFamily="nunitoBold"
+                      fontSize={15}
                       color={discountTag ? 'neutroFrio2' : 'preto'}
                       style={
                         discountTag
@@ -173,11 +161,37 @@ export function WishListProductCard({
                       }
                     >
                       {discountTag
-                        ? `${decimalPart(price)}`
-                        : `\n${decimalPart(price)}`}
+                        ? `${integerPart(price)},`
+                        : `\n${integerPart(price)},`}
+                    </Typography>
+                    <Box mb="nano">
+                      <Typography
+                        fontFamily="nunitoBold"
+                        fontSize={1}
+                        color={discountTag ? 'neutroFrio2' : 'preto'}
+                        style={
+                          discountTag
+                            ? {
+                              textDecorationLine: 'line-through',
+                            }
+                            : {}
+                        }
+                      >
+                        {discountTag
+                          ? `${decimalPart(price)}`
+                          : `\n${decimalPart(price)}`}
+                      </Typography>
+                    </Box>
+                  </Box>
+                ) : (
+                  <Box mt="xxs" flexDirection="row" alignItems="center">
+                    <IconLegacy name="Alert" size={20} color="vermelhoRSV" mr="nano" />
+
+                    <Typography fontFamily="reservaSansBold" fontSize={15} color="vermelhoRSV">
+                      Produto Esgotado
                     </Typography>
                   </Box>
-                </Box>
+                )}
               </Box>
             </Box>
 
@@ -189,6 +203,13 @@ export function WishListProductCard({
                 loading={loadingBagButton}
                 onPress={() => {
                   EventProvider.logEvent('add_to_cart_from_wishlist', {
+                    item_name: title,
+                    item_color: color,
+                    item_size: size,
+                    value: price,
+                  });
+
+                  UxCam.logEvent('add_to_cart_from_wishlist', {
                     item_name: title,
                     item_color: color,
                     item_size: size,

@@ -12,15 +12,15 @@ interface CopiedCupomDescriptionProps {
 export function BlockedRouletDescription({ onPress }: CopiedCupomDescriptionProps) {
   const { rouletCoupon } = useBagStore(['rouletCoupon']);
   const dateFromTimestamp = parseISO(rouletCoupon.timestamp!);
-  const dateAfter60Minutes = addMinutes(dateFromTimestamp, 60);
+  const dateAfter30Minutes = addMinutes(dateFromTimestamp, 30);
   const nowUTC = utcToZonedTime(new Date(), 'America/Sao_Paulo');
   const timeToUnblockInMinutes = Math.floor(
-    (dateAfter60Minutes.getTime() - nowUTC.getTime()) / 1000 / 60,
+    (dateAfter30Minutes.getTime() - nowUTC.getTime()) / 1000 / 30,
   );
 
   const timeToUnblockInSeconds = Math.floor(
-    (dateAfter60Minutes.getTime() - nowUTC.getTime()) / 1000,
-  ) % 60;
+    (dateAfter30Minutes.getTime() - nowUTC.getTime()) / 1000,
+  ) % 30;
 
   return (
     <>

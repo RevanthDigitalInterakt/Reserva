@@ -106,6 +106,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
   prime: {
     total: 0,
     totalDiscount: 0,
+    renderApp: true,
   },
   allItemsQuantity: 0,
   hasPrimeSubscriptionInCart: false,

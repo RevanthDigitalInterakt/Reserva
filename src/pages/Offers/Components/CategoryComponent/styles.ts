@@ -7,12 +7,10 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.WHITE,
     flex: 1,
     paddingTop: scale(14),
-    marginBottom: scale(24),
   },
   childrenContainer: {
     backgroundColor: COLORS.WHITE,
     paddingHorizontal: scale(14),
-    height: 300,
   },
   containerRow: {
     flexDirection: 'row',

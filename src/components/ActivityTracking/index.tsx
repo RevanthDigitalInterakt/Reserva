@@ -39,7 +39,7 @@ function Infos() {
 }
 
 export function ActivityTracking() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(Platform.OS === 'ios');
   const { setHasTabBar } = useHomeStore(['setHasTabBar']);
   const handleTrackingPermission = async () => {
     const isIOS = Platform.OS === platformType.IOS;

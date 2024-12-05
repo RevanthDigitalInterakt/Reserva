@@ -37,6 +37,7 @@ import { theme } from '../../base/usereservappLegacy/theme';
 import NewFixedMenuItem from './components/NewMenuFixedItem';
 import FormLink from '../../components/FormLink/FormLink';
 import { handlePathsParams } from '../../utils/LinkingUtils/linkingUtils';
+import UxCam from '../../utils/UxCam';
 
 export type MenuProps = StackScreenProps<RootStackParamList, 'Menu'>;
 
@@ -195,6 +196,10 @@ function Menu() {
     getTestEnvironment();
   }, [getTestEnvironment]);
 
+  useEffect(() => {
+    UxCam.tagScreen('Side Menu');
+  }, []);
+
   return (
     <SafeAreaView
       style={{ backgroundColor: theme.colors.white, flex: 1 }}
@@ -232,15 +237,15 @@ function Menu() {
                 />
 
                 {regionalizationActive && (
-                <FixedMenuItem
-                  iconName="Pin"
-                  testID="com.usereserva:id/menu_button_cep"
-                  title="Inserir ou alterar CEP"
-                  onPress={() => {
-                    navigation.navigate('ChangeRegionalization');
-                    onSelectFixedMenuItem('Inserir ou alterar CEP');
-                  }}
-                />
+                  <FixedMenuItem
+                    iconName="Pin"
+                    testID="com.usereserva:id/menu_button_cep"
+                    title="Inserir ou alterar CEP"
+                    onPress={() => {
+                      navigation.navigate('ChangeRegionalization');
+                      onSelectFixedMenuItem('Inserir ou alterar CEP');
+                    }}
+                  />
                 )}
 
                 <NewFixedMenuItem
@@ -312,15 +317,15 @@ function Menu() {
                   }}
                 />
                 {showOnep5p && (
-                <NewFixedMenuItem
-                  iconName="cutlery"
-                  testID="com.usereserva:id/menu_button_privacy"
-                  title="1P=5P"
-                  onPress={() => {
-                    onSelectFixedMenuItem('1P=5P');
-                    navigation.navigate('PageOneP5P', { comeFrom: 'Menu' });
-                  }}
-                />
+                  <NewFixedMenuItem
+                    iconName="cutlery"
+                    testID="com.usereserva:id/menu_button_privacy"
+                    title="1P=5P"
+                    onPress={() => {
+                      onSelectFixedMenuItem('1P=5P');
+                      navigation.navigate('PageOneP5P', { comeFrom: 'Menu' });
+                    }}
+                  />
                 )}
               </View>
               {showForm === 'menu' ? (
@@ -343,9 +348,8 @@ function Menu() {
               fontFamily="nunitoRegular"
               fontSize={11}
             >
-              {`Versão ${DeviceInfo.getVersion()} ${
-                isTesting ? ' - Teste' : ''
-              }`}
+              {`Versão ${DeviceInfo.getVersion()} ${isTesting ? ' - Teste' : ''
+                }`}
             </Typography>
           </Box>
         </ScrollView>

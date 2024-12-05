@@ -18,6 +18,7 @@ query search($input: SearchProductInput!) {
       listPrice
       currentPrice
       hasDiscount
+      isKitLook
       discountPercentage
       prime {
         price
