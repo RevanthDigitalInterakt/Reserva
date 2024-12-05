@@ -10,6 +10,8 @@
 ### 2.26.5
 - [Implementação evento Revenue, Average order value e Purchase Rate - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55205)
 - [Preço do produto zerado nos favoritos](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56038)
+- [Alterar telefone WhatsApp na tela de pedidos](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57654)
+- [Direcionar URL "colecao-ofertas" para nova tela de ofertas](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57691)
 
 
 ### 2.26.3
