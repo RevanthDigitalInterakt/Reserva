@@ -160,10 +160,11 @@ function ProductSelectors() {
   if (!productDetail) return null;
 
   const productDetailsHasColors = !!productDetail.colorUrls.length;
+  const productIsOnlyFVC = productDetail.categoryTree.includes('Faça Você');
 
   return (
     <View>
-      {productDetailsHasColors && (
+      {productDetailsHasColors && !productIsOnlyFVC && (
         <Box mt="xs">
           <Box px="xxxs" mb="xxxs">
             <Typography variant="subtituloSessoes">Cores:</Typography>
@@ -190,7 +191,7 @@ function ProductSelectors() {
       )}
 
       <Box px="xxxs">
-        {productDetailsHasColors && (
+        {productDetailsHasColors && !productIsOnlyFVC && (
           <>
             <Box mt="xxxs">
               <Box flexDirection="row" justifyContent="space-between" alignItems="center">
