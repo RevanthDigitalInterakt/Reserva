@@ -10,7 +10,7 @@
 ### 2.26.5
 - [Implementação evento Revenue, Average order value e Purchase Rate - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55205)
 - [Preço do produto zerado nos favoritos](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56038)
-
+- [Redirecionar produto do faça vc da result list para a webview do faça vc](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54478)
 
 ### 2.26.3
 - [Tag de conversão não funciona - Doris](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56288)
