@@ -9,7 +9,7 @@ import { Box } from '../../../../components/Box/Box';
 import { Typography } from '../../../../components/Typography/Typography';
 import { Button } from '../../../../components/Button';
 import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
-import PrimeDiscount from '../../../../components/PrimeDiscount/PrimeDiscount';
+import PrimeDiscount, { PrimeDiscountType } from '../../../../components/PrimeDiscount/PrimeDiscount';
 import { usePrimeInfo } from '../../../../hooks/usePrimeInfo';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 
@@ -36,7 +36,9 @@ export default function BagFooter() {
 
   const items = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
   const showPrimeDiscount = useMemo(() => getBoolean('show_prime_discount'), [getBoolean]);
-  const totalDiscountPrime = useMemo(() => prime?.totalDiscount, [prime]);
+
+  const totalDiscountPrime = useMemo(() => prime?.totalDiscount, [prime?.totalDiscount]);
+  const totalPrime = useMemo(() => prime?.total, [prime?.total]);
 
   if (!items?.length) {
     return null;
@@ -96,9 +98,11 @@ export default function BagFooter() {
           </Box>
         )}
       </Box>
-      {isPrime && showPrimeDiscount && (
+      {showPrimeDiscount && (
         <PrimeDiscount
+          type={PrimeDiscountType.BagFooter}
           setNegativeValue
+          totalPrime={totalPrime}
           discountPrime={totalDiscountPrime}
         />
       )}
