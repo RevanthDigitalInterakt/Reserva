@@ -192,7 +192,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         [{ text: 'OK', onPress: () => navigation.goBack() }],
       );
     }
-  }, [getProduct, navigation, setProduct, trackEventDitoAccessProduct]);
+  }, [getProduct, navigation, setProduct, trackEventDitoAccessProduct, route]);
 
   useEffect(() => {
     resetProduct();
