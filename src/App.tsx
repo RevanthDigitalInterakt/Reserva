@@ -36,7 +36,6 @@ import { useApolloFetchPolicyStore } from './zustand/useApolloFetchPolicyStore';
 import { useBagStore } from './zustand/useBagStore/useBagStore';
 import { useConnectivityStore } from './zustand/useConnectivityStore';
 import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
-import UxCam from './utils/UxCam';
 
 const { model, os } = getDeviceInfoModel();
 const { freeMemory, totalMemory, usedMemory } = getDeviceInfoMemory();
@@ -118,8 +117,6 @@ function App() {
       freeStorage,
       usedStorage,
     });
-
-    UxCam.initializeModule();
   }, []);
 
   return (

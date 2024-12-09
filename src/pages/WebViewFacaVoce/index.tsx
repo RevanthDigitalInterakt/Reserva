@@ -10,7 +10,6 @@ import testProps from '../../utils/testProps';
 import { TopBarMenu } from '../../modules/Menu/components/TopBarMenu';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import { handleObjectToQueryParams } from '../../utils/handleObjectToQueryParams';
-import UxCam from '../../utils/UxCam';
 
 interface IOnLoad {
   nativeEvent: any;
@@ -57,10 +56,6 @@ export default function WebViewFacaVoce() {
         return null;
     }
   };
-
-  useEffect(() => {
-    UxCam.tagScreen('WebView FacaVoce');
-  }, []);
 
   return (
     <>

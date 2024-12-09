@@ -19,7 +19,6 @@ import {
 } from '../../../../base/graphql/generated';
 import useSearchStore from '../../../../zustand/useSearchStore';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
-import UxCam from '../../../../utils/UxCam';
 
 export default function BagProductList() {
   const { actions, packageItems, appTotalizers } = useBagStore([
@@ -121,17 +120,6 @@ export default function BagProductList() {
         item_id: item.id,
         item_name: productDetail?.productName || item.productTitle,
         item_category: 'product',
-        item_brand: getBrands(mergeItemsPackage(packageItems) || []),
-        currency: 'BRL',
-        price: (item.price || 0) / 100,
-        quantity: countUpdated,
-        seller: item.seller,
-      });
-
-      UxCam.logEvent('add_to_cart', {
-        item_id: item.id,
-        item_name: productDetail?.productName || item.productTitle,
-        item_category: item?.productCategories,
         item_brand: getBrands(mergeItemsPackage(packageItems) || []),
         currency: 'BRL',
         price: (item.price || 0) / 100,

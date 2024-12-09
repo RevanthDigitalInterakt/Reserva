@@ -10,7 +10,6 @@ import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { useNavigationToDelivery } from './useNavigationToDelivery';
 import type { ProfileQuery } from '../base/graphql/generated';
-import UxCam from '../utils/UxCam';
 
 interface IParamsHook {
   closeModal?: () => void;
@@ -69,9 +68,6 @@ export function useNewAuthentication({ closeModal }: IParamsHook) {
       setLoadingSignIn(false);
       EventProvider.logEvent('login', {
         custumer_email: email,
-      });
-      UxCam.logEvent('login', {
-        email,
       });
     }
   }, [checkNavigation, closeModal, onSignIn]);

@@ -21,7 +21,6 @@ import { useNavigationToDelivery } from '../../../hooks/useNavigationToDelivery'
 import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
 import EventProvider from '../../../utils/EventProvider';
-import UxCam from '../../../utils/UxCam';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -86,9 +85,6 @@ export function LoginScreen({
       EventProvider.logEvent('login_click', {});
       const profile = await handleLogin();
       if (profile) {
-        UxCam.logEvent('login', {
-          email: profile?.profile?.email,
-        });
         afterLogin(profile);
       }
     } catch (e) {

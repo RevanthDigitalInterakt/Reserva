@@ -22,7 +22,6 @@ import { ModalClientIsPrime } from '../../components/ModalClientIsPrime/ModalCli
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import type { Items } from '../../utils/EventProvider/Event';
 import { removeSkuColorProductName } from '../../utils/products/removeSkuColorProductName';
-import UxCam from '../../utils/UxCam';
 import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
 
 /**
@@ -148,7 +147,6 @@ function WebviewCheckout() {
 
   useEffect(() => {
     EventProvider.logEvent('payment_step', {});
-    UxCam.tagScreen('Webview Checkout');
   }, []);
 
   useEffect(() => {

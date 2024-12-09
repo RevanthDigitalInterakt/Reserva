@@ -14,7 +14,6 @@ import useCheckAppNewVersion from './hooks/useCheckAppNewVersion';
 import { useRefreshToken } from './hooks/useRefreshToken';
 import { useWishlistActions } from './hooks/useWishlistActions';
 import { useOncePerDayEvent } from './utils/useOncePerDayEvent';
-import UxCam from './utils/UxCam';
 
 interface IProps {
   children: React.ReactNode;
@@ -46,7 +45,6 @@ function InitialScreen({ children }: IProps) {
 
     if (profile) {
       handleDitoRegister();
-      UxCam.trackingUser(profile);
     }
 
     await onPrimeConfig();

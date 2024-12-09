@@ -18,7 +18,6 @@ import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '.
 import useSearchStore from '../../../../zustand/useSearchStore';
 import { mergeItemsPackage } from '../../../../utils/mergeItemsPackage';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
-import UxCam from '../../../../utils/UxCam';
 
 export default function BagProductPackageList() {
   const { actions, packageItems, appTotalizers } = useBagStore(['actions', 'packageItems', 'appTotalizers']);
@@ -118,17 +117,6 @@ export default function BagProductPackageList() {
       item_id: item.id,
       item_name: productDetail?.productName || item.productTitle,
       item_category: 'product',
-      item_brand: getBrands(mergeItemsPackage(packageItems) || []),
-      currency: 'BRL',
-      price: (item.price || 0) / 100,
-      quantity: countUpdated,
-      seller: item.seller,
-    });
-
-    UxCam.logEvent('add_to_cart', {
-      item_id: item.id,
-      item_name: productDetail?.productName || item.productTitle,
-      item_category: item.productCategories,
       item_brand: getBrands(mergeItemsPackage(packageItems) || []),
       currency: 'BRL',
       price: (item.price || 0) / 100,

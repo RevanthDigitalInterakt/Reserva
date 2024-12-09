@@ -10,7 +10,6 @@ import { IconLegacy } from '../IconLegacy/IconLegacy';
 import ImageComponent from '../ImageComponent/ImageComponent';
 import { Typography } from '../Typography/Typography';
 import EventProvider from '../../utils/EventProvider';
-import UxCam from '../../utils/UxCam';
 
 interface IWishListProductCard {
   currency?: string;
@@ -203,13 +202,6 @@ export function WishListProductCard({
                 loading={loadingBagButton}
                 onPress={() => {
                   EventProvider.logEvent('add_to_cart_from_wishlist', {
-                    item_name: title,
-                    item_color: color,
-                    item_size: size,
-                    value: price,
-                  });
-
-                  UxCam.logEvent('add_to_cart_from_wishlist', {
                     item_name: title,
                     item_color: color,
                     item_size: size,

@@ -39,7 +39,6 @@ import BagSkeleton from './components/Skeleton';
 import SkeletonBagFooter from './components/SkeletonBagFooter';
 import { bagStyles } from './styles/bagStyles';
 import { usePrimeInfo } from '../../hooks/usePrimeInfo';
-import UxCam from '../../utils/UxCam';
 
 type TNewBagProps = StackScreenProps<RootStackParamList, 'BagScreen'>;
 
@@ -158,8 +157,6 @@ export default function NewBag({ navigation }: TNewBagProps) {
 
   useEffect(() => {
     EventProvider.logScreenViewEvent('/bag');
-    UxCam.tagScreen('Bag Screen');
-    UxCam.logEvent('bag view');
   }, []);
 
   return (
