@@ -7,6 +7,9 @@
 
 ---
 
+### 2.27.0
+- [Alterar splash screen para o Natal](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57534)
+
 ### 2.26.5
 - [Implementação evento Revenue, Average order value e Purchase Rate - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55205)
 - [Preço do produto zerado nos favoritos](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56038)
