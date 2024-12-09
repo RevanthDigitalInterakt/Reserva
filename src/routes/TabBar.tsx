@@ -56,6 +56,20 @@ export function TabBar({ state, navigation }: BottomTabBarProps) {
           const isFocused = state.index === index;
           const { params } = route;
 
+          if (route.name === 'NewOffersPage') {
+            return (
+              <BottomBarButton
+                {...testProps(`com.usereserva:id/bottom-tab-perfil${slugify(params?.label)}`)}
+                key={route.key}
+                isSlected={isFocused}
+                hidden
+                onPress={() => onPress(route, isFocused)}
+                iconName={route.name === 'WishList' ? 'Heart' : route.name}
+                label={params?.label || ''}
+              />
+            );
+          }
+
           return (
             <BottomBarButton
               {...testProps(`com.usereserva:id/bottom-tab-perfil${slugify(params?.label)}`)}
