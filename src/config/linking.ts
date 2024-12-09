@@ -29,6 +29,7 @@ const routesConfig = {
           path: 'home-tabs',
           screens: {
             Offers: 'ofertas',
+            NewOffersPage: 'colecao-ofertas',
             WishList: 'wishlist',
             Profile: 'profile',
             Call: 'call-center',

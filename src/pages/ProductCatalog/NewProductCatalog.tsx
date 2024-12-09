@@ -51,7 +51,7 @@ function NewProductCatalog({
 
   const [isGoingBack, setIsGoingBack] = useState(false);
   const [loadingMedias, setLoadingMedias] = useState(false);
-  const { referenceId, filters } = route.params;
+  const { referenceId, filters } = route.params || {};
   const { offersPage } = useHomeStore(['offersPage']);
 
   const reference = useMemo(
