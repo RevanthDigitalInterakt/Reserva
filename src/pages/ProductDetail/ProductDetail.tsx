@@ -107,7 +107,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       ExceptionProvider.captureException(error);
     }
   }, [getItem, profile?.email]);
-
+  const isOnlyFvcProduct = productDetail?.categoryTree.includes('Faça Você');
   const onInitialLoad = useCallback(async (params: IProductDetailRouteParams) => {
     try {
       const input = getProductLoadType(params);
@@ -121,9 +121,11 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       trackEventDitoAccessProduct(data);
 
       const existsFvcProductReference = !!product?.fvcProductReference;
-
       if (existsFvcProductReference) {
         EventProvider.logEvent('pdp_open_product_with_ref_fvc', {});
+      }
+      if (isOnlyFvcProduct) {
+        navigation.navigate('FacaVc', { type: product.productId });
       }
 
       EventProvider.logScreenViewEvent(`/pdp/${product.productName?.replace(/ /g, '-').toLowerCase()}`);
@@ -190,7 +192,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         [{ text: 'OK', onPress: () => navigation.goBack() }],
       );
     }
-  }, [getProduct, navigation, setProduct, trackEventDitoAccessProduct]);
+  }, [getProduct, navigation, setProduct, trackEventDitoAccessProduct, route]);
 
   useEffect(() => {
     resetProduct();
@@ -250,7 +252,13 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       )}
       {isGiftCard ? <GiftCardAddToCart /> : null}
       {!isGiftCard && !drawerIsOpen && getBoolean('add_to_bag_button_is_fixed') && !isKitLook
-        && !loading && <ProductAddToCart isFixed />}
+        && !loading
+        && (
+        <ProductAddToCart
+          isFixed
+          fvcReferenceId={productDetail?.categoryTree.includes('Faça Você') ? productDetail?.productId || undefined : undefined}
+        />
+        )}
     </>
   );
 }

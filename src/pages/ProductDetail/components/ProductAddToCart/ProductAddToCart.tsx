@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Alert, View } from 'react-native';
 import LottieView from 'lottie-react-native';
+import { useNavigation } from '@react-navigation/native';
 import { styles } from '../ProductSelectors/ProductSelectors.styles';
 import { useRemoteConfig } from '../../../../hooks/useRemoteConfig';
 import EventProvider from '../../../../utils/EventProvider';
@@ -18,8 +19,9 @@ import { useTrackClickAlgoliaStore } from '../../../../zustand/useTrackAlgoliaSt
 import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../../../base/graphql/generated';
 import useSearchStore from '../../../../zustand/useSearchStore';
 
-function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
+function ProductAddToCart({ isFixed = false, fvcReferenceId }: ProductAddToCartProps) {
   const { getString, getBoolean } = useRemoteConfig();
+  const { navigate } = useNavigation();
   const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
   const { queryID } = useSearchStore(['queryID']);
   const {
@@ -59,6 +61,11 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
   }, [selectedColor, productDetail]);
 
   const onAddProductToCart = useCallback(async () => {
+    if (fvcReferenceId) {
+      navigate('FacaVc', { type: fvcReferenceId });
+      return;
+    }
+
     try {
       if (!selectedSize || loading) return;
 
@@ -117,9 +124,12 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
     selectedSize,
     setDrawerIsOpen,
     sizeIsSelected,
+    fvcReferenceId,
   ]);
 
   const buttonAddCartActive = useMemo(() => {
+    if (fvcReferenceId) return true;
+
     if (!selectedSize || !productDetail) return false;
 
     if (selectedSize.disabled) return false;
@@ -142,7 +152,7 @@ function ProductAddToCart({ isFixed = false }: ProductAddToCartProps) {
 
       <Button
         height={70}
-        title="ADICIONAR À SACOLA"
+        title={fvcReferenceId ? 'PERSONALIZE DO SEU JEITO' : 'ADICIONAR À SACOLA'}
         variant="primarioEstreito"
         buttonBackgroundColor={getString('pdp_button_add_bag')}
         disabled={!buttonAddCartActive || loading}
