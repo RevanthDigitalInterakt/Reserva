@@ -2,10 +2,6 @@ const jsoMetroConfig = require('obfuscator-io-metro-plugin');
 
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 
-const {
-  withSentryConfig,
-} = require('@sentry/react-native/metro');
-
 const obfuscator = jsoMetroConfig(
   {
     // for these option look javascript-obfuscator library options from  above url
@@ -35,4 +31,4 @@ const config = {
   ...obfuscator,
 };
 
-module.exports = withSentryConfig(mergeConfig(getDefaultConfig(__dirname), config));
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);

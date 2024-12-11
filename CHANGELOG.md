@@ -1,6 +1,25 @@
 # APP Reserva
 
 ## CHANGELOG
+### 2.26.3
+
+- [45936 - Preço do desconto do prime no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45936)
+
+---
+
+### 2.27.0
+- [Alterar splash screen para o Natal](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57534)
+
+### 2.26.5
+- [Implementação evento Revenue, Average order value e Purchase Rate - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55205)
+- [Preço do produto zerado nos favoritos](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56038)
+- [Redirecionar produto do faça vc da result list para a webview do faça vc](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54478)
+- [Alterar telefone WhatsApp na tela de pedidos](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57654)
+- [Direcionar URL "colecao-ofertas" para nova tela de ofertas](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57691)
+
+### 2.26.4
+- [Ajuste posição negativa ou zero na result list da Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56727)
+- [Remoção do Sentry no projeto](Sem url)
 
 ### 2.26.3
 - [Tag de conversão não funciona - Doris](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56288)

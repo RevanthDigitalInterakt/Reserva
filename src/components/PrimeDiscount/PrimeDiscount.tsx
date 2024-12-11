@@ -10,24 +10,29 @@ import { COLORS, FONTS } from '../../base/styles';
 import { Divider } from '../Divider/Divider';
 import { useLandingPagePrimeQuery } from '../../base/graphql/generated';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
-import { useBagStore } from '../../zustand/useBagStore/useBagStore';
+
+export enum PrimeDiscountType {
+  BagCoupon = 'BagCoupon',
+  BagFooter = 'BagFooter',
+}
 
 interface PrimeDiscountProps {
-  discountPrime?: number;
+  type: PrimeDiscountType;
+  totalPrime: number | null | undefined;
+  discountPrime: number | undefined;
+  renderApp: boolean | undefined;
   setOpenModal?: (value: boolean) => void;
   setNegativeValue?: boolean;
 }
 
 export default function PrimeDiscount({
+  type,
+  totalPrime,
   discountPrime,
+  renderApp,
   setOpenModal,
   setNegativeValue,
 }: PrimeDiscountProps) {
-  const {
-    appTotalizers,
-  } = useBagStore([
-    'appTotalizers',
-  ]);
   const { getFetchPolicyPerKey } = useApolloFetchPolicyStore(['getFetchPolicyPerKey']);
   const { onAddPrimeToCart, isPrime } = usePrimeInfo();
   const handleClick = useCallback(async () => {
@@ -44,28 +49,63 @@ export default function PrimeDiscount({
 
   const data = useMemo(() => rawData?.landingPagePrime, [rawData?.landingPagePrime]);
 
-  const showPrimePrice = useMemo(
-    // TO DO: Passar essa validação para o backend
-    () => discountPrime != null
-    && discountPrime <= appTotalizers.total,
-    [appTotalizers.total, discountPrime],
-  );
+  const hasRenderBagCupon = !isPrime && renderApp;
 
-  if (!showPrimePrice) {
-    return null;
+  const hasRenderBagFooter = isPrime && !!discountPrime && discountPrime > 0;
+
+  // Quando usuário não é prime, e o carrinho dele tem vangatens de desconto com prime.
+  if (hasRenderBagCupon && type === 'BagCoupon') {
+    return (
+      <>
+        <Divider variant="fullWidth" marginY="xs" />
+        <View style={styles.container}>
+          <View style={styles.iconContainer}>
+            <IconDiamond />
+          </View>
+          <View style={styles.containerText}>
+            <Text style={styles.text}>
+              Valor para assinantes
+            </Text>
+            <Text style={styles.boldText}> Prime</Text>
+          </View>
+          <View style={styles.containerPriceCustom}>
+            <PriceCustom
+              fontFamily={FONTS.RESERVA_SANS_BOLD}
+              color={COLORS.DARK_GOLD_TEXT}
+              sizeInteger={14}
+              sizeDecimal={14}
+              num={totalPrime || 0}
+              negative={setNegativeValue}
+            />
+          </View>
+        </View>
+
+        <Button
+          onPress={() => handleClick()}
+          title={`ASSINE AGORA POR ${data?.installmentQty}x de R$${data?.installmentPrice}`}
+          variant="primarioEstreito"
+          inline
+          style={{ backgroundColor: COLORS.BACKGROUND_GOLD_PRIME }}
+        />
+        <Text style={styles.textInfo}>
+          Com a Reserva Prime tenha um mundo de benefícios como
+        </Text>
+        <Text style={styles.textInfoBold}>
+          descontos e frete grátis em todos os seus pedidos!*
+        </Text>
+      </>
+    );
   }
 
-  return (
-    <>
-      {!isPrime && (<Divider variant="fullWidth" marginY="xs" />)}
+  if (hasRenderBagFooter && type === 'BagFooter') {
+    return (
       <View style={styles.container}>
         <View style={styles.iconContainer}>
           <IconDiamond />
         </View>
         <View style={styles.containerText}>
           <Text style={styles.text}>
-            {isPrime ? 'Desconto Prime' : 'Valor para assinantes'}
-            {!isPrime && <Text style={styles.boldText}> Prime</Text>}
+            Desconto Prime
           </Text>
         </View>
         <View style={styles.containerPriceCustom}>
@@ -79,23 +119,8 @@ export default function PrimeDiscount({
           />
         </View>
       </View>
-      {!isPrime && (
-        <>
-          <Button
-            onPress={() => handleClick()}
-            title={`ASSINE AGORA POR ${data?.installmentQty}x de R$${data?.installmentPrice}`}
-            variant="primarioEstreito"
-            inline
-            style={{ backgroundColor: COLORS.BACKGROUND_GOLD_PRIME }}
-          />
-          <Text style={styles.textInfo}>
-            Com a Reserva Prime tenha um mundo de benefícios como
-          </Text>
-          <Text style={styles.textInfoBold}>
-            descontos e frete grátis em todos os seus pedidos!*
-          </Text>
-        </>
-      )}
-    </>
-  );
+    );
+  }
+
+  return null;
 }

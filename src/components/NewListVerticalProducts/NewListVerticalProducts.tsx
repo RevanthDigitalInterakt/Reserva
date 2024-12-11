@@ -110,7 +110,7 @@ function NewListVerticalProducts({
       queryID,
       positions: getPosition(item),
     });
-  }, []);
+  }, [data]);
 
   const onRenderItem = useCallback(
     (item: ProductListOutput, isKitLook?: ProductListOutput['isKitLook']) => (

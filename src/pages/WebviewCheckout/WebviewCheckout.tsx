@@ -24,6 +24,7 @@ import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import type { Items } from '../../utils/EventProvider/Event';
 import { removeSkuColorProductName } from '../../utils/products/removeSkuColorProductName';
 import UxCam from '../../utils/UxCam';
+import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
 
 /**
  "Be very careful with the implementation as
@@ -47,7 +48,8 @@ function WebviewCheckout() {
   const [loading, setLoading] = useState(false);
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
   const [navState, setNavState] = useState('');
-  const { orderFormId } = useBagStore(['orderFormId']);
+  const { orderFormId, packageItems } = useBagStore(['orderFormId', 'packageItems']);
+  const purchaseItems = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
   const { profile } = useAuthStore(['profile']);
 
   const { changeStateIsVisibleModalPrimeRemoved, isVisibleModalPrimeRemoved } = usePrimeStore([
@@ -99,12 +101,14 @@ function WebviewCheckout() {
 
   const doEventPurchaseCompleted = useCallback(async () => {
     try {
+      const itemsSkus = purchaseItems.map((item) => item.ean).filter((ean) => ean) as string[]
+      || [];
       const orderGroupId = getURLParameter(navState, 'og');
       const { data: dataOrderGroup } = await GetPurchaseData(orderGroupId) || {};
       const dataPurchaseCompleted = prepareEventDataPurchaseCompleted(dataOrderGroup, orderFormId);
       await AsyncStorage.setItem('User:LastOrderId', dataPurchaseCompleted?.resLastOrderId);
       dataPurchaseCompleted.adaptItems = handleProductNameToEvent(dataPurchaseCompleted.adaptItems);
-      await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '');
+      await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '', itemsSkus);
     } catch (e) {
       ExceptionProvider.captureException(e);
     } finally {

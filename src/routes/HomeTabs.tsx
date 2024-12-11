@@ -17,7 +17,6 @@ import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import { useHomeStore } from '../zustand/useHomeStore';
 import EventProvider from '../utils/EventProvider';
 import OffersPage from '../pages/Offers/OffersPage';
-import { useIsTester } from '../hooks/useIsTester';
 import UxCam from '../utils/UxCam';
 
 const Tab = createBottomTabNavigator();
@@ -29,11 +28,9 @@ export function HomeTabs() {
   const showLabelFacavc = getBoolean('show_label_facavc');
   const { hasTabBar } = useHomeStore(['hasTabBar']);
 
-  const isTester = useIsTester();
-
   const showNewOffersPage = useMemo(
-    () => getBoolean(isTester ? 'new_offers_page_tester' : 'new_offers_page'),
-    [getBoolean, isTester],
+    () => getBoolean('new_offers_page'),
+    [getBoolean],
   );
 
   const getOffersPage = useMemo(() => (showNewOffersPage
@@ -80,6 +77,19 @@ export function HomeTabs() {
               label: 'Promoções',
             }}
             options={{ headerShown: false }}
+          />
+          <Tab.Screen
+            name="NewOffersPage"
+            component={OffersPage}
+            listeners={{
+              tabPress: () => {
+                EventProvider.logScreenViewEvent('/new-offers-page');
+                EventProvider.logEvent('new_offers_page_click', {});
+              },
+            }}
+            options={{
+              headerShown: false,
+            }}
           />
           {showRoulet ? (
             <Tab.Screen

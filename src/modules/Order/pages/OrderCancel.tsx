@@ -12,6 +12,7 @@ import { Button } from '../../../components/Button';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../components/Typography/Typography';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
+import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 
 type ItemContactProps = {
   number: string;
@@ -19,13 +20,15 @@ type ItemContactProps = {
 };
 
 function ItemContact({ number, type }: ItemContactProps) {
+  const { getNumber } = useRemoteConfig();
+  const phoneNumber = getNumber('call_center_number');
   return (
     <TouchableOpacity
       onPress={() => {
         switch (type) {
           case 'wp':
             Linking.openURL(
-              `whatsapp://send?text=Olá quero comprar!&phone=${number}`,
+              `whatsapp://send?phone=${phoneNumber}`,
             );
             break;
 
@@ -34,7 +37,7 @@ function ItemContact({ number, type }: ItemContactProps) {
             break;
 
           default:
-            return null;
+            break;
         }
       }}
     >
@@ -116,7 +119,7 @@ function OrderList() {
 
           <Box flexDirection="row" justifyContent="center">
             <Box width="43%">
-              <ItemContact number="(21) 3609-2555" type="phone" />
+              <ItemContact number="(21) 3609-2550" type="wp" />
             </Box>
           </Box>
         </Box>

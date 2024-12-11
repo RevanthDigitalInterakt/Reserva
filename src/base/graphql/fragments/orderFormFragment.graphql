@@ -81,6 +81,7 @@ fragment orderFormFragment on OrderformOutput {
     prime {
         total
         totalDiscount
+        renderApp
     }
     allItemsQuantity
     hasPrimeSubscriptionInCart

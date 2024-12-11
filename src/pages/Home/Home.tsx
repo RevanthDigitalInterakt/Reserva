@@ -260,7 +260,7 @@ function Home() {
             bounces
             onScroll={handleScroll}
             contentContainerStyle={{ paddingBottom: 100 }}
-            keyExtractor={(item, index) => (index === 2 && (getString('count_down_position') === 'B') ? 'home-carousel' : `home-media-${item.image.url.toString()}-${item.image.title}`)}
+            keyExtractor={(item, index) => (index === 2 && (getString('count_down_position') === 'B') ? 'home-carousel' : `home-media-${item.image.url.toString()}-${item.image.title}=${index}`)}
             data={medias}
             renderItem={({ item, index }) => {
               if (index === 2 && (getString('count_down_position') === 'B')) {

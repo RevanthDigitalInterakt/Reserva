@@ -89,7 +89,7 @@ type TRemoteConfigNumbersKeys = KeysMatching<IRemoteConfigKeys, number>;
 type TRemoteConfigStringArrayKeys = KeysMatching<IRemoteConfigKeys, string[]>;
 
 export const defaults: IRemoteConfigKeys = {
-  call_center_number: 552136092555,
+  call_center_number: 552136092550,
   show_new_bag: false,
   pdp_show_gift_card: false,
   show_new_bag_tester: true,

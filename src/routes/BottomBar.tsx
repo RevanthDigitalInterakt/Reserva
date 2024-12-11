@@ -17,6 +17,7 @@ interface BottomBarButtonProps {
   label: string
   testID?: string;
   accessibilityLabel?: string;
+  hidden?: boolean;
 }
 
 export function BottomBarButton({
@@ -26,6 +27,7 @@ export function BottomBarButton({
   label,
   testID,
   accessibilityLabel,
+  hidden,
 }: BottomBarButtonProps) {
   const renderIcon = useCallback((nameIcon: string) => {
     if (nameIcon === 'FacaVc') {
@@ -52,6 +54,7 @@ export function BottomBarButton({
       mx="micro"
       width={screenWidth / 5}
       margin={0}
+      style={{ display: hidden ? 'none' : 'flex' }}
       onPress={() => onPress()}
       testID={testID}
       accessibilityLabel={accessibilityLabel}

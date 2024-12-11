@@ -35,7 +35,7 @@ export interface IBagStore {
   messages: string[];
   clientProfileData?: OrderFormQuery['orderForm']['clientProfileData'];
   packageItems: OrderFormQuery['orderForm']['packageItems']
-  prime?: OrderFormQuery['orderForm']['prime']
+  prime: OrderFormQuery['orderForm']['prime']
   deliveryType: {
     type: string;
     store?: string;
