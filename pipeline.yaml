@@ -28,6 +28,12 @@ stages:
             displayName: 'Install Node.js'
 
           - script: |
+              cd ios
+              xcodebuild clean
+              rm -rf ~/Library/Developer/Xcode/DerivedData
+            displayName: 'Clean Xcode'
+
+          - script: |
               brew -v
               fastlane -v
               ruby -v
