@@ -12,6 +12,15 @@ export class ExceptionProvider {
 
   private static oldRouteParams: Readonly<object | undefined>;
 
+  static captureException(
+    error: Error,
+    params?: { [key: string]: unknown },
+    tags?: { [key: string]: unknown },
+    breadcrumbs?: { [key: string]: unknown },
+  ) {
+    // TODO Datadog implementation
+  }
+
   static trackScreen() {
     try {
       const screen = navigationRef?.current?.getCurrentRoute();

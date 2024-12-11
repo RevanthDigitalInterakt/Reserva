@@ -24,6 +24,7 @@ DerivedData
 project.xcworkspace
 /ios/Pods/
 ios/.xcode.env.local
+*.jso
 
 # Android/IntelliJ
 #
