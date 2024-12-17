@@ -2,7 +2,7 @@ import { Platform } from 'react-native';
 import appsFlyer from 'react-native-appsflyer';
 import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
-import OneSignal from 'react-native-onesignal';
+import { OneSignal, LogLevel } from 'react-native-onesignal';
 import { initialize as initializeClarity, setCustomUserId } from 'react-native-clarity';
 import Config from 'react-native-config';
 import { env } from '../../config/env';
@@ -29,23 +29,26 @@ class EventProvider {
   private static initializePushNotification() {
     /* O N E S I G N A L   S E T U P */
     if (__DEV__) {
-      OneSignal.setLogLevel(6, 0);
+      OneSignal.Debug.setLogLevel(LogLevel.Verbose);
     }
 
-    OneSignal.setAppId(env.ONE_SIGINAL_APP_KEY_IOS);
+    OneSignal.initialize(env.ONE_SIGINAL_APP_KEY_IOS);
 
-    OneSignal.setNotificationWillShowInForegroundHandler((notificationReceivedEvent) => {
-      notificationReceivedEvent.getNotification();
+    OneSignal.Notifications.addEventListener('click', (event) => {
+      console.log('Click notification', event);
     });
+    // OneSignal.setNotificationWillShowInForegroundHandler((notificationReceivedEvent) => {
+    //   notificationReceivedEvent.getNotification();
+    // });
   }
 
   private static async putCustomData() {
-    const deviceState = await this.OneSignal.getDeviceState();
+    const deviceState = await this.OneSignal.User.getOnesignalId();
 
-    if (deviceState && deviceState.userId) {
+    if (deviceState && deviceState) {
       this.appsFlyer.setAdditionalData(
         {
-          onesignalCustomerId: deviceState?.userId,
+          onesignalCustomerId: deviceState,
         },
         (res) => { },
       );
@@ -182,7 +185,7 @@ class EventProvider {
       : [Type]
   ) {
     const eventValues = args[1] as Record<string, string>;
-    this.OneSignal.sendTags(eventValues);
+    // this.OneSignal.sendTags(eventValues);
   }
 
   public static sendTrackEvent<Type extends TEventOptionsDitoFn['type']>(
@@ -197,23 +200,24 @@ class EventProvider {
     sendDitoTrackEvent(id, { action, data });
   }
 
-  public static setPushExternalUserId(email: string) {
-    setCustomUserId(email);
-    this.OneSignal.setExternalUserId(email);
-  }
+  // public static setPushExternalUserId(email: string) {
+  //   setCustomUserId(email);
+  //   this.OneSignal.User.
+  //   this.OneSignal.setExternalUserId(email);
+  // }
 
   public static getPushTags(callback: (handle: {
     [key: string]: string;
   } | null) => void) {
-    this.OneSignal.getTags(callback);
+    this.OneSignal.User.getTags(callback);
   }
 
-  public static getPushDeviceState() {
-    return OneSignal.getDeviceState();
-  }
+  // public static getPushDeviceState() {
+  //   return OneSignal.getDeviceState();
+  // }
 
-  public static removePushExternalUserId() {
-    this.OneSignal.removeExternalUserId();
-  }
+  // public static removePushExternalUserId() {
+  //   this.OneSignal.removeExternalUserId();
+  // }
 }
 export default EventProvider;
