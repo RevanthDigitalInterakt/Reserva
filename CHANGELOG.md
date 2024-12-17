@@ -1,6 +1,11 @@
 # APP Reserva
 
 ## CHANGELOG
+
+### 2.27.1
+
+- Correção do build para a versão 2.27.1
+
 ### 2.26.3
 
 - [45936 - Preço do desconto do prime no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45936)
