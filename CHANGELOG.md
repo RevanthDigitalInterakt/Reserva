@@ -2,9 +2,9 @@
 
 ## CHANGELOG
 
-### 2.27.1
+### 2.27.3
 
-- Correção do build para a versão 2.27.1
+- Correção do build para a versão 2.27.3
 
 ### 2.26.3
 
