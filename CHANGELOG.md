@@ -8,6 +8,12 @@
 
 ---
 
+### 2.27.3
+
+- Correção do build para a versão 2.27.3
+
+---
+
 ### 2.27.0
 
 - [Alterar splash screen para o Natal](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57534)
@@ -164,8 +170,6 @@
 
 - [41136 - Tagueamento PDC app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41136)
 
-
-
 ---
 
 ### 2.11.8
@@ -205,6 +209,7 @@
 - [30688 - Inclusão do desconto do prime no valor final dos produtos na sacola do app](https://dev.azure.com/areco/AReCO/_workitems/edit/30688)
 
 ### 2.11.2
+
 - [31626 Tracking de eventos Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31626)
 - [30966 - Informação troca e devolução PDP [app]](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30966/)
 
@@ -215,6 +220,7 @@
 - [31730 - Ajustes novo App de Push da Dito](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31730)
 
 ### 2.11.0
+
 - [30623 - Correção de loading do link whatsapp coleções](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30623)
 - [30618 - Incluir caso de uso para o link de whatsapp](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30618)
 - [30626 - Incluir webview de troca e devolução no app reserva](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30626)
