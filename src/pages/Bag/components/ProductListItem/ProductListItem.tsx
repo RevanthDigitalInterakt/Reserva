@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import {
   Text, TouchableOpacity, View, ImageBackground,
+  Image,
 } from 'react-native';
 
 import { Box } from '../../../../components/Box/Box';
@@ -71,7 +72,7 @@ function ProductListItem({
                       position: 'relative',
                     }}
                   >
-                    <ImageComponent
+                    <Image
                       source={{ uri: urlFacaVc }}
                       resizeMode="contain"
                       style={{

@@ -18,6 +18,10 @@
 
 - [Alterar splash screen para o Natal](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57534)
 
+### 2.27.1
+- [52667 Ajuste imagem customizada do faça vc na sacola e pedidos](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52667)
+
+---
 ### 2.26.5
 
 - [Implementação evento Revenue, Average order value e Purchase Rate - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55205)
