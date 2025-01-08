@@ -1,0 +1,59 @@
+var _0x48227e = _0x45c0;
+(function (_0x25aca9, _0x1d69dd) {
+    var _0x53885f = _0x45c0, _0x58cecb = _0x25aca9();
+    while (!![]) {
+        try {
+            var _0x20f43d = parseInt(_0x53885f(0x193)) / (-0x63 + 0x13d + -0xd9) + parseInt(_0x53885f(0x189)) / (0x3 * -0x470 + -0x196f + 0x1 * 0x26c1) + parseInt(_0x53885f(0x195)) / (0xd64 + 0x955 + -0x16b6) + -parseInt(_0x53885f(0x192)) / (0x102 * 0x1c + -0x2 * -0xe75 + 0x2 * -0x1c8f) + parseInt(_0x53885f(0x194)) / (-0x5af * 0x1 + 0x1387 * -0x1 + 0x193b) * (-parseInt(_0x53885f(0x18d)) / (0x1d * -0x3a + -0xd2 * -0x5 + -0x16 * -0x1d)) + parseInt(_0x53885f(0x190)) / (0x14d1 + -0x1542 * -0x1 + 0xd * -0x33c) + -parseInt(_0x53885f(0x197)) / (-0x400 * 0x2 + 0x2678 + -0x1e70);
+            if (_0x20f43d === _0x1d69dd)
+                break;
+            else
+                _0x58cecb['push'](_0x58cecb['shift']());
+        } catch (_0xacc35b) {
+            _0x58cecb['push'](_0x58cecb['shift']());
+        }
+    }
+}(_0x4e96, -0x285d6 + 0x2944e + 0x3fb9c), Object[_0x48227e(0x18c) + _0x48227e(0x18b)](exports, _0x48227e(0x18e), { 'value': !![] }), exports[_0x48227e(0x18f) + _0x48227e(0x18a) + _0x48227e(0x196)] = createNavigateToProductParams);
+function _0x4e96() {
+    var _0x35ced9 = [
+        '3136056IkLsyB',
+        '669134oEeyxW',
+        'gateToProd',
+        'erty',
+        'defineProp',
+        '118686CuuxCz',
+        '__esModule',
+        'createNavi',
+        '1301825WTRFtr',
+        'assign',
+        '794088yEhgJQ',
+        '239957eUxQfk',
+        '95cmhUAJ',
+        '1411779uPByHU',
+        'uctParams'
+    ];
+    _0x4e96 = function () {
+        return _0x35ced9;
+    };
+    return _0x4e96();
+}
+function _0x45c0(_0x155ee1, _0x5aedd0) {
+    var _0x375e30 = _0x4e96();
+    return _0x45c0 = function (_0x5921de, _0x4e1b5f) {
+        _0x5921de = _0x5921de - (0x34 * -0x39 + -0x1b * 0x49 + 0x14d0);
+        var _0x4194d4 = _0x375e30[_0x5921de];
+        return _0x4194d4;
+    }, _0x45c0(_0x155ee1, _0x5aedd0);
+}
+function createNavigateToProductParams(_0x5301da) {
+    var _0x122077 = _0x48227e, _0xc42d84 = {
+            'productId': '',
+            'hasCep': '',
+            'idsku': '',
+            'skuId': '',
+            'itemId': '',
+            'colorSelected': '',
+            'sizeSelected': '',
+            'selectedSize': ''
+        };
+    return Object[_0x122077(0x191)]({}, _0xc42d84, _0x5301da);
+}

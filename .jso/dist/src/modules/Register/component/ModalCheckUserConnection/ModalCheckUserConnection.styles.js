@@ -1,0 +1,78 @@
+var _0x563776 = _0x4a14;
+function _0x4a14(_0xd8efc2, _0x2e83c2) {
+    var _0x1e4b9d = _0x3f26();
+    return _0x4a14 = function (_0x1b871e, _0x31e1d9) {
+        _0x1b871e = _0x1b871e - (0x3a * -0x39 + -0x1c90 + -0x2a22 * -0x1);
+        var _0x15c89f = _0x1e4b9d[_0x1b871e];
+        return _0x15c89f;
+    }, _0x4a14(_0xd8efc2, _0x2e83c2);
+}
+(function (_0x4f204f, _0x23dac7) {
+    var _0x3b86a0 = _0x4a14, _0x386486 = _0x4f204f();
+    while (!![]) {
+        try {
+            var _0x390478 = -parseInt(_0x3b86a0(0xae)) / (0x1986 + -0x1d2f * -0x1 + -0x36b4) * (-parseInt(_0x3b86a0(0xb1)) / (0x1f6a + -0xf3e * 0x1 + 0x2 * -0x815)) + parseInt(_0x3b86a0(0xbd)) / (0xe8c + 0x94 + -0x1 * 0xf1d) + -parseInt(_0x3b86a0(0xb7)) / (0x1929 + -0x9c4 + -0x7f * 0x1f) + -parseInt(_0x3b86a0(0xab)) / (0x54 * 0x1e + -0x1af * 0x5 + -0xc * 0x1e) + parseInt(_0x3b86a0(0xbb)) / (0x2 * -0x135 + -0x3 * -0x407 + -0x9a5) + parseInt(_0x3b86a0(0xb6)) / (-0x17 * 0x181 + 0xc16 + 0x1688) + -parseInt(_0x3b86a0(0xb9)) / (-0x1acf + -0xeb2 + 0x2989) * (parseInt(_0x3b86a0(0xb0)) / (-0xca6 + 0x1 * -0xbd0 + 0x187f));
+            if (_0x390478 === _0x23dac7)
+                break;
+            else
+                _0x386486['push'](_0x386486['shift']());
+        } catch (_0x26112f) {
+            _0x386486['push'](_0x386486['shift']());
+        }
+    }
+}(_0x3f26, -0xbd * 0x1be + 0x29565 + 0x7a21), Object[_0x563776(0xb4) + _0x563776(0xb8)](exports, _0x563776(0xaa), { 'value': !![] }), exports[_0x563776(0xb5)] = undefined);
+var _reactNative = _$$_REQUIRE(_dependencyMap[-0x1085 + -0x5c * -0x5 + 0xeb9]), styles = exports[_0x563776(0xb5)] = _reactNative[_0x563776(0xb3)][_0x563776(0xad)]({
+        'modalContainer': {
+            'flex': 0x1,
+            'justifyContent': _0x563776(0xb2),
+            'alignItems': _0x563776(0xb2),
+            'backgroundColor': _0x563776(0xaf) + _0x563776(0xba)
+        },
+        'modalContent': {
+            'alignSelf': _0x563776(0xbc),
+            'marginHorizontal': 0x28,
+            'backgroundColor': _$$_REQUIRE(_dependencyMap[-0xedd + 0x83 * 0x34 + -0x6 * 0x1f5])[_0x563776(0xac)][_0x563776(0xa9)],
+            'borderRadius': 0xa,
+            'padding': 0x14,
+            'alignItems': _0x563776(0xb2)
+        },
+        'modalView': { 'marginVertical': 0x14 },
+        'modalActionButton': {
+            'alignItems': _0x563776(0xb2),
+            'justifyContent': _0x563776(0xb2),
+            'alignSelf': _0x563776(0xbc),
+            'padding': 0xf,
+            'marginTop': 0x14,
+            'backgroundColor': _0x563776(0xa8)
+        }
+    });
+function _0x3f26() {
+    var _0x245e66 = [
+        '#333333',
+        'WHITE',
+        '__esModule',
+        '216395VHqezc',
+        'COLORS',
+        'create',
+        '47OeiAGt',
+        'rgba(0,\x200,',
+        '270wIvsvF',
+        '1718lYeTRD',
+        'center',
+        'StyleSheet',
+        'defineProp',
+        'styles',
+        '1438724dFDJiS',
+        '512296qcTmAQ',
+        'erty',
+        '62456zDPabM',
+        '\x200,\x200.6)',
+        '1205892xHfBSD',
+        'stretch',
+        '224892SKWUFl'
+    ];
+    _0x3f26 = function () {
+        return _0x245e66;
+    };
+    return _0x3f26();
+}

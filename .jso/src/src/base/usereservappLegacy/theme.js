@@ -1,0 +1,126 @@
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.theme = undefined;
+  var tokens = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[0]));
+  function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+  function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+  var theme = exports.theme = {
+    space: {
+      quarck: 4,
+      nano: 8,
+      micro: 12,
+      xxxs: 16,
+      xxs: 24,
+      xs: 32,
+      sm: 40,
+      md: 48,
+      xl: 64,
+      xxl: 80
+    },
+    shadows: {
+      bottomBarShadow: '0px -3px 2px rgba(0,0,0,0.1)',
+      topBarShadow: '0px 3px 2px rgba(0,0,0,0.1)'
+    },
+    colors: {
+      preto: tokens.preto,
+      vermelhoFechadoRSV: tokens.vermelhoFechadoRSV,
+      marinho: tokens.marinho,
+      neutroFrio2: tokens.neutroFrio2,
+      neutroQuente2: tokens.neutroQuente2,
+      vermelhoRSV: tokens.vermelhoRSV,
+      verde: tokens.verde,
+      neutroQuente1: tokens.neutroQuente1,
+      offWhite: tokens.offWhite,
+      offWhite15: tokens.offWhite15,
+      whiteSecondary: tokens.whiteSecondary,
+      neutroFrio1: tokens.neutroFrio1,
+      leve: tokens.leve,
+      vermelhoAlerta: tokens.vermelhoAlerta,
+      verdeSucesso: tokens.verdeSucesso,
+      amareloAtencao: tokens.amareloAtencao,
+      dropDownBorderColor: tokens.dropDownBorderColor,
+      white: tokens.white,
+      fullBlack: tokens.fullBlack,
+      divider: tokens.divider,
+      backgoundInput: tokens.backgoundInput,
+      backgroundApp: tokens.backgroundApp,
+      transparente: 'transparent',
+      modalBackDropColor: tokens.modalBackDropColor,
+      borderButton: tokens.borderButton,
+      dividerCounter: tokens.dividerCounter,
+      backgoundDivider: tokens.backgoundDivider,
+      progressTextColor: tokens.progressTextColor,
+      backgroundMenuOpened: tokens.backgroundMenuOpened,
+      searchBarTextColor: tokens.searchBarTextColor,
+      borderColorProduct: tokens.borderColorProduct
+    },
+    fonts: {
+      nunitoBlack: 'Nunito-Black',
+      nunitoBlackItalic: 'Nunito-BlackItalic',
+      nunitoBold: 'Nunito-Bold',
+      nunitoBoldItalic: 'Nunito-BoldItalic',
+      nunitoExtraBold: 'Nunito-ExtraBold',
+      nunitoExtraBoldItalic: 'Nunito-ExtraBoldItalic',
+      nunitoExtraLight: 'Nunito-ExtraLight',
+      nunitoExtraLightItalic: 'Nunito-ExtraLightItalic',
+      nunitoItalic: 'Nunito-Italic',
+      nunitoLight: 'Nunito-Light',
+      nunitoLightItalic: 'Nunito-LightItalic',
+      nunitoRegular: 'Nunito-Regular',
+      nunitoSemiBold: 'Nunito-SemiBold',
+      nunitoSemiBoldItalic: 'Nunito-SemiBoldItalic',
+      reservaDisplayRegular: 'ReservaDisplay-Regular',
+      reservaSerifBlack: 'ReservaSerif-Black',
+      reservaSerifBlackItalic: 'ReservaSerif-BlackItalic',
+      reservaSerifBold: 'ReservaSerif-Bold',
+      reservaSerifBoldItalic: 'ReservaSerif-BoldItalic',
+      reservaSerifItalic: 'ReservaSerif-Italic',
+      reservaSerifLight: 'ReservaSerif-Light',
+      reservaSerifLightItalic: 'ReservaSerif-LightItalic',
+      reservaSerifMedium: 'ReservaSerif-Medium',
+      reservaSerifMediumItalic: 'ReservaSerif-MediumItalic',
+      reservaSerifRegular: 'ReservaSerif-Regular',
+      reservaSerifThin: 'ReservaSerif-Thin',
+      reservaSerifThinItalic: 'ReservaSerif-ThinItalic',
+      reservaSansBlack: 'ReservaSans-Black',
+      reservaSansBlackItalic: 'ReservaSans-BlackItalic',
+      reservaSansBold: 'ReservaSans-Bold',
+      reservaSansBoldItalic: 'ReservaSans-BoldItalic',
+      reservaSansItalic: 'ReservaSans-Italic',
+      reservaSansLight: 'ReservaSans-Light',
+      reservaSansLightItalic: 'ReservaSans-LightItalic',
+      reservaSansMedium: 'ReservaSans-Medium',
+      reservaSansMediumItalic: 'ReservaSans-MediumItalic',
+      reservaSansRegular: 'ReservaSans-Regular',
+      reservaSansThin: 'ReservaSans-Thin',
+      reservaSansThinItalic: 'ReservaSans-ThinItalic'
+    },
+    fontWeights: {
+      light: 300,
+      normal: 400,
+      medium: 500,
+      SemiBold: 600,
+      bold: 700,
+      black: 900
+    },
+    fontSizes: [4, 8, 12, 14, 16, 18, 20, 24, 27, 32, 48],
+    radii: {
+      pico: 2,
+      nano: 5,
+      xxxs: 10,
+      xs: 15,
+      sm: 20,
+      pill: 500,
+      infinity: 999999
+    },
+    borderWidths: {
+      none: tokens.borderWidthNone,
+      hairline: tokens.borderWidthHairline,
+      thin: tokens.borderWidthThin,
+      thick: tokens.borderWidthThick,
+      heavy: tokens.borderWidthHeavy,
+      borderDiscountTag: tokens.borderDiscountTag,
+      stepper: 3
+    }
+  };

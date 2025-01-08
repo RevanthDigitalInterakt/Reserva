@@ -1,0 +1,104 @@
+var _0x1462bc = _0x2080;
+function _0x2080(_0x5d654a, _0x4cd92f) {
+    var _0x271aad = _0x3c6d();
+    return _0x2080 = function (_0xa40d8b, _0xdd4003) {
+        _0xa40d8b = _0xa40d8b - (-0x3 * 0x829 + -0x7 * -0x12b + 0x117e);
+        var _0x1aefe5 = _0x271aad[_0xa40d8b];
+        return _0x1aefe5;
+    }, _0x2080(_0x5d654a, _0x4cd92f);
+}
+(function (_0x52365a, _0x4af43c) {
+    var _0x527e81 = _0x2080, _0x4bf478 = _0x52365a();
+    while (!![]) {
+        try {
+            var _0x3c04f3 = parseInt(_0x527e81(0x144)) / (0x164d * 0x1 + -0x5a1 + -0x10ab * 0x1) + -parseInt(_0x527e81(0x142)) / (0x1b8b * 0x1 + 0x453 * 0x8 + 0x5 * -0xc6d) + -parseInt(_0x527e81(0x134)) / (-0x3 * -0x72f + 0x21df + -0x3769) * (-parseInt(_0x527e81(0x148)) / (0x21d * 0x4 + 0x52b + -0xd9b)) + parseInt(_0x527e81(0x13b)) / (-0xd7 * 0x4 + -0x1389 + 0x16ea * 0x1) * (-parseInt(_0x527e81(0x147)) / (0x8d0 + 0x1a25 + 0x22ef * -0x1)) + -parseInt(_0x527e81(0x145)) / (-0xdc4 + 0x9 * -0xe5 + -0x6 * -0x3a4) * (-parseInt(_0x527e81(0x14e)) / (0x9ce + -0x1bb5 + 0x11ef)) + parseInt(_0x527e81(0x133)) / (0x1b05 + 0x1845 + -0x3341) + parseInt(_0x527e81(0x13d)) / (0x221d + 0x1925 + -0x5 * 0xbd8);
+            if (_0x3c04f3 === _0x4af43c)
+                break;
+            else
+                _0x4bf478['push'](_0x4bf478['shift']());
+        } catch (_0x55d3ac) {
+            _0x4bf478['push'](_0x4bf478['shift']());
+        }
+    }
+}(_0x3c6d, 0x8b255 + 0x1 * -0x7387d + 0x9ee9 * 0x5), Object[_0x1462bc(0x140) + _0x1462bc(0x13e)](exports, _0x1462bc(0x135), { 'value': !![] }), exports[_0x1462bc(0x14d)] = undefined);
+function _0x3c6d() {
+    var _0x3a56f7 = [
+        '#333333',
+        '7819490xgjWJB',
+        'erty',
+        '#8A8C8E',
+        'defineProp',
+        'StyleSheet',
+        '584484oGxMXY',
+        'play-Regul',
+        '88680jEchUX',
+        '6230aATBik',
+        'ReservaDis',
+        '4602QgdyvQ',
+        '183052zwmWiH',
+        'COLORS',
+        'create',
+        'row',
+        'DEVICE_WID',
+        'styles',
+        '576xelBKp',
+        'ReservaSan',
+        'RED',
+        'LIGHT_GRAY',
+        '352098pyxhQx',
+        '3HeYhmr',
+        '__esModule',
+        's-Medium',
+        'default',
+        'WHITE',
+        'BLACK',
+        'center',
+        '2785cRvjEC'
+    ];
+    _0x3c6d = function () {
+        return _0x3a56f7;
+    };
+    return _0x3c6d();
+}
+var _reactNative = _$$_REQUIRE(_dependencyMap[-0x1eac + -0x1bbe + 0x3a6a]), _configDeviceSizes = _$$_REQUIRE(_dependencyMap[0x1208 + -0x5 * 0x397 + -0x14])(_$$_REQUIRE(_dependencyMap[0x622 + -0x1df + 0x9 * -0x79])), styles = exports[_0x1462bc(0x14d)] = _reactNative[_0x1462bc(0x141)][_0x1462bc(0x14a)]({
+        'textPrice': {
+            'fontFamily': _0x1462bc(0x130) + _0x1462bc(0x136),
+            'fontSize': 0xc,
+            'color': _0x1462bc(0x13f),
+            'letterSpacing': 0.05
+        },
+        'grey': { 'color': _$$_REQUIRE(_dependencyMap[0x7e5 * -0x1 + 0x23c + 0x5ac])[_0x1462bc(0x149)][_0x1462bc(0x132)] },
+        'black': { 'color': _$$_REQUIRE(_dependencyMap[0x153e * 0x1 + 0xfb * 0xc + -0x20ff])[_0x1462bc(0x149)][_0x1462bc(0x139)] },
+        'textInstallments': {
+            'fontFamily': _0x1462bc(0x130) + _0x1462bc(0x136),
+            'fontSize': 0xc,
+            'color': _0x1462bc(0x13c),
+            'letterSpacing': 0.05
+        },
+        'divider': {
+            'backgroundColor': _0x1462bc(0x13f),
+            'width': 0x1,
+            'height': 0x10,
+            'marginHorizontal': _configDeviceSizes[_0x1462bc(0x137)][_0x1462bc(0x14c) + 'TH'] > 0xfee + -0x5f * -0x53 + -0x2d7b ? -0x222a + -0xe * -0x175 + 0xdca : -0x14bd + -0x6b9 + -0x1b7a * -0x1
+        },
+        'textPricePrime': {
+            'fontFamily': _0x1462bc(0x130) + _0x1462bc(0x136),
+            'fontSize': 0xc,
+            'color': _$$_REQUIRE(_dependencyMap[-0x7 * 0x3e6 + -0x25 * -0xbd + -0x4])[_0x1462bc(0x149)][_0x1462bc(0x131)],
+            'letterSpacing': 0.05
+        },
+        'containerPrime': {
+            'padding': 0x2,
+            'backgroundColor': _$$_REQUIRE(_dependencyMap[0x2 * -0x10b9 + -0x2 * -0x6b + 0x7 * 0x4a9])[_0x1462bc(0x149)][_0x1462bc(0x131)],
+            'marginLeft': 0xa
+        },
+        'labelPrime': {
+            'fontFamily': _0x1462bc(0x146) + _0x1462bc(0x143) + 'ar',
+            'color': _$$_REQUIRE(_dependencyMap[0xaa3 + 0x2332 + -0x2dd2])[_0x1462bc(0x149)][_0x1462bc(0x138)],
+            'fontSize': 0x8
+        },
+        'flex': {
+            'flexDirection': _0x1462bc(0x14b),
+            'alignItems': _0x1462bc(0x13a)
+        }
+    });
