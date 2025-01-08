@@ -3,8 +3,9 @@ import appsFlyer from 'react-native-appsflyer';
 import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
 import { OneSignal, LogLevel } from 'react-native-onesignal';
-import { initialize as initializeClarity, setCustomUserId } from 'react-native-clarity';
+import { initialize as initializeClarity } from 'react-native-clarity';
 import Config from 'react-native-config';
+import { useNavigation } from '@react-navigation/native';
 import { env } from '../../config/env';
 import {
   eventsName,
@@ -35,8 +36,14 @@ class EventProvider {
     OneSignal.initialize(env.ONE_SIGINAL_APP_KEY_IOS);
 
     OneSignal.Notifications.addEventListener('click', (event) => {
-      console.log('Click notification', event);
     });
+
+    OneSignal.Notifications.addEventListener('foregroundWillDisplay', (event) => {
+      event.getNotification();
+    });
+
+    OneSignal.Notifications.requestPermission(true);
+
     // OneSignal.setNotificationWillShowInForegroundHandler((notificationReceivedEvent) => {
     //   notificationReceivedEvent.getNotification();
     // });
