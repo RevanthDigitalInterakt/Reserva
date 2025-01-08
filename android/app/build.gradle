@@ -93,7 +93,6 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  * and the benefits of using Hermes will therefore be sharply reduced.
  */
 
-apply from: new File(["node", "--print", "require.resolve('@sentry/react-native/package.json')"].execute().text.trim(), "../sentry.gradle")
 android {
     ndkVersion rootProject.ext.ndkVersion
 
@@ -104,8 +103,8 @@ android {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2099000273
-        versionName "2.26.0"
+        versionCode 2099000284
+        versionName "2.27.4"
         resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
         resValue "string", "URL_GATEWAY_CLIENT", project.env.get("URL_GATEWAY_CLIENT")
         resValue "string", "API_KEY_GATEWAY", project.env.get("API_KEY_GATEWAY")

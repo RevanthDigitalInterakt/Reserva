@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { ImageBackground } from 'react-native';
-import QRCode from 'react-native-qrcode-svg';
 import { useLazyQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import images from '../../../../base/styles/icons';
@@ -10,7 +9,6 @@ import { ModalTermsAndConditionsCashback } from './components/ModalTermsAndCondi
 import {
   profileQuery,
 } from '../../../../graphql/profile/profileQuery';
-import IconComponent from '../../../../components/IconComponent/IconComponent';
 import { Box } from '../../../../components/Box/Box';
 import { Typography } from '../../../../components/Typography/Typography';
 import { Button } from '../../../../components/Button';
@@ -61,7 +59,7 @@ export function CashbackInStoreView({
           resizeMode="contain"
         >
           <Box alignItems="center" justifyContent="center">
-            {token ? (
+            {/* {token ? (
               <QRCode
                 value={token}
                 logo={images.logoQRCode}
@@ -70,7 +68,7 @@ export function CashbackInStoreView({
               />
             ) : (
               <IconComponent icon="imageCashback" width={200} height={200} />
-            )}
+            )} */}
           </Box>
         </ImageBackground>
         <Box mt="xl" mb="xxs" width="100%">

@@ -1,152 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-	<dict>
-		<key>CFBundleDevelopmentRegion</key>
-		<string>en</string>
-		<key>CFBundleDisplayName</key>
-		<string>Reserva</string>
-		<key>CFBundleExecutable</key>
-		<string>$(EXECUTABLE_NAME)</string>
-		<key>CFBundleIdentifier</key>
-		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-		<key>CFBundleInfoDictionaryVersion</key>
-		<string>6.0</string>
-		<key>CFBundleName</key>
-		<string>$(PRODUCT_NAME)</string>
-		<key>CFBundlePackageType</key>
-		<string>APPL</string>
-		<key>CFBundleShortVersionString</key>
-	  <string>2.26.1</string>
-		<key>CFBundleSignature</key>
-		<string>????</string>
-		<key>CFBundleURLTypes</key>
-		<array>
-			<dict>
-				<key>CFBundleTypeRole</key>
-				<string>None</string>
-				<key>CFBundleURLName</key>
-				<string>com.globalsys.reserva</string>
-				<key>CFBundleURLSchemes</key>
-				<array>
-					<string>usereserva</string>
-				</array>
-			</dict>
-			<dict />
-		</array>
-		<key>CFBundleVersion</key>
-	<string>2023000200.2.26.1</string>
-		<key>CodePushDeploymentKey</key>
-		<string>ZBqyFW6XP_WtQx7J4gpwhIh4qXrRuOYgddjxC</string>
-		<key>ITSAppUsesNonExemptEncryption</key>
-		<false />
-		<key>LSApplicationQueriesSchemes</key>
-		<array>
-			<string>itms-apps</string>
-		</array>
-		<key>LSRequiresIPhoneOS</key>
-		<true />
-		<key>NSAdvertisingAttributionReportEndpoint</key>
-		<string>https://appsflyer-skadnetwork.com/</string>
-		<key>NSAppTransportSecurity</key>
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Reserva</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.27.4</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
 		<dict>
-			<key>NSExceptionDomains</key>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>com.globalsys.reserva</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>usereserva</string>
+			</array>
+		</dict>
+		<dict/>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>2023000202.2.28</string>
+	<key>CodePushDeploymentKey</key>
+	<string>ZBqyFW6XP_WtQx7J4gpwhIh4qXrRuOYgddjxC</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>itms-apps</string>
+	</array>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSAdvertisingAttributionReportEndpoint</key>
+	<string>https://appsflyer-skadnetwork.com/</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
 			<dict>
-				<key>localhost</key>
-				<dict>
-					<key>NSExceptionAllowsInsecureHTTPLoads</key>
-					<true />
-				</dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
 			</dict>
 		</dict>
-		<key>NSCameraUsageDescription</key>
-		<string>We need access to your camera to scan your card</string>
-		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string>Precisamos da sua localização para encontrarmos a loja Reserva mais próxima de você</string>
-		<key>NSLocationAlwaysUsageDescription</key>
-	<string />
-		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>Precisamos da sua localização para encontrarmos a loja Reserva mais próxima de você</string>
-		<key>NSMicrophoneUsageDescription</key>
-		<string>Your message to user when the microsphone is accessed for the first time</string>
-		<key>NSPhotoLibraryAddUsageDescription</key>
-		<string>Precisamos de acesso a sua galeria para adicionar uma foto de perfil</string>
-		<key>NSPhotoLibraryUsageDescription</key>
-		<string>Precisamos de acesso a sua galeria para adicionar uma foto de perfil</string>
-		<key>NSUserTrackingUsageDescription</key>
-		<string>Precisamos de acesso para oferecer conteúdo personalizável para você.</string>
-		<key>UIAppFonts</key>
-		<array>
-			<string>Nunito-Black.ttf</string>
-			<string>Nunito-BlackItalic.ttf</string>
-			<string>Nunito-Bold.ttf</string>
-			<string>Nunito-BoldItalic.ttf</string>
-			<string>Nunito-ExtraBold.ttf</string>
-			<string>Nunito-ExtraBoldItalic.ttf</string>
-			<string>Nunito-ExtraLight.ttf</string>
-			<string>Nunito-ExtraLightItalic.ttf</string>
-			<string>Nunito-Italic.ttf</string>
-			<string>Nunito-Light.ttf</string>
-			<string>Nunito-LightItalic.ttf</string>
-			<string>Nunito-Regular.ttf</string>
-			<string>Nunito-SemiBold.ttf</string>
-			<string>Nunito-SemiBoldItalic.ttf</string>
-			<string>ReservaDisplay-Regular.otf</string>
-			<string>ReservaSerif-Black.otf</string>
-			<string>ReservaSerif-BlackItalic.otf</string>
-			<string>ReservaSerif-Bold.otf</string>
-			<string>ReservaSerif-BoldItalic.otf</string>
-			<string>ReservaSerif-Italic.otf</string>
-			<string>ReservaSerif-Light.otf</string>
-			<string>ReservaSerif-LightItalic.otf</string>
-			<string>ReservaSerif-Medium.otf</string>
-			<string>ReservaSerif-MediumItalic.otf</string>
-			<string>ReservaSerif-Regular.otf</string>
-			<string>ReservaSerif-Thin.otf</string>
-			<string>ReservaSerif-ThinItalic.otf</string>
-			<string>ReservaSans-Black.ttf</string>
-			<string>ReservaSans-BlackItalic.ttf</string>
-			<string>ReservaSans-Bold.ttf</string>
-			<string>ReservaSans-BoldItalic.ttf</string>
-			<string>ReservaSans-Italic.ttf</string>
-			<string>ReservaSans-Light.ttf</string>
-			<string>ReservaSans-LightItalic.ttf</string>
-			<string>ReservaSans-Medium.ttf</string>
-			<string>ReservaSans-MediumItalic.ttf</string>
-			<string>ReservaSans-Regular.ttf</string>
-			<string>ReservaSans-Thin.ttf</string>
-			<string>ReservaSans-ThinItalic.ttf</string>
-			<string>WorkSans-Bold.ttf</string>
-			<string>WorkSans-BoldItalic.ttf</string>
-			<string>WorkSans-Italic.ttf</string>
-			<string>WorkSans-Light.ttf</string>
-			<string>WorkSans-LightItalic.ttf</string>
-			<string>WorkSans-Regular.ttf</string>
-			<string>Arial</string>
-			<string>Arial-Bold-Italic</string>
-			<string>Arial-Bold</string>
-			<string>Arial-Italic</string>
-		</array>
-		<key>UIBackgroundModes</key>
-		<array>
-			<string>fetch</string>
-			<string>remote-notification</string>
-		</array>
-		<key>UILaunchStoryboardName</key>
-		<string>BootSplash</string>
-		<key>UIRequiredDeviceCapabilities</key>
-		<array>
-			<string>armv7</string>
-		</array>
-		<key>UIStatusBarStyle</key>
-		<string>UIStatusBarStyleLightContent</string>
-		<key>UISupportedInterfaceOrientations</key>
-		<array>
-			<string>UIInterfaceOrientationPortrait</string>
-		</array>
-		<key>UIUserInterfaceStyle</key>
-		<string>Light</string>
-		<key>UIViewControllerBasedStatusBarAppearance</key>
-		<false />
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera to scan your card</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Precisamos da sua localização para encontrarmos a loja Reserva mais próxima de você</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string />
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Precisamos da sua localização para encontrarmos a loja Reserva mais próxima de você</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Your message to user when the microsphone is accessed for the first time</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Precisamos de acesso a sua galeria para adicionar uma foto de perfil</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Precisamos de acesso a sua galeria para adicionar uma foto de perfil</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Precisamos de acesso para oferecer conteúdo personalizável para você.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Nunito-Black.ttf</string>
+		<string>Nunito-BlackItalic.ttf</string>
+		<string>Nunito-Bold.ttf</string>
+		<string>Nunito-BoldItalic.ttf</string>
+		<string>Nunito-ExtraBold.ttf</string>
+		<string>Nunito-ExtraBoldItalic.ttf</string>
+		<string>Nunito-ExtraLight.ttf</string>
+		<string>Nunito-ExtraLightItalic.ttf</string>
+		<string>Nunito-Italic.ttf</string>
+		<string>Nunito-Light.ttf</string>
+		<string>Nunito-LightItalic.ttf</string>
+		<string>Nunito-Regular.ttf</string>
+		<string>Nunito-SemiBold.ttf</string>
+		<string>Nunito-SemiBoldItalic.ttf</string>
+		<string>ReservaDisplay-Regular.otf</string>
+		<string>ReservaSerif-Black.otf</string>
+		<string>ReservaSerif-BlackItalic.otf</string>
+		<string>ReservaSerif-Bold.otf</string>
+		<string>ReservaSerif-BoldItalic.otf</string>
+		<string>ReservaSerif-Italic.otf</string>
+		<string>ReservaSerif-Light.otf</string>
+		<string>ReservaSerif-LightItalic.otf</string>
+		<string>ReservaSerif-Medium.otf</string>
+		<string>ReservaSerif-MediumItalic.otf</string>
+		<string>ReservaSerif-Regular.otf</string>
+		<string>ReservaSerif-Thin.otf</string>
+		<string>ReservaSerif-ThinItalic.otf</string>
+		<string>ReservaSans-Black.ttf</string>
+		<string>ReservaSans-BlackItalic.ttf</string>
+		<string>ReservaSans-Bold.ttf</string>
+		<string>ReservaSans-BoldItalic.ttf</string>
+		<string>ReservaSans-Italic.ttf</string>
+		<string>ReservaSans-Light.ttf</string>
+		<string>ReservaSans-LightItalic.ttf</string>
+		<string>ReservaSans-Medium.ttf</string>
+		<string>ReservaSans-MediumItalic.ttf</string>
+		<string>ReservaSans-Regular.ttf</string>
+		<string>ReservaSans-Thin.ttf</string>
+		<string>ReservaSans-ThinItalic.ttf</string>
+		<string>WorkSans-Bold.ttf</string>
+		<string>WorkSans-BoldItalic.ttf</string>
+		<string>WorkSans-Italic.ttf</string>
+		<string>WorkSans-Light.ttf</string>
+		<string>WorkSans-LightItalic.ttf</string>
+		<string>WorkSans-Regular.ttf</string>
+		<string>Arial</string>
+		<string>Arial-Bold-Italic</string>
+		<string>Arial-Bold</string>
+		<string>Arial-Italic</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>BootSplash</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+</dict>
 </plist>

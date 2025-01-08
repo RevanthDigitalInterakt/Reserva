@@ -2,6 +2,16 @@
 
 ## CHANGELOG
 
+### 2.28.0
+
+- [58107 - Alterar para splash screen padrão ao abrir o app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/58107)
+
+---
+
+### 2.27.3
+
+- Correção do build para a versão 2.27.3
+
 ---
 
 ### 2.27.1
@@ -12,6 +22,10 @@
 
 - [Alterar splash screen para o Natal](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57534)
 
+### 2.27.1
+- [52667 Ajuste imagem customizada do faça vc na sacola e pedidos](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52667)
+
+---
 ### 2.26.5
 
 - [Implementação evento Revenue, Average order value e Purchase Rate - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55205)
@@ -19,6 +33,11 @@
 - [Redirecionar produto do faça vc da result list para a webview do faça vc](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54478)
 - [Alterar telefone WhatsApp na tela de pedidos](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57654)
 - [Direcionar URL "colecao-ofertas" para nova tela de ofertas](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57691)
+
+### 2.26.4
+
+- [Ajuste posição negativa ou zero na result list da Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56727)
+- [Remoção do Sentry no projeto](Sem url)
 
 ### 2.26.3
 
@@ -159,8 +178,6 @@
 
 - [41136 - Tagueamento PDC app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41136)
 
-
-
 ---
 
 ### 2.11.8
@@ -200,6 +217,7 @@
 - [30688 - Inclusão do desconto do prime no valor final dos produtos na sacola do app](https://dev.azure.com/areco/AReCO/_workitems/edit/30688)
 
 ### 2.11.2
+
 - [31626 Tracking de eventos Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31626)
 - [30966 - Informação troca e devolução PDP [app]](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30966/)
 
@@ -210,6 +228,7 @@
 - [31730 - Ajustes novo App de Push da Dito](https://dev.azure.com/ARECO/AReCO/_workitems/edit/31730)
 
 ### 2.11.0
+
 - [30623 - Correção de loading do link whatsapp coleções](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30623)
 - [30618 - Incluir caso de uso para o link de whatsapp](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30618)
 - [30626 - Incluir webview de troca e devolução no app reserva](https://dev.azure.com/ARECO/AReCO/_workitems/edit/30626)

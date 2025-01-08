@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
+import { Image, ImageBackground } from 'react-native';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
@@ -17,6 +18,7 @@ type IOrderItemData = {
   quantity: string;
   imageUrl: string;
   measurementUnit: string;
+  attachments: any[];
   productId: string;
   id: string;
 };
@@ -51,13 +53,41 @@ function OrderProduct({ orderItem }: IOrderProduct) {
                   });
                 }}
               >
-                <ImageComponent
-                  height={152}
-                  width={configDeviceSizes.DEVICE_WIDTH * 0.25}
-                  source={{
-                    uri: orderItem?.imageUrl?.split('-55-55')?.join(''),
-                  }}
-                />
+
+                {orderItem.attachments.length > 0 ? (
+                  <ImageBackground
+                    source={{ uri: orderItem?.imageUrl }}
+                    resizeMode="contain"
+                    style={{
+                      width: configDeviceSizes.DEVICE_WIDTH * 0.25,
+                      height: 160,
+                      position: 'relative',
+                    }}
+                  >
+                    <Image
+                      source={{ uri: orderItem.attachments[0] }}
+                      resizeMode="contain"
+                      style={{
+                        width: configDeviceSizes.DEVICE_WIDTH * 0.12,
+                        height: configDeviceSizes.DEVICE_WIDTH * 0.12,
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: [{ translateX: -(configDeviceSizes.DEVICE_WIDTH * 0.06) },
+                          { translateY: -(configDeviceSizes.DEVICE_WIDTH * 0.06) }],
+                      }}
+                    />
+                  </ImageBackground>
+                ) : (
+                  <ImageComponent
+                    height={152}
+                    width={configDeviceSizes.DEVICE_WIDTH * 0.25}
+                    source={{
+                      uri: orderItem?.imageUrl?.split('-55-55')?.join(''),
+                    }}
+                  />
+                )}
+
               </Button>
             )}
       </Box>
