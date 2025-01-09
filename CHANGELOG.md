@@ -13,6 +13,10 @@
 
 ---
 
+### 2.27.1
+
+- [57538 - Remover projeto UXCam do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57538)
+
 ### 2.27.0
 
 - [Alterar splash screen para o Natal](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57534)

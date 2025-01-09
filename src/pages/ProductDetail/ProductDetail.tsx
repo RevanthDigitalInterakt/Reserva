@@ -45,7 +45,6 @@ import { ProductPayment } from './components/ProductPayment';
 import { Divider } from '../../components/Divider/Divider';
 import { useTrackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 import ReturnPolicy from './components/ReturnPolicy/ReturnPolicy';
-import UxCam from '../../utils/UxCam';
 
 type IProductDetailNew = StackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -150,14 +149,6 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       EventProvider.logEvent('product_view', {
         product_id: product.productId,
         product_category: 'product_group',
-        product_price: product.priceRange?.listPrice?.lowPrice,
-        product_currency: 'BRL',
-      });
-
-      UxCam.tagScreen('Product Detail Screen');
-      UxCam.logEvent('product detail view', {
-        product_id: product.productId,
-        product_category: getProductCategories(product.categoryTree),
         product_price: product.priceRange?.listPrice?.lowPrice,
         product_currency: 'BRL',
       });

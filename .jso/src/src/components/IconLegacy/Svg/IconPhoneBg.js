@@ -1,0 +1,31 @@
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = undefined;
+  var _react = _$$_REQUIRE(_dependencyMap[0])(_$$_REQUIRE(_dependencyMap[1]));
+  function IconPhoneBg(_ref) {
+    var color = _ref.color;
+    return /*#__PURE__*/(0, _$$_REQUIRE(_dependencyMap[2]).jsxs)(_$$_REQUIRE(_dependencyMap[3]).SvgIcon, {
+      width: "100%",
+      height: "100%",
+      viewBox: "0 0 468 512",
+      fill: color,
+      children: [/*#__PURE__*/(0, _$$_REQUIRE(_dependencyMap[2]).jsx)(_$$_REQUIRE(_dependencyMap[4]).Ellipse, {
+        fill: color,
+        stroke: "null",
+        ry: "237.801572",
+        rx: "237.801572",
+        id: "svg_6",
+        cy: "256.191312",
+        cx: "256.632875",
+        "fill-opacity": "null",
+        "stroke-opacity": "null",
+        "stroke-width": "null"
+      }), /*#__PURE__*/(0, _$$_REQUIRE(_dependencyMap[2]).jsx)(_$$_REQUIRE(_dependencyMap[4]).Path, {
+        id: "svg_4",
+        fill: "#FCFCFC",
+        d: "m394.896,354.596c-5.758,16.304 -28.604,29.817 -46.824,33.771c-12.473,2.657 -28.754,4.785 -83.568,-18.006c-70.125,-29.127 -115.28,-100.575 -118.795,-105.21c-3.375,-4.637 -28.336,-37.827 -28.336,-72.165c0,-34.331 17.386,-51.052 24.398,-58.223c5.751,-5.897 15.267,-8.583 24.394,-8.583c2.954,0 5.606,0.146 7.997,0.267c7.008,0.302 10.524,0.717 15.151,11.813c5.756,13.909 19.77,48.239 21.445,51.771c1.701,3.53 3.396,8.311 1.012,12.945c-2.24,4.788 -4.205,6.91 -7.725,10.975c-3.521,4.073 -6.865,7.182 -10.381,11.544c-3.219,3.798 -6.859,7.867 -2.801,14.896c4.055,6.879 18.07,29.812 38.707,48.235c26.641,23.775 48.229,31.372 55.957,34.604c5.756,2.395 12.615,1.822 16.816,-2.663c5.34,-5.774 11.938,-15.342 18.645,-24.759c4.771,-6.76 10.795,-7.599 17.119,-5.208c6.441,2.244 40.531,19.143 47.541,22.641c7.006,3.529 11.635,5.203 13.334,8.165c1.67,2.955 1.67,16.865 -4.086,33.19l0,0zm0,0"
+      })]
+    });
+  }
+  var _default = exports.default = IconPhoneBg;

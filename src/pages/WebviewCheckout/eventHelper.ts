@@ -7,7 +7,6 @@ import { useSearchStore } from '../../zustand/useSearchStore';
 import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../base/graphql/generated';
 import { trackOrderStore } from '../../zustand/useTrackOrderStore/useTrackOrderStore';
 import { removeSkuColorProductName } from '../../utils/products/removeSkuColorProductName';
-import UxCam from '../../utils/UxCam';
 
 export function getURLParameter(url: string, name: string): string {
   const match = url.match(new RegExp(`[\\?&]${name.replace(/[\[\]]/g, '\\$&')}=([^&#]*)`));
@@ -322,18 +321,6 @@ export const triggerEventAfterPurchaseCompleted = async (
     af_order_id: dataPurchaseCompleted?.orderFormId,
     af_content: dataPurchaseCompleted?.afContent,
     af_receipt_id: dataPurchaseCompleted?.orderFormId,
-  });
-
-  /* ---- Event purchase uxCam */
-  UxCam.logEvent('purchase', {
-    affiliation: dataPurchaseCompleted.item_brand,
-    coupon: 'coupon',
-    currency: 'BRL',
-    items: dataPurchaseCompleted?.adaptItems,
-    shipping: dataPurchaseCompleted?.itemShippingTotal,
-    tax: dataPurchaseCompleted?.rate,
-    transaction_id: dataPurchaseCompleted?.orderId,
-    value: dataPurchaseCompleted?.orderValue,
   });
 
   /* ---- Event ron_purchase ---- */

@@ -6,7 +6,6 @@ import type { OrderFormQuery, ProductQuery } from '../base/graphql/generated';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { mergeItemsPackage } from './mergeItemsPackage';
 import { getBrands } from './getBrands';
-import UxCam from './UxCam';
 
 type TrackingOrderFormType = {
   id: string
@@ -34,17 +33,6 @@ export const trackingOrderFormAddItem = async (trackingProduct: TrackingOrderFor
       item_id: trackingProduct.id,
       item_name: trackingProduct.productDetail?.productName || product.productTitle,
       item_category: 'product',
-      item_brand: getBrands(mergedItems || []),
-      currency: 'BRL',
-      price: (product?.price || 0) / 100,
-      quantity: product.quantity,
-      seller: product.seller,
-    });
-
-    UxCam.logEvent('add_to_cart', {
-      item_id: trackingProduct.id,
-      item_name: trackingProduct.productDetail?.productName || product.productTitle,
-      item_category: product.productCategories,
       item_brand: getBrands(mergedItems || []),
       currency: 'BRL',
       price: (product?.price || 0) / 100,
