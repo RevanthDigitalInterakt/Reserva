@@ -17,7 +17,6 @@ import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import { useHomeStore } from '../zustand/useHomeStore';
 import EventProvider from '../utils/EventProvider';
 import OffersPage from '../pages/Offers/OffersPage';
-import UxCam from '../utils/UxCam';
 
 const Tab = createBottomTabNavigator();
 
@@ -69,7 +68,6 @@ export function HomeTabs() {
               tabPress: () => {
                 EventProvider.logScreenViewEvent('/offers');
                 EventProvider.logEvent('offers_tab_click', {});
-                UxCam.tagScreen('Offers Screen');
               },
             }}
             initialParams={{

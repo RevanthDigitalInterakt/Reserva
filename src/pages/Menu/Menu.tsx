@@ -37,7 +37,6 @@ import { theme } from '../../base/usereservappLegacy/theme';
 import NewFixedMenuItem from './components/NewMenuFixedItem';
 import FormLink from '../../components/FormLink/FormLink';
 import { handlePathsParams } from '../../utils/LinkingUtils/linkingUtils';
-import UxCam from '../../utils/UxCam';
 
 export type MenuProps = StackScreenProps<RootStackParamList, 'Menu'>;
 
@@ -195,10 +194,6 @@ function Menu() {
   useEffect(() => {
     getTestEnvironment();
   }, [getTestEnvironment]);
-
-  useEffect(() => {
-    UxCam.tagScreen('Side Menu');
-  }, []);
 
   return (
     <SafeAreaView

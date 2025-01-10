@@ -14,7 +14,6 @@ import { validateEmail } from '../../../utils/validateEmail';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import EventProvider from '../../../utils/EventProvider';
-import UxCam from '../../../utils/UxCam';
 
 export interface RegisterEmailProps
   extends StackScreenProps<RootStackParamList, 'RegisterEmail'> { }
@@ -87,7 +86,6 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation, route 
       handleEmailRecovery();
     } else {
       EventProvider.logEvent('signup_register_email_click', {});
-      UxCam.logEvent('initial register');
       handleEmailAccess();
     }
   };

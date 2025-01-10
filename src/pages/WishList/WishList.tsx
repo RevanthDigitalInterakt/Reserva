@@ -26,7 +26,6 @@ import { mapProductToFavoriteItem } from './adaptWishList';
 import { Box } from '../../components/Box/Box';
 import { Typography } from '../../components/Typography/Typography';
 import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
-import UxCam from '../../utils/UxCam';
 
 function WishList() {
   const navigation = useNavigation();
@@ -214,10 +213,6 @@ function WishList() {
       onFinishLoad();
     }
   }, [startLoadingTime, onFinishLoad, loading]);
-
-  useEffect(() => {
-    UxCam.tagScreen('Wish List Screen');
-  }, []);
 
   return (
     <Box style={{ backgroundColor: 'white' }} flex={1}>

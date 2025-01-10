@@ -18,7 +18,6 @@ import { loadingSpinner } from '../../../../assets/animations';
 import { Button } from '../../../components/Button';
 import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 import { SearchNewOrders, type IVtexServiceRequestOrder } from '../../../services/vtexService';
-import UxCam from '../../../utils/UxCam';
 import { useOrder } from '../../../hooks/useOrder';
 import ListHeader from '../Components/ListHeader/ListHeader';
 
@@ -60,8 +59,7 @@ function OrderList() {
     EventProvider.logEvent('page_view', {
       item_brand: defaultBrand.picapau,
     });
-    UxCam.tagScreen('Orders Screen');
-    UxCam.logEvent('orders view');
+
     fetchOrders();
   }, []);
 

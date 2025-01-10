@@ -17,10 +17,10 @@
 		67C2577C276280BD00793131 /* LinkPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67C2577B276280BC00793131 /* LinkPresentation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		67D4756A2735B77D00D1346C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 67D475692735B77D00D1346C /* GoogleService-Info.plist */; };
 		6A92D90292B745528AC191AE /* WorkSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D624B598DD1B4031A7C8FC64 /* WorkSans-BoldItalic.ttf */; };
-		6B0DF9332BB4CFB4007CA0CB /* (null) in Resources */ = {isa = PBXBuildFile; };
-		6B0DF9342BB4CFB4007CA0CB /* (null) in Resources */ = {isa = PBXBuildFile; };
-		6B0DF9352BB4CFB4007CA0CB /* (null) in Resources */ = {isa = PBXBuildFile; };
-		6B0DF9362BB4CFB4007CA0CB /* (null) in Resources */ = {isa = PBXBuildFile; };
+		6B0DF9332BB4CFB4007CA0CB /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		6B0DF9342BB4CFB4007CA0CB /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		6B0DF9352BB4CFB4007CA0CB /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		6B0DF9362BB4CFB4007CA0CB /* BuildFile in Resources */ = {isa = PBXBuildFile; };
 		72E586F38B4E8334FD4E7347 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ACE86BAD558798EC9715827 /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		76DA4AE18A5B1E564BEA34AA /* Pods_reserva_reservaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6C544FEA431FB3058FB522 /* Pods_reserva_reservaTests.framework */; };
 		7A83FE4092F54146B63E15F7 /* WorkSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2435FF11651418AA4BC81EA /* WorkSans-Bold.ttf */; };
@@ -531,7 +531,7 @@
 			files = (
 				CE6827642A8D688B00D8D9DF /* ReservaSerif-Black.otf in Resources */,
 				CE6827652A8D688B00D8D9DF /* Nunito-Bold.ttf in Resources */,
-				6B0DF9342BB4CFB4007CA0CB /* (null) in Resources */,
+				6B0DF9342BB4CFB4007CA0CB /* BuildFile in Resources */,
 				CE6827662A8D688B00D8D9DF /* ReservaDisplay-Regular.otf in Resources */,
 				CE6827672A8D688B00D8D9DF /* Nunito-ExtraLightItalic.ttf in Resources */,
 				CE6827682A8D688B00D8D9DF /* ReservaSans-Italic.ttf in Resources */,
@@ -553,7 +553,7 @@
 				CE6827782A8D688B00D8D9DF /* Nunito-ExtraLight.ttf in Resources */,
 				CE6827792A8D688B00D8D9DF /* ReservaSerif-Light.otf in Resources */,
 				CE68277A2A8D688B00D8D9DF /* ReservaSans-Thin.ttf in Resources */,
-				6B0DF9332BB4CFB4007CA0CB /* (null) in Resources */,
+				6B0DF9332BB4CFB4007CA0CB /* BuildFile in Resources */,
 				CE68277B2A8D688B00D8D9DF /* ReservaSans-Light.ttf in Resources */,
 				CE68277C2A8D688B00D8D9DF /* Nunito-Black.ttf in Resources */,
 				CE68277D2A8D688B00D8D9DF /* ReservaSerif-MediumItalic.otf in Resources */,
@@ -566,7 +566,7 @@
 				CE6827842A8D688B00D8D9DF /* ReservaSerif-Medium.otf in Resources */,
 				CE6827852A8D688B00D8D9DF /* ReservaSans-Bold.ttf in Resources */,
 				CE6827862A8D688B00D8D9DF /* Nunito-Regular.ttf in Resources */,
-				6B0DF9362BB4CFB4007CA0CB /* (null) in Resources */,
+				6B0DF9362BB4CFB4007CA0CB /* BuildFile in Resources */,
 				CE6827872A8D688B00D8D9DF /* ReservaSans-BoldItalic.ttf in Resources */,
 				CE6827882A8D688B00D8D9DF /* ReservaSans-Medium.ttf in Resources */,
 				CE6827892A8D688B00D8D9DF /* ReservaSans-LightItalic.ttf in Resources */,
@@ -580,7 +580,7 @@
 				FF699BA6C1F9470992473824 /* WorkSans-Light.ttf in Resources */,
 				0344E6286E224F01A7373F11 /* WorkSans-LightItalic.ttf in Resources */,
 				1C63B5251F41449E9A899053 /* WorkSans-Regular.ttf in Resources */,
-				6B0DF9352BB4CFB4007CA0CB /* (null) in Resources */,
+				6B0DF9352BB4CFB4007CA0CB /* BuildFile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -606,7 +606,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n";
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
 		1502635DE9B2AF5873AC3B1E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -904,7 +904,7 @@
 				CODE_SIGN_ENTITLEMENTS = reserva/reserva.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023000201.2.27.0;
+				CURRENT_PROJECT_VERSION = 2023000202.2.30;
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -968,7 +968,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/JWT\"",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 2.27.0;
+				MARKETING_VERSION = 2.29.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -997,7 +997,7 @@
 				CODE_SIGN_ENTITLEMENTS = reserva/reserva.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023000201.2.27.0;
+				CURRENT_PROJECT_VERSION = 2023000202.2.30;
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1060,7 +1060,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/JWT\"",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 2.27.0;
+				MARKETING_VERSION = 2.29.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1090,7 +1090,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023000201.2.27.0;
+				CURRENT_PROJECT_VERSION = 2023000202.2.30;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -1109,7 +1109,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.27.0;
+				MARKETING_VERSION = 2.29.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
@@ -1136,7 +1136,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2023000201.2.27.0;
+				CURRENT_PROJECT_VERSION = 2023000202.2.30;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -1155,7 +1155,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.27.0;
+				MARKETING_VERSION = 2.29.0;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva.OneSignalNotificationServiceExtension;

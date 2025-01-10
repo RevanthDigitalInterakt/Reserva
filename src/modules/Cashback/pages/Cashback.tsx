@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
 import LottieView from 'lottie-react-native';
 import { ImageBackground, ScrollView, TouchableOpacity } from 'react-native';
-import QRCode from 'react-native-qrcode-svg';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { loadingSpinner } from '../../../../assets/animations';
@@ -150,14 +149,14 @@ export const Cashback: React.FC<Props> = ({ navigation, route }) => {
               resizeMode="contain"
             >
               <Box alignItems="center" justifyContent="center">
-                {qrCode && (
+                {/* {qrCode && (
                   <QRCode
                     value={qrCode}
                     logo={images.logoQRCode}
                     logoSize={40}
                     size={200}
                   />
-                )}
+                )} */}
                 {loadingQrCode && !qrCode && (
                   <LottieView
                     source={loadingSpinner}

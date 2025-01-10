@@ -1,6 +1,6 @@
 {
   "name": "reserva",
-  "version": "2.26.1",
+  "version": "2.29.0",
   "private": true,
   "scripts": {
     "setup-ios-permissions": "react-native setup-ios-permissions && pod-install",
@@ -84,8 +84,7 @@
     "react-native-onesignal": "4.5.2",
     "react-native-permissions": "^3.8.4",
     "react-native-progress": "^5.0.0",
-    "react-native-qrcode-svg": "^6.2.0",
-    "react-native-reanimated": "^3.4.1",
+    "react-native-reanimated": "3.3.0",
     "react-native-reanimated-carousel": "3.5.1",
     "react-native-safe-area-context": "^4.7.1",
     "react-native-screens": "^3.23.0",
@@ -97,7 +96,6 @@
     "react-native-tracking-transparency": "^0.1.2",
     "react-native-url-polyfill": "2.0.0",
     "react-native-uuid": "^2.0.1",
-    "react-native-ux-cam": "^6.0.1",
     "react-native-video": "6.0.0-beta.6",
     "react-native-webview": "^13.3.1",
     "sha1": "^1.1.1",
