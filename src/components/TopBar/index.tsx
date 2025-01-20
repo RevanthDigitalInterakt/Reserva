@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, TouchableOpacity } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
 import type {
   ColorProps,
@@ -14,6 +14,7 @@ import { Box } from '../Box/Box';
 import { Button } from '../Button';
 import IconComponent from '../IconComponent/IconComponent';
 import { IconLegacy } from '../IconLegacy/IconLegacy';
+import IconLocation from '../../../assets/icons/IconLocation';
 
 export type IconTopBar = {
   name: string;
@@ -29,6 +30,11 @@ interface DefaultTopBarProps {
   leftButton?: IconTopBar;
   rightButton1?: IconTopBar;
   rightButton2?: IconTopBar;
+  locationButton?: {
+    iconColor: string;
+    showButton?: boolean;
+    onPress: (value: boolean) => void;
+  };
   loading: Boolean;
 }
 
@@ -44,11 +50,11 @@ export function TopBar({
   leftButton,
   rightButton1,
   rightButton2,
+  locationButton,
   loading = false,
   ...props
 }: TopBarProps) {
   const { isPrime, primeActive } = usePrimeInfo();
-
   return (
     <SafeAreaView>
       <Box justifyContent="flex-end" {...props}>
@@ -113,6 +119,15 @@ export function TopBar({
             alignItems="flex-end"
             alignSelf="center"
           >
+            {locationButton !== undefined && locationButton.showButton && (
+              <TouchableOpacity
+                style={{ marginRight: 20 }}
+                onPress={() => locationButton.onPress(true)}
+              >
+                <IconLocation color={locationButton.iconColor} />
+              </TouchableOpacity>
+            )}
+
             {rightButton1 !== undefined && (
             <Button
               hitSlop={{

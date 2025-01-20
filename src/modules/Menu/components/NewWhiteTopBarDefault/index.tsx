@@ -3,15 +3,18 @@ import React, { useCallback } from 'react';
 import { TopBar } from '../../../../components/TopBar';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import EventProvider from '../../../../utils/EventProvider';
+import useModalGeolocationStore from '../../../../zustand/useModalGeolocationStore';
 
 interface NewTopBarDefaultProps {
   showShadow?: Boolean;
   loading?: Boolean;
+  showInHome?: boolean;
 }
 
-export function NewWhiteTopBarDefault({ loading = false }: NewTopBarDefaultProps) {
+export function NewWhiteTopBarDefault({ loading = false, showInHome }: NewTopBarDefaultProps) {
   const navigation = useNavigation();
   const { allItemsQuantity } = useBagStore(['allItemsQuantity']);
+  const { modalGeolocationController } = useModalGeolocationStore(['modalGeolocationController']);
 
   const handleNavigateToMenu = useCallback(() => {
     navigation.navigate('Menu');
@@ -42,6 +45,11 @@ export function NewWhiteTopBarDefault({ loading = false }: NewTopBarDefaultProps
         badgeCount: allItemsQuantity,
       }}
       height={50}
+      locationButton={{
+        iconColor: 'black',
+        showButton: showInHome,
+        onPress: modalGeolocationController,
+      }}
     />
   );
 }

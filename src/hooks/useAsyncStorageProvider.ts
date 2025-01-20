@@ -22,6 +22,8 @@ export interface IAsyncStorageKeys {
     blocked: boolean;
   },
   '@Newsletter:IdCampaign': string;
+  'FIRST_TIME_OPEN': string;
+  'User:Geolocation': string;
 }
 
 type TStorageKey = keyof IAsyncStorageKeys;

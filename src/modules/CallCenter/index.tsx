@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 
-import { TopBarDefault } from '../Menu/components/TopBarDefault';
+import TopBarDefault from '../Menu/components/TopBarDefault';
 import { Box } from '../../components/Box/Box';
 import { Typography } from '../../components/Typography/Typography';
 import { Button } from '../../components/Button';
