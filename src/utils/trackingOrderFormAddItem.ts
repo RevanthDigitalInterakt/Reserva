@@ -61,6 +61,6 @@ export const trackingOrderFormAddItem = async (trackingProduct: TrackingOrderFor
       },
     });
   } catch (e) {
-    ExceptionProvider.captureException(e);
+    ExceptionProvider.captureException(e, "trackingOrderFormAddItem - trackingOrderFormAddItem.ts");
   }
 };

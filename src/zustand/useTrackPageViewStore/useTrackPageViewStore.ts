@@ -60,7 +60,7 @@ export const trackPageViewStore = create<ITrackPageViewStore>((set, getState) =>
         variables: { input },
       });
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "trackPageViewStore - useTrackPageViewStore.ts");
     }
   },
   onUpdateNavigation: (identifier, type) => {

@@ -90,7 +90,7 @@ export function MyWalletContainer({ navigateBack }: MyWalletContainerProps) {
       setUserOperations(operations);
       setUserExpireBalance(expiration);
     } catch (error) {
-      ExceptionProvider.captureException(error, { currentProfileDocument: profile?.document });
+      ExceptionProvider.captureException(error, "getCashbackData - MyWalletContainer.tsx", { document: profile?.document || "" });
 
       Alert.alert(
         'Ops!',

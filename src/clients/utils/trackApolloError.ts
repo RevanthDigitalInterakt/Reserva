@@ -17,22 +17,21 @@ function extractOperationTransactionId(operation: Operation) {
 export function trackApolloError(operation: Operation, errors: GraphQLErrors, response?: unknown) {
   try {
     const errorMessage = `Gateway Operation Error [${operation.operationName}]`;
-    const transactionId = extractOperationTransactionId(operation);
+    const transactionId = extractOperationTransactionId(operation) || "";
 
     ExceptionProvider.captureException(
       new Error(errorMessage),
+      "trackApolloError.ts",
       {
-        operationName: operation.operationName,
-        variables: operation.variables,
-        query: print(operation.query),
-        response,
-        errors,
-      },
-      {
-        transaction_id: transactionId,
-      },
+        operationName: operation?.operationName,
+        variables: JSON.stringify(operation?.variables),
+        query: print(operation?.query),
+        response: JSON.stringify(response),
+        errors: JSON.stringify(errors),
+        transactionId,
+      }
     );
   } catch (err) {
-    //
+    ExceptionProvider.captureException(err, "trackApolloError.ts",)
   }
 }

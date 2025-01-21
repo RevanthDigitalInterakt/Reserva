@@ -10,7 +10,7 @@ async function sendDitoTrackEvent(
       await trackEvent({ id, event });
     }
   } catch (error) {
-    ExceptionProvider.captureException(error);
+    ExceptionProvider.captureException(error, "sendDitoTrackEvent - sendDitoTrackEvent.ts");
   }
 }
 

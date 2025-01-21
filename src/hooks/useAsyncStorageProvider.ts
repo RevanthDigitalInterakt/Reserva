@@ -34,7 +34,7 @@ export async function getAsyncStorageItem<K extends TStorageKey>(
 
     return res ? JSON.parse(res) : null;
   } catch (err) {
-    ExceptionProvider.captureException(err, { key });
+    ExceptionProvider.captureException(err, "getAsyncStorageItem - useAsyncStorageProvider.ts", { key });
 
     return null;
   }
@@ -49,7 +49,7 @@ export async function setAsyncStorageItem<K extends TStorageKey>(
 
     return true;
   } catch (err) {
-    ExceptionProvider.captureException(err, { key, value: val });
+    ExceptionProvider.captureException(err, "getAsyncStorageItem - setAsyncStorageItem.ts", { key, value: (JSON.stringify(val) || "") });
 
     return false;
   }
@@ -63,7 +63,7 @@ export async function removeAsyncStorageItem<K extends TStorageKey>(
 
     return true;
   } catch (err) {
-    ExceptionProvider.captureException(err, { key });
+    ExceptionProvider.captureException(err, "getAsyncStorageItem - removeAsyncStorageItem.ts", { key });
 
     return false;
   }

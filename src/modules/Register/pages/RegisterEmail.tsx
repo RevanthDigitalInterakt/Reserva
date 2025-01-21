@@ -57,7 +57,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation, route 
         );
       }
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "handleEmailAccess - RegisterEmail.tsx", { email });
     }
   }, [email]);
 
@@ -76,7 +76,7 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation, route 
         );
       }
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "handleEmailRecovery - RegisterEmail", {email});
     }
   }, [email]);
 

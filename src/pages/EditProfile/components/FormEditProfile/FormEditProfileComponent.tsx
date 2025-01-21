@@ -207,7 +207,7 @@ function FormEditProfileComponent({
         handleToogleLoading(false);
       }
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "handleUserDataInitializer - FormEditProfileComponent");
     }
   }, []);
 

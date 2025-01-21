@@ -14,7 +14,7 @@ import { Button } from '../../../components/Button';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 
 export interface ForgotEmailProps
-  extends StackScreenProps<RootStackParamList, 'ForgotEmail'> {}
+  extends StackScreenProps<RootStackParamList, 'ForgotEmail'> { }
 
 export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -42,7 +42,7 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
         );
       }
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "handleEmailAccess - ForgotEmail.tsx", { email });
     }
   }, [email]);
 
@@ -81,7 +81,7 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
             placeholder="Digite seu e-mail"
           />
         </Box>
-        { hasError
+        {hasError
           && (
             <Box mt="quarck">
               <Typography style={{ color: 'red' }} fontFamily="nunitoRegular" fontSize={13}>

@@ -41,9 +41,9 @@ export const trackOrderStore = create<ITrackOrder>((_, getState) => ({
         mutation: TrackOrderDocument,
         context: { clientName: 'gateway' },
         variables,
-      }).catch((err) => ExceptionProvider.captureException(err));
+      }).catch((err) => ExceptionProvider.captureException(err, 'trackOrderStore -useTrackOrderStore.ts'));
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, 'trackOrderStore - useTrackOrderStore.ts');
     }
   },
 }));

@@ -62,7 +62,7 @@ function WebviewCheckout() {
       await actions.CREATE_NEW_ORDER_FORM();
       await axios.get(`${Config.URL_VTEX_QA}/api/checkout/pub/orderForm?forceNewCart=true&sc=4`, { headers: { ...(cookie ? { cookie } : {}) } });
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "pressAfterPurchaseCompleted - WebviewCheckout");
     } finally {
       setLoading(false);
       navigation.navigate('Home');
@@ -107,7 +107,14 @@ function WebviewCheckout() {
       dataPurchaseCompleted.adaptItems = handleProductNameToEvent(dataPurchaseCompleted.adaptItems);
       await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '', itemsSkus);
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(
+        e, 
+        "doEventPurchaseCompleted - WebviewCheckout", 
+        { 
+          orderFormId: (JSON.stringify(orderFormId) || ""),
+          navState: (JSON.stringify(navState) || "")
+
+        });
     } finally {
       setPurchaseCompleted(true);
     }

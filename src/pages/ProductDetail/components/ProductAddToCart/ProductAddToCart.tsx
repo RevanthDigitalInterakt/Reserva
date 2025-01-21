@@ -108,7 +108,7 @@ function ProductAddToCart({ isFixed = false, fvcReferenceId }: ProductAddToCartP
       addTagsUponCartUpdate();
       setDrawerIsOpen(false);
     } catch (err) {
-      ExceptionProvider.captureException(err, { orderFormId });
+      ExceptionProvider.captureException(err, "onAddProductToCart - ProductAddToCart.tsx", { orderFormId });
       Alert.alert('Ocorreu um erro', err.message);
 
       actions.CREATE_NEW_ORDER_FORM();

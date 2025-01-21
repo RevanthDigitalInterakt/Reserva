@@ -87,7 +87,7 @@ export function GiftCardAddToCart() {
       setShowAnimationBag(true);
       addTagsUponCartUpdate();
     } catch (err) {
-      ExceptionProvider.captureException(err, { orderFormId });
+      ExceptionProvider.captureException(err, "onAddProductToCart - GiftCardAddToCart", { orderFormId });
       Alert.alert('Ocorreu um erro', err.message);
 
       actions.CREATE_NEW_ORDER_FORM();

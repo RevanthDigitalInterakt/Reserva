@@ -341,7 +341,7 @@ const GetPurchaseData = async (orderGroup: any) => {
     );
     return response;
   } catch (err) {
-    ExceptionProvider.captureException(err);
+    ExceptionProvider.captureException(err, "GetPurchaseData - vtexService.ts");
   }
   // o orderGroup é pego quando chega na url orderPlaced(metodo checkURL na tela)
   // é retornado um array de pedidos. pq por padrão a vtex pode ter um mesmo

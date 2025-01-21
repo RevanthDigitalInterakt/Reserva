@@ -104,7 +104,7 @@ export function useWishlistActions() {
 
       await onFavorite(product);
     } catch (err) {
-      ExceptionProvider.captureException(err, { product });
+      ExceptionProvider.captureException(err, "onToggleFavorite - useWishlistActions.ts", { product: (JSON.stringify(product) || "") });
     } finally {
       setLoadingSkuId(undefined);
     }

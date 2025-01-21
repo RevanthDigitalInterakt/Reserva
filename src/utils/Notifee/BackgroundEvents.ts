@@ -51,7 +51,7 @@ const onBackgroundEventPush = async () => {
           },
         });
       } catch (error) {
-        ExceptionProvider.captureException(error);
+        ExceptionProvider.captureException(error, "onBackgroundEventPush - BackgroundEvents.ts");
       }
     }
   });

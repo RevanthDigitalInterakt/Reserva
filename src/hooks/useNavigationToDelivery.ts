@@ -104,7 +104,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
         quantity: JSON.stringify(getAFContent(mergedItems)),
       });
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "onTrackCheckoutEvents - useNavigationToDelivery.ts");
     }
   }, [appTotalizers, mergedItems]);
 
@@ -173,9 +173,8 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
     } catch (error) {
       ExceptionProvider.captureException(
         error,
-        { orderFormId, mergedItems },
-        {},
-        { message: 'Error [handleNavigateToDelivery]' },
+        "handleNavigateToDelivery - useNavigationToDelivery.ts",
+        { orderFormId, mergedItems: (JSON.stringify(mergedItems) || "") },
       );
       onFinishLoad();
     } finally {

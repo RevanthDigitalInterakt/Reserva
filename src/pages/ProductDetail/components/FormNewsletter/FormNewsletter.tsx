@@ -57,7 +57,7 @@ function FormNewsletter() {
       setSuccess(true);
       setEmail('');
     } catch (err) {
-      ExceptionProvider.captureException(err, { email });
+      ExceptionProvider.captureException(err, "onSubmit - FormNewsletter", { email });
 
       setValidationError(err.message);
 

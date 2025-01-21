@@ -38,7 +38,7 @@ export function CreditsContainer({ navigateBack }: CreditsContainerProps) {
         );
       }
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "getCreditBalance - CreditsContainer");
     }
   }, [profile]);
 

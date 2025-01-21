@@ -6,7 +6,7 @@ const splitSellerName = (sellerName: string): string => {
     const sellerFirstName = sellerNameValue ? sellerNameValue.split(' ')[0] : '';
     return sellerFirstName || '';
   } catch (error) {
-    ExceptionProvider.captureException(error);
+    ExceptionProvider.captureException(error, "splitSellerName - splitSellerName.ts");
     return sellerName;
   }
 };

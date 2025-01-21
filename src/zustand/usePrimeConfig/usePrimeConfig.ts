@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 import { createZustandStoreWithSelectors } from '../../utils/createZustandStoreWithSelectors';
 import {
-  type PrimeConfigOutput, PrimeConfigQuery, PrimeConfigQueryVariables, PrimeConfigDocument,
+  type PrimeConfigOutput, type PrimeConfigQuery, type PrimeConfigQueryVariables, PrimeConfigDocument,
 } from '../../base/graphql/generated';
 import { getApolloClient } from '../../utils/getApolloClient';
 import type { ProductQL } from '../../graphql/products/productSearch';
@@ -25,10 +25,10 @@ export const primeConfig = create<IPrimeConfig>((set, getState) => ({
 
       set({ ...getState(), promo: data.primeConfig });
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "primeConfig - usePrimeConfig.ts")
     }
-  },
-}));
+  }
+}))
 
 export const usePrimeConfig = createZustandStoreWithSelectors(primeConfig);
 

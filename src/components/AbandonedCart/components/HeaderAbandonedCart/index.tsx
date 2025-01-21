@@ -19,7 +19,7 @@ function HeaderAbandonedCart() {
       EventProvider.logEvent('abandoned_cart', { action: Actions.see_bag });
       navigation.navigate('BagScreen');
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "HeaderAbandonedCart.ts");
     }
   }, []);
   return (
