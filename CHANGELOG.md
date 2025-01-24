@@ -2,6 +2,10 @@
 
 ## CHANGELOG
 
+### 2.30.0
+
+- [54286 - Atraso ao exibir pedido em meus pedidos ao fechar uma compra](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54286)
+
 ### 2.28.0
 
 - [58107 - Alterar para splash screen padrão ao abrir o app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/58107)
