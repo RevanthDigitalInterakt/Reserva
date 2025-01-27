@@ -42,6 +42,7 @@ import Exchange from '../pages/HelpCenter/pages/Exchange/Exchange';
 import type { SessionBodyCollectionOutput } from '../base/graphql/generated';
 import HelpCenter from '../pages/HelpCenter';
 import PrivacyPolicy from '../pages/PrivacyPolicy';
+import ExchangeScreen from '../pages/Exchange/Exchange';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -164,7 +165,8 @@ export type RootStackParamList = {
   },
   Exchange: {
     url?: string;
-  }
+  },
+  ExchangeScreen: undefined;
 };
 
 const flows: Flow[] = [
@@ -216,6 +218,7 @@ export function MainStackScreen() {
       <MainStack.Screen name="HelpCenter" component={HelpCenter} />
       <MainStack.Screen name="PageHelpCenter" component={PageHelpCenter} />
       <MainStack.Screen name="Exchange" component={Exchange} />
+      <MainStack.Screen name="ExchangeScreen" component={ExchangeScreen} />
       <MainStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
     </MainStack.Navigator>
   );

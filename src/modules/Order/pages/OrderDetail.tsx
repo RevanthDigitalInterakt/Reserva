@@ -13,7 +13,9 @@ import {
   Platform,
   SafeAreaView,
   ScrollView,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
@@ -27,6 +29,7 @@ import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 import { useInvoiceKeyLazyQuery, useTrackingCodeLazyQuery } from '../../../base/graphql/generated';
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import { OrderDetail, type IVtexServiceRequestOrder } from '../../../services/vtexService';
+import { COLORS } from '../../../base/styles';
 
 function OrderList({ route }: any): React.ReactElement {
   const { order } = route.params;
@@ -363,17 +366,42 @@ function OrderList({ route }: any): React.ReactElement {
             </Box>
           </Box>
         )}
+
+        <View
+          style={{
+            marginVertical: 40,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('ExchangeScreen')
+            }}
+            style={{
+              backgroundColor: COLORS.BLACK,
+              alignItems: 'center',
+              padding: 20,
+              borderRadius: 50,
+              marginBottom: 5,
+            }}
+          >
+            <Text style={{ color: COLORS.WHITE }}>Solicitar troca ou devolução</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('HelpCenter')
+            }}
+            style={{
+              borderWidth: 1,
+              borderColor: COLORS.BLACK,
+              alignItems: 'center',
+              padding: 20,
+              borderRadius: 50,
+            }}
+          >
+            <Text style={{ color: COLORS.BLACK }}>Outras Dúvidas</Text>
+          </TouchableOpacity>
+        </View>
         <Box mb="md" mt="md">
-          <Box width="100%">
-            <Button
-              inline
-              title="PRECISO DE AJUDA"
-              variant="primarioEstreitoOutline"
-              onPress={() => {
-                navigation.navigate('HelpCenter');
-              }}
-            />
-          </Box>
           <Box my="xxxs">
             <Button
               inline
