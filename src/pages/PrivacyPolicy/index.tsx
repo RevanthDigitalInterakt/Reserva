@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, { ScrollView, Text } from 'react-native';
-import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
+import TopBarDefault from '../../modules/Menu/components/TopBarDefault';
 
 export default function PrivacyPolicy() {
   return (

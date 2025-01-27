@@ -1,4 +1,9 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import {
   ActivityIndicator,
   Animated,
@@ -14,7 +19,7 @@ import DeviceInfo from 'react-native-device-info';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import { TrackPageTypeEnum } from '../../base/graphql/generated';
+import { TrackPageTypeEnum, type HomeMediaOutput } from '../../base/graphql/generated';
 import { COLORS } from '../../base/styles/colors';
 import AbandonedCart from '../../components/AbandonedCart/AbandonedCart';
 import { ActivityTracking } from '../../components/ActivityTracking';
@@ -28,7 +33,7 @@ import {
   NewTransparentTopBarDefault,
 } from '../../modules/Menu/components/NewTransparentTopBarDefault';
 import { NewWhiteTopBarDefault } from '../../modules/Menu/components/NewWhiteTopBarDefault';
-import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
+import TopBarDefault from '../../modules/Menu/components/TopBarDefault';
 import EventProvider from '../../utils/EventProvider';
 import { defaultBrand } from '../../utils/defaultWBrand';
 import testProps from '../../utils/testProps';
@@ -44,6 +49,9 @@ import { useShelfOffersStore } from '../../zustand/useShelfOffersStore/useShelfO
 import useHomeHeader from './hooks/useHomeHeader';
 import styles from './styles';
 import ShowcaseDrawerContent from './components/ShowcaseDrawerContent/ShowcaseDrawerContent';
+import HomeModalGeolocation from './components/HomeModalGeolocation/HomeModalGeolocation';
+import HomeTooltipGeolocation from './components/HomeTooltipGeolocation/HomeTooltipGeolocation';
+import { getHomeContent } from '../../utils/getHomeContent';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -181,12 +189,14 @@ function Home() {
     loading,
     shelfOffers,
     setHasTabBar,
+    selectedStateGeolocation,
   } = useHomeStore([
     'onLoad',
     'medias',
     'loading',
     'shelfOffers',
     'setHasTabBar',
+    'selectedStateGeolocation',
   ]);
   const { rouletIsOpen } = useBagStore(['rouletIsOpen']);
 
@@ -198,6 +208,7 @@ function Home() {
   const { shelfItemData } = useShelfStore(['shelfItemData']);
   const { onLoadOffersShelf } = useShelfOffersStore(['onLoadOffersShelf']);
   const { getString } = useRemoteConfig();
+  const [mediaData, setMediaData] = useState<HomeMediaOutput[]>([]);
 
   const {
     handleScroll,
@@ -234,20 +245,25 @@ function Home() {
     }
   }, [rouletIsOpen]);
 
+  useEffect(() => {
+    const payload = getHomeContent(medias, selectedStateGeolocation);
+    setMediaData(payload);
+  }, [medias, selectedStateGeolocation]);
+
   return (
     <>
       <ActivityTracking />
       <Box flex={1} bg="white" {...testProps('home_container')}>
         <Animated.View style={[styles.topBarDefault, topBarDefaultAnimated]}>
-          <TopBarDefault />
+          <TopBarDefault showInHome />
         </Animated.View>
         <Animated.View
           style={[styles.transparentTopBar, transparentTopBarAnimated]}
         >
-          <NewTransparentTopBarDefault />
+          <NewTransparentTopBarDefault showInHome />
         </Animated.View>
         <Animated.View style={[styles.whiteTopBar, whiteTopBarAnimated]}>
-          <NewWhiteTopBarDefault />
+          <NewWhiteTopBarDefault showInHome />
         </Animated.View>
         <SafeAreaView {...testProps('home_count_down_container')}>
           <RouletWebview />
@@ -259,7 +275,7 @@ function Home() {
             onScroll={handleScroll}
             contentContainerStyle={{ paddingBottom: 100 }}
             keyExtractor={(item, index) => (index === 2 && (getString('count_down_position') === 'B') ? 'home-carousel' : `home-media-${item.image.url.toString()}-${item.image.title}=${index}`)}
-            data={medias}
+            data={mediaData}
             renderItem={({ item, index }) => {
               if (index === 2 && (getString('count_down_position') === 'B')) {
                 return (
@@ -314,6 +330,11 @@ function Home() {
         </SafeAreaView>
         {!!showModalSignUpComplete && <ModalSignUpComplete />}
       </Box>
+
+      <HomeTooltipGeolocation />
+
+      <HomeModalGeolocation />
+
       {drawerIsOpen && (
         <Drawer isOpen={drawerIsOpen} snapPoints={['10%', '53%']}>
           <ShowcaseDrawerContent productData={shelfItemData} />

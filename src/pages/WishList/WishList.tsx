@@ -10,7 +10,7 @@ import { ModalBag } from '../../components/ModalBag/ModalBag';
 import { WishListProductCard } from '../../components/WishListProductCard/WishListProductCard';
 import wishListQueries from '../../graphql/wishlist/wishList';
 import { useWishlistActions } from '../../hooks/useWishlistActions';
-import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
+import TopBarDefault from '../../modules/Menu/components/TopBarDefault';
 import EventProvider from '../../utils/EventProvider';
 import { createNavigateToProductParams } from '../../utils/createNavigateToProductParams';
 import { defaultBrand } from '../../utils/defaultWBrand';
