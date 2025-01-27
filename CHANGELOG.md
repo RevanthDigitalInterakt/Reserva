@@ -6,7 +6,7 @@
 
 - [58107 - Alterar para splash screen padrão ao abrir o app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/58107)
 
----
+----
 
 ### 2.27.3
 
