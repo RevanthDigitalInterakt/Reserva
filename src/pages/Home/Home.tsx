@@ -207,8 +207,9 @@ function Home() {
   const { drawerIsOpen } = useProductDetailStore(['drawerIsOpen']);
   const { shelfItemData } = useShelfStore(['shelfItemData']);
   const { onLoadOffersShelf } = useShelfOffersStore(['onLoadOffersShelf']);
-  const { getString } = useRemoteConfig();
+  const { getString, getBoolean } = useRemoteConfig();
   const [mediaData, setMediaData] = useState<HomeMediaOutput[]>([]);
+  const showTooltipGeolocation = useMemo(() => getBoolean('show_geolocation'), []);
 
   const {
     handleScroll,
@@ -331,7 +332,7 @@ function Home() {
         {!!showModalSignUpComplete && <ModalSignUpComplete />}
       </Box>
 
-      <HomeTooltipGeolocation />
+      {showTooltipGeolocation && <HomeTooltipGeolocation />}
 
       <HomeModalGeolocation />
 

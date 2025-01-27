@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { SafeAreaView, TouchableOpacity } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
 import type {
@@ -15,6 +15,7 @@ import { Button } from '../Button';
 import IconComponent from '../IconComponent/IconComponent';
 import { IconLegacy } from '../IconLegacy/IconLegacy';
 import IconLocation from '../../../assets/icons/IconLocation';
+import { useRemoteConfig } from '../../hooks/useRemoteConfig';
 
 export type IconTopBar = {
   name: string;
@@ -54,6 +55,9 @@ export function TopBar({
   loading = false,
   ...props
 }: TopBarProps) {
+  const { getBoolean } = useRemoteConfig();
+  const showGeolocationButton = useMemo(() => getBoolean('show_geolocation'), []);
+
   const { isPrime, primeActive } = usePrimeInfo();
   return (
     <SafeAreaView>
@@ -119,7 +123,7 @@ export function TopBar({
             alignItems="flex-end"
             alignSelf="center"
           >
-            {locationButton !== undefined && locationButton.showButton && (
+            {locationButton !== undefined && locationButton.showButton && showGeolocationButton && (
               <TouchableOpacity
                 style={{ marginRight: 20 }}
                 onPress={() => locationButton.onPress(true)}
