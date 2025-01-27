@@ -71,7 +71,8 @@ class EventProvider {
 
       ExceptionProvider.captureException(
         error,
-        { success, token },
+        "uninstallMeasurement - EventProvider",
+        { success: (JSON.stringify(success) || "") },
       );
     });
   }
@@ -100,15 +101,15 @@ class EventProvider {
       },
       (_) => { },
       (error) => {
-        ExceptionProvider.captureException(error as any);
+        ExceptionProvider.captureException((error || new Error("error initSdk appsFlyer")), "initSdk - EventProvider");
       },
     );
     this.analytics
       .logAppOpen()
-      .catch((error) => ExceptionProvider.captureException(error));
+      .catch((error) => ExceptionProvider.captureException(error, "analytics - EventProvider"));
 
     this.uninstallMeasurement()
-      .catch((error) => ExceptionProvider.captureException(error));
+      .catch((error) => ExceptionProvider.captureException(error, "uninstallMeasurement - EventProvider"));
   }
 
   public static parseValues(values: EventValueOptions) {
@@ -137,20 +138,24 @@ class EventProvider {
       const afEventName = eventsName[eventName];
       const afEventsValues = this.parseValues(eventValues);
 
-      this.appsFlyer.logEvent(afEventName, afEventsValues, (_) => { }, (error) => {
-        ExceptionProvider.captureException(new Error('Error AppsFlyer Log Event'), {
-          eventName,
-          eventValues,
-          afEventName,
-          afEventsValues,
-          error,
-        });
+      this.appsFlyer.logEvent(afEventName, afEventsValues, (_) => { }, (err) => {
+        ExceptionProvider.captureException(
+          (err || new Error('Error AppsFlyer Log Event')),
+          "logEvent - EventProvider",
+          {
+            eventName,
+            eventValues: (JSON.stringify(eventValues) || ""),
+            afEventName: (JSON.stringify(afEventName) || ""),
+            afEventsValues: (JSON.stringify(afEventsValues) || ""),
+          });
       });
     } catch (err) {
-      ExceptionProvider.captureException(new Error('Error Log Event'), {
-        args,
-        err,
-      });
+      ExceptionProvider.captureException(
+        (err || new Error('Error AppsFlyer Log Event')),
+        "logEvent - EventProvider",
+        {
+          args: (JSON.stringify(args) || "")
+        });
     }
   }
 
@@ -161,10 +166,12 @@ class EventProvider {
         screen_class: eventName,
       });
     } catch (err) {
-      ExceptionProvider.captureException(new Error('Error Log Screen View Event'), {
-        eventName,
+      ExceptionProvider.captureException(
         err,
-      });
+        "logScreenViewEvent - EventProvider",
+        {
+          eventName,
+        });
     }
   }
 

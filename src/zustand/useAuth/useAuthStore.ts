@@ -64,7 +64,7 @@ export const authStore = create<IAuthStore>((set, getState) => ({
 
       return true;
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "onInit - useAuthStore.ts");
 
       set({ ...getState(), initialized: true });
 
@@ -97,9 +97,7 @@ export const authStore = create<IAuthStore>((set, getState) => ({
     } catch (err) {
       ExceptionProvider.captureException(
         err,
-        { profile: getState().profile },
-        {},
-        { message: 'Error on refresh token' },
+        "onRefreshToken - useAuthStore.ts",
       );
 
       throw new RefreshTokenError();
@@ -125,7 +123,7 @@ export const authStore = create<IAuthStore>((set, getState) => ({
 
       return data.profile;
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "onGetProfile - useAuthStore.ts");
 
       throw new Error(err);
     }

@@ -176,7 +176,7 @@ export const useRemoteConfig = create<IUseRemoteConfigStore>((set, getState) => 
 
       return set({ initialized: true, instance: remoteConfig });
     } catch (err) {
-      ExceptionProvider.captureException(err, { message: 'Error useRemoteConfig()' });
+      ExceptionProvider.captureException(err, "fetchInitialData - useRemoteConfig.ts");
 
       return set({ initialized: true, instance: remoteConfig });
     }

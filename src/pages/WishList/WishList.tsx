@@ -87,7 +87,7 @@ function WishList() {
 
       setWishProducts(favorites);
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "doInitialRequest - WhishList.tsx");
     } finally {
       setLoading(false);
     }
@@ -112,7 +112,7 @@ function WishList() {
 
       setWishProducts(favorites);
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "doRefresh - WishList.tsx");
     } finally {
       setLoadingSkuId(null);
     }
@@ -177,7 +177,7 @@ function WishList() {
 
       addTagsUponCartUpdate(product.productName, imageUrl);
     } catch (err) {
-      ExceptionProvider.captureException(err, { orderFormId });
+      ExceptionProvider.captureException(err, "onAddProductToCart - WishList.tsx",{ orderFormId });
       Alert.alert('Ocorreu um erro', err.message);
 
       actions.CREATE_NEW_ORDER_FORM();

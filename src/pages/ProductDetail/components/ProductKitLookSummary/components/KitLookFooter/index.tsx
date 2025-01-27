@@ -46,7 +46,7 @@ export default function KitLookFooter() {
 
       setShowAnimationBag(true);
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "onAddProductToCart - ProductKitLookSummary");
       Alert.alert('Ocorreu um erro', err.message);
     } finally {
       setLoading(false);

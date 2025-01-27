@@ -1,5 +1,6 @@
-import { DdRum, DdSdkReactNative } from '@datadog/mobile-react-native';
+import { DdRum, DdSdkReactNative, ErrorSource } from '@datadog/mobile-react-native';
 import { navigationRef } from '../../utils/navigationRef';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 export interface IUser {
   id: string;
@@ -14,11 +15,12 @@ export class ExceptionProvider {
 
   static captureException(
     error: Error,
-    params?: { [key: string]: unknown },
-    tags?: { [key: string]: unknown },
-    breadcrumbs?: { [key: string]: unknown },
+    jsName: string,
+    params?: { [key: string]: string },
   ) {
-    // TODO Datadog implementation
+    if (params) crashlytics().setAttributes(params);
+
+    crashlytics().recordError(error, jsName)
   }
 
   static trackScreen() {

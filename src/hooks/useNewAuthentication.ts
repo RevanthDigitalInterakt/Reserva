@@ -63,7 +63,7 @@ export function useNewAuthentication({ closeModal }: IParamsHook) {
           text: 'Cancelar',
         },
       ]);
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "handleLogin - useNewAuthentication.ts");
     } finally {
       setLoadingSignIn(false);
       EventProvider.logEvent('login', {
@@ -77,7 +77,7 @@ export function useNewAuthentication({ closeModal }: IParamsHook) {
       useDitoStore.persist.clearStorage();
       await getApolloClient().clearStore();
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "handleLogout - useNewAuthentication.ts");
     } finally {
       actions.RESET_ORDER_FORM();
       onSignOut();

@@ -26,7 +26,7 @@ export default function CardCashback() {
       const { wallet } = data.cashback;
       setBalance(wallet?.balanceInCents);
     } catch (error) {
-      ExceptionProvider.captureException(error, { currentProfileDocument: profile?.document });
+      ExceptionProvider.captureException(error, "getCashbackData - CardCashback.tsx", { currentProfileDocument: profile?.document || "" });
     }
   }, [getCashback, profile]);
 

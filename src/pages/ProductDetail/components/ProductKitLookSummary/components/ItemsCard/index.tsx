@@ -73,7 +73,7 @@ function ItemsCard({ item, selectedItem, onSelectItem }: IItemsCard) {
         item_brand: `${productDetail?.categoryTree[0]?.toUpperCase()},`,
       });
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "doSelectSizeTrack - ProductKitLookSummary");
     }
   }, [productDetail, selectedSize, selectedItem]);
 

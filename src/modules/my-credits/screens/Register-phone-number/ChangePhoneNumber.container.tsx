@@ -84,7 +84,7 @@ export function ChangePhoneNumberContainer({
           navigateToConfirmPhone();
         }
       } catch (error) {
-        ExceptionProvider.captureException(error);
+        ExceptionProvider.captureException(error, "handleNavigateToConfirmPhone - ChangePhoneNumberContainer");
       }
     }
   };

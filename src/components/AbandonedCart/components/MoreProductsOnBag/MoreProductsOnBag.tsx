@@ -15,7 +15,7 @@ function MoreProductsOnBag() {
       EventProvider.logEvent('abandoned_cart', { action });
       navigation.navigate('BagScreen');
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "onTouchOpacity - MoreProductsOnBag.ts");
     }
   }, []);
   return (

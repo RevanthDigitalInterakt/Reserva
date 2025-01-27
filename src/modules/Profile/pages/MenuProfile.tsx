@@ -56,7 +56,7 @@ export function MenuProfile() {
 
       setImageProfile(response);
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "setImageUrl - MenuProfile");
     }
   }, [firebaseRef]);
 

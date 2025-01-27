@@ -5,7 +5,7 @@ export function onShare(title: string, message: string, url: string) {
   Share
     .open({ title, message, url })
     .catch((err) => {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "onShare - onShare.ts");
       return false;
     });
 }

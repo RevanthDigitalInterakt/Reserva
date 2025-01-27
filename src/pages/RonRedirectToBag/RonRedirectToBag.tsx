@@ -46,7 +46,7 @@ export async function getOrderFormIdByRon(ronCode: string): Promise<string> {
 
     return orderFormId;
   } catch (err) {
-    ExceptionProvider.captureException(err, { ronCode });
+    ExceptionProvider.captureException(err, "getOrderFormIdByRon - RonRedirectToBag.tsx", { ronCode });
 
     return '';
   }

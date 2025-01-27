@@ -90,7 +90,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
         });
       }
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "handleSaveAddress - NewAddress.tsx");
     }
 
     setLoadingStatusBar(false);
@@ -217,7 +217,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
           state,
         });
       } catch (e) {
-        ExceptionProvider.captureException(e);
+        ExceptionProvider.captureException(e, "cepHandler - NewAddress.tsx", {postalCode});
       } finally {
         setLoadingStatusBar(false);
       }
@@ -428,7 +428,7 @@ export const NewAddress: React.FC<Props> = ({ route }) => {
                   .then(() => {
                     setLoadingStatusBar(false);
                   })
-                  .catch(ExceptionProvider.captureException)
+                  .catch(err => ExceptionProvider.captureException(err, "Button - NewAddress"))
                   .finally(() => setLoadingStatusBar(false));
               }}
               title="INCLUIR ENDEREÇO"

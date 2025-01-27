@@ -42,7 +42,7 @@ function ItemAbandonedCart({ items }: Partial<OrderformPackageItemsOutput>[]) {
       EventProvider.logEvent('abandoned_cart', { action, index });
       navigation.navigate('BagScreen');
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "ItemAbandonedCart.ts - onTouchOpacity");
     }
   }, []);
 

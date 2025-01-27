@@ -64,7 +64,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       navigation?.navigate('Home');
       return profile;
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "doSignIn - useAuthentication", { email });
       validateCredentials();
     } finally {
       setLoadingSignIn(false);
@@ -95,7 +95,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       useDitoStore.persist.clearStorage();
       await getApolloClient().clearStore();
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "handleLogout - useAuthentication.ts");
     } finally {
       actions.RESET_ORDER_FORM();
       onSignOut();

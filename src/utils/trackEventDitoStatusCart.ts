@@ -56,6 +56,6 @@ export const trackEventDitoStatusCart = async ({
       EventProvider.sendTrackEvent('status-carrinho', items?.length > 0 ? payloadEvent : payloadEventEmpty);
     }
   } catch (e) {
-    ExceptionProvider.captureException(e);
+    ExceptionProvider.captureException(e, "trackEventDitoStatusCart - trackEventDitoStatusCart.ts");
   }
 };

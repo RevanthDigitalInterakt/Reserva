@@ -79,7 +79,7 @@ describe('trackEventDitoStatusCart', () => {
   it('should capture an exception and call ExceptionProvider.captureException in case of error', async () => {
     const captureExceptionSpy = spyExceptionProvider;
 
-    ExceptionProvider.captureException(new Error('Something exception'));
+    ExceptionProvider.captureException(new Error('Something exception'), "Something Error");
 
     await trackEventDitoStatusCart({
       items: [],

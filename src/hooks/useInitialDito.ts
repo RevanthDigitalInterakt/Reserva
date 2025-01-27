@@ -111,7 +111,7 @@ export default function useInitialDito() {
 
       await trackEventHomeDito({ id: id || '' });
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "handleRegisterAnonymous - useInitialDito.ts");
     }
   }, [handleRegisterTokenDito]);
 
@@ -138,8 +138,7 @@ export default function useInitialDito() {
         deviceToken,
       });
     } catch (e) {
-      // TODO verificar possibilidade de tratar futuramente
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "handleRegister - useInitialDito.ts");
     }
   }, [
     handleRegisterUser,

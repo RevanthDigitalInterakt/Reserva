@@ -18,7 +18,7 @@ export const has24HoursPassed = async (key: string) => {
     const twentyFourHoursInMs = 24 * 60 * 60 * 1000;
     return currentTimestamp - lastEventTimestamp >= twentyFourHoursInMs;
   } catch (error) {
-    ExceptionProvider.captureException(error);
+    ExceptionProvider.captureException(error, "has24HoursPassed - useOncePerDayEvent.ts");
     return false;
   }
 };
@@ -51,7 +51,7 @@ export const useOncePerDayEvent = (eventKey: string) => {
         });
         await AsyncStorage.setItem(eventKey, new Date().toISOString());
       } catch (error) {
-        ExceptionProvider.captureException(error);
+        ExceptionProvider.captureException(error, "triggerEvent - useOncePerDayEvent.ts");
       }
     }
   };

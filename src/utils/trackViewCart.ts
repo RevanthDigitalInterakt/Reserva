@@ -29,6 +29,6 @@ export const trackViewCart = ({
       value: price,
     });
   } catch (error) {
-    ExceptionProvider.captureException(error);
+    ExceptionProvider.captureException(error, "trackViewCart - trackViewCart.ts");
   }
 };

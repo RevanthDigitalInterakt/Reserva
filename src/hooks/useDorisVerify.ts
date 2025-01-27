@@ -21,7 +21,7 @@ export function useDorisVerify() {
       const { verifyDorisProduct } = data;
       setIsValidProductDoris(verifyDorisProduct.valid);
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "verifyProductDoris - useDorisVerify.ts", { ean });
     }
   }, []);
 

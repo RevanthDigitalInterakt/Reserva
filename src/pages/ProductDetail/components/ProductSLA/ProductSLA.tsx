@@ -54,7 +54,7 @@ function ProductSLA() {
         success: 1,
       });
     } catch (err) {
-      ExceptionProvider.captureException(err, { selectedSize });
+      ExceptionProvider.captureException(err, "onLoad - ProductSLA", { selectedSize: (JSON.stringify(selectedSize) || "") });
 
       EventProvider.logEvent('product_check_delivery_time', {
         product_id: productDetail?.productId || '',

@@ -387,7 +387,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         return true;
       } catch (err) {
-        ExceptionProvider.captureException(err);
+        ExceptionProvider.captureException(err, "COPY_ORDERFORM - useBagStore.ts");
 
         return false;
       }
@@ -841,7 +841,14 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         await trackingOrderFormAddItem({ id, orderForm, productDetail });
       } catch (error) {
-        ExceptionProvider.captureException(error);
+        ExceptionProvider.captureException(
+          error, 
+          "ADD_ITEM - useBagStore.ts", 
+          {
+            seller:  (JSON.stringify(seller) || ""),
+            id:  (JSON.stringify(id) || ""),
+            quantity: (JSON.stringify(quantity) || "")
+          });
         set(() => ({ error: error.message }));
 
         throw new Error(error.message);

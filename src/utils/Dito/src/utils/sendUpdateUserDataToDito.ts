@@ -22,7 +22,7 @@ async function sendUpdateUserDataToDito({
   try {
     await updateDitoUser({ id, payload: user });
   } catch (e) {
-    ExceptionProvider.captureException(e);
+    ExceptionProvider.captureException(e, "sendUpdateUserDataToDito - sendUpdateUserDataToDito.ts");
   }
 }
 export default sendUpdateUserDataToDito;

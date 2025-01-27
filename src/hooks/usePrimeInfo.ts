@@ -64,7 +64,9 @@ export function usePrimeInfo() {
         });
       }
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "onAddPrimeToCart - usePrimeInfo.ts", {
+        isPrime: JSON.stringify(isPrime),
+      });
     }
   }, [actions, hasPrimeSubscriptionInCart, loadLpData]);
 

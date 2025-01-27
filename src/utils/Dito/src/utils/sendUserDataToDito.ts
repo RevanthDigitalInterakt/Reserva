@@ -31,7 +31,7 @@ async function sendUserDataToDito({
       await AsyncStorage.setItem('@Dito:anonymousID', id);
     }
   } catch (e) {
-    ExceptionProvider.captureException(e);
+    ExceptionProvider.captureException(e, "sendUserDataToDito - sendUserDataToDito.ts");
   }
 }
 export default sendUserDataToDito;

@@ -23,7 +23,7 @@ function FooterAbandonedCart() {
 
       handleNavigateToDelivery(profile, 'Home');
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "FooterAbandonedCart.ts");
     }
   }, [profile]);
   return (

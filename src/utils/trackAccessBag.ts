@@ -28,6 +28,6 @@ export const trackAccessBag = async (
       },
     });
   } catch (e) {
-    ExceptionProvider.captureException(e);
+    ExceptionProvider.captureException(e, "trackAccessBag - trackAccessBag.ts");
   }
 };

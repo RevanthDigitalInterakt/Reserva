@@ -33,7 +33,7 @@ function CallCenter() {
       });
       EventProvider.logScreenViewEvent('call_center_click');
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "onClickCallCenter - CallCenter.tsx");
     }
   }, [phoneNumber]);
 
@@ -44,7 +44,7 @@ function CallCenter() {
       });
       EventProvider.logScreenViewEvent('call_center_click_prime');
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "onClickCallCenterPrime - CallCenter.tsx");
     }
     if (!isPrime) {
       setIsModalSignInVisible(true);

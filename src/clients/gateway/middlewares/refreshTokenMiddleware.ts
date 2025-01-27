@@ -35,7 +35,7 @@ export async function refreshTokenMiddleware({
       return true;
     }
   } catch (e) {
-    ExceptionProvider.captureException(e);
+    ExceptionProvider.captureException(e, "refreshTokenMiddleware.ts");
   }
 
   return true;

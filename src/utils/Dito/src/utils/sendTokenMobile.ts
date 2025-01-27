@@ -15,7 +15,7 @@ async function createMobileToken({
   try {
     await sendMobileToken({ id, token, platform });
   } catch (e) {
-    ExceptionProvider.captureException(e);
+    ExceptionProvider.captureException(e, "createMobileToken - sendTokenMobile.ts");
   }
 }
 
