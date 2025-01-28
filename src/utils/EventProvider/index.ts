@@ -5,7 +5,6 @@ import messaging from '@react-native-firebase/messaging';
 import { OneSignal, LogLevel } from 'react-native-onesignal';
 import { initialize as initializeClarity } from 'react-native-clarity';
 import Config from 'react-native-config';
-import { useNavigation } from '@react-navigation/native';
 import { env } from '../../config/env';
 import {
   eventsName,
