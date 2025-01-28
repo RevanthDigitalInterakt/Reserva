@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 
-import { TopBarDefault } from '../Menu/components/TopBarDefault';
+import TopBarDefault from '../Menu/components/TopBarDefault';
 import { Box } from '../../components/Box/Box';
 import { Typography } from '../../components/Typography/Typography';
 import { Button } from '../../components/Button';
@@ -33,7 +33,7 @@ function CallCenter() {
       });
       EventProvider.logScreenViewEvent('call_center_click');
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "onClickCallCenter - CallCenter.tsx");
     }
   }, [phoneNumber]);
 
@@ -44,7 +44,7 @@ function CallCenter() {
       });
       EventProvider.logScreenViewEvent('call_center_click_prime');
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "onClickCallCenterPrime - CallCenter.tsx");
     }
     if (!isPrime) {
       setIsModalSignInVisible(true);

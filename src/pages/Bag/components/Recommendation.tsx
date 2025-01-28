@@ -57,7 +57,7 @@ export function Recommendation() {
         item_brand: getBrandByUrl(products),
       });
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "useEffect - Recommendation", {products: (JSON.stringify(products) || "")});
     }
   }, [products]);
 

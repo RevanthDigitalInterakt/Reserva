@@ -1892,12 +1892,8 @@ PODS:
     - React-Core
   - RNSVG (13.14.0):
     - React-Core
-  - RNUxcam (6.0.1):
-    - React-Core
-    - UXCam (~> 3.6.17)
   - SocketRocket (0.6.1)
   - SSZipArchive (2.2.3)
-  - UXCam (3.6.19)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -1991,7 +1987,6 @@ DEPENDENCIES:
   - RNSha256 (from `../node_modules/react-native-sha256`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
-  - RNUxcam (from `../node_modules/react-native-ux-cam`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -2047,7 +2042,6 @@ SPEC REPOS:
     - PromisesSwift
     - SocketRocket
     - SSZipArchive
-    - UXCam
 
 EXTERNAL SOURCES:
   boost:
@@ -2218,8 +2212,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-share"
   RNSVG:
     :path: "../node_modules/react-native-svg"
-  RNUxcam:
-    :path: "../node_modules/react-native-ux-cam"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -2357,12 +2349,10 @@ SPEC CHECKSUMS:
   RNSha256: e1bc64e9e50b293d5282bb4caa1b2043931f1c9d
   RNShare: da6d90b6dc332f51f86498041d6e34211f96b630
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
-  RNUxcam: 0b8a70ec10c149d4fbc78fb837e816b68919ae28
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
-  UXCam: 94f02257f93ea393e76581c25dd0c6844260a89a
   Yoga: 87e59f6d458e5061d2421086c5de994b3f7cd151
 
 PODFILE CHECKSUM: d0eb6e67ff501711974f9655b9e92a572eb86e84
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

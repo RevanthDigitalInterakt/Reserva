@@ -11853,11 +11853,6 @@ react-native-uuid@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-native-uuid/-/react-native-uuid-2.0.3.tgz#f85f8a8d68e52e3f1c18ba0f02ec7776f9d4a0da"
   integrity sha512-f/YfIS2f5UB+gut7t/9BKGSCYbRA9/74A5R1MDp+FLYsuS+OSWoiM/D8Jko6OJB6Jcu3v6ONuddvZKHdIGpeiw==
 
-react-native-ux-cam@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-ux-cam/-/react-native-ux-cam-6.0.1.tgz#0e3a3dbc8213de253af45cf5084f4ea6174eaceb"
-  integrity sha512-rV05LW30WxQ85P6KIOoW3mFNS950WpvuzHk0bYdMD+55ZwAlJn8vWxN8naTOv0MSR4xct6IyTIPWxk9oO6kdlQ==
-
 react-native-video@6.0.0-beta.6:
   version "6.0.0-beta.6"
   resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.0.0-beta.6.tgz#6529f44b779d85f3fa1ac6a70dc81716701ee792"

@@ -29,7 +29,7 @@ export default function CategoryCard({
       });
       navigation.navigate('ProductCatalog', { referenceId });
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "onPress - CategoryCard", {referenceId: (JSON.stringify(referenceId) || "")});
     }
   }, [referenceId]);
 

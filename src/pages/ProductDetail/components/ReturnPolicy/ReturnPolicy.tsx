@@ -27,7 +27,7 @@ function ReturnPolicy() {
       const returnPolicyText = policy?.data?.config?.returnPolicy;
       setReturnPolicy(returnPolicyText);
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "fetchReturnPolicy - ReturnPolicy");
     }
   }, []);
 

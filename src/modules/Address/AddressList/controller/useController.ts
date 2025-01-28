@@ -52,7 +52,7 @@ const useController = (): IUseController => {
 
       await onGetProfile();
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "goBack - AddressList/controller");
     } finally {
       setLoadingStatusBar(false);
       setIsLoadCompleted(true);

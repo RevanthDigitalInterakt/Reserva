@@ -70,7 +70,7 @@ const helpCenterStore = create<IHelpCenterStore>((set, getState) => ({
           itemsHelpCenter: itemsHelpCenter[0],
         }));
       } catch (error) {
-        ExceptionProvider.captureException(error);
+        ExceptionProvider.captureException(error, "INITIAL_LOADING - useHelpCenter.ts");
       } finally {
         set(() => ({ loading: false, initialized: true }));
       }
@@ -91,7 +91,7 @@ const helpCenterStore = create<IHelpCenterStore>((set, getState) => ({
           itemsHelpCenter: itemsHelpCenter[0],
         }));
       } catch (error) {
-        ExceptionProvider.captureException(error);
+        ExceptionProvider.captureException(error, "SET_DATA - useHelpCenterStore.ts");
       } finally {
         set(() => ({ loading: false }));
       }

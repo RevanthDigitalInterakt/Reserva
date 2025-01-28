@@ -109,7 +109,7 @@ export function EditPassword() {
         await onUpdateAuthData(data.redefinePassword.token, data.redefinePassword.authCookie);
       }
     } catch (err) {
-      ExceptionProvider.captureException(err, { password, currentPassword });
+      ExceptionProvider.captureException(err, "changePassword - EditPassword");
 
       Alert.alert('', 'Aconteceu um erro na alteração de senha.');
     }

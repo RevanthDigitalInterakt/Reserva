@@ -48,7 +48,7 @@ export function FooterModalPrime({
 
       onClose();
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "onAddToCart - FooterModal.tsx");
     } finally {
       setLoadingAddCartPrime(false);
     }

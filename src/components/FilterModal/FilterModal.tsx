@@ -55,7 +55,7 @@ function FilterModal({ onClose, visible, defaultFacets }: IFilterModal) {
 
       setFacets(data?.searchFacets);
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "onGetFacetsData - FilterModal.tsx", {q: parameters.q || ""});
     }
   }, [defaultFacets, doLoadFacetsData, parameters.q]);
 

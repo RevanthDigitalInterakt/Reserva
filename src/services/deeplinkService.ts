@@ -19,7 +19,7 @@ export const deeplinkService = {
       );
       return response.data;
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "deeplinkService - deeplinkService.ts");
     }
 
     return undefined;

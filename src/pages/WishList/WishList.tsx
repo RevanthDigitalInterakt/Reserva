@@ -10,7 +10,7 @@ import { ModalBag } from '../../components/ModalBag/ModalBag';
 import { WishListProductCard } from '../../components/WishListProductCard/WishListProductCard';
 import wishListQueries from '../../graphql/wishlist/wishList';
 import { useWishlistActions } from '../../hooks/useWishlistActions';
-import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
+import TopBarDefault from '../../modules/Menu/components/TopBarDefault';
 import EventProvider from '../../utils/EventProvider';
 import { createNavigateToProductParams } from '../../utils/createNavigateToProductParams';
 import { defaultBrand } from '../../utils/defaultWBrand';
@@ -26,7 +26,6 @@ import { mapProductToFavoriteItem } from './adaptWishList';
 import { Box } from '../../components/Box/Box';
 import { Typography } from '../../components/Typography/Typography';
 import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
-import UxCam from '../../utils/UxCam';
 
 function WishList() {
   const navigation = useNavigation();
@@ -88,7 +87,7 @@ function WishList() {
 
       setWishProducts(favorites);
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "doInitialRequest - WhishList.tsx");
     } finally {
       setLoading(false);
     }
@@ -113,7 +112,7 @@ function WishList() {
 
       setWishProducts(favorites);
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "doRefresh - WishList.tsx");
     } finally {
       setLoadingSkuId(null);
     }
@@ -178,7 +177,7 @@ function WishList() {
 
       addTagsUponCartUpdate(product.productName, imageUrl);
     } catch (err) {
-      ExceptionProvider.captureException(err, { orderFormId });
+      ExceptionProvider.captureException(err, "onAddProductToCart - WishList.tsx",{ orderFormId });
       Alert.alert('Ocorreu um erro', err.message);
 
       actions.CREATE_NEW_ORDER_FORM();
@@ -214,10 +213,6 @@ function WishList() {
       onFinishLoad();
     }
   }, [startLoadingTime, onFinishLoad, loading]);
-
-  useEffect(() => {
-    UxCam.tagScreen('Wish List Screen');
-  }, []);
 
   return (
     <Box style={{ backgroundColor: 'white' }} flex={1}>

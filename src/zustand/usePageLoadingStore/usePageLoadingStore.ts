@@ -85,7 +85,7 @@ const pageLoadingStore = create<ILoadingStore>((set, getState) => ({
           value,
         });
       } catch (error) {
-        ExceptionProvider.captureException(error);
+        ExceptionProvider.captureException(error, "onFinishLoad - usePageLoadingStore.ts");
       }
     }
     set(initialState);

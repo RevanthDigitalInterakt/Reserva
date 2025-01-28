@@ -57,7 +57,7 @@ const useWishlistStore = create<IWishlistStore>((set, getState) => ({
 
       set(() => ({ favorites: data.wishlist || [], initialized: true }));
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "onLoadFavorites - useWishListStore.ts");
     } finally {
       set(() => ({ loading: false }));
     }
@@ -76,7 +76,7 @@ const useWishlistStore = create<IWishlistStore>((set, getState) => ({
       set(() => ({ favorites: data.wishlist || [] }));
       return data.wishlist || [];
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "refreshFavorites - useWishlistStore.ts");
       return [];
     } finally {
       set(() => ({ loading: false }));
@@ -106,7 +106,10 @@ const useWishlistStore = create<IWishlistStore>((set, getState) => ({
 
       return true;
     } catch (err) {
-      ExceptionProvider.captureException(err, { product });
+      ExceptionProvider.captureException(
+        err, 
+        "onFavorite - useWishlistStore.ts", 
+        { product: (JSON.stringify(product) || "") });
 
       return false;
     } finally {
@@ -136,7 +139,10 @@ const useWishlistStore = create<IWishlistStore>((set, getState) => ({
 
       return true;
     } catch (err) {
-      ExceptionProvider.captureException(err, { product });
+      ExceptionProvider.captureException(
+        err,
+        "onUnfavorite - useWishlistStore.ts",
+        { product: (JSON.stringify(product) || "") });
 
       return false;
     } finally {

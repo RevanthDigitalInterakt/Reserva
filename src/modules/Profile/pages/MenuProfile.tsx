@@ -12,7 +12,7 @@ import { MyCashbackScreensRoutes } from '../../my-cashback/navigation/MyCashback
 import { useCheckConnection } from '../../../hooks/useCheckConnection';
 import { FirebaseService } from '../../../shared/services/FirebaseService';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
-import { TopBarDefault } from '../../Menu/components/TopBarDefault';
+import TopBarDefault from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import EventProvider from '../../../utils/EventProvider';
 import testProps from '../../../utils/testProps';
@@ -27,7 +27,6 @@ import { Button } from '../../../components/Button';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import FormLink from '../../../components/FormLink/FormLink';
 import CardCashback from '../../../components/CashBackBalance';
-import UxCam from '../../../utils/UxCam';
 
 export function MenuProfile() {
   const navigation = useNavigation();
@@ -57,7 +56,7 @@ export function MenuProfile() {
 
       setImageProfile(response);
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "setImageUrl - MenuProfile");
     }
   }, [firebaseRef]);
 
@@ -132,10 +131,6 @@ export function MenuProfile() {
       checkPhoneTime(profile?.id);
     }
   }, [profile]);
-
-  useEffect(() => {
-    UxCam.tagScreen('Profile Screen');
-  }, []);
 
   return (
     <Box flex={1} backgroundColor="white">

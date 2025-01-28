@@ -77,6 +77,7 @@ export interface IRemoteConfigKeys {
   new_offers_page: boolean;
   new_offers_page_tester: boolean;
   show_pdc_kit_look: boolean;
+  show_geolocation: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -151,6 +152,7 @@ export const defaults: IRemoteConfigKeys = {
   new_offers_page: false,
   new_offers_page_tester: false,
   show_pdc_kit_look: false,
+  show_geolocation: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;
@@ -176,7 +178,7 @@ export const useRemoteConfig = create<IUseRemoteConfigStore>((set, getState) => 
 
       return set({ initialized: true, instance: remoteConfig });
     } catch (err) {
-      ExceptionProvider.captureException(err, { message: 'Error useRemoteConfig()' });
+      ExceptionProvider.captureException(err, "fetchInitialData - useRemoteConfig.ts");
 
       return set({ initialized: true, instance: remoteConfig });
     }

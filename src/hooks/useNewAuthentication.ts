@@ -10,7 +10,6 @@ import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { useNavigationToDelivery } from './useNavigationToDelivery';
 import type { ProfileQuery } from '../base/graphql/generated';
-import UxCam from '../utils/UxCam';
 
 interface IParamsHook {
   closeModal?: () => void;
@@ -64,14 +63,11 @@ export function useNewAuthentication({ closeModal }: IParamsHook) {
           text: 'Cancelar',
         },
       ]);
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "handleLogin - useNewAuthentication.ts");
     } finally {
       setLoadingSignIn(false);
       EventProvider.logEvent('login', {
         custumer_email: email,
-      });
-      UxCam.logEvent('login', {
-        email,
       });
     }
   }, [checkNavigation, closeModal, onSignIn]);
@@ -81,7 +77,7 @@ export function useNewAuthentication({ closeModal }: IParamsHook) {
       useDitoStore.persist.clearStorage();
       await getApolloClient().clearStore();
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "handleLogout - useNewAuthentication.ts");
     } finally {
       actions.RESET_ORDER_FORM();
       onSignOut();

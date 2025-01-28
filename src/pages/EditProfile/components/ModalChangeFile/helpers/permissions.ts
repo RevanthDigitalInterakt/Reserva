@@ -15,7 +15,7 @@ const requestCameraPermission = async (): Promise<boolean> => {
       },
     )) === PermissionsAndroid.RESULTS.GRANTED;
   } catch (err) {
-    ExceptionProvider.captureException(err);
+    ExceptionProvider.captureException(err, "requestCameraPermission - ModalChangeFile");
   }
 
   return false;
@@ -34,7 +34,7 @@ const requestExternalWritePermission = async (): Promise<boolean> => {
       },
     )) === PermissionsAndroid.RESULTS.GRANTED;
   } catch (err) {
-    ExceptionProvider.captureException(err);
+    ExceptionProvider.captureException(err, "requestExternalWritePermission - ModalChangeFile");
   }
 
   return false;

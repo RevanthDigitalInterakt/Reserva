@@ -2,20 +2,34 @@
 
 ## CHANGELOG
 
+### 2.29.0
+
+----
+
+### 2.28.0
+
+- [58107 - Alterar para splash screen padrão ao abrir o app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/58107)
+
+---
+
 ### 2.27.3
 
 - Correção do build para a versão 2.27.3
 
-### 2.26.3
-
-- [45936 - Preço do desconto do prime no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45936)
-
 ---
+
+### 2.27.1
+
+- [57538 - Remover projeto UXCam do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57538)
 
 ### 2.27.0
 
 - [Alterar splash screen para o Natal](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57534)
 
+### 2.27.1
+- [52667 Ajuste imagem customizada do faça vc na sacola e pedidos](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52667)
+
+---
 ### 2.26.5
 
 - [Implementação evento Revenue, Average order value e Purchase Rate - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55205)
@@ -32,6 +46,7 @@
 ### 2.26.3
 
 - [Tag de conversão não funciona - Doris](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56288)
+- [45936 - Preço do desconto do prime no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/45936)
 
 ### 2.26.2
 
@@ -72,7 +87,6 @@
 ### 2.25.1
 
 - [54540 - Ajuste campo af_content para captura de dados do Meta](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54540)
-
 - [46646 - Home promocional - Vitrines](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46646)
 
 ### 2.25.0
