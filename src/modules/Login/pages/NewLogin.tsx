@@ -205,6 +205,7 @@ export function NewLoginScreen({
                   ? styles.textInputError
                   : styles.textInput}
                 placeholder="email@email.com"
+                autoCapitalize="none"
                 placeholderTextColor={loginCredentials.showUsernameError ? '#DD3636' : '#A8A8A8'}
                 onChangeText={(text) => {
                   try {
@@ -243,6 +244,7 @@ export function NewLoginScreen({
                   ? styles.textInputError
                   : styles.textInput}
                 placeholder="Senha"
+                autoCapitalize="none"
                 placeholderTextColor={loginCredentials.showPasswordError ? '#DD3636' : '#A8A8A8'}
                 secureTextEntry={passwordHidden}
                 onChangeText={(text) => {
