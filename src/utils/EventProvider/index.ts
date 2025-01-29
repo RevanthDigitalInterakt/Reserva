@@ -214,9 +214,7 @@ class EventProvider {
   }
 
   public static setPushExternalUserId(email: string) {
-    // setCustomUserId(email);
     this.OneSignal.login(email);
-    // this.OneSignal.setExternalUserId(email);
   }
 
   public static getPushTags(callback: (handle: {
@@ -225,12 +223,8 @@ class EventProvider {
     this.OneSignal.User.getTags(callback);
   }
 
-  // public static getPushDeviceState() {
-  //   return OneSignal.getDeviceState();
-  // }
-
-  // public static removePushExternalUserId() {
-  //   this.OneSignal.removeExternalUserId();
-  // }
+  public static removePushExternalUserId() {
+    this.OneSignal.logout();
+  }
 }
 export default EventProvider;
