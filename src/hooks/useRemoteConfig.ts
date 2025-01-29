@@ -43,6 +43,8 @@ export interface IRemoteConfigKeys {
   show_new_address_list: boolean;
   show_new_address_list_tester: boolean;
   show_new_login: boolean,
+  show_new_login_layout: boolean,
+  show_new_login_layout_tester: boolean,
   show_new_login_tester: boolean,
   show_new_home: boolean;
   show_on_smart_hint: boolean;
@@ -119,6 +121,8 @@ export const defaults: IRemoteConfigKeys = {
   show_new_address_list: false,
   show_new_address_list_tester: true,
   show_new_login: false,
+  show_new_login_layout: false,
+  show_new_login_layout_tester: false,
   show_new_login_tester: true,
   show_new_home: false,
   show_on_smart_hint: false,

@@ -37,6 +37,10 @@ export function useAuthentication({ closeModal }: IParamsHook) {
   const { onSignIn, onSignOut, profile } = useAuthStore(['onSignIn', 'onSignOut', 'profile']);
   const { actions } = useBagStore(['actions']);
 
+  const cleanInputs = () => {
+    setLoginCredentials(initialLoginCredentials);
+  };
+
   const validateCredentials = () => {
     setLoginCredentials({
       ...loginCredentials,
@@ -124,5 +128,6 @@ export function useAuthentication({ closeModal }: IParamsHook) {
     loginCredentials,
     setPasswordIsValid,
     setLoginCredentials,
+    cleanInputs,
   };
 }

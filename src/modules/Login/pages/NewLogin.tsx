@@ -1,27 +1,38 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React, { useCallback, useEffect, useState } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
+import React, {
+  useCallback, useEffect,
+  useState,
+} from 'react';
 import {
-  Alert, SafeAreaView, ScrollView,
+  ActivityIndicator,
+  Alert,
   BackHandler,
-  View,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView, ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
+  View,
 } from 'react-native';
-import images from '../../../base/styles/icons';
-import type { RootStackParamList } from '../../../routes/StackNavigator';
-import HeaderBanner from '../../Forgot/componet/HeaderBanner';
-import testProps from '../../../utils/testProps';
-import { useAuthentication } from '../../../hooks/useAuthentication';
-import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import * as Yup from 'yup';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
-import { useNavigationToDelivery } from '../../../hooks/useNavigationToDelivery';
-import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
-import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
-import EventProvider from '../../../utils/EventProvider';
+import images from '../../../base/styles/icons';
+import Cancel from '../../../base/svgs/Cancel';
+import EyeClose from '../../../base/svgs/EyeClose';
+import EyeOpen from '../../../base/svgs/EyeOpen';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
+import { useAuthentication } from '../../../hooks/useAuthentication';
+import { useNavigationToDelivery } from '../../../hooks/useNavigationToDelivery';
+import type { RootStackParamList } from '../../../routes/StackNavigator';
+import EventProvider from '../../../utils/EventProvider';
+import testProps from '../../../utils/testProps';
+import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
+import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
+import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
+import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -29,22 +40,7 @@ export function NewLoginScreen({
   route,
   navigation,
 }: Props) {
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [senhaOculta, setSenhaOculta] = useState(true);
-
-  // Função para limpar o campo de e-mail
-  const limparEmail = () => {
-    setEmail('');
-  };
-
-  // Função para alternar a visibilidade da senha
-  const alternarSenha = () => {
-    setSenhaOculta(!senhaOculta);
-  };
-
   const { comeFrom, previousPage, invalidSession } = route.params || {};
-
   const skipHomePage = comeFrom === 'BagScreen' ? () => { } : undefined;
 
   const {
@@ -56,9 +52,16 @@ export function NewLoginScreen({
     loginCredentials,
     setPasswordIsValid,
     setLoginCredentials,
+    cleanInputs,
   } = useAuthentication({
     closeModal: skipHomePage,
   });
+
+  const [passwordHidden, setPasswordHidden] = useState(true);
+
+  const togglePasswordHidden = () => {
+    setPasswordHidden(!passwordHidden);
+  };
 
   const { actions } = useBagStore(['actions']);
 
@@ -96,6 +99,14 @@ export function NewLoginScreen({
     handleNavigateToDelivery]);
 
   const doLogin = useCallback(async () => {
+    if (loginCredentials.showPasswordError || loginCredentials.showUsernameError) {
+      setLoginCredentials((prev) => ({
+        ...prev,
+        showUsernameError: false,
+        showPasswordError: false,
+      }));
+    }
+
     try {
       EventProvider.logEvent('login_click', {});
       const profile = await handleLogin();
@@ -158,111 +169,194 @@ export function NewLoginScreen({
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
-      <ScrollView
-        {...testProps('com.usereserva:id/login_scrollview')}
-        keyboardShouldPersistTaps="always"
+      <KeyboardAvoidingView
+        behavior={Platform.select({ ios: 'padding', android: undefined })}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.select({ ios: 60, android: 0 })}
       >
-        <HeaderBanner
-          imageHeader={images.newHeaderLogin}
-          onClickGoBack={handleNavigatePreviousPage}
-          loading={isLoadingEmail || loadingDelivery}
-        />
-        <View style={{ position: 'absolute', left: '50%', top: 24 }}><IconLegacy name="Logo" color="vermelhoAlerta" size={24} /></View>
+        <ScrollView
+          {...testProps('com.usereserva:id/login_scrollview')}
+          keyboardShouldPersistTaps="always"
+        >
+          <HeaderBanner
+            imageHeader={images.newHeaderLogin}
+            onClickGoBack={handleNavigatePreviousPage}
+            loading={isLoadingEmail || loadingDelivery}
+          />
+          <View style={{ position: 'absolute', left: '50%', top: 24 }}><IconLegacy name="Logo" color="vermelhoAlerta" size={24} /></View>
 
-        <View style={{ marginTop: 24, marginHorizontal: 16 }}>
-          <Text style={{
-            fontSize: 20,
-            fontFamily: 'Inter',
-            fontWeight: 'bold',
-            lineHeight: 24,
-          }}
-          >
-            Preencha seu dados
-          </Text>
-          <Text style={{
-            marginTop: 2,
-            fontSize: 13,
-            fontFamily: 'Inter',
-            fontWeight: '400',
-            lineHeight: 18,
-          }}
-          >
-            Insira seu e-mail e senha para continuar
-          </Text>
+          <View style={styles.headlineContainer}>
+            <Text style={styles.headline}>
+              Preencha seu dados
+            </Text>
+            <Text style={styles.subHeadline}>
+              Insira seu e-mail e senha para continuar
+            </Text>
 
-        </View>
-
-        <View style={styles.inputsContainer}>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="email@email.com"
-              placeholderTextColor="#A8A8A8"
-              onChangeText={setEmail}
-              value={email}
-            />
-            {email.length > 0 && (
-            <TouchableOpacity onPress={limparEmail} style={styles.iconButton}>
-              <Text style={styles.iconText}>X</Text>
-            </TouchableOpacity>
-            )}
           </View>
+
           <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Senha"
-              placeholderTextColor="#A8A8A8"
-              secureTextEntry={senhaOculta}
-              onChangeText={setSenha}
-              value={senha}
-            />
-            <TouchableOpacity onPress={alternarSenha} style={styles.iconButton}>
-              <Text style={styles.iconText}>
-                {senhaOculta ? '🔒' : '👁'}
+            <View style={loginCredentials.showUsernameError
+              ? styles.inputContainerWrapperError
+              : styles.inputContainerWrapper}
+            >
+              <TextInput
+                style={loginCredentials.showUsernameError
+                  ? styles.textInputError
+                  : styles.textInput}
+                placeholder="email@email.com"
+                placeholderTextColor={loginCredentials.showUsernameError ? '#DD3636' : '#A8A8A8'}
+                onChangeText={(text) => {
+                  try {
+                    setLoginCredentials({ ...loginCredentials, username: text });
+
+                    if (loginCredentials.showUsernameError) {
+                      setLoginCredentials({
+                        ...loginCredentials,
+                        username: text,
+                        showUsernameError: false,
+                        showPasswordError: false,
+                      });
+                    }
+
+                    setEmailIsValid(
+                      Yup.string().required().email().isValidSync(text.trim()),
+                    );
+                  } catch (error) {
+                    ExceptionProvider.captureException(error, { writtenEmail: text });
+                  }
+                }}
+                value={loginCredentials.username}
+              />
+              {loginCredentials.username?.length > 0 && (
+              <TouchableOpacity onPress={cleanInputs} style={styles.iconButton}>
+                <Cancel color={loginCredentials.showUsernameError ? '#DD3636' : '#A8A8A8'} />
+              </TouchableOpacity>
+              )}
+            </View>
+            <View style={loginCredentials.showPasswordError
+              ? styles.inputContainerWrapperError
+              : styles.inputContainerWrapper}
+            >
+              <TextInput
+                style={loginCredentials.showPasswordError
+                  ? styles.textInputError
+                  : styles.textInput}
+                placeholder="Senha"
+                placeholderTextColor={loginCredentials.showPasswordError ? '#DD3636' : '#A8A8A8'}
+                secureTextEntry={passwordHidden}
+                onChangeText={(text) => {
+                  setLoginCredentials({
+                    ...loginCredentials,
+                    password: text,
+                  });
+
+                  if (loginCredentials.showPasswordError) {
+                    setLoginCredentials({
+                      ...loginCredentials,
+                      password: text,
+                      showUsernameError: false,
+                      showPasswordError: false,
+                    });
+                  }
+
+                  setPasswordIsValid(
+                    Yup.string()
+                      .required()
+                      .matches(/^(?=.{8,})/)
+                      .matches(/^(?=.*[A-Z])/)
+                      .matches(/^(?=.*[a-z])/)
+                      .matches(/^(?=.*[0-9])/)
+                      .isValidSync(text),
+                  );
+                }}
+                value={loginCredentials.password}
+              />
+              <TouchableOpacity onPress={togglePasswordHidden} style={styles.iconButton}>
+                {passwordHidden
+                  ? <EyeClose color={loginCredentials.showPasswordError ? '#DD3636' : '#A8A8A8'} />
+                  : <EyeOpen color={loginCredentials.showPasswordError ? '#DD3636' : '#A8A8A8'} />}
+              </TouchableOpacity>
+            </View>
+
+            <Text
+              style={styles.forgotPassword}
+              onPress={() => {
+                EventProvider.logEvent('login_forgot_password_click', {});
+                navigation.navigate('ForgotEmail', {});
+              }}
+            >
+              Esqueci minha senha
+            </Text>
+          </View>
+
+          <View style={styles.container}>
+            <TouchableOpacity
+              style={styles.loginButton}
+              disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
+              onPress={doLogin}
+            >
+              {(loadingSignIn || isLoadingEmail || loadingDelivery)
+                ? <ActivityIndicator size="small" color="#FFF2F2" />
+                : <Text style={styles.loginText}>Entrar</Text>}
+
+            </TouchableOpacity>
+
+            <View style={styles.separatorContainer}>
+              <View style={styles.line} />
+              <Text style={styles.orText}>ou</Text>
+              <View style={styles.line} />
+            </View>
+
+            <Text style={styles.registerText}>
+              Não tem uma conta?
+              {' '}
+              <Text
+                disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
+                onPress={() => {
+                  EventProvider.logEvent('login_register_click', {});
+                  navigation.navigate('RegisterEmail', {
+                    comeFrom,
+                  });
+                }}
+                style={styles.registerLink}
+              >
+                Cadastre-se agora.
               </Text>
-            </TouchableOpacity>
+            </Text>
           </View>
 
-          <Text style={{
-            textAlign: 'right', fontFamily: 'Inter', fontWeight: 'bold', fontSize: 12, marginVertical: 6,
-          }}
-          >
-            Esqueci minha senha
-          </Text>
-        </View>
+        </ScrollView>
 
-        <View style={styles.container}>
-          <TouchableOpacity style={styles.loginButton}>
-            <Text style={styles.loginText}>Entrar</Text>
-          </TouchableOpacity>
-
-          <View style={styles.separatorContainer}>
-            <View style={styles.line} />
-            <Text style={styles.orText}>ou</Text>
-            <View style={styles.line} />
-          </View>
-
-          <Text style={styles.registerText}>
-            Não tem uma conta?
-            {' '}
-            <Text style={styles.registerLink}>Cadastre-se agora.</Text>
-          </Text>
-        </View>
-
-      </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  inputsContainer: {
+  headlineContainer: {
+    marginTop: 24,
+    marginHorizontal: 16,
+  },
+  headline: {
+    fontSize: 20,
+    fontFamily: 'Inter-SemiBold',
+    lineHeight: 24,
+  },
+  subHeadline: {
+    marginTop: 2,
+    fontSize: 13,
+    fontFamily: 'Inter-Regular',
+    lineHeight: 18,
+  },
+  inputContainer: {
     flex: 1,
     marginVertical: 16,
     backgroundColor: '#FFF',
     paddingHorizontal: 16,
     justifyContent: 'center',
   },
-  inputContainer: {
+  inputContainerWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#F5F5F5',
@@ -270,26 +364,40 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     paddingHorizontal: 12,
   },
+  inputContainerWrapperError: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF2F2',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#DD3636',
+    marginBottom: 12,
+    paddingHorizontal: 12,
+  },
   textInput: {
     flex: 1,
     fontSize: 12,
-    color: '#333',
+    color: '#282828',
     paddingVertical: 10,
+    fontFamily: 'Inter-Medium',
   },
   textInputError: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 12,
     color: '#DD3636',
     paddingVertical: 10,
+    fontFamily: 'Inter-Medium',
+  },
+  forgotPassword: {
+    textAlign: 'right',
+    fontFamily: 'Inter-SemiBold',
+    fontSize: 12,
+    marginVertical: 6,
   },
   iconButton: {
     padding: 8,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  iconText: {
-    fontSize: 14,
-    color: '#999',
   },
   container: {
     flex: 1,
@@ -305,8 +413,8 @@ const styles = StyleSheet.create({
   },
   loginText: {
     fontSize: 12,
-    fontWeight: '500',
     color: '#FFF',
+    fontFamily: 'Inter-Medium',
   },
   separatorContainer: {
     flexDirection: 'row',
@@ -322,8 +430,7 @@ const styles = StyleSheet.create({
   orText: {
     marginHorizontal: 24,
     fontSize: 13,
-    fontFamily: 'Inter',
-    fontWeight: 'bold',
+    fontFamily: 'Inter-Medium',
   },
   registerText: {
     marginBottom: 32,
@@ -332,7 +439,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   registerLink: {
-    fontWeight: 'bold',
+    fontFamily: 'Inter-SemiBold',
     fontSize: 12,
   },
 });
