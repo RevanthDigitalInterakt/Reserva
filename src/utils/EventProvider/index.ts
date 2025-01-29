@@ -198,7 +198,7 @@ class EventProvider {
       : [Type]
   ) {
     const eventValues = args[1] as Record<string, string>;
-    // this.OneSignal.sendTags(eventValues);
+    this.OneSignal.User.addTags(eventValues);
   }
 
   public static sendTrackEvent<Type extends TEventOptionsDitoFn['type']>(
@@ -213,11 +213,11 @@ class EventProvider {
     sendDitoTrackEvent(id, { action, data });
   }
 
-  // public static setPushExternalUserId(email: string) {
-  //   setCustomUserId(email);
-  //   this.OneSignal.User.
-  //   this.OneSignal.setExternalUserId(email);
-  // }
+  public static setPushExternalUserId(email: string) {
+    // setCustomUserId(email);
+    this.OneSignal.login(email);
+    // this.OneSignal.setExternalUserId(email);
+  }
 
   public static getPushTags(callback: (handle: {
     [key: string]: string;
