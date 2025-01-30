@@ -4,6 +4,8 @@
 
 ### 2.29.0
 
+- [57195 - Solicitar troca/devolução do produto entregue](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57195)
+
 ----
 
 ### 2.28.0
