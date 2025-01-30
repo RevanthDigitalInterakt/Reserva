@@ -30,6 +30,7 @@ import { useInvoiceKeyLazyQuery, useTrackingCodeLazyQuery } from '../../../base/
 import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import { OrderDetail, type IVtexServiceRequestOrder } from '../../../services/vtexService';
 import { COLORS } from '../../../base/styles';
+import EventProvider from '../../../utils/EventProvider';
 
 function OrderList({ route }: any): React.ReactElement {
   const { order } = route.params;
@@ -69,6 +70,11 @@ function OrderList({ route }: any): React.ReactElement {
       setLoading(false);
     }
   };
+
+  const handleClick = useCallback((eventName: string, screenName: string) => {
+    EventProvider.logEvent(eventName, {});
+    navigation.navigate(screenName);
+  }, []);
 
   useEffect(() => {
     fetchOrderDetail();
@@ -372,23 +378,23 @@ function OrderList({ route }: any): React.ReactElement {
             marginVertical: 40,
           }}
         >
+          {order.status === 'invoiced' && (
+            <TouchableOpacity
+              onPress={() => handleClick('exchange_return', 'ExchangeScreen')}
+              style={{
+                backgroundColor: COLORS.BLACK,
+                alignItems: 'center',
+                padding: 20,
+                borderRadius: 50,
+                marginBottom: 5,
+              }}
+            >
+              <Text style={{ color: COLORS.WHITE }}>Solicitar troca ou devolução</Text>
+            </TouchableOpacity>
+          )}
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('ExchangeScreen')
-            }}
-            style={{
-              backgroundColor: COLORS.BLACK,
-              alignItems: 'center',
-              padding: 20,
-              borderRadius: 50,
-              marginBottom: 5,
-            }}
-          >
-            <Text style={{ color: COLORS.WHITE }}>Solicitar troca ou devolução</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('HelpCenter')
+              handleClick('other_doubts', 'HelpCenter');
             }}
             style={{
               borderWidth: 1,
@@ -396,30 +402,28 @@ function OrderList({ route }: any): React.ReactElement {
               alignItems: 'center',
               padding: 20,
               borderRadius: 50,
+              marginBottom: 20,
             }}
           >
             <Text style={{ color: COLORS.BLACK }}>Outras Dúvidas</Text>
           </TouchableOpacity>
-        </View>
-        <Box mb="md" mt="md">
-          <Box my="xxxs">
-            <Button
-              inline
-              onPress={() => {
-                navigation.navigate('OrderCancel');
-              }}
-              title="Desejo cancelar meu pedido"
+
+          <Button
+            inline
+            onPress={() => {
+              navigation.navigate('OrderCancel');
+            }}
+            title="Desejo cancelar meu pedido"
+          >
+            <Typography
+              style={{ textDecorationLine: 'underline' }}
+              fontSize="12px"
+              fontFamily="nunitoRegular"
             >
-              <Typography
-                style={{ textDecorationLine: 'underline' }}
-                fontSize="12px"
-                fontFamily="nunitoRegular"
-              >
-                Desejo cancelar meu pedido
-              </Typography>
-            </Button>
-          </Box>
-        </Box>
+              Desejo cancelar meu pedido
+            </Typography>
+          </Button>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

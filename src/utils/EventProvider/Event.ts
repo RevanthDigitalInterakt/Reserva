@@ -85,6 +85,8 @@ type EventValues = {
   category: Maybe<string> | undefined;
   banner_position: Maybe<string> | undefined;
   banner_location: string;
+  exchange_return: string;
+  other_doubts: string;
 };
 
 type AbandonedCartEventValues = {
@@ -638,4 +640,10 @@ export type EventOptionsFn =
   } | {
     type: 'banner_location',
     payload: EventsOptions.BannerLocation
+  } | {
+    type: 'exchange_return',
+    payload: {},
+  } | {
+    type: 'other_doubts',
+    payload: {},
   };
