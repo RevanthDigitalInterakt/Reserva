@@ -172,7 +172,6 @@ export function NewLoginScreen({
       <KeyboardAvoidingView
         behavior={Platform.select({ ios: 'padding', android: undefined })}
         style={{ flex: 1 }}
-        keyboardVerticalOffset={Platform.select({ ios: 60, android: 0 })}
       >
         <ScrollView
           {...testProps('com.usereserva:id/login_scrollview')}

@@ -1,4 +1,4 @@
-import { Keyboard } from 'react-native';
+import { Alert, Keyboard } from 'react-native';
 import { useCallback, useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
@@ -68,6 +68,16 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       navigation?.navigate('Home');
       return profile;
     } catch (err) {
+      Alert.alert('Erro', 'Não foi possível realizar o login, tente novamente', [
+        {
+          onPress: () => {},
+          text: 'OK',
+        },
+        {
+          onPress: () => {},
+          text: 'Cancelar',
+        },
+      ]);
       ExceptionProvider.captureException(err);
       validateCredentials();
     } finally {
