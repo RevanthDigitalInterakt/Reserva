@@ -48,7 +48,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       showUsernameError: true,
       hasError: true,
       showMessageError:
-          'Verifique os campos acima e digite um e-mail ou senha válidos',
+          'E-mail ou senha incorretos',
     });
   };
 

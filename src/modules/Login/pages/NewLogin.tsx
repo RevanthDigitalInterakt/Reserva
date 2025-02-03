@@ -280,7 +280,15 @@ export function NewLoginScreen({
                   : <EyeOpen color={loginCredentials.showPasswordError ? '#DD3636' : '#A8A8A8'} />}
               </TouchableOpacity>
             </View>
-
+            {(loginCredentials.showPasswordError && loginCredentials.showUsernameError)
+            && (
+            <Text style={{
+              color: '#DD3636', marginTop: -3, marginLeft: 4, fontFamily: 'Inter-Medium',
+            }}
+            >
+              {loginCredentials.showMessageError}
+            </Text>
+            )}
             <Text
               style={styles.forgotPassword}
               onPress={() => {
