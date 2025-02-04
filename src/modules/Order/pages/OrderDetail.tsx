@@ -378,7 +378,7 @@ function OrderList({ route }: any): React.ReactElement {
             marginVertical: 40,
           }}
         >
-          {order.status === 'invoiced' && (
+          {orderDetails?.packageAttachment.packages[0]?.invoiceKey && (
             <TouchableOpacity
               onPress={() => handleClick('exchange_return', 'ExchangeScreen')}
               style={{
