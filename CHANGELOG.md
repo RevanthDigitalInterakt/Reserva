@@ -2,10 +2,11 @@
 
 ## CHANGELOG
 
-### 2.29.0
+### 2.32.0
 
 - [57389 - Push direcionado só leva usuário para home no iOS 18+](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57389)
 - [57195 - Solicitar troca/devolução do produto entregue](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57195)
+- [54286 - Atraso ao exibir pedido em meus pedidos ao fechar uma compra](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54286)
 
 ----
 
@@ -13,26 +14,25 @@
 
 - [58107 - Alterar para splash screen padrão ao abrir o app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/58107)
 
----
+----
 
 ### 2.27.3
 
 - Correção do build para a versão 2.27.3
 
----
+----
 
 ### 2.27.1
 
 - [57538 - Remover projeto UXCam do app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57538)
+- [52667 Ajuste imagem customizada do faça vc na sacola e pedidos](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52667)
 
 ### 2.27.0
 
 - [Alterar splash screen para o Natal](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57534)
 
-### 2.27.1
-- [52667 Ajuste imagem customizada do faça vc na sacola e pedidos](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52667)
+----
 
----
 ### 2.26.5
 
 - [Implementação evento Revenue, Average order value e Purchase Rate - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55205)
@@ -58,7 +58,7 @@
 
 - [54329 - Favoritos exibindo a parcela ao invés do preço cheio](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54329)
 
----
+----
 
 ### 2.26.1
 
@@ -66,7 +66,7 @@
 - [54322 - Items Clicked After Search - Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54322)
 - [41937 - Nova PDC para kit look no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41937)
 
----
+----
 
 ### 2.26.0
 
@@ -79,13 +79,13 @@
 - [53320 - Usuário não consegue selecionar alguns tamanhos nos filtros](https://dev.azure.com/ARECO/AReCO/_workitems/edit/53320)
 - [55628 - Error build APP Sentry](https://dev.azure.com/ARECO/AReCO/_workitems/edit/55628)
 
----
+----
 
 ### 2.25.2
 
 - [52951 - Integração da plataforma de disparo de envio de push](https://dev.azure.com/ARECO/AReCO/_workitems/edit/52951)
 
----
+----
 
 ### 2.25.1
 
@@ -96,7 +96,7 @@
 
 - [54036 - Erro deeplink produto não encontrado](https://dev.azure.com/ARECO/AReCO/_workitems/edit/54036)
 
----
+----
 
 ### 2.23.1
 
@@ -106,7 +106,7 @@
 - [48402 - Contador e banner antigo aparecendo na home momentaneamente](https://dev.azure.com/ARECO/AReCO/_workitems/edit/48402)
 - Codepush: removed callback in user registration and added future flag for facavc pdp buttons
 
----
+----
 
 ### 2.23.0
 
@@ -117,7 +117,7 @@
 - [41768 - Transformar a landing de prime APP como componente de deeplink](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41768)
 - [51905 - Evento de localização habilitada](https://dev.azure.com/ARECO/AReCO/_workitems/edit/51905)
 
----
+----
 
 ### 2.22.7
 
@@ -128,7 +128,7 @@
 - [41045 - Home promocional - Carrossel de promoções](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41045)
 - [41537 - Implementação evento CTR Algolia](https://dev.azure.com/ARECO/AReCO/_workitems/edit/41537)
 
----
+----
 
 ### 2.22.6
 
@@ -137,7 +137,7 @@
 - Correção deeplink do whatsaap
 - [47163 - [PTM-129] Ausência de detecção de jailbreak (iOS)](https://dev.azure.com/ARECO/AReCO/_workitems/edit/47163)
 
----
+----
 
 ### 2.22.5
 
@@ -145,7 +145,7 @@
 - Exclusão log DataDog
 - Correção deeplink do whatsaap
 
----
+----
 
 ### 2.14.0
 
@@ -155,7 +155,7 @@
 
 - [46478 - Crash ao fazer busca no app](https://dev.azure.com/areco/AReCO/_workitems/edit/46478)
 
----
+----
 
 ### 2.13.0
 

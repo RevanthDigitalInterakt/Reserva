@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Image, ImageBackground } from 'react-native';
-import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import EventProvider from '../../../utils/EventProvider';
 import { defaultBrand } from '../../../utils/defaultWBrand';
 import ImageComponent from '../../../components/ImageComponent/ImageComponent';
@@ -9,6 +8,7 @@ import configDeviceSizes from '../../../utils/configDeviceSizes';
 import { Box } from '../../../components/Box/Box';
 import { Button } from '../../../components/Button';
 import { Typography } from '../../../components/Typography/Typography';
+import { PriceCustom } from '../../../modules/Checkout/components/PriceCustom';
 
 type IOrderItemData = {
   listPrice?: number;

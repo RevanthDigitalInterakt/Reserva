@@ -18,7 +18,6 @@ import {
   View,
 } from 'react-native';
 
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import OrderDetailComponent from '../Components/OrderDetailComponent';
 import { platformType } from '../../../utils/platformType';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
@@ -27,8 +26,9 @@ import { Typography } from '../../../components/Typography/Typography';
 import { Button } from '../../../components/Button';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 import { useInvoiceKeyLazyQuery, useTrackingCodeLazyQuery } from '../../../base/graphql/generated';
-import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import { OrderDetail, type IVtexServiceRequestOrder } from '../../../services/vtexService';
+import { TopBarBackButton } from '../../../modules/Menu/components/TopBarBackButton';
+import { PriceCustom } from '../../../modules/Checkout/components/PriceCustom';
 import { COLORS } from '../../../base/styles';
 import EventProvider from '../../../utils/EventProvider';
 

@@ -2947,6 +2947,13 @@ export type OffersPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type OffersPageQuery = { __typename?: 'Query', offersPageCollectionFilter: { __typename?: 'OffersPageCollectionFilter', title: string, items: Array<{ __typename?: 'OffersPageCollectionFilterItemOutput', collectionId?: string | null, offerImage: string, offerName: string, fromPriceFilter?: string | null, toPriceFilter?: string | null, sizeFilter?: Array<string> | null, colorFilter?: Array<string> | null }> } };
 
+export type OrderQueryVariables = Exact<{
+  input: OrderDetailIdInput;
+}>;
+
+
+export type OrderQuery = { __typename?: 'Query', order: { __typename?: 'OrderDetailOutput', orderId: string, sequence: string, marketplaceOrderId: string, sellerOrderId: string, origin: string, affiliateId: string, salesChannel: string, status: string, statusDescription: string, value: number, creationDate: string, lastChange: string, orderGroup: string, totals: Array<{ __typename?: 'OrderDetailTotalOutput', id: string, name: string, value: number }>, clientProfileData: { __typename?: 'OrderDetailProfileDataOutput', id: string, email: string, firstName: string, lastName?: string | null, documentType: string, document: string, phone?: string | null, userProfileId: string }, items: Array<{ __typename?: 'OrderDetailItemOutput', uniqueId: string, id: string, productId: string, ean: string, quantity: number, seller: string, name: string, refId: string, price: number, listPrice: number, imageUrl: string, detailUrl: string, sellerSku: string, commission: number, tax: number, measurementUnit: string, unitMultiplier: number, sellingPrice: number, isGift: boolean, rewardValue: number, freightCommission: number, offerings: Array<{ __typename?: 'OrderDetailItemOfferingOutput', id: string, type: string, name: string, price: string }> }>, shippingData: { __typename?: 'OrderDetailShippingData', address: { __typename?: 'OrderDetailShippingDataAddress', addressType?: string | null, receiverName?: string | null, addressId?: string | null, postalCode?: string | null, city?: string | null, state?: string | null, country?: string | null, street?: string | null, number?: string | null, neighborhood?: string | null, complement?: string | null, geoCoordinates: Array<number> } } } };
+
 export type OrderFormQueryVariables = Exact<{
   orderFormId: Scalars['String']['input'];
 }>;
@@ -5550,6 +5557,116 @@ export type OffersPageLazyQueryHookResult = ReturnType<typeof useOffersPageLazyQ
 export type OffersPageQueryResult = Apollo.QueryResult<OffersPageQuery, OffersPageQueryVariables>;
 export function refetchOffersPageQuery(variables?: OffersPageQueryVariables) {
       return { query: OffersPageDocument, variables: variables }
+    }
+export const OrderDocument = gql`
+    query order($input: OrderDetailIdInput!) {
+  order(input: $input) {
+    orderId
+    sequence
+    marketplaceOrderId
+    sellerOrderId
+    origin
+    affiliateId
+    salesChannel
+    status
+    statusDescription
+    value
+    creationDate
+    lastChange
+    orderGroup
+    totals {
+      id
+      name
+      value
+    }
+    clientProfileData {
+      id
+      email
+      firstName
+      lastName
+      documentType
+      document
+      phone
+      userProfileId
+    }
+    items {
+      uniqueId
+      id
+      productId
+      ean
+      quantity
+      seller
+      name
+      refId
+      price
+      listPrice
+      imageUrl
+      detailUrl
+      sellerSku
+      commission
+      tax
+      measurementUnit
+      unitMultiplier
+      sellingPrice
+      isGift
+      rewardValue
+      freightCommission
+      offerings {
+        id
+        type
+        name
+        price
+      }
+    }
+    shippingData {
+      address {
+        addressType
+        receiverName
+        addressId
+        postalCode
+        city
+        state
+        country
+        street
+        number
+        neighborhood
+        complement
+        geoCoordinates
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useOrderQuery__
+ *
+ * To run a query within a React component, call `useOrderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrderQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useOrderQuery(baseOptions: Apollo.QueryHookOptions<OrderQuery, OrderQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OrderQuery, OrderQueryVariables>(OrderDocument, options);
+      }
+export function useOrderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrderQuery, OrderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OrderQuery, OrderQueryVariables>(OrderDocument, options);
+        }
+export type OrderQueryHookResult = ReturnType<typeof useOrderQuery>;
+export type OrderLazyQueryHookResult = ReturnType<typeof useOrderLazyQuery>;
+export type OrderQueryResult = Apollo.QueryResult<OrderQuery, OrderQueryVariables>;
+export function refetchOrderQuery(variables: OrderQueryVariables) {
+      return { query: OrderDocument, variables: variables }
     }
 export const OrderFormDocument = gql`
     query orderForm($orderFormId: String!) {

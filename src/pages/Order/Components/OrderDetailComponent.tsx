@@ -7,11 +7,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
-import { PriceCustom } from '../../Checkout/components/PriceCustom';
 import OrderProduct from './OrderProduct';
 import { Box } from '../../../components/Box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import type { IVtexServiceRequestOrder } from '../../../services/vtexService';
+import { PriceCustom } from '../../../modules/Checkout/components/PriceCustom';
 import IconCopyToClipboard from '../../../../assets/icons/IconCopyToClipboard';
 
 export type IOrderData = {

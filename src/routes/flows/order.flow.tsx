@@ -1,6 +1,6 @@
-import OrderCancel from '../../modules/Order/pages/OrderCancel';
-import OrderDetail from '../../modules/Order/pages/OrderDetail';
-import OrderList from '../../modules/Order/pages/OrderList';
+import OrderCancel from '../../pages/Order/pages/OrderCancel';
+import OrderDetail from '../../pages/Order/pages/OrderDetail';
+import OrderList from '../../pages/Order/pages/OrderList';
 import type { Flow } from '../types/flow.type';
 
 export const OrderFlow: Flow[] = [
