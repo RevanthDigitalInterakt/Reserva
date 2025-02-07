@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { SafeAreaView, ScrollView, View } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { OffersCarousels } from './Components/OffersCarousels/OffersCarousels';
-import { TopBarDefault } from '../../modules/Menu/components/TopBarDefault';
+import TopBarDefault from '../../modules/Menu/components/TopBarDefault';
 import CategoryComponent from './Components/CategoryComponent/CategoryComponent';
 import NewProductCatalog from '../ProductCatalog';
 import type { RootStackParamList } from '../../routes/StackNavigator';

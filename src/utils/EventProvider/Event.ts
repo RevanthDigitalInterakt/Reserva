@@ -84,6 +84,9 @@ type EventValues = {
   locationEnabled: string;
   category: Maybe<string> | undefined;
   banner_position: Maybe<string> | undefined;
+  banner_location: string;
+  exchange_return: string;
+  other_doubts: string;
 };
 
 type AbandonedCartEventValues = {
@@ -104,6 +107,7 @@ export namespace EventsOptions {
   export type ViewSearchResults = Pick<EventValues, 'search_term'>;
   export type RemoveFromCart = Pick<EventValues, 'item_id' | 'item_categories' | 'item_brand'>;
   export type ProductListView = Pick<EventValues, 'content_type' | 'item_brand'>;
+  export type BannerLocation = Pick<EventValues, 'banner_location'>;
   export type CheckoutInitiated = Pick<
   EventValues,
   'price' | 'content_type' | 'content_ids' | 'currency' | 'quantity'
@@ -628,5 +632,18 @@ export type EventOptionsFn =
     payload: EventsOptions.KitLookPDC,
   } | {
     type: 'shelf_offers_button_see_more',
+    payload: {},
+  } | {
+    type: 'modal_geolocation_close',
+  } | {
+    type: 'show_offers_tooltip_click',
+  } | {
+    type: 'banner_location',
+    payload: EventsOptions.BannerLocation
+  } | {
+    type: 'exchange_return',
+    payload: {},
+  } | {
+    type: 'other_doubts',
     payload: {},
   };

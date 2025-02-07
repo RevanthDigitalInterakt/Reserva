@@ -13,7 +13,9 @@ import {
   Platform,
   SafeAreaView,
   ScrollView,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 
 import OrderDetailComponent from '../Components/OrderDetailComponent';
@@ -27,6 +29,8 @@ import { useInvoiceKeyLazyQuery, useTrackingCodeLazyQuery } from '../../../base/
 import { OrderDetail, type IVtexServiceRequestOrder } from '../../../services/vtexService';
 import { TopBarBackButton } from '../../../modules/Menu/components/TopBarBackButton';
 import { PriceCustom } from '../../../modules/Checkout/components/PriceCustom';
+import { COLORS } from '../../../base/styles';
+import EventProvider from '../../../utils/EventProvider';
 
 function OrderList({ route }: any): React.ReactElement {
   const { order } = route.params;
@@ -66,6 +70,11 @@ function OrderList({ route }: any): React.ReactElement {
       setLoading(false);
     }
   };
+
+  const handleClick = useCallback((eventName: string, screenName: string) => {
+    EventProvider.logEvent(eventName, {});
+    navigation.navigate(screenName);
+  }, []);
 
   useEffect(() => {
     fetchOrderDetail();
@@ -363,35 +372,58 @@ function OrderList({ route }: any): React.ReactElement {
             </Box>
           </Box>
         )}
-        <Box mb="md" mt="md">
-          <Box width="100%">
-            <Button
-              inline
-              title="PRECISO DE AJUDA"
-              variant="primarioEstreitoOutline"
-              onPress={() => {
-                navigation.navigate('HelpCenter');
+
+        <View
+          style={{
+            marginVertical: 40,
+          }}
+        >
+          {orderDetails?.packageAttachment.packages[0]?.invoiceKey && (
+            <TouchableOpacity
+              onPress={() => handleClick('exchange_return', 'ExchangeScreen')}
+              style={{
+                backgroundColor: COLORS.BLACK,
+                alignItems: 'center',
+                padding: 20,
+                borderRadius: 50,
+                marginBottom: 5,
               }}
-            />
-          </Box>
-          <Box my="xxxs">
-            <Button
-              inline
-              onPress={() => {
-                navigation.navigate('OrderCancel');
-              }}
-              title="Desejo cancelar meu pedido"
             >
-              <Typography
-                style={{ textDecorationLine: 'underline' }}
-                fontSize="12px"
-                fontFamily="nunitoRegular"
-              >
-                Desejo cancelar meu pedido
-              </Typography>
-            </Button>
-          </Box>
-        </Box>
+              <Text style={{ color: COLORS.WHITE }}>Solicitar troca ou devolução</Text>
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity
+            onPress={() => {
+              handleClick('other_doubts', 'HelpCenter');
+            }}
+            style={{
+              borderWidth: 1,
+              borderColor: COLORS.BLACK,
+              alignItems: 'center',
+              padding: 20,
+              borderRadius: 50,
+              marginBottom: 20,
+            }}
+          >
+            <Text style={{ color: COLORS.BLACK }}>Outras Dúvidas</Text>
+          </TouchableOpacity>
+
+          <Button
+            inline
+            onPress={() => {
+              navigation.navigate('OrderCancel');
+            }}
+            title="Desejo cancelar meu pedido"
+          >
+            <Typography
+              style={{ textDecorationLine: 'underline' }}
+              fontSize="12px"
+              fontFamily="nunitoRegular"
+            >
+              Desejo cancelar meu pedido
+            </Typography>
+          </Button>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

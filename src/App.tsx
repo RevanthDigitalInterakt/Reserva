@@ -35,6 +35,7 @@ import { useApolloFetchPolicyStore } from './zustand/useApolloFetchPolicyStore';
 import { useBagStore } from './zustand/useBagStore/useBagStore';
 import { useConnectivityStore } from './zustand/useConnectivityStore';
 import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
+import { useHomeStore } from './zustand/useHomeStore';
 
 const { model, os } = getDeviceInfoModel();
 const { freeMemory, totalMemory, usedMemory } = getDeviceInfoMemory();
@@ -66,13 +67,24 @@ function App() {
   const [isTesting, setIsTesting] = useState<boolean>(false);
   const client = useApolloClientHook(isTesting);
   const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
+  const { checkIfFirstLaunch, onSelectStateGeolocation } = useHomeStore(['checkIfFirstLaunch', 'onSelectStateGeolocation']);
   const { actions } = useBagStore(['actions']);
 
   const remoteConfigStore = useRemoteConfig();
-  const { setItem } = useAsyncStorageProvider();
+  const { setItem, getItem } = useAsyncStorageProvider();
 
   const firstLaunchedData = async () => {
     await setItem('@RNSession:Ron', false);
+    const firstLaunched = await getItem('FIRST_TIME_OPEN');
+    const getStateGeolocation = await getItem('User:Geolocation');
+
+    if (getStateGeolocation !== null) {
+      onSelectStateGeolocation(getStateGeolocation);
+    }
+
+    if (firstLaunched === null) {
+      checkIfFirstLaunch(true);
+    }
   };
 
   if (Platform.OS === 'ios') {

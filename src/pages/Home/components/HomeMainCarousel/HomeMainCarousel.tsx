@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, {
-  useCallback, useMemo, useRef, useState,
+  useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import { Pressable, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
@@ -16,12 +16,18 @@ import CarrouselScrollIndicator from '../../../../modules/Home/component/Carouse
 import configDeviceSizes from '../../../../utils/configDeviceSizes';
 import testProps from '../../../../utils/testProps';
 import { styles } from './HomeMainCarousel.styles';
+import { useHomeStore } from '../../../../zustand/useHomeStore';
+import { getHomeContent } from '../../../../utils/getHomeContent';
 
 interface IHomeMainCarousel {
   data: HomeCarouselOutput;
 }
 
 function HomeMainCarousel({ data }: IHomeMainCarousel) {
+  const { selectedStateGeolocation } = useHomeStore(['selectedStateGeolocation']);
+
+  const [newCarouselData, setNewCarouselData] = useState<HomeCarouselItemOutput[]>([]);
+
   const navigation = useNavigation();
   const progressValue = useSharedValue<number>(0);
   const { getBoolean } = useRemoteConfig();
@@ -44,7 +50,7 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
     return width && height
       ? (height * configDeviceSizes.DEVICE_WIDTH) / width
       : 500;
-  }, [data.items]);
+  }, [newCarouselData]);
 
   const onPress = useCallback(
     (item: HomeCarouselItemOutput) => {
@@ -84,6 +90,11 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
     [navigation],
   );
 
+  useEffect(() => {
+    const payload = getHomeContent(data.items, selectedStateGeolocation);
+    setNewCarouselData(payload);
+  }, [data.items, selectedStateGeolocation]);
+
   return (
     <View style={{ flex: 1 }} {...testProps('default_carrousel_container')}>
       <Carousel
@@ -99,12 +110,12 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
           parallaxScrollingScale: 1,
           parallaxScrollingOffset: 50,
         }}
-        enabled={data.items.length > 1}
+        enabled={newCarouselData.length > 1}
         onProgressChange={(_, absoluteProgress) => {
           progressValue.value = absoluteProgress;
         }}
         panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
-        data={data.items}
+        data={newCarouselData}
         style={{ backgroundColor: 'rgba(0, 0, 0, 0)', position: 'relative' }}
         onSnapToItem={setCurrIndex}
         renderItem={({ item }) => (
@@ -138,16 +149,16 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
 
       {showNewHome ? (
         <View
-          style={[styles.bulletsWrapper, { width: data.items.length * 24.5 }]}
+          style={[styles.bulletsWrapper, { width: newCarouselData.length * 24.5 }]}
         >
-          {data.items.map((item, i) => (
+          {newCarouselData.map((item, i) => (
             <CarouselPaginationItem
               backgroundColor={COLORS.WHITE}
               animValue={progressValue}
               index={i}
               actualPosition={currIndex}
               key={`home-main-carousel-${item.image.url}`}
-              length={data.items.length}
+              length={newCarouselData.length}
               slideDelay={slideDelay}
               onFinishAnimation={() => $carousel.current?.next()}
             />
@@ -155,7 +166,7 @@ function HomeMainCarousel({ data }: IHomeMainCarousel) {
         </View>
       ) : (
         <CarrouselScrollIndicator
-          carouselLength={data.items.length}
+          carouselLength={newCarouselData.length}
           actualPosition={currIndex}
           slideDelay={slideDelay}
           onFinishAnimation={() => $carousel.current?.next()}

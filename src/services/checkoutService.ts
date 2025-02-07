@@ -24,7 +24,7 @@ export const checkoutService = {
         },
       );
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "activeGiftWrapping - checkoutService.ts");
     }
   },
 
@@ -44,7 +44,7 @@ export const checkoutService = {
         },
       );
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "removeGiftWrapping - checkoutService.ts");
     }
   },
 };

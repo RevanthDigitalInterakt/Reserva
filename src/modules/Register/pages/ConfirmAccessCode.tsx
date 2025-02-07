@@ -168,7 +168,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         try {
           await onSignIn(email, passwords.confirm, true);
         } catch (err) {
-          ExceptionProvider.captureException(err);
+          ExceptionProvider.captureException(err, "handleSignUp - ConfirmAccessCode", { document: cpf, email });
         }
 
         await onUpdateAuthData(response?.data?.signUp?.token, response?.data?.signUp?.authCookie);
@@ -187,7 +187,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         first: '',
       });
       setCode('');
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "handleSignUp - ConfirmAccessCode", { document: cpf, email });
     } finally {
       setIsLoading(false);
     }
@@ -227,7 +227,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
       }
     } catch (err) {
       setIsLoading(false);
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "resendCode - ConfirmAccessCode.tsx", { email });
     } finally {
       setIsLoading(false);
     }

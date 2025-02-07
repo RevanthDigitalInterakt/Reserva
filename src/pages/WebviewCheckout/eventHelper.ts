@@ -249,6 +249,32 @@ export const triggerEventAfterPurchaseCompleted = async (
   userMail: string,
   itemsSkus: string[],
 ) => {
+
+  /* ---- Event logPurchase ---- */
+  EventProvider.logPurchase({
+    affiliation: dataPurchaseCompleted.item_brand,
+    coupon: 'coupon',
+    currency: 'BRL',
+    items: dataPurchaseCompleted?.adaptItems,
+    shipping: dataPurchaseCompleted?.itemShippingTotal,
+    tax: dataPurchaseCompleted?.rate,
+    transaction_id: dataPurchaseCompleted?.orderId,
+    value: dataPurchaseCompleted?.orderValue,
+  });
+
+  /* ---- Event af_purchase ---- */
+  EventProvider.appsFlyer.logEvent('af_purchase', {
+    af_revenue: dataPurchaseCompleted?.afRevenue,
+    af_price: `${dataPurchaseCompleted?.orderValue?.toFixed(2)}`,
+    af_content_id: dataPurchaseCompleted?.ids,
+    af_content_type: 'product',
+    af_currency: 'BRL',
+    af_quantity: dataPurchaseCompleted?.itemQuantity,
+    af_order_id: dataPurchaseCompleted?.orderFormId,
+    af_content: dataPurchaseCompleted?.afContent,
+    af_receipt_id: dataPurchaseCompleted?.orderFormId,
+  });
+
   const userRefDito = await getAsyncStorageItem('@Dito:userRef') || '';
 
   /* ---- Event fez-pedido-produto ---- */
@@ -312,18 +338,6 @@ export const triggerEventAfterPurchaseCompleted = async (
   /* ---- Event Purchase ---- */
   EventProvider.OneSignal.sendOutcomeWithValue('Purchase', (dataPurchaseCompleted?.orderValue)?.toFixed(2));
 
-  /* ---- Event af_purchase ---- */
-  EventProvider.appsFlyer.logEvent('af_purchase', {
-    af_revenue: dataPurchaseCompleted?.afRevenue,
-    af_price: `${dataPurchaseCompleted?.orderValue?.toFixed(2)}`,
-    af_content_id: dataPurchaseCompleted?.ids,
-    af_content_type: 'product',
-    af_currency: 'BRL',
-    af_quantity: dataPurchaseCompleted?.itemQuantity,
-    af_order_id: dataPurchaseCompleted?.orderFormId,
-    af_content: dataPurchaseCompleted?.afContent,
-    af_receipt_id: dataPurchaseCompleted?.orderFormId,
-  });
 
   /* ---- Event ron_purchase ---- */
   const [initialURL, isRon, ronItems] = await Promise.all([
@@ -371,17 +385,7 @@ export const triggerEventAfterPurchaseCompleted = async (
     },
   });
 
-  /* ---- Event logPurchase ---- */
-  EventProvider.logPurchase({
-    affiliation: dataPurchaseCompleted.item_brand,
-    coupon: 'coupon',
-    currency: 'BRL',
-    items: dataPurchaseCompleted?.adaptItems,
-    shipping: dataPurchaseCompleted?.itemShippingTotal,
-    tax: dataPurchaseCompleted?.rate,
-    transaction_id: dataPurchaseCompleted?.orderId,
-    value: dataPurchaseCompleted?.orderValue,
-  });
+
 
   EventProvider.sendPushTags('sendAbandonedCartTags', {
     cart_update: '',

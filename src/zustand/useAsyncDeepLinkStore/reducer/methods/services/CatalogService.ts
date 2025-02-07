@@ -88,7 +88,7 @@ const getContentFullUrl = async (
 
     return deeplinkPath;
   } catch (error) {
-    ExceptionProvider.captureException(error);
+    ExceptionProvider.captureException(error, "getContentFullUrl - useAsyncDeepLinkStore", { deepLinkRoute });
   }
 
   return undefined;
@@ -188,7 +188,7 @@ export const catalogService = async (pathName: string, fullUrl: string): Promise
       },
     };
   } catch (err) {
-    ExceptionProvider.captureException(err);
+    ExceptionProvider.captureException(err, "catalogService - useAsyncDeepLinkStore", { pathName: pathName || "", fullUrl: fullUrl || "" });
     return createRouteFallbackPlatform(newPathName);
   }
 };

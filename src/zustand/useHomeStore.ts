@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createZustandStoreWithSelectors } from '../utils/createZustandStoreWithSelectors';
 import type {
   ConfigCommercialBannerOutput,
@@ -36,9 +37,15 @@ export interface IHomeStore {
   commercialBannerCollection?: ConfigCommercialBannerOutput[],
   onLoad: () => Promise<void>;
   setHasTabBar: (hasTabBar: boolean) => void;
+  firstTimeAppOpen: boolean;
+  checkIfFirstLaunch: (appState: boolean) => void;
+  selectedStateGeolocation: string;
+  onSelectStateGeolocation: (geoState: string) => void;
 }
 
 const homeStore = create<IHomeStore>((set) => ({
+  selectedStateGeolocation: 'Clique aqui para selecionar seu estado...',
+  firstTimeAppOpen: false,
   loading: true,
   hasTabBar: true,
   carousels: [],
@@ -117,6 +124,17 @@ const homeStore = create<IHomeStore>((set) => ({
         loading: false,
       }));
     }
+  },
+  checkIfFirstLaunch: async (appState) => {
+    await AsyncStorage.setItem('FIRST_TIME_OPEN', 'false');
+    set(() => ({
+      firstTimeAppOpen: appState,
+    }));
+  },
+  onSelectStateGeolocation: (geoState) => {
+    set(() => ({
+      selectedStateGeolocation: geoState,
+    }));
   },
 }));
 

@@ -90,7 +90,7 @@ function ProductSelectors() {
         item_brand: `${productDetail?.categoryTree[0]?.toUpperCase()},`,
       });
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "doSelectSizeTrack - ProductSelectors");
     }
   }, [productDetail, selectedSize]);
 

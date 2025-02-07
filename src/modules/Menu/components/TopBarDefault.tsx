@@ -6,14 +6,23 @@ import { TopBar } from '../../../components/TopBar';
 import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
 import EventProvider from '../../../utils/EventProvider';
 import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
+import useModalGeolocationStore from '../../../zustand/useModalGeolocationStore';
 
-export const TopBarDefault: React.FC<{
-  showShadow?: Boolean;
-  loading?: Boolean;
-}> = ({ showShadow = true, loading = false }) => {
+interface ITopbarMain {
+  showShadow?: boolean;
+  loading?: boolean;
+  showInHome?: boolean;
+}
+
+export default function TopBarDefault({
+  loading,
+  showShadow,
+  showInHome,
+}: ITopbarMain) {
   const navigation = useNavigation();
   const { allItemsQuantity } = useBagStore(['allItemsQuantity']);
   const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
+  const { modalGeolocationController } = useModalGeolocationStore(['modalGeolocationController']);
 
   const handleNavigateToMenu = useCallback(() => {
     navigation.navigate('Menu');
@@ -25,10 +34,9 @@ export const TopBarDefault: React.FC<{
     navigation.navigate('SearchMenu');
     onStartLoad('Search');
   }, []);
-
   return (
     <TopBar
-      loading={loading}
+      loading={loading || false}
       paddingX="quarck"
       bg="white"
       style={{ elevation: 10 }}
@@ -53,6 +61,11 @@ export const TopBarDefault: React.FC<{
         badgeCount: allItemsQuantity,
       }}
       height={50}
+      locationButton={{
+        iconColor: 'black',
+        showButton: showInHome,
+        onPress: modalGeolocationController,
+      }}
     />
   );
-};
+}

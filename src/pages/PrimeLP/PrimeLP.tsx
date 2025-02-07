@@ -77,7 +77,7 @@ function PrimeLP({ navigation }: IPrimeLP) {
 
       handleOnModalHideSignIn();
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "onAddToCart - PrimeLP.tsx", {data: (JSON.stringify(data) || "")});
     } finally {
       setLoadingAddCartPrime(false);
     }

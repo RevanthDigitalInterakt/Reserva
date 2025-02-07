@@ -92,7 +92,7 @@ export function ModalSignIn({
                       });
                       setEmailIsValid(isValidEmail(text));
                     } catch (error) {
-                      ExceptionProvider.captureException(error, { writtenEmail: text });
+                      ExceptionProvider.captureException(error, "<UnderlineInput> - ModalSignIn.tsx ", { writtenEmail: text });
                     }
                   }}
                 />

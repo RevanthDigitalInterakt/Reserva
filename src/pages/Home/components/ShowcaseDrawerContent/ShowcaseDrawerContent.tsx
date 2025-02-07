@@ -87,7 +87,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
       setOnLoading(false);
     } catch (error) {
       setOnLoading(false);
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "onAddToCart - ShowcaseDrawerContent.tsx");
     }
   }, [selectedSize]);
 
@@ -176,7 +176,7 @@ export default function ShowcaseDrawerContent({ productData }: ShowcaseDrawerPro
         setImageLoad(false);
       }
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "onLoadProduct - ShowcaseDrawerContent.tsx");
       setImageLoad(false);
     }
   }, [getProduct]);

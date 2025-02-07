@@ -12,7 +12,7 @@ import { MyCashbackScreensRoutes } from '../../my-cashback/navigation/MyCashback
 import { useCheckConnection } from '../../../hooks/useCheckConnection';
 import { FirebaseService } from '../../../shared/services/FirebaseService';
 import { RemoteConfigService } from '../../../shared/services/RemoteConfigService';
-import { TopBarDefault } from '../../Menu/components/TopBarDefault';
+import TopBarDefault from '../../Menu/components/TopBarDefault';
 import ItemList from '../Components/ItemList';
 import EventProvider from '../../../utils/EventProvider';
 import testProps from '../../../utils/testProps';
@@ -56,7 +56,7 @@ export function MenuProfile() {
 
       setImageProfile(response);
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "setImageUrl - MenuProfile");
     }
   }, [firebaseRef]);
 

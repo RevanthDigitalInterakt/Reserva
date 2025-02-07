@@ -33,7 +33,7 @@ function DeleteAccountComponent({ userId }: IDeleteAccountProps): JSX.Element {
         navigation.navigate('AccountDeletedSuccessfully');
       }
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "handleDeleteAccount - DeleteAccountComponent.tsx", { userId });
     }
   }, [userId]);
 
