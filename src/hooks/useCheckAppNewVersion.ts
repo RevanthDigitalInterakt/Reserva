@@ -69,7 +69,7 @@ export default function useCheckAppNewVersion() {
         );
       }
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "onGetUpdateInApp - useCheckAppNewVersion.ts");
     }
   }, [getUpdateInApp, goToStore]);
 

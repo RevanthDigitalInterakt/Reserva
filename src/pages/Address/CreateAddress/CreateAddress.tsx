@@ -121,7 +121,7 @@ export default function CreateAddress(
         setFieldValue('street', data?.cep?.street);
       }
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "checkPostalCode - CreateAddress.tsx");
     }
   }, [getCep]);
 
@@ -184,7 +184,13 @@ export default function CreateAddress(
       await actions.REFRESH_ORDER_FORM();
       await actions.REFETCH_ORDER_FORM();
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(
+        error, 
+        "handleCreateAddress - CreateAddress.tsx", 
+        {
+          id: route.params?.id || "",
+          isMainAddress: (JSON.stringify(isMainAddress) || ""),
+        });
     } finally {
       setLoading(false);
       navigation.goBack();

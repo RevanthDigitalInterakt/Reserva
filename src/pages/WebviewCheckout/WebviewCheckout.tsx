@@ -8,6 +8,7 @@ import deviceInfo from 'react-native-device-info';
 import { WebView, type WebViewMessageEvent, type WebViewNavigation } from 'react-native-webview';
 
 import Config from 'react-native-config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { Button } from '../../components/Button';
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
@@ -62,7 +63,7 @@ function WebviewCheckout() {
       await actions.CREATE_NEW_ORDER_FORM();
       await axios.get(`${Config.URL_VTEX_QA}/api/checkout/pub/orderForm?forceNewCart=true&sc=4`, { headers: { ...(cookie ? { cookie } : {}) } });
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "pressAfterPurchaseCompleted - WebviewCheckout");
     } finally {
       setLoading(false);
       navigation.navigate('Home');
@@ -104,10 +105,18 @@ function WebviewCheckout() {
       const orderGroupId = getURLParameter(navState, 'og');
       const { data: dataOrderGroup } = await GetPurchaseData(orderGroupId) || {};
       const dataPurchaseCompleted = prepareEventDataPurchaseCompleted(dataOrderGroup, orderFormId);
+      await AsyncStorage.setItem('User:LastOrderId', dataPurchaseCompleted?.resLastOrderId);
       dataPurchaseCompleted.adaptItems = handleProductNameToEvent(dataPurchaseCompleted.adaptItems);
       await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '', itemsSkus);
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(
+        e, 
+        "doEventPurchaseCompleted - WebviewCheckout", 
+        { 
+          orderFormId: (JSON.stringify(orderFormId) || ""),
+          navState: (JSON.stringify(navState) || "")
+
+        });
     } finally {
       setPurchaseCompleted(true);
     }

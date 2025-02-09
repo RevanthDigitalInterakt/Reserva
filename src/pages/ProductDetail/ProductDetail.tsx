@@ -103,7 +103,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         },
       });
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "trackEventDitoAccessProduct - ProductDetail.tsx", { email: profile?.email || "" });
     }
   }, [getItem, profile?.email]);
   const isOnlyFvcProduct = productDetail?.categoryTree.includes('Faça Você');
@@ -175,7 +175,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
       setProduct(product, params);
     } catch (err) {
-      ExceptionProvider.captureException(err, { params });
+      ExceptionProvider.captureException(err, "onInitialLoad - ProductDetail.tsx", { params: (JSON.stringify(params) || "") });
 
       Alert.alert(
         'Ops!',
@@ -222,7 +222,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
                     <Divider variant="fullWidth" my="xs" />
                     <ProductPayment />
                   </>
-              )}
+                )}
               {showReturnPolicy && (<ReturnPolicy />)}
             </Box>
 
@@ -245,10 +245,10 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       {!isGiftCard && !drawerIsOpen && getBoolean('add_to_bag_button_is_fixed') && !isKitLook
         && !loading
         && (
-        <ProductAddToCart
-          isFixed
-          fvcReferenceId={productDetail?.categoryTree.includes('Faça Você') ? productDetail?.productId || undefined : undefined}
-        />
+          <ProductAddToCart
+            isFixed
+            fvcReferenceId={productDetail?.categoryTree.includes('Faça Você') ? productDetail?.productId || undefined : undefined}
+          />
         )}
     </>
   );

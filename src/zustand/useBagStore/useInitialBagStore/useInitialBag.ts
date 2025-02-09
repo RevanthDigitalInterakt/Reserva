@@ -11,7 +11,8 @@ const useInitialBag = () => {
   const handleInitializeBag = useCallback(async () => {
     if (!orderFormId) {
       ExceptionProvider.captureException(
-        new Error('Bag invalid OrderForm'),
+        new Error('orderFormId not found'),
+        "handleInitializeBag - useInitialBag.ts"
       );
 
       return;

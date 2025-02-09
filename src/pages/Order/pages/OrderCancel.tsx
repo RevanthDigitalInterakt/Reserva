@@ -11,8 +11,8 @@ import { Box } from '../../../components/Box/Box';
 import { Button } from '../../../components/Button';
 import { IconLegacy } from '../../../components/IconLegacy/IconLegacy';
 import { Typography } from '../../../components/Typography/Typography';
-import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import { TopBarBackButton } from '../../../modules/Menu/components/TopBarBackButton';
 
 type ItemContactProps = {
   number: string;

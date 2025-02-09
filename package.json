@@ -1,6 +1,6 @@
 {
   "name": "reserva",
-  "version": "2.29.0",
+  "version": "2.32.0",
   "private": true,
   "scripts": {
     "setup-ios-permissions": "react-native setup-ios-permissions && pod-install",
@@ -81,7 +81,7 @@
     "react-native-linear-gradient": "^2.8.3",
     "react-native-masked-text": "^1.13.0",
     "react-native-modal": "^13.0.1",
-    "react-native-onesignal": "4.5.2",
+    "react-native-onesignal": "^5.2.7",
     "react-native-permissions": "^3.8.4",
     "react-native-progress": "^5.0.0",
     "react-native-reanimated": "3.3.0",

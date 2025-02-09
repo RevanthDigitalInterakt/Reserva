@@ -408,7 +408,7 @@ const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
           strUrl: `usereserva://bag/${orderForm?.orderFormId}`,
         };
       } catch (error) {
-        ExceptionProvider.captureException(error);
+        ExceptionProvider.captureException(error, "cartAddItemUseCase - deepLinkMethods.ts",{ deeplink: initialUrl});
         return defaultCustomMethodReturn;
       }
     }

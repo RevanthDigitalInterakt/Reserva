@@ -29,8 +29,8 @@ function TesterAreaViewComponent({
   }, []);
 
   const getTokenOneSignal = useCallback(async () => {
-    const responseToken = await EventProvider.OneSignal.getDeviceState();
-    setOneSignalToken(responseToken?.userId || '');
+    const responseToken = await EventProvider.OneSignal.User.getOnesignalId();
+    setOneSignalToken(responseToken || '');
   }, []);
 
   const handleInitStateToggles = useCallback(async () => {

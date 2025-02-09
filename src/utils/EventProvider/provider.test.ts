@@ -32,7 +32,7 @@ describe('Event Provider', () => {
   it('Should be able to call captureException method', () => {
     const captureExceptionSpy = jest.spyOn(ExceptionProvider, 'captureException');
 
-    ExceptionProvider.captureException(new Error('Somenthing exception'));
+    ExceptionProvider.captureException(new Error('Somenthing exception'), "JsName");
 
     expect(captureExceptionSpy).toHaveBeenCalled();
   });

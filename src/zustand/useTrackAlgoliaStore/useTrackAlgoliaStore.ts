@@ -75,7 +75,21 @@ export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) =
         variables,
       });
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(
+        error,
+        "trackClickAlgoliaStore - useTrackAlgoliaStore.ts",
+        {
+          typeEvent: (JSON.stringify(typeEvent) || ""),
+          nameEvent: (JSON.stringify(nameEvent) || ""),
+          sku: (JSON.stringify(sku) || ""),
+          subTypeEvent: (JSON.stringify(subTypeEvent) || ""),
+          dataObject: (JSON.stringify(dataObject) || ""),
+          totalPrice: (JSON.stringify(totalPrice) || ""),
+          queryID: (JSON.stringify(queryID) || ""),
+          positions: (JSON.stringify(positions) || ""),
+          price: (JSON.stringify(price) || ""),
+        }
+      );
     }
   },
 }));

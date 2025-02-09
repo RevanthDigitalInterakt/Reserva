@@ -140,7 +140,7 @@ export default function ListAddress({
 
       await onGetProfile();
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "requestAddressList - ListAddress.tsx");
     } finally {
       setLoading(false);
       setIsLoadCompleted(true);
@@ -156,7 +156,7 @@ export default function ListAddress({
       setLoading(true);
       await removeAddress({ variables: { input: { addressId: id } } });
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "onDeleteAddress - ListAddress.tsx");
     } finally {
       setLoading(false);
       modalController();

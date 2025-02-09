@@ -56,7 +56,7 @@ export default function useHandleSendLeads() {
         });
       }
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "handleSendLeads - useHandleSendLeads.tsx");
     } finally {
       await removeItem('@Newsletter:IdCampaign');
     }

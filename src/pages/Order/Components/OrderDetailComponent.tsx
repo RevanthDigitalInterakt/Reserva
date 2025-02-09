@@ -1,9 +1,18 @@
-import React from 'react';
-import { PriceCustom } from '../../Checkout/components/PriceCustom';
+import React, { useCallback } from 'react';
+import {
+  Alert,
+  Platform,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+} from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import OrderProduct from './OrderProduct';
 import { Box } from '../../../components/Box/Box';
 import { Typography } from '../../../components/Typography/Typography';
 import type { IVtexServiceRequestOrder } from '../../../services/vtexService';
+import { PriceCustom } from '../../../modules/Checkout/components/PriceCustom';
+import IconCopyToClipboard from '../../../../assets/icons/IconCopyToClipboard';
 
 export type IOrderData = {
   orderId: string;
@@ -65,6 +74,24 @@ interface IOrderDetailComponent {
 }
 
 function OrderDetailComponent({ data }: IOrderDetailComponent) {
+  const copyToClipBoard = useCallback(() => {
+    Clipboard.setString(data?.orderId);
+
+    if (Platform.OS === 'android') {
+      ToastAndroid.show('Código copiado com suceso', ToastAndroid.SHORT);
+      return;
+    }
+
+    Alert.alert('', 'Código copiado com sucesso', [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      { text: 'OK', onPress: () => {} },
+    ]);
+  }, []);
+
   return (
     <Box>
       <Box mt="xxs" flexDirection="row" justifyContent="space-between">
@@ -75,6 +102,13 @@ function OrderDetailComponent({ data }: IOrderDetailComponent) {
         >
           {data?.orderId && data?.orderId}
         </Typography>
+        <TouchableOpacity
+          onPress={copyToClipBoard}
+          style={{ flexDirection: 'row', alignItems: 'center' }}
+        >
+          <IconCopyToClipboard />
+          <Text style={{ marginLeft: 5 }}>Copiar</Text>
+        </TouchableOpacity>
       </Box>
       {data?.items?.length > 0 && data.items.map(
         (item) => <OrderProduct key={item.productId} orderItem={item} />,

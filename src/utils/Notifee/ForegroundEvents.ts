@@ -52,7 +52,7 @@ const OnForegroundEventPush = async () => {
           },
         });
       } catch (error) {
-        ExceptionProvider.captureException(error);
+        ExceptionProvider.captureException(error, "OnForegroundEventPush - ForegroundEvents.ts");
       }
     }
   });

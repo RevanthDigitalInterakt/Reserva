@@ -12,6 +12,6 @@ export const pushClicked = async (notificationId: number, reference: string) => 
       },
     });
   } catch (error) {
-    ExceptionProvider.captureException(error);
+    ExceptionProvider.captureException(error, "pushClicked - ditoService.ts");
   }
 };

@@ -202,7 +202,14 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
         resultCount: data.search.count,
       } as ISearchStore));
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(
+        err, 
+        "onSearch - useSearchStore.ts", 
+        { 
+          parameters: (JSON.stringify(parameters) || ""),
+          filters: (JSON.stringify(filters) || "")
+        }
+      );
     }
   },
   doFetchMore: async () => {
@@ -242,7 +249,7 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
         resultCount,
       } as ISearchStore));
     } catch (err) {
-      ExceptionProvider.captureException(err);
+      ExceptionProvider.captureException(err, "doFetchMore - useSearchStore.ts");
     }
   },
 }));

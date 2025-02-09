@@ -110,7 +110,7 @@ export default function ZipCodeDelivery({ navigation }: TZipCodeDeliveryProps): 
         setAddressDelivery(data.shippingSimulation);
       }
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "handleGetShippingSimulation - ZipCodeDelivery");
     } finally {
       setLoading(false);
     }

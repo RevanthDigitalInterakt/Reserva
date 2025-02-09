@@ -88,7 +88,7 @@ export function LoginScreen({
         afterLogin(profile);
       }
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, "doLogin - LoginScreen.tsx");
     }
   }, [afterLogin, handleLogin]);
 
@@ -118,7 +118,7 @@ export function LoginScreen({
         verifyUserEmail();
       }
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, "ClientDelivery - Login.tsx", {comeFrom});
     }
   }, [comeFrom, loadingSignIn, verifyUserEmail]);
 
@@ -179,7 +179,7 @@ export function LoginScreen({
                     Yup.string().required().email().isValidSync(text.trim()),
                   );
                 } catch (error) {
-                  ExceptionProvider.captureException(error, { writtenEmail: text });
+                  ExceptionProvider.captureException(error, "<UnderlineInput> - Login.tsx", { writtenEmail: text });
                 }
               }}
             />
