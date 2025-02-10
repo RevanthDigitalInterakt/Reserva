@@ -87,6 +87,7 @@ type EventValues = {
   banner_location: string;
   exchange_return: string;
   other_doubts: string;
+  delivery_status: string;
 };
 
 type AbandonedCartEventValues = {
@@ -645,5 +646,8 @@ export type EventOptionsFn =
     payload: {},
   } | {
     type: 'other_doubts',
+    payload: {},
+  } | {
+    type: 'delivery_status',
     payload: {},
   };
