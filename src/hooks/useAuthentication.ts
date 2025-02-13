@@ -1,5 +1,5 @@
 import { Alert, Keyboard } from 'react-native';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import EventProvider from '../utils/EventProvider';
@@ -33,7 +33,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
   const [isLoadingEmail, setIsLoadingEmail] = useState(false);
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [loginCredentials, setLoginCredentials] = useState(initialLoginCredentials);
-
+  const [showPassword, setShowPassword] = useState(false);
   const { onSignIn, onSignOut, profile } = useAuthStore(['onSignIn', 'onSignOut', 'profile']);
   const { actions } = useBagStore(['actions']);
 
@@ -51,6 +51,19 @@ export function useAuthentication({ closeModal }: IParamsHook) {
           'E-mail ou senha incorretos',
     });
   };
+
+  const validateCredentialsForgot = () => {
+    setLoginCredentials({
+      ...loginCredentials,
+      showUsernameError: true,
+      showMessageError:
+          'E-mail incorreto',
+    });
+  };
+
+  useEffect(() => {
+    setLoginCredentials(initialLoginCredentials);
+  }, [showPassword]);
 
   const doSignIn = useCallback(async (email: string, password: string) => {
     try {
@@ -84,6 +97,26 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       setLoadingSignIn(false);
     }
   }, [navigation, onSignIn, validateCredentials]);
+
+  const handleRecoveryPassword = useCallback(async () => {
+    if (!emailIsValid) {
+      validateCredentialsForgot();
+      return;
+    }
+    setLoadingSignIn(true);
+
+    try {
+      setTimeout(() => {
+        setShowPassword(false);
+        navigation.navigate('NewForgotAccessCode');
+        setLoadingSignIn(false);
+      }, 3000);
+      Keyboard.dismiss();
+    } catch (error) {
+      ExceptionProvider.captureException(error, 'handleRecoveryPassword - useAuthrentication');
+    } finally {
+    }
+  }, [emailIsValid, loginCredentials]);
 
   const handleLogin = useCallback(async () => {
     if (emailIsValid && passwordIsValid) {
@@ -139,5 +172,8 @@ export function useAuthentication({ closeModal }: IParamsHook) {
     setPasswordIsValid,
     setLoginCredentials,
     cleanInputs,
+    showPassword,
+    setShowPassword,
+    handleRecoveryPassword,
   };
 }

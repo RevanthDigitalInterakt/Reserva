@@ -81,7 +81,7 @@ export const ForgotAccessCode: React.FC<ForgotAccessCodeProps> = ({
       }
     } catch (err) {
       setShowError(true);
-      ExceptionProvider.captureException(err, "handleUpdatePassword - ForgotAccessCode.tsx", { email });
+      ExceptionProvider.captureException(err, 'handleUpdatePassword - ForgotAccessCode.tsx', { email });
     }
   }, [code, cookies, email, navigation, passwords.confirm, recoveryPasswordReset]);
 

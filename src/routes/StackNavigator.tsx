@@ -43,6 +43,9 @@ import type { SessionBodyCollectionOutput } from '../base/graphql/generated';
 import HelpCenter from '../pages/HelpCenter';
 import PrivacyPolicy from '../pages/PrivacyPolicy';
 import ExchangeScreen from '../pages/Exchange/Exchange';
+import NewForgotAccessCode from '../pages/NewForgotAccessCode/NewForgotAccessCode';
+import NewForgotNewPassword from '../pages/NewForgotNewPassword/NewForgotNewPassword';
+import NewForgotSuccess from '../pages/NewForgotSuccess/NewForgotSuccess';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -105,6 +108,7 @@ export type RootStackParamList = {
     email: string;
   };
   ForgotPassword: {} | undefined;
+  NewForgotPassword: {};
   ForgotNewPassword: { email: string; code: string };
   ForgotEmailSuccess: {} | undefined;
 
@@ -220,6 +224,9 @@ export function MainStackScreen() {
       <MainStack.Screen name="Exchange" component={Exchange} />
       <MainStack.Screen name="ExchangeScreen" component={ExchangeScreen} />
       <MainStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+      <MainStack.Screen name="NewForgotAccessCode" component={NewForgotAccessCode} />
+      <MainStack.Screen name="NewForgotNewPassword" component={NewForgotNewPassword} />
+      <MainStack.Screen name="NewForgotSuccess" component={NewForgotSuccess} />
     </MainStack.Navigator>
   );
 }

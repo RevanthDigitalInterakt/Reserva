@@ -33,6 +33,8 @@ import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
 import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
 import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePageLoadingStore';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
+import Sheet from '../../../components/Sheet';
+import IconArrowRight from '../../../components/IconLegacy/Svg/IconArrowrRight';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -53,6 +55,9 @@ export function NewLoginScreen({
     setPasswordIsValid,
     setLoginCredentials,
     cleanInputs,
+    showPassword,
+    setShowPassword,
+    handleRecoveryPassword,
   } = useAuthentication({
     closeModal: skipHomePage,
   });
@@ -114,7 +119,7 @@ export function NewLoginScreen({
         afterLogin(profile);
       }
     } catch (e) {
-      ExceptionProvider.captureException(e);
+      ExceptionProvider.captureException(e, 'doLogin - newLoginScreen');
     }
   }, [afterLogin, handleLogin]);
 
@@ -144,7 +149,7 @@ export function NewLoginScreen({
         verifyUserEmail();
       }
     } catch (error) {
-      ExceptionProvider.captureException(error);
+      ExceptionProvider.captureException(error, 'ClientDelivery - newLoginScreen');
     }
   }, [comeFrom, loadingSignIn, verifyUserEmail]);
 
@@ -223,15 +228,15 @@ export function NewLoginScreen({
                       Yup.string().required().email().isValidSync(text.trim()),
                     );
                   } catch (error) {
-                    ExceptionProvider.captureException(error, { writtenEmail: text });
+                    ExceptionProvider.captureException(error, 'onChangeText - newLoginScreen');
                   }
                 }}
                 value={loginCredentials.username}
               />
               {loginCredentials.username?.length > 0 && (
-              <TouchableOpacity onPress={cleanInputs} style={styles.iconButton}>
-                <Cancel color={loginCredentials.showUsernameError ? '#DD3636' : '#A8A8A8'} />
-              </TouchableOpacity>
+                <TouchableOpacity onPress={cleanInputs} style={styles.iconButton}>
+                  <Cancel color={loginCredentials.showUsernameError ? '#DD3636' : '#A8A8A8'} />
+                </TouchableOpacity>
               )}
             </View>
             <View style={loginCredentials.showPasswordError
@@ -280,19 +285,19 @@ export function NewLoginScreen({
               </TouchableOpacity>
             </View>
             {(loginCredentials.showPasswordError && loginCredentials.showUsernameError)
-            && (
-            <Text style={{
-              color: '#DD3636', marginTop: -3, marginLeft: 4, fontFamily: 'Inter-Medium',
-            }}
-            >
-              {loginCredentials.showMessageError}
-            </Text>
-            )}
+              && (
+                <Text style={{
+                  color: '#DD3636', marginTop: -3, marginLeft: 4, fontFamily: 'Inter-Medium',
+                }}
+                >
+                  {loginCredentials.showMessageError}
+                </Text>
+              )}
             <Text
               style={styles.forgotPassword}
               onPress={() => {
                 EventProvider.logEvent('login_forgot_password_click', {});
-                navigation.navigate('ForgotEmail', {});
+                setShowPassword(true);
               }}
             >
               Esqueci minha senha
@@ -336,6 +341,67 @@ export function NewLoginScreen({
           </View>
 
         </ScrollView>
+
+        <Sheet variant="middle" visible={showPassword} onClose={() => setShowPassword(false)}>
+          <ScrollView style={{ flex: 1 }}>
+            <Text style={styles.forgotPasswordTitle}>Alterar sua senha</Text>
+            <Text style={styles.forgotPasswordSubtitle}>
+              Para alterar a senha, digite seu e-mail abaixo
+            </Text>
+
+            <TextInput
+              style={loginCredentials.showUsernameError
+                ? styles.forgotPasswordInputContainerError
+                : styles.forgotPasswordInputContainer}
+              placeholder="email@email.com"
+              autoCapitalize="none"
+              onChangeText={(text) => {
+                try {
+                  setLoginCredentials({ ...loginCredentials, username: text });
+
+                  if (loginCredentials.showUsernameError) {
+                    setLoginCredentials({
+                      ...loginCredentials,
+                      username: text,
+                      showUsernameError: false,
+                    });
+                  }
+
+                  setEmailIsValid(
+                    Yup.string().required().email().isValidSync(text.trim()),
+                  );
+                } catch (error) {
+                  ExceptionProvider.captureException(error, 'onChangeText - newLoginScreen');
+                }
+              }}
+              value={loginCredentials.username}
+            />
+
+            {(loginCredentials.showUsernameError)
+              && (
+                <Text style={{
+                  color: '#DD3636',
+                  marginTop: 3,
+                  marginLeft: 4,
+                  fontFamily: 'Inter-Medium',
+                }}
+                >
+                  {loginCredentials.showMessageError}
+                </Text>
+              )}
+
+            <TouchableOpacity
+              style={styles.forgotPasswordButton}
+              disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
+              onPress={handleRecoveryPassword}
+            >
+              {(loadingSignIn || isLoadingEmail || loadingDelivery)
+                ? <ActivityIndicator size="small" color="#FFF2F2" />
+                : <IconArrowRight />}
+
+            </TouchableOpacity>
+          </ScrollView>
+        </Sheet>
 
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -450,5 +516,42 @@ const styles = StyleSheet.create({
   registerLink: {
     fontFamily: 'Inter-SemiBold',
     fontSize: 12,
+  },
+  forgotPasswordTitle: {
+    fontSize: 28,
+    color: '#000000',
+    fontFamily: 'Inter-SemiBold',
+  },
+  forgotPasswordSubtitle: {
+    fontSize: 14,
+    marginTop: 8,
+    color: '#7B7B7B',
+    fontFamily: 'Inter-Medium',
+    lineHeight: 19.6,
+  },
+  forgotPasswordButton: {
+    alignSelf: 'flex-end',
+    width: 64,
+    height: 64,
+    backgroundColor: '#11AB6B',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 60,
+    marginTop: 34,
+
+  },
+  forgotPasswordInputContainer: {
+    marginTop: 24,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 10,
+    paddingHorizontal: 16,
+  },
+  forgotPasswordInputContainerError: {
+    marginTop: 24,
+    color: '#DD3636',
+    borderColor: '#DD3636',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 10,
+    paddingHorizontal: 16,
   },
 });
