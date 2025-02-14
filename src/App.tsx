@@ -140,9 +140,7 @@ function App() {
               theme={DefaultTheme}
               onReady={async () => {
                 ExceptionProvider.trackScreen();
-                setTimeout(() => {
-                  RNBootSplash.hide();
-                }, 2000);
+                RNBootSplash.hide();
                 onStartLoad(navigationRef.current?.getCurrentRoute()?.name);
                 await actions.ROULET_COUPON_INITIAL_LOAD();
               }}
