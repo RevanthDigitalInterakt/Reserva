@@ -186,6 +186,7 @@ export function NewLoginScreen({
             imageHeader={images.newHeaderLogin}
             onClickGoBack={handleNavigatePreviousPage}
             loading={isLoadingEmail || loadingDelivery}
+            newIconGoBack
           />
           <View style={{ position: 'absolute', left: '50%', top: 24 }}><IconLegacy name="Logo" color="vermelhoAlerta" size={24} /></View>
 
@@ -465,7 +466,7 @@ const styles = StyleSheet.create({
   },
   forgotPassword: {
     textAlign: 'right',
-    fontFamily: 'Inter-SemiBold',
+    fontFamily: 'Inter-Bold',
     fontSize: 12,
     marginVertical: 6,
   },
