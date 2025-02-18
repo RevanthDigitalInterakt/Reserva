@@ -4,7 +4,7 @@ import { useIsTester } from '../../../hooks/useIsTester';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
 import { NewLoginScreen } from './NewLogin';
-import SignIn from '../../../pages/SignIn/SignIn';
+import { LoginScreen } from './Login';
 
 type TLoginProps = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -16,5 +16,5 @@ export default function LoginABTest(
 
   const showNewLogin = useMemo(() => getBoolean(isTester ? 'show_new_login_layout_tester' : 'show_new_login_layout'), [getBoolean, isTester]);
 
-  return showNewLogin ? <NewLoginScreen {...loginProps} /> : <SignIn {...loginProps} />;
+  return showNewLogin ? <NewLoginScreen {...loginProps} /> : <LoginScreen {...loginProps} />;
 }

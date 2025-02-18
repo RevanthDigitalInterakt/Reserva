@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React, {
   useRef, useEffect, type ReactNode, useMemo,
+  useState,
 } from 'react';
 import {
   Modal,
@@ -8,6 +9,8 @@ import {
   Animated,
   Dimensions,
   Pressable,
+  Keyboard,
+  ScrollView,
 } from 'react-native';
 import { COLORS } from '../../base/styles';
 import IconClose from '../../../assets/icons/IconClose';
@@ -24,27 +27,48 @@ function Sheet({
 }: IProps) {
   const screenHeight = Dimensions.get('window').height;
   const translateY = useRef(new Animated.Value(screenHeight)).current;
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
-  const newHeight = useMemo(() => {
-    if (variant === 'small') return '30%';
-    if (variant === 'middle') return '50%';
-    if (variant === 'big') return '70%';
-    if (variant === 'biggest') return '90%';
-  }, [variant]);
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      (e) => {
+        setKeyboardHeight(e.endCoordinates.height);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardHeight(0);
+      },
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   useEffect(() => {
     if (!visible) {
+      translateY.setValue(screenHeight);
       return;
     }
 
-    if (visible) {
-      Animated.timing(translateY, {
-        toValue: 0,
-        duration: 350,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [visible]);
+    // Calcula a nova posição baseada na altura do teclado
+    Animated.timing(translateY, {
+      toValue: -keyboardHeight,
+      duration: 350,
+      useNativeDriver: true,
+    }).start();
+  }, [visible, keyboardHeight]);
+
+  const maxHeight = useMemo(
+    () => (keyboardHeight > 0
+      ? screenHeight - keyboardHeight
+      : screenHeight * 0.9),
+    [keyboardHeight, screenHeight],
+  );
 
   return (
     <Modal transparent visible={visible} animationType="fade">
@@ -58,22 +82,25 @@ function Sheet({
         style={[
           styles.bottomSheetContainer,
           {
-            height: newHeight,
+            maxHeight,
             backgroundColor: COLORS.WHITE,
             transform: [{ translateY }],
           },
         ]}
       >
-
-        <Pressable
-          style={{ alignSelf: 'flex-start', paddingBottom: 16 }}
-          onPress={onClose}
+        <ScrollView
+          contentContainerStyle={styles.content}
+          keyboardShouldPersistTaps="handled"
         >
-          <IconClose />
-        </Pressable>
+          <Pressable
+            style={{ alignSelf: 'flex-start', paddingBottom: 16 }}
+            onPress={onClose}
+          >
+            <IconClose />
+          </Pressable>
 
-        {children}
-
+          {children}
+        </ScrollView>
       </Animated.View>
     </Modal>
   );
@@ -90,6 +117,9 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     padding: 16,
+  },
+  content: {
+    flexGrow: 1,
   },
 });
 

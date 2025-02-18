@@ -1,5 +1,7 @@
 import { Alert, Keyboard } from 'react-native';
-import { useCallback, useEffect, useState } from 'react';
+import {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import EventProvider from '../utils/EventProvider';
@@ -10,6 +12,10 @@ import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { Method } from '../utils/EventProvider/Event';
 import { identifyCustomer } from '../zustand/useAuth/methods/identifyCustomer';
+import { useTimerStore } from '../zustand/useTimerStore';
+import { useRemoteConfig } from './useRemoteConfig';
+import { useIsTester } from './useIsTester';
+import { useRecoverPasswordVerificationCodeMutation } from '../base/graphql/generated';
 
 const initialLoginCredentials = {
   username: '',
@@ -36,6 +42,25 @@ export function useAuthentication({ closeModal }: IParamsHook) {
   const [showPassword, setShowPassword] = useState(false);
   const { onSignIn, onSignOut, profile } = useAuthStore(['onSignIn', 'onSignOut', 'profile']);
   const { actions } = useBagStore(['actions']);
+  const { cacheUsername, startTimer, timers } = useTimerStore();
+
+  const { getBoolean } = useRemoteConfig();
+  const isTester = useIsTester();
+  const showNewForgotPassword = useMemo(() => getBoolean(isTester ? 'show_new_forgot_password_layout_tester' : 'show_new_forgot_password_layout'), [getBoolean, isTester]);
+
+  const [sendEmailVerification, { error }] = useRecoverPasswordVerificationCodeMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
+
+  const navigateToForgotPassword = useCallback(() => {
+    EventProvider.logEvent('login_forgot_password_click', {});
+    if (showNewForgotPassword) {
+      setShowPassword(true);
+      return;
+    }
+
+    navigation.navigate('ForgotEmail', {});
+  }, [showNewForgotPassword]);
 
   const cleanInputs = () => {
     setLoginCredentials(initialLoginCredentials);
@@ -48,7 +73,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       showUsernameError: true,
       hasError: true,
       showMessageError:
-          'E-mail ou senha incorretos',
+        'E-mail ou senha incorretos',
     });
   };
 
@@ -57,7 +82,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       ...loginCredentials,
       showUsernameError: true,
       showMessageError:
-          'E-mail incorreto',
+        'E-mail incorreto',
     });
   };
 
@@ -83,11 +108,11 @@ export function useAuthentication({ closeModal }: IParamsHook) {
     } catch (err) {
       Alert.alert('Erro', 'Não foi possível realizar o login, tente novamente', [
         {
-          onPress: () => {},
+          onPress: () => { },
           text: 'OK',
         },
         {
-          onPress: () => {},
+          onPress: () => { },
           text: 'Cancelar',
         },
       ]);
@@ -103,18 +128,42 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       validateCredentialsForgot();
       return;
     }
-    setLoadingSignIn(true);
+    Keyboard.dismiss();
 
+    cacheUsername(loginCredentials.username, timers[loginCredentials.username]?.cookies || []);
+    if (timers[loginCredentials.username]?.isActive) {
+      navigation.navigate(
+        'NewForgotAccessCode',
+        {
+          username: loginCredentials.username,
+        },
+      );
+      return;
+    }
+
+    setLoadingSignIn(true);
     try {
-      setTimeout(() => {
-        setShowPassword(false);
-        navigation.navigate('NewForgotAccessCode');
-        setLoadingSignIn(false);
-      }, 3000);
-      Keyboard.dismiss();
-    } catch (error) {
-      ExceptionProvider.captureException(error, 'handleRecoveryPassword - useAuthrentication');
+      const { data } = await sendEmailVerification({
+        variables: {
+          input: { email: loginCredentials.username },
+        },
+      });
+
+      if (data?.recoverPasswordVerificationCode?.cookies) {
+        startTimer(loginCredentials.username, data?.recoverPasswordVerificationCode?.cookies);
+        navigation.navigate(
+          'NewForgotAccessCode',
+          {
+            username: loginCredentials.username,
+            cookies: data?.recoverPasswordVerificationCode?.cookies,
+          },
+        );
+      }
+    } catch (e) {
+      ExceptionProvider.captureException(e, 'handleRecoveryPassword - useAuthrentication');
     } finally {
+      setShowPassword(false);
+      setLoadingSignIn(false);
     }
   }, [emailIsValid, loginCredentials]);
 
@@ -175,5 +224,6 @@ export function useAuthentication({ closeModal }: IParamsHook) {
     showPassword,
     setShowPassword,
     handleRecoveryPassword,
+    navigateToForgotPassword,
   };
 }

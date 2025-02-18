@@ -1,16 +1,20 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
+import type { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import {
-  StyleSheet,
   SafeAreaView,
-  View,
+  StyleSheet,
   Text,
+  View,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { IconChevronLeft } from '../../components/IconLegacy/Svg';
 import IconSuccessPassword from '../../components/IconLegacy/Svg/IconSuccessPassword';
+import type { RootStackParamList } from '../../routes/StackNavigator';
 
-export default function NewForgotSuccess({ navigation }) {
+type Props = StackScreenProps<RootStackParamList, 'NewForgotSuccess'>;
+
+export default function NewForgotSuccess({ navigation }: Props) {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={() => { navigation.goBack(); }}>

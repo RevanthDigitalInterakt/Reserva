@@ -1,35 +1,81 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React, { useEffect, useRef, useState } from 'react';
+import type { StackScreenProps } from '@react-navigation/stack';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import {
-  View, Text, TextInput, StyleSheet,
+  ActivityIndicator,
+  Alert,
   SafeAreaView,
+  StyleSheet,
+  Text, TextInput,
+  View,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { IconChevronLeft } from '../../components/IconLegacy/Svg';
+import type { RootStackParamList } from '../../routes/StackNavigator';
+import { useTimerStore } from '../../zustand/useTimerStore';
+import { useRecoverPasswordResetMutation } from '../../base/graphql/generated';
+import { scale } from '../../utils/scale';
+import { IconChevronLeftSmall } from '../../components/IconLegacy/Svg';
 
-export default function NewForgotAccessCode({ navigation }) {
+type Props = StackScreenProps<RootStackParamList, 'NewForgotAccessCode'>;
+
+export default function NewForgotAccessCode({ navigation, route }: Props) {
+  const username = route?.params?.username;
+  const cookies = route?.params?.cookies || [];
+
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [focusedIndex, setFocusedIndex] = useState(null);
-  const [secondsLeft, setSecondsLeft] = useState(10);
   const [isError, setIsError] = useState(false);
-  const inputRefs = useRef([]);
+  const inputRefs = useRef<TextInput[]>([]);
+
+  const [recoveryPasswordReset, { loading, error }] = useRecoverPasswordResetMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
+
+  console.log(error);
+
+  const {
+    getRemainingTime,
+    startTimer,
+    pauseTimer,
+    resetTimer,
+  } = useTimerStore();
+
+  const timer = useTimerStore((state) => state.timers[username]);
+  const isActive = timer?.isActive ?? false;
+
+  const [displayTime, setDisplayTime] = useState(getRemainingTime(username));
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setSecondsLeft((prev) => {
-        if (prev <= 0) {
-          clearInterval(timer);
-          return 0;
+    let interval: NodeJS.Timeout;
+
+    if (isActive) {
+      interval = setInterval(() => {
+        const remaining = getRemainingTime(username);
+        setDisplayTime(remaining);
+
+        if (remaining <= 0) {
+          pauseTimer(username);
         }
-        return prev - 1;
-      });
-    }, 1000);
+      }, 1000);
+    }
 
-    return () => clearInterval(timer);
-  }, [secondsLeft]);
+    return () => clearInterval(interval);
+  }, [isActive, username, getRemainingTime, pauseTimer]);
 
-  const handleChange = (text, index) => {
+  const formatTime = useCallback((seconds: number) => {
+    if (seconds === 0) {
+      return '';
+    }
+
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }, []);
+
+  const handleChange = (text: string, index: number) => {
     const newCode = [...code];
     newCode[index] = text;
     setCode(newCode);
@@ -48,99 +94,128 @@ export default function NewForgotAccessCode({ navigation }) {
     }
   };
 
-  const handleConfirm = () => {
-    const finalCode = code.join('');
-    // setIsError(true);
-    navigation.replace('NewForgotNewPassword');
-  };
+  const handleConfirm = useCallback(async () => {
+    if (code.length !== 6) {
+      setIsError(true);
+      return;
+    }
 
-  const handleResendCode = () => {
+    const finalCode = code.join('');
+
+    // TODO waiting new screen by UX
+    const variables = {
+      input: {
+        email: username,
+        code: finalCode,
+        password: '',
+        cookies,
+      },
+    };
+
+    const { data: recoveryPasswordData } = await recoveryPasswordReset({
+      variables,
+    });
+
+    if (!recoveryPasswordData) {
+      Alert.alert('FALHOU', JSON.stringify(recoveryPasswordData));
+    }
+
+    if (recoveryPasswordData?.recoverPasswordReset?.token) {
+      navigation.replace('NewForgotSuccess');
+    }
+  }, [username, code, cookies]);
+
+  useEffect(() => {
+    const remaining = getRemainingTime(username);
+    if (remaining === 0) {
+      resetTimer(username);
+      startTimer(username, cookies);
+    }
+  }, [username, getRemainingTime, resetTimer, startTimer]);
+
+  const handleResendCode = useCallback(() => {
+    resetTimer(username);
+    startTimer(username, cookies);
     setIsError(false);
     setCode(['', '', '', '', '', '']);
-    setSecondsLeft(10);
-  };
+  }, [username, resetTimer, startTimer]);
 
   return (
-    <>
-      <SafeAreaView style={styles.container}>
-        <TouchableOpacity onPress={() => { navigation.goBack(); }}>
-          <IconChevronLeft color="#999" />
-        </TouchableOpacity>
-        <Text style={styles.title}>Confirme seu código</Text>
-        <Text style={styles.subtitle}>Insira o código recebido por e-mail abaixo:</Text>
-
-        <View style={styles.codeContainer}>
-          {code.map((value, index) => (
-            <TextInput
-              key={`${index}-input`}
-              ref={(ref) => { inputRefs.current[index] = ref; }}
-              style={[styles.input, isError ? { color: '#DD3636' } : {}]}
-              placeholder={(value === '' && focusedIndex !== index) ? '•' : ''}
-              placeholderTextColor="#999"
-              keyboardType="number-pad"
-              maxLength={1}
-              onFocus={() => {
-                if (isError) setIsError(false);
-                setFocusedIndex(index);
-                if (value !== '') {
-                  handleChange('', index);
-                }
-              }}
-              onBlur={() => setFocusedIndex(null)}
-              value={value}
-              onChangeText={(text) => handleChange(text, index)}
-              onKeyPress={(e) => handleKeyPress(e, index)}
-            />
-          ))}
-        </View>
-        {isError
-          ? (
-            <Text style={{
-              color: '#DD3636',
-              marginTop: 3,
-              marginLeft: 4,
-              fontFamily: 'Inter-Medium',
-            }}
-            >
-              Código inválido ou expirado.
-            </Text>
-          )
-
-          : <View style={{ marginTop: 24 }} />}
-
-        <View style={styles.bottomContainer}>
-          {secondsLeft > 0 ? (
-            <>
-              <Text style={styles.resendText}>
-                Não recebeu seu código?
-              </Text>
-
-              <Text style={styles.resendText}>
-                Peça um novo em
-                {' '}
-                <Text style={styles.timerText}>
-                  0:
-                  {String(secondsLeft).padStart(2, '0')}
-                </Text>
-              </Text>
-            </>
-          ) : (
-            <TouchableOpacity onPress={handleResendCode}>
-              <Text style={[styles.resendText]}>
-                Não recebeu seu código?
-              </Text>
-              <Text style={[styles.resendText, styles.resendLink]}>
-                Peça um novo
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
-
-      </SafeAreaView>
-      <TouchableOpacity style={styles.button} onPress={handleConfirm}>
-        <Text style={styles.buttonText}>Confirmar</Text>
+    <SafeAreaView style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <IconChevronLeftSmall color="#000" />
       </TouchableOpacity>
-    </>
+      <Text style={styles.title}>Confirme seu código</Text>
+      <Text style={styles.subtitle}>Insira o código recebido por e-mail abaixo:</Text>
+
+      <View style={styles.codeContainer}>
+        {code.map((value, index) => (
+          <TextInput
+            key={`${index}-input`}
+            ref={(ref) => { inputRefs.current[index] = ref; }}
+            style={[styles.input, isError ? { color: '#DD3636' } : {}]}
+            placeholder={(value === '' && focusedIndex !== index) ? '•' : ''}
+            placeholderTextColor="#999"
+            keyboardType="number-pad"
+            maxLength={1}
+            onFocus={() => {
+              if (isError) setIsError(false);
+              setFocusedIndex(index);
+              if (value !== '') {
+                handleChange('', index);
+              }
+            }}
+            onBlur={() => setFocusedIndex(null)}
+            value={value}
+            onChangeText={(text) => handleChange(text, index)}
+            onKeyPress={(e) => handleKeyPress(e, index)}
+          />
+        ))}
+      </View>
+      {isError ? (
+        <Text style={{
+          color: '#DD3636',
+          marginTop: 3,
+          marginLeft: 4,
+          fontFamily: 'Inter-Medium',
+        }}
+        >
+          Código inválido ou expirado.
+        </Text>
+      ) : <View style={{ marginTop: 24 }} />}
+
+      <View style={styles.bottomContainer}>
+        {displayTime > 0 ? (
+          <>
+            <Text style={styles.resendText}>
+              Não recebeu seu código?
+            </Text>
+            <Text style={styles.resendText}>
+              Peça um novo em
+              {' '}
+              <Text style={styles.timerText}>
+                {formatTime(displayTime)}
+              </Text>
+            </Text>
+          </>
+        ) : (
+          <TouchableOpacity onPress={handleResendCode}>
+            <Text style={styles.resendText}>
+              Não recebeu seu código?
+            </Text>
+            <Text style={[styles.resendText, styles.resendLink]}>
+              Peça um novo
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+      <TouchableOpacity disabled={loading} style={styles.button} onPress={handleConfirm}>
+        {loading
+          ? <ActivityIndicator size="small" color="#FFF2F2" />
+          : <Text style={styles.buttonText}>Confirmar</Text>}
+
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 }
 
@@ -148,17 +223,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 24,
-    paddingHorizontal: 24,
+    marginHorizontal: 24,
     backgroundColor: '#FFF',
   },
   title: {
     marginTop: 32,
-    fontSize: 28,
+    fontSize: scale(28),
     fontFamily: 'Inter-Bold',
     paddingBottom: 8,
   },
   subtitle: {
-    fontSize: 13,
+    fontSize: scale(13),
     fontFamily: 'Inter-Regular',
     paddingBottom: 32,
   },
@@ -172,7 +247,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 70,
     textAlign: 'center',
-    fontSize: 28,
+    fontSize: scale(28),
   },
   bottomContainer: {
     marginTop: 24,
@@ -181,19 +256,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   resendText: {
-    fontSize: 12,
+    fontSize: scale(12),
     textAlign: 'center',
     color: '#6C727B',
     justifyContent: 'center',
     alignItems: 'center',
     fontFamily: 'Inter-Regular',
-
   },
   timerText: {
     fontFamily: 'Inter-Bold',
   },
   resendLink: {
-    fontSize: 12,
+    fontSize: scale(12),
     color: '#282828',
     justifyContent: 'center',
     alignItems: 'center',
@@ -208,7 +282,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: 'center',
     color: '#FFF',
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: scale(16),
+    fontFamily: 'Inter-Regular',
   },
 });

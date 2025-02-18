@@ -1,23 +1,28 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-use-before-define */
+import { useMutation } from '@apollo/client';
+import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useMemo, useState } from 'react';
 import {
-  Text, TextInput, StyleSheet,
+  ActivityIndicator,
+  Alert,
   SafeAreaView,
   ScrollView,
+  StyleSheet,
+  Text, TextInput,
   View,
-  Alert,
-  ActivityIndicator,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useMutation } from '@apollo/client';
-import { IconChevronLeft } from '../../components/IconLegacy/Svg';
-import { IconLegacy } from '../../components/IconLegacy/IconLegacy';
 import EyeClose from '../../base/svgs/EyeClose';
 import EyeOpen from '../../base/svgs/EyeOpen';
+import { IconLegacy } from '../../components/IconLegacy/IconLegacy';
+import { IconChevronLeft } from '../../components/IconLegacy/Svg';
 import { recoveryPasswordMutation } from '../../graphql/login/loginMutations';
+import type { RootStackParamList } from '../../routes/StackNavigator';
 
-export default function NewForgotNewPassword({ navigation, route }) {
+type Props = StackScreenProps<RootStackParamList, 'NewForgotNewPassword'>;
+
+export default function NewForgotNewPassword({ navigation, route }: Props) {
   const code = route.params?.code;
   const email = route.params?.email;
 

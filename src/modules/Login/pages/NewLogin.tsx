@@ -35,13 +35,14 @@ import { usePageLoadingStore } from '../../../zustand/usePageLoadingStore/usePag
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import Sheet from '../../../components/Sheet';
 import IconArrowRight from '../../../components/IconLegacy/Svg/IconArrowrRight';
+import { scale } from '../../../utils/scale';
 
-type Props = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
+type IProps = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
 export function NewLoginScreen({
   route,
   navigation,
-}: Props) {
+}: IProps) {
   const { comeFrom, previousPage, invalidSession } = route.params || {};
   const skipHomePage = comeFrom === 'BagScreen' ? () => { } : undefined;
 
@@ -58,6 +59,7 @@ export function NewLoginScreen({
     showPassword,
     setShowPassword,
     handleRecoveryPassword,
+    navigateToForgotPassword,
   } = useAuthentication({
     closeModal: skipHomePage,
   });
@@ -173,119 +175,120 @@ export function NewLoginScreen({
   }, [loadingSignIn, startLoadingTime, onFinishLoad]);
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
-      <KeyboardAvoidingView
-        behavior={Platform.select({ ios: 'padding', android: undefined })}
-        style={{ flex: 1 }}
-      >
-        <ScrollView
-          {...testProps('com.usereserva:id/login_scrollview')}
-          keyboardShouldPersistTaps="always"
+    <>
+      <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
+        <KeyboardAvoidingView
+          behavior={Platform.select({ ios: 'padding', android: undefined })}
+          style={{ flex: 1 }}
         >
-          <HeaderBanner
-            imageHeader={images.newHeaderLogin}
-            onClickGoBack={handleNavigatePreviousPage}
-            loading={isLoadingEmail || loadingDelivery}
-            newIconGoBack
-          />
-          <View style={{ position: 'absolute', left: '50%', top: 24 }}><IconLegacy name="Logo" color="vermelhoAlerta" size={24} /></View>
+          <ScrollView
+            {...testProps('com.usereserva:id/login_scrollview')}
+            keyboardShouldPersistTaps="always"
+          >
+            <HeaderBanner
+              imageHeader={images.newHeaderLogin}
+              onClickGoBack={handleNavigatePreviousPage}
+              loading={isLoadingEmail || loadingDelivery}
+              newIconGoBack
+            />
+            <View style={{ position: 'absolute', left: '50%', top: 24 }}><IconLegacy name="Logo" color="vermelhoAlerta" size={24} /></View>
 
-          <View style={styles.headlineContainer}>
-            <Text style={styles.headline}>
-              Preencha seu dados
-            </Text>
-            <Text style={styles.subHeadline}>
-              Insira seu e-mail e senha para continuar
-            </Text>
+            <View style={styles.headlineContainer}>
+              <Text style={styles.headline}>
+                Preencha seu dados
+              </Text>
+              <Text style={styles.subHeadline}>
+                Insira seu e-mail e senha para continuar
+              </Text>
 
-          </View>
+            </View>
 
-          <View style={styles.inputContainer}>
-            <View style={loginCredentials.showUsernameError
-              ? styles.inputContainerWrapperError
-              : styles.inputContainerWrapper}
-            >
-              <TextInput
-                style={loginCredentials.showUsernameError
-                  ? styles.textInputError
-                  : styles.textInput}
-                placeholder="email@email.com"
-                autoCapitalize="none"
-                placeholderTextColor={loginCredentials.showUsernameError ? '#DD3636' : '#A8A8A8'}
-                onChangeText={(text) => {
-                  try {
-                    setLoginCredentials({ ...loginCredentials, username: text });
+            <View style={styles.inputContainer}>
+              <View style={loginCredentials.showUsernameError
+                ? styles.inputContainerWrapperError
+                : styles.inputContainerWrapper}
+              >
+                <TextInput
+                  style={loginCredentials.showUsernameError
+                    ? styles.textInputError
+                    : styles.textInput}
+                  placeholder="email@email.com"
+                  autoCapitalize="none"
+                  placeholderTextColor={loginCredentials.showUsernameError ? '#DD3636' : '#A8A8A8'}
+                  onChangeText={(text) => {
+                    try {
+                      setLoginCredentials({ ...loginCredentials, username: text });
 
-                    if (loginCredentials.showUsernameError) {
+                      if (loginCredentials.showUsernameError) {
+                        setLoginCredentials({
+                          ...loginCredentials,
+                          username: text,
+                          showUsernameError: false,
+                          showPasswordError: false,
+                        });
+                      }
+
+                      setEmailIsValid(
+                        Yup.string().required().email().isValidSync(text.trim()),
+                      );
+                    } catch (error) {
+                      ExceptionProvider.captureException(error, 'onChangeText - newLoginScreen');
+                    }
+                  }}
+                  value={loginCredentials.username}
+                />
+                {loginCredentials.username?.length > 0 && (
+                <TouchableOpacity onPress={cleanInputs} style={styles.iconButton}>
+                  <Cancel height={scale(12)} width={scale(12)} color={loginCredentials.showUsernameError ? '#DD3636' : '#A8A8A8'} />
+                </TouchableOpacity>
+                )}
+              </View>
+              <View style={loginCredentials.showPasswordError
+                ? styles.inputContainerWrapperError
+                : styles.inputContainerWrapper}
+              >
+                <TextInput
+                  style={loginCredentials.showPasswordError
+                    ? styles.textInputError
+                    : styles.textInput}
+                  placeholder="Senha"
+                  autoCapitalize="none"
+                  placeholderTextColor={loginCredentials.showPasswordError ? '#DD3636' : '#A8A8A8'}
+                  secureTextEntry={passwordHidden}
+                  onChangeText={(text) => {
+                    setLoginCredentials({
+                      ...loginCredentials,
+                      password: text,
+                    });
+
+                    if (loginCredentials.showPasswordError) {
                       setLoginCredentials({
                         ...loginCredentials,
-                        username: text,
+                        password: text,
                         showUsernameError: false,
                         showPasswordError: false,
                       });
                     }
 
-                    setEmailIsValid(
-                      Yup.string().required().email().isValidSync(text.trim()),
+                    setPasswordIsValid(
+                      Yup.string()
+                        .required()
+                        .matches(/^(?=.{8,})/)
+                        .matches(/^(?=.*[A-Z])/)
+                        .matches(/^(?=.*[a-z])/)
+                        .matches(/^(?=.*[0-9])/)
+                        .isValidSync(text),
                     );
-                  } catch (error) {
-                    ExceptionProvider.captureException(error, 'onChangeText - newLoginScreen');
-                  }
-                }}
-                value={loginCredentials.username}
-              />
-              {loginCredentials.username?.length > 0 && (
-                <TouchableOpacity onPress={cleanInputs} style={styles.iconButton}>
-                  <Cancel color={loginCredentials.showUsernameError ? '#DD3636' : '#A8A8A8'} />
+                  }}
+                  value={loginCredentials.password}
+                />
+                <TouchableOpacity onPress={togglePasswordHidden} style={styles.iconButton}>
+                  {passwordHidden
+                    ? <EyeClose height={scale(13)} width={scale(15)} color={loginCredentials.showPasswordError ? '#DD3636' : '#A8A8A8'} />
+                    : <EyeOpen height={scale(11)} width={scale(16)} color={loginCredentials.showPasswordError ? '#DD3636' : '#A8A8A8'} />}
                 </TouchableOpacity>
-              )}
-            </View>
-            <View style={loginCredentials.showPasswordError
-              ? styles.inputContainerWrapperError
-              : styles.inputContainerWrapper}
-            >
-              <TextInput
-                style={loginCredentials.showPasswordError
-                  ? styles.textInputError
-                  : styles.textInput}
-                placeholder="Senha"
-                autoCapitalize="none"
-                placeholderTextColor={loginCredentials.showPasswordError ? '#DD3636' : '#A8A8A8'}
-                secureTextEntry={passwordHidden}
-                onChangeText={(text) => {
-                  setLoginCredentials({
-                    ...loginCredentials,
-                    password: text,
-                  });
-
-                  if (loginCredentials.showPasswordError) {
-                    setLoginCredentials({
-                      ...loginCredentials,
-                      password: text,
-                      showUsernameError: false,
-                      showPasswordError: false,
-                    });
-                  }
-
-                  setPasswordIsValid(
-                    Yup.string()
-                      .required()
-                      .matches(/^(?=.{8,})/)
-                      .matches(/^(?=.*[A-Z])/)
-                      .matches(/^(?=.*[a-z])/)
-                      .matches(/^(?=.*[0-9])/)
-                      .isValidSync(text),
-                  );
-                }}
-                value={loginCredentials.password}
-              />
-              <TouchableOpacity onPress={togglePasswordHidden} style={styles.iconButton}>
-                {passwordHidden
-                  ? <EyeClose color={loginCredentials.showPasswordError ? '#DD3636' : '#A8A8A8'} />
-                  : <EyeOpen color={loginCredentials.showPasswordError ? '#DD3636' : '#A8A8A8'} />}
-              </TouchableOpacity>
-            </View>
-            {(loginCredentials.showPasswordError && loginCredentials.showUsernameError)
+              </View>
+              {(loginCredentials.showPasswordError && loginCredentials.showUsernameError)
               && (
                 <Text style={{
                   color: '#DD3636', marginTop: -3, marginLeft: 4, fontFamily: 'Inter-Medium',
@@ -294,91 +297,91 @@ export function NewLoginScreen({
                   {loginCredentials.showMessageError}
                 </Text>
               )}
-            <Text
-              style={styles.forgotPassword}
-              onPress={() => {
-                EventProvider.logEvent('login_forgot_password_click', {});
-                setShowPassword(true);
-              }}
-            >
-              Esqueci minha senha
-            </Text>
-          </View>
-
-          <View style={styles.container}>
-            <TouchableOpacity
-              style={styles.loginButton}
-              disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
-              onPress={doLogin}
-            >
-              {(loadingSignIn || isLoadingEmail || loadingDelivery)
-                ? <ActivityIndicator size="small" color="#FFF2F2" />
-                : <Text style={styles.loginText}>Entrar</Text>}
-
-            </TouchableOpacity>
-
-            <View style={styles.separatorContainer}>
-              <View style={styles.line} />
-              <Text style={styles.orText}>ou</Text>
-              <View style={styles.line} />
+              <Text
+                style={styles.forgotPassword}
+                onPress={navigateToForgotPassword}
+              >
+                Esqueci minha senha
+              </Text>
             </View>
 
-            <Text style={styles.registerText}>
-              Não tem uma conta?
-              {' '}
-              <Text
+            <View style={styles.container}>
+              <TouchableOpacity
+                style={styles.loginButton}
                 disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
-                onPress={() => {
-                  EventProvider.logEvent('login_register_click', {});
-                  navigation.navigate('RegisterEmail', {
-                    comeFrom,
-                  });
-                }}
-                style={styles.registerLink}
+                onPress={doLogin}
               >
-                Cadastre-se agora.
-              </Text>
-            </Text>
-          </View>
+                {(loadingSignIn || isLoadingEmail || loadingDelivery)
+                  ? <ActivityIndicator size="small" color="#FFF2F2" />
+                  : <Text style={styles.loginText}>Entrar</Text>}
 
-        </ScrollView>
+              </TouchableOpacity>
 
-        <Sheet variant="middle" visible={showPassword} onClose={() => setShowPassword(false)}>
-          <ScrollView style={{ flex: 1 }}>
-            <Text style={styles.forgotPasswordTitle}>Alterar sua senha</Text>
-            <Text style={styles.forgotPasswordSubtitle}>
-              Para alterar a senha, digite seu e-mail abaixo
-            </Text>
+              <View style={styles.separatorContainer}>
+                <View style={styles.line} />
+                <Text style={styles.orText}>ou</Text>
+                <View style={styles.line} />
+              </View>
 
-            <TextInput
-              style={loginCredentials.showUsernameError
-                ? styles.forgotPasswordInputContainerError
-                : styles.forgotPasswordInputContainer}
-              placeholder="email@email.com"
-              autoCapitalize="none"
-              onChangeText={(text) => {
-                try {
-                  setLoginCredentials({ ...loginCredentials, username: text });
-
-                  if (loginCredentials.showUsernameError) {
-                    setLoginCredentials({
-                      ...loginCredentials,
-                      username: text,
-                      showUsernameError: false,
+              <Text style={styles.registerText}>
+                Não tem uma conta?
+                {' '}
+                <Text
+                  disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
+                  onPress={() => {
+                    EventProvider.logEvent('login_register_click', {});
+                    navigation.navigate('RegisterEmail', {
+                      comeFrom,
                     });
-                  }
+                  }}
+                  style={styles.registerLink}
+                >
+                  Cadastre-se agora.
+                </Text>
+              </Text>
+            </View>
 
-                  setEmailIsValid(
-                    Yup.string().required().email().isValidSync(text.trim()),
-                  );
-                } catch (error) {
-                  ExceptionProvider.captureException(error, 'onChangeText - newLoginScreen');
+          </ScrollView>
+
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+
+      <Sheet variant="middle" visible={showPassword} onClose={() => setShowPassword(false)}>
+        <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps="handled">
+          <Text style={styles.forgotPasswordTitle}>Alterar sua senha</Text>
+          <Text style={styles.forgotPasswordSubtitle}>
+            Para alterar a senha, digite seu e-mail abaixo
+          </Text>
+
+          <TextInput
+            style={loginCredentials.showUsernameError
+              ? styles.forgotPasswordInputContainerError
+              : styles.forgotPasswordInputContainer}
+            placeholder="email@email.com"
+            autoCapitalize="none"
+            onChangeText={(text) => {
+              try {
+                setLoginCredentials({ ...loginCredentials, username: text });
+
+                if (loginCredentials.showUsernameError) {
+                  setLoginCredentials({
+                    ...loginCredentials,
+                    username: text,
+                    showUsernameError: false,
+                  });
                 }
-              }}
-              value={loginCredentials.username}
-            />
 
-            {(loginCredentials.showUsernameError)
+                setEmailIsValid(
+                  Yup.string().required().email().isValidSync(text.trim()),
+                );
+              } catch (error) {
+                ExceptionProvider.captureException(error, 'onChangeText - newLoginScreen');
+              }
+            }}
+            value={loginCredentials.username}
+          />
+
+          {(loginCredentials.showUsernameError)
               && (
                 <Text style={{
                   color: '#DD3636',
@@ -391,39 +394,35 @@ export function NewLoginScreen({
                 </Text>
               )}
 
-            <TouchableOpacity
-              style={styles.forgotPasswordButton}
-              disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
-              onPress={handleRecoveryPassword}
-            >
-              {(loadingSignIn || isLoadingEmail || loadingDelivery)
-                ? <ActivityIndicator size="small" color="#FFF2F2" />
-                : <IconArrowRight />}
+          <TouchableOpacity
+            style={styles.forgotPasswordButton}
+            disabled={loadingSignIn || isLoadingEmail || loadingDelivery}
+            onPress={handleRecoveryPassword}
+          >
+            {(loadingSignIn || isLoadingEmail || loadingDelivery)
+              ? <ActivityIndicator size="small" color="#FFF2F2" />
+              : <IconArrowRight />}
 
-            </TouchableOpacity>
-          </ScrollView>
-        </Sheet>
-
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+          </TouchableOpacity>
+        </ScrollView>
+      </Sheet>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   headlineContainer: {
-    marginTop: 24,
+    marginTop: 16,
     marginHorizontal: 16,
   },
   headline: {
-    fontSize: 20,
+    fontSize: scale(20),
     fontFamily: 'Inter-SemiBold',
-    lineHeight: 24,
   },
   subHeadline: {
     marginTop: 2,
-    fontSize: 13,
+    fontSize: scale(13),
     fontFamily: 'Inter-Regular',
-    lineHeight: 18,
   },
   inputContainer: {
     flex: 1,
@@ -452,22 +451,22 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    fontSize: 12,
+    fontSize: scale(12),
     color: '#282828',
-    paddingVertical: 10,
+    paddingVertical: scale(10),
     fontFamily: 'Inter-Medium',
   },
   textInputError: {
     flex: 1,
-    fontSize: 12,
+    fontSize: scale(12),
     color: '#DD3636',
-    paddingVertical: 10,
+    paddingVertical: scale(10),
     fontFamily: 'Inter-Medium',
   },
   forgotPassword: {
     textAlign: 'right',
     fontFamily: 'Inter-Bold',
-    fontSize: 12,
+    fontSize: scale(12),
     marginVertical: 6,
   },
   iconButton: {
@@ -488,7 +487,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   loginText: {
-    fontSize: 12,
+    fontSize: scale(12),
     color: '#FFF',
     fontFamily: 'Inter-Medium',
   },
@@ -505,26 +504,26 @@ const styles = StyleSheet.create({
   },
   orText: {
     marginHorizontal: 24,
-    fontSize: 13,
+    fontSize: scale(13),
     fontFamily: 'Inter-Medium',
   },
   registerText: {
     marginBottom: 32,
-    fontSize: 12,
+    fontSize: scale(12),
     color: '#000000',
     textAlign: 'center',
   },
   registerLink: {
     fontFamily: 'Inter-SemiBold',
-    fontSize: 12,
+    fontSize: scale(12),
   },
   forgotPasswordTitle: {
-    fontSize: 28,
+    fontSize: scale(24),
     color: '#000000',
     fontFamily: 'Inter-SemiBold',
   },
   forgotPasswordSubtitle: {
-    fontSize: 14,
+    fontSize: scale(13),
     marginTop: 8,
     color: '#7B7B7B',
     fontFamily: 'Inter-Medium',
@@ -546,6 +545,10 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
     paddingHorizontal: 16,
+    fontSize: scale(12),
+    color: '#282828',
+    paddingVertical: 10,
+    fontFamily: 'Inter-Medium',
   },
   forgotPasswordInputContainerError: {
     marginTop: 24,
@@ -554,5 +557,8 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
     paddingHorizontal: 16,
+    fontSize: scale(12),
+    paddingVertical: 10,
+    fontFamily: 'Inter-Medium',
   },
 });
