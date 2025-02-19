@@ -138,7 +138,7 @@ export default function NewForgotNewPassword({ navigation, route }: Props) {
           <Text style={{
             color: '#DD3636',
             marginLeft: 4,
-            fontFamily: 'Inter-Medium',
+            fontFamily: 'Inter28pt-Medium',
           }}
           >
             {!isEqualPassword && !!passwords.confirm.length ? 'As senhas não estão iguais.' : ''}
@@ -197,14 +197,14 @@ const styles = StyleSheet.create({
     marginTop: 24,
     fontSize: 28,
     color: '#000000',
-    fontFamily: 'Inter-SemiBold',
+    fontFamily: 'Inter28pt-SemiBold',
   },
   forgotPasswordSubtitle: {
     marginBottom: 16,
     fontSize: 14,
     marginTop: 8,
     color: '#7B7B7B',
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Inter28pt-Medium',
     lineHeight: 19.6,
   },
   forgotPasswordButton: {

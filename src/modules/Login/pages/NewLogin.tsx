@@ -202,6 +202,7 @@ export function NewLoginScreen({
               </Text>
 
             </View>
+            <View style={{ marginTop: 8 }} />
 
             <View style={styles.inputContainer}>
               <View style={loginCredentials.showUsernameError
@@ -243,10 +244,12 @@ export function NewLoginScreen({
                 </TouchableOpacity>
                 )}
               </View>
+              <View style={{ marginTop: 8 }} />
               <View style={loginCredentials.showPasswordError
                 ? styles.inputContainerWrapperError
                 : styles.inputContainerWrapper}
               >
+
                 <TextInput
                   style={loginCredentials.showPasswordError
                     ? styles.textInputError
@@ -291,7 +294,7 @@ export function NewLoginScreen({
               {(loginCredentials.showPasswordError && loginCredentials.showUsernameError)
               && (
                 <Text style={{
-                  color: '#DD3636', marginTop: -3, marginLeft: 4, fontFamily: 'Inter-Medium',
+                  color: '#DD3636', marginTop: -3, marginLeft: 4, fontFamily: 'Inter28pt-Medium',
                 }}
                 >
                   {loginCredentials.showMessageError}
@@ -387,7 +390,7 @@ export function NewLoginScreen({
                   color: '#DD3636',
                   marginTop: 3,
                   marginLeft: 4,
-                  fontFamily: 'Inter-Medium',
+                  fontFamily: 'Inter28pt-Medium',
                 }}
                 >
                   {loginCredentials.showMessageError}
@@ -417,12 +420,12 @@ const styles = StyleSheet.create({
   },
   headline: {
     fontSize: scale(20),
-    fontFamily: 'Inter-SemiBold',
+    fontFamily: 'Inter28pt-Bold',
   },
   subHeadline: {
     marginTop: 2,
     fontSize: scale(13),
-    fontFamily: 'Inter-Regular',
+    fontFamily: 'Inter28pt-Regular',
   },
   inputContainer: {
     flex: 1,
@@ -454,18 +457,18 @@ const styles = StyleSheet.create({
     fontSize: scale(12),
     color: '#282828',
     paddingVertical: scale(10),
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Inter28pt-Medium',
   },
   textInputError: {
     flex: 1,
     fontSize: scale(12),
     color: '#DD3636',
     paddingVertical: scale(10),
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Inter28pt-Medium',
   },
   forgotPassword: {
     textAlign: 'right',
-    fontFamily: 'Inter-Bold',
+    fontFamily: 'Inter28pt-Bold',
     fontSize: scale(12),
     marginVertical: 6,
   },
@@ -489,7 +492,7 @@ const styles = StyleSheet.create({
   loginText: {
     fontSize: scale(12),
     color: '#FFF',
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Inter28pt-Medium',
   },
   separatorContainer: {
     flexDirection: 'row',
@@ -505,7 +508,7 @@ const styles = StyleSheet.create({
   orText: {
     marginHorizontal: 24,
     fontSize: scale(13),
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Inter28pt-Medium',
   },
   registerText: {
     marginBottom: 32,
@@ -514,19 +517,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   registerLink: {
-    fontFamily: 'Inter-SemiBold',
+    fontFamily: 'Inter28pt-SemiBold',
     fontSize: scale(12),
   },
   forgotPasswordTitle: {
     fontSize: scale(24),
     color: '#000000',
-    fontFamily: 'Inter-SemiBold',
+    fontFamily: 'Inter28pt-SemiBold',
   },
   forgotPasswordSubtitle: {
     fontSize: scale(13),
     marginTop: 8,
     color: '#7B7B7B',
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Inter28pt-Medium',
     lineHeight: 19.6,
   },
   forgotPasswordButton: {
@@ -548,7 +551,7 @@ const styles = StyleSheet.create({
     fontSize: scale(12),
     color: '#282828',
     paddingVertical: 10,
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Inter28pt-Medium',
   },
   forgotPasswordInputContainerError: {
     marginTop: 24,
@@ -559,6 +562,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     fontSize: scale(12),
     paddingVertical: 10,
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Inter28pt-Medium',
   },
 });

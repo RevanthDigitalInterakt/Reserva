@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     fontSize: 28,
-    fontFamily: 'Inter-SemiBold',
+    fontFamily: 'Inter28pt-SemiBold',
   },
 });

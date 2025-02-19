@@ -177,7 +177,7 @@ export default function NewForgotAccessCode({ navigation, route }: Props) {
           color: '#DD3636',
           marginTop: 3,
           marginLeft: 4,
-          fontFamily: 'Inter-Medium',
+          fontFamily: 'Inter28pt-Medium',
         }}
         >
           Código inválido ou expirado.
@@ -229,12 +229,12 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 32,
     fontSize: scale(28),
-    fontFamily: 'Inter-Bold',
+    fontFamily: 'Inter28pt-Bold',
     paddingBottom: 8,
   },
   subtitle: {
     fontSize: scale(13),
-    fontFamily: 'Inter-Regular',
+    fontFamily: 'Inter28pt-Regular',
     paddingBottom: 32,
   },
   codeContainer: {
@@ -261,17 +261,17 @@ const styles = StyleSheet.create({
     color: '#6C727B',
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: 'Inter-Regular',
+    fontFamily: 'Inter28pt-Regular',
   },
   timerText: {
-    fontFamily: 'Inter-Bold',
+    fontFamily: 'Inter28pt-Bold',
   },
   resendLink: {
     fontSize: scale(12),
     color: '#282828',
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: 'Inter-Bold',
+    fontFamily: 'Inter28pt-Bold',
   },
   button: {
     backgroundColor: '#282828',
@@ -283,6 +283,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FFF',
     fontSize: scale(16),
-    fontFamily: 'Inter-Regular',
+    fontFamily: 'Inter28pt-Regular',
   },
 });
