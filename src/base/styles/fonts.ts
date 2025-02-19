@@ -1,3 +1,6 @@
+import { Platform } from 'react-native';
+import { platformType } from '../../utils/platformType';
+
 export const FONTS = {
   WORK_SANS_BOLD: 'WorkSans-Bold',
   WORK_SANS_BOLD_ITALIC: 'WorkSans-BoldItalic',
@@ -48,4 +51,8 @@ export const FONTS = {
   ARIAL_BOLD: 'Arial-Bold',
   ARIAL_BOLD_ITALIC: 'Arial-Bold-Italic',
   ARIAL_ITALIC: 'Arial-Italic',
+  INTER_BOLD: Platform.OS === platformType.IOS ? 'Inter28pt-Bold' : 'Inter-Bold',
+  INTER_SEMI_BOLD: Platform.OS === platformType.IOS ? 'Inter28pt-SemiBold' : 'Inter-SemiBold',
+  INTER_REGULAR: Platform.OS === platformType.IOS ? 'Inter28pt-Regular' : 'Inter-Regular',
+  INTER_MEDIUM: Platform.OS === platformType.IOS ? 'Inter28pt-Medium' : 'Inter-Medium',
 };

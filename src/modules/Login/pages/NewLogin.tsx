@@ -36,6 +36,7 @@ import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import Sheet from '../../../components/Sheet';
 import IconArrowRight from '../../../components/IconLegacy/Svg/IconArrowrRight';
 import { scale } from '../../../utils/scale';
+import { FONTS } from '../../../base/styles';
 
 type IProps = StackScreenProps<RootStackParamList, 'LoginAlternative'>;
 
@@ -420,12 +421,12 @@ const styles = StyleSheet.create({
   },
   headline: {
     fontSize: scale(20),
-    fontFamily: 'Inter28pt-Bold',
+    fontFamily: FONTS.INTER_SEMI_BOLD,
   },
   subHeadline: {
     marginTop: 2,
     fontSize: scale(13),
-    fontFamily: 'Inter28pt-Regular',
+    fontFamily: FONTS.INTER_REGULAR,
   },
   inputContainer: {
     flex: 1,
@@ -457,18 +458,18 @@ const styles = StyleSheet.create({
     fontSize: scale(12),
     color: '#282828',
     paddingVertical: scale(10),
-    fontFamily: 'Inter28pt-Medium',
+    fontFamily: FONTS.INTER_MEDIUM,
   },
   textInputError: {
     flex: 1,
     fontSize: scale(12),
     color: '#DD3636',
     paddingVertical: scale(10),
-    fontFamily: 'Inter28pt-Medium',
+    fontFamily: FONTS.INTER_MEDIUM,
   },
   forgotPassword: {
     textAlign: 'right',
-    fontFamily: 'Inter28pt-Bold',
+    fontFamily: FONTS.INTER_BOLD,
     fontSize: scale(12),
     marginVertical: 6,
   },
@@ -492,7 +493,7 @@ const styles = StyleSheet.create({
   loginText: {
     fontSize: scale(12),
     color: '#FFF',
-    fontFamily: 'Inter28pt-Medium',
+    fontFamily: FONTS.INTER_MEDIUM,
   },
   separatorContainer: {
     flexDirection: 'row',
@@ -508,7 +509,7 @@ const styles = StyleSheet.create({
   orText: {
     marginHorizontal: 24,
     fontSize: scale(13),
-    fontFamily: 'Inter28pt-Medium',
+    fontFamily: FONTS.INTER_MEDIUM,
   },
   registerText: {
     marginBottom: 32,
@@ -517,19 +518,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   registerLink: {
-    fontFamily: 'Inter28pt-SemiBold',
+    fontFamily: FONTS.INTER_SEMI_BOLD,
     fontSize: scale(12),
   },
   forgotPasswordTitle: {
     fontSize: scale(24),
     color: '#000000',
-    fontFamily: 'Inter28pt-SemiBold',
+    fontFamily: FONTS.INTER_SEMI_BOLD,
   },
   forgotPasswordSubtitle: {
     fontSize: scale(13),
     marginTop: 8,
     color: '#7B7B7B',
-    fontFamily: 'Inter28pt-Medium',
+    fontFamily: FONTS.INTER_MEDIUM,
     lineHeight: 19.6,
   },
   forgotPasswordButton: {
@@ -551,7 +552,7 @@ const styles = StyleSheet.create({
     fontSize: scale(12),
     color: '#282828',
     paddingVertical: 10,
-    fontFamily: 'Inter28pt-Medium',
+    fontFamily: FONTS.INTER_MEDIUM,
   },
   forgotPasswordInputContainerError: {
     marginTop: 24,
@@ -562,6 +563,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     fontSize: scale(12),
     paddingVertical: 10,
-    fontFamily: 'Inter28pt-Medium',
+    fontFamily: FONTS.INTER_MEDIUM,
   },
 });
