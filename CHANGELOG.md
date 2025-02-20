@@ -2,6 +2,12 @@
 
 ## CHANGELOG
 
+### 2.33.0
+
+- [59884 - Ocultar barra de frete na sacola](https://dev.azure.com/ARECO/AReCO/_workitems/edit/59884)
+
+----
+
 ### 2.32.0
 
 - [57389 - Push direcionado só leva usuário para home no iOS 18+](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57389)
