@@ -5,6 +5,7 @@ import {
   Text,
   ToastAndroid,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import OrderProduct from './OrderProduct';
@@ -13,6 +14,7 @@ import { Typography } from '../../../components/Typography/Typography';
 import type { IVtexServiceRequestOrder } from '../../../services/vtexService';
 import { PriceCustom } from '../../../modules/Checkout/components/PriceCustom';
 import IconCopyToClipboard from '../../../../assets/icons/IconCopyToClipboard';
+import { COLORS } from '../../../base/styles';
 
 export type IOrderData = {
   orderId: string;

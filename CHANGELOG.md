@@ -2,6 +2,12 @@
 
 ## CHANGELOG
 
+### 2.33.0
+
+- [57786 - Acompanhar rastreio do pedido pela transportadora](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57786)
+
+----
+
 ### 2.32.0
 
 - [57389 - Push direcionado só leva usuário para home no iOS 18+](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57389)
