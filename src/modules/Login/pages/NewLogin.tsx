@@ -469,7 +469,7 @@ const styles = StyleSheet.create({
   },
   forgotPassword: {
     textAlign: 'right',
-    fontFamily: FONTS.INTER_BOLD,
+    fontFamily: FONTS.INTER_MEDIUM,
     fontSize: scale(12),
     marginVertical: 6,
   },
@@ -512,13 +512,14 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.INTER_MEDIUM,
   },
   registerText: {
+    fontFamily: FONTS.INTER_REGULAR,
     marginBottom: 32,
     fontSize: scale(12),
     color: '#000000',
     textAlign: 'center',
   },
   registerLink: {
-    fontFamily: FONTS.INTER_SEMI_BOLD,
+    fontFamily: FONTS.INTER_MEDIUM,
     fontSize: scale(12),
   },
   forgotPasswordTitle: {
