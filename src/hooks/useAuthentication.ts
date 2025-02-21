@@ -160,7 +160,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
         );
       }
     } catch (e) {
-      ExceptionProvider.captureException(e, 'handleRecoveryPassword - useAuthrentication');
+      ExceptionProvider.captureException(e, 'handleRecoveryPassword - useAuthentication');
     } finally {
       setShowPassword(false);
       setLoadingSignIn(false);
