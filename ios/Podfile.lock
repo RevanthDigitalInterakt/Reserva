@@ -1321,16 +1321,52 @@ PODS:
     - OneSignal/OneSignalOutcomes
   - OneSignal/OneSignalOutcomes (3.12.10):
     - OneSignal/OneSignalCore
-  - OneSignalXCFramework (3.12.6):
-    - OneSignalXCFramework/OneSignalCore (= 3.12.6)
-    - OneSignalXCFramework/OneSignalExtension (= 3.12.6)
-    - OneSignalXCFramework/OneSignalOutcomes (= 3.12.6)
-  - OneSignalXCFramework/OneSignalCore (3.12.6)
-  - OneSignalXCFramework/OneSignalExtension (3.12.6):
+  - OneSignalXCFramework (5.2.8):
+    - OneSignalXCFramework/OneSignalComplete (= 5.2.8)
+  - OneSignalXCFramework/OneSignal (5.2.8):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalExtension
+    - OneSignalXCFramework/OneSignalLiveActivities
+    - OneSignalXCFramework/OneSignalNotifications
+    - OneSignalXCFramework/OneSignalOSCore
+    - OneSignalXCFramework/OneSignalOutcomes
+    - OneSignalXCFramework/OneSignalUser
+  - OneSignalXCFramework/OneSignalComplete (5.2.8):
+    - OneSignalXCFramework/OneSignal
+    - OneSignalXCFramework/OneSignalInAppMessages
+    - OneSignalXCFramework/OneSignalLocation
+  - OneSignalXCFramework/OneSignalCore (5.2.8)
+  - OneSignalXCFramework/OneSignalExtension (5.2.8):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalOutcomes (3.12.6):
+  - OneSignalXCFramework/OneSignalInAppMessages (5.2.8):
     - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalNotifications
+    - OneSignalXCFramework/OneSignalOSCore
+    - OneSignalXCFramework/OneSignalOutcomes
+    - OneSignalXCFramework/OneSignalUser
+  - OneSignalXCFramework/OneSignalLiveActivities (5.2.8):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalOSCore
+    - OneSignalXCFramework/OneSignalUser
+  - OneSignalXCFramework/OneSignalLocation (5.2.8):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalNotifications
+    - OneSignalXCFramework/OneSignalOSCore
+    - OneSignalXCFramework/OneSignalUser
+  - OneSignalXCFramework/OneSignalNotifications (5.2.8):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalExtension
+    - OneSignalXCFramework/OneSignalOutcomes
+  - OneSignalXCFramework/OneSignalOSCore (5.2.8):
+    - OneSignalXCFramework/OneSignalCore
+  - OneSignalXCFramework/OneSignalOutcomes (5.2.8):
+    - OneSignalXCFramework/OneSignalCore
+  - OneSignalXCFramework/OneSignalUser (5.2.8):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalNotifications
+    - OneSignalXCFramework/OneSignalOSCore
+    - OneSignalXCFramework/OneSignalOutcomes
   - OpenTelemetrySwiftApi (1.6.0)
   - Permission-AppTrackingTransparency (3.10.1):
     - RNPermissions
@@ -1665,8 +1701,8 @@ PODS:
     - React-Core
   - react-native-netinfo (9.5.0):
     - React-Core
-  - react-native-onesignal (4.5.2):
-    - OneSignalXCFramework (= 3.12.6)
+  - react-native-onesignal (5.2.7):
+    - OneSignalXCFramework (= 5.2.8)
     - React (< 1.0.0, >= 0.13.0)
   - react-native-safe-area-context (4.14.1):
     - React-Core
@@ -2271,7 +2307,7 @@ SPEC CHECKSUMS:
   lottie-react-native: 17547b2f3c7034e2ae8672833fdb63262164d18a
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   OneSignal: 9ce8e9f235a6e25e7ef399f0853623ceb50f59ad
-  OneSignalXCFramework: ff1c970b7aeb4ac0fe48fb35393eb5d8bf378135
+  OneSignalXCFramework: 4215fb8deb8a669504d39c02dffaf2ec8ebe10ae
   OpenTelemetrySwiftApi: 657da8071c2908caecce11548e006f779924ff9c
   Permission-AppTrackingTransparency: 4cc82857ad23dfff007cf03757e56c5705259d56
   Permission-Camera: 9b70902f34a83c10e198d2d01f0e453e58842776
@@ -2304,7 +2340,7 @@ SPEC CHECKSUMS:
   react-native-get-random-values: dee677497c6a740b71e5612e8dbd83e7539ed5bb
   react-native-image-picker: 3269f75c251cdcd61ab51b911dd30d6fff8c6169
   react-native-netinfo: 48c5f79a84fbc3ba1d28a8b0d04adeda72885fa8
-  react-native-onesignal: ab800900cffeca4d9db70a05244013fc8a36ceb8
+  react-native-onesignal: 439c090f45a362ee8074d8821780a2380f002054
   react-native-safe-area-context: 141eca0fd4e4191288dfc8b96a7c7e1c2983447a
   react-native-tracking-transparency: 25ff1ff866e338c137c818bdec20526bb05ffcc1
   react-native-video: dc3118548cf8864a83f57df4345cf6c692402e8f

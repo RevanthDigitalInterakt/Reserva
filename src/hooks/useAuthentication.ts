@@ -1,5 +1,7 @@
-import { Keyboard } from 'react-native';
-import { useCallback, useState } from 'react';
+import { Alert, Keyboard } from 'react-native';
+import {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import EventProvider from '../utils/EventProvider';
@@ -10,6 +12,10 @@ import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { Method } from '../utils/EventProvider/Event';
 import { identifyCustomer } from '../zustand/useAuth/methods/identifyCustomer';
+import { useTimerStore } from '../zustand/useTimerStore';
+import { useRemoteConfig } from './useRemoteConfig';
+import { useIsTester } from './useIsTester';
+import { useRecoverPasswordVerificationCodeMutation } from '../base/graphql/generated';
 
 const initialLoginCredentials = {
   username: '',
@@ -33,9 +39,32 @@ export function useAuthentication({ closeModal }: IParamsHook) {
   const [isLoadingEmail, setIsLoadingEmail] = useState(false);
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [loginCredentials, setLoginCredentials] = useState(initialLoginCredentials);
-
+  const [showPassword, setShowPassword] = useState(false);
   const { onSignIn, onSignOut, profile } = useAuthStore(['onSignIn', 'onSignOut', 'profile']);
   const { actions } = useBagStore(['actions']);
+  const { cacheUsername, startTimer, timers } = useTimerStore();
+
+  const { getBoolean } = useRemoteConfig();
+  const isTester = useIsTester();
+  const showNewForgotPassword = useMemo(() => getBoolean(isTester ? 'show_new_forgot_password_layout_tester' : 'show_new_forgot_password_layout'), [getBoolean, isTester]);
+
+  const [sendEmailVerification, { error }] = useRecoverPasswordVerificationCodeMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
+
+  const navigateToForgotPassword = useCallback(() => {
+    EventProvider.logEvent('login_forgot_password_click', {});
+    if (showNewForgotPassword) {
+      setShowPassword(true);
+      return;
+    }
+
+    navigation.navigate('ForgotEmail', {});
+  }, [showNewForgotPassword]);
+
+  const cleanInputs = () => {
+    setLoginCredentials(initialLoginCredentials);
+  };
 
   const validateCredentials = () => {
     setLoginCredentials({
@@ -44,9 +73,22 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       showUsernameError: true,
       hasError: true,
       showMessageError:
-          'Verifique os campos acima e digite um e-mail ou senha válidos',
+        'E-mail ou senha incorretos',
     });
   };
+
+  const validateCredentialsForgot = () => {
+    setLoginCredentials({
+      ...loginCredentials,
+      showUsernameError: true,
+      showMessageError:
+        'E-mail incorreto',
+    });
+  };
+
+  useEffect(() => {
+    setLoginCredentials(initialLoginCredentials);
+  }, [showPassword]);
 
   const doSignIn = useCallback(async (email: string, password: string) => {
     try {
@@ -64,12 +106,85 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       navigation?.navigate('Home');
       return profile;
     } catch (err) {
-      ExceptionProvider.captureException(err, "doSignIn - useAuthentication", { email });
+      Alert.alert('Erro', 'Não foi possível realizar o login, tente novamente', [
+        {
+          onPress: () => { },
+          text: 'OK',
+        },
+        {
+          onPress: () => { },
+          text: 'Cancelar',
+        },
+      ]);
+      ExceptionProvider.captureException(err, 'doSignIn - useAuthentication', { email });
       validateCredentials();
     } finally {
       setLoadingSignIn(false);
     }
   }, [navigation, onSignIn, validateCredentials]);
+
+  const handleResendCode = useCallback(async (username: string) => {
+    try {
+      const { data } = await sendEmailVerification({
+        variables: {
+          input: { email: username },
+        },
+      });
+
+      if (data?.recoverPasswordVerificationCode?.cookies) {
+        startTimer(username, data?.recoverPasswordVerificationCode?.cookies);
+      }
+    } catch (e) {
+      ExceptionProvider.captureException(e, 'handleResendCode - useAuthentication');
+      throw new Error(e);
+    }
+  }, []);
+
+  const handleRecoveryPassword = useCallback(async () => {
+    if (!emailIsValid) {
+      validateCredentialsForgot();
+      return;
+    }
+    Keyboard.dismiss();
+
+    cacheUsername(loginCredentials.username, timers[loginCredentials.username]?.cookies || []);
+    if (timers[loginCredentials.username]?.isActive) {
+      setShowPassword(false);
+      navigation.navigate(
+        'NewForgotAccessCode',
+        {
+          username: loginCredentials.username,
+        },
+      );
+      return;
+    }
+
+    setLoadingSignIn(true);
+    try {
+      const { data } = await sendEmailVerification({
+        variables: {
+          input: { email: loginCredentials.username },
+        },
+      });
+
+      if (data?.recoverPasswordVerificationCode?.cookies) {
+        startTimer(loginCredentials.username, data?.recoverPasswordVerificationCode?.cookies);
+        navigation.navigate(
+          'NewForgotAccessCode',
+          {
+            username: loginCredentials.username,
+            cookies: data?.recoverPasswordVerificationCode?.cookies,
+          },
+        );
+      }
+      setShowPassword(false);
+      setLoadingSignIn(false);
+    } catch (e) {
+      setLoadingSignIn(false);
+      Alert.alert('Erro', 'Não foi possível trocar sua senha, tente mais tarde.');
+      ExceptionProvider.captureException(e, 'handleRecoveryPassword - useAuthentication');
+    }
+  }, [emailIsValid, loginCredentials]);
 
   const handleLogin = useCallback(async () => {
     if (emailIsValid && passwordIsValid) {
@@ -95,7 +210,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       useDitoStore.persist.clearStorage();
       await getApolloClient().clearStore();
     } catch (err) {
-      ExceptionProvider.captureException(err, "handleLogout - useAuthentication.ts");
+      ExceptionProvider.captureException(err, 'handleLogout - useAuthentication.ts');
     } finally {
       actions.RESET_ORDER_FORM();
       onSignOut();
@@ -124,5 +239,11 @@ export function useAuthentication({ closeModal }: IParamsHook) {
     loginCredentials,
     setPasswordIsValid,
     setLoginCredentials,
+    cleanInputs,
+    showPassword,
+    setShowPassword,
+    handleRecoveryPassword,
+    handleResendCode,
+    navigateToForgotPassword,
   };
 }

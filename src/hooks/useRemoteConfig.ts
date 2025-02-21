@@ -43,6 +43,10 @@ export interface IRemoteConfigKeys {
   show_new_address_list: boolean;
   show_new_address_list_tester: boolean;
   show_new_login: boolean,
+  show_new_login_layout: boolean,
+  show_new_login_layout_tester: boolean,
+  show_new_forgot_password_layout: boolean,
+  show_new_forgot_password_layout_tester: boolean,
   show_new_login_tester: boolean,
   show_new_home: boolean;
   show_on_smart_hint: boolean;
@@ -120,6 +124,10 @@ export const defaults: IRemoteConfigKeys = {
   show_new_address_list: false,
   show_new_address_list_tester: true,
   show_new_login: false,
+  show_new_login_layout: false,
+  show_new_login_layout_tester: true,
+  show_new_forgot_password_layout: false,
+  show_new_forgot_password_layout_tester: true,
   show_new_login_tester: true,
   show_new_home: false,
   show_on_smart_hint: false,
@@ -178,7 +186,7 @@ export const useRemoteConfig = create<IUseRemoteConfigStore>((set, getState) => 
 
       return set({ initialized: true, instance: remoteConfig });
     } catch (err) {
-      ExceptionProvider.captureException(err, "fetchInitialData - useRemoteConfig.ts");
+      ExceptionProvider.captureException(err, 'fetchInitialData - useRemoteConfig.ts');
 
       return set({ initialized: true, instance: remoteConfig });
     }

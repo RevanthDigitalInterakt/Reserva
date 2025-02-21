@@ -41,6 +41,7 @@ export function LoginScreen({
     loginCredentials,
     setPasswordIsValid,
     setLoginCredentials,
+    navigateToForgotPassword,
   } = useAuthentication({
     closeModal: skipHomePage,
   });
@@ -88,7 +89,7 @@ export function LoginScreen({
         afterLogin(profile);
       }
     } catch (e) {
-      ExceptionProvider.captureException(e, "doLogin - LoginScreen.tsx");
+      ExceptionProvider.captureException(e, 'doLogin - LoginScreen.tsx');
     }
   }, [afterLogin, handleLogin]);
 
@@ -118,7 +119,7 @@ export function LoginScreen({
         verifyUserEmail();
       }
     } catch (error) {
-      ExceptionProvider.captureException(error, "ClientDelivery - Login.tsx", {comeFrom});
+      ExceptionProvider.captureException(error, 'ClientDelivery - Login.tsx', { comeFrom });
     }
   }, [comeFrom, loadingSignIn, verifyUserEmail]);
 
@@ -179,7 +180,7 @@ export function LoginScreen({
                     Yup.string().required().email().isValidSync(text.trim()),
                   );
                 } catch (error) {
-                  ExceptionProvider.captureException(error, "<UnderlineInput> - Login.tsx", { writtenEmail: text });
+                  ExceptionProvider.captureException(error, '<UnderlineInput> - Login.tsx', { writtenEmail: text });
                 }
               }}
             />
@@ -209,10 +210,7 @@ export function LoginScreen({
               />
               <Box mt="micro" mb="quarck">
                 <TouchableOpacity
-                  onPress={() => {
-                    EventProvider.logEvent('login_forgot_password_click', {});
-                    navigation.navigate('ForgotEmail', {});
-                  }}
+                  onPress={navigateToForgotPassword}
                 >
                   <Typography
                     style={{ textDecorationLine: 'underline' }}

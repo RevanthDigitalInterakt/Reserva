@@ -1,6 +1,6 @@
-import { DdRum, DdSdkReactNative, ErrorSource } from '@datadog/mobile-react-native';
-import { navigationRef } from '../../utils/navigationRef';
+import { DdRum, DdSdkReactNative } from '@datadog/mobile-react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
+import { navigationRef } from '../../utils/navigationRef';
 
 export interface IUser {
   id: string;
@@ -20,7 +20,13 @@ export class ExceptionProvider {
   ) {
     if (params) crashlytics().setAttributes(params);
 
-    crashlytics().recordError(error, jsName)
+    if (__DEV__) {
+      console.debug('FIXME  ==> ', jsName);
+      console.debug('BUG    ==> ', error);
+      console.debug('PARAMS ==> ', params);
+    }
+
+    crashlytics().recordError(error, jsName);
   }
 
   static trackScreen() {

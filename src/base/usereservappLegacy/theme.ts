@@ -49,6 +49,7 @@ export const theme = {
     backgroundMenuOpened: tokens.backgroundMenuOpened,
     searchBarTextColor: tokens.searchBarTextColor,
     borderColorProduct: tokens.borderColorProduct,
+    error: tokens.error,
   },
   fonts: {
     nunitoBlack: 'Nunito-Black',

@@ -57,6 +57,7 @@ export { default as IconPin } from './IconPin';
 export { default as IconMessage } from './IconMessage';
 export { default as IconChevronRight } from './IconChevronRight';
 export { default as IconChevronLeft } from './IconChevronLeft';
+export { default as IconChevronLeftSmall } from './IconChevronLeftSmall';
 export { default as IconTrash } from './IconTrash';
 export { default as IconCheck } from './IconCheck';
 export { default as IconCircle } from './IconCircle';

@@ -64,7 +64,7 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Precisamos da sua localização para encontrarmos a loja Reserva mais próxima de você</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string />
+	<string/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Precisamos da sua localização para encontrarmos a loja Reserva mais próxima de você</string>
 	<key>NSMicrophoneUsageDescription</key>
@@ -122,10 +122,14 @@
 		<string>WorkSans-Light.ttf</string>
 		<string>WorkSans-LightItalic.ttf</string>
 		<string>WorkSans-Regular.ttf</string>
-		<string>Arial</string>
-		<string>Arial-Bold-Italic</string>
-		<string>Arial-Bold</string>
-		<string>Arial-Italic</string>
+		<string>Inter-Bold.ttf</string>
+		<string>Inter-Medium.ttf</string>
+		<string>Inter-Regular.ttf</string>
+		<string>Inter-SemiBold.ttf</string>
+		<string>Arial-Bold-Italic.ttf</string>
+		<string>Arial-Bold.ttf</string>
+		<string>Arial-Italic.ttf</string>
+		<string>Arial.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

@@ -8,69 +8,73 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* reservaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* reservaTests.m */; };
-		0344E6286E224F01A7373F11 /* WorkSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 20A3CDB833A044A8B419AFFD /* WorkSans-LightItalic.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1C63B5251F41449E9A899053 /* WorkSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 91F54AC13DCA4852B1DB805B /* WorkSans-Regular.ttf */; };
 		676CF046273C5654008C29FB /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675379EA273B048E00FB2439 /* AdSupport.framework */; };
 		67C2577C276280BD00793131 /* LinkPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67C2577B276280BC00793131 /* LinkPresentation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		67D4756A2735B77D00D1346C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 67D475692735B77D00D1346C /* GoogleService-Info.plist */; };
-		6A92D90292B745528AC191AE /* WorkSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D624B598DD1B4031A7C8FC64 /* WorkSans-BoldItalic.ttf */; };
-		6B0DF9332BB4CFB4007CA0CB /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		6B0DF9342BB4CFB4007CA0CB /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		6B0DF9352BB4CFB4007CA0CB /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		6B0DF9362BB4CFB4007CA0CB /* BuildFile in Resources */ = {isa = PBXBuildFile; };
 		72E586F38B4E8334FD4E7347 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ACE86BAD558798EC9715827 /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		76DA4AE18A5B1E564BEA34AA /* Pods_reserva_reservaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6C544FEA431FB3058FB522 /* Pods_reserva_reservaTests.framework */; };
-		7A83FE4092F54146B63E15F7 /* WorkSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2435FF11651418AA4BC81EA /* WorkSans-Bold.ttf */; };
-		7ABF3AE18BB6423EAEDD19DF /* WorkSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D14FA4B9E674B79B21B9B7A /* WorkSans-Italic.ttf */; };
 		7D47655F29E852B10062E04C /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 80F6B008278F18DC00778D4E /* NotificationService.m */; };
 		80E22B82276A5A0900E246B9 /* BridgingFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E22B81276A5A0900E246B9 /* BridgingFile.swift */; };
 		80F6B009278F18DC00778D4E /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 80F6B008278F18DC00778D4E /* NotificationService.m */; };
 		80F6B00D278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 80F6B005278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9FF07CBA97AAA437E61BDDD8 /* Pods_reserva.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F4BB9A5C72531810DFD3549 /* Pods_reserva.framework */; };
-		CE6827642A8D688B00D8D9DF /* ReservaSerif-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE68273D2A8D688A00D8D9DF /* ReservaSerif-Black.otf */; };
-		CE6827652A8D688B00D8D9DF /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE68273E2A8D688A00D8D9DF /* Nunito-Bold.ttf */; };
-		CE6827662A8D688B00D8D9DF /* ReservaDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE68273F2A8D688A00D8D9DF /* ReservaDisplay-Regular.otf */; };
-		CE6827672A8D688B00D8D9DF /* Nunito-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827402A8D688A00D8D9DF /* Nunito-ExtraLightItalic.ttf */; };
-		CE6827682A8D688B00D8D9DF /* ReservaSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827412A8D688A00D8D9DF /* ReservaSans-Italic.ttf */; };
-		CE6827692A8D688B00D8D9DF /* Nunito-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827422A8D688A00D8D9DF /* Nunito-ExtraBoldItalic.ttf */; };
-		CE68276A2A8D688B00D8D9DF /* ReservaSerif-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827432A8D688A00D8D9DF /* ReservaSerif-Bold.otf */; };
-		CE68276B2A8D688B00D8D9DF /* ReservaSerif-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827442A8D688A00D8D9DF /* ReservaSerif-ThinItalic.otf */; };
-		CE68276C2A8D688B00D8D9DF /* ReservaSans-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827452A8D688A00D8D9DF /* ReservaSans-MediumItalic.ttf */; };
-		CE68276D2A8D688B00D8D9DF /* ReservaSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827462A8D688A00D8D9DF /* ReservaSans-Black.ttf */; };
-		CE68276E2A8D688B00D8D9DF /* ReservaSerif-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827472A8D688A00D8D9DF /* ReservaSerif-BoldItalic.otf */; };
-		CE68276F2A8D688B00D8D9DF /* ReservaSerif-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827482A8D688A00D8D9DF /* ReservaSerif-Italic.otf */; };
-		CE6827702A8D688B00D8D9DF /* ReservaSerif-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827492A8D688A00D8D9DF /* ReservaSerif-Regular.otf */; };
-		CE6827712A8D688B00D8D9DF /* ReservaSans-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE68274A2A8D688A00D8D9DF /* ReservaSans-BlackItalic.ttf */; };
-		CE6827722A8D688B00D8D9DF /* Nunito-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE68274B2A8D688A00D8D9DF /* Nunito-SemiBoldItalic.ttf */; };
-		CE6827732A8D688B00D8D9DF /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE68274C2A8D688A00D8D9DF /* Nunito-Light.ttf */; };
-		CE6827742A8D688B00D8D9DF /* Nunito-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE68274D2A8D688A00D8D9DF /* Nunito-Italic.ttf */; };
-		CE6827752A8D688B00D8D9DF /* ReservaSerif-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE68274E2A8D688A00D8D9DF /* ReservaSerif-BlackItalic.otf */; };
-		CE6827762A8D688B00D8D9DF /* ReservaSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE68274F2A8D688A00D8D9DF /* ReservaSans-Regular.ttf */; };
-		CE6827772A8D688B00D8D9DF /* Nunito-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827502A8D688A00D8D9DF /* Nunito-BoldItalic.ttf */; };
-		CE6827782A8D688B00D8D9DF /* Nunito-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827512A8D688A00D8D9DF /* Nunito-ExtraLight.ttf */; };
-		CE6827792A8D688B00D8D9DF /* ReservaSerif-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827522A8D688A00D8D9DF /* ReservaSerif-Light.otf */; };
-		CE68277A2A8D688B00D8D9DF /* ReservaSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827532A8D688A00D8D9DF /* ReservaSans-Thin.ttf */; };
-		CE68277B2A8D688B00D8D9DF /* ReservaSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827542A8D688A00D8D9DF /* ReservaSans-Light.ttf */; };
-		CE68277C2A8D688B00D8D9DF /* Nunito-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827552A8D688A00D8D9DF /* Nunito-Black.ttf */; };
-		CE68277D2A8D688B00D8D9DF /* ReservaSerif-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827562A8D688A00D8D9DF /* ReservaSerif-MediumItalic.otf */; };
-		CE68277E2A8D688B00D8D9DF /* Nunito-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827572A8D688A00D8D9DF /* Nunito-LightItalic.ttf */; };
-		CE68277F2A8D688B00D8D9DF /* ReservaSerif-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827582A8D688A00D8D9DF /* ReservaSerif-LightItalic.otf */; };
-		CE6827802A8D688B00D8D9DF /* ReservaSerif-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827592A8D688A00D8D9DF /* ReservaSerif-Thin.otf */; };
-		CE6827812A8D688B00D8D9DF /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE68275A2A8D688B00D8D9DF /* Nunito-ExtraBold.ttf */; };
-		CE6827822A8D688B00D8D9DF /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE68275B2A8D688B00D8D9DF /* Nunito-BlackItalic.ttf */; };
-		CE6827832A8D688B00D8D9DF /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE68275C2A8D688B00D8D9DF /* Nunito-SemiBold.ttf */; };
-		CE6827842A8D688B00D8D9DF /* ReservaSerif-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE68275D2A8D688B00D8D9DF /* ReservaSerif-Medium.otf */; };
-		CE6827852A8D688B00D8D9DF /* ReservaSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE68275E2A8D688B00D8D9DF /* ReservaSans-Bold.ttf */; };
-		CE6827862A8D688B00D8D9DF /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE68275F2A8D688B00D8D9DF /* Nunito-Regular.ttf */; };
-		CE6827872A8D688B00D8D9DF /* ReservaSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827602A8D688B00D8D9DF /* ReservaSans-BoldItalic.ttf */; };
-		CE6827882A8D688B00D8D9DF /* ReservaSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827612A8D688B00D8D9DF /* ReservaSans-Medium.ttf */; };
-		CE6827892A8D688B00D8D9DF /* ReservaSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827622A8D688B00D8D9DF /* ReservaSans-LightItalic.ttf */; };
-		CE68278A2A8D688B00D8D9DF /* ReservaSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6827632A8D688B00D8D9DF /* ReservaSans-ThinItalic.ttf */; };
+		CE24CBC32D657244008264C0 /* ReservaSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB8E2D65723C008264C0 /* ReservaSans-Italic.ttf */; };
+		CE24CBC42D657244008264C0 /* ReservaSerif-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB8F2D65723D008264C0 /* ReservaSerif-ThinItalic.otf */; };
+		CE24CBC52D657244008264C0 /* Nunito-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB902D65723D008264C0 /* Nunito-Italic.ttf */; };
+		CE24CBC62D657244008264C0 /* WorkSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB912D65723D008264C0 /* WorkSans-Bold.ttf */; };
+		CE24CBC72D657244008264C0 /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB922D65723D008264C0 /* Nunito-ExtraBold.ttf */; };
+		CE24CBC82D657244008264C0 /* WorkSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB932D65723D008264C0 /* WorkSans-Light.ttf */; };
+		CE24CBC92D657244008264C0 /* ReservaSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB942D65723D008264C0 /* ReservaSans-Light.ttf */; };
+		CE24CBCA2D657244008264C0 /* Arial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB952D65723D008264C0 /* Arial.ttf */; };
+		CE24CBCB2D657244008264C0 /* ReservaSerif-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB962D65723D008264C0 /* ReservaSerif-Italic.otf */; };
+		CE24CBCC2D657244008264C0 /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB972D65723E008264C0 /* Nunito-SemiBold.ttf */; };
+		CE24CBCD2D657244008264C0 /* Nunito-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB982D65723E008264C0 /* Nunito-ExtraBoldItalic.ttf */; };
+		CE24CBCE2D657244008264C0 /* Nunito-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB992D65723E008264C0 /* Nunito-ExtraLight.ttf */; };
+		CE24CBCF2D657244008264C0 /* Arial-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB9A2D65723E008264C0 /* Arial-Italic.ttf */; };
+		CE24CBD02D657244008264C0 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB9B2D65723E008264C0 /* Inter-Regular.ttf */; };
+		CE24CBD12D657244008264C0 /* ReservaSerif-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB9C2D65723E008264C0 /* ReservaSerif-MediumItalic.otf */; };
+		CE24CBD22D657244008264C0 /* ReservaSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB9D2D65723E008264C0 /* ReservaSans-Thin.ttf */; };
+		CE24CBD32D657244008264C0 /* Nunito-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB9E2D65723F008264C0 /* Nunito-SemiBoldItalic.ttf */; };
+		CE24CBD42D657244008264C0 /* Arial-Bold-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CB9F2D65723F008264C0 /* Arial-Bold-Italic.ttf */; };
+		CE24CBD52D657244008264C0 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBA02D65723F008264C0 /* Inter-SemiBold.ttf */; };
+		CE24CBD62D657244008264C0 /* ReservaSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBA12D65723F008264C0 /* ReservaSans-Bold.ttf */; };
+		CE24CBD72D657244008264C0 /* WorkSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBA22D65723F008264C0 /* WorkSans-LightItalic.ttf */; };
+		CE24CBD82D657244008264C0 /* Nunito-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBA32D65723F008264C0 /* Nunito-Black.ttf */; };
+		CE24CBD92D657244008264C0 /* WorkSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBA42D657240008264C0 /* WorkSans-Italic.ttf */; };
+		CE24CBDA2D657244008264C0 /* ReservaSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBA52D657240008264C0 /* ReservaSans-Regular.ttf */; };
+		CE24CBDB2D657244008264C0 /* ReservaSerif-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBA62D657240008264C0 /* ReservaSerif-Bold.otf */; };
+		CE24CBDC2D657244008264C0 /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBA72D657240008264C0 /* Nunito-BlackItalic.ttf */; };
+		CE24CBDD2D657244008264C0 /* ReservaSans-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBA82D657240008264C0 /* ReservaSans-MediumItalic.ttf */; };
+		CE24CBDE2D657244008264C0 /* ReservaSans-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBA92D657240008264C0 /* ReservaSans-BlackItalic.ttf */; };
+		CE24CBDF2D657244008264C0 /* ReservaDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBAA2D657240008264C0 /* ReservaDisplay-Regular.otf */; };
+		CE24CBE02D657244008264C0 /* ReservaSerif-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBAB2D657241008264C0 /* ReservaSerif-BoldItalic.otf */; };
+		CE24CBE12D657244008264C0 /* WorkSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBAC2D657241008264C0 /* WorkSans-Regular.ttf */; };
+		CE24CBE22D657244008264C0 /* Nunito-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBAD2D657241008264C0 /* Nunito-BoldItalic.ttf */; };
+		CE24CBE32D657244008264C0 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBAE2D657241008264C0 /* Inter-Medium.ttf */; };
+		CE24CBE42D657244008264C0 /* ReservaSerif-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBAF2D657241008264C0 /* ReservaSerif-Regular.otf */; };
+		CE24CBE52D657244008264C0 /* ReservaSerif-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBB02D657241008264C0 /* ReservaSerif-Thin.otf */; };
+		CE24CBE62D657244008264C0 /* WorkSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBB12D657241008264C0 /* WorkSans-BoldItalic.ttf */; };
+		CE24CBE72D657244008264C0 /* ReservaSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBB22D657242008264C0 /* ReservaSans-Black.ttf */; };
+		CE24CBE82D657244008264C0 /* Nunito-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBB32D657242008264C0 /* Nunito-LightItalic.ttf */; };
+		CE24CBE92D657244008264C0 /* ReservaSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBB42D657242008264C0 /* ReservaSans-LightItalic.ttf */; };
+		CE24CBEA2D657244008264C0 /* ReservaSerif-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBB52D657242008264C0 /* ReservaSerif-Black.otf */; };
+		CE24CBEB2D657244008264C0 /* Arial-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBB62D657242008264C0 /* Arial-Bold.ttf */; };
+		CE24CBEC2D657244008264C0 /* ReservaSerif-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBB72D657242008264C0 /* ReservaSerif-LightItalic.otf */; };
+		CE24CBED2D657244008264C0 /* ReservaSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBB82D657243008264C0 /* ReservaSans-BoldItalic.ttf */; };
+		CE24CBEE2D657244008264C0 /* ReservaSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBB92D657243008264C0 /* ReservaSans-ThinItalic.ttf */; };
+		CE24CBEF2D657244008264C0 /* ReservaSerif-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBBA2D657243008264C0 /* ReservaSerif-Light.otf */; };
+		CE24CBF02D657244008264C0 /* ReservaSerif-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBBB2D657243008264C0 /* ReservaSerif-BlackItalic.otf */; };
+		CE24CBF12D657244008264C0 /* ReservaSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBBC2D657243008264C0 /* ReservaSans-Medium.ttf */; };
+		CE24CBF22D657244008264C0 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBBD2D657243008264C0 /* Inter-Bold.ttf */; };
+		CE24CBF32D657244008264C0 /* ReservaSerif-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBBE2D657244008264C0 /* ReservaSerif-Medium.otf */; };
+		CE24CBF42D657244008264C0 /* Nunito-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBBF2D657244008264C0 /* Nunito-ExtraLightItalic.ttf */; };
+		CE24CBF52D657244008264C0 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBC02D657244008264C0 /* Nunito-Regular.ttf */; };
+		CE24CBF62D657244008264C0 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBC12D657244008264C0 /* Nunito-Light.ttf */; };
+		CE24CBF72D657244008264C0 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE24CBC22D657244008264C0 /* Nunito-Bold.ttf */; };
 		CEE33D8729C386F600C64B7A /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEE33D8629C386F500C64B7A /* BootSplash.storyboard */; };
-		FF699BA6C1F9470992473824 /* WorkSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 812C1A243A134C279FB147BE /* WorkSans-Light.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,9 +130,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = reserva/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = reserva/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = reserva/main.m; sourceTree = "<group>"; };
-		1D14FA4B9E674B79B21B9B7A /* WorkSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-Italic.ttf"; path = "../assets/fonts/WorkSans-Italic.ttf"; sourceTree = "<group>"; };
 		1F4BB9A5C72531810DFD3549 /* Pods_reserva.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_reserva.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		20A3CDB833A044A8B419AFFD /* WorkSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-LightItalic.ttf"; path = "../assets/fonts/WorkSans-LightItalic.ttf"; sourceTree = "<group>"; };
 		240DC4F4323F76847581D670 /* Pods-reserva.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva.release.xcconfig"; path = "Target Support Files/Pods-reserva/Pods-reserva.release.xcconfig"; sourceTree = "<group>"; };
 		392B3FF42639DFB700C4871A /* reserva-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "reserva-Bridging-Header.h"; sourceTree = "<group>"; };
 		39A334752651655600206E04 /* reserva.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = reserva.entitlements; path = reserva/reserva.entitlements; sourceTree = "<group>"; };
@@ -147,54 +149,64 @@
 		80F6B007278F18DC00778D4E /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
 		80F6B008278F18DC00778D4E /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
 		80F6B00A278F18DC00778D4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		812C1A243A134C279FB147BE /* WorkSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-Light.ttf"; path = "../assets/fonts/WorkSans-Light.ttf"; sourceTree = "<group>"; };
 		8ACE86BAD558798EC9715827 /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		91F54AC13DCA4852B1DB805B /* WorkSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-Regular.ttf"; path = "../assets/fonts/WorkSans-Regular.ttf"; sourceTree = "<group>"; };
 		9C6C544FEA431FB3058FB522 /* Pods_reserva_reservaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_reserva_reservaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0A173188DEFE55E3E60D496 /* Pods-reserva-reservaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva-reservaTests.debug.xcconfig"; path = "Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests.debug.xcconfig"; sourceTree = "<group>"; };
-		B2435FF11651418AA4BC81EA /* WorkSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-Bold.ttf"; path = "../assets/fonts/WorkSans-Bold.ttf"; sourceTree = "<group>"; };
 		CD404686AEA1248CBD146DE2 /* Pods-reserva-reservaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reserva-reservaTests.release.xcconfig"; path = "Target Support Files/Pods-reserva-reservaTests/Pods-reserva-reservaTests.release.xcconfig"; sourceTree = "<group>"; };
-		CE68273D2A8D688A00D8D9DF /* ReservaSerif-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-Black.otf"; path = "../assets/fonts/ReservaSerif-Black.otf"; sourceTree = "<group>"; };
-		CE68273E2A8D688A00D8D9DF /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-Bold.ttf"; path = "../assets/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
-		CE68273F2A8D688A00D8D9DF /* ReservaDisplay-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaDisplay-Regular.otf"; path = "../assets/fonts/ReservaDisplay-Regular.otf"; sourceTree = "<group>"; };
-		CE6827402A8D688A00D8D9DF /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-ExtraLightItalic.ttf"; path = "../assets/fonts/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
-		CE6827412A8D688A00D8D9DF /* ReservaSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-Italic.ttf"; path = "../assets/fonts/ReservaSans-Italic.ttf"; sourceTree = "<group>"; };
-		CE6827422A8D688A00D8D9DF /* Nunito-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-ExtraBoldItalic.ttf"; path = "../assets/fonts/Nunito-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		CE6827432A8D688A00D8D9DF /* ReservaSerif-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-Bold.otf"; path = "../assets/fonts/ReservaSerif-Bold.otf"; sourceTree = "<group>"; };
-		CE6827442A8D688A00D8D9DF /* ReservaSerif-ThinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-ThinItalic.otf"; path = "../assets/fonts/ReservaSerif-ThinItalic.otf"; sourceTree = "<group>"; };
-		CE6827452A8D688A00D8D9DF /* ReservaSans-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-MediumItalic.ttf"; path = "../assets/fonts/ReservaSans-MediumItalic.ttf"; sourceTree = "<group>"; };
-		CE6827462A8D688A00D8D9DF /* ReservaSans-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-Black.ttf"; path = "../assets/fonts/ReservaSans-Black.ttf"; sourceTree = "<group>"; };
-		CE6827472A8D688A00D8D9DF /* ReservaSerif-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-BoldItalic.otf"; path = "../assets/fonts/ReservaSerif-BoldItalic.otf"; sourceTree = "<group>"; };
-		CE6827482A8D688A00D8D9DF /* ReservaSerif-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-Italic.otf"; path = "../assets/fonts/ReservaSerif-Italic.otf"; sourceTree = "<group>"; };
-		CE6827492A8D688A00D8D9DF /* ReservaSerif-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-Regular.otf"; path = "../assets/fonts/ReservaSerif-Regular.otf"; sourceTree = "<group>"; };
-		CE68274A2A8D688A00D8D9DF /* ReservaSans-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-BlackItalic.ttf"; path = "../assets/fonts/ReservaSans-BlackItalic.ttf"; sourceTree = "<group>"; };
-		CE68274B2A8D688A00D8D9DF /* Nunito-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-SemiBoldItalic.ttf"; path = "../assets/fonts/Nunito-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
-		CE68274C2A8D688A00D8D9DF /* Nunito-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-Light.ttf"; path = "../assets/fonts/Nunito-Light.ttf"; sourceTree = "<group>"; };
-		CE68274D2A8D688A00D8D9DF /* Nunito-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-Italic.ttf"; path = "../assets/fonts/Nunito-Italic.ttf"; sourceTree = "<group>"; };
-		CE68274E2A8D688A00D8D9DF /* ReservaSerif-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-BlackItalic.otf"; path = "../assets/fonts/ReservaSerif-BlackItalic.otf"; sourceTree = "<group>"; };
-		CE68274F2A8D688A00D8D9DF /* ReservaSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-Regular.ttf"; path = "../assets/fonts/ReservaSans-Regular.ttf"; sourceTree = "<group>"; };
-		CE6827502A8D688A00D8D9DF /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-BoldItalic.ttf"; path = "../assets/fonts/Nunito-BoldItalic.ttf"; sourceTree = "<group>"; };
-		CE6827512A8D688A00D8D9DF /* Nunito-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-ExtraLight.ttf"; path = "../assets/fonts/Nunito-ExtraLight.ttf"; sourceTree = "<group>"; };
-		CE6827522A8D688A00D8D9DF /* ReservaSerif-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-Light.otf"; path = "../assets/fonts/ReservaSerif-Light.otf"; sourceTree = "<group>"; };
-		CE6827532A8D688A00D8D9DF /* ReservaSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-Thin.ttf"; path = "../assets/fonts/ReservaSans-Thin.ttf"; sourceTree = "<group>"; };
-		CE6827542A8D688A00D8D9DF /* ReservaSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-Light.ttf"; path = "../assets/fonts/ReservaSans-Light.ttf"; sourceTree = "<group>"; };
-		CE6827552A8D688A00D8D9DF /* Nunito-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-Black.ttf"; path = "../assets/fonts/Nunito-Black.ttf"; sourceTree = "<group>"; };
-		CE6827562A8D688A00D8D9DF /* ReservaSerif-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-MediumItalic.otf"; path = "../assets/fonts/ReservaSerif-MediumItalic.otf"; sourceTree = "<group>"; };
-		CE6827572A8D688A00D8D9DF /* Nunito-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-LightItalic.ttf"; path = "../assets/fonts/Nunito-LightItalic.ttf"; sourceTree = "<group>"; };
-		CE6827582A8D688A00D8D9DF /* ReservaSerif-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-LightItalic.otf"; path = "../assets/fonts/ReservaSerif-LightItalic.otf"; sourceTree = "<group>"; };
-		CE6827592A8D688A00D8D9DF /* ReservaSerif-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-Thin.otf"; path = "../assets/fonts/ReservaSerif-Thin.otf"; sourceTree = "<group>"; };
-		CE68275A2A8D688B00D8D9DF /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-ExtraBold.ttf"; path = "../assets/fonts/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
-		CE68275B2A8D688B00D8D9DF /* Nunito-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-BlackItalic.ttf"; path = "../assets/fonts/Nunito-BlackItalic.ttf"; sourceTree = "<group>"; };
-		CE68275C2A8D688B00D8D9DF /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-SemiBold.ttf"; path = "../assets/fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
-		CE68275D2A8D688B00D8D9DF /* ReservaSerif-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-Medium.otf"; path = "../assets/fonts/ReservaSerif-Medium.otf"; sourceTree = "<group>"; };
-		CE68275E2A8D688B00D8D9DF /* ReservaSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-Bold.ttf"; path = "../assets/fonts/ReservaSans-Bold.ttf"; sourceTree = "<group>"; };
-		CE68275F2A8D688B00D8D9DF /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-Regular.ttf"; path = "../assets/fonts/Nunito-Regular.ttf"; sourceTree = "<group>"; };
-		CE6827602A8D688B00D8D9DF /* ReservaSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-BoldItalic.ttf"; path = "../assets/fonts/ReservaSans-BoldItalic.ttf"; sourceTree = "<group>"; };
-		CE6827612A8D688B00D8D9DF /* ReservaSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-Medium.ttf"; path = "../assets/fonts/ReservaSans-Medium.ttf"; sourceTree = "<group>"; };
-		CE6827622A8D688B00D8D9DF /* ReservaSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-LightItalic.ttf"; path = "../assets/fonts/ReservaSans-LightItalic.ttf"; sourceTree = "<group>"; };
-		CE6827632A8D688B00D8D9DF /* ReservaSans-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-ThinItalic.ttf"; path = "../assets/fonts/ReservaSans-ThinItalic.ttf"; sourceTree = "<group>"; };
+		CE24CB8E2D65723C008264C0 /* ReservaSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-Italic.ttf"; path = "../assets/fonts/ReservaSans-Italic.ttf"; sourceTree = "<group>"; };
+		CE24CB8F2D65723D008264C0 /* ReservaSerif-ThinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-ThinItalic.otf"; path = "../assets/fonts/ReservaSerif-ThinItalic.otf"; sourceTree = "<group>"; };
+		CE24CB902D65723D008264C0 /* Nunito-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-Italic.ttf"; path = "../assets/fonts/Nunito-Italic.ttf"; sourceTree = "<group>"; };
+		CE24CB912D65723D008264C0 /* WorkSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-Bold.ttf"; path = "../assets/fonts/WorkSans-Bold.ttf"; sourceTree = "<group>"; };
+		CE24CB922D65723D008264C0 /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-ExtraBold.ttf"; path = "../assets/fonts/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
+		CE24CB932D65723D008264C0 /* WorkSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-Light.ttf"; path = "../assets/fonts/WorkSans-Light.ttf"; sourceTree = "<group>"; };
+		CE24CB942D65723D008264C0 /* ReservaSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-Light.ttf"; path = "../assets/fonts/ReservaSans-Light.ttf"; sourceTree = "<group>"; };
+		CE24CB952D65723D008264C0 /* Arial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Arial.ttf; path = ../assets/fonts/Arial.ttf; sourceTree = "<group>"; };
+		CE24CB962D65723D008264C0 /* ReservaSerif-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-Italic.otf"; path = "../assets/fonts/ReservaSerif-Italic.otf"; sourceTree = "<group>"; };
+		CE24CB972D65723E008264C0 /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-SemiBold.ttf"; path = "../assets/fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
+		CE24CB982D65723E008264C0 /* Nunito-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-ExtraBoldItalic.ttf"; path = "../assets/fonts/Nunito-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		CE24CB992D65723E008264C0 /* Nunito-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-ExtraLight.ttf"; path = "../assets/fonts/Nunito-ExtraLight.ttf"; sourceTree = "<group>"; };
+		CE24CB9A2D65723E008264C0 /* Arial-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Arial-Italic.ttf"; path = "../assets/fonts/Arial-Italic.ttf"; sourceTree = "<group>"; };
+		CE24CB9B2D65723E008264C0 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-Regular.ttf"; path = "../assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
+		CE24CB9C2D65723E008264C0 /* ReservaSerif-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-MediumItalic.otf"; path = "../assets/fonts/ReservaSerif-MediumItalic.otf"; sourceTree = "<group>"; };
+		CE24CB9D2D65723E008264C0 /* ReservaSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-Thin.ttf"; path = "../assets/fonts/ReservaSans-Thin.ttf"; sourceTree = "<group>"; };
+		CE24CB9E2D65723F008264C0 /* Nunito-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-SemiBoldItalic.ttf"; path = "../assets/fonts/Nunito-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		CE24CB9F2D65723F008264C0 /* Arial-Bold-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Arial-Bold-Italic.ttf"; path = "../assets/fonts/Arial-Bold-Italic.ttf"; sourceTree = "<group>"; };
+		CE24CBA02D65723F008264C0 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-SemiBold.ttf"; path = "../assets/fonts/Inter-SemiBold.ttf"; sourceTree = "<group>"; };
+		CE24CBA12D65723F008264C0 /* ReservaSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-Bold.ttf"; path = "../assets/fonts/ReservaSans-Bold.ttf"; sourceTree = "<group>"; };
+		CE24CBA22D65723F008264C0 /* WorkSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-LightItalic.ttf"; path = "../assets/fonts/WorkSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		CE24CBA32D65723F008264C0 /* Nunito-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-Black.ttf"; path = "../assets/fonts/Nunito-Black.ttf"; sourceTree = "<group>"; };
+		CE24CBA42D657240008264C0 /* WorkSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-Italic.ttf"; path = "../assets/fonts/WorkSans-Italic.ttf"; sourceTree = "<group>"; };
+		CE24CBA52D657240008264C0 /* ReservaSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-Regular.ttf"; path = "../assets/fonts/ReservaSans-Regular.ttf"; sourceTree = "<group>"; };
+		CE24CBA62D657240008264C0 /* ReservaSerif-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-Bold.otf"; path = "../assets/fonts/ReservaSerif-Bold.otf"; sourceTree = "<group>"; };
+		CE24CBA72D657240008264C0 /* Nunito-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-BlackItalic.ttf"; path = "../assets/fonts/Nunito-BlackItalic.ttf"; sourceTree = "<group>"; };
+		CE24CBA82D657240008264C0 /* ReservaSans-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-MediumItalic.ttf"; path = "../assets/fonts/ReservaSans-MediumItalic.ttf"; sourceTree = "<group>"; };
+		CE24CBA92D657240008264C0 /* ReservaSans-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-BlackItalic.ttf"; path = "../assets/fonts/ReservaSans-BlackItalic.ttf"; sourceTree = "<group>"; };
+		CE24CBAA2D657240008264C0 /* ReservaDisplay-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaDisplay-Regular.otf"; path = "../assets/fonts/ReservaDisplay-Regular.otf"; sourceTree = "<group>"; };
+		CE24CBAB2D657241008264C0 /* ReservaSerif-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-BoldItalic.otf"; path = "../assets/fonts/ReservaSerif-BoldItalic.otf"; sourceTree = "<group>"; };
+		CE24CBAC2D657241008264C0 /* WorkSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-Regular.ttf"; path = "../assets/fonts/WorkSans-Regular.ttf"; sourceTree = "<group>"; };
+		CE24CBAD2D657241008264C0 /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-BoldItalic.ttf"; path = "../assets/fonts/Nunito-BoldItalic.ttf"; sourceTree = "<group>"; };
+		CE24CBAE2D657241008264C0 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-Medium.ttf"; path = "../assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
+		CE24CBAF2D657241008264C0 /* ReservaSerif-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-Regular.otf"; path = "../assets/fonts/ReservaSerif-Regular.otf"; sourceTree = "<group>"; };
+		CE24CBB02D657241008264C0 /* ReservaSerif-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-Thin.otf"; path = "../assets/fonts/ReservaSerif-Thin.otf"; sourceTree = "<group>"; };
+		CE24CBB12D657241008264C0 /* WorkSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "WorkSans-BoldItalic.ttf"; path = "../assets/fonts/WorkSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		CE24CBB22D657242008264C0 /* ReservaSans-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-Black.ttf"; path = "../assets/fonts/ReservaSans-Black.ttf"; sourceTree = "<group>"; };
+		CE24CBB32D657242008264C0 /* Nunito-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-LightItalic.ttf"; path = "../assets/fonts/Nunito-LightItalic.ttf"; sourceTree = "<group>"; };
+		CE24CBB42D657242008264C0 /* ReservaSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-LightItalic.ttf"; path = "../assets/fonts/ReservaSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		CE24CBB52D657242008264C0 /* ReservaSerif-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-Black.otf"; path = "../assets/fonts/ReservaSerif-Black.otf"; sourceTree = "<group>"; };
+		CE24CBB62D657242008264C0 /* Arial-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Arial-Bold.ttf"; path = "../assets/fonts/Arial-Bold.ttf"; sourceTree = "<group>"; };
+		CE24CBB72D657242008264C0 /* ReservaSerif-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-LightItalic.otf"; path = "../assets/fonts/ReservaSerif-LightItalic.otf"; sourceTree = "<group>"; };
+		CE24CBB82D657243008264C0 /* ReservaSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-BoldItalic.ttf"; path = "../assets/fonts/ReservaSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		CE24CBB92D657243008264C0 /* ReservaSans-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-ThinItalic.ttf"; path = "../assets/fonts/ReservaSans-ThinItalic.ttf"; sourceTree = "<group>"; };
+		CE24CBBA2D657243008264C0 /* ReservaSerif-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-Light.otf"; path = "../assets/fonts/ReservaSerif-Light.otf"; sourceTree = "<group>"; };
+		CE24CBBB2D657243008264C0 /* ReservaSerif-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-BlackItalic.otf"; path = "../assets/fonts/ReservaSerif-BlackItalic.otf"; sourceTree = "<group>"; };
+		CE24CBBC2D657243008264C0 /* ReservaSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSans-Medium.ttf"; path = "../assets/fonts/ReservaSans-Medium.ttf"; sourceTree = "<group>"; };
+		CE24CBBD2D657243008264C0 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-Bold.ttf"; path = "../assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
+		CE24CBBE2D657244008264C0 /* ReservaSerif-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReservaSerif-Medium.otf"; path = "../assets/fonts/ReservaSerif-Medium.otf"; sourceTree = "<group>"; };
+		CE24CBBF2D657244008264C0 /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-ExtraLightItalic.ttf"; path = "../assets/fonts/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		CE24CBC02D657244008264C0 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-Regular.ttf"; path = "../assets/fonts/Nunito-Regular.ttf"; sourceTree = "<group>"; };
+		CE24CBC12D657244008264C0 /* Nunito-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-Light.ttf"; path = "../assets/fonts/Nunito-Light.ttf"; sourceTree = "<group>"; };
+		CE24CBC22D657244008264C0 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-Bold.ttf"; path = "../assets/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		CEE33D8629C386F500C64B7A /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = reserva/BootSplash.storyboard; sourceTree = "<group>"; };
-		D624B598DD1B4031A7C8FC64 /* WorkSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-BoldItalic.ttf"; path = "../assets/fonts/WorkSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -326,45 +338,59 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				CE6827552A8D688A00D8D9DF /* Nunito-Black.ttf */,
-				CE68275B2A8D688B00D8D9DF /* Nunito-BlackItalic.ttf */,
-				CE68273E2A8D688A00D8D9DF /* Nunito-Bold.ttf */,
-				CE6827502A8D688A00D8D9DF /* Nunito-BoldItalic.ttf */,
-				CE68275A2A8D688B00D8D9DF /* Nunito-ExtraBold.ttf */,
-				CE6827422A8D688A00D8D9DF /* Nunito-ExtraBoldItalic.ttf */,
-				CE6827512A8D688A00D8D9DF /* Nunito-ExtraLight.ttf */,
-				CE6827402A8D688A00D8D9DF /* Nunito-ExtraLightItalic.ttf */,
-				CE68274D2A8D688A00D8D9DF /* Nunito-Italic.ttf */,
-				CE68274C2A8D688A00D8D9DF /* Nunito-Light.ttf */,
-				CE6827572A8D688A00D8D9DF /* Nunito-LightItalic.ttf */,
-				CE68275F2A8D688B00D8D9DF /* Nunito-Regular.ttf */,
-				CE68275C2A8D688B00D8D9DF /* Nunito-SemiBold.ttf */,
-				CE68274B2A8D688A00D8D9DF /* Nunito-SemiBoldItalic.ttf */,
-				CE68273F2A8D688A00D8D9DF /* ReservaDisplay-Regular.otf */,
-				CE6827462A8D688A00D8D9DF /* ReservaSans-Black.ttf */,
-				CE68274A2A8D688A00D8D9DF /* ReservaSans-BlackItalic.ttf */,
-				CE68275E2A8D688B00D8D9DF /* ReservaSans-Bold.ttf */,
-				CE6827602A8D688B00D8D9DF /* ReservaSans-BoldItalic.ttf */,
-				CE6827412A8D688A00D8D9DF /* ReservaSans-Italic.ttf */,
-				CE6827542A8D688A00D8D9DF /* ReservaSans-Light.ttf */,
-				CE6827622A8D688B00D8D9DF /* ReservaSans-LightItalic.ttf */,
-				CE6827612A8D688B00D8D9DF /* ReservaSans-Medium.ttf */,
-				CE6827452A8D688A00D8D9DF /* ReservaSans-MediumItalic.ttf */,
-				CE68274F2A8D688A00D8D9DF /* ReservaSans-Regular.ttf */,
-				CE6827532A8D688A00D8D9DF /* ReservaSans-Thin.ttf */,
-				CE6827632A8D688B00D8D9DF /* ReservaSans-ThinItalic.ttf */,
-				CE68273D2A8D688A00D8D9DF /* ReservaSerif-Black.otf */,
-				CE68274E2A8D688A00D8D9DF /* ReservaSerif-BlackItalic.otf */,
-				CE6827432A8D688A00D8D9DF /* ReservaSerif-Bold.otf */,
-				CE6827472A8D688A00D8D9DF /* ReservaSerif-BoldItalic.otf */,
-				CE6827482A8D688A00D8D9DF /* ReservaSerif-Italic.otf */,
-				CE6827522A8D688A00D8D9DF /* ReservaSerif-Light.otf */,
-				CE6827582A8D688A00D8D9DF /* ReservaSerif-LightItalic.otf */,
-				CE68275D2A8D688B00D8D9DF /* ReservaSerif-Medium.otf */,
-				CE6827562A8D688A00D8D9DF /* ReservaSerif-MediumItalic.otf */,
-				CE6827492A8D688A00D8D9DF /* ReservaSerif-Regular.otf */,
-				CE6827592A8D688A00D8D9DF /* ReservaSerif-Thin.otf */,
-				CE6827442A8D688A00D8D9DF /* ReservaSerif-ThinItalic.otf */,
+				CE24CB952D65723D008264C0 /* Arial.ttf */,
+				CE24CBB62D657242008264C0 /* Arial-Bold.ttf */,
+				CE24CB9F2D65723F008264C0 /* Arial-Bold-Italic.ttf */,
+				CE24CB9A2D65723E008264C0 /* Arial-Italic.ttf */,
+				CE24CBBD2D657243008264C0 /* Inter-Bold.ttf */,
+				CE24CBAE2D657241008264C0 /* Inter-Medium.ttf */,
+				CE24CB9B2D65723E008264C0 /* Inter-Regular.ttf */,
+				CE24CBA02D65723F008264C0 /* Inter-SemiBold.ttf */,
+				CE24CBA32D65723F008264C0 /* Nunito-Black.ttf */,
+				CE24CBA72D657240008264C0 /* Nunito-BlackItalic.ttf */,
+				CE24CBC22D657244008264C0 /* Nunito-Bold.ttf */,
+				CE24CBAD2D657241008264C0 /* Nunito-BoldItalic.ttf */,
+				CE24CB922D65723D008264C0 /* Nunito-ExtraBold.ttf */,
+				CE24CB982D65723E008264C0 /* Nunito-ExtraBoldItalic.ttf */,
+				CE24CB992D65723E008264C0 /* Nunito-ExtraLight.ttf */,
+				CE24CBBF2D657244008264C0 /* Nunito-ExtraLightItalic.ttf */,
+				CE24CB902D65723D008264C0 /* Nunito-Italic.ttf */,
+				CE24CBC12D657244008264C0 /* Nunito-Light.ttf */,
+				CE24CBB32D657242008264C0 /* Nunito-LightItalic.ttf */,
+				CE24CBC02D657244008264C0 /* Nunito-Regular.ttf */,
+				CE24CB972D65723E008264C0 /* Nunito-SemiBold.ttf */,
+				CE24CB9E2D65723F008264C0 /* Nunito-SemiBoldItalic.ttf */,
+				CE24CBAA2D657240008264C0 /* ReservaDisplay-Regular.otf */,
+				CE24CBB22D657242008264C0 /* ReservaSans-Black.ttf */,
+				CE24CBA92D657240008264C0 /* ReservaSans-BlackItalic.ttf */,
+				CE24CBA12D65723F008264C0 /* ReservaSans-Bold.ttf */,
+				CE24CBB82D657243008264C0 /* ReservaSans-BoldItalic.ttf */,
+				CE24CB8E2D65723C008264C0 /* ReservaSans-Italic.ttf */,
+				CE24CB942D65723D008264C0 /* ReservaSans-Light.ttf */,
+				CE24CBB42D657242008264C0 /* ReservaSans-LightItalic.ttf */,
+				CE24CBBC2D657243008264C0 /* ReservaSans-Medium.ttf */,
+				CE24CBA82D657240008264C0 /* ReservaSans-MediumItalic.ttf */,
+				CE24CBA52D657240008264C0 /* ReservaSans-Regular.ttf */,
+				CE24CB9D2D65723E008264C0 /* ReservaSans-Thin.ttf */,
+				CE24CBB92D657243008264C0 /* ReservaSans-ThinItalic.ttf */,
+				CE24CBB52D657242008264C0 /* ReservaSerif-Black.otf */,
+				CE24CBBB2D657243008264C0 /* ReservaSerif-BlackItalic.otf */,
+				CE24CBA62D657240008264C0 /* ReservaSerif-Bold.otf */,
+				CE24CBAB2D657241008264C0 /* ReservaSerif-BoldItalic.otf */,
+				CE24CB962D65723D008264C0 /* ReservaSerif-Italic.otf */,
+				CE24CBBA2D657243008264C0 /* ReservaSerif-Light.otf */,
+				CE24CBB72D657242008264C0 /* ReservaSerif-LightItalic.otf */,
+				CE24CBBE2D657244008264C0 /* ReservaSerif-Medium.otf */,
+				CE24CB9C2D65723E008264C0 /* ReservaSerif-MediumItalic.otf */,
+				CE24CBAF2D657241008264C0 /* ReservaSerif-Regular.otf */,
+				CE24CBB02D657241008264C0 /* ReservaSerif-Thin.otf */,
+				CE24CB8F2D65723D008264C0 /* ReservaSerif-ThinItalic.otf */,
+				CE24CB912D65723D008264C0 /* WorkSans-Bold.ttf */,
+				CE24CBB12D657241008264C0 /* WorkSans-BoldItalic.ttf */,
+				CE24CBA42D657240008264C0 /* WorkSans-Italic.ttf */,
+				CE24CB932D65723D008264C0 /* WorkSans-Light.ttf */,
+				CE24CBA22D65723F008264C0 /* WorkSans-LightItalic.ttf */,
+				CE24CBAC2D657241008264C0 /* WorkSans-Regular.ttf */,
 				80E22B81276A5A0900E246B9 /* BridgingFile.swift */,
 				67D475692735B77D00D1346C /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* reserva */,
@@ -376,7 +402,6 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				70A1DDA707B9D4A2A392C23C /* Pods */,
-				8FC2122B3C194F47BC14364F /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -391,19 +416,6 @@
 				80F6B005278F18DC00778D4E /* OneSignalNotificationServiceExtension.appex */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		8FC2122B3C194F47BC14364F /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				B2435FF11651418AA4BC81EA /* WorkSans-Bold.ttf */,
-				D624B598DD1B4031A7C8FC64 /* WorkSans-BoldItalic.ttf */,
-				1D14FA4B9E674B79B21B9B7A /* WorkSans-Italic.ttf */,
-				812C1A243A134C279FB147BE /* WorkSans-Light.ttf */,
-				20A3CDB833A044A8B419AFFD /* WorkSans-LightItalic.ttf */,
-				91F54AC13DCA4852B1DB805B /* WorkSans-Regular.ttf */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -529,58 +541,62 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE6827642A8D688B00D8D9DF /* ReservaSerif-Black.otf in Resources */,
-				CE6827652A8D688B00D8D9DF /* Nunito-Bold.ttf in Resources */,
-				6B0DF9342BB4CFB4007CA0CB /* BuildFile in Resources */,
-				CE6827662A8D688B00D8D9DF /* ReservaDisplay-Regular.otf in Resources */,
-				CE6827672A8D688B00D8D9DF /* Nunito-ExtraLightItalic.ttf in Resources */,
-				CE6827682A8D688B00D8D9DF /* ReservaSans-Italic.ttf in Resources */,
-				CE6827692A8D688B00D8D9DF /* Nunito-ExtraBoldItalic.ttf in Resources */,
-				CE68276A2A8D688B00D8D9DF /* ReservaSerif-Bold.otf in Resources */,
-				CE68276B2A8D688B00D8D9DF /* ReservaSerif-ThinItalic.otf in Resources */,
-				CE68276C2A8D688B00D8D9DF /* ReservaSans-MediumItalic.ttf in Resources */,
-				CE68276D2A8D688B00D8D9DF /* ReservaSans-Black.ttf in Resources */,
-				CE68276E2A8D688B00D8D9DF /* ReservaSerif-BoldItalic.otf in Resources */,
-				CE68276F2A8D688B00D8D9DF /* ReservaSerif-Italic.otf in Resources */,
-				CE6827702A8D688B00D8D9DF /* ReservaSerif-Regular.otf in Resources */,
-				CE6827712A8D688B00D8D9DF /* ReservaSans-BlackItalic.ttf in Resources */,
-				CE6827722A8D688B00D8D9DF /* Nunito-SemiBoldItalic.ttf in Resources */,
-				CE6827732A8D688B00D8D9DF /* Nunito-Light.ttf in Resources */,
-				CE6827742A8D688B00D8D9DF /* Nunito-Italic.ttf in Resources */,
-				CE6827752A8D688B00D8D9DF /* ReservaSerif-BlackItalic.otf in Resources */,
-				CE6827762A8D688B00D8D9DF /* ReservaSans-Regular.ttf in Resources */,
-				CE6827772A8D688B00D8D9DF /* Nunito-BoldItalic.ttf in Resources */,
-				CE6827782A8D688B00D8D9DF /* Nunito-ExtraLight.ttf in Resources */,
-				CE6827792A8D688B00D8D9DF /* ReservaSerif-Light.otf in Resources */,
-				CE68277A2A8D688B00D8D9DF /* ReservaSans-Thin.ttf in Resources */,
-				6B0DF9332BB4CFB4007CA0CB /* BuildFile in Resources */,
-				CE68277B2A8D688B00D8D9DF /* ReservaSans-Light.ttf in Resources */,
-				CE68277C2A8D688B00D8D9DF /* Nunito-Black.ttf in Resources */,
-				CE68277D2A8D688B00D8D9DF /* ReservaSerif-MediumItalic.otf in Resources */,
-				CE68277E2A8D688B00D8D9DF /* Nunito-LightItalic.ttf in Resources */,
-				CE68277F2A8D688B00D8D9DF /* ReservaSerif-LightItalic.otf in Resources */,
-				CE6827802A8D688B00D8D9DF /* ReservaSerif-Thin.otf in Resources */,
-				CE6827812A8D688B00D8D9DF /* Nunito-ExtraBold.ttf in Resources */,
-				CE6827822A8D688B00D8D9DF /* Nunito-BlackItalic.ttf in Resources */,
-				CE6827832A8D688B00D8D9DF /* Nunito-SemiBold.ttf in Resources */,
-				CE6827842A8D688B00D8D9DF /* ReservaSerif-Medium.otf in Resources */,
-				CE6827852A8D688B00D8D9DF /* ReservaSans-Bold.ttf in Resources */,
-				CE6827862A8D688B00D8D9DF /* Nunito-Regular.ttf in Resources */,
-				6B0DF9362BB4CFB4007CA0CB /* BuildFile in Resources */,
-				CE6827872A8D688B00D8D9DF /* ReservaSans-BoldItalic.ttf in Resources */,
-				CE6827882A8D688B00D8D9DF /* ReservaSans-Medium.ttf in Resources */,
-				CE6827892A8D688B00D8D9DF /* ReservaSans-LightItalic.ttf in Resources */,
-				CE68278A2A8D688B00D8D9DF /* ReservaSans-ThinItalic.ttf in Resources */,
+				CE24CBC32D657244008264C0 /* ReservaSans-Italic.ttf in Resources */,
+				CE24CBC42D657244008264C0 /* ReservaSerif-ThinItalic.otf in Resources */,
+				CE24CBC52D657244008264C0 /* Nunito-Italic.ttf in Resources */,
+				CE24CBC62D657244008264C0 /* WorkSans-Bold.ttf in Resources */,
+				CE24CBC72D657244008264C0 /* Nunito-ExtraBold.ttf in Resources */,
+				CE24CBC82D657244008264C0 /* WorkSans-Light.ttf in Resources */,
+				CE24CBC92D657244008264C0 /* ReservaSans-Light.ttf in Resources */,
+				CE24CBCA2D657244008264C0 /* Arial.ttf in Resources */,
+				CE24CBCB2D657244008264C0 /* ReservaSerif-Italic.otf in Resources */,
+				CE24CBCC2D657244008264C0 /* Nunito-SemiBold.ttf in Resources */,
+				CE24CBCD2D657244008264C0 /* Nunito-ExtraBoldItalic.ttf in Resources */,
+				CE24CBCE2D657244008264C0 /* Nunito-ExtraLight.ttf in Resources */,
+				CE24CBCF2D657244008264C0 /* Arial-Italic.ttf in Resources */,
+				CE24CBD02D657244008264C0 /* Inter-Regular.ttf in Resources */,
+				CE24CBD12D657244008264C0 /* ReservaSerif-MediumItalic.otf in Resources */,
+				CE24CBD22D657244008264C0 /* ReservaSans-Thin.ttf in Resources */,
+				CE24CBD32D657244008264C0 /* Nunito-SemiBoldItalic.ttf in Resources */,
+				CE24CBD42D657244008264C0 /* Arial-Bold-Italic.ttf in Resources */,
+				CE24CBD52D657244008264C0 /* Inter-SemiBold.ttf in Resources */,
+				CE24CBD62D657244008264C0 /* ReservaSans-Bold.ttf in Resources */,
+				CE24CBD72D657244008264C0 /* WorkSans-LightItalic.ttf in Resources */,
+				CE24CBD82D657244008264C0 /* Nunito-Black.ttf in Resources */,
+				CE24CBD92D657244008264C0 /* WorkSans-Italic.ttf in Resources */,
+				CE24CBDA2D657244008264C0 /* ReservaSans-Regular.ttf in Resources */,
+				CE24CBDB2D657244008264C0 /* ReservaSerif-Bold.otf in Resources */,
+				CE24CBDC2D657244008264C0 /* Nunito-BlackItalic.ttf in Resources */,
+				CE24CBDD2D657244008264C0 /* ReservaSans-MediumItalic.ttf in Resources */,
+				CE24CBDE2D657244008264C0 /* ReservaSans-BlackItalic.ttf in Resources */,
+				CE24CBDF2D657244008264C0 /* ReservaDisplay-Regular.otf in Resources */,
+				CE24CBE02D657244008264C0 /* ReservaSerif-BoldItalic.otf in Resources */,
+				CE24CBE12D657244008264C0 /* WorkSans-Regular.ttf in Resources */,
+				CE24CBE22D657244008264C0 /* Nunito-BoldItalic.ttf in Resources */,
+				CE24CBE32D657244008264C0 /* Inter-Medium.ttf in Resources */,
+				CE24CBE42D657244008264C0 /* ReservaSerif-Regular.otf in Resources */,
+				CE24CBE52D657244008264C0 /* ReservaSerif-Thin.otf in Resources */,
+				CE24CBE62D657244008264C0 /* WorkSans-BoldItalic.ttf in Resources */,
+				CE24CBE72D657244008264C0 /* ReservaSans-Black.ttf in Resources */,
+				CE24CBE82D657244008264C0 /* Nunito-LightItalic.ttf in Resources */,
+				CE24CBE92D657244008264C0 /* ReservaSans-LightItalic.ttf in Resources */,
+				CE24CBEA2D657244008264C0 /* ReservaSerif-Black.otf in Resources */,
+				CE24CBEB2D657244008264C0 /* Arial-Bold.ttf in Resources */,
+				CE24CBEC2D657244008264C0 /* ReservaSerif-LightItalic.otf in Resources */,
+				CE24CBED2D657244008264C0 /* ReservaSans-BoldItalic.ttf in Resources */,
+				CE24CBEE2D657244008264C0 /* ReservaSans-ThinItalic.ttf in Resources */,
+				CE24CBEF2D657244008264C0 /* ReservaSerif-Light.otf in Resources */,
+				CE24CBF02D657244008264C0 /* ReservaSerif-BlackItalic.otf in Resources */,
+				CE24CBF12D657244008264C0 /* ReservaSans-Medium.ttf in Resources */,
+				CE24CBF22D657244008264C0 /* Inter-Bold.ttf in Resources */,
+				CE24CBF32D657244008264C0 /* ReservaSerif-Medium.otf in Resources */,
+				CE24CBF42D657244008264C0 /* Nunito-ExtraLightItalic.ttf in Resources */,
+				CE24CBF52D657244008264C0 /* Nunito-Regular.ttf in Resources */,
+				CE24CBF62D657244008264C0 /* Nunito-Light.ttf in Resources */,
+				CE24CBF72D657244008264C0 /* Nunito-Bold.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				CEE33D8729C386F600C64B7A /* BootSplash.storyboard in Resources */,
 				67D4756A2735B77D00D1346C /* GoogleService-Info.plist in Resources */,
-				7A83FE4092F54146B63E15F7 /* WorkSans-Bold.ttf in Resources */,
-				6A92D90292B745528AC191AE /* WorkSans-BoldItalic.ttf in Resources */,
-				7ABF3AE18BB6423EAEDD19DF /* WorkSans-Italic.ttf in Resources */,
-				FF699BA6C1F9470992473824 /* WorkSans-Light.ttf in Resources */,
-				0344E6286E224F01A7373F11 /* WorkSans-LightItalic.ttf in Resources */,
-				1C63B5251F41449E9A899053 /* WorkSans-Regular.ttf in Resources */,
-				6B0DF9352BB4CFB4007CA0CB /* BuildFile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
