@@ -295,7 +295,7 @@ export function NewLoginScreen({
               {(loginCredentials.showPasswordError && loginCredentials.showUsernameError)
               && (
                 <Text style={{
-                  color: '#DD3636', marginTop: -3, marginLeft: 4, fontFamily: 'Inter28pt-Medium',
+                  color: '#DD3636', marginTop: -3, marginLeft: 4, fontFamily: FONTS.INTER_MEDIUM,
                 }}
                 >
                   {loginCredentials.showMessageError}
@@ -351,7 +351,7 @@ export function NewLoginScreen({
       </SafeAreaView>
 
       <Sheet variant="middle" visible={showPassword} onClose={() => setShowPassword(false)}>
-        <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps="handled">
+        <ScrollView style={{ flex: 1, marginBottom: 16 }} keyboardShouldPersistTaps="handled">
           <Text style={styles.forgotPasswordTitle}>Alterar sua senha</Text>
           <Text style={styles.forgotPasswordSubtitle}>
             Para alterar a senha, digite seu e-mail abaixo
@@ -362,6 +362,7 @@ export function NewLoginScreen({
               ? styles.forgotPasswordInputContainerError
               : styles.forgotPasswordInputContainer}
             placeholder="email@email.com"
+            placeholderTextColor={loginCredentials.showUsernameError ? '#DD3636' : '#A8A8A8'}
             autoCapitalize="none"
             onChangeText={(text) => {
               try {
@@ -387,13 +388,7 @@ export function NewLoginScreen({
 
           {(loginCredentials.showUsernameError)
               && (
-                <Text style={{
-                  color: '#DD3636',
-                  marginTop: 3,
-                  marginLeft: 4,
-                  fontFamily: 'Inter28pt-Medium',
-                }}
-                >
+                <Text style={styles.usernameError}>
                   {loginCredentials.showMessageError}
                 </Text>
               )}
@@ -467,6 +462,12 @@ const styles = StyleSheet.create({
     paddingVertical: scale(10),
     fontFamily: FONTS.INTER_MEDIUM,
   },
+  usernameError: {
+    color: '#DD3636',
+    marginTop: 3,
+    marginLeft: 4,
+    fontFamily: FONTS.INTER_MEDIUM,
+  },
   forgotPassword: {
     textAlign: 'right',
     fontFamily: FONTS.INTER_MEDIUM,
@@ -523,7 +524,7 @@ const styles = StyleSheet.create({
     fontSize: scale(12),
   },
   forgotPasswordTitle: {
-    fontSize: scale(24),
+    fontSize: scale(20),
     color: '#000000',
     fontFamily: FONTS.INTER_SEMI_BOLD,
   },

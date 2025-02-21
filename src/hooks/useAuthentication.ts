@@ -123,6 +123,23 @@ export function useAuthentication({ closeModal }: IParamsHook) {
     }
   }, [navigation, onSignIn, validateCredentials]);
 
+  const handleResendCode = useCallback(async (username: string) => {
+    try {
+      const { data } = await sendEmailVerification({
+        variables: {
+          input: { email: username },
+        },
+      });
+
+      if (data?.recoverPasswordVerificationCode?.cookies) {
+        startTimer(username, data?.recoverPasswordVerificationCode?.cookies);
+      }
+    } catch (e) {
+      ExceptionProvider.captureException(e, 'handleResendCode - useAuthentication');
+      throw new Error(e);
+    }
+  }, []);
+
   const handleRecoveryPassword = useCallback(async () => {
     if (!emailIsValid) {
       validateCredentialsForgot();
@@ -132,6 +149,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
 
     cacheUsername(loginCredentials.username, timers[loginCredentials.username]?.cookies || []);
     if (timers[loginCredentials.username]?.isActive) {
+      setShowPassword(false);
       navigation.navigate(
         'NewForgotAccessCode',
         {
@@ -159,11 +177,12 @@ export function useAuthentication({ closeModal }: IParamsHook) {
           },
         );
       }
-    } catch (e) {
-      ExceptionProvider.captureException(e, 'handleRecoveryPassword - useAuthentication');
-    } finally {
       setShowPassword(false);
       setLoadingSignIn(false);
+    } catch (e) {
+      setLoadingSignIn(false);
+      Alert.alert('Erro', 'Não foi possível trocar sua senha, tente mais tarde.');
+      ExceptionProvider.captureException(e, 'handleRecoveryPassword - useAuthentication');
     }
   }, [emailIsValid, loginCredentials]);
 
@@ -224,6 +243,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
     showPassword,
     setShowPassword,
     handleRecoveryPassword,
+    handleResendCode,
     navigateToForgotPassword,
   };
 }

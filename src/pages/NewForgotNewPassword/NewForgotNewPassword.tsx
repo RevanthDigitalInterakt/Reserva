@@ -1,23 +1,25 @@
-/* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
-  Text, TextInput,
+  Text,
+  TextInput,
   View,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import EyeClose from '../../base/svgs/EyeClose';
 import EyeOpen from '../../base/svgs/EyeOpen';
 import { IconLegacy } from '../../components/IconLegacy/IconLegacy';
-import { IconChevronLeft } from '../../components/IconLegacy/Svg';
+import { IconChevronLeftSmall } from '../../components/IconLegacy/Svg';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { useRecoverPasswordResetMutation } from '../../base/graphql/generated';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
+import { FONTS } from '../../base/styles';
+import { scale } from '../../utils/scale';
 
 type Props = StackScreenProps<RootStackParamList, 'NewForgotNewPassword'>;
 
@@ -32,17 +34,19 @@ export default function NewForgotNewPassword({ navigation, route }: Props) {
     confirm: '',
   });
 
-  const passwordsChecker = useMemo(() => ({
-    equal: passwords.first === passwords.confirm,
-    digitsCount: passwords.first.length >= 8 && passwords.confirm.length >= 8,
-    uppercase: passwords.first.match(/[a-z]/g) !== null && passwords.confirm.match(/[a-z]/g) != null,
-    lowercase: passwords.first.match(/[A-Z]/g) !== null && passwords.confirm.match(/[A-Z]/g) != null,
-    number: passwords.first.match(/[0-9]/g) !== null && passwords.first.match(/[0-9]/g) !== null,
-  }), [passwords.first, passwords.confirm]);
-
-  const [recoveryPasswordReset, { data, loading, error }] = useRecoverPasswordResetMutation({
+  const [submitted, setSubmitted] = useState(false);
+  const [recoveryPasswordReset, { loading }] = useRecoverPasswordResetMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
+
+  const passwordsChecker = useMemo(() => ({
+    equal: (passwords.first.length > 0 && passwords.confirm.length > 0)
+      && (passwords.first === passwords.confirm),
+    digitsCount: passwords.first.length >= 8 && passwords.confirm.length >= 8,
+    uppercase: passwords.first.match(/[a-z]/g) !== null && passwords.confirm.match(/[a-z]/g) !== null,
+    lowercase: passwords.first.match(/[A-Z]/g) !== null && passwords.confirm.match(/[A-Z]/g) !== null,
+    number: passwords.first.match(/[0-9]/g) !== null && passwords.confirm.match(/[0-9]/g) !== null,
+  }), [passwords.first, passwords.confirm]);
 
   const togglePasswordHidden = () => {
     setPasswordHidden(!passwordHidden);
@@ -58,9 +62,15 @@ export default function NewForgotNewPassword({ navigation, route }: Props) {
     [passwordsChecker.equal, passwords],
   );
 
-  const isError = !!(!isValidPassword && !isEqualPassword && passwords.confirm);
+  const isError = submitted && (!isValidPassword || !isEqualPassword);
 
   const handleUpdatePassword = useCallback(async () => {
+    if (!isValidPassword || !isEqualPassword) {
+      setSubmitted(true);
+      Alert.alert('Erro', 'Não foi possível trocar sua senha, tente novamente');
+      return;
+    }
+
     try {
       const variables = {
         input: {
@@ -75,88 +85,102 @@ export default function NewForgotNewPassword({ navigation, route }: Props) {
         variables,
       });
 
-      if (!recoveryPasswordData) { return null; } // TODO fail
+      if (!recoveryPasswordData) {
+        Alert.alert('Erro', 'código invalido, tente mais tarde');
+        return;
+      }
 
       if (recoveryPasswordData?.recoverPasswordReset?.token) {
         navigation.replace('NewForgotSuccess');
       }
     } catch (err) {
-      // TODO set Error
+      Alert.alert('Erro', 'código invalido, tente mais tarde');
       ExceptionProvider.captureException(err, 'handleUpdatePassword - NewForgotNewPassword.tsx', { email });
     }
-  }, [code, cookies, email, passwords.confirm]);
+  }, [code, cookies, email, passwords.confirm,
+    isValidPassword, isEqualPassword, recoveryPasswordReset, navigation]);
+
+  const handleChangeFirstPassword = (text: string) => {
+    if (submitted) setSubmitted(false);
+    setPasswords((prev) => ({ ...prev, first: text }));
+  };
+
+  const handleChangeConfirmPassword = (text: string) => {
+    if (submitted) setSubmitted(false);
+    setPasswords((prev) => ({ ...prev, confirm: text }));
+  };
 
   return (
-    <>
-      <SafeAreaView style={styles.container}>
-        <TouchableOpacity onPress={() => { navigation.goBack(); }}>
-          <IconChevronLeft color="#999" />
-        </TouchableOpacity>
-        <ScrollView style={{ flex: 1 }}>
-          <Text style={styles.forgotPasswordTitle}>Atualize sua senha</Text>
-          <Text style={styles.forgotPasswordSubtitle}>
-            Insira o código recebido por e-mail abaixo:
-          </Text>
-
-          <View style={isError ? styles.inputContainerError : styles.inputContainer}>
-            <TextInput
-              style={[styles.forgotPasswordInputContainer, isError ? { color: '#DD3636' } : {}]}
-              placeholder="Digite sua nova senha"
-              autoCapitalize="none"
-              secureTextEntry={passwordHidden}
-              onChangeText={(text) => setPasswords({ ...passwords, first: text })}
-              value={passwords.first}
-            />
-
-            <TouchableOpacity onPress={togglePasswordHidden} style={styles.iconButton}>
-              {passwordHidden
-                ? <EyeClose color={isError ? '#DD3636' : '#A8A8A8'} />
-                : <EyeOpen color={isError ? '#DD3636' : '#A8A8A8'} />}
-            </TouchableOpacity>
-          </View>
-
-          <View style={isError ? styles.inputContainerError : styles.inputContainer}>
-            <TextInput
-              style={[styles.forgotPasswordInputContainer, isError ? { color: '#DD3636' } : {}]}
-              placeholder="Confirme sua nova senha"
-              autoCapitalize="none"
-              secureTextEntry={passwordHidden}
-              onChangeText={(text) => setPasswords({ ...passwords, confirm: text })}
-              value={passwords.confirm}
-            />
-
-            <TouchableOpacity onPress={togglePasswordHidden} style={styles.iconButton}>
-              {passwordHidden
-                ? <EyeClose color={isError ? '#DD3636' : '#A8A8A8'} />
-                : <EyeOpen color={isError ? '#DD3636' : '#A8A8A8'} />}
-            </TouchableOpacity>
-          </View>
-          <Text style={{
-            color: '#DD3636',
-            marginLeft: 4,
-            fontFamily: 'Inter28pt-Medium',
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
+        <TouchableOpacity
+          hitSlop={{
+            top: 24, left: 24, bottom: 24, right: 24,
           }}
-          >
-            {!isEqualPassword && !!passwords.confirm.length ? 'As senhas não estão iguais.' : ''}
-          </Text>
-          <View style={{ flexDirection: 'row' }}>
-            <View>
-              <PasswordCheck isError={isError} checked={passwordsChecker.digitsCount} text="8 caracteres" />
-              <PasswordCheck isError={isError} checked={passwordsChecker.number} text="1 número" />
-            </View>
-            <View style={{ marginLeft: 16 }}>
-              <PasswordCheck isError={isError} checked={passwordsChecker.lowercase} text="1 letra maiúscula" />
-              <PasswordCheck isError={isError} checked={passwordsChecker.uppercase} text="1 letra minúscula" />
-            </View>
-          </View>
+          onPress={navigation.goBack}
+        >
+          <IconChevronLeftSmall color="#999" />
+        </TouchableOpacity>
 
-        </ScrollView>
-      </SafeAreaView>
-      <TouchableOpacity style={styles.button} onPress={handleUpdatePassword}>
-        <Text style={styles.buttonText}>Continuar</Text>
-        {loading && <ActivityIndicator size="small" color="#FFF2F2" /> }
+        <Text style={styles.forgotPasswordTitle}>Atualize sua senha</Text>
+        <Text style={styles.forgotPasswordSubtitle}>
+          Insira o código recebido por e-mail abaixo:
+        </Text>
+
+        <View style={isError ? styles.inputContainerError : styles.inputContainer}>
+          <TextInput
+            style={[styles.forgotPasswordInputContainer, isError ? { color: '#DD3636' } : {}]}
+            placeholder="Digite sua nova senha"
+            autoCapitalize="none"
+            secureTextEntry={passwordHidden}
+            onChangeText={handleChangeFirstPassword}
+            value={passwords.first}
+          />
+
+          <TouchableOpacity onPress={togglePasswordHidden} style={styles.iconButton}>
+            {passwordHidden
+              ? <EyeClose color={isError ? '#DD3636' : '#A8A8A8'} />
+              : <EyeOpen color={isError ? '#DD3636' : '#A8A8A8'} />}
+          </TouchableOpacity>
+        </View>
+
+        <View style={isError ? styles.inputContainerError : styles.inputContainer}>
+          <TextInput
+            style={[styles.forgotPasswordInputContainer, isError ? { color: '#DD3636' } : {}]}
+            placeholder="Confirme sua nova senha"
+            autoCapitalize="none"
+            secureTextEntry={passwordHidden}
+            onChangeText={handleChangeConfirmPassword}
+            value={passwords.confirm}
+          />
+
+          <TouchableOpacity onPress={togglePasswordHidden} style={styles.iconButton}>
+            {passwordHidden
+              ? <EyeClose color={isError ? '#DD3636' : '#A8A8A8'} />
+              : <EyeOpen color={isError ? '#DD3636' : '#A8A8A8'} />}
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.errorPassword}>
+          {!isEqualPassword && !!passwords.confirm.length ? 'As senhas não estão iguais.' : ''}
+        </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <View>
+            <PasswordCheck isError={isError} checked={passwordsChecker.digitsCount} text="8 caracteres" />
+            <PasswordCheck isError={isError} checked={passwordsChecker.number} text="1 número" />
+          </View>
+          <View style={{ marginLeft: 16 }}>
+            <PasswordCheck isError={isError} checked={passwordsChecker.lowercase} text="1 letra maiúscula" />
+            <PasswordCheck isError={isError} checked={passwordsChecker.uppercase} text="1 letra minúscula" />
+          </View>
+        </View>
+      </View>
+
+      <TouchableOpacity disabled={loading} style={styles.button} onPress={handleUpdatePassword}>
+        {loading
+          ? <ActivityIndicator size="small" color="#FFF2F2" />
+          : <Text style={styles.buttonText}>Continuar</Text>}
       </TouchableOpacity>
-    </>
+    </SafeAreaView>
   );
 }
 
@@ -186,32 +210,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 24,
-    paddingHorizontal: 24,
     backgroundColor: '#FFF',
+  },
+  content: {
+    flex: 1,
+    marginTop: 16,
+    marginHorizontal: 24,
   },
   forgotPasswordTitle: {
     marginTop: 24,
-    fontSize: 28,
+    fontSize: scale(24),
     color: '#000000',
-    fontFamily: 'Inter28pt-SemiBold',
+    fontFamily: FONTS.INTER_SEMI_BOLD,
   },
   forgotPasswordSubtitle: {
     marginBottom: 16,
-    fontSize: 14,
+    fontSize: scale(13),
     marginTop: 8,
     color: '#7B7B7B',
-    fontFamily: 'Inter28pt-Medium',
+    fontFamily: FONTS.INTER_MEDIUM,
     lineHeight: 19.6,
-  },
-  forgotPasswordButton: {
-    alignSelf: 'flex-end',
-    width: 64,
-    height: 64,
-    backgroundColor: '#11AB6B',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 60,
-    marginTop: 34,
   },
   forgotPasswordInputContainer: {
     flex: 1,
@@ -224,7 +242,11 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     justifyContent: 'center',
     marginBottom: 12,
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
+    fontSize: scale(12),
+    color: '#282828',
+    paddingVertical: 10,
+    fontFamily: FONTS.INTER_MEDIUM,
   },
   inputContainerError: {
     flexDirection: 'row',
@@ -238,6 +260,11 @@ const styles = StyleSheet.create({
     color: '#DD3636',
     borderColor: '#DD3636',
   },
+  errorPassword: {
+    color: '#DD3636',
+    marginLeft: 4,
+    fontFamily: FONTS.INTER_MEDIUM,
+  },
   iconButton: {
     padding: 8,
     justifyContent: 'center',
@@ -248,11 +275,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 8,
+    marginBottom: 4,
   },
   buttonText: {
     textAlign: 'center',
     color: '#FFF',
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: scale(13),
+    fontFamily: FONTS.INTER_REGULAR,
   },
 });

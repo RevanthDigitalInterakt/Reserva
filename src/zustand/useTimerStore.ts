@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const DEFAULT_TIMER = 20;
+const DEFAULT_TIMER = 300;
 
 interface TimerData {
   initialDuration: number;

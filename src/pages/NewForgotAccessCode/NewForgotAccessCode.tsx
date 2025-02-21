@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   SafeAreaView,
   StyleSheet,
   Text, TextInput,
@@ -14,9 +15,10 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { useTimerStore } from '../../zustand/useTimerStore';
-import { useRecoverPasswordResetMutation } from '../../base/graphql/generated';
 import { scale } from '../../utils/scale';
 import { IconChevronLeftSmall } from '../../components/IconLegacy/Svg';
+import { FONTS } from '../../base/styles';
+import { useAuthentication } from '../../hooks/useAuthentication';
 
 type Props = StackScreenProps<RootStackParamList, 'NewForgotAccessCode'>;
 
@@ -28,12 +30,9 @@ export default function NewForgotAccessCode({ navigation, route }: Props) {
   const [focusedIndex, setFocusedIndex] = useState(null);
   const [isError, setIsError] = useState(false);
   const inputRefs = useRef<TextInput[]>([]);
+  const [loadingResendCode, setLoadingResendCode] = useState(false);
 
-  const [recoveryPasswordReset, { loading, error }] = useRecoverPasswordResetMutation({
-    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
-  });
-
-  console.log(error);
+  const { handleResendCode, loadingSignIn } = useAuthentication({ closeModal: undefined });
 
   const {
     getRemainingTime,
@@ -94,12 +93,13 @@ export default function NewForgotAccessCode({ navigation, route }: Props) {
   };
 
   const navigateToNewPassword = useCallback(() => {
-    if (code.length !== 6) {
+    const finalCode = code.join('');
+
+    if (finalCode.length < 6) {
       setIsError(true);
       return;
     }
 
-    const finalCode = code.join('');
     navigation.navigate('NewForgotNewPassword', {
       email: username,
       code: finalCode,
@@ -115,17 +115,30 @@ export default function NewForgotAccessCode({ navigation, route }: Props) {
     }
   }, [username, getRemainingTime, resetTimer, startTimer]);
 
-  const handleResendCode = useCallback(() => {
-    resetTimer(username);
-    startTimer(username, cookies);
-    setIsError(false);
-    setCode(['', '', '', '', '', '']);
-  }, [username, resetTimer, startTimer]);
+  const doResendCode = useCallback(async (params: string) => {
+    try {
+      setLoadingResendCode(true);
+      resetTimer(params);
+      setIsError(false);
+      setCode(['', '', '', '', '', '']);
+      await handleResendCode(params);
+    } catch {
+      Alert.alert('Erro', 'Não foi possível enviar o código, tente mais tarde.');
+      setIsError(true);
+    } finally {
+      setLoadingResendCode(false);
+    }
+  }, [resetTimer, startTimer]);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          hitSlop={{
+            top: 24, left: 24, bottom: 24, right: 24,
+          }}
+          onPress={navigation.goBack}
+        >
           <IconChevronLeftSmall color="#000" />
         </TouchableOpacity>
         <Text style={styles.title}>Confirme seu código</Text>
@@ -138,7 +151,7 @@ export default function NewForgotAccessCode({ navigation, route }: Props) {
               ref={(ref) => { inputRefs.current[index] = ref; }}
               style={[styles.input, isError ? { color: '#DD3636' } : {}]}
               placeholder={(value === '' && focusedIndex !== index) ? '•' : ''}
-              placeholderTextColor="#999"
+              placeholderTextColor={isError ? '#DD3636' : '#999'}
               keyboardType="number-pad"
               maxLength={1}
               onFocus={() => {
@@ -160,7 +173,7 @@ export default function NewForgotAccessCode({ navigation, route }: Props) {
             color: '#DD3636',
             marginTop: 3,
             marginLeft: 4,
-            fontFamily: 'Inter28pt-Medium',
+            fontFamily: FONTS.INTER_MEDIUM,
           }}
           >
             Código inválido ou expirado.
@@ -173,33 +186,42 @@ export default function NewForgotAccessCode({ navigation, route }: Props) {
               <Text style={styles.resendText}>
                 Não recebeu seu código?
               </Text>
-              <Text style={styles.resendText}>
-                Peça um novo em
-                {' '}
-                <Text style={styles.timerText}>
-                  {formatTime(displayTime)}
-                </Text>
-              </Text>
+              {loadingResendCode
+                ? <ActivityIndicator style={{ marginTop: 4 }} size="small" color="#999" />
+                : (
+                  <Text style={styles.resendText}>
+                    Peça um novo em
+                    {' '}
+                    <Text style={styles.timerText}>
+                      {formatTime(displayTime)}
+                    </Text>
+                  </Text>
+                )}
             </>
           ) : (
-            <TouchableOpacity onPress={handleResendCode}>
+            <TouchableOpacity onPress={() => doResendCode(username)}>
               <Text style={styles.resendText}>
                 Não recebeu seu código?
               </Text>
-              <Text style={[styles.resendText, styles.resendLink]}>
-                Peça um novo
-              </Text>
+              {loadingResendCode
+                ? <ActivityIndicator style={{ marginTop: 4 }} size="small" color="#999" />
+                : (
+                  <Text style={[styles.resendText, styles.resendLink]}>
+                    Peça um novo
+                  </Text>
+                )}
             </TouchableOpacity>
           )}
         </View>
 
       </View>
 
-      <TouchableOpacity disabled={loading} style={styles.button} onPress={navigateToNewPassword}>
-        {loading
-          ? <ActivityIndicator size="small" color="#FFF2F2" />
-          : <Text style={styles.buttonText}>Continuar</Text>}
-
+      <TouchableOpacity
+        style={styles.button}
+        disabled={loadingSignIn}
+        onPress={navigateToNewPassword}
+      >
+        <Text style={styles.buttonText}>Continuar</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -216,14 +238,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
   },
   title: {
-    marginTop: 32,
-    fontSize: scale(28),
-    fontFamily: 'Inter28pt-Bold',
+    marginTop: scale(48),
+    fontSize: scale(24),
+    fontFamily: FONTS.INTER_SEMI_BOLD,
     paddingBottom: 8,
   },
   subtitle: {
     fontSize: scale(13),
-    fontFamily: 'Inter28pt-Regular',
+    fontFamily: FONTS.INTER_REGULAR,
     paddingBottom: 32,
   },
   codeContainer: {
@@ -246,21 +268,24 @@ const styles = StyleSheet.create({
   },
   resendText: {
     fontSize: scale(12),
+    marginTop: 4,
     textAlign: 'center',
     color: '#6C727B',
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: 'Inter28pt-Regular',
+    fontFamily: FONTS.INTER_REGULAR,
   },
   timerText: {
-    fontFamily: 'Inter28pt-Bold',
+    color: '#000',
+    fontFamily: FONTS.INTER_BOLD,
   },
   resendLink: {
     fontSize: scale(12),
     color: '#282828',
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: 'Inter28pt-Bold',
+    fontFamily: FONTS.INTER_SEMI_BOLD,
+    textDecorationLine: 'underline',
   },
   button: {
     backgroundColor: '#282828',
@@ -273,6 +298,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FFF',
     fontSize: scale(13),
-    fontFamily: 'Inter28pt-Regular',
+    fontFamily: FONTS.INTER_REGULAR,
   },
 });
