@@ -31,7 +31,12 @@ const HeaderBanner: React.FC<{
       )
       : (
         <Box position="absolute" top={16} left={16} zIndex={4} style={{ elevation: 3 }}>
-          <Button onPress={onClickGoBack}>
+          <Button
+            onPress={onClickGoBack}
+            hitSlop={{
+              top: 24, left: 24, bottom: 24, right: 24,
+            }}
+          >
             <IconChevronLeftSmall color="#000" />
           </Button>
         </Box>
