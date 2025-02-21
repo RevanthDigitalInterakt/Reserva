@@ -20,7 +20,7 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [hasError, setHasError] = useState(false);
 
-  const [sendEmailVerification, { error }] = useRecoverPasswordVerificationCodeMutation({
+  const [sendEmailVerification, { error, loading }] = useRecoverPasswordVerificationCodeMutation({
     context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
   });
 
@@ -42,7 +42,7 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
         );
       }
     } catch (e) {
-      ExceptionProvider.captureException(e, "handleEmailAccess - ForgotEmail.tsx", { email });
+      ExceptionProvider.captureException(e, 'handleEmailAccess - ForgotEmail.tsx', { email });
     }
   }, [email]);
 
@@ -56,6 +56,7 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
     <SafeAreaView style={{ backgroundColor: 'white' }} flex={1}>
       <HeaderBanner
         imageHeader={images.headerLogin}
+        loading={loading}
         onClickGoBack={() => {
           navigation.goBack();
         }}
@@ -94,7 +95,7 @@ export const ForgotEmail: React.FC<ForgotEmailProps> = ({ navigation }) => {
           variant="primarioEstreito"
           title="ENVIAR E-MAIL"
           onPress={handleEmailAccess}
-          disabled={email.length <= 0}
+          disabled={email.length <= 0 || loading}
           {...testProps('com.usereserva:id/send_email')}
           inline
         />

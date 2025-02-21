@@ -71,9 +71,9 @@ function OrderList({ route }: any): React.ReactElement {
     }
   };
 
-  const handleClick = useCallback((eventName: string, screenName: string) => {
+  const handleClick = useCallback((eventName: string, screenName: string, data?: string) => {
     EventProvider.logEvent(eventName, {});
-    navigation.navigate(screenName);
+    navigation.navigate(screenName, { data });
   }, []);
 
   useEffect(() => {
@@ -313,6 +313,29 @@ function OrderList({ route }: any): React.ReactElement {
             )}
           </>
         ) : null}
+
+        <View>
+          {orderDetails?.packageAttachment.packages[0]?.trackingUrl && (
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  const url = orderDetails?.packageAttachment?.packages[0];
+                  handleClick('delivery_status', 'DeliveryStatusScreen', url?.trackingUrl);
+                }}
+                style={{
+                  borderWidth: 1,
+                  borderColor: COLORS.GRAY,
+                  padding: 20,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 50,
+                }}
+              >
+                <Text>Acompanhar rastreio em detalhes</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
 
         {orderDetails && (
           <OrderDetailComponent data={orderDetails} deliveryState={3} />

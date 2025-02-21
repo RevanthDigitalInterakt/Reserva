@@ -46,3 +46,6 @@ export const backgroundApp = '#F9F9F9';
 export const modalBackDropColor = '#AFAFAF';
 export const backgoundInput = '#F0F0F0';
 export const backgoundDivider = '#F5F5F5';
+
+// errors
+export const error = '#DD3636';

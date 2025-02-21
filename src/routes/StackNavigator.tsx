@@ -43,6 +43,10 @@ import type { SessionBodyCollectionOutput } from '../base/graphql/generated';
 import HelpCenter from '../pages/HelpCenter';
 import PrivacyPolicy from '../pages/PrivacyPolicy';
 import ExchangeScreen from '../pages/Exchange/Exchange';
+import DeliveryStatusScreen from '../pages/DeliveryStatus';
+import NewForgotAccessCode from '../pages/NewForgotAccessCode/NewForgotAccessCode';
+import NewForgotNewPassword from '../pages/NewForgotNewPassword/NewForgotNewPassword';
+import NewForgotSuccess from '../pages/NewForgotSuccess/NewForgotSuccess';
 
 export type RootStackParamList = {
   SearchScreen: { searchterm?: string };
@@ -105,6 +109,10 @@ export type RootStackParamList = {
     email: string;
   };
   ForgotPassword: {} | undefined;
+  NewForgotPassword: {};
+  NewForgotAccessCode: { username: string, cookies?: string[] };
+  NewForgotNewPassword: { code: string; email: string, cookies: string[] };
+  NewForgotSuccess: {};
   ForgotNewPassword: { email: string; code: string };
   ForgotEmailSuccess: {} | undefined;
 
@@ -167,6 +175,9 @@ export type RootStackParamList = {
     url?: string;
   },
   ExchangeScreen: undefined;
+  DeliveryStatus: {
+    url: string
+  }
 };
 
 const flows: Flow[] = [
@@ -219,7 +230,11 @@ export function MainStackScreen() {
       <MainStack.Screen name="PageHelpCenter" component={PageHelpCenter} />
       <MainStack.Screen name="Exchange" component={Exchange} />
       <MainStack.Screen name="ExchangeScreen" component={ExchangeScreen} />
+      <MainStack.Screen name="DeliveryStatusScreen" component={DeliveryStatusScreen} />
       <MainStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+      <MainStack.Screen name="NewForgotAccessCode" component={NewForgotAccessCode} />
+      <MainStack.Screen name="NewForgotNewPassword" component={NewForgotNewPassword} />
+      <MainStack.Screen name="NewForgotSuccess" component={NewForgotSuccess} />
     </MainStack.Navigator>
   );
 }

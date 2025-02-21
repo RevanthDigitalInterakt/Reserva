@@ -34,6 +34,7 @@ export const commons = {
   pinYou: require('../../../assets/common/pinYou.png'),
   bannerLogin: require('../../../assets/common/banner-login.png'),
   headerLogin: require('../../../assets/common/headerLogin.png'),
+  newHeaderLogin: require('../../../assets/common/newHeaderLogin.png'),
   purchaseConfirmation: require('../../../assets/common/purchaseConfirmation.png'),
   withoutInternet: require('../../../assets/common/withoutInternet.png'),
   update: require('../../../assets/common/update.png'),

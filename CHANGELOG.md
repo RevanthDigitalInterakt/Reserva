@@ -5,6 +5,7 @@
 ### 2.33.0
 
 - [59886 - Remover timeout da splash screen](https://dev.azure.com/ARECO/AReCO/_workitems/edit/59886)
+- [57786 - Acompanhar rastreio do pedido pela transportadora](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57786)
 
 ----
 
