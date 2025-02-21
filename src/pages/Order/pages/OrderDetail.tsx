@@ -403,7 +403,7 @@ function OrderList({ route }: any): React.ReactElement {
         >
           {orderDetails?.packageAttachment.packages[0]?.invoiceKey && (
             <TouchableOpacity
-              onPress={() => handleClick('exchange_return', 'ExchangeScreen', undefined)}
+              onPress={() => handleClick('exchange_return', 'ExchangeScreen')}
               style={{
                 backgroundColor: COLORS.BLACK,
                 alignItems: 'center',
