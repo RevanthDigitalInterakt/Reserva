@@ -6,7 +6,6 @@ import React, {
 } from 'react';
 import {
   ActivityIndicator,
-  Alert,
   SafeAreaView,
   StyleSheet,
   Text, TextInput,
@@ -94,36 +93,19 @@ export default function NewForgotAccessCode({ navigation, route }: Props) {
     }
   };
 
-  const handleConfirm = useCallback(async () => {
+  const navigateToNewPassword = useCallback(() => {
     if (code.length !== 6) {
       setIsError(true);
       return;
     }
 
     const finalCode = code.join('');
-
-    // TODO waiting new screen by UX
-    const variables = {
-      input: {
-        email: username,
-        code: finalCode,
-        password: '',
-        cookies,
-      },
-    };
-
-    const { data: recoveryPasswordData } = await recoveryPasswordReset({
-      variables,
+    navigation.navigate('NewForgotNewPassword', {
+      email: username,
+      code: finalCode,
+      cookies,
     });
-
-    if (!recoveryPasswordData) {
-      Alert.alert('FALHOU', JSON.stringify(recoveryPasswordData));
-    }
-
-    if (recoveryPasswordData?.recoverPasswordReset?.token) {
-      navigation.replace('NewForgotSuccess');
-    }
-  }, [username, code, cookies]);
+  }, [code, cookies, username]);
 
   useEffect(() => {
     const remaining = getRemainingTime(username);
@@ -142,77 +124,81 @@ export default function NewForgotAccessCode({ navigation, route }: Props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <IconChevronLeftSmall color="#000" />
-      </TouchableOpacity>
-      <Text style={styles.title}>Confirme seu código</Text>
-      <Text style={styles.subtitle}>Insira o código recebido por e-mail abaixo:</Text>
+      <View style={styles.content}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <IconChevronLeftSmall color="#000" />
+        </TouchableOpacity>
+        <Text style={styles.title}>Confirme seu código</Text>
+        <Text style={styles.subtitle}>Insira o código recebido por e-mail abaixo:</Text>
 
-      <View style={styles.codeContainer}>
-        {code.map((value, index) => (
-          <TextInput
-            key={`${index}-input`}
-            ref={(ref) => { inputRefs.current[index] = ref; }}
-            style={[styles.input, isError ? { color: '#DD3636' } : {}]}
-            placeholder={(value === '' && focusedIndex !== index) ? '•' : ''}
-            placeholderTextColor="#999"
-            keyboardType="number-pad"
-            maxLength={1}
-            onFocus={() => {
-              if (isError) setIsError(false);
-              setFocusedIndex(index);
-              if (value !== '') {
-                handleChange('', index);
-              }
-            }}
-            onBlur={() => setFocusedIndex(null)}
-            value={value}
-            onChangeText={(text) => handleChange(text, index)}
-            onKeyPress={(e) => handleKeyPress(e, index)}
-          />
-        ))}
-      </View>
-      {isError ? (
-        <Text style={{
-          color: '#DD3636',
-          marginTop: 3,
-          marginLeft: 4,
-          fontFamily: 'Inter28pt-Medium',
-        }}
-        >
-          Código inválido ou expirado.
-        </Text>
-      ) : <View style={{ marginTop: 24 }} />}
+        <View style={styles.codeContainer}>
+          {code.map((value, index) => (
+            <TextInput
+              key={`${index}-input`}
+              ref={(ref) => { inputRefs.current[index] = ref; }}
+              style={[styles.input, isError ? { color: '#DD3636' } : {}]}
+              placeholder={(value === '' && focusedIndex !== index) ? '•' : ''}
+              placeholderTextColor="#999"
+              keyboardType="number-pad"
+              maxLength={1}
+              onFocus={() => {
+                if (isError) setIsError(false);
+                setFocusedIndex(index);
+                if (value !== '') {
+                  handleChange('', index);
+                }
+              }}
+              onBlur={() => setFocusedIndex(null)}
+              value={value}
+              onChangeText={(text) => handleChange(text, index)}
+              onKeyPress={(e) => handleKeyPress(e, index)}
+            />
+          ))}
+        </View>
+        {isError ? (
+          <Text style={{
+            color: '#DD3636',
+            marginTop: 3,
+            marginLeft: 4,
+            fontFamily: 'Inter28pt-Medium',
+          }}
+          >
+            Código inválido ou expirado.
+          </Text>
+        ) : <View style={{ marginTop: 24 }} />}
 
-      <View style={styles.bottomContainer}>
-        {displayTime > 0 ? (
-          <>
-            <Text style={styles.resendText}>
-              Não recebeu seu código?
-            </Text>
-            <Text style={styles.resendText}>
-              Peça um novo em
-              {' '}
-              <Text style={styles.timerText}>
-                {formatTime(displayTime)}
+        <View style={styles.bottomContainer}>
+          {displayTime > 0 ? (
+            <>
+              <Text style={styles.resendText}>
+                Não recebeu seu código?
               </Text>
-            </Text>
-          </>
-        ) : (
-          <TouchableOpacity onPress={handleResendCode}>
-            <Text style={styles.resendText}>
-              Não recebeu seu código?
-            </Text>
-            <Text style={[styles.resendText, styles.resendLink]}>
-              Peça um novo
-            </Text>
-          </TouchableOpacity>
-        )}
+              <Text style={styles.resendText}>
+                Peça um novo em
+                {' '}
+                <Text style={styles.timerText}>
+                  {formatTime(displayTime)}
+                </Text>
+              </Text>
+            </>
+          ) : (
+            <TouchableOpacity onPress={handleResendCode}>
+              <Text style={styles.resendText}>
+                Não recebeu seu código?
+              </Text>
+              <Text style={[styles.resendText, styles.resendLink]}>
+                Peça um novo
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+
       </View>
-      <TouchableOpacity disabled={loading} style={styles.button} onPress={handleConfirm}>
+
+      <TouchableOpacity disabled={loading} style={styles.button} onPress={navigateToNewPassword}>
         {loading
           ? <ActivityIndicator size="small" color="#FFF2F2" />
-          : <Text style={styles.buttonText}>Confirmar</Text>}
+          : <Text style={styles.buttonText}>Continuar</Text>}
 
       </TouchableOpacity>
     </SafeAreaView>
@@ -223,8 +209,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 24,
-    marginHorizontal: 24,
     backgroundColor: '#FFF',
+  },
+  content: {
+    flex: 1,
+    marginHorizontal: 24,
   },
   title: {
     marginTop: 32,
@@ -278,11 +267,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 8,
+    marginBottom: 4,
   },
   buttonText: {
     textAlign: 'center',
     color: '#FFF',
-    fontSize: scale(16),
+    fontSize: scale(13),
     fontFamily: 'Inter28pt-Regular',
   },
 });

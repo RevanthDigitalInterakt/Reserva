@@ -1,11 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { useMutation } from '@apollo/client';
 import type { StackScreenProps } from '@react-navigation/stack';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
-  Alert,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -17,22 +15,22 @@ import EyeClose from '../../base/svgs/EyeClose';
 import EyeOpen from '../../base/svgs/EyeOpen';
 import { IconLegacy } from '../../components/IconLegacy/IconLegacy';
 import { IconChevronLeft } from '../../components/IconLegacy/Svg';
-import { recoveryPasswordMutation } from '../../graphql/login/loginMutations';
 import type { RootStackParamList } from '../../routes/StackNavigator';
+import { useRecoverPasswordResetMutation } from '../../base/graphql/generated';
+import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
 type Props = StackScreenProps<RootStackParamList, 'NewForgotNewPassword'>;
 
 export default function NewForgotNewPassword({ navigation, route }: Props) {
   const code = route.params?.code;
   const email = route.params?.email;
+  const cookies = route.params?.cookies;
 
   const [passwordHidden, setPasswordHidden] = useState(true);
   const [passwords, setPasswords] = useState({
     first: '',
     confirm: '',
   });
-
-  const [loading, setLoading] = useState(false);
 
   const passwordsChecker = useMemo(() => ({
     equal: passwords.first === passwords.confirm,
@@ -42,7 +40,9 @@ export default function NewForgotNewPassword({ navigation, route }: Props) {
     number: passwords.first.match(/[0-9]/g) !== null && passwords.first.match(/[0-9]/g) !== null,
   }), [passwords.first, passwords.confirm]);
 
-  const [recoveryPassword] = useMutation(recoveryPasswordMutation);
+  const [recoveryPasswordReset, { data, loading, error }] = useRecoverPasswordResetMutation({
+    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  });
 
   const togglePasswordHidden = () => {
     setPasswordHidden(!passwordHidden);
@@ -60,35 +60,31 @@ export default function NewForgotNewPassword({ navigation, route }: Props) {
 
   const isError = !!(!isValidPassword && !isEqualPassword && passwords.confirm);
 
-  const handleUpdatePassword = () => {
-    if (isError) {
-      Alert.alert('ERROR');
-    }
+  const handleUpdatePassword = useCallback(async () => {
+    try {
+      const variables = {
+        input: {
+          email,
+          code,
+          password: passwords.confirm,
+          cookies,
+        },
+      };
 
-    setLoading(true);
+      const { data: recoveryPasswordData } = await recoveryPasswordReset({
+        variables,
+      });
 
-    setTimeout(() => {
-      navigation.replace('NewForgotSuccess');
-      setLoading(false);
-    }, 2000);
+      if (!recoveryPasswordData) { return null; } // TODO fail
 
-    /* const variables = {
-      email,
-      code,
-      newPassword: passwords.confirm,
-    };
-    recoveryPassword({
-      variables,
-    }).then((x) => {
-      if (x?.data?.recoveryPassword !== null) {
-        Alert.alert('success');
-
-        // return navigation.navigate('ForgotEmailSuccess');
+      if (recoveryPasswordData?.recoverPasswordReset?.token) {
+        navigation.replace('NewForgotSuccess');
       }
-      Alert.alert('ERROR');
-      // return navigation.navigate('ForgotEmail', {});
-    }); */
-  };
+    } catch (err) {
+      // TODO set Error
+      ExceptionProvider.captureException(err, 'handleUpdatePassword - NewForgotNewPassword.tsx', { email });
+    }
+  }, [code, cookies, email, passwords.confirm]);
 
   return (
     <>

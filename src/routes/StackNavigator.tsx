@@ -110,7 +110,7 @@ export type RootStackParamList = {
   ForgotPassword: {} | undefined;
   NewForgotPassword: {};
   NewForgotAccessCode: { username: string, cookies?: string[] };
-  NewForgotNewPassword: { code: string; email: string };
+  NewForgotNewPassword: { code: string; email: string, cookies: string[] };
   NewForgotSuccess: {};
   ForgotNewPassword: { email: string; code: string };
   ForgotEmailSuccess: {} | undefined;
