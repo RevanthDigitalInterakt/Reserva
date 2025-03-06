@@ -46,6 +46,7 @@ export default function NewBag({ navigation }: TNewBagProps) {
   const isTester = useIsTester();
   const { isPrime } = usePrimeInfo();
   const { getBoolean } = useRemoteConfig();
+  const showShippingBar = getBoolean('show_shipping_bar');
 
   const showAddZipCodeDeliveryAB = useMemo(
     () => getBoolean(isTester ? 'show_add_zip_code_delivery_tester' : 'show_add_zip_code_delivery'),
@@ -205,7 +206,13 @@ export default function NewBag({ navigation }: TNewBagProps) {
                       </Typography>
                     </Box>
 
-                    <ShippingBar loading={false} totalOrder={appTotalizers.total} />
+                    {showShippingBar && !isPrime && (
+                      <ShippingBar loading={false} totalOrder={appTotalizers.total} />
+                    )}
+
+                    {isPrime && (
+                      <ShippingBar loading={false} totalOrder={appTotalizers.total} />
+                    )}
 
                     {showAddZipCodeDeliveryAB && (
                       <Box bg="white" marginTop="xxs">
