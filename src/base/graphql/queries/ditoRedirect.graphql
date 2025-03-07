@@ -1,6 +1,0 @@
-query ditoRedirect($code: String!) {
-  ditoRedirect(input: { code: $code }) {
-    type
-    url
-  }
-}

@@ -2,8 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import EventProvider from '../utils/EventProvider';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
-import useWishlistStore, { IWishlistProduct } from '../zustand/useWishlistStore';
-import { trackEventDitoAddWishlist } from '../utils/trackEventDitoAddWishlist';
+import useWishlistStore, { type IWishlistProduct } from '../zustand/useWishlistStore';
 import { navigateUsingRef } from '../utils/navigationRef';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { trackClickAlgoliaStore } from '../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
@@ -76,7 +75,7 @@ export function useWishlistActions() {
         return;
       }
 
-      trackEventDitoAddWishlist(product);
+ 
       EventProvider.logEvent(
         'add_to_wishlist',
         {

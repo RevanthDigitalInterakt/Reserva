@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { v4 } from 'uuid';
 import {
   TrackProvidersEnum,
@@ -36,7 +35,7 @@ export const trackClickStore = create<ITrackClickSmartHintStore>((_, getState) =
     const variables: TrackClickV2MutationVariables = {
       input: {
         providers: [TrackProvidersEnum.Smarthint],
-        userEmail: await AsyncStorage.getItem('@Dito:anonymousID'),
+        userEmail: '', // TODO impl backend get email from jwt token
         originIdentifier: navigation,
         pageIdentifier: data.identifier,
         pageType: navigation,

@@ -75,20 +75,6 @@ export default function HelpCenter({ route }: Props) {
     data,
     url,
   }: IHandleClickSession) => {
-    if (title) {
-      const ditoId = profile?.email
-        ? await getItem('@Dito:userRef')
-        : await AsyncStorage.getItem('@Dito:anonymousID');
-
-      EventProvider.sendTrackEvent('acessou-central-de-ajuda', {
-        id: ditoId,
-        action: 'acessou-central-de-ajuda',
-        data: {
-          pagina: title.toLowerCase(),
-        },
-      });
-    }
-
     if (url) {
       navigation.navigate('Exchange', { url });
     } else {

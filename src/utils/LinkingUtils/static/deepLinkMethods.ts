@@ -12,10 +12,6 @@ import {
   type OrderFormAddMultipleItemMutation,
   type OrderFormAddMultipleItemMutationVariables,
   type OrderformAddMultipleItemInfoInput,
-  DitoRedirectDocument,
-  type DitoRedirectQuery,
-  type DitoRedirectQueryVariables,
-  DitoRedirectTypeEnum,
 } from '../../../base/graphql/generated';
 import { mergeItemsPackage } from '../../mergeItemsPackage';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
@@ -50,7 +46,6 @@ export const productUrlWithSkuId = 'usereserva://product?skuId=';
 export const productUrlWithIdSku = 'usereserva://product?idsku=';
 
 export const productUrlWithProductId = 'usereserva://product?productId=';
-
 
 export const metaProductUrl = 'usereserva://product?slug=';
 
@@ -172,7 +167,7 @@ const urlProductCase = (initialUrl: string): ICustomMethodReturnParams => {
       };
     }
 
-    const skuId = url.searchParams.get('skuId') || url.searchParams.get('skuid')
+    const skuId = url.searchParams.get('skuId') || url.searchParams.get('skuid');
     if (skuId) {
       return {
         match: true,
@@ -180,7 +175,7 @@ const urlProductCase = (initialUrl: string): ICustomMethodReturnParams => {
       };
     }
 
-    const idSku = url.searchParams.get('idsku')
+    const idSku = url.searchParams.get('idsku');
     if (idSku) {
       return {
         match: true,
@@ -392,14 +387,14 @@ const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
 
       try {
         const { data } = await getApolloClient().mutate<
-          OrderFormAddMultipleItemMutation,
-          OrderFormAddMultipleItemMutationVariables>({
-            mutation: OrderFormAddMultipleItemDocument,
-            context: { clientName: 'gateway' },
-            variables: {
-              input,
-            },
-          });
+        OrderFormAddMultipleItemMutation,
+        OrderFormAddMultipleItemMutationVariables>({
+          mutation: OrderFormAddMultipleItemDocument,
+          context: { clientName: 'gateway' },
+          variables: {
+            input,
+          },
+        });
 
         const { orderFormAddMultipleItem: orderForm } = data || {};
 
@@ -408,55 +403,8 @@ const cartAddItemUseCase = async (initialUrl: string): Promise<ICustomMethodRetu
           strUrl: `usereserva://bag/${orderForm?.orderFormId}`,
         };
       } catch (error) {
-        ExceptionProvider.captureException(error, "cartAddItemUseCase - deepLinkMethods.ts",{ deeplink: initialUrl});
+        ExceptionProvider.captureException(error, 'cartAddItemUseCase - deepLinkMethods.ts', { deeplink: initialUrl });
         return defaultCustomMethodReturn;
-      }
-    }
-  }
-
-  return defaultCustomMethodReturn;
-};
-
-const ditoRedirectCartUseCase = async (initialUrl: string): Promise<ICustomMethodReturnParams> => {
-  if (initialUrl.includes('dito.vc')) {
-    const code = new URL(initialUrl).pathname.substring(1);
-
-    if (code) {
-      const {
-        data: dataDitoRedirect,
-      } = await getApolloClient().query<DitoRedirectQuery, DitoRedirectQueryVariables>({
-        query: DitoRedirectDocument,
-        fetchPolicy: 'no-cache',
-        variables: { code },
-        context: { clientName: 'gateway' },
-      });
-
-      const { ditoRedirect } = dataDitoRedirect;
-
-      if (ditoRedirect?.type === DitoRedirectTypeEnum.RestoreCart) {
-        const orderFormId = await getAsyncStorageItem('orderFormId');
-
-        if (orderFormId) {
-          const {
-            data: dataOrderForm,
-          } = await getApolloClient().query<OrderFormQuery, OrderFormQueryVariables>({
-            query: OrderFormDocument,
-            fetchPolicy: 'no-cache',
-            variables: { orderFormId },
-            context: { clientName: 'gateway' },
-          });
-
-          const { orderForm: { packageItems } } = dataOrderForm;
-
-          const mergedItems = mergeItemsPackage(packageItems);
-
-          if (mergedItems.length) {
-            return {
-              match: true,
-              strUrl: `usereserva://bag/${orderFormId}`,
-            };
-          }
-        }
       }
     }
   }
@@ -558,7 +506,6 @@ const registerMethods = [
   accountWishListUseCase,
   accountUseCase,
   cartAddItemUseCase,
-  ditoRedirectCartUseCase,
   cartUseCase,
   restoreCartUseCase,
   catalogCollectionUseCase,

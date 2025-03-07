@@ -3,18 +3,15 @@ import { MockedProvider } from '@apollo/client/testing';
 import { ThemeProvider } from 'styled-components/native';
 import type { DocumentNode } from 'graphql';
 import {
-  fireEvent,
   render,
   act,
   screen,
 } from '@testing-library/react-native';
 import Menu from '../Menu';
-import EventProvider from '../../../utils/EventProvider';
 import { AppMenuDocument } from '../../../base/graphql/generated';
 import { theme } from '../../../base/usereservappLegacy/theme';
 
 jest.mock('../../../utils/EventProvider', () => ({
-  sendTrackEvent: jest.fn(),
   logEvent: jest.fn(),
 }));
 
@@ -165,14 +162,5 @@ describe('Componente Menu', () => {
 
   it('should match with snapshot', () => {
     expect(screen.toJSON()).toMatchSnapshot();
-  });
-
-  it('should update categories and send event', async () => {
-    const clickedCategory = screen.getByText('NOVIDADES');
-    await act(async () => {
-      await fireEvent.press(clickedCategory);
-    });
-
-    expect(EventProvider.sendTrackEvent).toBeCalledWith('acessou-departamento', { action: 'acessou-departamento', data: { nome_departamento: 'Novidades', origem: 'app' }, id: null });
   });
 });

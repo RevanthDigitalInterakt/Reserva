@@ -62,13 +62,6 @@ const selectedSizeWithDiscountMock = {
   },
 };
 
-const mockAddItemFn = jest.fn();
-
-jest.mock('../../../zustand/useDitoStore', () => ({
-  useDitoStore: () => ({
-  }),
-}));
-
 jest.mock('../../../zustand/useApolloFetchPolicyStore', () => ({
   useApolloFetchPolicyStore: () => ({
     getFetchPolicyPerKey: () => 'network-only',

@@ -6,7 +6,6 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import EventProvider from '../utils/EventProvider';
 import { useAuthStore } from '../zustand/useAuth/useAuthStore';
-import useDitoStore from '../zustand/useDitoStore';
 import { getApolloClient } from '../utils/getApolloClient';
 import { useBagStore } from '../zustand/useBagStore/useBagStore';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
@@ -207,7 +206,6 @@ export function useAuthentication({ closeModal }: IParamsHook) {
 
   const handleLogout = useCallback(async () => {
     try {
-      useDitoStore.persist.clearStorage();
       await getApolloClient().clearStore();
     } catch (err) {
       ExceptionProvider.captureException(err, 'handleLogout - useAuthentication.ts');

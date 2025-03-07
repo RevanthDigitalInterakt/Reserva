@@ -13,10 +13,16 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import com.microsoft.codepush.react.CodePush;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.brentvatne.react.ReactVideoPackage;
+//MoEngage
+import com.moengage.core.DataCenter;
+import com.moengage.core.MoEngage;
+import com.moengage.react.MoEInitializer;
+import com.moengage.core.config.NotificationConfig;
+import com.moengage.core.config.LogConfig;
+import com.moengage.core.LogLevel;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -25,11 +31,6 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
-    }
-
-    @Override
-    protected String getJSBundleFile() {
-      return CodePush.getJSBundleFile();
     }
 
     @Override
@@ -68,9 +69,12 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
-      // If you opted-in for the New Architecture, we load the native entry point for
-      // this app.
       DefaultNewArchitectureEntryPoint.load();
     }
+    
+    MoEngage.Builder moEngage = new MoEngage.Builder(this, "DQ9WFLTADL2Y89Z9OSFUKU0L", DataCenter.DATA_CENTER_2)
+    .configureLogs(new LogConfig(LogLevel.VERBOSE, true))
+    .configureNotificationMetaData(new NotificationConfig(R.drawable.ic_notificacao, R.drawable.ic_notificacao));
+    MoEInitializer.INSTANCE.initializeDefaultInstance(getApplicationContext(), moEngage);
   }
 }

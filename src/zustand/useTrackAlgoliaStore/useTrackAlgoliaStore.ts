@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { v4 } from 'uuid';
 import {
   TrackEventIndexEnum,
@@ -46,11 +45,9 @@ export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) =
     positions,
     price,
   }) => {
-    const user = await AsyncStorage.getItem('@Dito:anonymousID');
-
     const variables: TrackingMutationVariables = {
       input: {
-        authenticatedUserToken: user || '',
+        authenticatedUserToken: '', // TODO impl get email from jwt token
         userToken: getState().sessionId,
         index: TrackEventIndexEnum.Default,
         eventType: typeEvent,
@@ -77,18 +74,18 @@ export const trackClickAlgoliaStore = create<ITrackAlgoliaStore>((_, getState) =
     } catch (error) {
       ExceptionProvider.captureException(
         error,
-        "trackClickAlgoliaStore - useTrackAlgoliaStore.ts",
+        'trackClickAlgoliaStore - useTrackAlgoliaStore.ts',
         {
-          typeEvent: (JSON.stringify(typeEvent) || ""),
-          nameEvent: (JSON.stringify(nameEvent) || ""),
-          sku: (JSON.stringify(sku) || ""),
-          subTypeEvent: (JSON.stringify(subTypeEvent) || ""),
-          dataObject: (JSON.stringify(dataObject) || ""),
-          totalPrice: (JSON.stringify(totalPrice) || ""),
-          queryID: (JSON.stringify(queryID) || ""),
-          positions: (JSON.stringify(positions) || ""),
-          price: (JSON.stringify(price) || ""),
-        }
+          typeEvent: (JSON.stringify(typeEvent) || ''),
+          nameEvent: (JSON.stringify(nameEvent) || ''),
+          sku: (JSON.stringify(sku) || ''),
+          subTypeEvent: (JSON.stringify(subTypeEvent) || ''),
+          dataObject: (JSON.stringify(dataObject) || ''),
+          totalPrice: (JSON.stringify(totalPrice) || ''),
+          queryID: (JSON.stringify(queryID) || ''),
+          positions: (JSON.stringify(positions) || ''),
+          price: (JSON.stringify(price) || ''),
+        },
       );
     }
   },

@@ -64,12 +64,6 @@ jest.mock('../../../zustand/useApolloFetchPolicyStore', () => ({
   }),
 }));
 
-jest.mock('../../../zustand/useConnectivityStore', () => ({
-  useConnectivityStore: () => ({
-    isConnected: true,
-  }),
-}));
-
 jest.mock('react-native-webview', () => {
   // eslint-disable-next-line global-require
   const { View } = require('react-native');

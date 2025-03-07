@@ -29,7 +29,6 @@ type TProfileData = ProfileQuery['profile'];
 
 export interface IAuthStore {
   initialized: boolean;
-  isAnonymousUser: boolean;
   onInit: () => Promise<boolean>;
   onRefreshToken: () => Promise<boolean>;
   //
@@ -45,7 +44,6 @@ export interface IAuthStore {
 export const authStore = create<IAuthStore>((set, getState) => ({
   initialized: false,
   profile: undefined,
-  isAnonymousUser: true,
   onInit: async () => {
     try {
       const state = getState();
@@ -64,7 +62,7 @@ export const authStore = create<IAuthStore>((set, getState) => ({
 
       return true;
     } catch (err) {
-      ExceptionProvider.captureException(err, "onInit - useAuthStore.ts");
+      ExceptionProvider.captureException(err, 'onInit - useAuthStore.ts');
 
       set({ ...getState(), initialized: true });
 
@@ -97,7 +95,7 @@ export const authStore = create<IAuthStore>((set, getState) => ({
     } catch (err) {
       ExceptionProvider.captureException(
         err,
-        "onRefreshToken - useAuthStore.ts",
+        'onRefreshToken - useAuthStore.ts',
       );
 
       throw new RefreshTokenError();
@@ -123,7 +121,7 @@ export const authStore = create<IAuthStore>((set, getState) => ({
 
       return data.profile;
     } catch (err) {
-      ExceptionProvider.captureException(err, "onGetProfile - useAuthStore.ts");
+      ExceptionProvider.captureException(err, 'onGetProfile - useAuthStore.ts');
 
       throw new Error(err);
     }
@@ -161,7 +159,7 @@ export const authStore = create<IAuthStore>((set, getState) => ({
       });
 
       set({
-        ...getState(), initialized: true, profile, isAnonymousUser: false,
+        ...getState(), initialized: true, profile,
       });
 
       return profile;
@@ -185,7 +183,6 @@ export const authStore = create<IAuthStore>((set, getState) => ({
     await AsyncStorage.removeItem('@RNAuth:email');
     await AsyncStorage.removeItem('@RNAuth:typeLogin');
     await AsyncStorage.removeItem('@RNAuth:lastLogin');
-    await AsyncStorage.removeItem('@Dito:anonymousID');
     await AsyncStorage.setItem('@RNAuth:Token', '');
 
     EventProvider.removePushExternalUserId();

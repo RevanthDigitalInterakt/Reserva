@@ -36,8 +36,6 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>2023000202.2.34</string>
-	<key>CodePushDeploymentKey</key>
-	<string>ZBqyFW6XP_WtQx7J4gpwhIh4qXrRuOYgddjxC</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>

@@ -56,8 +56,6 @@ apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.firebase.crashlytics'
 
 
-apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
-
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -94,11 +92,15 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 
 android {
+    compileOptions {
+      sourceCompatibility JavaVersion.VERSION_1_8
+      targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     ndkVersion rootProject.ext.ndkVersion
-
     compileSdkVersion rootProject.ext.compileSdkVersion
-
     namespace "com.usereserva"
+    
     defaultConfig {
         applicationId "com.usereserva"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -109,6 +111,7 @@ android {
         resValue "string", "URL_GATEWAY_CLIENT", project.env.get("URL_GATEWAY_CLIENT")
         resValue "string", "API_KEY_GATEWAY", project.env.get("API_KEY_GATEWAY")
     }
+    
     signingConfigs {
         debug {
             storeFile file('reserva-app-upload-key.keystore')
@@ -123,6 +126,7 @@ android {
                 keyPassword MYAPP_UPLOAD_KEY_PASSWORD
         }
     }
+    
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
@@ -147,6 +151,11 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.6.1"
 
     implementation 'androidx.work:work-runtime:2.8.1'
+
+    // moengage
+    implementation("androidx.core:core:1.9.0")
+    implementation("androidx.lifecycle:lifecycle-process:2.6.2")
+    implementation("com.moengage:moe-android-sdk:13.00.03")
 
     //Add API Integrity from the PlayStore
     implementation 'com.google.android.play:integrity:1.3.0'
@@ -176,6 +185,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.google.android.gms:play-services-tasks:18.0.2'
+    implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {

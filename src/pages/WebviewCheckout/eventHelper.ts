@@ -1,4 +1,4 @@
-import { Linking, Platform } from 'react-native';
+import { Linking } from 'react-native';
 import EventProvider from '../../utils/EventProvider';
 import { urlRon } from '../../utils/LinkingUtils/static/deepLinkMethods';
 import { getAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
@@ -6,7 +6,6 @@ import { trackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTr
 import { useSearchStore } from '../../zustand/useSearchStore';
 import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../base/graphql/generated';
 import { trackOrderStore } from '../../zustand/useTrackOrderStore/useTrackOrderStore';
-import { removeSkuColorProductName } from '../../utils/products/removeSkuColorProductName';
 
 export function getURLParameter(url: string, name: string): string {
   const match = url.match(new RegExp(`[\\?&]${name.replace(/[\[\]]/g, '\\$&')}=([^&#]*)`));
@@ -275,28 +274,8 @@ export const triggerEventAfterPurchaseCompleted = async (
     af_receipt_id: dataPurchaseCompleted?.orderFormId,
   });
 
-  const userRefDito = await getAsyncStorageItem('@Dito:userRef') || '';
 
-  /* ---- Event fez-pedido-produto ---- */
-  dataPurchaseCompleted.orderFormItems.forEach((item) => {
-    EventProvider.sendTrackEvent('fez-pedido-produto', {
-      id: userRefDito,
-      action: 'fez-pedido-produto',
-      data: {
-        id: userRefDito,
-        id_transacao: dataPurchaseCompleted?.orderId,
-        quantidade: item?.quantity,
-        marca: dataPurchaseCompleted?.item_brand,
-        id_produto: item?.productId,
-        nome_produto: removeSkuColorProductName(item?.name, item?.skuName),
-        categorias_produto: item?.productCategories,
-        tamanho: item?.skuName?.split('-')?.[1]?.trim() || '',
-        cor: item?.skuName?.split('-')?.[0]?.trim() || '',
-        preco_produto: (item?.priceDefinition?.calculatedSellingPrice ?? 0) / 100,
-        origem: 'app',
-      },
-    });
-  });
+
 
   const { queryID } = useSearchStore.getState();
 
@@ -336,7 +315,7 @@ export const triggerEventAfterPurchaseCompleted = async (
   });
 
   /* ---- Event Purchase ---- */
-  EventProvider.OneSignal.sendOutcomeWithValue('Purchase', (dataPurchaseCompleted?.orderValue)?.toFixed(2));
+  EventProvider.OneSignal?.sendOutcomeWithValue('Purchase', (dataPurchaseCompleted?.orderValue)?.toFixed(2));
 
 
   /* ---- Event ron_purchase ---- */
@@ -366,26 +345,6 @@ export const triggerEventAfterPurchaseCompleted = async (
       );
     }
   }
-
-  /* ---- Event fez-pedido ---- */
-  EventProvider.sendTrackEvent('fez-pedido', {
-    id: userRefDito,
-    action: 'fez-pedido',
-    data: {
-      quantidade_produtos: dataPurchaseCompleted?.totalQuantity,
-      id_transacao: dataPurchaseCompleted?.orderId || '',
-      metodo_pagamento: dataPurchaseCompleted?.paymentSystemName,
-      subtotal: dataPurchaseCompleted?.itemSubtotal,
-      total: dataPurchaseCompleted?.orderValue,
-      total_frete: dataPurchaseCompleted?.itemShippingTotal,
-      origem: 'app',
-      dispositivo: Platform.OS,
-      id: userRefDito,
-      client_provider: Platform.OS,
-    },
-  });
-
-
 
   EventProvider.sendPushTags('sendAbandonedCartTags', {
     cart_update: '',

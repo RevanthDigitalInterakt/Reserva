@@ -6,7 +6,6 @@ import {
   Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Config from 'react-native-config';
 import images from '../../../base/styles/icons';
 import type { RootStackParamList } from '../../../routes/StackNavigator';
@@ -22,7 +21,6 @@ import useAuthModalStore from '../../../zustand/useAuthModalStore';
 import { removeNonNumbers } from '../../../utils/removeNonNumbers';
 import { cpfMask } from '../../../utils/cpfMask';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
-import useInitialDito from '../../../hooks/useInitialDito';
 import EventProvider from '../../../utils/EventProvider';
 import ModalCheckUserConnection from '../component/ModalCheckUserConnection';
 import CodeInput from '../../../components/CodeInput/CodeInput';
@@ -89,20 +87,6 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
   const passwordError = '';
   const { ModalWithoutInternet } = useCheckConnection({});
 
-  const trackEventSignUpDito = useCallback(async (emailDito: string, cpfDito: string) => {
-    const id = await AsyncStorage.getItem('@Dito:anonymousID');
-
-    EventProvider.sendTrackEvent('fez-cadastro', {
-      id,
-      action: 'fez-cadastro',
-      data: {
-        email: emailDito,
-        cpf: cpfDito,
-        origem: 'app',
-      },
-    });
-  }, []);
-
   const pasteCode = useCallback(async () => {
     const payload = await getCopiedValue();
     setCode(payload);
@@ -136,8 +120,6 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     url: `${Config.URL_VTEX_QA}/checkout?orderFormId=${orderFormId}/&test=2&document=${removeNonNumbers(cpf)}&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
   }), [orderFormId]);
 
-  const { handleDitoRegister } = useInitialDito();
-
   const handleSignUp = useCallback(async () => {
     EventProvider.logEvent('signup_create_password_click', {});
 
@@ -158,8 +140,6 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     try {
       const response = await signUp({ variables });
 
-      trackEventSignUpDito(email, removeNonNumbers(cpf));
-
       EventProvider.logEvent('sign_up', {
         method: Method.Email,
       });
@@ -168,12 +148,10 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         try {
           await onSignIn(email, passwords.confirm, true);
         } catch (err) {
-          ExceptionProvider.captureException(err, "handleSignUp - ConfirmAccessCode", { document: cpf, email });
+          ExceptionProvider.captureException(err, 'handleSignUp - ConfirmAccessCode', { document: cpf, email });
         }
 
         await onUpdateAuthData(response?.data?.signUp?.token, response?.data?.signUp?.authCookie);
-        // TODO rebase PR Feature/SRN-202 dito send accessed category
-        handleDitoRegister();
         setModalSignUpComplete(true);
         if (comeFrom === 'BagScreen' && getBoolean('should_redirect_to_checkout')) {
           goToWebviewCheckout();
@@ -187,7 +165,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
         first: '',
       });
       setCode('');
-      ExceptionProvider.captureException(e, "handleSignUp - ConfirmAccessCode", { document: cpf, email });
+      ExceptionProvider.captureException(e, 'handleSignUp - ConfirmAccessCode', { document: cpf, email });
     } finally {
       setIsLoading(false);
     }
@@ -202,7 +180,6 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     requestCookie,
     setModalSignUpComplete,
     signUp,
-    trackEventSignUpDito,
     comeFrom,
   ]);
 
@@ -227,7 +204,7 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
       }
     } catch (err) {
       setIsLoading(false);
-      ExceptionProvider.captureException(err, "resendCode - ConfirmAccessCode.tsx", { email });
+      ExceptionProvider.captureException(err, 'resendCode - ConfirmAccessCode.tsx', { email });
     } finally {
       setIsLoading(false);
     }

@@ -14,8 +14,6 @@ import {
 } from './misc';
 import type { EventOptionsFn, EventsOptions } from './Event';
 import type { EventOptionsOneSignalFn } from './EventOnesignal';
-import type { TEventsDitoValues, TEventOptionsDitoFn } from './EventDito';
-import sendDitoTrackEvent from '../Dito/src/utils/sendDitoTrackEvent';
 import { platformType } from '../platformType';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 
@@ -34,7 +32,7 @@ class EventProvider {
 
     OneSignal.initialize(env.ONE_SIGINAL_APP_KEY_IOS);
 
-    OneSignal.Notifications.addEventListener('click', (event) => {
+    OneSignal.Notifications.addEventListener('click', () => {
     });
 
     OneSignal.Notifications.addEventListener('foregroundWillDisplay', (event) => {
@@ -42,10 +40,6 @@ class EventProvider {
     });
 
     OneSignal.Notifications.requestPermission(true);
-
-    // OneSignal.setNotificationWillShowInForegroundHandler((notificationReceivedEvent) => {
-    //   notificationReceivedEvent.getNotification();
-    // });
   }
 
   private static async putCustomData() {
@@ -56,7 +50,7 @@ class EventProvider {
         {
           onesignalCustomerId: deviceState,
         },
-        (res) => { },
+        () => { },
       );
     }
   }
@@ -202,18 +196,6 @@ class EventProvider {
   ) {
     const eventValues = args[1] as Record<string, string>;
     this.OneSignal.User.addTags(eventValues);
-  }
-
-  public static sendTrackEvent<Type extends TEventOptionsDitoFn['type']>(
-    ...args: Extract<TEventOptionsDitoFn, { type: Type }> extends {
-      payload: infer TPayload;
-    }
-      ? [Type, TPayload]
-      : [Type]
-  ) {
-    const { action, id, data } = args[1] as TEventsDitoValues;
-
-    sendDitoTrackEvent(id, { action, data });
   }
 
   public static setPushExternalUserId(email: string) {

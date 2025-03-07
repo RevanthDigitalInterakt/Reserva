@@ -58,7 +58,6 @@ import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
 import { getAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { handleCopyTextToClipboard } from '../../utils/CopyToClipboard';
 import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
-import { trackEventDitoStatusCart } from '../../utils/trackEventDitoStatusCart';
 import { trackingOrderFormAddItem } from '../../utils/trackingOrderFormAddItem';
 import { productDetailStore } from '../useProductDetail/useProductDetail';
 import { getMessageErrorWhenUpdateItem } from './helpers/getMessageErrorWhenUpdateItem';
@@ -387,7 +386,7 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
 
         return true;
       } catch (err) {
-        ExceptionProvider.captureException(err, "COPY_ORDERFORM - useBagStore.ts");
+        ExceptionProvider.captureException(err, 'COPY_ORDERFORM - useBagStore.ts');
 
         return false;
       }
@@ -678,12 +677,6 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
           productNotFound: errorsMessages,
           hasPrimeSubscriptionInCart: orderForm?.hasPrimeSubscriptionInCart,
         }));
-
-        await trackEventDitoStatusCart({
-          items: mergeItems,
-          appTotalizers: orderForm?.appTotalizers,
-          clientProfileData: orderForm?.clientProfileData,
-        });
       } catch (error) {
         set(() => ({ error: error.message }));
       } finally {
@@ -842,13 +835,14 @@ const bagStore = create<IBagStore>((set, getState): IBagStore => ({
         await trackingOrderFormAddItem({ id, orderForm, productDetail });
       } catch (error) {
         ExceptionProvider.captureException(
-          error, 
-          "ADD_ITEM - useBagStore.ts", 
+          error,
+          'ADD_ITEM - useBagStore.ts',
           {
-            seller:  (JSON.stringify(seller) || ""),
-            id:  (JSON.stringify(id) || ""),
-            quantity: (JSON.stringify(quantity) || "")
-          });
+            seller: (JSON.stringify(seller) || ''),
+            id: (JSON.stringify(id) || ''),
+            quantity: (JSON.stringify(quantity) || ''),
+          },
+        );
         set(() => ({ error: error.message }));
 
         throw new Error(error.message);

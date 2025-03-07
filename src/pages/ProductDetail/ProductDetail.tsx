@@ -1,9 +1,7 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { Alert, View } from 'react-native';
 import {
-  type ProductQuery,
   ProductResultActionEnum,
   TrackPageTypeEnum,
   useProductLazyQuery,
@@ -17,7 +15,6 @@ import useAsyncStorageProvider from '../../hooks/useAsyncStorageProvider';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import EventProvider from '../../utils/EventProvider';
 import type { IProductDetailRouteParams } from '../../utils/createNavigateToProductParams';
-import { getProductCategories } from '../../utils/getProductCategories';
 import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import { GiftCardAddToCart } from './components/GiftCardAddToCart';
@@ -83,29 +80,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
   const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
-  const trackEventDitoAccessProduct = useCallback(async ({ product }: ProductQuery) => {
-    try {
-      const id = profile?.email
-        ? await getItem('@Dito:userRef')
-        : await AsyncStorage.getItem('@Dito:anonymousID');
 
-      EventProvider.sendTrackEvent('acessou-produto', {
-        id,
-        action: 'acessou-produto',
-        data: {
-          id_produto: product.productId,
-          cor: product.initialColor?.colorName || '',
-          tamanho: product.initialSize?.size || '',
-          nome_categoria: getProductCategories(product.categoryTree),
-          nome_produto: product.productName,
-          marca: product.categoryTree[0],
-          origem: 'app',
-        },
-      });
-    } catch (error) {
-      ExceptionProvider.captureException(error, "trackEventDitoAccessProduct - ProductDetail.tsx", { email: profile?.email || "" });
-    }
-  }, [getItem, profile?.email]);
   const isOnlyFvcProduct = productDetail?.categoryTree.includes('Faça Você');
   const onInitialLoad = useCallback(async (params: IProductDetailRouteParams) => {
     try {
@@ -117,7 +92,6 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       }
 
       const { product } = data;
-      trackEventDitoAccessProduct(data);
 
       const existsFvcProductReference = !!product?.fvcProductReference;
       if (existsFvcProductReference) {
@@ -183,7 +157,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         [{ text: 'OK', onPress: () => navigation.goBack() }],
       );
     }
-  }, [getProduct, navigation, setProduct, trackEventDitoAccessProduct, route]);
+  }, [getProduct, navigation, setProduct, route]);
 
   useEffect(() => {
     resetProduct();

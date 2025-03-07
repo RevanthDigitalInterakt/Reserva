@@ -7,7 +7,6 @@ import { Button } from '../../../components/Button';
 import { Typography } from '../../../components/Typography/Typography';
 import { getApolloClient } from '../../../utils/getApolloClient';
 import { useAuthStore } from '../../../zustand/useAuth/useAuthStore';
-import useDitoStore from '../../../zustand/useDitoStore';
 import { TopBarBackButton } from '../../Menu/components/TopBarBackButton';
 
 export function AccountDeletedSuccessfully() {
@@ -17,7 +16,6 @@ export function AccountDeletedSuccessfully() {
   const logout = useCallback(async () => {
     try {
       getApolloClient().clearStore();
-      useDitoStore.persist.clearStorage();
     } catch (err) {
       //
     } finally {
