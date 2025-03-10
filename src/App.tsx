@@ -94,6 +94,7 @@ function App() {
         await Linking.openURL(deeplink);
       }
     });
+    ReactMoE.enableAdIdTracking();
 
     return () => {
       ReactMoE.removeEventListener('pushClicked');

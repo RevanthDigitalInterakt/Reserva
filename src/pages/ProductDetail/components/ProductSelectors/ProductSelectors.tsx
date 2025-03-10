@@ -4,6 +4,7 @@ import React, {
 import {
   Image, Text, TouchableOpacity, View,
 } from 'react-native';
+import ReactMoE, { MoEProperties } from 'react-native-moengage';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Box } from '../../../../components/Box/Box';
 import { Divider } from '../../../../components/Divider/Divider';
@@ -147,6 +148,21 @@ function ProductSelectors() {
   }, [selectedSize, doSelectSizeTrack]);
 
   useEffect(() => {
+    const properties = new MoEProperties();
+
+    properties.addAttribute('source', '');
+    properties.addAttribute('marca', productDetail?.categoryTree[0] || '');
+    properties.addAttribute('id_produto', productDetail?.productId || '');
+    properties.addAttribute('nome_produto', productDetail?.productName || '');
+    properties.addAttribute('preco_produto', productDetail?.priceRange?.sellingPrice.lowPrice || 0);
+    properties.addAttribute('preco_desconto', productDetail?.initialSize?.currentPrice || 0);
+    properties.addAttribute('nome_categoria', productDetail?.categoryTree.toString() || '');
+    properties.addAttribute('cor_produto', productDetail?.initialColor?.colorName || '');
+    properties.addAttribute('tamanho_produto', productDetail?.initialSize?.size || '');
+
+    properties.setNonInteractiveEvent();
+
+    ReactMoE.trackEvent('acessou_produto', properties);
     if (selectedSize) verifyProductDoris(selectedSize.ean);
   }, [selectedSize]);
 
