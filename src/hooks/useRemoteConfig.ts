@@ -82,6 +82,7 @@ export interface IRemoteConfigKeys {
   new_offers_page_tester: boolean;
   show_pdc_kit_look: boolean;
   show_geolocation: boolean;
+  show_shipping_bar: boolean;
 }
 
 type KeysMatching<T extends object, V> = {
@@ -161,6 +162,7 @@ export const defaults: IRemoteConfigKeys = {
   new_offers_page_tester: false,
   show_pdc_kit_look: false,
   show_geolocation: false,
+  show_shipping_bar: false,
 };
 
 const FIVE_MINUTES_IN_MS = 300000;
