@@ -1,6 +1,7 @@
 import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { Alert, View } from 'react-native';
+import ReactMoE, { MoEProperties } from 'react-native-moengage';
 import {
   ProductResultActionEnum,
   TrackPageTypeEnum,
@@ -80,7 +81,6 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
   const { onFinishLoad, startLoadingTime } = usePageLoadingStore(['onFinishLoad', 'startLoadingTime']);
 
-
   const isOnlyFvcProduct = productDetail?.categoryTree.includes('Faça Você');
   const onInitialLoad = useCallback(async (params: IProductDetailRouteParams) => {
     try {
@@ -149,7 +149,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
       setProduct(product, params);
     } catch (err) {
-      ExceptionProvider.captureException(err, "onInitialLoad - ProductDetail.tsx", { params: (JSON.stringify(params) || "") });
+      ExceptionProvider.captureException(err, 'onInitialLoad - ProductDetail.tsx', { params: (JSON.stringify(params) || '') });
 
       Alert.alert(
         'Ops!',
@@ -196,7 +196,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
                     <Divider variant="fullWidth" my="xs" />
                     <ProductPayment />
                   </>
-                )}
+              )}
               {showReturnPolicy && (<ReturnPolicy />)}
             </Box>
 
