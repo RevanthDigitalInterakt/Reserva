@@ -88,12 +88,15 @@ function App() {
   useEffect(() => {
     ReactMoE.initialize('DQ9WFLTADL2Y89Z9OSFUKU0L');
     ReactMoE.requestPushPermissionAndroid();
+    ReactMoE.registerForPush();
     ReactMoE.setEventListener('pushClicked', async (notificationPayload: { deeplink?: string; gcm_webUrl?: string; }) => {
+      console.log(notificationPayload);
       const deeplink = notificationPayload?.deeplink || notificationPayload?.gcm_webUrl;
       if (deeplink) {
         await Linking.openURL(deeplink);
       }
     });
+
     ReactMoE.enableAdIdTracking();
 
     return () => {

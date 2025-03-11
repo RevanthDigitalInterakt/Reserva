@@ -73,6 +73,8 @@
 	<string>Precisamos de acesso a sua galeria para adicionar uma foto de perfil</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>Precisamos de acesso para oferecer conteúdo personalizável para você.</string>
+	<key>MoEngageAppDelegateProxyEnabled</key>
+	<true/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Nunito-Black.ttf</string>
