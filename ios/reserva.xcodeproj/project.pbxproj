@@ -1106,7 +1106,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023000202.2.35;
+				CURRENT_PROJECT_VERSION = 2023000202.2.36;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -1125,7 +1125,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.34.0;
+				MARKETING_VERSION = 2.35.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
@@ -1152,7 +1152,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2023000202.2.35;
+				CURRENT_PROJECT_VERSION = 2023000202.2.36;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = N3UDSXJ25B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -1171,7 +1171,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.34.0;
+				MARKETING_VERSION = 2.35.0;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.globalsys.reserva.OneSignalNotificationServiceExtension;

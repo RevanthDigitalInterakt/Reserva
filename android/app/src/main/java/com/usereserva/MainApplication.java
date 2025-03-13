@@ -73,7 +73,7 @@ public class MainApplication extends Application implements ReactApplication {
     }
     
     MoEngage.Builder moEngage = new MoEngage.Builder(this, "DQ9WFLTADL2Y89Z9OSFUKU0L", DataCenter.DATA_CENTER_2)
-    .configureLogs(new LogConfig(LogLevel.VERBOSE, true))
+    .configureLogs(new LogConfig(LogLevel.VERBOSE, false))
     .configureNotificationMetaData(new NotificationConfig(R.drawable.ic_notificacao, R.drawable.ic_notificacao));
     MoEInitializer.INSTANCE.initializeDefaultInstance(getApplicationContext(), moEngage);
   }
