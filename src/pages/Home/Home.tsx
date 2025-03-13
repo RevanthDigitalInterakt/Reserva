@@ -235,17 +235,19 @@ function Home() {
   }, [shelfOffers]);
 
   useEffect(() => {
-    ReactMoE.setUserUniqueID(profile?.email || '');
-    ReactMoE.setUserName(profile?.firstName || '');
-    ReactMoE.setUserFirstName(profile?.firstName || '');
-    ReactMoE.setUserLastName(profile?.lastName || '');
-    ReactMoE.setUserEmailID(profile?.email || '');
-    ReactMoE.setUserContactNumber(profile?.homePhone || '');
-    ReactMoE.setUserGender(profile?.gender || '');
-    ReactMoE.setUserBirthday(profile?.birthDate || '');
+    if (profile) {
+      ReactMoE.setUserUniqueID(profile?.email || '');
+      ReactMoE.setUserName(profile?.firstName || '');
+      ReactMoE.setUserFirstName(profile?.firstName || '');
+      ReactMoE.setUserLastName(profile?.lastName || '');
+      ReactMoE.setUserEmailID(profile?.email || '');
+      ReactMoE.setUserContactNumber(profile?.homePhone || '');
+      ReactMoE.setUserGender(profile?.gender || '');
+      ReactMoE.setUserBirthday(profile?.birthDate || '');
+    }
+
     trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);
     EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
-
     DeviceInfo.isLocationEnabled().then((enabled) => {
       EventProvider.logEvent('device_info', { locationEnabled: enabled ? 'enabled' : 'disabled' });
     });
