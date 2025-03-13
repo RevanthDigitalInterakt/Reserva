@@ -9,6 +9,7 @@ import DeviceInfo from 'react-native-device-info';
 import 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
 import ReactMoE from 'react-native-moengage';
+import { OneSignal } from 'react-native-onesignal';
 import { ExceptionProvider } from './base/providers/ExceptionProvider';
 import { theme } from './base/usereservappLegacy/theme';
 import DatadogComponentProvider from './components/DatadogComponentProvider';
@@ -32,6 +33,21 @@ import { useApolloFetchPolicyStore } from './zustand/useApolloFetchPolicyStore';
 import { useBagStore } from './zustand/useBagStore/useBagStore';
 import { useHomeStore } from './zustand/useHomeStore';
 import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
+
+interface INotificationPayload {
+  data: {
+    payload: {
+      app_extra: {
+        moe_deeplink: string;
+      };
+      screenData: {
+        deeplink: string;
+      };
+    };
+  };
+  deeplink: string;
+  gcm_webUrl: string;
+}
 
 const DefaultTheme = {
   colors: {
@@ -86,18 +102,36 @@ function App() {
   }, []);
 
   useEffect(() => {
-    ReactMoE.initialize('DQ9WFLTADL2Y89Z9OSFUKU0L');
-    ReactMoE.requestPushPermissionAndroid();
-    ReactMoE.setEventListener('pushClicked', async (notificationPayload: { deeplink?: string; gcm_webUrl?: string; }) => {
-      const deeplink = notificationPayload?.deeplink || notificationPayload?.gcm_webUrl;
+    const clickListenerOneSignal = async (event) => {
+      const deeplink = event.notification.launchURL || event.result.url || '';
       if (deeplink) {
         await Linking.openURL(deeplink);
       }
-    });
+    };
+
+    const pushClickedListenerMoEngage = async (notificationPayload) => {
+      let deeplink = '';
+      if (Platform.OS === 'ios') {
+        deeplink = notificationPayload?.data?.payload?.app_extra?.moe_deeplink
+          || notificationPayload?.data?.payload?.screenData?.deeplink;
+      } else {
+        deeplink = notificationPayload?.deeplink || notificationPayload?.gcm_webUrl;
+      }
+      if (deeplink) {
+        await Linking.openURL(deeplink);
+      }
+    };
+
+    OneSignal.Notifications.addEventListener('click', clickListenerOneSignal);
+    ReactMoE.setEventListener('pushClicked', pushClickedListenerMoEngage);
+    ReactMoE.initialize('DQ9WFLTADL2Y89Z9OSFUKU0L');
+    ReactMoE.requestPushPermissionAndroid();
+    ReactMoE.registerForPush();
     ReactMoE.enableAdIdTracking();
 
     return () => {
       ReactMoE.removeEventListener('pushClicked');
+      OneSignal.Notifications.removeEventListener('click', clickListenerOneSignal);
     };
   }, []);
 

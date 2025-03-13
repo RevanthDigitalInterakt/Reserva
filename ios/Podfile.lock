@@ -953,7 +953,6 @@ PODS:
   - AppsFlyerFramework (6.12.2):
     - AppsFlyerFramework/Main (= 6.12.2)
   - AppsFlyerFramework/Main (6.12.2)
-  - Base64 (1.1.2)
   - boost (1.76.0)
   - BoringSSL-GRPC (0.0.32):
     - BoringSSL-GRPC/Implementation (= 0.0.32)
@@ -963,11 +962,6 @@ PODS:
   - BoringSSL-GRPC/Interface (0.0.32)
   - BVLinearGradient (2.8.3):
     - React-Core
-  - CodePush (8.0.2):
-    - Base64 (~> 1.1)
-    - JWT (~> 3.0.0-beta.12)
-    - React-Core
-    - SSZipArchive (~> 2.2.2)
   - DatadogCore (2.14.2):
     - DatadogInternal (= 2.14.2)
   - DatadogCrashReporting (2.14.2):
@@ -1298,14 +1292,23 @@ PODS:
   - hermes-engine/Pre-built (0.72.12)
   - jail-monkey (2.8.2):
     - React-Core
-  - JWT (3.0.0-beta.14):
-    - Base64 (~> 1.1.2)
   - leveldb-library (1.22.6)
   - libevent (2.1.12)
   - lottie-ios (4.4.1)
   - lottie-react-native (6.7.2):
     - lottie-ios (= 4.4.1)
     - React-Core
+  - MoEngage-iOS-SDK (9.17.5)
+  - MoEngageInApp (6.00.3):
+    - MoEngage-iOS-SDK (< 9.18.0, >= 9.17.1)
+    - MoEngageTriggerEvaluator (< 1.02.0, >= 1.01.0)
+  - MoEngagePluginBase (4.8.2):
+    - MoEngage-iOS-SDK (< 9.18.0, >= 9.17.1)
+    - MoEngageInApp (< 6.01.0, >= 6.00.0)
+  - MoEngageRichNotification (7.16.1):
+    - MoEngage-iOS-SDK (< 9.18.0, >= 9.17.0)
+  - MoEngageTriggerEvaluator (1.01.1):
+    - MoEngage-iOS-SDK (< 9.18.0, >= 9.17.0)
   - nanopb (2.30909.1):
     - nanopb/decode (= 2.30909.1)
     - nanopb/encode (= 2.30909.1)
@@ -1827,6 +1830,10 @@ PODS:
     - React-jsi (= 0.72.12)
     - React-logger (= 0.72.12)
     - React-perflogger (= 0.72.12)
+  - ReactNativeMoEngage (9.1.0):
+    - MoEngagePluginBase (< 4.9.0, >= 4.8.0)
+    - MoEngageRichNotification (< 7.17.0, >= 7.16.0)
+    - React
   - RNBootSplash (4.7.5):
     - React-Core
   - RNCAsyncStorage (1.24.0):
@@ -1882,11 +1889,6 @@ PODS:
   - RNGestureHandler (2.21.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNNotifee (7.9.0):
-    - React-Core
-    - RNNotifee/NotifeeCore (= 7.9.0)
-  - RNNotifee/NotifeeCore (7.9.0):
-    - React-Core
   - RNPermissions (3.10.1):
     - React-Core
   - RNReanimated (3.3.0):
@@ -1929,13 +1931,11 @@ PODS:
   - RNSVG (13.14.0):
     - React-Core
   - SocketRocket (0.6.1)
-  - SSZipArchive (2.2.3)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
-  - CodePush (from `../node_modules/react-native-code-push`)
   - "DatadogSDKReactNative (from `../node_modules/@datadog/mobile-react-native`)"
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -2000,6 +2000,7 @@ DEPENDENCIES:
   - React-runtimescheduler (from `../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - ReactNativeMoEngage (from `../node_modules/react-native-moengage`)
   - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
@@ -2016,7 +2017,6 @@ DEPENDENCIES:
   - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
   - "RNFBStorage (from `../node_modules/@react-native-firebase/storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
-  - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -2030,7 +2030,6 @@ SPEC REPOS:
     - abseil
     - AppCheckCore
     - AppsFlyerFramework
-    - Base64
     - BoringSSL-GRPC
     - DatadogCore
     - DatadogCrashReporting
@@ -2065,10 +2064,14 @@ SPEC REPOS:
     - "gRPC-C++"
     - gRPC-Core
     - GTMSessionFetcher
-    - JWT
     - leveldb-library
     - libevent
     - lottie-ios
+    - MoEngage-iOS-SDK
+    - MoEngageInApp
+    - MoEngagePluginBase
+    - MoEngageRichNotification
+    - MoEngageTriggerEvaluator
     - nanopb
     - OneSignal
     - OneSignalXCFramework
@@ -2077,15 +2080,12 @@ SPEC REPOS:
     - PromisesObjC
     - PromisesSwift
     - SocketRocket
-    - SSZipArchive
 
 EXTERNAL SOURCES:
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
-  CodePush:
-    :path: "../node_modules/react-native-code-push"
   DatadogSDKReactNative:
     :path: "../node_modules/@datadog/mobile-react-native"
   DoubleConversion:
@@ -2202,6 +2202,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/utils"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  ReactNativeMoEngage:
+    :path: "../node_modules/react-native-moengage"
   RNBootSplash:
     :path: "../node_modules/react-native-bootsplash"
   RNCAsyncStorage:
@@ -2234,8 +2236,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/storage"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
-  RNNotifee:
-    :path: "../node_modules/@notifee/react-native"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNReanimated:
@@ -2255,11 +2255,9 @@ SPEC CHECKSUMS:
   abseil: d121da9ef7e2ff4cab7666e76c5a3e0915ae08c3
   AppCheckCore: 9feb4300caa596a36416cde10674dc5bec1e022e
   AppsFlyerFramework: 6eb4d89d2eb9a6632317f1055b359d9fd85fd5ff
-  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost: 7dcd2de282d72e344012f7d6564d024930a6a440
   BoringSSL-GRPC: 1e2348957acdbcad360b80a264a90799984b2ba6
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
-  CodePush: 9eddecce05cd10491e2673b259c85885a462be33
   DatadogCore: a3429f62b7da0e715e179833b3daa0203ba2a5ad
   DatadogCrashReporting: 3b5e496c1f61971a93b9a1bff3312297be03f031
   DatadogInternal: 11798eea970f195ad720168f9a51712e71affe33
@@ -2300,11 +2298,15 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
   hermes-engine: e89344b9e9e54351c3c5cac075e0275148fb37ba
   jail-monkey: 6e853b6f89ac808e0c85adaa33b36aeb0a51ab01
-  JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
   leveldb-library: cc8b8f8e013647a295ad3f8cd2ddf49a6f19be19
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   lottie-ios: e047b1d2e6239b787cc5e9755b988869cf190494
   lottie-react-native: 17547b2f3c7034e2ae8672833fdb63262164d18a
+  MoEngage-iOS-SDK: aeb31076a11030d63dd67c3dbd712a6aa56507c5
+  MoEngageInApp: cfa846bdca03334148996b3ebb4065439b6da461
+  MoEngagePluginBase: d55825c07e5246f6fba42674cb1d031e2eca2864
+  MoEngageRichNotification: 9106c0372f56228ca6bbe28a14b689638843b836
+  MoEngageTriggerEvaluator: fea5448dd4545e427f4e01caa0bc5bef50896573
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   OneSignal: 9ce8e9f235a6e25e7ef399f0853623ceb50f59ad
   OneSignalXCFramework: 4215fb8deb8a669504d39c02dffaf2ec8ebe10ae
@@ -2362,6 +2364,7 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 9b8a8057b343493bcb2a553e157a299c18051a5c
   React-utils: 147af032f68db757b4f885b2b5131dc23a7fd7e7
   ReactCommon: ef68590fe8751d802740801dfb893b80caa3a046
+  ReactNativeMoEngage: 4a79e7c3ff01f99beccf1457e548b6ae7e288616
   RNBootSplash: 85f6b879c080e958afdb4c62ee04497b05fd7552
   RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
   RNCClipboard: 69ab8e51324d5b351f6ba72bbdb72478087a2c64
@@ -2378,17 +2381,15 @@ SPEC CHECKSUMS:
   RNFBRemoteConfig: e36f9b70aeca4a73dcb683573c79619b83d59c4f
   RNFBStorage: ebf84836d1e919f1fd3fa8d53178e47ca35f186b
   RNGestureHandler: e9a9570cf592b2fa0f2dc90ae06f040d3ed4e4d3
-  RNNotifee: 935f3ea8c134c88cbf8b13ea0c97c72c09ad2116
-  RNPermissions: 54b22c815d5d966705e4d5d8b801e65c0e363966
+  RNPermissions: 4e3714e18afe7141d000beae3755e5b5fb2f5e05
   RNReanimated: 9f7068e43b9358a46a688d94a5a3adb258139457
   RNScreens: bde591bf18051634c41712bcc99dcb9de1d9de3c
   RNSha256: e1bc64e9e50b293d5282bb4caa1b2043931f1c9d
   RNShare: da6d90b6dc332f51f86498041d6e34211f96b630
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: 87e59f6d458e5061d2421086c5de994b3f7cd151
 
-PODFILE CHECKSUM: d0eb6e67ff501711974f9655b9e92a572eb86e84
+PODFILE CHECKSUM: 238d64484a6fd75be47be6d136de8122d57a9c19
 
 COCOAPODS: 1.16.2
