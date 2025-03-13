@@ -251,7 +251,7 @@ function Home() {
     DeviceInfo.isLocationEnabled().then((enabled) => {
       EventProvider.logEvent('device_info', { locationEnabled: enabled ? 'enabled' : 'disabled' });
     });
-  }, []);
+  }, [profile?.email]);
 
   useEffect(() => {
     if (rouletIsOpen) {
