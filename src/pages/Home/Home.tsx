@@ -235,7 +235,7 @@ function Home() {
   }, [shelfOffers]);
 
   useEffect(() => {
-    if (profile) {
+    if (profile?.email) {
       ReactMoE.setUserUniqueID(profile?.email || '');
       ReactMoE.setUserName(profile?.firstName || '');
       ReactMoE.setUserFirstName(profile?.firstName || '');
