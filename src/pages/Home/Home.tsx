@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import ReactMoE from 'react-native-moengage';
 import { WebView, type WebViewMessageEvent } from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeviceInfo from 'react-native-device-info';
@@ -52,6 +53,7 @@ import ShowcaseDrawerContent from './components/ShowcaseDrawerContent/ShowcaseDr
 import HomeModalGeolocation from './components/HomeModalGeolocation/HomeModalGeolocation';
 import HomeTooltipGeolocation from './components/HomeTooltipGeolocation/HomeTooltipGeolocation';
 import { getHomeContent } from '../../utils/getHomeContent';
+import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -198,6 +200,9 @@ function Home() {
     'setHasTabBar',
     'selectedStateGeolocation',
   ]);
+  const {
+    profile,
+  } = useAuthStore(['profile']);
   const { rouletIsOpen } = useBagStore(['rouletIsOpen']);
 
   const { showModalSignUpComplete } = useAuthModalStore([
@@ -230,9 +235,19 @@ function Home() {
   }, [shelfOffers]);
 
   useEffect(() => {
+    if (profile?.email) {
+      ReactMoE.setUserUniqueID(profile?.email || '');
+      ReactMoE.setUserName(profile?.firstName || '');
+      ReactMoE.setUserFirstName(profile?.firstName || '');
+      ReactMoE.setUserLastName(profile?.lastName || '');
+      ReactMoE.setUserEmailID(profile?.email || '');
+      ReactMoE.setUserContactNumber(profile?.homePhone || '');
+      ReactMoE.setUserGender(profile?.gender || '');
+      ReactMoE.setUserBirthday(profile?.birthDate || '');
+    }
+
     trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);
     EventProvider.logEvent('page_view', { item_brand: defaultBrand.picapau });
-
     DeviceInfo.isLocationEnabled().then((enabled) => {
       EventProvider.logEvent('device_info', { locationEnabled: enabled ? 'enabled' : 'disabled' });
     });

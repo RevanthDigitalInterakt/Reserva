@@ -3,6 +3,7 @@ import * as React from 'react';
 import {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
+import ReactMoE from 'react-native-moengage'
 import { BackHandler, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import firestore from '@react-native-firebase/firestore';
@@ -294,6 +295,7 @@ export function MenuProfile() {
                   disabled={isLoading}
                   onPress={() => {
                     EventProvider.logEvent('profile_logout_click', {});
+                    ReactMoE.logout();
                     handleLogout();
                   }}
                   title="LOGOUT"
