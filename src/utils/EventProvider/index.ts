@@ -32,9 +32,6 @@ class EventProvider {
 
     OneSignal.initialize(env.ONE_SIGINAL_APP_KEY_IOS);
 
-    OneSignal.Notifications.addEventListener('click', () => {
-    });
-
     OneSignal.Notifications.addEventListener('foregroundWillDisplay', (event) => {
       event.getNotification();
     });
