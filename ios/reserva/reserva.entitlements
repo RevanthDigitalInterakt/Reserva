@@ -11,8 +11,6 @@
 		<string>applinks:www.usereserva.com</string>
 		<string>applinks:usereserva.io</string>
 		<string>applinks:*.usereserva.io</string>
-		<string>applinks:dito.vc</string>
-		<string>applinks:*.dito.vc</string>
 	</array>
 </dict>
 </plist>

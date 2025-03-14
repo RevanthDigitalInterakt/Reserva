@@ -3,8 +3,8 @@ import {
   getPathFromState,
   type LinkingOptions,
 } from '@react-navigation/native';
-import messaging from '@react-native-firebase/messaging';
 import appsFlyer from 'react-native-appsflyer';
+import ReactMoE from 'react-native-moengage';
 import { env } from './env';
 import { deepLinkHelper } from '../utils/LinkingUtils/deepLinkHelper';
 import { defaultInitialUrl } from '../utils/LinkingUtils/static/deepLinkMethods';
@@ -75,33 +75,28 @@ export const linkingConfig: LinkingOptions = {
     'https://www.usereserva.com/',
     'https://usereserva.io/',
     'https://now.usereserva.io/',
-    'https://dito.vc/',
   ],
   config: routesConfig,
   getPathFromState(state) {
     return getPathFromState(state) || '';
   },
   async getInitialURL() {
-    // Check if app was opened from a deep link
-    const remoteMessage = await messaging().getInitialNotification();
-    const { details } = JSON.parse(remoteMessage?.data?.data || '{}');
-    const ditoDeeplinkUrl = details?.link || '';
-    if (ditoDeeplinkUrl) {
-      // TODO import { pushClicked } from '../../services/ditoService';
-      // TODO implementar o pushClicked da dito
-      return urlHandler(ditoDeeplinkUrl);
-    }
-
     const url = await Linking.getInitialURL();
-
     if (url) {
       return urlHandler(url);
     }
-
     return undefined;
   },
 
-  subscribe(listener) {
+  subscribe(listener: (arg0: string) => void) {
+    ReactMoE.setEventListener('pushClicked', async (notificationPayload: { deeplink?: string; gcm_webUrl?: string; }) => {
+      const deeplink = notificationPayload?.deeplink || notificationPayload?.gcm_webUrl;
+      if (deeplink) {
+        const handledLink = await urlHandler(deeplink);
+        if (handledLink) listener(handledLink);
+      }
+    });
+
     const onReceiveURL = async ({ url }: { url: string }) => {
       const currentDeepLink = await deepLinkHelper(url);
 
@@ -139,25 +134,12 @@ export const linkingConfig: LinkingOptions = {
       (_) => { },
     );
 
-    const unsubscribeFCM = messaging().onNotificationOpenedApp(
-      async (remoteMessage) => {
-        const { details } = JSON.parse(remoteMessage?.data?.data || '{}');
-        const url = details?.link || '';
-        // TODO testar com app minimizado
-        // TODO import { pushClicked } from '../../services/ditoService';
-        // TODO implementar o pushClicked da dito
-        const newUrl = await deepLinkHelper(url);
-        listener(newUrl);
-      },
-    );
-
     const linkingSubscription = Linking.addEventListener('url', onReceiveURL);
 
     return () => {
-      // Clean up the event listeners
+      ReactMoE.removeEventListener('pushClicked');
       linkingSubscription.remove();
       onDeepLinkCanceller();
-      unsubscribeFCM();
     };
   },
 };

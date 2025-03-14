@@ -1,9 +1,3 @@
-import React, {
-  useCallback, useEffect, useMemo, useState,
-} from 'react';
-import {
-  BackHandler, Linking, ScrollView, View,
-} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   StackActions,
@@ -11,32 +5,37 @@ import {
   useNavigation,
 } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
+import {
+  BackHandler, Linking, ScrollView, View,
+} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import type { RootStackParamList } from '../../routes/StackNavigator';
-import { TopBarMenu } from '../../modules/Menu/components/TopBarMenu';
-import testProps from '../../utils/testProps';
-import EventProvider from '../../utils/EventProvider';
-import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import {
   type Maybe,
   type MenuCategoryItemOutput,
   MenuItemTypeEnum,
   useAppMenuQuery,
 } from '../../base/graphql/generated';
-import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
-import { useRemoteConfig } from '../../hooks/useRemoteConfig';
-import MenuItem from './components/MenuItem';
-import FixedMenuItem from './components/MenuFixedItem';
-import { getDitoUserID } from '../../utils/Dito/src/utils/getDitoUserID';
-import MenuBreadcrumb from './components/MenuBreadcrumb';
+import { theme } from '../../base/usereservappLegacy/theme';
 import { Box } from '../../components/Box/Box';
 import { Divider } from '../../components/Divider/Divider';
-import { Typography } from '../../components/Typography/Typography';
-import { theme } from '../../base/usereservappLegacy/theme';
-import NewFixedMenuItem from './components/NewMenuFixedItem';
 import FormLink from '../../components/FormLink/FormLink';
+import { Typography } from '../../components/Typography/Typography';
+import { useRemoteConfig } from '../../hooks/useRemoteConfig';
+import { TopBarMenu } from '../../modules/Menu/components/TopBarMenu';
+import type { RootStackParamList } from '../../routes/StackNavigator';
+import EventProvider from '../../utils/EventProvider';
 import { handlePathsParams } from '../../utils/LinkingUtils/linkingUtils';
+import testProps from '../../utils/testProps';
+import { useApolloFetchPolicyStore } from '../../zustand/useApolloFetchPolicyStore';
+import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
+import MenuBreadcrumb from './components/MenuBreadcrumb';
+import FixedMenuItem from './components/MenuFixedItem';
+import MenuItem from './components/MenuItem';
+import NewFixedMenuItem from './components/NewMenuFixedItem';
 
 export type MenuProps = StackScreenProps<RootStackParamList, 'Menu'>;
 
@@ -66,24 +65,6 @@ function Menu() {
     [getBoolean],
   );
 
-  const trackEventAccessedDepartmentDito = useCallback(
-    async (openedCategories: string) => {
-      if (!openedCategories) return;
-
-      const id = await getDitoUserID(profile?.email);
-
-      EventProvider.sendTrackEvent('acessou-departamento', {
-        id,
-        action: 'acessou-departamento',
-        data: {
-          nome_departamento: openedCategories,
-          origem: 'app',
-        },
-      });
-    },
-    [profile?.email],
-  );
-
   const getTestEnvironment = useCallback(async () => {
     const res = await AsyncStorage.getItem('isTesting');
     setIsTesting(res === 'true');
@@ -107,9 +88,6 @@ function Menu() {
       index: number,
       selectedItem: Omit<MenuCategoryItemOutput, '__typename'>,
     ) => {
-      trackEventAccessedDepartmentDito(selectedItem.name);
-      // TODO: ADICIONAR EVENTO DE CLIQUE NO MENU
-
       EventProvider.logEvent(`item_menu-${selectedItem.name}`, {
         itemName: selectedItem.name,
       });
@@ -188,7 +166,7 @@ function Menu() {
         linkTo(linkUrl);
       }
     },
-    [linkTo, navigation, openedIndex, trackEventAccessedDepartmentDito],
+    [linkTo, navigation, openedIndex],
   );
 
   useEffect(() => {
@@ -344,7 +322,7 @@ function Menu() {
               fontSize={11}
             >
               {`Versão ${DeviceInfo.getVersion()} ${isTesting ? ' - Teste' : ''
-                }`}
+              }`}
             </Typography>
           </Box>
         </ScrollView>

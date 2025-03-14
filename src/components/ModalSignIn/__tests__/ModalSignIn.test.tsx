@@ -15,11 +15,6 @@ jest.mock('../../../zustand/useApolloFetchPolicyStore', () => ({
   }),
 }));
 
-jest.mock('../../../zustand/useDitoStore', () => ({
-  useDitoStore: () => ({
-  }),
-}));
-
 jest
   .spyOn(useLandingPagePrimeQuery, 'useLandingPagePrimeQuery')
   .mockReturnValue({

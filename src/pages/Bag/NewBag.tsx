@@ -13,10 +13,8 @@ import type { RootStackParamList } from '../../routes/StackNavigator';
 import EventProvider from '../../utils/EventProvider';
 import ToastProvider from '../../utils/Toast';
 import WithAvoidingView from '../../utils/WithAvoidingView';
-import { getBrands } from '../../utils/getBrands';
 import { getSelectedDelivery } from '../../utils/getSelectedDelivery';
 import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
-import { trackAccessBag } from '../../utils/trackAccessBag';
 import { trackViewCart } from '../../utils/trackViewCart';
 import { useBagStore } from '../../zustand/useBagStore/useBagStore';
 import useInitialBag from '../../zustand/useBagStore/useInitialBagStore/useInitialBag';
@@ -62,7 +60,6 @@ export default function NewBag({ navigation }: TNewBagProps) {
     appTotalizers,
     selectableGift,
     allItemsQuantity,
-    clientProfileData,
     actions,
   } = useBagStore([
     'topBarLoading',
@@ -73,7 +70,6 @@ export default function NewBag({ navigation }: TNewBagProps) {
     'appTotalizers',
     'selectableGift',
     'allItemsQuantity',
-    'clientProfileData',
     'actions',
   ]);
 
@@ -142,15 +138,6 @@ export default function NewBag({ navigation }: TNewBagProps) {
   useEffect(() => {
     actions.REFETCH_ORDER_FORM();
   }, [actions]);
-
-  useEffect(() => {
-    trackAccessBag(
-      allItemsQuantity,
-      appTotalizers.total,
-      getBrands(items),
-      clientProfileData,
-    );
-  }, [items]);
 
   useEffect(() => {
     trackViewCart({ items, price: appTotalizers.total });

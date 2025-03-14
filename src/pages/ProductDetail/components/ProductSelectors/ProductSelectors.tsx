@@ -4,6 +4,7 @@ import React, {
 import {
   Image, Text, TouchableOpacity, View,
 } from 'react-native';
+import ReactMoE, { MoEProperties } from 'react-native-moengage';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Box } from '../../../../components/Box/Box';
 import { Divider } from '../../../../components/Divider/Divider';
@@ -147,8 +148,29 @@ function ProductSelectors() {
   }, [selectedSize, doSelectSizeTrack]);
 
   useEffect(() => {
+    const properties = new MoEProperties();
+
+    const lowPrice = productDetail?.priceRange?.sellingPrice?.lowPrice || 0;
+    const currentPrice = productDetail?.initialSize?.currentPrice || 0;
+
+    const discountValue = lowPrice - currentPrice;
+
+    properties.addAttribute('source', '');
+    properties.addAttribute('marca', productDetail?.categoryTree[0] || '');
+    properties.addAttribute('id_produto', productDetail?.productId || '');
+    properties.addAttribute('nome_produto', productDetail?.productName || '');
+    properties.addAttribute('preco_produto', productDetail?.priceRange?.sellingPrice.lowPrice || 0);
+    properties.addAttribute('preco_desconto', productDetail?.initialSize?.currentPrice || 0);
+    properties.addAttribute('categorias', productDetail?.categoryTree || []);
+    properties.addAttribute('cor_produto', selectedColor?.colorName || '');
+    properties.addAttribute('tamanho_produto', selectedSize?.size || '');
+    properties.addAttribute('desconto', discountValue);
+
+    properties.setNonInteractiveEvent();
+
+    ReactMoE.trackEvent('acessou_produto', properties);
     if (selectedSize) verifyProductDoris(selectedSize.ean);
-  }, [selectedSize]);
+  }, [selectedSize, selectedColor]);
 
   const handleSelectedItem = useMemo(() => {
     if (addToBagButtonIsFixed) {

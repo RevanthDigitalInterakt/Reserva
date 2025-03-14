@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { v4 } from 'uuid';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   TrackPageTypeEnum,
   TrackPageViewDocument, type TrackPageViewInput,
@@ -43,7 +42,6 @@ export const trackPageViewStore = create<ITrackPageViewStore>((set, getState) =>
   navigation: [],
   onSendTrack: async (navigation, elapsedTime) => {
     try {
-      const userEmail = await AsyncStorage.getItem('@Dito:anonymousID');
       const input: TrackPageViewInput = {
         elapsedTime: parseInt(`${elapsedTime || 0}`, 10),
         pageIdentifier: navigation.identifier,
@@ -51,7 +49,7 @@ export const trackPageViewStore = create<ITrackPageViewStore>((set, getState) =>
         providers: [TrackProvidersEnum.Smarthint],
         session: getState().sessionId,
         originIdentifier: navigation.origin,
-        userEmail: userEmail || '', // Garantir que userEmail não seja null
+        userEmail: '', // TODO impl backend collect email from jwt token
       };
 
       await getApolloClient().mutate<TrackPageViewMutation, TrackPageViewMutationVariables>({
@@ -60,7 +58,7 @@ export const trackPageViewStore = create<ITrackPageViewStore>((set, getState) =>
         variables: { input },
       });
     } catch (error) {
-      ExceptionProvider.captureException(error, "trackPageViewStore - useTrackPageViewStore.ts");
+      ExceptionProvider.captureException(error, 'trackPageViewStore - useTrackPageViewStore.ts');
     }
   },
   onUpdateNavigation: (identifier, type) => {

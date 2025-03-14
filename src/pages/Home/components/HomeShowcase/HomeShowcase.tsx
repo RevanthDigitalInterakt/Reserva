@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from './HomeShowcase.styles';
 import Shelf from '../HomeShowcaseShelf/HomeShowcaseShelf';
 import useRecommendationShelf from '../../../../zustand/useRecommendation/useRecommendationShelf';
@@ -53,8 +52,7 @@ export function HomeShowcase() {
 
   useEffect(() => {
     async function handleGetShelf() {
-      const user = await AsyncStorage.getItem('@Dito:anonymousID');
-      const data = await onSearchShelf(user ?? '');
+      const data = await onSearchShelf('');
       setShelf(data as IRsvRecommendation[]);
     }
 

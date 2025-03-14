@@ -5,11 +5,8 @@ import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 export interface IAsyncStorageKeys {
   '@RNOrder:RonItems': string[];
   '@RNSession:Ron': boolean;
-  '@DitoNotification:Ref': string;
-  '@DitoNotification:Id': number;
   isTesting: boolean,
   isAppFirstLaunched: boolean,
-  '@Dito:userRef': string,
   '@RNWebView:WebViewQACookiesList': Cookies,
   // Auth keys
   'Auth:Token': string;
@@ -36,7 +33,7 @@ export async function getAsyncStorageItem<K extends TStorageKey>(
 
     return res ? JSON.parse(res) : null;
   } catch (err) {
-    ExceptionProvider.captureException(err, "getAsyncStorageItem - useAsyncStorageProvider.ts", { key });
+    ExceptionProvider.captureException(err, 'getAsyncStorageItem - useAsyncStorageProvider.ts', { key });
 
     return null;
   }
@@ -51,7 +48,7 @@ export async function setAsyncStorageItem<K extends TStorageKey>(
 
     return true;
   } catch (err) {
-    ExceptionProvider.captureException(err, "getAsyncStorageItem - setAsyncStorageItem.ts", { key, value: (JSON.stringify(val) || "") });
+    ExceptionProvider.captureException(err, 'getAsyncStorageItem - setAsyncStorageItem.ts', { key, value: (JSON.stringify(val) || '') });
 
     return false;
   }
@@ -65,7 +62,7 @@ export async function removeAsyncStorageItem<K extends TStorageKey>(
 
     return true;
   } catch (err) {
-    ExceptionProvider.captureException(err, "getAsyncStorageItem - removeAsyncStorageItem.ts", { key });
+    ExceptionProvider.captureException(err, 'getAsyncStorageItem - removeAsyncStorageItem.ts', { key });
 
     return false;
   }

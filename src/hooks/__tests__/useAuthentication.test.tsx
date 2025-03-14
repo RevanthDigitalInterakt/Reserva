@@ -9,11 +9,6 @@ jest.mock('../../zustand/useBagStore/useBagStore', () => ({
   }),
 }));
 
-jest.mock('../../zustand/useDitoStore', () => ({
-  useDitoStore: () => ({
-  }),
-}));
-
 describe('useAuthentication test', () => {
   it('should successfully initial datas', async () => {
     const { result } = renderHook(() => useAuthentication({}));

@@ -28,11 +28,6 @@ jest.mock('../../hooks/usePrimeInfo', () => ({
   }),
 }));
 
-jest.mock('../../zustand/useDitoStore', () => ({
-  useDitoStore: () => ({
-  }),
-}));
-
 jest.mock('../../zustand/useApolloFetchPolicyStore', () => ({
   useApolloFetchPolicyStore: () => ({
     getFetchPolicyPerKey: () => 'network-only',

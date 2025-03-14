@@ -3,5 +3,6 @@
 #import <AppsFlyerLib/AppsFlyerLib.h>
 #import <UserNotifications/UserNotifications.h>
 
-@interface AppDelegate : RCTAppDelegate
+@interface AppDelegate : RCTAppDelegate<UNUserNotificationCenterDelegate>
+
 @end

@@ -1,15 +1,15 @@
 import { ApolloProvider } from '@apollo/client';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import messaging from '@react-native-firebase/messaging';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { NavigationContainer } from '@react-navigation/native';
 import JailMonkey from 'jail-monkey';
-import React, { useCallback, useEffect, useState } from 'react';
-import { Platform } from 'react-native';
+import React, { useEffect } from 'react';
+import { Linking, Platform } from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
 import DeviceInfo from 'react-native-device-info';
 import 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
+import ReactMoE from 'react-native-moengage';
+import { OneSignal } from 'react-native-onesignal';
 import { ExceptionProvider } from './base/providers/ExceptionProvider';
 import { theme } from './base/usereservappLegacy/theme';
 import DatadogComponentProvider from './components/DatadogComponentProvider';
@@ -21,25 +21,33 @@ import RegionalSearchContextProvider from './context/RegionalSearchContext';
 import StatusBarContextProvider from './context/StatusBarContext';
 import useApolloClientHook from './hooks/useApolloClientHook';
 import useAsyncStorageProvider from './hooks/useAsyncStorageProvider';
-import { useNotification } from './hooks/useNotification';
 import { useRemoteConfig } from './hooks/useRemoteConfig';
 import InitialScreen from './InitialScreen';
 import ReservaJailbreakScreen from './ReservaJailbreakScreen';
 import { AppRouting } from './routes/AppRouting';
-import { getDeviceInfoMemory, getDeviceInfoModel, getDeviceInfoStorage } from './utils/Device/deviceUtils';
 import EventProvider from './utils/EventProvider';
 import type { EventsOptions } from './utils/EventProvider/Event';
 import { navigationRef } from './utils/navigationRef';
 import ToastProvider from './utils/Toast';
 import { useApolloFetchPolicyStore } from './zustand/useApolloFetchPolicyStore';
 import { useBagStore } from './zustand/useBagStore/useBagStore';
-import { useConnectivityStore } from './zustand/useConnectivityStore';
-import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
 import { useHomeStore } from './zustand/useHomeStore';
+import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
 
-const { model, os } = getDeviceInfoModel();
-const { freeMemory, totalMemory, usedMemory } = getDeviceInfoMemory();
-const { freeStorage, totalStorage, usedStorage } = getDeviceInfoStorage();
+interface INotificationPayload {
+  data: {
+    payload: {
+      app_extra: {
+        moe_deeplink: string;
+      };
+      screenData: {
+        deeplink: string;
+      };
+    };
+  };
+  deeplink: string;
+  gcm_webUrl: string;
+}
 
 const DefaultTheme = {
   colors: {
@@ -61,11 +69,8 @@ if (isJailBroken) {
 
 function App() {
   useApolloFetchPolicyStore(['initialized']);
-  useNotification();
 
-  const { onListenEvents: onListenConnectivityEvents } = useConnectivityStore(['onListenEvents']);
-  const [isTesting, setIsTesting] = useState<boolean>(false);
-  const client = useApolloClientHook(isTesting);
+  const client = useApolloClientHook(false);
   const { onStartLoad } = usePageLoadingStore(['onStartLoad']);
   const { checkIfFirstLaunch, onSelectStateGeolocation } = useHomeStore(['checkIfFirstLaunch', 'onSelectStateGeolocation']);
   const { actions } = useBagStore(['actions']);
@@ -87,47 +92,47 @@ function App() {
     }
   };
 
-  if (Platform.OS === 'ios') {
-    messaging().requestPermission();
-  }
-
   useEffect(() => {
     (async () => {
+      EventProvider.initializeModules();
       firstLaunchedData();
       await actions.INITIAL_LOAD();
-      onListenConnectivityEvents();
       remoteConfigStore.fetchInitialData(remoteConfig());
     })();
   }, []);
 
-  const getTestEnvironment = useCallback(async () => {
-    const res = await AsyncStorage.getItem('isTesting');
-
-    setIsTesting(res === 'true');
-  }, []);
-
   useEffect(() => {
-    getTestEnvironment();
-  }, [getTestEnvironment]);
+    const clickListenerOneSignal = async (event) => {
+      const deeplink = event.notification.launchURL || event.result.url || '';
+      if (deeplink) {
+        await Linking.openURL(deeplink);
+      }
+    };
 
-  useEffect(() => {
-    EventProvider.initializeModules();
+    const pushClickedListenerMoEngage = async (notificationPayload) => {
+      let deeplink = '';
+      if (Platform.OS === 'ios') {
+        deeplink = notificationPayload?.data?.payload?.app_extra?.moe_deeplink
+          || notificationPayload?.data?.payload?.screenData?.deeplink;
+      } else {
+        deeplink = notificationPayload?.deeplink || notificationPayload?.gcm_webUrl;
+      }
+      if (deeplink) {
+        await Linking.openURL(deeplink);
+      }
+    };
 
-    EventProvider.logEvent('device_info_memory', {
-      model,
-      os,
-      totalMemory,
-      freeMemory,
-      usedMemory,
-    });
+    OneSignal.Notifications.addEventListener('click', clickListenerOneSignal);
+    ReactMoE.setEventListener('pushClicked', pushClickedListenerMoEngage);
+    ReactMoE.initialize('DQ9WFLTADL2Y89Z9OSFUKU0L');
+    ReactMoE.requestPushPermissionAndroid();
+    ReactMoE.registerForPush();
+    ReactMoE.enableAdIdTracking();
 
-    EventProvider.logEvent('device_info_storage', {
-      model,
-      os,
-      totalStorage,
-      freeStorage,
-      usedStorage,
-    });
+    return () => {
+      ReactMoE.removeEventListener('pushClicked');
+      OneSignal.Notifications.removeEventListener('click', clickListenerOneSignal);
+    };
   }, []);
 
   return (

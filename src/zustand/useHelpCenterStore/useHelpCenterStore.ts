@@ -26,7 +26,7 @@ const initialState: TState = {
   loading: false,
 };
 
-export interface IHelpCenterStore {
+interface IHelpCenterStore {
   titleHelpCenter?: HelpCenterCollectionsItemsOutput['titleHelpCenter'];
   footerHelpCenter?: HelpCenterCollectionsItemsOutput['footerHelpCenter'];
   itemsHelpCenter?: ItemsHelpCenterCollectionOutput['items'];
@@ -70,7 +70,7 @@ const helpCenterStore = create<IHelpCenterStore>((set, getState) => ({
           itemsHelpCenter: itemsHelpCenter[0],
         }));
       } catch (error) {
-        ExceptionProvider.captureException(error, "INITIAL_LOADING - useHelpCenter.ts");
+        ExceptionProvider.captureException(error, 'INITIAL_LOADING - useHelpCenter.ts');
       } finally {
         set(() => ({ loading: false, initialized: true }));
       }
@@ -91,7 +91,7 @@ const helpCenterStore = create<IHelpCenterStore>((set, getState) => ({
           itemsHelpCenter: itemsHelpCenter[0],
         }));
       } catch (error) {
-        ExceptionProvider.captureException(error, "SET_DATA - useHelpCenterStore.ts");
+        ExceptionProvider.captureException(error, 'SET_DATA - useHelpCenterStore.ts');
       } finally {
         set(() => ({ loading: false }));
       }

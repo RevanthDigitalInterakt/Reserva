@@ -13,11 +13,8 @@ import {
   SearchProviderEnum,
 } from '../base/graphql/generated';
 import { getApolloClient } from '../utils/getApolloClient';
-import { trackEventSearchDito } from '../utils/trackEventSearchDito';
 import EventProvider from '../utils/EventProvider';
 import { getBrandByUrl } from '../utils/getBrandByURL';
-import { trackEventAccessedCategoryDito } from '../utils/trackEventAccessedCategoryDito';
-import { getCollectionFacetsValue } from '../utils/getCollectionFacetsValue';
 import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { trackPageViewStore } from './useTrackPageViewStore/useTrackPageViewStore';
@@ -68,7 +65,7 @@ interface ISearchStoreFilters {
   price?: { from: number; to: number }
 }
 
-export interface ISearchStore {
+interface ISearchStore {
   initialized: boolean,
   loading: boolean;
   searchType: SearchType;
@@ -181,14 +178,12 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
 
         trackClick.onTrackClick(newData, data.search.identifier || '', type);
         trackStore.onTrackPageView(data.search.identifier || '', type);
-        trackEventSearchDito(String(newParameters.q), data.search.count);
         EventProvider.logEvent('view_search_results', { search_term: String(newParameters.q) });
       }
 
       if (searchType === SearchType.CATALOG) {
         trackStore.onTrackPageView(data.search.identifier || '', TrackPageTypeEnum.Category);
 
-        trackEventAccessedCategoryDito(getCollectionFacetsValue(newParameters.facets));
         EventProvider.logEvent('product_list_view', {
           content_type: 'product_group',
           item_brand: getBrandByUrl({ categoryTree: [{ href: data.search.items[0]?.category || '' }] }),
@@ -203,12 +198,12 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
       } as ISearchStore));
     } catch (err) {
       ExceptionProvider.captureException(
-        err, 
-        "onSearch - useSearchStore.ts", 
-        { 
-          parameters: (JSON.stringify(parameters) || ""),
-          filters: (JSON.stringify(filters) || "")
-        }
+        err,
+        'onSearch - useSearchStore.ts',
+        {
+          parameters: (JSON.stringify(parameters) || ''),
+          filters: (JSON.stringify(filters) || ''),
+        },
       );
     }
   },
@@ -249,7 +244,7 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
         resultCount,
       } as ISearchStore));
     } catch (err) {
-      ExceptionProvider.captureException(err, "doFetchMore - useSearchStore.ts");
+      ExceptionProvider.captureException(err, 'doFetchMore - useSearchStore.ts');
     }
   },
 }));
