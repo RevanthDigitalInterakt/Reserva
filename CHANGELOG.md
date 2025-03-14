@@ -1,7 +1,18 @@
 # APP Reserva
 
 ## CHANGELOG
-]
+
+### 2.35.0
+
+- [Implementar push notification iOS - MoEngage](https://dev.azure.com/ARECO/AReCO/_workitems/edit/60765)
+- [Data tracking acessou_produto - MoEngage](https://dev.azure.com/ARECO/AReCO/_workitems/edit/60766)
+- [Data tracking atributos usuário e login function - MoEngage](https://dev.azure.com/ARECO/AReCO/_workitems/edit/60823)
+- [Data tracking atributos usuário e login function - MoEngage](https://dev.azure.com/ARECO/AReCO/_workitems/edit/60823)
+
+### 2.34.0
+
+- [Implementar push notification Android - MoEngage](https://dev.azure.com/ARECO/AReCO/_workitems/edit/60430)
+
 ### 2.33.0
 
 - [56915 - Efetuar login no app](https://dev.azure.com/ARECO/AReCO/_workitems/edit/56915)
