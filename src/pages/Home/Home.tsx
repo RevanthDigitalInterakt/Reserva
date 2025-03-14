@@ -14,6 +14,7 @@ import {
   View,
 } from 'react-native';
 import ReactMoE from 'react-native-moengage';
+import { addHours, format } from 'date-fns';
 import { WebView, type WebViewMessageEvent } from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeviceInfo from 'react-native-device-info';
@@ -54,6 +55,7 @@ import HomeModalGeolocation from './components/HomeModalGeolocation/HomeModalGeo
 import HomeTooltipGeolocation from './components/HomeTooltipGeolocation/HomeTooltipGeolocation';
 import { getHomeContent } from '../../utils/getHomeContent';
 import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
+import { convertDatetimeIsoString } from '../../utils/convertDatetimeIsoString';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -236,6 +238,10 @@ function Home() {
 
   useEffect(() => {
     if (profile?.email) {
+      const tzDate = profile?.birthDate || '';
+
+      const isoString = convertDatetimeIsoString(tzDate);
+
       ReactMoE.setUserUniqueID(profile?.email || '');
       ReactMoE.setUserName(profile?.firstName || '');
       ReactMoE.setUserFirstName(profile?.firstName || '');
@@ -243,7 +249,7 @@ function Home() {
       ReactMoE.setUserEmailID(profile?.email || '');
       ReactMoE.setUserContactNumber(profile?.homePhone || '');
       ReactMoE.setUserGender(profile?.gender || '');
-      ReactMoE.setUserBirthday(profile?.birthDate || '');
+      ReactMoE.setUserBirthday(isoString);
     }
 
     trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);

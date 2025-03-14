@@ -162,8 +162,8 @@ function ProductSelectors() {
     properties.addAttribute('preco_produto', productDetail?.priceRange?.sellingPrice.lowPrice || 0);
     properties.addAttribute('preco_desconto', productDetail?.initialSize?.currentPrice || 0);
     properties.addAttribute('categorias', productDetail?.categoryTree || []);
-    properties.addAttribute('cor_produto', productDetail?.initialColor?.colorName || '');
-    properties.addAttribute('tamanho_produto', productDetail?.initialSize?.size || '');
+    properties.addAttribute('cor_produto', selectedColor?.colorName || '');
+    properties.addAttribute('tamanho_produto', selectedSize?.size || '');
     properties.addAttribute('desconto', discountValue);
 
     properties.setNonInteractiveEvent();
