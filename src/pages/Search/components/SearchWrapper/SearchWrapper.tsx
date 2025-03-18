@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
+import { TextInput, View } from 'react-native';
 import { Box } from '../../../../components/Box/Box';
 import { SearchBar } from '../../../../components/SearchBar/SearchBar';
 import { TopBarDefaultBackButton } from '../../../../modules/Menu/components/TopBarDefaultBackButton';
 import useSearchStore, { SearchStatusEnum } from '../../../../zustand/useSearchStore';
+import { COLORS } from '../../../../base/styles';
 
 interface ISearchWrapper {
   children?: React.ReactNode;

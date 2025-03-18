@@ -104,7 +104,7 @@ export function TopBar({
               alignSelf="center"
             >
               {isPrime && primeActive
-                ? <IconComponent icon="logoPrime" />
+                ? <IconLegacy name="Logo" color="vermelhoAlerta" size={24} />
                 : <IconLegacy name="Logo" color="vermelhoAlerta" size={24} />}
             </Box>
           ) : (

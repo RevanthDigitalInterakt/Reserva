@@ -225,7 +225,7 @@ export default function NewBag({ navigation }: TNewBagProps) {
 
                     {showAddZipCodeDeliveryAB ? <BagProductPackageList /> : <BagProductList />}
 
-                    {showOnep5p && (<OneP5P comingFrom="bag" itemQuantity={allItemsQuantity} />)}
+                    {/* {showOnep5p && (<OneP5P comingFrom="bag" itemQuantity={allItemsQuantity} />)} */}
 
                     {!showAddZipCodeDeliveryAB && hasUnavailableItems && <UnavailableList />}
 

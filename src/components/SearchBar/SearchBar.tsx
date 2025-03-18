@@ -1,10 +1,11 @@
 import React from 'react';
-import { TextInput } from 'react-native';
+import { TextInput, View } from 'react-native';
 import { Box } from '../Box/Box';
 import { IconLegacy } from '../IconLegacy/IconLegacy';
 import { theme } from '../../base/usereservappLegacy/theme';
 import { Button } from '../Button';
 import { Typography } from '../Typography/Typography';
+import { COLORS } from '../../base/styles';
 
 interface SearchBarProps {
   height?: number;
@@ -31,7 +32,58 @@ export function SearchBar({
 }: SearchBarProps) {
   return (
     <Box>
-      <Box
+      <View
+        style={{
+          borderWidth: 1,
+          borderColor: COLORS.LIGHT_GRAY,
+          borderRadius: 10,
+          height: 45,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <TextInput
+          placeholder="O que você procura?"
+          onSubmitEditing={() => onClickIcon && onClickIcon()}
+          style={{
+            marginLeft: 10,
+            fontSize: 14,
+            padding: 0,
+            fontFamily: theme.fonts.nunitoRegular,
+          }}
+          onChangeText={(text) => {
+            if (onValueChange) {
+              onValueChange(text);
+            }
+          }}
+        />
+        <View style={{ marginRight: 20 }}>
+          <IconLegacy name={iconName || 'Search'} size={18} />
+        </View>
+      </View>
+      {autocomplete && autocomplete.length > 0 && (
+        <Box backgroundColor="white" paddingY="xxxs">
+          {autocomplete.map((item) => (
+            <Button
+              key={`autocomplete-search-${item}`}
+              inline
+              onPress={() => {
+                if (onClickAutocomplete) {
+                  onClickAutocomplete(item);
+                }
+              }}
+            >
+              <Box width="100%" paddingY="nano" paddingLeft="xxxs">
+                <Typography variant="botaoFiltrarEOrdenarProdutos">
+                  {item}
+                </Typography>
+              </Box>
+            </Button>
+          ))}
+        </Box>
+      )}
+      {/* <Box
         height={height}
         flexDirection="row"
         justifyContent="space-between"
@@ -91,7 +143,7 @@ export function SearchBar({
           </Button>
         ))}
       </Box>
-      )}
+      )} */}
     </Box>
   );
 }
