@@ -23,9 +23,14 @@ function ProductListItemPrime({
   onPress,
   onDelete,
 }: Readonly<IProductListItemPrime>) {
-  const discountTag = useMemo(() => data.discountPercent > 0, [data?.discountPercent]);
+  
 
   const price = useMemo(() => (data.price / 12) / 100, [data.price]);
+
+  const discountTag = useMemo(
+    () => data.discountPercent > 0 && data.priceWithDiscount !== price,
+    [data?.discountPercent, data?.priceWithDiscount, price],
+  );
 
   const urlFacaVc = useMemo(() => data.urlFacaVc, [data.urlFacaVc]);
 
