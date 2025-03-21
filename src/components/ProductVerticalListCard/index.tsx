@@ -17,6 +17,7 @@ import ProductPricePrimeRow from '../ProductPricePrimeLabelRow/ProductPricePrime
 import ProductPriceRow from '../ProductPriceRow/ProductPriceRow';
 import ProductThumbColorsRow from '../ProductThumbColorsRow/ProductThumbColorsRow';
 import { Typography } from '../Typography/Typography';
+import { COLORS, FONTS } from '../../base/styles';
 
 export interface ProductVerticalListCardProps {
   imageWidth?: number
@@ -191,24 +192,20 @@ export function ProductVerticalListCard({
               flexDirection="row"
               alignItems="flex-end"
             >
-              {/* <Typography
+              <Text
+                style={{
+                  fontFamily: FONTS.RESERVA_SANS_REGULAR,
+                  color: COLORS.DARK_GREY_BLUE,
+                  fontSize: 12,
+                  marginLeft: -3,
+                }}
+              >
+                {` ${currency || 'R$'} `}
+              </Text>
+              <Typography
                 fontFamily="reservaSansRegular"
                 fontSize={12}
                 color="neutroFrio2"
-              >
-                De
-              </Typography> */}
-              <Typography
-                fontFamily="reservaSansRegular"
-                fontSize={12}
-                color="preto"
-              >
-                {` ${currency || 'R$'} `}
-              </Typography>
-              <Typography
-                fontFamily="reservaSansRegular"
-                fontSize={12}
-                color="preto"
                 style={{
                   textDecorationLine: 'line-through',
                 }}
@@ -218,7 +215,7 @@ export function ProductVerticalListCard({
               <Typography
                 fontFamily="reservaSansRegular"
                 fontSize={12}
-                color="preto"
+                color="neutroFrio2"
                 style={{
                   textDecorationLine: 'line-through',
                 }}

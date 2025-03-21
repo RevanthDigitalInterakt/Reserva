@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   textPrice: {
     fontFamily: 'ReservaSans-Medium',
     fontSize: 12,
-    color: '#8A8C8E',
+    color: '#000000',
     letterSpacing: 0.05,
   },
   grey: {
@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.05,
   },
   divider: {
-    backgroundColor: '#8A8C8E',
+    backgroundColor: '#000000',
     width: 1,
     height: 16,
     marginHorizontal: configDeviceSizes.DEVICE_WIDTH > 320 ? 6 : 4,
