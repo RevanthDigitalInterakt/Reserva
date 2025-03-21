@@ -1,5 +1,5 @@
-query ronRedirect($code: String!) {
-  ronRedirect(input: { code: $code }) {
+query ronRedirect($code: String!, $orderFormId: String!) {
+  ronRedirect(input: { code: $code, orderFormId: $orderFormId }) {
     type
     url
     orderFormId
