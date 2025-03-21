@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native';
 import Config from 'react-native-config';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import EventProvider from '../../utils/EventProvider';
-import useAsyncStorageProvider, { setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
+import useAsyncStorageProvider, { getAsyncStorageItem, setAsyncStorageItem } from '../../hooks/useAsyncStorageProvider';
 import { adaptOrderFormItemsTrack } from '../../utils/adaptOrderFormItemsTrack';
 import { getBrands } from '../../utils/getBrands';
 import { defaultBrand } from '../../utils/defaultWBrand';
@@ -118,7 +118,9 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
   const handleRedirect = useCallback(async (code: string) => {
     if (!code) return;
 
-    const { data, error } = await getRonRedirect({ variables: { code: ronCode } });
+    const orderForm = await getAsyncStorageItem('orderFormId');
+
+    const { data, error } = await getRonRedirect({ variables: { code: ronCode, orderFormId: orderForm || '' } });
 
     if (!data?.ronRedirect || error) {
       navigation.replace('HomeTabs');
@@ -134,7 +136,8 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
       return;
     }
 
-    if (redirectType === RonRedirectTypeEnum.Custom && url) {
+    if (redirectType === RonRedirectTypeEnum.Custom && url && orderFormId) {
+      await setAsyncStorageItem('orderFormId', orderFormId);
       handleCustomRedirect(url);
     }
   }, [saveOrderFormItems, handleCustomRedirect, getRonRedirect, ronCode, navigation]);

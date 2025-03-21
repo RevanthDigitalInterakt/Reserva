@@ -3002,6 +3002,7 @@ export type ReturnPolicyConfigQuery = { __typename?: 'Query', config?: { __typen
 
 export type RonRedirectQueryVariables = Exact<{
   code: Scalars['String']['input'];
+  orderFormId?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -6119,8 +6120,8 @@ export function refetchReturnPolicyConfigQuery(variables?: ReturnPolicyConfigQue
       return { query: ReturnPolicyConfigDocument, variables: variables }
     }
 export const RonRedirectDocument = gql`
-    query ronRedirect($code: String!) {
-  ronRedirect(input: {code: $code}) {
+    query ronRedirect($code: String!, $orderFormId: String) {
+  ronRedirect(input: {code: $code, orderFormId: $orderFormId}) {
     type
     url
     orderFormId
@@ -6141,6 +6142,7 @@ export const RonRedirectDocument = gql`
  * const { data, loading, error } = useRonRedirectQuery({
  *   variables: {
  *      code: // value for 'code'
+ *      orderFormId: // value for 'orderFormId'
  *   },
  * });
  */
