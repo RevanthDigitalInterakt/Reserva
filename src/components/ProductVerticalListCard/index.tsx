@@ -191,24 +191,24 @@ export function ProductVerticalListCard({
               flexDirection="row"
               alignItems="flex-end"
             >
-              <Typography
+              {/* <Typography
                 fontFamily="reservaSansRegular"
                 fontSize={12}
                 color="neutroFrio2"
               >
                 De
-              </Typography>
+              </Typography> */}
               <Typography
                 fontFamily="reservaSansRegular"
                 fontSize={12}
-                color="neutroFrio2"
+                color="preto"
               >
                 {` ${currency || 'R$'} `}
               </Typography>
               <Typography
                 fontFamily="reservaSansRegular"
                 fontSize={12}
-                color="neutroFrio2"
+                color="preto"
                 style={{
                   textDecorationLine: 'line-through',
                 }}
@@ -218,7 +218,7 @@ export function ProductVerticalListCard({
               <Typography
                 fontFamily="reservaSansRegular"
                 fontSize={12}
-                color="neutroFrio2"
+                color="preto"
                 style={{
                   textDecorationLine: 'line-through',
                 }}
