@@ -37,7 +37,7 @@ function ProductPriceRow({
         {`${decimalPart(finalPrice)}`}
       </Text>
 
-      {!!installments?.number && (
+      {!!installments?.number && installments.number > 1 && (
         <>
           <View style={styles.divider} />
 

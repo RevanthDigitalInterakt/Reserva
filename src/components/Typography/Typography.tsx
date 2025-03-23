@@ -6,6 +6,7 @@ import {
   fontSize,
   type TypographyProps,
   type ColorProps,
+  fontFamily,
 } from 'styled-system';
 import { Text } from 'react-native';
 import type { theme } from '../../base/usereservappLegacy/theme';
@@ -27,7 +28,8 @@ type TextVariantsTypes =
   | 'botaoFiltrarEOrdenarProdutos'
   | 'descricaoCampoDePreenchimento'
   | 'parcelas2'
-  | 'tituloProdutosQueCombinam';
+  | 'tituloProdutosQueCombinam'
+  | 'searchComponent';
 
 export interface TextProps
   extends // @ts-ignore
@@ -126,6 +128,10 @@ export const textVariants = variant<TextProps, TextVariantsTypes, 'variant'>({
       fontFamily: 'nunitoRegular',
       fontSize: 8,
 
+    },
+    searchComponent: {
+      fontFamily: 'reservaSansMedium',
+      fontSize: 14,
     },
   },
 });
