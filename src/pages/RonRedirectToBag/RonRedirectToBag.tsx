@@ -56,7 +56,7 @@ export type IRonRedirectToBagProps = StackScreenProps<RootStackParamList, 'RonRe
 
 export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBagProps) {
   const { ronCode } = route?.params || {};
-  const { topBarLoading, packageItems, actions } = useBagStore(['topBarLoading', 'packageItems', 'actions']);
+  const { topBarLoading, packageItems, actions, orderFormId } = useBagStore(['topBarLoading', 'packageItems', 'actions', 'orderFormId']);
   const { setItem } = useAsyncStorageProvider();
   const [getRonRedirect] = useRonRedirectLazyQuery({ context: { clientName: 'gateway' } });
   const [finished, setFinished] = useState(false);
@@ -118,27 +118,26 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
   const handleRedirect = useCallback(async (code: string) => {
     if (!code) return;
 
-    const orderForm = await getAsyncStorageItem('orderFormId');
-    console.log('orderform >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', orderForm);
+    // const orderForm = await getAsyncStorageItem('orderFormId');
 
-    const { data, error } = await getRonRedirect({ variables: { code: ronCode, orderFormId: orderForm || '' }, context: { clientName: 'gateway' }, fetchPolicy: 'no-cache' });
+    const { data, error } = await getRonRedirect({ variables: { code: ronCode, orderFormId: orderFormId || '' }, context: { clientName: 'gateway' }, fetchPolicy: 'no-cache' });
 
     if (!data?.ronRedirect || error) {
       navigation.replace('HomeTabs');
       return;
     }
 
-    const { orderFormId, url, type: redirectType } = data.ronRedirect;
+    const { orderFormId: newOrderFormId, url, type: redirectType } = data.ronRedirect;
 
-    if (redirectType === RonRedirectTypeEnum.Orderform && orderFormId) {
-      await setAsyncStorageItem('orderFormId', orderFormId);
+    if (redirectType === RonRedirectTypeEnum.Orderform && newOrderFormId) {
+      await setAsyncStorageItem('orderFormId', newOrderFormId);
       await actions.REFETCH_ORDER_FORM();
-      await saveOrderFormItems(orderFormId);
+      await saveOrderFormItems(newOrderFormId);
       return;
     }
 
-    if (redirectType === RonRedirectTypeEnum.Custom && url && orderFormId) {
-      await setAsyncStorageItem('orderFormId', orderFormId);
+    if (redirectType === RonRedirectTypeEnum.Custom && url && newOrderFormId) {
+      await setAsyncStorageItem('orderFormId', newOrderFormId);
       await actions.REFETCH_ORDER_FORM();
       handleCustomRedirect(url);
     }
