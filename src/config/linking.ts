@@ -98,6 +98,7 @@ export const linkingConfig: LinkingOptions = {
     });
 
     const onReceiveURL = async ({ url }: { url: string }) => {
+      console.log('>>>>>>>>>>>>>>>>>>>', url);
       const currentDeepLink = await deepLinkHelper(url);
 
       if (!currentDeepLink) {
@@ -106,6 +107,7 @@ export const linkingConfig: LinkingOptions = {
         }
       }
 
+      console.log('currentDeepLink >>>>>>>>>>>>>>>>>>>>>>>>', currentDeepLink);
       listener(currentDeepLink || defaultInitialUrl);
     };
 

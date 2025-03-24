@@ -119,8 +119,9 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
     if (!code) return;
 
     const orderForm = await getAsyncStorageItem('orderFormId');
+    console.log('orderform >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', orderForm);
 
-    const { data, error } = await getRonRedirect({ variables: { code: ronCode, orderFormId: orderForm || '' } });
+    const { data, error } = await getRonRedirect({ variables: { code: ronCode, orderFormId: orderForm || '' }, context: { clientName: 'gateway' }, fetchPolicy: 'no-cache' });
 
     if (!data?.ronRedirect || error) {
       navigation.replace('HomeTabs');
@@ -138,9 +139,10 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
 
     if (redirectType === RonRedirectTypeEnum.Custom && url && orderFormId) {
       await setAsyncStorageItem('orderFormId', orderFormId);
+      await actions.REFETCH_ORDER_FORM();
       handleCustomRedirect(url);
     }
-  }, [saveOrderFormItems, handleCustomRedirect, getRonRedirect, ronCode, navigation]);
+  }, [ronCode]);
 
   useEffect(() => {
     if (!finished && ronCode) {
