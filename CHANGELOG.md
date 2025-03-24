@@ -2,14 +2,19 @@
 
 ## CHANGELOG
 
-### 2.35.0
+### 2.37.0
+
+- [Ajustes layout app quick win](https://dev.azure.com/ARECO/AReCO/_workitems/edit/61121)
+- [Preço de/por igual na sacola](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46806)
+
+### 2.36.0
 
 - [Implementar push notification iOS - MoEngage](https://dev.azure.com/ARECO/AReCO/_workitems/edit/60765)
 - [Data tracking acessou_produto - MoEngage](https://dev.azure.com/ARECO/AReCO/_workitems/edit/60766)
 - [Data tracking atributos usuário e login function - MoEngage](https://dev.azure.com/ARECO/AReCO/_workitems/edit/60823)
 - [Data tracking atributos usuário e login function - MoEngage](https://dev.azure.com/ARECO/AReCO/_workitems/edit/60823)
 
-### 2.34.0
+### 2.35.0
 
 - [Implementar push notification Android - MoEngage](https://dev.azure.com/ARECO/AReCO/_workitems/edit/60430)
 
