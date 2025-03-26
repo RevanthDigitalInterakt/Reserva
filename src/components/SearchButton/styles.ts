@@ -16,13 +16,14 @@ const styles = StyleSheet.create({
   contentWrapper: {
     alignSelf: 'center',
     position: 'relative',
-    borderRadius: 16,
+    borderRadius: 10,
     width: '90%',
     backgroundColor: '#FFF',
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 9999,
     padding: 15,
+    height: 42,
   },
   button: {
     width: '100%',
@@ -32,10 +33,12 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'ReservaSans-Regular',
-    color: '#A6A6A6',
-    fontSize: scale(14),
-    letterSpacing: -0.4,
+    fontWeight: 'normal',
+    color: '#A2A2A2',
+    fontSize: 14,
+    letterSpacing: -0.14,
     flex: 1,
+    lineHeight: 12,
   },
 });
 
