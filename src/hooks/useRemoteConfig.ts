@@ -146,7 +146,7 @@ export const defaults: IRemoteConfigKeys = {
   show_kitlook: false,
   add_to_bag_button_is_fixed: false,
   count_down_position: 'A',
-  creditCardPaymentDescription: '10x sem juros no cartão, comparcela mínima de R$ 60',
+  creditCardPaymentDescription: '5x sem juros no cartão, com parcela mínima de R$ 100',
   giftCardPaymentDescription: 'Cartões de Presente Pré-pagos',
   nubankPaymentDescription: 'Em até 24x',
   pixPaymentDescription: 'Pague à vista ou até em 4x sem juros.',
