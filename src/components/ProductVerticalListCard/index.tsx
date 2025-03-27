@@ -49,7 +49,6 @@ export function ProductVerticalListCard({
   installmentsNumber,
   installmentsPrice,
   isFavorited,
-  onClickImage,
   price,
   small,
   loadingFavorite,
@@ -141,39 +140,37 @@ export function ProductVerticalListCard({
         ) }
 
         {saleOff && (
-        <Box position="absolute" top={discountTag ? 50 : 0} left={0} zIndex={1}>
-          <ImageComponent
-            source={{ uri: saleOff }}
-            style={{
-              width: 50,
-              height: 50,
-            }}
-            resizeMode="cover"
-          />
-        </Box>
+          <Box
+            position="absolute"
+            top={discountTag ? 50 : 0}
+            left={0}
+            zIndex={1}
+          >
+            <ImageComponent
+              source={{ uri: saleOff }}
+              style={{
+                width: 50,
+                height: 50,
+              }}
+              resizeMode="cover"
+            />
+          </Box>
         )}
 
-        <Button
-          onPress={() => {
-            if (onClickImage) {
-              onClickImage();
-            }
-          }}
-          testID={testID}
-        >
+        <View testID={testID}>
           <ImageComponent
             source={{ uri: imageSource }}
             height={small ? 160 : 248}
             width={imageWidth || configDeviceSizes.DEVICE_WIDTH * 0.45}
           />
-        </Button>
+        </View>
 
         {!!showThumbColors && (
-        <ProductThumbColorsRow
-          identifier={`${productTitle}-${imageSource}-${price}`}
-          colors={colors || []}
-          limit={colorsLimit}
-        />
+          <ProductThumbColorsRow
+            identifier={`${productTitle}-${imageSource}-${price}`}
+            colors={colors || []}
+            limit={colorsLimit}
+          />
         )}
 
         <Box marginTop="nano" width={configDeviceSizes.DEVICE_WIDTH * 0.45}>

@@ -2,6 +2,11 @@
 
 ## CHANGELOG
 
+### 2.38.0
+
+- [Evitar cliques acidentais no iOS em produtos durante o scroll na result list](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57206)
+
+
 ### 2.37.0
 
 - [Ajustes layout app quick win](https://dev.azure.com/ARECO/AReCO/_workitems/edit/61121)

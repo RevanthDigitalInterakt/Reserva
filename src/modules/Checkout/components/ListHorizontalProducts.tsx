@@ -4,7 +4,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
-import { Animated, Dimensions } from 'react-native';
+import { Animated, Dimensions, TouchableOpacity } from 'react-native';
 import images from '../../../base/styles/icons';
 import { ProductVerticalListCard, type ProductVerticalListCardProps } from '../../../components/ProductVerticalListCard';
 import type { ProductQL } from '../../../graphql/products/productSearch';
@@ -220,36 +220,9 @@ export function ListHorizontalProducts({
           } = getItemPrice(item.items[0]);
 
           return (
-            <ProductItem
-              item={item}
-              index={index}
-              horizontal={horizontal}
-              loadingFavorite={
-                  !!loadingFavorite.find((x) => x === item?.items[0]?.itemId)
-                }
-              isFavorited={
-                  !!favorites.find((x) => x.sku === item?.items[0]?.itemId)
-                }
-              onClickFavorite={(isFavorite) => {
-                handleOnFavorite(isFavorite, item);
-              }}
-              imageSource={item?.items[0]?.images[0]?.imageUrl}
-              installmentsNumber={
-                  installmentsNumber?.NumberOfInstallments || 1
-                }
-              installmentsPrice={
-                  installmentPrice?.Value || cashPaymentPrice || 0
-                }
-              currency="R$"
-              discountTag={getPercent(
-                sellingPrice,
-                listPrice,
-              )}
-              saleOff={getSaleOff(item)}
-              priceWithDiscount={sellingPrice}
-              price={listPrice || 0}
-              productTitle={item.productName}
-              onClickImage={() => {
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => {
                 EventProvider.logEvent('select_item', {
                   item_list_id: item?.productId,
                   item_list_name: item?.productName,
@@ -264,7 +237,38 @@ export function ListHorizontalProducts({
                   handleScrollToTheTop();
                 }
               }}
-            />
+            >
+              <ProductItem
+                item={item}
+                index={index}
+                horizontal={horizontal}
+                loadingFavorite={
+                  !!loadingFavorite.find((x) => x === item?.items[0]?.itemId)
+                }
+                isFavorited={
+                  !!favorites.find((x) => x.sku === item?.items[0]?.itemId)
+                }
+                onClickFavorite={(isFavorite) => {
+                  handleOnFavorite(isFavorite, item);
+                }}
+                imageSource={item?.items[0]?.images[0]?.imageUrl}
+                installmentsNumber={
+                  installmentsNumber?.NumberOfInstallments || 1
+                }
+                installmentsPrice={
+                  installmentPrice?.Value || cashPaymentPrice || 0
+                }
+                currency="R$"
+                discountTag={getPercent(
+                  sellingPrice,
+                  listPrice,
+                )}
+                saleOff={getSaleOff(item)}
+                priceWithDiscount={sellingPrice}
+                price={listPrice || 0}
+                productTitle={item.productName}
+              />
+            </TouchableOpacity>
           );
         }}
       />

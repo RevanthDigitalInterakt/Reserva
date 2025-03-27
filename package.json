@@ -148,6 +148,7 @@
     "pod-install": "^0.1.39",
     "postinstall-postinstall": "^2.1.0",
     "react-test-renderer": "18.2.0",
+    "reactotron-react-native": "^5.1.12",
     "semantic-release": "^23.0.0",
     "semantic-release-react-native": "^1.8.2",
     "ts-node-dev": "^2.0.0",

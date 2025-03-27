@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   View,
+  type ListRenderItem,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from 'react-native';
@@ -25,14 +26,14 @@ import { Typography } from '../Typography/Typography';
 import { useTrackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTrackAlgoliaStore';
 import useSearchStore from '../../zustand/useSearchStore';
 import { ProductKitLookVerticalListCard } from '../ProductKitLookVerticalListCard';
-import styles from './styles';
+import { ListVerticalProductsStyles } from './styles';
 
 interface ListProductsProps {
   data: ProductListOutput[];
   total: number;
   loading: boolean;
   marginBottom?: number;
-  headerComponent?: React.ReactNode[];
+  headerComponent?: React.ReactElement;
   onFetchMore: () => void;
   cacheGoingBackRequest?: () => void;
   onScroll?: (scrollEvent: NativeSyntheticEvent<NativeScrollEvent>) => void;
@@ -48,6 +49,8 @@ function NewListVerticalProducts({
   cacheGoingBackRequest,
   onScroll,
 }: ListProductsProps) {
+  const styles = ListVerticalProductsStyles();
+
   const navigation = useNavigation();
   const { getBoolean } = useRemoteConfig();
   const { primeActive } = usePrimeInfo();
@@ -78,8 +81,8 @@ function NewListVerticalProducts({
     return [itemPosition + 1];
   }, [data]);
 
-  const onClickProduct = useCallback((item: ProductListOutput, isKitLook?: boolean) => {
-    if (isKitLook) {
+  const onClickProduct = useCallback((item: ProductListOutput) => {
+    if (item?.isKitLook) {
       EventProvider.logEvent('pdc_click_kit_look_item', {
         item_id: item.productId,
         item_name: item.productName,
@@ -112,18 +115,17 @@ function NewListVerticalProducts({
     });
   }, [data]);
 
-  const onRenderItem = useCallback(
-    (item: ProductListOutput, isKitLook?: ProductListOutput['isKitLook']) => (
+  const onRenderItem: ListRenderItem<ProductListOutput> = useCallback(
+    ({ item }) => (
       <>
-        {!isKitLook && (
-          <Box
-            flex={1}
-            alignItems="center"
-            justifyContent="center"
-            marginY="xs"
-            height={showThumbColors ? 375 : 353}
+        {!item?.isKitLook && (
+          <View
+            pointerEvents={loading ? 'none' : 'auto'}
+            style={styles.productDetails(showThumbColors)}
+
           >
             <TouchableOpacity
+              activeOpacity={0.5}
               onPress={() => onClickProduct(item)}
             >
               <ProductVerticalListCard
@@ -148,7 +150,6 @@ function NewListVerticalProducts({
                 installmentsNumber={item.installment.number}
                 installmentsPrice={item.installment.value}
                 loadingFavorite={loadingSkuId === item.skuId}
-                onClickImage={() => onClickProduct(item)}
                 colors={showThumbColors ? item.colors || [] : []}
                 isFavorited={checkIsFavorite(item.skuId)}
                 onClickFavorite={() => {
@@ -171,20 +172,20 @@ function NewListVerticalProducts({
                 testID={`com.usereserva:id/productcard_vertical_${item.skuId}`}
               />
             </TouchableOpacity>
-          </Box>
+          </View>
         )}
 
-        {isKitLook && showPdcKitLook && (
+        {item?.isKitLook && showPdcKitLook && (
           <View
             style={styles.mainContainer}
           >
             <TouchableOpacity
-              onPress={() => onClickProduct(item, isKitLook)}
+              activeOpacity={0.5}
+              onPress={() => onClickProduct(item)}
             >
               <ProductKitLookVerticalListCard
                 productTitle={item.productName}
                 imageSource={item.image}
-                onClickImage={() => onClickProduct(item, isKitLook)}
                 testID={`com.usereserva:id/productcard_vertical_${item.skuId}`}
               />
             </TouchableOpacity>
@@ -200,10 +201,11 @@ function NewListVerticalProducts({
       showPrimePrice,
       showThumbColors,
       data,
+      loading,
     ],
   );
 
-  const Footer = useMemo(() => {
+  const Footer = useCallback(() => {
     if (!loading) {
       return null;
     }
@@ -231,7 +233,7 @@ function NewListVerticalProducts({
       keyExtractor={(item) => `${item.skuId}-${item.productName}`}
       numColumns={2}
       ListHeaderComponent={headerComponent}
-      ListEmptyComponent={() => (
+      ListEmptyComponent={(
         <Box height="100%">
           <Typography
             textAlign="center"
@@ -246,9 +248,9 @@ function NewListVerticalProducts({
       onEndReached={() => {
         if (data.length < total) onFetchMore();
       }}
+      onEndReachedThreshold={0.6}
+      renderItem={onRenderItem}
       ListFooterComponent={Footer}
-      onEndReachedThreshold={0.5}
-      renderItem={({ item }) => onRenderItem(item, item?.isKitLook)}
     />
   );
 }
