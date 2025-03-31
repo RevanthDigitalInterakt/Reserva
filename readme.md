@@ -214,6 +214,20 @@ Antes de começar, verifique se você tem:
 
 Agora seu aplicativo está disponível na App Store! Lembre-se de monitorar o feedback e a performance do aplicativo, usando ferramentas como o App Store Connect e o TestFlight para distribuir novas versões e corrigir bugs.
 
+
+## 📡 Debug com Reactotron
+
+Este projeto suporta o uso do [Reactotron](https://github.com/infinitered/reactotron) para depuração.  
+Para utilizá-lo, siga os passos abaixo:
+
+1. Instale o Reactotron em sua máquina:  
+   - Baixe e instale a versão mais recente do [Reactotron](https://github.com/infinitered/reactotron/releases).
+
+2. Instale a dependência no projeto:  
+   ```sh
+   yarn add reactotron-react-native
+
+
 ### Screenshots
 
 ![Screenshot](https://play-lh.googleusercontent.com/Ma1OmGcoMBAjTuV6FHcM5TZ4tK3bfdvjD_ICJs5zM5YDwu8ROiKd--FhXvTljbi6HQ=w1280-h976-rw)

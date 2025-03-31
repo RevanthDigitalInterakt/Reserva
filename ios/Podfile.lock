@@ -1381,7 +1381,7 @@ PODS:
     - RNPermissions
   - Permission-Notifications (3.10.1):
     - RNPermissions
-  - PLCrashReporter (1.11.2)
+  - PLCrashReporter (1.11.3)
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
@@ -2316,7 +2316,7 @@ SPEC CHECKSUMS:
   Permission-LocationAlways: 0a0de4637662cfdf3603d6933779da2bdd657306
   Permission-LocationWhenInUse: 31f52ebddef50c306a585b5a82ca16c8ff582dec
   Permission-Notifications: 817390e18898f34adad940cd4141e771e77086ea
-  PLCrashReporter: 499c53b0104f95c302d94fd723ebb03c56d9bac8
+  PLCrashReporter: 97cef386c199b54662e744d1a62c19f7bfe08e90
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
