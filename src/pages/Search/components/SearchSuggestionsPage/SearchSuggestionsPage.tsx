@@ -121,9 +121,10 @@ function SearchSuggestionsPage() {
               justifyContent="center"
             >
               <Typography
-                fontFamily="nunitoRegular"
-                fontSize={12}
+                fontFamily="reservaSansRegular"
+                fontSize={13}
                 color="searchBarTextColor"
+                lineHeight={13}
               >
                 {suggestion}
               </Typography>

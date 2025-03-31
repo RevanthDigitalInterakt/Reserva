@@ -50,7 +50,9 @@ export function SearchBar({
             marginLeft: 10,
             fontSize: 14,
             padding: 0,
-            fontFamily: theme.fonts.reservaSansMedium,
+            fontFamily: theme.fonts.reservaSansRegular,
+            fontWeight: 'normal',
+            lineHeight: 14,
           }}
           onChangeText={(text) => {
             if (onValueChange) {

@@ -196,7 +196,7 @@ export function NewLoginScreen({
 
             <View style={styles.headlineContainer}>
               <Text style={styles.headline}>
-                Preencha seu dados
+                Preencha seus dados
               </Text>
               <Text style={styles.subHeadline}>
                 Insira seu e-mail e senha para continuar
