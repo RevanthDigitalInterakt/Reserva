@@ -235,18 +235,22 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    marginTop: 16,
     marginHorizontal: 24,
   },
   title: {
-    marginTop: scale(48),
+    marginTop: 24,
     fontSize: scale(24),
+    color: '#000000',
     fontFamily: FONTS.INTER_SEMI_BOLD,
-    paddingBottom: 8,
   },
   subtitle: {
+    marginBottom: 16,
     fontSize: scale(13),
-    fontFamily: FONTS.INTER_REGULAR,
-    paddingBottom: 32,
+    marginTop: 8,
+    color: '#7B7B7B',
+    fontFamily: FONTS.INTER_MEDIUM,
+    lineHeight: 19.6,
   },
   codeContainer: {
     flexDirection: 'row',
