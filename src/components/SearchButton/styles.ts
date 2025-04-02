@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     letterSpacing: -0.14,
     flex: 1,
-    lineHeight: 14,
   },
 });
 
