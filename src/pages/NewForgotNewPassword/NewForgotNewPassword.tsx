@@ -18,7 +18,7 @@ import { IconChevronLeftSmall } from '../../components/IconLegacy/Svg';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { useRecoverPasswordResetMutation } from '../../base/graphql/generated';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
-import { FONTS } from '../../base/styles';
+import { COLORS, FONTS } from '../../base/styles';
 import { scale } from '../../utils/scale';
 
 type Props = StackScreenProps<RootStackParamList, 'NewForgotNewPassword'>;
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 24,
-    backgroundColor: '#FFF',
+    backgroundColor: COLORS.WHITE,
   },
   content: {
     flex: 1,
@@ -220,14 +220,14 @@ const styles = StyleSheet.create({
   forgotPasswordTitle: {
     marginTop: 24,
     fontSize: scale(24),
-    color: '#000000',
+    color: COLORS.BLACK,
     fontFamily: FONTS.INTER_SEMI_BOLD,
   },
   forgotPasswordSubtitle: {
     marginBottom: 16,
     fontSize: scale(13),
     marginTop: 8,
-    color: '#7B7B7B',
+    color: COLORS.DARK_GREY,
     fontFamily: FONTS.INTER_MEDIUM,
     lineHeight: 19.6,
   },
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     paddingHorizontal: 16,
     fontSize: scale(12),
-    color: '#282828',
+    color: COLORS.DARK_GREY_VARIANT_1,
     paddingVertical: 10,
     fontFamily: FONTS.INTER_MEDIUM,
   },
@@ -257,11 +257,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 12,
     paddingHorizontal: 12,
-    color: '#DD3636',
-    borderColor: '#DD3636',
+    color: COLORS.ERROR_INPUT,
+    borderColor: COLORS.ERROR_INPUT,
   },
   errorPassword: {
-    color: '#DD3636',
+    color: COLORS.ERROR_INPUT,
     marginLeft: 4,
     fontFamily: FONTS.INTER_MEDIUM,
   },
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    backgroundColor: '#282828',
+    backgroundColor: COLORS.DARK_GREY_VARIANT_1,
     marginHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 8,
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    color: '#FFF',
+    color: COLORS.WHITE,
     fontSize: scale(13),
     fontFamily: FONTS.INTER_REGULAR,
   },

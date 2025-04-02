@@ -8,16 +8,16 @@ import {
 } from 'react-native';
 import * as Yup from 'yup';
 import { ExceptionProvider } from '../../base/providers/ExceptionProvider';
-import { FONTS } from '../../base/styles';
+import { COLORS, FONTS } from '../../base/styles';
+import { IconChevronLeftSmall } from '../../components/IconLegacy/Svg';
 import IconArrowRight from '../../components/IconLegacy/Svg/IconArrowrRight';
 import { useAuthentication } from '../../hooks/useAuthentication';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import { scale } from '../../utils/scale';
-import { IconChevronLeftSmall } from '../../components/IconLegacy/Svg';
 
 type Props = StackScreenProps<RootStackParamList, 'NewForgotPassword'>;
 
-export default function NewForgotPassword({ navigation, route }: Props) {
+export default function NewForgotPassword({ navigation }: Props) {
   const {
     loadingSignIn,
     isLoadingEmail,
@@ -38,7 +38,7 @@ export default function NewForgotPassword({ navigation, route }: Props) {
           }}
           onPress={navigation.goBack}
         >
-          <IconChevronLeftSmall color="#999" />
+          <IconChevronLeftSmall color={COLORS.SHELF_GRAY} />
         </TouchableOpacity>
 
         <Text style={styles.forgotPasswordTitle}>Alterar sua senha</Text>
@@ -51,7 +51,8 @@ export default function NewForgotPassword({ navigation, route }: Props) {
             ? styles.forgotPasswordInputContainerError
             : styles.forgotPasswordInputContainer}
           placeholder="email@email.com"
-          placeholderTextColor={loginCredentials.showUsernameError ? '#DD3636' : '#A8A8A8'}
+          placeholderTextColor={loginCredentials.showUsernameError
+            ? COLORS.ERROR_INPUT : COLORS.GRAY_1}
           autoCapitalize="none"
           onChangeText={(text) => {
             try {
@@ -88,7 +89,7 @@ export default function NewForgotPassword({ navigation, route }: Props) {
           onPress={handleRecoveryPassword}
         >
           {(loadingSignIn || isLoadingEmail)
-            ? <ActivityIndicator size="small" color="#FFF2F2" />
+            ? <ActivityIndicator size="small" color={COLORS.WHITE} />
             : <IconArrowRight />}
 
         </TouchableOpacity>
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 24,
-    backgroundColor: '#FFF',
+    backgroundColor: COLORS.WHITE,
   },
   content: {
     flex: 1,
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
   },
   usernameError: {
-    color: '#DD3636',
+    color: COLORS.ERROR_INPUT,
     marginTop: 3,
     marginLeft: 4,
     fontFamily: FONTS.INTER_MEDIUM,
@@ -118,14 +119,14 @@ const styles = StyleSheet.create({
   forgotPasswordTitle: {
     marginTop: 24,
     fontSize: scale(24),
-    color: '#000000',
+    color: COLORS.BLACK,
     fontFamily: FONTS.INTER_SEMI_BOLD,
   },
   forgotPasswordSubtitle: {
     marginBottom: 16,
     fontSize: scale(13),
     marginTop: 8,
-    color: '#7B7B7B',
+    color: COLORS.DARK_GREY,
     fontFamily: FONTS.INTER_MEDIUM,
     lineHeight: 19.6,
   },
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     width: 64,
     height: 64,
-    backgroundColor: '#11AB6B',
+    backgroundColor: COLORS.GREEN_1,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 60,
@@ -146,14 +147,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 16,
     fontSize: scale(12),
-    color: '#282828',
+    color: COLORS.DARK_GREY_VARIANT_1,
     paddingVertical: 10,
     fontFamily: FONTS.INTER_MEDIUM,
   },
   forgotPasswordInputContainerError: {
     marginTop: 24,
-    color: '#DD3636',
-    borderColor: '#DD3636',
+    color: COLORS.ERROR_INPUT,
+    borderColor: COLORS.ERROR_INPUT,
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
     paddingHorizontal: 16,
