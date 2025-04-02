@@ -6,6 +6,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignSelf: 'center',
     position: 'relative',
-    bottom: 40,
+    bottom: 58,
   },
 });
