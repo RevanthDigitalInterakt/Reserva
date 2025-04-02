@@ -46,7 +46,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
   const isTester = useIsTester();
   const showNewForgotPassword = useMemo(() => getBoolean(isTester
     ? 'show_new_forgot_password_layout_tester'
-    : 'show_new_forgot_password_layout'), [getBoolean, isTester]);
+    : 'show_new_password_layout'), [getBoolean, isTester]);
 
   const [sendEmailVerification] = useRecoverPasswordVerificationCodeMutation({
     context: { clientName: 'gateway' },
