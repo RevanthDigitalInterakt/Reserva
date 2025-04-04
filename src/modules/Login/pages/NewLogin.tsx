@@ -190,7 +190,7 @@ export function NewLoginScreen({
 
           <View style={styles.headlineContainer}>
             <Text style={styles.headline}>
-              Preencha seu dados
+              Preencha seus dados
             </Text>
             <Text style={styles.subHeadline}>
               Insira seu e-mail e senha para continuar
@@ -234,9 +234,9 @@ export function NewLoginScreen({
                 value={loginCredentials.username}
               />
               {loginCredentials.username?.length > 0 && (
-              <TouchableOpacity onPress={cleanInputs} style={styles.iconButton}>
-                <Cancel height={scale(12)} width={scale(12)} color={loginCredentials.showUsernameError ? '#DD3636' : '#A8A8A8'} />
-              </TouchableOpacity>
+                <TouchableOpacity onPress={cleanInputs} style={styles.iconButton}>
+                  <Cancel height={scale(12)} width={scale(12)} color={loginCredentials.showUsernameError ? '#DD3636' : '#A8A8A8'} />
+                </TouchableOpacity>
               )}
             </View>
             <View style={{ marginTop: 8 }} />

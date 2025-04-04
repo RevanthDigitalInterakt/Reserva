@@ -2,10 +2,16 @@
 
 ## CHANGELOG
 
+### 2.38.0
+
+- [Evitar cliques acidentais no iOS em produtos durante o scroll na result list](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57206)
+
+
 ### 2.37.0
 
 - [Ajustes layout app quick win](https://dev.azure.com/ARECO/AReCO/_workitems/edit/61121)
 - [Preço de/por igual na sacola](https://dev.azure.com/ARECO/AReCO/_workitems/edit/46806)
+- [Ajustes copy login, parcela 5x e cor ícone tab bar](https://dev.azure.com/ARECO/AReCO/_workitems/edit/61347)
 
 ### 2.36.0
 

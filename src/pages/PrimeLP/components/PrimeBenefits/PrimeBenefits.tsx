@@ -39,10 +39,7 @@ function PrimeBenefits({ data }: IPrimeBenefits) {
       title: `R$ ${data.monthlyCashback} de Cashback Mensal`,
       text: (
         <Typography variant="tituloSessao" style={styles.itemDescription}>
-          <Typography variant="precoTotal" style={styles.itemDescriptionBold}>
-            Acumule mais*
-          </Typography>
-          pra comprar o que você quiser, quando preferir.
+          Todo mês, ganhe o valor da sua assinatura de volta.
         </Typography>
       ),
     },

@@ -23,27 +23,27 @@ interface BottomBarButtonProps {
 export function BottomBarButton({
   iconName,
   onPress,
-  isSlected,
+  isSlected = false,
   label,
   testID,
   accessibilityLabel,
   hidden,
 }: BottomBarButtonProps) {
-  const renderIcon = useCallback((nameIcon: string) => {
+  const renderIcon = useCallback((nameIcon: string, isSlected: boolean) => {
     if (nameIcon === 'FacaVc') {
       return <Personalize />;
     }
 
     if (nameIcon === 'Roulet') {
       return (
-        <IconComponent icon="roulet" style={{ width: 25, height: 25, marginBottom: 4 }} />
+        <IconComponent icon="roulet" style={{ width: 25, height: 25, marginBottom: 4, tintColor: isSlected ? 'vermelhoAlerta' : 'preto' }} />
       );
     }
 
     return (
       <IconLegacy
         name={nameIcon}
-        color="preto"
+        color={isSlected ? 'vermelhoAlerta' : 'preto'}
         size={25}
         mb={4}
       />
@@ -60,7 +60,7 @@ export function BottomBarButton({
       accessibilityLabel={accessibilityLabel}
     >
       <>
-        {renderIcon(iconName)}
+        {renderIcon(iconName, isSlected)}
         <Typography fontSize="9px" fontFamily="nunitoRegular" color={isSlected ? 'vermelhoAlerta' : 'preto'}>{label}</Typography>
       </>
     </Button>

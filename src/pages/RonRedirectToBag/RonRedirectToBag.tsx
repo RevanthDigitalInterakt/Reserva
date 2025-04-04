@@ -3,7 +3,7 @@ import type { StackScreenProps } from '@react-navigation/stack';
 
 import axios from 'axios';
 import { URLSearchParams } from 'react-native-url-polyfill';
-import { SafeAreaView } from 'react-native';
+import { ActivityIndicator, SafeAreaView, View } from 'react-native';
 import Config from 'react-native-config';
 import type { RootStackParamList } from '../../routes/StackNavigator';
 import EventProvider from '../../utils/EventProvider';
@@ -46,7 +46,7 @@ export async function getOrderFormIdByRon(ronCode: string): Promise<string> {
 
     return orderFormId;
   } catch (err) {
-    ExceptionProvider.captureException(err, "getOrderFormIdByRon - RonRedirectToBag.tsx", { ronCode });
+    ExceptionProvider.captureException(err, 'getOrderFormIdByRon - RonRedirectToBag.tsx', { ronCode });
 
     return '';
   }
@@ -56,9 +56,11 @@ export type IRonRedirectToBagProps = StackScreenProps<RootStackParamList, 'RonRe
 
 export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBagProps) {
   const { ronCode } = route?.params || {};
-  const { topBarLoading, packageItems, actions } = useBagStore(['topBarLoading', 'packageItems', 'actions']);
+  const {
+    topBarLoading, packageItems, actions, orderFormId,
+  } = useBagStore(['topBarLoading', 'packageItems', 'actions', 'orderFormId']);
   const { setItem } = useAsyncStorageProvider();
-  const [getRonRedirect] = useRonRedirectLazyQuery({ context: { clientName: 'gateway' } });
+  const [getRonRedirect, { loading }] = useRonRedirectLazyQuery({ context: { clientName: 'gateway' } });
   const [finished, setFinished] = useState(false);
 
   const saveOrderFormItems = useCallback(async (orderFormId: string) => {
@@ -118,26 +120,30 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
   const handleRedirect = useCallback(async (code: string) => {
     if (!code) return;
 
-    const { data, error } = await getRonRedirect({ variables: { code: ronCode } });
+    // const orderForm = await getAsyncStorageItem('orderFormId');
+
+    const { data, error } = await getRonRedirect({ variables: { code: ronCode, orderFormId: orderFormId || '' }, context: { clientName: 'gateway' }, fetchPolicy: 'no-cache' });
 
     if (!data?.ronRedirect || error) {
       navigation.replace('HomeTabs');
       return;
     }
 
-    const { orderFormId, url, type: redirectType } = data.ronRedirect;
+    const { orderFormId: newOrderFormId, url, type: redirectType } = data.ronRedirect;
 
-    if (redirectType === RonRedirectTypeEnum.Orderform && orderFormId) {
-      await setAsyncStorageItem('orderFormId', orderFormId);
+    if (redirectType === RonRedirectTypeEnum.Orderform && newOrderFormId) {
+      await setAsyncStorageItem('orderFormId', newOrderFormId);
       await actions.REFETCH_ORDER_FORM();
-      await saveOrderFormItems(orderFormId);
+      await saveOrderFormItems(newOrderFormId);
       return;
     }
 
-    if (redirectType === RonRedirectTypeEnum.Custom && url) {
+    if (redirectType === RonRedirectTypeEnum.Custom && url && newOrderFormId) {
+      await setAsyncStorageItem('orderFormId', newOrderFormId);
+      await actions.REFETCH_ORDER_FORM();
       handleCustomRedirect(url);
     }
-  }, [saveOrderFormItems, handleCustomRedirect, getRonRedirect, ronCode, navigation]);
+  }, [ronCode]);
 
   useEffect(() => {
     if (!finished && ronCode) {
@@ -148,8 +154,10 @@ export default function RonRedirectToBag({ route, navigation }: IRonRedirectToBa
 
   return (
     <SafeAreaView style={{ justifyContent: 'space-between', flex: 1, backgroundColor: COLORS.WHITE }}>
-      <TopBarBackButton showShadow loading={topBarLoading} />
-
+      <TopBarBackButton showShadow loading={topBarLoading || loading} />
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        {(topBarLoading || loading) && <ActivityIndicator size="large" />}
+      </View>
       <LoadingScreen />
     </SafeAreaView>
   );
