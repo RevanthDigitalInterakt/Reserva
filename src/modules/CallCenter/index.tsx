@@ -113,7 +113,7 @@ function CallCenter() {
             />
             <Box mb="micro" alignItems="center" mt="nano">
               <Typography fontFamily="nunitoRegular" fontSize={12}>
-                Segunda a Sexta: 08 às 20hrs e aos Sábados: 08 às 18hrs
+                Segunda a Sexta: 09 às 19hrs e aos Sábados: 09 às 18hrs
               </Typography>
             </Box>
           </Box>

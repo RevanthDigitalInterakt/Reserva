@@ -1,5 +1,4 @@
 import { Platform, StyleSheet } from 'react-native';
-import { scale } from '../../utils/scale';
 import { platformType } from '../../utils/platformType';
 
 const styles = StyleSheet.create({
@@ -22,7 +21,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 9999,
-    padding: 15,
+    padding: 12,
     height: 42,
   },
   button: {
@@ -38,7 +37,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     letterSpacing: -0.14,
     flex: 1,
-    lineHeight: 12,
   },
 });
 
