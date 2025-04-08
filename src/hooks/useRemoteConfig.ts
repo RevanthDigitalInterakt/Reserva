@@ -45,7 +45,7 @@ export interface IRemoteConfigKeys {
   show_new_login: boolean,
   show_new_login_layout: boolean,
   show_new_login_layout_tester: boolean,
-  show_new_forgot_password_layout: boolean,
+  show_new_password_layout: boolean,
   show_new_forgot_password_layout_tester: boolean,
   show_new_login_tester: boolean,
   show_new_home: boolean;
@@ -127,7 +127,7 @@ export const defaults: IRemoteConfigKeys = {
   show_new_login: false,
   show_new_login_layout: false,
   show_new_login_layout_tester: true,
-  show_new_forgot_password_layout: false,
+  show_new_password_layout: false,
   show_new_forgot_password_layout_tester: true,
   show_new_login_tester: true,
   show_new_home: false,

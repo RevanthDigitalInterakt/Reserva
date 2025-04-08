@@ -10,8 +10,9 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import IconSuccessPassword from '../../components/IconLegacy/Svg/IconSuccessPassword';
 import type { RootStackParamList } from '../../routes/StackNavigator';
-import { FONTS } from '../../base/styles';
+import { COLORS, FONTS } from '../../base/styles';
 import { IconChevronLeftSmall } from '../../components/IconLegacy/Svg';
+import { scale } from '../../utils/scale';
 
 type Props = StackScreenProps<RootStackParamList, 'NewForgotSuccess'>;
 
@@ -36,6 +37,15 @@ export default function NewForgotSuccess({ navigation }: Props) {
           <Text style={styles.text}>com sucesso!</Text>
         </View>
       </View>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Login')}
+      >
+        <Text style={styles.buttonText}>
+          Voltar para login
+        </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -44,7 +54,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 24,
-    backgroundColor: '#FFF',
+    backgroundColor: COLORS.WHITE,
   },
   contentHeader: {
     flex: 1,
@@ -58,11 +68,27 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFF',
+    backgroundColor: COLORS.WHITE,
   },
   text: {
     textAlign: 'center',
     fontSize: 28,
     fontFamily: FONTS.INTER_SEMI_BOLD,
+  },
+  button: {
+    backgroundColor: COLORS.DARK_GREY_VARIANT_1,
+    marginHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginBottom: 4,
+  },
+  disabledButton: {
+
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: COLORS.WHITE,
+    fontSize: scale(13),
+    fontFamily: FONTS.INTER_REGULAR,
   },
 });

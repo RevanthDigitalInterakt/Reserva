@@ -38,23 +38,25 @@ export function useAuthentication({ closeModal }: IParamsHook) {
   const [isLoadingEmail, setIsLoadingEmail] = useState(false);
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [loginCredentials, setLoginCredentials] = useState(initialLoginCredentials);
-  const [showPassword, setShowPassword] = useState(false);
   const { onSignIn, onSignOut, profile } = useAuthStore(['onSignIn', 'onSignOut', 'profile']);
   const { actions } = useBagStore(['actions']);
   const { cacheUsername, startTimer, timers } = useTimerStore();
 
   const { getBoolean } = useRemoteConfig();
   const isTester = useIsTester();
-  const showNewForgotPassword = useMemo(() => getBoolean(isTester ? 'show_new_forgot_password_layout_tester' : 'show_new_forgot_password_layout'), [getBoolean, isTester]);
+  const showNewForgotPassword = useMemo(() => getBoolean(isTester
+    ? 'show_new_forgot_password_layout_tester'
+    : 'show_new_password_layout'), [getBoolean, isTester]);
 
-  const [sendEmailVerification, { error }] = useRecoverPasswordVerificationCodeMutation({
-    context: { clientName: 'gateway' }, fetchPolicy: 'no-cache',
+  const [sendEmailVerification] = useRecoverPasswordVerificationCodeMutation({
+    context: { clientName: 'gateway' },
+    fetchPolicy: 'no-cache',
   });
 
   const navigateToForgotPassword = useCallback(() => {
     EventProvider.logEvent('login_forgot_password_click', {});
     if (showNewForgotPassword) {
-      setShowPassword(true);
+      navigation.navigate('NewForgotPassword');
       return;
     }
 
@@ -71,8 +73,7 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       showPasswordError: true,
       showUsernameError: true,
       hasError: true,
-      showMessageError:
-        'E-mail ou senha incorretos',
+      showMessageError: 'E-mail ou senha incorretos',
     });
   };
 
@@ -80,14 +81,13 @@ export function useAuthentication({ closeModal }: IParamsHook) {
     setLoginCredentials({
       ...loginCredentials,
       showUsernameError: true,
-      showMessageError:
-        'E-mail incorreto',
+      showMessageError: 'E-mail incorreto',
     });
   };
 
   useEffect(() => {
     setLoginCredentials(initialLoginCredentials);
-  }, [showPassword]);
+  }, []);
 
   const doSignIn = useCallback(async (email: string, password: string) => {
     try {
@@ -106,14 +106,8 @@ export function useAuthentication({ closeModal }: IParamsHook) {
       return profile;
     } catch (err) {
       Alert.alert('Erro', 'Não foi possível realizar o login, tente novamente', [
-        {
-          onPress: () => { },
-          text: 'OK',
-        },
-        {
-          onPress: () => { },
-          text: 'Cancelar',
-        },
+        { onPress: () => { }, text: 'OK' },
+        { onPress: () => { }, text: 'Cancelar' },
       ]);
       ExceptionProvider.captureException(err, 'doSignIn - useAuthentication', { email });
       validateCredentials();
@@ -125,21 +119,20 @@ export function useAuthentication({ closeModal }: IParamsHook) {
   const handleResendCode = useCallback(async (username: string) => {
     try {
       const { data } = await sendEmailVerification({
-        variables: {
-          input: { email: username },
-        },
+        variables: { input: { email: username } },
       });
 
       if (data?.recoverPasswordVerificationCode?.cookies) {
-        startTimer(username, data?.recoverPasswordVerificationCode?.cookies);
+        startTimer(username, data.recoverPasswordVerificationCode.cookies);
       }
     } catch (e) {
       ExceptionProvider.captureException(e, 'handleResendCode - useAuthentication');
-      throw new Error(e);
+      throw new Error(e as any);
     }
-  }, []);
+  }, [sendEmailVerification, startTimer]);
 
   const handleRecoveryPassword = useCallback(async () => {
+    if (loadingSignIn) return;
     if (!emailIsValid) {
       validateCredentialsForgot();
       return;
@@ -147,43 +140,48 @@ export function useAuthentication({ closeModal }: IParamsHook) {
     Keyboard.dismiss();
 
     cacheUsername(loginCredentials.username, timers[loginCredentials.username]?.cookies || []);
-    if (timers[loginCredentials.username]?.isActive) {
-      setShowPassword(false);
-      navigation.navigate(
-        'NewForgotAccessCode',
-        {
-          username: loginCredentials.username,
-        },
-      );
+
+    const updatedTimer = useTimerStore.getState().timers[loginCredentials.username];
+
+    if (updatedTimer?.isActive) {
+      navigation.navigate('NewForgotAccessCode', {
+        username: loginCredentials.username,
+        cookies: updatedTimer.cookies || [],
+      });
       return;
     }
 
     setLoadingSignIn(true);
     try {
       const { data } = await sendEmailVerification({
-        variables: {
-          input: { email: loginCredentials.username },
-        },
+        variables: { input: { email: loginCredentials.username } },
       });
 
       if (data?.recoverPasswordVerificationCode?.cookies) {
-        startTimer(loginCredentials.username, data?.recoverPasswordVerificationCode?.cookies);
-        navigation.navigate(
-          'NewForgotAccessCode',
-          {
-            username: loginCredentials.username,
-            cookies: data?.recoverPasswordVerificationCode?.cookies,
-          },
-        );
+        startTimer(loginCredentials.username, data.recoverPasswordVerificationCode.cookies);
+        navigation.navigate('NewForgotAccessCode', {
+          username: loginCredentials.username,
+          cookies: data.recoverPasswordVerificationCode.cookies || [],
+        });
       }
-      setShowPassword(false);
       setLoadingSignIn(false);
     } catch (e) {
+      console.error(e);
       setLoadingSignIn(false);
       Alert.alert('Erro', 'Não foi possível trocar sua senha, tente mais tarde.');
       ExceptionProvider.captureException(e, 'handleRecoveryPassword - useAuthentication');
     }
-  }, [emailIsValid, loginCredentials]);
+  }, [
+    loadingSignIn,
+    emailIsValid,
+    loginCredentials.username,
+    cacheUsername,
+    timers,
+    navigation,
+    sendEmailVerification,
+    startTimer,
+    validateCredentialsForgot,
+  ]);
 
   const handleLogin = useCallback(async () => {
     if (emailIsValid && passwordIsValid) {
@@ -221,7 +219,11 @@ export function useAuthentication({ closeModal }: IParamsHook) {
     if (loginCredentials.username.trim().toLowerCase()) {
       setIsLoadingEmail(true);
 
-      await identifyCustomer({ id: profile.id, email: profile.email, name: profile.firstName || '' })
+      await identifyCustomer({
+        id: profile.id,
+        email: profile.email,
+        name: profile.firstName || '',
+      })
         .then(() => setIsLoadingEmail(false))
         .then(() => navigation?.navigate('DeliveryScreen', { comeFrom: 'Login' }));
     }
@@ -238,8 +240,6 @@ export function useAuthentication({ closeModal }: IParamsHook) {
     setPasswordIsValid,
     setLoginCredentials,
     cleanInputs,
-    showPassword,
-    setShowPassword,
     handleRecoveryPassword,
     handleResendCode,
     navigateToForgotPassword,

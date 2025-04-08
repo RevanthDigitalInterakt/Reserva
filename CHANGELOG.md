@@ -2,10 +2,15 @@
 
 ## CHANGELOG
 
+### 2.39.0
+
+- [Área de clique reduzida no campo de busca, ajuste horário atendimento sac e copy cortado na busca](https://dev.azure.com/ARECO/AReCO/_boards/board/t/App%20-%20Downstream/Operacional?workitem=61593)
+- [Criar endpoints para cadastrar e editar endereço](https://dev.azure.com/ARECO/AReCO/_workitems/edit/61375)
+- [Validar senha ao criar conta com os campos unificados](https://dev.azure.com/ARECO/AReCO/_workitems/edit/60535)
+
 ### 2.38.0
 
 - [Evitar cliques acidentais no iOS em produtos durante o scroll na result list](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57206)
-- [Área de clique reduzida no campo de busca, ajuste horário atendimento sac e copy cortado na busca](https://dev.azure.com/ARECO/AReCO/_boards/board/t/App%20-%20Downstream/Operacional?workitem=61593)
 
 ### 2.37.0
 

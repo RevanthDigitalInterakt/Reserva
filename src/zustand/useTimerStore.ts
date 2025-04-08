@@ -40,8 +40,9 @@ export const useTimerStore = create<TimerState>()(
 
       startTimer: (username: string, cookies: string[], duration?: number) => {
         const currentTimer = get().timers[username];
-        const newDuration = duration
-        || (currentTimer ? currentTimer.initialDuration : DEFAULT_TIMER);
+        const newDuration = duration || (
+          currentTimer ? currentTimer.initialDuration : DEFAULT_TIMER
+        );
 
         set((state) => ({
           timers: {
@@ -88,17 +89,19 @@ export const useTimerStore = create<TimerState>()(
         }));
       },
 
+      // Ajuste realizado: Atualiza os cookies mesmo se o timer já existir.
       cacheUsername: (username: string, cookies: string[]) => {
         set((state) => ({
           timers: {
             ...state.timers,
-            [username]:
-              state.timers[username] || {
+            [username]: {
+              ...(state.timers[username] || {
                 initialDuration: DEFAULT_TIMER,
                 startTime: null,
                 isActive: false,
-                cookies,
-              },
+              }),
+              cookies,
+            },
           },
         }));
       },
