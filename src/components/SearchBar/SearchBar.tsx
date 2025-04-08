@@ -1,5 +1,6 @@
 import React from 'react';
 import { TextInput, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Box } from '../Box/Box';
 import { IconLegacy } from '../IconLegacy/IconLegacy';
 import { theme } from '../../base/usereservappLegacy/theme';
@@ -32,7 +33,7 @@ export function SearchBar({
 }: SearchBarProps) {
   return (
     <Box>
-      <View
+      <TouchableOpacity
         style={{
           borderWidth: 1,
           borderColor: COLORS.LIGHT_GRAY,
@@ -51,8 +52,7 @@ export function SearchBar({
             fontSize: 14,
             padding: 0,
             fontFamily: theme.fonts.reservaSansRegular,
-            fontWeight: 'normal',
-            lineHeight: 14,
+            flex: 1,
           }}
           onChangeText={(text) => {
             if (onValueChange) {
@@ -63,7 +63,7 @@ export function SearchBar({
         <View style={{ marginRight: 20 }}>
           <IconLegacy name={iconName || 'Search'} size={18} />
         </View>
-      </View>
+      </TouchableOpacity>
       {autocomplete && autocomplete.length > 0 && (
         <Box backgroundColor="white" paddingY="xxxs">
           {autocomplete.map((item) => (

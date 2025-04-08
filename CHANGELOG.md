@@ -5,7 +5,7 @@
 ### 2.38.0
 
 - [Evitar cliques acidentais no iOS em produtos durante o scroll na result list](https://dev.azure.com/ARECO/AReCO/_workitems/edit/57206)
-
+- [Área de clique reduzida no campo de busca, ajuste horário atendimento sac e copy cortado na busca](https://dev.azure.com/ARECO/AReCO/_boards/board/t/App%20-%20Downstream/Operacional?workitem=61593)
 
 ### 2.37.0
 
