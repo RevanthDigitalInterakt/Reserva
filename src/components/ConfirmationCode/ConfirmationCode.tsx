@@ -25,10 +25,11 @@ interface IConfirmationCodeProps {
   cookies: string[]
   onChangeCode: (value: string) => void;
   isError: boolean;
+  ContentBody: React.JSX.Element | null
 }
 
 export function ConfirmationCode({
-  username, cookies, requestResendCode, onChangeCode, isError: externalIsError,
+  username, cookies, requestResendCode, onChangeCode, isError: externalIsError, ContentBody = null,
 }: IConfirmationCodeProps) {
   const navigation = useNavigation();
   const inputRefs = useRef<TextInput[]>([]);
@@ -172,6 +173,8 @@ export function ConfirmationCode({
           Código inválido ou expirado.
         </Text>
       ) : <View style={{ marginTop: 24 }} />}
+
+      {ContentBody}
 
       <View style={confirmationCodeStyles.bottomContainer}>
         {displayTime > 0 ? (

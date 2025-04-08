@@ -83,18 +83,17 @@ export default function NewForgotPassword({ navigation }: Props) {
           </Text>
         )}
 
-        <TouchableOpacity
-          style={styles.forgotPasswordButton}
-          disabled={loadingSignIn || isLoadingEmail}
-          onPress={handleRecoveryPassword}
-        >
-          {(loadingSignIn || isLoadingEmail)
-            ? <ActivityIndicator size="small" color={COLORS.WHITE} />
-            : <IconArrowRight />}
-
-        </TouchableOpacity>
       </View>
+      <TouchableOpacity
+        style={styles.forgotPasswordButton}
+        disabled={loadingSignIn || isLoadingEmail}
+        onPress={handleRecoveryPassword}
+      >
+        {(loadingSignIn || isLoadingEmail)
+          ? <ActivityIndicator size="small" color={COLORS.WHITE} />
+          : <IconArrowRight />}
 
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -132,6 +131,8 @@ const styles = StyleSheet.create({
   },
   forgotPasswordButton: {
     alignSelf: 'flex-end',
+    marginHorizontal: 24,
+    marginBottom: 24,
     width: 64,
     height: 64,
     backgroundColor: COLORS.GREEN_1,

@@ -71,6 +71,7 @@ export const COLORS = {
   LIGHT_OLIVE_GREEN: '#b8b894',
   PRIME_GOLD_BUTTON: '#D0AC66',
   ERROR_INPUT: '#DD3636',
+  GRAY_0: '#D9D9D9',
   GRAY_1: '#A8A8A8',
   GREEN_1: '#11AB6B',
 };
