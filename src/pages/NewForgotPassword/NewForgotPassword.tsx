@@ -3,6 +3,8 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import {
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
   SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity,
   View,
 } from 'react-native';
@@ -30,80 +32,84 @@ export default function NewForgotPassword({ navigation }: Props) {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <TouchableOpacity
-          hitSlop={{
-            top: 24, left: 24, bottom: 24, right: 24,
-          }}
-          onPress={navigation.goBack}
-        >
-          <IconChevronLeftSmall color={COLORS.SHELF_GRAY} />
-        </TouchableOpacity>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+    >
+      <SafeAreaView style={styles.inner}>
+        <View style={styles.content}>
+          <TouchableOpacity
+            hitSlop={{
+              top: 24, left: 24, bottom: 24, right: 24,
+            }}
+            onPress={navigation.goBack}
+          >
+            <IconChevronLeftSmall color={COLORS.SHELF_GRAY} />
+          </TouchableOpacity>
 
-        <Text style={styles.forgotPasswordTitle}>Alterar sua senha</Text>
-        <Text style={styles.forgotPasswordSubtitle}>
-          Para alterar a senha, digite seu e-mail abaixo
-        </Text>
+          <Text style={styles.forgotPasswordTitle}>Alterar sua senha</Text>
+          <Text style={styles.forgotPasswordSubtitle}>
+            Para alterar a senha, digite seu e-mail abaixo
+          </Text>
 
-        <TextInput
-          style={loginCredentials.showUsernameError
-            ? styles.forgotPasswordInputContainerError
-            : styles.forgotPasswordInputContainer}
-          placeholder="email@email.com"
-          placeholderTextColor={loginCredentials.showUsernameError
-            ? COLORS.ERROR_INPUT : COLORS.GRAY_1}
-          autoCapitalize="none"
-          onChangeText={(text) => {
-            try {
-              setLoginCredentials({ ...loginCredentials, username: text });
+          <TextInput
+            style={loginCredentials.showUsernameError
+              ? styles.forgotPasswordInputContainerError
+              : styles.forgotPasswordInputContainer}
+            placeholder="email@email.com"
+            placeholderTextColor={loginCredentials.showUsernameError
+              ? COLORS.ERROR_INPUT : COLORS.GRAY_1}
+            autoCapitalize="none"
+            onChangeText={(text) => {
+              try {
+                setLoginCredentials({ ...loginCredentials, username: text });
 
-              if (loginCredentials.showUsernameError) {
-                setLoginCredentials({
-                  ...loginCredentials,
-                  username: text,
-                  showUsernameError: false,
-                });
+                if (loginCredentials.showUsernameError) {
+                  setLoginCredentials({
+                    ...loginCredentials,
+                    username: text,
+                    showUsernameError: false,
+                  });
+                }
+
+                setEmailIsValid(
+                  Yup.string().required().email().isValidSync(text.trim()),
+                );
+              } catch (error) {
+                ExceptionProvider.captureException(error, 'onChangeText - newLoginScreen');
               }
+            }}
+            value={loginCredentials.username}
+          />
 
-              setEmailIsValid(
-                Yup.string().required().email().isValidSync(text.trim()),
-              );
-            } catch (error) {
-              ExceptionProvider.captureException(error, 'onChangeText - newLoginScreen');
-            }
-          }}
-          value={loginCredentials.username}
-        />
-
-        {(loginCredentials.showUsernameError)
+          {(loginCredentials.showUsernameError)
         && (
           <Text style={styles.usernameError}>
             {loginCredentials.showMessageError}
           </Text>
         )}
 
-      </View>
-      <TouchableOpacity
-        style={styles.forgotPasswordButton}
-        disabled={loadingSignIn || isLoadingEmail}
-        onPress={handleRecoveryPassword}
-      >
-        {(loadingSignIn || isLoadingEmail)
-          ? <ActivityIndicator size="small" color={COLORS.WHITE} />
-          : <IconArrowRight />}
+        </View>
+        <TouchableOpacity
+          style={styles.forgotPasswordButton}
+          disabled={loadingSignIn || isLoadingEmail}
+          onPress={handleRecoveryPassword}
+        >
+          {(loadingSignIn || isLoadingEmail)
+            ? <ActivityIndicator size="small" color={COLORS.WHITE} />
+            : <IconArrowRight />}
 
-      </TouchableOpacity>
-    </SafeAreaView>
+        </TouchableOpacity>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
+
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 24,
-    backgroundColor: COLORS.WHITE,
-  },
+  container: { flex: 1, backgroundColor: COLORS.WHITE },
+  inner: { flex: 1, paddingTop: 24 },
   content: {
     flex: 1,
     marginTop: 16,

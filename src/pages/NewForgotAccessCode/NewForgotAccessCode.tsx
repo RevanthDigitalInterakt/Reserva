@@ -124,7 +124,7 @@ export default function NewForgotAccessCode({ navigation, route }: Props) {
         onPress={handleUpdatePassword}
       >
         {loading
-          ? <ActivityIndicator style={{ height: 24 }} size="small" color={COLORS.GRAY_1} />
+          ? <ActivityIndicator size="small" color={COLORS.GRAY_1} />
           : (
             <Text
               style={[
