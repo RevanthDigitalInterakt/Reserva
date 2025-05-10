@@ -167,6 +167,8 @@ function ProductSelectors() {
     properties.addAttribute('desconto', discountValue);
 
     properties.setNonInteractiveEvent();
+    
+    
 
     ReactMoE.trackEvent('acessou_produto', properties);
     if (selectedSize) verifyProductDoris(selectedSize.ean);

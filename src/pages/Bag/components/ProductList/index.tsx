@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-
 import { useNavigation } from '@react-navigation/native';
 import { View } from 'react-native';
 import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
