@@ -24,6 +24,8 @@ import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import type { Items } from '../../utils/EventProvider/Event';
 import { removeSkuColorProductName } from '../../utils/products/removeSkuColorProductName';
 import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
+import ReactMoE, { MoEProperties } from 'react-native-moengage';
+import { url } from 'inspector';
 
 /**
  "Be very careful with the implementation as
@@ -51,6 +53,8 @@ function WebviewCheckout() {
   const purchaseItems = useMemo(() => mergeItemsPackage(packageItems), [packageItems]);
   const { profile } = useAuthStore(['profile']);
 
+
+
   const { changeStateIsVisibleModalPrimeRemoved, isVisibleModalPrimeRemoved } = usePrimeStore([
     'changeStateIsVisibleModalPrimeRemoved',
     'isVisibleModalPrimeRemoved',
@@ -71,13 +75,16 @@ function WebviewCheckout() {
   }, [actions, navigation]);
 
   const onNavigationStateChangeCapture = (event: WebViewNavigation) => {
+
     setNavState(event.url);
+  //  if(url.includes('/checkout/orderPlaced')&&!hasOrder)
   };
 
   const isComeFromHome = useMemo(() => (route?.params?.comeFrom === 'Home'), [route.params]);
 
   const isOrderPlaced = useMemo(() => (
     navState.includes('/checkout/orderPlaced')
+
   ), [navState]);
 
   const goBackToBagScreen = useCallback(() => {
@@ -98,29 +105,89 @@ function WebviewCheckout() {
     item_name: removeSkuColorProductName(String(item.item_name), String(item.item_variant)),
   }));
 
+  // const doEventPurchaseCompleted = useCallback(async () => {
+  //   try {
+  //     const itemsSkus = purchaseItems.map((item) => item.ean).filter((ean) => ean) as string[]
+  //     || [];
+  //     const orderGroupId = getURLParameter(navState, 'og');
+  //     const { data: dataOrderGroup } = await GetPurchaseData(orderGroupId) || {};
+  //     const dataPurchaseCompleted = prepareEventDataPurchaseCompleted(dataOrderGroup, orderFormId);
+  //     await AsyncStorage.setItem('User:LastOrderId', dataPurchaseCompleted?.resLastOrderId);
+  //     dataPurchaseCompleted.adaptItems = handleProductNameToEvent(dataPurchaseCompleted.adaptItems);
+  //     await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '', itemsSkus);
+  //   } catch (e) {
+  //     ExceptionProvider.captureException(
+  //       e, 
+  //       "doEventPurchaseCompleted - WebviewCheckout", 
+  //       { 
+  //         orderFormId: (JSON.stringify(orderFormId) || ""),
+  //         navState: (JSON.stringify(navState) || "")
+
+  //       });
+  //   } finally {
+  //     setPurchaseCompleted(true);
+  //   }
+  // }, [navState, orderFormId]);
+
+
+
   const doEventPurchaseCompleted = useCallback(async () => {
     try {
-      const itemsSkus = purchaseItems.map((item) => item.ean).filter((ean) => ean) as string[]
-      || [];
+      const itemsSkus = purchaseItems
+        .map((item) => item.ean)
+        .filter((ean) => ean) as string[] || [];
+
       const orderGroupId = getURLParameter(navState, 'og');
       const { data: dataOrderGroup } = await GetPurchaseData(orderGroupId) || {};
+
       const dataPurchaseCompleted = prepareEventDataPurchaseCompleted(dataOrderGroup, orderFormId);
       await AsyncStorage.setItem('User:LastOrderId', dataPurchaseCompleted?.resLastOrderId);
+
       dataPurchaseCompleted.adaptItems = handleProductNameToEvent(dataPurchaseCompleted.adaptItems);
-      await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '', itemsSkus);
+
+      await triggerEventAfterPurchaseCompleted(
+        dataPurchaseCompleted,
+        profile?.email || '',
+        itemsSkus
+      );
+
+    
+      const properties = new MoEProperties();
+      properties.addAttribute('order_id', dataPurchaseCompleted?.resLastOrderId || '');
+      properties.addAttribute('email', profile?.email || '');
+      properties.addAttribute('total_value', dataPurchaseCompleted?.resTotal || 0);
+      properties.addAttribute('items_count', dataPurchaseCompleted?.adaptItems?.length || 0);
+      properties.addAttribute('currency', 'BRL');
+
+    
+      const itemsArray = dataPurchaseCompleted?.adaptItems?.map(item => ({
+        name: item.item_name || '',
+        sku: item.item_id || '',
+        price: item.price || 0,
+        quantity: item.quantity || 0,
+      })) || [];
+
+      properties.addAttribute('items', JSON.stringify(itemsArray));
+
+    
+      ReactMoE.trackEvent('PurchaseCompleted', properties);
+
     } catch (e) {
       ExceptionProvider.captureException(
-        e, 
-        "doEventPurchaseCompleted - WebviewCheckout", 
-        { 
-          orderFormId: (JSON.stringify(orderFormId) || ""),
-          navState: (JSON.stringify(navState) || "")
-
-        });
+        e,
+        'doEventPurchaseCompleted - WebviewCheckout',
+        {
+          orderFormId: JSON.stringify(orderFormId) || '',
+          navState: JSON.stringify(navState) || '',
+        }
+      );
     } finally {
       setPurchaseCompleted(true);
     }
-  }, [navState, orderFormId]);
+  }, [navState, orderFormId, purchaseItems, profile?.email]);
+
+
+
 
   const onMessage = async (event: WebViewMessageEvent) => {
     let newData = null;

@@ -14,6 +14,7 @@ import { validateEmail } from '../../../utils/validateEmail';
 import HeaderBanner from '../../Forgot/componet/HeaderBanner';
 import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import EventProvider from '../../../utils/EventProvider';
+import ReactMoE, { MoEProperties } from 'react-native-moengage';
 
 export interface RegisterEmailProps
   extends StackScreenProps<RootStackParamList, 'RegisterEmail'> { }
@@ -36,6 +37,10 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation, route 
       setInputError('Por favor, informe um e-mail válido.');
       return;
     }
+
+    // const properties = new MoEProperties();
+    // properties.addAttribute('source', 'Profie');
+    // ReactMoE.trackEvent('SignupStarted', properties);
 
     try {
       const { data } = await signUpVerificationCode({

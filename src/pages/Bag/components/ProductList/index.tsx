@@ -180,7 +180,7 @@ export default function BagProductList() {
     moeProps.addAttribute('quantity', countUpdated);
     moeProps.addAttribute('seller', item.seller);
 
-    ReactMoE.trackEvent('AddToCart_Count', moeProps);
+    ReactMoE.trackEvent('AddToCart', moeProps);
   },
   [actions, packageItems],
 );
@@ -213,7 +213,7 @@ const handleSubCount = useCallback(
     moeProps.addAttribute('quantity', countUpdated);
     moeProps.addAttribute('seller', item.seller);
 
-    ReactMoE.trackEvent('Remove_From_Cart', moeProps);
+    ReactMoE.trackEvent('RemoveFromCart', moeProps);
 
     await actions.UPDATE_PRODUCT_COUNT(index, item, countUpdated);
   },
