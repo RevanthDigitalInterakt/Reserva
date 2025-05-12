@@ -127,6 +127,19 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
         product_currency: 'BRL',
       });
 
+
+      const properties = new MoEProperties();
+      properties.addAttribute('seller', product?.seller || '');
+      properties.addAttribute('sellerName', product?.sellerName || '');
+      properties.addAttribute('priceIsInt', Number.isInteger(product?.price) ? true : false);
+      properties.addAttribute('referenceId', product?.referenceId || '');
+      properties.addAttribute('sellingPrice', product?.priceRange?.sellingPrice?.lowPrice?.toString() || '');
+      properties.addAttribute('ean', product?.initialSize?.ean || '');
+
+      properties.setNonInteractiveEvent();
+
+      ReactMoE.trackEvent('ProductViewed', properties);
+
       const showKitlook = getBoolean('show_kitlook');
 
       const pdpShowGiftCard = getBoolean('pdp_show_gift_card');

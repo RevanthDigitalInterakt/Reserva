@@ -376,7 +376,7 @@ function ProductAddToCart({ isFixed = false, fvcReferenceId }: ProductAddToCartP
       if (productDetail && selectedColor) {
         const moeProps = new MoEProperties();
         moeProps.addAttribute('seller', selectedSize.seller);
-        moeProps.addAttribute('priceIsInt', Number.isInteger(existingItem?.price));
+        moeProps.addAttribute('priceIsInt', Number.isInteger(existingItem?.price));  //boolean
         moeProps.addAttribute('referenceId', selectedSize.itemId);
         moeProps.addAttribute('ean', selectedSize.ean);
         moeProps.addAttribute('currency', 'BRL');
