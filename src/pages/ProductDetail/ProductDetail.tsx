@@ -129,12 +129,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
 
       const properties = new MoEProperties();
-      properties.addAttribute('seller', product?.seller || '');
-      properties.addAttribute('sellerName', product?.sellerName || '');
-      properties.addAttribute('priceIsInt', Number.isInteger(product?.price) ? true : false);
-      properties.addAttribute('referenceId', product?.referenceId || '');
-      properties.addAttribute('sellingPrice', product?.priceRange?.sellingPrice?.lowPrice?.toString() || '');
-      properties.addAttribute('ean', product?.initialSize?.ean || '');
+      properties.addAttribute('skuId', productDetail?.initialSize?.itemId || '');
+      properties.addAttribute('brand', productDetail?.categoryTree[0] || '');
 
       properties.setNonInteractiveEvent();
 
@@ -209,7 +205,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
                     <Divider variant="fullWidth" my="xs" />
                     <ProductPayment />
                   </>
-              )}
+                )}
               {showReturnPolicy && (<ReturnPolicy />)}
             </Box>
 
