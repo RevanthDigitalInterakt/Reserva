@@ -129,12 +129,15 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
 
       const properties = new MoEProperties();
-      properties.addAttribute('skuId', productDetail?.initialSize?.itemId || '');
-      properties.addAttribute('brand', productDetail?.categoryTree[0] || '');
-
+      console.log("printing moe properties");
+      properties.addAttribute('skuId', product?.initialSize?.itemId || '');
+      properties.addAttribute('brand', product?.categoryTree[0] || '');
+  
       properties.setNonInteractiveEvent();
 
       ReactMoE.trackEvent('ProductViewed', properties);
+      
+      console.log("end of props - ProductDetail Page",JSON.stringify(properties));
 
       const showKitlook = getBoolean('show_kitlook');
 
