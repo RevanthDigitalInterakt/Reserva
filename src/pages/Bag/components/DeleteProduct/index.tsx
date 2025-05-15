@@ -3,7 +3,7 @@ import { useBagStore } from '../../../../zustand/useBagStore/useBagStore';
 import EventProvider from '../../../../utils/EventProvider';
 import { defaultBrand } from '../../../../utils/defaultWBrand';
 import { Alert } from '../../../../components/Alert/Alert';
-
+import ReactMoE,{MoEProperties} from 'react-native-moengage';
 export default function DeleteProductModal() {
   const { deleteProductModal, loadingModal, actions } = useBagStore([
     'actions',
@@ -19,6 +19,13 @@ export default function DeleteProductModal() {
       item_categories: 'product',
       item_brand: defaultBrand.reserva,
     });
+
+    const moeProps = new MoEProperties();
+    moeProps.addAttribute('item_id', deleteProductModal.deleteInfo.product?.id);
+    moeProps.addAttribute('item_category', 'product');
+    moeProps.addAttribute('item_brand', defaultBrand.reserva);
+
+    ReactMoE.trackEvent('RemoveFromCart', moeProps);
 
     await actions.UPDATE_PRODUCT_COUNT(
       deleteProductModal.deleteInfo.index,

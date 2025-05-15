@@ -27,7 +27,7 @@ export default function BagProductList() {
     'packageItems',
     'appTotalizers',
   ]);
-  const { productDetail } = useProductDetailStore(['productDetail']);
+  const { productDetail ,selectedColor, selectedSize} = useProductDetailStore(['productDetail', 'selectedColor', 'selectedSize']);
   const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
   const { queryID } = useSearchStore(['queryID']);
   const navigation = useNavigation();
@@ -113,112 +113,76 @@ export default function BagProductList() {
     });
   }, [packageItems]);
 
-  // const handleAddCount = useCallback(
-  //   async (countUpdated: number, item: TItemBag, index: number) => {
-  //     await actions.UPDATE_PRODUCT_COUNT(index, item, countUpdated);
-
-  //     EventProvider.logEvent('add_to_cart', {
-  //       item_id: item.id,
-  //       item_name: productDetail?.productName || item.productTitle,
-  //       item_category: 'product',
-  //       item_brand: getBrands(mergeItemsPackage(packageItems) || []),
-  //       currency: 'BRL',
-  //       price: (item.price || 0) / 100,
-  //       quantity: countUpdated,
-  //       seller: item.seller,
-  //     });
-  //   },
-  //   [actions, packageItems],
-  // );
-
-  // const handleSubCount = useCallback(
-  //   async (
-  //     countUpdated: number,
-  //     oldCountValue: number,
-  //     item: TItemBag,
-  //     index: number,
-  //   ) => {
-  //     if (oldCountValue <= 1) {
-  //       await handleDeleteProductModal(item, index);
-  //       return;
-  //     }
-
-  //     EventProvider.logEvent('remove_from_cart', {
-  //       item_id: item.id,
-  //       item_categories: 'product',
-  //       item_brand: defaultBrand.reserva,
-  //     });
-
-  //     await actions.UPDATE_PRODUCT_COUNT(index, item, countUpdated);
-  //   },
-  //   [actions, handleDeleteProductModal],
-  // );
 
 
   const handleAddCount = useCallback(
-  async (countUpdated: number, item: TItemBag, index: number) => {
-    await actions.UPDATE_PRODUCT_COUNT(index, item, countUpdated);
+    async (countUpdated: number, item: TItemBag, index: number) => {
+      await actions.UPDATE_PRODUCT_COUNT(index, item, countUpdated);
 
-    EventProvider.logEvent('add_to_cart', {
-      item_id: item.id,
-      item_name: productDetail?.productName || item.productTitle,
-      item_category: 'product',
-      item_brand: getBrands(mergeItemsPackage(packageItems) || []),
-      currency: 'BRL',
-      price: (item.price || 0) / 100,
-      quantity: countUpdated,
-      seller: item.seller,
-    });
+      EventProvider.logEvent('add_to_cart', {
+        item_id: item.id,
+        item_name: productDetail?.productName || item.productTitle,
+        item_category: 'product',
+        item_brand: getBrands(mergeItemsPackage(packageItems) || []),
+        currency: 'BRL',
+        price: (item.price || 0) / 100,
+        quantity: countUpdated,
+        seller: item.seller,
+      });
 
-    const moeProps = new MoEProperties();
-    moeProps.addAttribute('item_id', item.id);
-    moeProps.addAttribute('item_name', productDetail?.productName || item.productTitle);
-    moeProps.addAttribute('item_category', 'product');
-    moeProps.addAttribute('item_brand', getBrands(mergeItemsPackage(packageItems) || []));
-    moeProps.addAttribute('currency', 'BRL');
-    moeProps.addAttribute('price', (item.price || 0) / 100);
-    moeProps.addAttribute('quantity', countUpdated);
-    moeProps.addAttribute('seller', item.seller);
+      const color = selectedColor?.colorName || '';
+      const size = selectedSize?.size || '';
 
-    ReactMoE.trackEvent('AddToCart_Count', moeProps);
-  },
-  [actions, packageItems],
-);
 
-const handleSubCount = useCallback(
-  async (
-    countUpdated: number,
-    oldCountValue: number,
-    item: TItemBag,
-    index: number,
-  ) => {
-    if (oldCountValue <= 1) {
-      await handleDeleteProductModal(item, index);
-      return;
-    }
+      const moeProps = new MoEProperties();
+      moeProps.addAttribute('sellingPrice', productDetail?.priceRange?.sellingPrice.lowPrice || 0);
 
-    EventProvider.logEvent('remove_from_cart', {
-      item_id: item.id,
-      item_categories: 'product',
-      item_brand: defaultBrand.reserva,
-    });
+      moeProps.addAttribute('variant', color + '-' + size);
+      moeProps.addAttribute('skuId', item.id);
+      moeProps.addAttribute('quantity', countUpdated);
+      moeProps.addAttribute('brand', productDetail?.categoryTree[0] || '');
+      moeProps.addAttribute('name', productDetail?.productName || item.productTitle);
+      moeProps.addAttribute('category', productDetail?.categoryTree || []);
 
-    const moeProps = new MoEProperties();
-    moeProps.addAttribute('item_id', item.id);
-    moeProps.addAttribute('item_name', item.productTitle);
-    moeProps.addAttribute('item_category', 'product');
-    moeProps.addAttribute('item_brand', defaultBrand.reserva);
-    moeProps.addAttribute('currency', 'BRL');
-    moeProps.addAttribute('price', (item.price || 0) / 100);
-    moeProps.addAttribute('quantity', countUpdated);
-    moeProps.addAttribute('seller', item.seller);
+      ReactMoE.trackEvent('AddToCart', moeProps);
+    },
+    [actions, packageItems],
+  );
 
-    ReactMoE.trackEvent('Remove_From_Cart', moeProps);
+  const handleSubCount = useCallback(
+    async (
+      countUpdated: number,
+      oldCountValue: number,
+      item: TItemBag,
+      index: number,
+    ) => {
+      if (oldCountValue <= 1) {
+        await handleDeleteProductModal(item, index);
+        return;
+      }
 
-    await actions.UPDATE_PRODUCT_COUNT(index, item, countUpdated);
-  },
-  [actions, handleDeleteProductModal],
-);
+      EventProvider.logEvent('remove_from_cart', {
+        item_id: item.id,
+        item_categories: 'product',
+        item_brand: defaultBrand.reserva,
+      });
+
+      const moeProps = new MoEProperties();
+      moeProps.addAttribute('id', item.id);
+      moeProps.addAttribute('name', item.productTitle);
+      moeProps.addAttribute('category', 'product');
+      moeProps.addAttribute('brand', defaultBrand.reserva);
+      moeProps.addAttribute('currency', 'BRL');
+      moeProps.addAttribute('price', (item.price || 0) / 100);
+      moeProps.addAttribute('quantity', countUpdated);
+      moeProps.addAttribute('seller', item.seller);
+
+      ReactMoE.trackEvent('RemoveFromCart', moeProps);
+
+      await actions.UPDATE_PRODUCT_COUNT(index, item, countUpdated);
+    },
+    [actions, handleDeleteProductModal],
+  );
 
   const handleNavigationToDetail = useCallback(
     ({

@@ -129,16 +129,15 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
 
       const properties = new MoEProperties();
-      properties.addAttribute('seller', product?.seller || '');
-      properties.addAttribute('sellerName', product?.sellerName || '');
-      properties.addAttribute('priceIsInt', Number.isInteger(product?.price) ? true : false);
-      properties.addAttribute('referenceId', product?.referenceId || '');
-      properties.addAttribute('sellingPrice', product?.priceRange?.sellingPrice?.lowPrice?.toString() || '');
-      properties.addAttribute('ean', product?.initialSize?.ean || '');
-
+      console.log("printing moe properties");
+      properties.addAttribute('skuId', product?.initialSize?.itemId || '');
+      properties.addAttribute('brand', product?.categoryTree[0] || '');
+  
       properties.setNonInteractiveEvent();
 
       ReactMoE.trackEvent('ProductViewed', properties);
+      
+      console.log("end of props - ProductDetail Page",JSON.stringify(properties));
 
       const showKitlook = getBoolean('show_kitlook');
 
@@ -209,7 +208,7 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
                     <Divider variant="fullWidth" my="xs" />
                     <ProductPayment />
                   </>
-              )}
+                )}
               {showReturnPolicy && (<ReturnPolicy />)}
             </Box>
 

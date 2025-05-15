@@ -33,6 +33,7 @@ import { ExceptionProvider } from '../../../base/providers/ExceptionProvider';
 import { Method } from '../../../utils/EventProvider/Event';
 import { useBagStore } from '../../../zustand/useBagStore/useBagStore';
 import { useRemoteConfig } from '../../../hooks/useRemoteConfig';
+import ReactMoE, { MoEProperties } from 'react-native-moengage';
 
 export interface PasswordCheckProps {
   text: string;
@@ -120,68 +121,149 @@ export const ConfirmAccessCode: React.FC<ConfirmAccessCodeProps> = ({
     url: `${Config.URL_VTEX_QA}/checkout?orderFormId=${orderFormId}/&test=2&document=${removeNonNumbers(cpf)}&webview=true&app=applojausereserva&savecard=true&utm_source=app/#/shipping`,
   }), [orderFormId]);
 
+  // const handleSignUp = useCallback(async () => {
+  //   EventProvider.logEvent('signup_create_password_click', {});
+
+  //   const variables = {
+  //     input: {
+  //       email,
+  //       code,
+  //       password: passwords.confirm,
+  //       document: removeNonNumbers(cpf),
+  //       documentType: SignUpDocumentTypeEnum.Cpf,
+  //       cookies: requestCookie,
+  //     },
+  //   };
+
+  //   if (isLoading) return;
+
+  //   setIsLoading(true);
+  //   try {
+  //     const response = await signUp({ variables });
+
+  //     EventProvider.logEvent('sign_up', {
+  //       method: Method.Email,
+  //     });
+
+  //     if (response?.data?.signUp?.token && response?.data?.signUp?.authCookie) {
+
+              
+      
+
+  //       try {
+  //         await onSignIn(email, passwords.confirm, true);
+  //       } catch (err) {
+  //         ExceptionProvider.captureException(err, 'handleSignUp - ConfirmAccessCode', { document: cpf, email });
+  //       }
+
+  //       await onUpdateAuthData(response?.data?.signUp?.token, response?.data?.signUp?.authCookie);
+  //       setModalSignUpComplete(true);
+  //       if (comeFrom === 'BagScreen' && getBoolean('should_redirect_to_checkout')) {
+  //         goToWebviewCheckout();
+  //         return;
+  //       }
+  //       navigation.navigate('Home');
+  //     }
+  //   } catch (e) {
+  //     setPasswords({
+  //       confirm: '',
+  //       first: '',
+  //     });
+  //     setCode('');
+  //     ExceptionProvider.captureException(e, 'handleSignUp - ConfirmAccessCode', { document: cpf, email });
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }, [
+  //   code,
+  //   cpf,
+  //   email, isLoading,
+  //   navigation,
+  //   onSignIn,
+  //   onUpdateAuthData,
+  //   passwords.confirm,
+  //   requestCookie,
+  //   setModalSignUpComplete,
+  //   signUp,
+  //   comeFrom,
+  // ]);
+
   const handleSignUp = useCallback(async () => {
-    EventProvider.logEvent('signup_create_password_click', {});
+  EventProvider.logEvent('signup_create_password_click', {});
 
-    const variables = {
-      input: {
-        email,
-        code,
-        password: passwords.confirm,
-        document: removeNonNumbers(cpf),
-        documentType: SignUpDocumentTypeEnum.Cpf,
-        cookies: requestCookie,
-      },
-    };
+  const variables = {
+    input: {
+      email,
+      code,
+      password: passwords.confirm,
+      document: removeNonNumbers(cpf),
+      documentType: SignUpDocumentTypeEnum.Cpf,
+      cookies: requestCookie,
+    },
+  };
 
-    if (isLoading) return;
+  if (isLoading) return;
 
-    setIsLoading(true);
-    try {
-      const response = await signUp({ variables });
+  setIsLoading(true);
+  try {
+    const response = await signUp({ variables });
 
-      EventProvider.logEvent('sign_up', {
-        method: Method.Email,
-      });
+    EventProvider.logEvent('sign_up', {
+      method: Method.Email,
+    });
 
-      if (response?.data?.signUp?.token && response?.data?.signUp?.authCookie) {
-        try {
-          await onSignIn(email, passwords.confirm, true);
-        } catch (err) {
-          ExceptionProvider.captureException(err, 'handleSignUp - ConfirmAccessCode', { document: cpf, email });
-        }
+    if (response?.data?.signUp?.token && response?.data?.signUp?.authCookie) {
 
-        await onUpdateAuthData(response?.data?.signUp?.token, response?.data?.signUp?.authCookie);
-        setModalSignUpComplete(true);
-        if (comeFrom === 'BagScreen' && getBoolean('should_redirect_to_checkout')) {
-          goToWebviewCheckout();
-          return;
-        }
-        navigation.navigate('Home');
+
+     
+      const moeProps = new MoEProperties();
+      moeProps.addAttribute('source',comeFrom);
+
+      ReactMoE.trackEvent('SignupCompleted', moeProps);
+
+      try {
+        await onSignIn(email, passwords.confirm, true);
+      } catch (err) {
+        ExceptionProvider.captureException(err, 'handleSignUp - ConfirmAccessCode', { document: cpf, email });
       }
-    } catch (e) {
-      setPasswords({
-        confirm: '',
-        first: '',
-      });
-      setCode('');
-      ExceptionProvider.captureException(e, 'handleSignUp - ConfirmAccessCode', { document: cpf, email });
-    } finally {
-      setIsLoading(false);
+
+      await onUpdateAuthData(response?.data?.signUp?.token, response?.data?.signUp?.authCookie);
+      setModalSignUpComplete(true);
+      if (comeFrom === 'BagScreen' && getBoolean('should_redirect_to_checkout')) {
+        goToWebviewCheckout();
+        return;
+      }
+      navigation.navigate('Home');
     }
-  }, [
-    code,
-    cpf,
-    email, isLoading,
-    navigation,
-    onSignIn,
-    onUpdateAuthData,
-    passwords.confirm,
-    requestCookie,
-    setModalSignUpComplete,
-    signUp,
-    comeFrom,
-  ]);
+  } catch (e) {
+    setPasswords({
+      confirm: '',
+      first: '',
+    });
+    setCode('');
+    ExceptionProvider.captureException(e, 'handleSignUp - ConfirmAccessCode', { document: cpf, email });
+  } finally {
+    setIsLoading(false); 
+  }
+}, [
+  code,
+  cpf,
+  email, 
+  isLoading,
+  navigation,
+  onSignIn,
+  onUpdateAuthData,
+  passwords.confirm,
+  requestCookie,
+  setModalSignUpComplete,
+  signUp,
+  comeFrom,
+]);
+
+
+  
+
+
 
   useEffect(() => {
     setPasswordChecker(passwordCheckHandler());

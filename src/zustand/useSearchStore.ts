@@ -19,6 +19,7 @@ import { useRemoteConfig } from '../hooks/useRemoteConfig';
 import { ExceptionProvider } from '../base/providers/ExceptionProvider';
 import { trackPageViewStore } from './useTrackPageViewStore/useTrackPageViewStore';
 import { trackClickStore, type IData } from './useTrackClickStore/useTrackClickStore';
+import ReactMoE, { MoEProperties } from 'react-native-moengage';
 
 export enum SearchStatusEnum {
   INITIAL,
@@ -179,6 +180,11 @@ export const useSearchStore = create<ISearchStore>((set, getState) => ({
         trackClick.onTrackClick(newData, data.search.identifier || '', type);
         trackStore.onTrackPageView(data.search.identifier || '', type);
         EventProvider.logEvent('view_search_results', { search_term: String(newParameters.q) });
+
+
+        const properties = new MoEProperties();
+        properties.addAttribute('term', String(newParameters.q));
+        ReactMoE.trackEvent('ProductSearched', properties);
       }
 
       if (searchType === SearchType.CATALOG) {

@@ -19,6 +19,7 @@ import { Method } from '../utils/EventProvider/Event';
 import { mergeItemsPackage } from '../utils/mergeItemsPackage';
 import type { ProfileOutput } from '../base/graphql/generated';
 import { removeSkuColorProductName } from '../utils/products/removeSkuColorProductName';
+import ReactMoE, { MoEProperties } from 'react-native-moengage';
 
 interface IUseNavigationToDeliveryReturn {
   handleNavigateToDelivery: (value: any, comeFrom?: string) => void;
@@ -103,6 +104,14 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
         currency: 'BRL',
         quantity: JSON.stringify(getAFContent(mergedItems)),
       });
+
+      const properties = new MoEProperties();
+
+      properties.addAttribute('price', total + discount + delivery);
+      properties.addAttribute('currency', 'BRL');
+
+      ReactMoE.trackEvent('CheckOut', properties);
+
     } catch (err) {
       ExceptionProvider.captureException(err, "onTrackCheckoutEvents - useNavigationToDelivery.ts");
     }

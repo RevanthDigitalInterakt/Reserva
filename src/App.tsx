@@ -8,7 +8,7 @@ import RNBootSplash from 'react-native-bootsplash';
 import DeviceInfo from 'react-native-device-info';
 import 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
-import ReactMoE from 'react-native-moengage';
+import ReactMoE,{ MoEAppStatus} from 'react-native-moengage';
 import { OneSignal } from 'react-native-onesignal';
 import { ExceptionProvider } from './base/providers/ExceptionProvider';
 import { theme } from './base/usereservappLegacy/theme';
@@ -33,6 +33,10 @@ import { useApolloFetchPolicyStore } from './zustand/useApolloFetchPolicyStore';
 import { useBagStore } from './zustand/useBagStore/useBagStore';
 import { useHomeStore } from './zustand/useHomeStore';
 import { usePageLoadingStore } from './zustand/usePageLoadingStore/usePageLoadingStore';
+import { version as CURRENT_VERSION } from '../package.json';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const LAST_VERSION_KEY = 'lastAppVersion';
 
 interface INotificationPayload {
   data: {
@@ -102,6 +106,31 @@ function App() {
   }, []);
 
   useEffect(() => {
+    
+    
+    const installUpdate=async()=>{
+      try{
+       const lastVersion = await AsyncStorage.getItem(LAST_VERSION_KEY);
+       console.debug("latest version",lastVersion);
+       console.debug(CURRENT_VERSION);
+       console.log('[MoEngage] Last version:', lastVersion);
+       console.log('[MoEngage] Current version:', CURRENT_VERSION);
+       
+               if (!lastVersion) {
+                 ReactMoE.setAppStatus(MoEAppStatus.Install);
+               } else if (lastVersion !== CURRENT_VERSION) {
+                 ReactMoE.setAppStatus(MoEAppStatus.Update);
+               }
+       
+               await AsyncStorage.setItem(LAST_VERSION_KEY, CURRENT_VERSION);
+             } catch (e) {
+               console.error('MoEngage version check failed:', e);
+             }
+        
+        }
+      
+    installUpdate();
+    
     const clickListenerOneSignal = async (event) => {
       const deeplink = event.notification.launchURL || event.result.url || '';
       if (deeplink) {
