@@ -111,7 +111,7 @@ function App() {
     const installUpdate=async()=>{
       try{
        const lastVersion = await AsyncStorage.getItem(LAST_VERSION_KEY);
-       console.debug("latest version",lastVersion);
+       console.debug("lastVersion",lastVersion);
        console.debug(CURRENT_VERSION);
        console.log('[MoEngage] Last version:', lastVersion);
        console.log('[MoEngage] Current version:', CURRENT_VERSION);
@@ -119,7 +119,9 @@ function App() {
                if (!lastVersion) {
                  ReactMoE.setAppStatus(MoEAppStatus.Install);
                } else if (lastVersion !== CURRENT_VERSION) {
+                 
                  ReactMoE.setAppStatus(MoEAppStatus.Update);
+                 console.debug("update fired",CURRENT_VERSION);
                }
        
                await AsyncStorage.setItem(LAST_VERSION_KEY, CURRENT_VERSION);

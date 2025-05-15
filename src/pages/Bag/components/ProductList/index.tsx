@@ -135,7 +135,7 @@ export default function BagProductList() {
 
 
       const moeProps = new MoEProperties();
-      moeProps.addAttribute('sellingPrice', productDetail?.priceRange?.sellingPrice.lowPrice || 0);
+      moeProps.addAttribute('price', (item.price || 0) / 100,);
 
       moeProps.addAttribute('variant', color + '-' + size);
       moeProps.addAttribute('skuId', item.id);
@@ -167,17 +167,25 @@ export default function BagProductList() {
         item_brand: defaultBrand.reserva,
       });
 
-      const moeProps = new MoEProperties();
-      moeProps.addAttribute('id', item.id);
-      moeProps.addAttribute('name', item.productTitle);
-      moeProps.addAttribute('category', 'product');
-      moeProps.addAttribute('brand', defaultBrand.reserva);
-      moeProps.addAttribute('currency', 'BRL');
-      moeProps.addAttribute('price', (item.price || 0) / 100);
-      moeProps.addAttribute('quantity', countUpdated);
-      moeProps.addAttribute('seller', item.seller);
+      if(countUpdated==0)
+      {
+        
+          const color = selectedColor?.colorName || '';
+          const size = selectedSize?.size || '';
+    
+          const moeProps = new MoEProperties();
+          moeProps.addAttribute('skuId', item.id);
+          moeProps.addAttribute('name', item.productTitle || productDetail?.name);
+          moeProps.addAttribute('category', productDetail?.categoryTree || []);
+          moeProps.addAttribute('brand', productDetail?.categoryTree[0] || '');
+          moeProps.addAttribute('price', (item.price || 0) / 100,);
+          moeProps.addAttribute('quantity', countUpdated);
+          moeProps.addAttribute('variant', color + '-' + size);
 
-      ReactMoE.trackEvent('RemoveFromCart', moeProps);
+    
+          ReactMoE.trackEvent('RemoveFromCart', moeProps);
+     }
+      
 
       await actions.UPDATE_PRODUCT_COUNT(index, item, countUpdated);
     },

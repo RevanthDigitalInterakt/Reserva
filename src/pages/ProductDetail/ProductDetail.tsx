@@ -137,6 +137,8 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
 
       ReactMoE.trackEvent('ProductViewed', properties);
       
+      ReactMoE.showInApp();
+      
       console.log("end of props - ProductDetail Page",JSON.stringify(properties));
 
       const showKitlook = getBoolean('show_kitlook');
