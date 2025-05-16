@@ -128,18 +128,18 @@ function ProductDetail({ route, navigation }: IProductDetailNew) {
       });
 
 
-      const properties = new MoEProperties();
-      console.log("printing moe properties");
-      properties.addAttribute('skuId', product?.initialSize?.itemId || '');
-      properties.addAttribute('brand', product?.categoryTree[0] || '');
-  
-      properties.setNonInteractiveEvent();
-
-      ReactMoE.trackEvent('ProductViewed', properties);
+//       const properties = new MoEProperties();
+//       console.log("printing moe properties");
+//       properties.addAttribute('skuId', product?.initialSize?.itemId || '');
+//       properties.addAttribute('brand', product?.categoryTree[0] || '');
+//   
+//       properties.setNonInteractiveEvent();
+// 
+//       ReactMoE.trackEvent('ProductViewed', properties);
       
       ReactMoE.showInApp();
       
-      console.log("end of props - ProductDetail Page",JSON.stringify(properties));
+//       console.log("end of props - ProductDetail Page",JSON.stringify(properties));
 
       const showKitlook = getBoolean('show_kitlook');
 

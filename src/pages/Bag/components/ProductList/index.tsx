@@ -135,7 +135,7 @@ export default function BagProductList() {
 
 
       const moeProps = new MoEProperties();
-      moeProps.addAttribute('price', (item.price || 0) / 100,);
+      moeProps.addAttribute('price', (item.price || 0)/100);
 
       moeProps.addAttribute('variant', color + '-' + size);
       moeProps.addAttribute('skuId', item.id);
@@ -178,7 +178,10 @@ export default function BagProductList() {
           moeProps.addAttribute('name', item.productTitle || productDetail?.name);
           moeProps.addAttribute('category', productDetail?.categoryTree || []);
           moeProps.addAttribute('brand', productDetail?.categoryTree[0] || '');
-          moeProps.addAttribute('price', (item.price || 0) / 100,);
+         // moeProps.addAttribute('price', productDetail?.priceRange?.sellingPrice.lowPrice || 0);
+          moeProps.addAttribute('price', item.price || 0);
+        
+          console.debug(item.price);
           moeProps.addAttribute('quantity', countUpdated);
           moeProps.addAttribute('variant', color + '-' + size);
 
