@@ -8,7 +8,7 @@ import RNBootSplash from 'react-native-bootsplash';
 import DeviceInfo from 'react-native-device-info';
 import 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
-import ReactMoE,{ MoEAppStatus} from 'react-native-moengage';
+import ReactMoE, { MoEAppStatus } from 'react-native-moengage';
 import { OneSignal } from 'react-native-onesignal';
 import { ExceptionProvider } from './base/providers/ExceptionProvider';
 import { theme } from './base/usereservappLegacy/theme';
@@ -106,33 +106,31 @@ function App() {
   }, []);
 
   useEffect(() => {
-    
+
+  
     
     const installUpdate=async()=>{
       try{
        const lastVersion = await AsyncStorage.getItem(LAST_VERSION_KEY);
        console.debug("lastVersion",lastVersion);
        console.debug(CURRENT_VERSION);
-       console.log('[MoEngage] Last version:', lastVersion);
-       console.log('[MoEngage] Current version:', CURRENT_VERSION);
-       
+
                if (!lastVersion) {
-                 ReactMoE.setAppStatus(MoEAppStatus.Install);
+                  ReactMoE.setAppStatus(MoEAppStatus.Install);
                } else if (lastVersion !== CURRENT_VERSION) {
-                 
-                 ReactMoE.setAppStatus(MoEAppStatus.Update);
+                ReactMoE.setAppStatus(MoEAppStatus.Update);
                  console.debug("update fired",CURRENT_VERSION);
                }
-       
+
                await AsyncStorage.setItem(LAST_VERSION_KEY, CURRENT_VERSION);
              } catch (e) {
                console.error('MoEngage version check failed:', e);
              }
-        
+
         }
-      
+
     installUpdate();
-    
+
     const clickListenerOneSignal = async (event) => {
       const deeplink = event.notification.launchURL || event.result.url || '';
       if (deeplink) {

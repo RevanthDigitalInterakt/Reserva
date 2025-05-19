@@ -19,6 +19,7 @@ import { useTrackClickAlgoliaStore } from '../../../../zustand/useTrackAlgoliaSt
 import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../../../base/graphql/generated';
 import useSearchStore from '../../../../zustand/useSearchStore';
 import ReactMoE, { MoEProperties } from 'react-native-moengage';
+import { toProperCase } from '../../../../utils/properCase';
 //import { sentenceCase } from "sentence-case";
 
 function ProductAddToCart({ isFixed = false, fvcReferenceId }: ProductAddToCartProps) {
@@ -109,36 +110,50 @@ function ProductAddToCart({ isFixed = false, fvcReferenceId }: ProductAddToCartP
 
       if (productDetail && selectedColor) {
 
-        let color=selectedColor?.colorName || '';
-      //  color=sentenceCase(color);
-        console.debug("printing color case",color);
-        const size=selectedSize?.size || '';
+        let color = selectedColor?.colorName || '';
+        //  color=sentenceCase(color);
+        console.debug("printing color case", color);
+        const size = selectedSize?.size || '';
         const lowPrice = productDetail?.priceRange?.sellingPrice?.lowPrice || 0;
         const currentPrice = productDetail?.initialSize?.currentPrice || 0;
-        
+
         const discountValue = lowPrice - currentPrice;
-        
+
+
+
+        const rawCategoryTree: string[] = productDetail?.categoryTree || [];
+
+
+        const formattedCategory = {
+          category: rawCategoryTree.map((name, index) => ({
+            id: index.toString(),
+            name: name.toLowerCase()
+          }))
+        };
+
+
+
         const moeProps = new MoEProperties();
         moeProps.addAttribute('sellingPrice', productDetail?.priceRange?.sellingPrice.lowPrice || 0);
         moeProps.addAttribute('price', productDetail?.initialSize?.currentPrice || 0);
-      //  moeProps.addAttribute('variant',color+'-'+size);
-        
-        moeProps.addAttribute('productColor',color|| '');
-        moeProps.addAttribute('productSize', size.toUpperCase()|| '');
+        //  moeProps.addAttribute('variant',color+'-'+size);
+
+        moeProps.addAttribute('productColor', toProperCase(color || ''));
+        moeProps.addAttribute('productSize', size.toUpperCase() || '');
         console.debug(size.toUpperCase());
         moeProps.addAttribute('skuId', selectedSize.itemId);
         moeProps.addAttribute('quantity', newQuantity);
         moeProps.addAttribute('brand', productDetail?.categoryTree[0] || '');
         moeProps.addAttribute('name', productDetail.productName);
-        moeProps.addAttribute('category', productDetail?.categoryTree || []);
+        moeProps.addAttribute('category', JSON.stringify(formattedCategory));
         moeProps.addAttribute('discount', discountValue);
         moeProps.addAttribute('ean', productDetail?.initialSize?.ean || '');
         moeProps.addAttribute('productId', productDetail?.productId || '');
-        
-        console.debug('printing category',productDetail?.categoryTree);
+
+        console.debug('printing category', formattedCategory);
         //detail url missing
-        
-        
+
+
         const debugMoEProps = {
           sellingPrice: productDetail?.priceRange?.sellingPrice.lowPrice || 0,
           price: productDetail?.initialSize?.currentPrice || 0,
@@ -152,9 +167,9 @@ function ProductAddToCart({ isFixed = false, fvcReferenceId }: ProductAddToCartP
           discount: discountValue,
           ean: productDetail?.initialSize?.ean || '',
         };
-        
+
         console.debug('MoEngage Event Properties:', debugMoEProps);
-        
+
         ReactMoE.trackEvent('AddToCart', moeProps);
       }
 

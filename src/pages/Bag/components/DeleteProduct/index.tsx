@@ -5,6 +5,7 @@ import { defaultBrand } from '../../../../utils/defaultWBrand';
 import { Alert } from '../../../../components/Alert/Alert';
 import ReactMoE,{MoEProperties} from 'react-native-moengage';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
+import { toProperCase } from '../../../../utils/properCase';
 
 export default function DeleteProductModal() {
   const { deleteProductModal, loadingModal, actions } = useBagStore([
@@ -43,11 +44,14 @@ export default function DeleteProductModal() {
     console.debug("product detail",deleteProductModal?.deleteInfo?.product.productCategories || []);
     moeProps.addAttribute('brand', deleteProductModal?.deleteInfo?.product.productCategories[0] || '');
     moeProps.addAttribute('productSize',size.toUpperCase());
-    moeProps.addAttribute('productColor',color.toUpperCase());
+    moeProps.addAttribute('productColor',toProperCase(color));
     moeProps.addAttribute('quantity', deleteProductModal?.deleteInfo?.product.quantity || '');
     moeProps.addAttribute('name', deleteProductModal?.deleteInfo?.product.name || '');
     moeProps.addAttribute('productId', deleteProductModal?.deleteInfo?.product.productId || '');
-   // moeProps.addAttribute('productRefId', deleteProductModal?.deleteInfo?.product.refid ||'');
+
+    console.debug( "prod ref id",deleteProductModal?.deleteInfo?.product.productRefId);
+    
+   moeProps.addAttribute('productRefId', deleteProductModal?.deleteInfo?.product.productRefId ||'');
 
     //moeProps.addAttribute('referenceId');
 

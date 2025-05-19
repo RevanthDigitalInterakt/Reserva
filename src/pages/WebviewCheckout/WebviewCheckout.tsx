@@ -109,11 +109,8 @@ function WebviewCheckout() {
       const dataPurchaseCompleted = prepareEventDataPurchaseCompleted(dataOrderGroup, orderFormId);
       await AsyncStorage.setItem('User:LastOrderId', dataPurchaseCompleted?.resLastOrderId);
       dataPurchaseCompleted.adaptItems = handleProductNameToEvent(dataPurchaseCompleted.adaptItems);
-      await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '', itemsSkus); 
 
-
-
-      //order placed
+       //order placed
 
       const moeProps = new MoEProperties();
 
@@ -142,6 +139,9 @@ function WebviewCheckout() {
       ReactMoE.trackEvent("orderPlaced", moeProps);
 
 
+
+
+      
       //product purchased event
 
 
@@ -161,13 +161,10 @@ function WebviewCheckout() {
         // itemProps.addAttribute("discount");
         itemProps.addAttribute("price",item.price);
         
-
-
-
         ReactMoE.trackEvent("productPurchased", itemProps);
       });
 
-
+      await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '', itemsSkus); 
 
 
 
