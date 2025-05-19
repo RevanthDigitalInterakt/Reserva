@@ -25,20 +25,33 @@ export default function DeleteProductModal() {
   
     const color= deleteProductModal?.deleteInfo?.product.itemColor;
     const size=deleteProductModal?.deleteInfo?.product.itemSize;
-    
+
+    const discount=(((deleteProductModal?.deleteInfo?.product.price) || 0)/100) - ((deleteProductModal.deleteInfo.product?.sellingPrice || 0)/100);
+    console.debug("print discount",discount);
+    const discount_decimal = Math.round(discount * 100) / 100;
+
     const moeProps = new MoEProperties();
     console.debug("In Delete Cart Item");
     moeProps.addAttribute('skuId', deleteProductModal.deleteInfo.product?.id);
     console.debug(deleteProductModal.deleteInfo.product?.id)
-    moeProps.addAttribute('price', deleteProductModal.deleteInfo.product?.sellingPrice.lowPrice || 0);
-    console.debug(deleteProductModal.deleteInfo.product?.sellingPrice.lowPrice);
+ //   moeProps.addAttribute('price', deleteProductModal.deleteInfo.product?.sellingPrice || 0);
+    console.debug(deleteProductModal.deleteInfo.product?.sellingPrice || 0);
+    moeProps.addAttribute('price',  ((deleteProductModal?.deleteInfo?.product.price || 0) /100));
+    console.debug('price',(deleteProductModal?.deleteInfo?.product.price || 0) /100);
+    moeProps.addAttribute('discount',discount_decimal);
     moeProps.addAttribute('category', productDetail?.categoryTree || []);
     console.debug("product detail",deleteProductModal?.deleteInfo?.product.productCategories || []);
     moeProps.addAttribute('brand', deleteProductModal?.deleteInfo?.product.productCategories[0] || '');
-    moeProps.addAttribute('variant', color+"-"+size);
+    moeProps.addAttribute('productSize',size.toUpperCase());
+    moeProps.addAttribute('productColor',color.toUpperCase());
     moeProps.addAttribute('quantity', deleteProductModal?.deleteInfo?.product.quantity || '');
     moeProps.addAttribute('name', deleteProductModal?.deleteInfo?.product.name || '');
-    
+    moeProps.addAttribute('productId', deleteProductModal?.deleteInfo?.product.productId || '');
+   // moeProps.addAttribute('productRefId', deleteProductModal?.deleteInfo?.product.refid ||'');
+
+    //moeProps.addAttribute('referenceId');
+
+    //moeProps.addAttribute('detailUrl');
     
     ReactMoE.trackEvent('RemoveFromCart', moeProps);
 

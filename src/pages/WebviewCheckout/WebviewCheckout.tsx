@@ -24,6 +24,8 @@ import { useAuthStore } from '../../zustand/useAuth/useAuthStore';
 import type { Items } from '../../utils/EventProvider/Event';
 import { removeSkuColorProductName } from '../../utils/products/removeSkuColorProductName';
 import { mergeItemsPackage } from '../../utils/mergeItemsPackage';
+import ReactMoE, { MoEProperties } from 'react-native-moengage';
+
 
 /**
  "Be very careful with the implementation as
@@ -101,18 +103,80 @@ function WebviewCheckout() {
   const doEventPurchaseCompleted = useCallback(async () => {
     try {
       const itemsSkus = purchaseItems.map((item) => item.ean).filter((ean) => ean) as string[]
-      || [];
+        || [];
       const orderGroupId = getURLParameter(navState, 'og');
       const { data: dataOrderGroup } = await GetPurchaseData(orderGroupId) || {};
       const dataPurchaseCompleted = prepareEventDataPurchaseCompleted(dataOrderGroup, orderFormId);
       await AsyncStorage.setItem('User:LastOrderId', dataPurchaseCompleted?.resLastOrderId);
       dataPurchaseCompleted.adaptItems = handleProductNameToEvent(dataPurchaseCompleted.adaptItems);
-      await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '', itemsSkus);
+      await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '', itemsSkus); 
+
+
+
+      //order placed
+
+      const moeProps = new MoEProperties();
+
+      // moeProps.addAttribute("transactionDiscounts","");
+      // moeProps.addAttribute("visitorAddressCountry");
+      // moeProps.addAttribute("visitorAddressPostalCode","");
+      // moeProps.addAttribute("transactionProducts","");
+      // moeProps.addAttribute("visitorAddressCity","");
+      // moeProps.addAttribute("transactionAffiliation","");
+      // moeProps.addAttribute("visitorAdressState","");
+      moeProps.addAttribute("transactionSubtotal", dataPurchaseCompleted?.itemSubtotal);
+      moeProps.addAttribute("transactionLatestShippingEstimate", dataPurchaseCompleted.itemShippingTotal);
+      moeProps.addAttribute("transactionDate", dataPurchaseCompleted?.timestamp);
+      moeProps.addAttribute("transactionId", dataPurchaseCompleted?.orderId);
+      // moeProps.addAttribute("transactionShipping","");
+      // moeProps.addAttribute("visitorAddressNeighborhood","");
+      // moeProps.addAttribute("visitorAddressStreet","");
+      moeProps.addAttribute("transactionTotal", dataPurchaseCompleted?.orderValue);
+      moeProps.addAttribute("quantity", dataPurchaseCompleted?.totalQuantity);
+      moeProps.addAttribute("payment method", dataPurchaseCompleted.paymentSystemName);
+      // moeProps.addAttribute("cupom","");
+      // moeProps.addAttribute("cupomVendedor","");
+
+
+
+      ReactMoE.trackEvent("orderPlaced", moeProps);
+
+
+      //product purchased event
+
+
+
+      dataPurchaseCompleted?.adaptItems?.forEach((item) => {
+        const itemProps = new MoEProperties();
+        itemProps.addAttribute("sellingPrice",item.price);
+        // itemProps.addAttribute("ean");
+        // itemProps.addAttribute("productSize");
+        // itemProps.addAttribute("productColor",);
+       // itemProps.addAttribute("brand");
+        itemProps.addAttribute("skuId",item.item_variant);
+        itemProps.addAttribute("quantity",item.quantity);
+        itemProps.addAttribute("productId",item.item_id);
+        itemProps.addAttribute("name",item.item_name);
+        itemProps.addAttribute("category",item.item_category);
+        // itemProps.addAttribute("discount");
+        itemProps.addAttribute("price",item.price);
+        
+
+
+
+        ReactMoE.trackEvent("productPurchased", itemProps);
+      });
+
+
+
+
+
+
     } catch (e) {
       ExceptionProvider.captureException(
-        e, 
-        "doEventPurchaseCompleted - WebviewCheckout", 
-        { 
+        e,
+        "doEventPurchaseCompleted - WebviewCheckout",
+        {
           orderFormId: (JSON.stringify(orderFormId) || ""),
           navState: (JSON.stringify(navState) || "")
 
