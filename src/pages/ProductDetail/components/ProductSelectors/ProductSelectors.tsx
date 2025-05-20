@@ -32,6 +32,7 @@ import FittingRoomSession from '../FittingRoomSession';
 import { SizeGuideImages } from '../FittingRoomSession/components/SizeGuide';
 import { useDorisVerify } from '../../../../hooks/useDorisVerify';
 import Personalize from '../Personalize';
+import { toProperCase } from '../../../../utils/properCase';
 
 function ProductSelectors() {
   const [showModal, setShowModal] = useState(false);
@@ -155,22 +156,43 @@ function ProductSelectors() {
 
     const discountValue = lowPrice - currentPrice;
 
-    properties.addAttribute('source', '');
-    properties.addAttribute('marca', productDetail?.categoryTree[0] || '');
-    properties.addAttribute('id_produto', productDetail?.productId || '');
-    properties.addAttribute('nome_produto', productDetail?.productName || '');
-    properties.addAttribute('preco_produto', productDetail?.priceRange?.sellingPrice.lowPrice || 0);
-    properties.addAttribute('preco_desconto', productDetail?.initialSize?.currentPrice || 0);
-    properties.addAttribute('categorias', productDetail?.categoryTree || []);
-    properties.addAttribute('cor_produto', selectedColor?.colorName || '');
-    properties.addAttribute('tamanho_produto', selectedSize?.size || '');
-    properties.addAttribute('desconto', discountValue);
 
+
+    const rawCategoryTree: string[] = productDetail?.categoryTree || [];
+
+    const formattedCategory = {
+      category: rawCategoryTree.map((name, index) => ({
+        id: index.toString(),
+        name: name.toLowerCase()
+      }))
+    };
+
+
+    console.debug('Print Category', JSON.stringify(formattedCategory));
+
+
+    //  properties.addAttribute('source', '');
+    properties.addAttribute('brand', productDetail?.categoryTree[0] || '');
+    properties.addAttribute('productId', productDetail?.productId || '');
+    properties.addAttribute('name', productDetail?.productName || '');
+    properties.addAttribute('sellingPrice', productDetail?.priceRange?.sellingPrice.lowPrice || 0);
+    properties.addAttribute('price', productDetail?.initialSize?.currentPrice || 0);
+    properties.addAttribute('category', JSON.stringify(formattedCategory));
+    properties.addAttribute('productColor',toProperCase(selectedColor?.colorName || ''));
+    properties.addAttribute('productSize', selectedSize?.size || '');
+    //properties.addAttribute('discount', discountValue);
+    properties.addAttribute('skuId', selectedSize?.itemId);
+
+
+    console.debug('sellingPrice', productDetail?.priceRange?.sellingPrice.lowPrice || 0);
+    console.debug('price', productDetail?.initialSize?.currentPrice || 0)
+    console.debug('skuId', selectedSize?.itemId);
+    console.debug('categoryTree', productDetail?.categoryTree);
     properties.setNonInteractiveEvent();
-    
-    
 
-    ReactMoE.trackEvent('acessou_produto', properties);
+
+
+    ReactMoE.trackEvent('ProductViewed', properties);
     if (selectedSize) verifyProductDoris(selectedSize.ean);
   }, [selectedSize, selectedColor]);
 

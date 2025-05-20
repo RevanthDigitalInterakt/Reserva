@@ -24,6 +24,7 @@ import com.moengage.core.config.NotificationConfig;
 import com.moengage.core.config.LogConfig;
 import com.moengage.core.LogLevel;
 
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = 
@@ -71,6 +72,9 @@ public class MainApplication extends Application implements ReactApplication {
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
       DefaultNewArchitectureEntryPoint.load();
     }
+
+    
+    
     
     MoEngage.Builder moEngage = new MoEngage.Builder(this, "DQ9WFLTADL2Y89Z9OSFUKU0L", DataCenter.DATA_CENTER_2)
     .configureLogs(new LogConfig(LogLevel.VERBOSE, false))

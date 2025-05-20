@@ -19,7 +19,7 @@ import {
 import useSearchStore from '../../../../zustand/useSearchStore';
 import { useProductDetailStore } from '../../../../zustand/useProductDetail/useProductDetail';
 import ReactMoE, { MoEProperties } from 'react-native-moengage';
-
+import { toProperCase } from '../../../../utils/properCase';
 
 export default function BagProductList() {
   const { actions, packageItems, appTotalizers } = useBagStore([
@@ -27,7 +27,7 @@ export default function BagProductList() {
     'packageItems',
     'appTotalizers',
   ]);
-  const { productDetail ,selectedColor, selectedSize} = useProductDetailStore(['productDetail', 'selectedColor', 'selectedSize']);
+  const { productDetail, selectedColor, selectedSize } = useProductDetailStore(['productDetail', 'selectedColor', 'selectedSize']);
   const { onTrack } = useTrackClickAlgoliaStore(['onTrack']);
   const { queryID } = useSearchStore(['queryID']);
   const navigation = useNavigation();
@@ -130,19 +130,34 @@ export default function BagProductList() {
         seller: item.seller,
       });
 
-      const color = selectedColor?.colorName || '';
-      const size = selectedSize?.size || '';
+      //       const color = selectedColor?.colorName || '';
+      //       const size = selectedSize?.size || '';
 
+      const discount = ((item.price || 0) / 100) - ((item.sellingPrice || 0) / 100);
+      const discount_decimal = Math.round(discount * 100) / 100;
+
+
+      console.debug("in add to cart");
+      console.debug(toProperCase(item.itemColor));
+      console.debug('to propercase done');
 
       const moeProps = new MoEProperties();
-      moeProps.addAttribute('sellingPrice', productDetail?.priceRange?.sellingPrice.lowPrice || 0);
+      moeProps.addAttribute('price', (item.price || 0) / 100);
+      moeProps.addAttribute('discount', discount_decimal);
+      moeProps.addAttribute('sellingPrice', (item.sellingPrice || 0) / 100);
 
-      moeProps.addAttribute('variant', color + '-' + size);
+      moeProps.addAttribute('productSize', (item.itemSize).toUpperCase());
       moeProps.addAttribute('skuId', item.id);
       moeProps.addAttribute('quantity', countUpdated);
-      moeProps.addAttribute('brand', productDetail?.categoryTree[0] || '');
-      moeProps.addAttribute('name', productDetail?.productName || item.productTitle);
-      moeProps.addAttribute('category', productDetail?.categoryTree || []);
+      moeProps.addAttribute('brand', item.productCategories[0] || '');
+      moeProps.addAttribute('name', item.productTitle || '');
+      moeProps.addAttribute('category', item.productCategories || []);
+      moeProps.addAttribute('productColor', toProperCase(item.itemColor));
+      moeProps.addAttribute('productId', item.productId);
+      //  moeProps.addAttribute('productRefId',item.productRefId || '')
+      // moeProps.addAttribute('referenceId',item.refId || '')
+      moeProps.addAttribute('ean', item.ean || '');
+      //      moeProps.addAttribute('detailUrl');
 
       ReactMoE.trackEvent('AddToCart', moeProps);
     },
@@ -167,17 +182,39 @@ export default function BagProductList() {
         item_brand: defaultBrand.reserva,
       });
 
-      const moeProps = new MoEProperties();
-      moeProps.addAttribute('id', item.id);
-      moeProps.addAttribute('name', item.productTitle);
-      moeProps.addAttribute('category', 'product');
-      moeProps.addAttribute('brand', defaultBrand.reserva);
-      moeProps.addAttribute('currency', 'BRL');
-      moeProps.addAttribute('price', (item.price || 0) / 100);
-      moeProps.addAttribute('quantity', countUpdated);
-      moeProps.addAttribute('seller', item.seller);
+      if (countUpdated == 1) {
 
-      ReactMoE.trackEvent('RemoveFromCart', moeProps);
+        console.debug("in remove cart");
+        console.debug(toProperCase(item.itemColor));
+        console.debug('to propercase done');
+
+        const discount = ((item.price || 0) / 100) - ((item.sellingPrice || 0) / 100);
+        const discount_decimal = Math.round(discount * 100) / 100;
+
+        const moeProps = new MoEProperties();
+        moeProps.addAttribute('skuId', item.id);
+        moeProps.addAttribute('name', item.productTitle || '');
+        moeProps.addAttribute('category', item.productCategories || []);
+        moeProps.addAttribute('brand', item.productCategories[0] || '');
+        moeProps.addAttribute('price', ((item.price || 0) / 100));
+
+        console.debug(item.price);
+        console.debug((item.price || 0) / 100);
+        moeProps.addAttribute('quantity', countUpdated);
+
+        moeProps.addAttribute('discount', discount_decimal);
+        moeProps.addAttribute('productColor', toProperCase(item.itemColor));
+        moeProps.addAttribute('productId', item.productId);
+        //  moeProps.addAttribute('productRefId',item.productRefId || '')
+        // moeProps.addAttribute('referenceId',item.refId || '')
+
+        //      moeProps.addAttribute('detailUrl');
+        moeProps.addAttribute('productSize', (item.itemSize).toUpperCase());
+
+
+        ReactMoE.trackEvent('RemoveFromCart', moeProps);
+      }
+
 
       await actions.UPDATE_PRODUCT_COUNT(index, item, countUpdated);
     },
