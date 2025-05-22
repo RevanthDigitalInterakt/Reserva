@@ -247,5 +247,10 @@
   },
   "engines": {
     "node": "^20.x.x"
-  }
+  },
+  "types": "./index.d.ts",
+  "description": "reserva e-commerce app",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }
