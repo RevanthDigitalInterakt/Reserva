@@ -108,7 +108,7 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
       const properties = new MoEProperties();
 
       properties.addAttribute('price', total + discount + delivery);
-      properties.addAttribute('currency', 'BRL');
+     // properties.addAttribute('currency', 'BRL');
 
       ReactMoE.trackEvent('CheckOut', properties);
 

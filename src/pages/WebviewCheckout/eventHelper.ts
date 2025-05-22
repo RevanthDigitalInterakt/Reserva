@@ -6,6 +6,9 @@ import { trackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTr
 import { useSearchStore } from '../../zustand/useSearchStore';
 import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../base/graphql/generated';
 import { trackOrderStore } from '../../zustand/useTrackOrderStore/useTrackOrderStore';
+import { order } from 'styled-system';
+import { neighborhoodSchema } from '../Address/utils/inputValidations';
+import { console } from 'inspector';
 
 export function getURLParameter(url: string, name: string): string {
   const match = url.match(new RegExp(`[\\?&]${name.replace(/[\[\]]/g, '\\$&')}=([^&#]*)`));
@@ -77,7 +80,7 @@ const adaptOrderFormItemsTrack = (items: any) => (items || []).map((item: any) =
   item_category: 'product',
   ///////////////////////////////////////////////////////
   referenceId: item.refId,
-  sellingPrice: item.sellingPrice/100,
+  sellingPrice: item.sellingPrice / 100,
   ean: item.ean,
   productSize: item.skuName.split(' - ')[0],
   prductColor: item.skuName.split(' - ')[1],
@@ -87,10 +90,13 @@ const adaptOrderFormItemsTrack = (items: any) => (items || []).map((item: any) =
   productId: item.productId,
   productRefId: item.productRefId,
   name: item.name,
-  category: item.productCategories||{},
+  category: item.productCategories || {},
   ///////////////////////////////////////////////////////
 
 }));
+
+console.debug("adatptitems");
+
 
 //REZ
 
@@ -107,9 +113,36 @@ export const prepareEventDataPurchaseCompleted = (
       .map((order: any) => order.value)
       .reduce((acc: any, value: any) => acc + value, 0);
 
+    const Sellers = purchaseOrderForm.map((order: any) => order.sellers || []).flat();
+
+    const visitorData = purchaseOrderForm.map((order: any) => {
+      const address = order.shippingData?.selectedAddresses?.[0];
+
+      return {
+        city: address?.city || '',
+        state: address?.state || '',
+        postalCode: address?.postalCode || '',
+        country: address?.country || '',
+        street: address?.street || '',
+        neighborhood: address?.neighborhood || '',
+      };
+    }).filter(data => data.city);
+
     const resTotalizers = purchaseOrderForm.map((order: any) => order.totals);
 
     const condensedResTotalizers = sumArrayValues(resTotalizers);
+
+
+    const discountValues=purchaseOrderForm.map((order :any)=>{
+      const discountTotal = order.totals.find((total: any) =>total.id === 'Discounts');
+      return discountTotal?.value || 0;
+    });
+
+    const shipping=purchaseOrderForm.map((order :any)=>{
+      const shippingTotal = order.totals.find((total: any) =>total.id === 'Shipping');
+      return shippingTotal?.value || 0;
+    });
+
 
     const resPaymentData = purchaseOrderForm.map((order: any) => order.paymentData);
 
@@ -132,6 +165,8 @@ export const prepareEventDataPurchaseCompleted = (
     const resAfContent = getAFContent(onlyItems);
 
     const resAdaptItems = adaptOrderFormItemsTrack(onlyItems);
+    console.debug("printing adaptitems");
+    console.debug(resAdaptItems);
 
     const resItemSubtotal = resTotalizers.map(
       (totalizer: any) => (totalizer.find((x: any) => x.id === 'Items')?.value || 0) / 100,
@@ -228,7 +263,7 @@ export const prepareEventDataPurchaseCompleted = (
       (order: any) => order.marketingData?.coupon,
     );
 
-    const condensedResCoupon=condenseArray(resCoupon);
+    const condensedResCoupon = condenseArray(resCoupon);
 
     const resCouponVendedor = purchaseOrderForm.map((order: any) => {
       const tags = order.marketingData?.marketingTags || [];
@@ -238,22 +273,25 @@ export const prepareEventDataPurchaseCompleted = (
 
     const condensedResCouponVendedor = condenseArray(resCouponVendedor);
 
-  //   const resShippingData = purchaseOrderForm.map((order: any) => order.shippingData);
+    //   const resShippingData = purchaseOrderForm.map((order: any) => order.shippingData);
 
-  //   const resShipping = resShippingData.map((shipping: any) => {
-  //     const shippingAddress = shipping?.selectedAddresses.map((shipaddress: any) => ({
-  //       city : shipaddress.city,
-       
-  //   }))
-  //   return shippingAddress;
-  // });
+    //   const resShipping = resShippingData.map((shipping: any) => {
+    //     const shippingAddress = shipping?.selectedAddresses.map((shipaddress: any) => ({
+    //       city : shipaddress.city,
+
+    //   }))
+    //   return shippingAddress;
+    // });
 
 
     //////////////////////////////////////////////////////////////////////////////////////////
 
     return {
       orderFormItems: onlyItems,
-
+      Sellers: Sellers,
+      shippingdata: visitorData,
+      discount:discountValues,
+      shippingValue:shipping,
 
       /////////////////////////////////////////
       cupom: condensedResCoupon,
