@@ -72,17 +72,35 @@ const getAFContent = (items: any) => items.map((i: any) => ({
 const adaptOrderFormItemsTrack = (items: any) => (items || []).map((item: any) => ({
   price: item.price / 100,
   item_id: item.productId,
-  quantity: item.quantity,
   item_name: item.name,
   item_variant: item.skuName,
   item_category: 'product',
+  ///////////////////////////////////////////////////////
+  referenceId: item.refId,
+  sellingPrice: item.sellingPrice/100,
+  ean: item.ean,
+  productSize: item.skuName.split(' - ')[0],
+  prductColor: item.skuName.split(' - ')[1],
+  brand: item?.productCategories[1] || '',
+  skuId: item.id,
+  quantity: item.quantity,
+  productId: item.productId,
+  productRefId: item.productRefId,
+  name: item.name,
+  category: item.productCategories||{},
+  ///////////////////////////////////////////////////////
+
 }));
+
+//REZ
+
 
 export const prepareEventDataPurchaseCompleted = (
   purchaseOrderForm: any,
   orderFormId: string,
 ) => {
   try {
+
     const onlyItems = purchaseOrderForm.map((order: any) => order.items).flat();
 
     const resValue = purchaseOrderForm
@@ -204,8 +222,44 @@ export const prepareEventDataPurchaseCompleted = (
 
     const condensedResTransactionId = condenseArray(resTransactionId);
 
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    const resCoupon = purchaseOrderForm.map(
+      (order: any) => order.marketingData?.coupon,
+    );
+
+    const condensedResCoupon=condenseArray(resCoupon);
+
+    const resCouponVendedor = purchaseOrderForm.map((order: any) => {
+      const tags = order.marketingData?.marketingTags || [];
+      const tag = tags.find((t: string) => t.startsWith('code_CodigoVendedor='));
+      return tag ? tag.split('=')[1] : '';
+    });
+
+    const condensedResCouponVendedor = condenseArray(resCouponVendedor);
+
+  //   const resShippingData = purchaseOrderForm.map((order: any) => order.shippingData);
+
+  //   const resShipping = resShippingData.map((shipping: any) => {
+  //     const shippingAddress = shipping?.selectedAddresses.map((shipaddress: any) => ({
+  //       city : shipaddress.city,
+       
+  //   }))
+  //   return shippingAddress;
+  // });
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+
     return {
       orderFormItems: onlyItems,
+
+
+      /////////////////////////////////////////
+      cupom: condensedResCoupon,
+      cupomVendedor: condensedResCouponVendedor,
+      // visitorData: resShipping,
+      ////////////////////////////////////////
       orderFormId,
       orderValue: resOrderValue,
       timestamp,
