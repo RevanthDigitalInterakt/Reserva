@@ -1,0 +1,635 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CategoryComponent should match to snapshot 1`] = `
+<View
+  accessibilityLabel="com.usereserva:id/category_main_component"
+  style={
+    {
+      "backgroundColor": "#ffffff",
+      "flex": 1,
+      "marginBottom": 56.25,
+      "paddingTop": 32.8125,
+    }
+  }
+  testID="com.usereserva:id/category_main_component"
+>
+  <View
+    style={
+      {
+        "backgroundColor": "#ffffff",
+        "height": 300,
+        "paddingHorizontal": 32.8125,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+        }
+      }
+    >
+      <Text
+        accessibilityLabel="com.usereserva:id/category_main_title"
+        style={
+          {
+            "color": "#333333",
+            "fontFamily": "ReservaSerif-Bold",
+            "fontSize": 42.1875,
+            "letterSpacing": -0.5,
+            "lineHeight": 51.5625,
+          }
+        }
+        testID="com.usereserva:id/category_main_title"
+      >
+        Navegue por categorias
+      </Text>
+    </View>
+    <View
+      accessibilityLabel="com.usereserva:id/category_wrapper_component"
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "flexDirection": "row",
+          "flexWrap": "wrap",
+          "gap": 28.125,
+          "height": 190,
+          "marginTop": 23.4375,
+        }
+      }
+      testID="com.usereserva:id/category_wrapper_component"
+    >
+      <View
+        accessibilityLabel="com.usereserva:id/category_card_item"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#F8F8F8",
+            "borderRadius": 8,
+            "borderWidth": 1,
+            "elevation": 0,
+            "height": 150,
+            "opacity": 1,
+            "shadowColor": "#000000",
+            "shadowOffset": {
+              "height": 8,
+              "width": 0,
+            },
+            "shadowOpacity": 0.09,
+            "shadowRadius": 7,
+            "width": 150,
+          }
+        }
+        testID="com.usereserva:id/category_card_item"
+      >
+        <Image
+          resizeMode="contain"
+          source={
+            {
+              "uri": "https://images.ctfassets.net/6jsfqc13oxv4/3XYtC2MMnxjYGZCevi3WIy/dd489403865c05fbcf8b9a6f154374db/Screenshot_from_2024-08-15_18-23-14.png",
+            }
+          }
+          style={
+            [
+              {
+                "height": 562.5,
+                "width": 750,
+              },
+              {
+                "height": "100%",
+                "width": "100%",
+              },
+            ]
+          }
+        />
+      </View>
+      <View
+        accessibilityLabel="com.usereserva:id/category_card_item"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#F8F8F8",
+            "borderRadius": 8,
+            "borderWidth": 1,
+            "elevation": 0,
+            "height": 150,
+            "opacity": 1,
+            "shadowColor": "#000000",
+            "shadowOffset": {
+              "height": 8,
+              "width": 0,
+            },
+            "shadowOpacity": 0.09,
+            "shadowRadius": 7,
+            "width": 150,
+          }
+        }
+        testID="com.usereserva:id/category_card_item"
+      >
+        <Image
+          resizeMode="contain"
+          source={
+            {
+              "uri": "https://images.ctfassets.net/6jsfqc13oxv4/7xrnXUOZChlV7WXHcyIOTC/595ecd21e49db1d98aef1fcab56c2766/Screenshot_from_2024-08-15_18-27-01.png",
+            }
+          }
+          style={
+            [
+              {
+                "height": 562.5,
+                "width": 750,
+              },
+              {
+                "height": "100%",
+                "width": "100%",
+              },
+            ]
+          }
+        />
+      </View>
+      <View
+        accessibilityLabel="com.usereserva:id/category_card_item"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#F8F8F8",
+            "borderRadius": 8,
+            "borderWidth": 1,
+            "elevation": 0,
+            "height": 150,
+            "opacity": 1,
+            "shadowColor": "#000000",
+            "shadowOffset": {
+              "height": 8,
+              "width": 0,
+            },
+            "shadowOpacity": 0.09,
+            "shadowRadius": 7,
+            "width": 150,
+          }
+        }
+        testID="com.usereserva:id/category_card_item"
+      >
+        <Image
+          resizeMode="contain"
+          source={
+            {
+              "uri": "https://images.ctfassets.net/6jsfqc13oxv4/2PU3jmKTLkvNnfgFnhFqkM/e0e191ded28482be6a4270e6d2b0fd69/Screenshot_from_2024-08-15_18-27-35.png",
+            }
+          }
+          style={
+            [
+              {
+                "height": 562.5,
+                "width": 750,
+              },
+              {
+                "height": "100%",
+                "width": "100%",
+              },
+            ]
+          }
+        />
+      </View>
+      <View
+        accessibilityLabel="com.usereserva:id/category_card_item"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#F8F8F8",
+            "borderRadius": 8,
+            "borderWidth": 1,
+            "elevation": 0,
+            "height": 150,
+            "opacity": 1,
+            "shadowColor": "#000000",
+            "shadowOffset": {
+              "height": 8,
+              "width": 0,
+            },
+            "shadowOpacity": 0.09,
+            "shadowRadius": 7,
+            "width": 150,
+          }
+        }
+        testID="com.usereserva:id/category_card_item"
+      >
+        <Image
+          resizeMode="contain"
+          source={
+            {
+              "uri": "https://images.ctfassets.net/6jsfqc13oxv4/Z2kpSFLXijhTdKQvgsG4j/85898ec1d0cde7a9951d418f556b684f/Screenshot_from_2024-08-15_18-27-55.png",
+            }
+          }
+          style={
+            [
+              {
+                "height": 562.5,
+                "width": 750,
+              },
+              {
+                "height": "100%",
+                "width": "100%",
+              },
+            ]
+          }
+        />
+      </View>
+      <View
+        accessibilityLabel="com.usereserva:id/category_card_item"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#F8F8F8",
+            "borderRadius": 8,
+            "borderWidth": 1,
+            "elevation": 0,
+            "height": 150,
+            "opacity": 1,
+            "shadowColor": "#000000",
+            "shadowOffset": {
+              "height": 8,
+              "width": 0,
+            },
+            "shadowOpacity": 0.09,
+            "shadowRadius": 7,
+            "width": 150,
+          }
+        }
+        testID="com.usereserva:id/category_card_item"
+      >
+        <Image
+          resizeMode="contain"
+          source={
+            {
+              "uri": "https://images.ctfassets.net/6jsfqc13oxv4/1fkFj5WboCkITSdSeNqUiE/20aced11681c1512795bb59404a701dc/Screenshot_from_2024-08-15_18-29-04.png",
+            }
+          }
+          style={
+            [
+              {
+                "height": 562.5,
+                "width": 750,
+              },
+              {
+                "height": "100%",
+                "width": "100%",
+              },
+            ]
+          }
+        />
+      </View>
+      <View
+        accessibilityLabel="com.usereserva:id/category_card_item"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#F8F8F8",
+            "borderRadius": 8,
+            "borderWidth": 1,
+            "elevation": 0,
+            "height": 150,
+            "opacity": 1,
+            "shadowColor": "#000000",
+            "shadowOffset": {
+              "height": 8,
+              "width": 0,
+            },
+            "shadowOpacity": 0.09,
+            "shadowRadius": 7,
+            "width": 150,
+          }
+        }
+        testID="com.usereserva:id/category_card_item"
+      >
+        <Image
+          resizeMode="contain"
+          source={
+            {
+              "uri": "https://images.ctfassets.net/6jsfqc13oxv4/5uIK3YxjuydYo4r6YPyXA1/ed24643656bc1b7b239eb6eddd476457/Screenshot_from_2024-08-15_18-28-49.png",
+            }
+          }
+          style={
+            [
+              {
+                "height": 562.5,
+                "width": 750,
+              },
+              {
+                "height": "100%",
+                "width": "100%",
+              },
+            ]
+          }
+        />
+      </View>
+      <View
+        accessibilityLabel="com.usereserva:id/category_card_item"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#F8F8F8",
+            "borderRadius": 8,
+            "borderWidth": 1,
+            "elevation": 0,
+            "height": 150,
+            "opacity": 1,
+            "shadowColor": "#000000",
+            "shadowOffset": {
+              "height": 8,
+              "width": 0,
+            },
+            "shadowOpacity": 0.09,
+            "shadowRadius": 7,
+            "width": 150,
+          }
+        }
+        testID="com.usereserva:id/category_card_item"
+      >
+        <Image
+          resizeMode="contain"
+          source={
+            {
+              "uri": "https://images.ctfassets.net/6jsfqc13oxv4/nXPVcDj1RVY5NAbMe4OLQ/c6a182ef52aaa47c6d2d79c6bf70f9fa/Screenshot_from_2024-08-15_18-28-31.png",
+            }
+          }
+          style={
+            [
+              {
+                "height": 562.5,
+                "width": 750,
+              },
+              {
+                "height": "100%",
+                "width": "100%",
+              },
+            ]
+          }
+        />
+      </View>
+      <View
+        accessibilityLabel="com.usereserva:id/category_card_item"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#F8F8F8",
+            "borderRadius": 8,
+            "borderWidth": 1,
+            "elevation": 0,
+            "height": 150,
+            "opacity": 1,
+            "shadowColor": "#000000",
+            "shadowOffset": {
+              "height": 8,
+              "width": 0,
+            },
+            "shadowOpacity": 0.09,
+            "shadowRadius": 7,
+            "width": 150,
+          }
+        }
+        testID="com.usereserva:id/category_card_item"
+      >
+        <Image
+          resizeMode="contain"
+          source={
+            {
+              "uri": "https://images.ctfassets.net/6jsfqc13oxv4/3SCuBDcJKbIABnbDdIBubK/861b6849f7836319d022e5038cf0981b/Screenshot_from_2024-08-15_18-28-16.png",
+            }
+          }
+          style={
+            [
+              {
+                "height": 562.5,
+                "width": 750,
+              },
+              {
+                "height": "100%",
+                "width": "100%",
+              },
+            ]
+          }
+        />
+      </View>
+    </View>
+  </View>
+</View>
+`;

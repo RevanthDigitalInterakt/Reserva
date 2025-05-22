@@ -1,0 +1,3 @@
+mutation trackPageView($input: TrackPageViewInput!) {
+    trackPageView(input: $input)
+}

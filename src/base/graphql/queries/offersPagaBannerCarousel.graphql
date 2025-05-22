@@ -1,0 +1,9 @@
+query OffersPageCollectionBannerCarousel {
+  offersPageCollectionBannerCarousel {
+    items {
+      id
+      banner
+    }
+    title
+  }
+}

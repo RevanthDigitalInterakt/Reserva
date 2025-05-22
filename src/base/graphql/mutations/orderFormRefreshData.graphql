@@ -1,0 +1,5 @@
+mutation orderFormRefreshData ($input: OrderformRefreshDataInput!) {
+  orderFormRefreshData(input: $input) {
+    ...orderFormFragment
+  }
+}

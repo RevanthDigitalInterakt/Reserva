@@ -1,0 +1,5 @@
+query returnPolicyConfig {
+  config {
+   returnPolicy
+ }
+}

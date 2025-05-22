@@ -1,0 +1,218 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchBar component should match with the snapshot 1`] = `
+<View
+  style={{}}
+>
+  <View
+    alignItems="center"
+    backgroundColor="backgoundInput"
+    borderRadius={5}
+    flexDirection="row"
+    height={36}
+    justifyContent="space-between"
+    paddingX="nano"
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#F0F0F0",
+        "borderBottomLeftRadius": 5,
+        "borderBottomRightRadius": 5,
+        "borderTopLeftRadius": 5,
+        "borderTopRightRadius": 5,
+        "flexDirection": "row",
+        "height": 36,
+        "justifyContent": "space-between",
+        "paddingLeft": 8,
+        "paddingRight": 8,
+      }
+    }
+  >
+    <View
+      ml="quarck"
+      mr="nano"
+      style={
+        {
+          "marginLeft": 4,
+          "marginRight": 8,
+        }
+      }
+    >
+      <RNSVGSvgView
+        bbHeight="18"
+        bbWidth="18"
+        color="preto"
+        focusable={false}
+        size={18}
+        style={
+          [
+            {
+              "backgroundColor": "transparent",
+              "borderWidth": 0,
+            },
+            {
+              "color": "#333333",
+              "height": 18,
+              "width": 18,
+            },
+            {
+              "flex": 0,
+              "height": 18,
+              "width": 18,
+            },
+          ]
+        }
+        tintColor="preto"
+      >
+        <RNSVGGroup
+          fill={
+            {
+              "payload": 4278190080,
+              "type": 0,
+            }
+          }
+        >
+          <RNSVGSvgView
+            align="xMidYMid"
+            bbHeight="100%"
+            bbWidth="100%"
+            focusable={false}
+            height="100%"
+            meetOrSlice={0}
+            minX={0}
+            minY={0}
+            style={
+              [
+                {
+                  "backgroundColor": "transparent",
+                  "borderWidth": 0,
+                },
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                {
+                  "flex": 0,
+                  "height": "100%",
+                  "width": "100%",
+                },
+              ]
+            }
+            vbHeight={17.112}
+            vbWidth={17.493}
+            width="100%"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <RNSVGGroup
+              fill={
+                {
+                  "payload": 4278190080,
+                  "type": 0,
+                }
+              }
+            >
+              <RNSVGGroup
+                fill={null}
+                matrix={
+                  [
+                    1,
+                    0,
+                    0,
+                    1,
+                    -283.354,
+                    -17.548,
+                  ]
+                }
+                propList={
+                  [
+                    "fill",
+                    "stroke",
+                    "strokeWidth",
+                    "strokeLinecap",
+                    "strokeLinejoin",
+                  ]
+                }
+                stroke={
+                  {
+                    "payload": 4281545523,
+                    "type": 0,
+                  }
+                }
+                strokeLinecap={1}
+                strokeLinejoin={1}
+                strokeWidth="1"
+              >
+                <RNSVGEllipse
+                  cx="7.227"
+                  cy="7.227"
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
+                  }
+                  matrix={
+                    [
+                      1,
+                      0,
+                      0,
+                      1,
+                      283.854,
+                      18.048,
+                    ]
+                  }
+                  rx="7.227"
+                  ry="7.227"
+                />
+                <RNSVGPath
+                  d="M0 0L3.762 3.762"
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
+                  }
+                  matrix={
+                    [
+                      1,
+                      0,
+                      0,
+                      1,
+                      296.377,
+                      30.19,
+                    ]
+                  }
+                />
+              </RNSVGGroup>
+            </RNSVGGroup>
+          </RNSVGSvgView>
+        </RNSVGGroup>
+      </RNSVGSvgView>
+    </View>
+    <View
+      flexGrow={1}
+      style={
+        {
+          "flexGrow": 1,
+        }
+      }
+    >
+      <TextInput
+        enablesReturnKeyAutomatically={true}
+        onChangeText={[Function]}
+        onSubmitEditing={[Function]}
+        placeholderTextColor="#666666"
+        returnKeyType="search"
+        style={
+          {
+            "color": "#666666",
+            "fontFamily": "Nunito-Regular",
+            "fontSize": 15,
+            "padding": 0,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

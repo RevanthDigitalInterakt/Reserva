@@ -1,0 +1,489 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PrimeHero should render without error and match to snapshot 1`] = `
+<View
+  accessibilityIgnoresInvertColors={true}
+  style={
+    {
+      "width": 750,
+    }
+  }
+>
+  <Image
+    resizeMode="cover"
+    source={
+      {
+        "commons": {
+          "GuideBermuda": [Circular],
+          "GuideCalca": [Circular],
+          "GuideCamiseta": [Circular],
+          "GuideHoodie": [Circular],
+          "GuideJaqueta": [Circular],
+          "GuideMangaCurta": [Circular],
+          "GuideMangaLonga": [Circular],
+          "GuidePolo": [Circular],
+          "GuideShort": [Circular],
+          "GuideSueter": [Circular],
+          "GuideSungaCueca": [Circular],
+          "QrcodeBackground": [Circular],
+          "abandonedCartBag": [Circular],
+          "addition": [Circular],
+          "americanExpress": [Circular],
+          "arrowInstruction": [Circular],
+          "arrowRight": [Circular],
+          "bagEmpty": [Circular],
+          "bannerCatalog": [Circular],
+          "bannerLogin": [Circular],
+          "bannerOffer": [Circular],
+          "black1p5p": [Circular],
+          "cardFront": [Circular],
+          "cardImage": [Circular],
+          "cardVerso": [Circular],
+          "chat": [Circular],
+          "checkedBox": [Circular],
+          "chevronLeftFill": [Circular],
+          "chevronRightFill": [Circular],
+          "close": [Circular],
+          "clothingCare1": [Circular],
+          "clothingCareBleach": [Circular],
+          "clothingCareDrying": [Circular],
+          "clothingCarePass": [Circular],
+          "clothingCareProfessionalWashing": [Circular],
+          "clothingCareWash": [Circular],
+          "config": [Circular],
+          "copy": [Circular],
+          "cupomModalBackground": [Circular],
+          "cutlery": [Circular],
+          "discountFlag": [Circular],
+          "dividerReserva": [Circular],
+          "document": [Circular],
+          "elo": [Circular],
+          "emptyProductCatalog": [Circular],
+          "expand": [Circular],
+          "facebook": [Circular],
+          "faq": [Circular],
+          "filledHeart": [Circular],
+          "foraDoAr": [Circular],
+          "green1p5p": [Circular],
+          "greenCheck": [Circular],
+          "headerLogin": [Circular],
+          "heart": [Circular],
+          "help": [Circular],
+          "homeMock1": [Circular],
+          "homeMock2": [Circular],
+          "homeMock3": [Circular],
+          "homeMock4": [Circular],
+          "imageCashback": [Circular],
+          "imageNotFound": [Circular],
+          "instagram": [Circular],
+          "ios14": [Circular],
+          "localReserva": [Circular],
+          "logo": [Circular],
+          "logoQRCode": [Circular],
+          "mastercard": [Circular],
+          "newsletter": [Circular],
+          "noStoresFound": [Circular],
+          "noWishList": [Circular],
+          "pinPlace": [Circular],
+          "pinYou": [Circular],
+          "profile": [Circular],
+          "purchaseConfirmation": [Circular],
+          "raceImageBackground": [Circular],
+          "reservaIcon": [Circular],
+          "roulet": [Circular],
+          "saleOff": [Circular],
+          "search": [Circular],
+          "searchNotFound": [Circular],
+          "selectRectangle": [Circular],
+          "share": [Circular],
+          "shipping1": [Circular],
+          "shipping2": [Circular],
+          "shirt1": [Circular],
+          "shirt2": [Circular],
+          "shirt3": [Circular],
+          "shirt4": [Circular],
+          "signup1": [Circular],
+          "signup2": [Circular],
+          "signup3": [Circular],
+          "signup4": [Circular],
+          "signup5": [Circular],
+          "subtraction": [Circular],
+          "topBannerMock1": [Circular],
+          "twitter": [Circular],
+          "umPCincoPLogo": [Circular],
+          "uncheckedBox": [Circular],
+          "unfilledHeart": [Circular],
+          "update": [Circular],
+          "visa": [Circular],
+          "whatsapp": [Circular],
+          "withoutInternet": [Circular],
+          "zoomHand": [Circular],
+        },
+        "default": {
+          "GuideBermuda": [Circular],
+          "GuideCalca": [Circular],
+          "GuideCamiseta": [Circular],
+          "GuideHoodie": [Circular],
+          "GuideJaqueta": [Circular],
+          "GuideMangaCurta": [Circular],
+          "GuideMangaLonga": [Circular],
+          "GuidePolo": [Circular],
+          "GuideShort": [Circular],
+          "GuideSueter": [Circular],
+          "GuideSungaCueca": [Circular],
+          "QrcodeBackground": [Circular],
+          "abandonedCartBag": [Circular],
+          "addition": [Circular],
+          "americanExpress": [Circular],
+          "arrowInstruction": [Circular],
+          "arrowRight": [Circular],
+          "bagEmpty": [Circular],
+          "bannerCatalog": [Circular],
+          "bannerLogin": [Circular],
+          "bannerOffer": [Circular],
+          "black1p5p": [Circular],
+          "cardFront": [Circular],
+          "cardImage": [Circular],
+          "cardVerso": [Circular],
+          "chat": [Circular],
+          "checkedBox": [Circular],
+          "checkedRounded": [Function],
+          "chevronLeftFill": [Circular],
+          "chevronRight": [Function],
+          "chevronRightFill": [Circular],
+          "close": [Circular],
+          "closeIcon": [Function],
+          "clothingCare1": [Circular],
+          "clothingCareBleach": [Circular],
+          "clothingCareDrying": [Circular],
+          "clothingCarePass": [Circular],
+          "clothingCareProfessionalWashing": [Circular],
+          "clothingCareWash": [Circular],
+          "config": [Circular],
+          "copy": [Circular],
+          "cupomModalBackground": [Circular],
+          "cutlery": [Circular],
+          "discountFlag": [Circular],
+          "dividerReserva": [Circular],
+          "document": [Circular],
+          "elo": [Circular],
+          "emptyProductCatalog": [Circular],
+          "expand": [Circular],
+          "facebook": [Circular],
+          "faq": [Circular],
+          "filledHeart": [Circular],
+          "foraDoAr": [Circular],
+          "green1p5p": [Circular],
+          "greenCheck": [Circular],
+          "hanger": [Function],
+          "headerLogin": [Circular],
+          "heart": [Circular],
+          "help": [Circular],
+          "homeMock1": [Circular],
+          "homeMock2": [Circular],
+          "homeMock3": [Circular],
+          "homeMock4": [Circular],
+          "imageCashback": [Circular],
+          "imageNotFound": [Circular],
+          "info": [Function],
+          "infoSuccess": [Function],
+          "instagram": [Circular],
+          "ios14": [Circular],
+          "localReserva": [Circular],
+          "logo": [Circular],
+          "logoPrime": [Function],
+          "logoQRCode": [Circular],
+          "mastercard": [Circular],
+          "newsletter": [Circular],
+          "noStoresFound": [Circular],
+          "noWishList": [Circular],
+          "personalize": [Function],
+          "pinPlace": [Circular],
+          "pinYou": [Circular],
+          "profile": [Circular],
+          "purchaseConfirmation": [Circular],
+          "raceImageBackground": [Circular],
+          "reservaIcon": [Circular],
+          "roulet": [Circular],
+          "saleOff": [Circular],
+          "search": [Circular],
+          "searchNotFound": [Circular],
+          "selectRectangle": [Circular],
+          "share": [Circular],
+          "shipping1": [Circular],
+          "shipping2": [Circular],
+          "shirt1": [Circular],
+          "shirt2": [Circular],
+          "shirt3": [Circular],
+          "shirt4": [Circular],
+          "signup1": [Circular],
+          "signup2": [Circular],
+          "signup3": [Circular],
+          "signup4": [Circular],
+          "signup5": [Circular],
+          "sizeGuideIcon": [Function],
+          "subtraction": [Circular],
+          "topBannerMock1": [Circular],
+          "trash": [Function],
+          "twitter": [Circular],
+          "umPCincoPLogo": [Circular],
+          "uncheckedBox": [Circular],
+          "unfilledHeart": [Circular],
+          "update": [Circular],
+          "visa": [Circular],
+          "whatsapp": [Circular],
+          "withoutInternet": [Circular],
+          "zoomHand": [Circular],
+        },
+        "svgs": {
+          "checkedRounded": [Function],
+          "chevronRight": [Function],
+          "closeIcon": [Function],
+          "hanger": [Function],
+          "info": [Function],
+          "infoSuccess": [Function],
+          "logoPrime": [Function],
+          "personalize": [Function],
+          "sizeGuideIcon": [Function],
+          "trash": [Function],
+        },
+      }
+    }
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "height": undefined,
+          "width": 750,
+        },
+        undefined,
+      ]
+    }
+    testID="com.usereserva:id/PrimeHero_component"
+  />
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "paddingBottom": 110,
+        "paddingHorizontal": 20,
+        "paddingTop": 175,
+      }
+    }
+  >
+    <RNSVGSvgView
+      bbHeight="61"
+      bbWidth="280"
+      fill="none"
+      focusable={false}
+      height={61}
+      style={
+        [
+          {
+            "backgroundColor": "transparent",
+            "borderWidth": 0,
+          },
+          {
+            "marginBottom": 10,
+          },
+          {
+            "flex": 0,
+            "height": 61,
+            "width": 280,
+          },
+        ]
+      }
+      width={280}
+    >
+      <RNSVGGroup
+        fill={null}
+        propList={
+          [
+            "fill",
+          ]
+        }
+      >
+        <RNSVGGroup
+          clipPath="iconprimelogo"
+          fill={
+            {
+              "payload": 4278190080,
+              "type": 0,
+            }
+          }
+        >
+          <RNSVGPath
+            d="M24.153 44.047v9.082l7.473 6.509H0l7.095-6.509V16.196L0 9.233h24.078c16.378 0 26.795 6.434 26.795 17.483 0 11.201-9.209 17.558-23.323 17.558-1.133 0-2.265-.075-3.397-.227Zm0-30.878v27.245c5.51-.605 9.058-4.313 9.058-12.866 0-9.46-2.491-13.32-9.058-14.379ZM89.428 26.338c0 5.373-2.717 7.795-5.887 7.795-3.397 0-4.605-2.725-7.473-2.725-1.962 0-3.095 1.438-3.095 4.465V53.28l6.87 6.358H51.16l6.19-6.358V32.317l-5.661-4.693 19.85-9.309c.453 4.768.755 9.158.83 13.85 1.208-11.504 5.737-13.85 9.813-13.85 4.453 0 7.246 2.8 7.246 8.023ZM96.183 53.13V31.332l-5.963-4.768 21.663-8.931V53.28l7.17 6.358H89.088l7.095-6.509Zm-.68-45.335c0-4.313 3.17-7.795 8.605-7.795 5.435 0 8.605 3.482 8.605 7.795 0 4.314-3.17 7.796-8.605 7.796-5.434 0-8.604-3.482-8.604-7.796ZM177.685 53.962v-18.24c0-4.238-1.66-5.903-5.888-5.903-1.735 0-3.245.227-4.452.606.074.605.074 1.21.074 1.892v20.812l5.134 6.509h-25.437l4.303-5.676v-18.24c0-4.238-1.586-5.903-5.888-5.903-1.736 0-3.171.227-4.378.53v23.613l4.454 5.676h-26.419l6.265-6.509V32.392l-5.208-4.768 20.908-9.309v9.99c3.698-6.887 8.001-9.914 13.737-9.914 6.793 0 11.247 3.406 12.303 10.369 3.774-7.19 8.152-10.37 14.266-10.37 7.472 0 12.227 4.542 12.227 13.927v20.812l5.058 6.509h-25.437l4.378-5.676ZM237.321 45.107C235.887 55.778 227.358 61 218.979 61c-10.038 0-21.285-7.568-21.285-21.115 0-12.412 9.36-21.04 19.625-21.04 10.718 0 17.662 6.736 18.115 15.288l-22.266 7.72c3.169 3.935 7.925 6.886 13.662 6.886 4.226 0 8-1.437 10.491-3.632Zm-28.154-13.774c0 2.421.68 4.92 1.887 7.34l10.341-5.146c-1.887-5.297-5.359-7.946-8.076-7.946-2.341 0-4.152 1.892-4.152 5.752Z"
+            fill={
+              {
+                "payload": 4294967295,
+                "type": 0,
+              }
+            }
+            propList={
+              [
+                "fill",
+              ]
+            }
+          />
+          <RNSVGPath
+            d="M278.815 57.66c-.752-.593-4.174-2.858-5.839-4.346-.649-.58-.191-1.248-.907-1.944-.913-.89-1.926-1.853-2.925-2.881-1.05-1.08-2.034-2.274-2.988-3.511-.868-1.213-3.577-4.96-5.781-7.442-2.364-2.663-6.831-5.921-8.057-8.914a8.742 8.742 0 0 1-.201-.609c-.273-.958-.407-2.035-.368-3.279.039-1.208.396-2.431 1.731-4.468 1.456-2.221 1.195-3.199.689-3.277-.495-.077-1.035-.054-.494-2.374.467-2.005.141-2.844-.161-3.346-.285-.472-.636-.72-.91-.662-.63.133-1.105 1.61-1.72 2-.158.1-.963.553-.804-1.323.038-.443-.265-.596-.688-.333-.631.393-1.527 1.413-2.013 3.33-.031.119-.147.155-.201-.002-.08-.233-.111-.678.07-1.43.167-.7.454-1.261.135-1.338-.404-.098-.978.749-1.42 1.711a5.463 5.463 0 0 0-.134.308c-.048.12-.184.19-.194-.055-.007-.17.032-.441.124-.766.04-.142-.036-.2-.092-.215-.132-.034-.296.037-.498.188-.455.337-.896.956-1.213 1.776l-.003-.003c-.033.09-.063.182-.092.272l-.021.06-.027.087c-.015.047-.027.096-.041.144-.017.063-.037.126-.052.188a.933.933 0 0 0-.017.072l-.001.002a7.818 7.818 0 0 0-.154.848 7.346 7.346 0 0 0-.054 1.117v.003c.002.061.002.123.006.183.011.198-.468.252-.364.7.263 1.132.677 2.283.902 2.875a.4.4 0 0 1-.26.527c-1.054.31-3.862 1.197-5.837 2.395-.115.07-.204.262-.101.415.096.143.328.125.436.089 2.261-.752 5.484-1.81 7.041-.681 1.142.827 1.258 2.801.542 4.934-.237.791-.507 1.497-.754 2.22l-.01.004c-3.312 8.774 2.792 12.817 8.408 18.03.413.383 1.267 1.347 2.029 2.47.55.81 1.109 1.712 1.052 2.596-.047.744-.165 1.639-.423 2.796-.315 1.416-.656.718-2.884.153-.698-.177-.73-.113-1.173.836-.46.984-.498 1.096-.375 1.16.099.052 4.274.024 4.74.112a.86.86 0 0 1 .21.068c.507.24 2.804 1.342 3.504 1.812.15.1.38.064.468-.063.104-.152.026-.346-.108-.429-1.033-.64-3.122-2.222-3.175-2.707-.021-.186.147-.898.23-1.44.376-2.435.435-3.35 1.429-3.814.921-.432 3.075.672 4.768 1.086a.143.143 0 0 1 .107.17c-.054.241-.192.813-.478 1.785-.039.132-.142.444-.421.529-.359.108-1.778-.42-2.729-.648-.4-.096-.517-.356-1.422 1.553-.064.135-.04.186.003.22.055.043 4.03.24 4.594.35.102.02.201.052.295.098a80.67 80.67 0 0 1 3.497 1.83c.433.237.574.344.732.186.204-.206-.018-.372-.17-.52-.084-.087-.99-.715-1.853-1.334-.827-.594-1.623-.965-1.6-1.273.014-.17.114-.647.154-.797.027-.107.324-1.22.432-1.625a.143.143 0 0 1 .183-.098c4.258 1.445 5.568 4.202 8.811 5.912 3.897 2.055 8.205.36 4.885-2.254Z"
+            fill={
+              {
+                "payload": 4291078504,
+                "type": 0,
+              }
+            }
+            propList={
+              [
+                "fill",
+              ]
+            }
+          />
+        </RNSVGGroup>
+        <RNSVGDefs>
+          <RNSVGClipPath
+            fill={
+              {
+                "payload": 4278190080,
+                "type": 0,
+              }
+            }
+            name="iconprimelogo"
+          >
+            <RNSVGPath
+              d="M0 0h280v61H0z"
+              fill={
+                {
+                  "payload": 4294967295,
+                  "type": 0,
+                }
+              }
+              propList={
+                [
+                  "fill",
+                ]
+              }
+            />
+          </RNSVGClipPath>
+        </RNSVGDefs>
+      </RNSVGGroup>
+    </RNSVGSvgView>
+    <Text
+      style={
+        [
+          {
+            "fontFamily": "ReservaSerif-Regular",
+            "fontSize": 20,
+          },
+          {
+            "color": "#ffffff",
+            "fontSize": 18,
+            "lineHeight": 23,
+            "marginBottom": 24,
+            "textAlign": "center",
+          },
+        ]
+      }
+      variant="subtituloSessoes"
+    >
+      Um paraíso de benefícios só
+      
+
+      seus por 12x
+      <Text
+        style={
+          [
+            {
+              "fontFamily": "ReservaSerif-Bold",
+              "fontSize": 15,
+            },
+            {
+              "fontSize": 18,
+              "fontWeight": "900",
+              "lineHeight": 23,
+            },
+          ]
+        }
+        variant="descontoTag2"
+      >
+         25/Mês*.
+      </Text>
+    </Text>
+    <View
+      style={
+        {
+          "paddingHorizontal": 20,
+          "width": 576.9230769230769,
+        }
+      }
+    >
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "#ffffff",
+            "height": 95.28571428571429,
+            "justifyContent": "center",
+            "opacity": 1,
+          }
+        }
+        testID="com.usereserva:id/PrimeHero_call_to_action"
+      >
+        <Text
+          style={
+            [
+              {
+                "fontFamily": "Nunito-Regular",
+                "fontSize": 15,
+              },
+              {
+                "fontSize": 12,
+                "fontWeight": "700",
+                "letterSpacing": 0.5,
+                "lineHeight": 14,
+              },
+            ]
+          }
+          variant="tituloSessao"
+        >
+          ASSINE AGORA
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

@@ -1,0 +1,75 @@
+# OSX
+#
+.DS_Store
+
+# Xcode
+#
+build/
+vendor/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+/ios/reserva.xcodeproj/xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+project.xcworkspace
+/ios/Pods/
+ios/.xcode.env.local
+*.jso
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+*.hprof
+.cxx/
+*.keystore
+!debug.keystore
+.yarn
+
+# node.js
+#
+node_modules/
+npm-debug.log
+package-lock.json
+yarn-error.log
+coverage
+
+# BUCK
+buck-out/
+\.buckd/
+# *.keystore
+
+# Fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use Fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
+
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
+
+# Bundle artifact
+*.jsbundle
+package-lock.json
+.eslintcache
+
+.vscode
+
+# regression app
+/regression-app/output/

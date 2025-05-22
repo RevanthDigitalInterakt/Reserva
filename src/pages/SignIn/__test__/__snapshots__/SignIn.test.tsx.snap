@@ -1,0 +1,944 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login snapshot 1`] = `
+<RCTSafeAreaView
+  style={
+    {
+      "backgroundColor": "#ffffff",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={{}}
+  >
+    <View
+      left={10}
+      position="absolute"
+      style={
+        [
+          {
+            "left": 10,
+            "position": "absolute",
+            "top": 10,
+            "zIndex": 4,
+          },
+          {
+            "elevation": 3,
+          },
+        ]
+      }
+      top={10}
+      zIndex={4}
+    >
+      <View
+        alignItems="center"
+        style={
+          {
+            "alignItems": "center",
+          }
+        }
+      >
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "alignItems": "center",
+              "justifyContent": "center",
+              "opacity": 1,
+            }
+          }
+        >
+          <RNSVGSvgView
+            bbHeight="24"
+            bbWidth="24"
+            color="preto"
+            focusable={false}
+            size={24}
+            style={
+              [
+                {
+                  "backgroundColor": "transparent",
+                  "borderWidth": 0,
+                },
+                {
+                  "color": "#333333",
+                  "height": 24,
+                  "width": 24,
+                },
+                {
+                  "flex": 0,
+                  "height": 24,
+                  "width": 24,
+                },
+              ]
+            }
+            tintColor="preto"
+          >
+            <RNSVGGroup
+              fill={
+                {
+                  "payload": 4278190080,
+                  "type": 0,
+                }
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight="100%"
+                bbWidth="100%"
+                focusable={false}
+                height="100%"
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "height": "100%",
+                      "width": "100%",
+                    },
+                    {
+                      "flex": 0,
+                      "height": "100%",
+                      "width": "100%",
+                    },
+                  ]
+                }
+                vbHeight={19.054}
+                vbWidth={18.225}
+                width="100%"
+              >
+                <RNSVGGroup
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
+                  }
+                >
+                  <RNSVGGroup
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    matrix={
+                      [
+                        -1,
+                        1.2246467991473532e-16,
+                        -1.2246467991473532e-16,
+                        -1,
+                        17.225,
+                        17.639,
+                      ]
+                    }
+                    name="Seta_-_icon"
+                  >
+                    <RNSVGPath
+                      d="M7.5,18H23.725"
+                      fill={null}
+                      matrix={
+                        [
+                          1,
+                          0,
+                          0,
+                          1,
+                          -7.5,
+                          -9.887,
+                        ]
+                      }
+                      name="Caminho_68"
+                      propList={
+                        [
+                          "fill",
+                          "stroke",
+                          "strokeWidth",
+                          "strokeLinecap",
+                          "strokeLinejoin",
+                        ]
+                      }
+                      stroke={
+                        {
+                          "payload": 4281545523,
+                          "type": 0,
+                        }
+                      }
+                      strokeLinecap={1}
+                      strokeLinejoin={1}
+                      strokeWidth="2"
+                    />
+                    <RNSVGPath
+                      d="M18,7.5l8.113,8.113L18,23.725"
+                      fill={null}
+                      matrix={
+                        [
+                          1,
+                          0,
+                          0,
+                          1,
+                          -9.887,
+                          -7.5,
+                        ]
+                      }
+                      name="Caminho_69"
+                      propList={
+                        [
+                          "fill",
+                          "stroke",
+                          "strokeWidth",
+                          "strokeLinecap",
+                          "strokeLinejoin",
+                        ]
+                      }
+                      stroke={
+                        {
+                          "payload": 4281545523,
+                          "type": 0,
+                        }
+                      }
+                      strokeLinecap={1}
+                      strokeLinejoin={1}
+                      strokeWidth="2"
+                    />
+                  </RNSVGGroup>
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </RNSVGGroup>
+          </RNSVGSvgView>
+        </View>
+      </View>
+    </View>
+    <Image
+      onError={[Function]}
+      resizeMode="cover"
+      source={
+        {
+          "commons": {
+            "GuideBermuda": [Circular],
+            "GuideCalca": [Circular],
+            "GuideCamiseta": [Circular],
+            "GuideHoodie": [Circular],
+            "GuideJaqueta": [Circular],
+            "GuideMangaCurta": [Circular],
+            "GuideMangaLonga": [Circular],
+            "GuidePolo": [Circular],
+            "GuideShort": [Circular],
+            "GuideSueter": [Circular],
+            "GuideSungaCueca": [Circular],
+            "QrcodeBackground": [Circular],
+            "abandonedCartBag": [Circular],
+            "addition": [Circular],
+            "americanExpress": [Circular],
+            "arrowInstruction": [Circular],
+            "arrowRight": [Circular],
+            "bagEmpty": [Circular],
+            "bannerCatalog": [Circular],
+            "bannerLogin": [Circular],
+            "bannerOffer": [Circular],
+            "black1p5p": [Circular],
+            "cardFront": [Circular],
+            "cardImage": [Circular],
+            "cardVerso": [Circular],
+            "chat": [Circular],
+            "checkedBox": [Circular],
+            "chevronLeftFill": [Circular],
+            "chevronRightFill": [Circular],
+            "close": [Circular],
+            "clothingCare1": [Circular],
+            "clothingCareBleach": [Circular],
+            "clothingCareDrying": [Circular],
+            "clothingCarePass": [Circular],
+            "clothingCareProfessionalWashing": [Circular],
+            "clothingCareWash": [Circular],
+            "config": [Circular],
+            "copy": [Circular],
+            "cupomModalBackground": [Circular],
+            "cutlery": [Circular],
+            "discountFlag": [Circular],
+            "dividerReserva": [Circular],
+            "document": [Circular],
+            "elo": [Circular],
+            "emptyProductCatalog": [Circular],
+            "expand": [Circular],
+            "facebook": [Circular],
+            "faq": [Circular],
+            "filledHeart": [Circular],
+            "foraDoAr": [Circular],
+            "green1p5p": [Circular],
+            "greenCheck": [Circular],
+            "headerLogin": [Circular],
+            "heart": [Circular],
+            "help": [Circular],
+            "homeMock1": [Circular],
+            "homeMock2": [Circular],
+            "homeMock3": [Circular],
+            "homeMock4": [Circular],
+            "imageCashback": [Circular],
+            "imageNotFound": [Circular],
+            "instagram": [Circular],
+            "ios14": [Circular],
+            "localReserva": [Circular],
+            "logo": [Circular],
+            "logoQRCode": [Circular],
+            "mastercard": [Circular],
+            "newsletter": [Circular],
+            "noStoresFound": [Circular],
+            "noWishList": [Circular],
+            "pinPlace": [Circular],
+            "pinYou": [Circular],
+            "profile": [Circular],
+            "purchaseConfirmation": [Circular],
+            "raceImageBackground": [Circular],
+            "reservaIcon": [Circular],
+            "roulet": [Circular],
+            "saleOff": [Circular],
+            "search": [Circular],
+            "searchNotFound": [Circular],
+            "selectRectangle": [Circular],
+            "share": [Circular],
+            "shipping1": [Circular],
+            "shipping2": [Circular],
+            "shirt1": [Circular],
+            "shirt2": [Circular],
+            "shirt3": [Circular],
+            "shirt4": [Circular],
+            "signup1": [Circular],
+            "signup2": [Circular],
+            "signup3": [Circular],
+            "signup4": [Circular],
+            "signup5": [Circular],
+            "subtraction": [Circular],
+            "topBannerMock1": [Circular],
+            "twitter": [Circular],
+            "umPCincoPLogo": [Circular],
+            "uncheckedBox": [Circular],
+            "unfilledHeart": [Circular],
+            "update": [Circular],
+            "visa": [Circular],
+            "whatsapp": [Circular],
+            "withoutInternet": [Circular],
+            "zoomHand": [Circular],
+          },
+          "default": {
+            "GuideBermuda": [Circular],
+            "GuideCalca": [Circular],
+            "GuideCamiseta": [Circular],
+            "GuideHoodie": [Circular],
+            "GuideJaqueta": [Circular],
+            "GuideMangaCurta": [Circular],
+            "GuideMangaLonga": [Circular],
+            "GuidePolo": [Circular],
+            "GuideShort": [Circular],
+            "GuideSueter": [Circular],
+            "GuideSungaCueca": [Circular],
+            "QrcodeBackground": [Circular],
+            "abandonedCartBag": [Circular],
+            "addition": [Circular],
+            "americanExpress": [Circular],
+            "arrowInstruction": [Circular],
+            "arrowRight": [Circular],
+            "bagEmpty": [Circular],
+            "bannerCatalog": [Circular],
+            "bannerLogin": [Circular],
+            "bannerOffer": [Circular],
+            "black1p5p": [Circular],
+            "cardFront": [Circular],
+            "cardImage": [Circular],
+            "cardVerso": [Circular],
+            "chat": [Circular],
+            "checkedBox": [Circular],
+            "checkedRounded": [Function],
+            "chevronLeftFill": [Circular],
+            "chevronRight": [Function],
+            "chevronRightFill": [Circular],
+            "close": [Circular],
+            "closeIcon": [Function],
+            "clothingCare1": [Circular],
+            "clothingCareBleach": [Circular],
+            "clothingCareDrying": [Circular],
+            "clothingCarePass": [Circular],
+            "clothingCareProfessionalWashing": [Circular],
+            "clothingCareWash": [Circular],
+            "config": [Circular],
+            "copy": [Circular],
+            "cupomModalBackground": [Circular],
+            "cutlery": [Circular],
+            "discountFlag": [Circular],
+            "dividerReserva": [Circular],
+            "document": [Circular],
+            "elo": [Circular],
+            "emptyProductCatalog": [Circular],
+            "expand": [Circular],
+            "facebook": [Circular],
+            "faq": [Circular],
+            "filledHeart": [Circular],
+            "foraDoAr": [Circular],
+            "green1p5p": [Circular],
+            "greenCheck": [Circular],
+            "hanger": [Function],
+            "headerLogin": [Circular],
+            "heart": [Circular],
+            "help": [Circular],
+            "homeMock1": [Circular],
+            "homeMock2": [Circular],
+            "homeMock3": [Circular],
+            "homeMock4": [Circular],
+            "imageCashback": [Circular],
+            "imageNotFound": [Circular],
+            "info": [Function],
+            "infoSuccess": [Function],
+            "instagram": [Circular],
+            "ios14": [Circular],
+            "localReserva": [Circular],
+            "logo": [Circular],
+            "logoPrime": [Function],
+            "logoQRCode": [Circular],
+            "mastercard": [Circular],
+            "newsletter": [Circular],
+            "noStoresFound": [Circular],
+            "noWishList": [Circular],
+            "personalize": [Function],
+            "pinPlace": [Circular],
+            "pinYou": [Circular],
+            "profile": [Circular],
+            "purchaseConfirmation": [Circular],
+            "raceImageBackground": [Circular],
+            "reservaIcon": [Circular],
+            "roulet": [Circular],
+            "saleOff": [Circular],
+            "search": [Circular],
+            "searchNotFound": [Circular],
+            "selectRectangle": [Circular],
+            "share": [Circular],
+            "shipping1": [Circular],
+            "shipping2": [Circular],
+            "shirt1": [Circular],
+            "shirt2": [Circular],
+            "shirt3": [Circular],
+            "shirt4": [Circular],
+            "signup1": [Circular],
+            "signup2": [Circular],
+            "signup3": [Circular],
+            "signup4": [Circular],
+            "signup5": [Circular],
+            "sizeGuideIcon": [Function],
+            "subtraction": [Circular],
+            "topBannerMock1": [Circular],
+            "trash": [Function],
+            "twitter": [Circular],
+            "umPCincoPLogo": [Circular],
+            "uncheckedBox": [Circular],
+            "unfilledHeart": [Circular],
+            "update": [Circular],
+            "visa": [Circular],
+            "whatsapp": [Circular],
+            "withoutInternet": [Circular],
+            "zoomHand": [Circular],
+          },
+          "svgs": {
+            "checkedRounded": [Function],
+            "chevronRight": [Function],
+            "closeIcon": [Function],
+            "hanger": [Function],
+            "info": [Function],
+            "infoSuccess": [Function],
+            "logoPrime": [Function],
+            "personalize": [Function],
+            "sizeGuideIcon": [Function],
+            "trash": [Function],
+          },
+        }
+      }
+      style={
+        [
+          {
+            "height": 0,
+            "width": 750,
+          },
+          undefined,
+        ]
+      }
+    />
+  </View>
+  <RCTScrollView
+    accessibilityLabel="com.usereserva:id/login_scrollview"
+    keyboardShouldPersistTaps="always"
+    testID="com.usereserva:id/login_scrollview"
+  >
+    <View>
+      <View
+        style={
+          {
+            "padding": 20,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "fontFamily": "ReservaSerif-Regular",
+              "fontSize": 22,
+            }
+          }
+        >
+          Boas-vindas!
+        </Text>
+        <Text
+          style={
+            {
+              "fontFamily": "Nunito-SemiBold",
+              "fontSize": 14,
+              "marginTop": 20,
+            }
+          }
+        >
+          Insira seu e-mail para continuar:
+        </Text>
+        <View
+          style={
+            {
+              "marginVertical": 20,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "borderBottomWidth": 1,
+                },
+                {
+                  "borderBottomColor": "#333333",
+                },
+              ]
+            }
+          >
+            <TextInput
+              accessibilityLabel="com.usereserva:id/login_input_email"
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
+              onBlur={[Function]}
+              onChangeText={[Function]}
+              onSubmitEditing={[Function]}
+              placeholder="Digite seu e-mail"
+              returnKeyType="next"
+              style={
+                {
+                  "margin": 0,
+                  "padding": 0,
+                }
+              }
+              testID="com.usereserva:id/login_input_email"
+              value=""
+            />
+          </View>
+        </View>
+        <View
+          style={
+            {
+              "marginVertical": 20,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "borderBottomWidth": 1,
+                },
+                {
+                  "borderBottomColor": "#333333",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                }
+              }
+            >
+              <TextInput
+                accessibilityLabel="com.usereserva:id/login_input_password"
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="default"
+                onBlur={[Function]}
+                onChangeText={[Function]}
+                onSubmitEditing={[Function]}
+                placeholder="Digite sua senha"
+                returnKeyType="send"
+                secureTextEntry={true}
+                style={
+                  [
+                    {
+                      "margin": 0,
+                      "padding": 0,
+                    },
+                    {
+                      "width": "90%",
+                    },
+                  ]
+                }
+                testID="com.usereserva:id/login_input_password"
+                value=""
+              />
+              <RNGestureHandlerButton
+                collapsable={false}
+                delayLongPress={600}
+                enabled={true}
+                exclusive={true}
+                handlerTag={1}
+                handlerType="NativeViewGestureHandler"
+                onGestureEvent={[Function]}
+                onGestureHandlerEvent={[Function]}
+                onGestureHandlerStateChange={[Function]}
+                onHandlerStateChange={[Function]}
+                rippleColor={0}
+                touchSoundDisabled={false}
+              >
+                <View
+                  accessible={true}
+                  collapsable={false}
+                  style={
+                    {
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <RNSVGSvgView
+                    align="xMidYMid"
+                    bbHeight="24"
+                    bbWidth="24"
+                    fill="none"
+                    focusable={false}
+                    height="24"
+                    meetOrSlice={0}
+                    minX={0}
+                    minY={0}
+                    style={
+                      [
+                        {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        {
+                          "flex": 0,
+                          "height": 24,
+                          "width": 24,
+                        },
+                      ]
+                    }
+                    vbHeight={24}
+                    vbWidth={24}
+                    width="24"
+                  >
+                    <RNSVGGroup
+                      fill={null}
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    >
+                      <RNSVGPath
+                        clipRule={0}
+                        d="M22 12.0002C20.2531 15.5764 15.8775 19 11.9998 19C8.12201 19 3.74646 15.5764 2 11.9998"
+                        fill={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
+                        fillRule={0}
+                        propList={
+                          [
+                            "fillRule",
+                            "stroke",
+                            "strokeWidth",
+                            "strokeLinecap",
+                            "strokeLinejoin",
+                          ]
+                        }
+                        stroke={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
+                        strokeLinecap={1}
+                        strokeLinejoin={1}
+                        strokeWidth="2"
+                      />
+                      <RNSVGPath
+                        clipRule={0}
+                        d="M22 12.0002C20.2531 8.42398 15.8782 5 12.0005 5C8.1227 5 3.74646 8.42314 2 11.9998"
+                        fill={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
+                        fillRule={0}
+                        propList={
+                          [
+                            "fillRule",
+                            "stroke",
+                            "strokeWidth",
+                            "strokeLinecap",
+                            "strokeLinejoin",
+                          ]
+                        }
+                        stroke={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
+                        strokeLinecap={1}
+                        strokeLinejoin={1}
+                        strokeWidth="2"
+                      />
+                      <RNSVGPath
+                        d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
+                        fill={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
+                        propList={
+                          [
+                            "stroke",
+                            "strokeWidth",
+                            "strokeLinecap",
+                            "strokeLinejoin",
+                          ]
+                        }
+                        stroke={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
+                        strokeLinecap={1}
+                        strokeLinejoin={1}
+                        strokeWidth="2"
+                      />
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </View>
+              </RNGestureHandlerButton>
+            </View>
+          </View>
+          <RNGestureHandlerButton
+            collapsable={false}
+            delayLongPress={600}
+            enabled={true}
+            exclusive={true}
+            handlerTag={2}
+            handlerType="NativeViewGestureHandler"
+            onGestureEvent={[Function]}
+            onGestureHandlerEvent={[Function]}
+            onGestureHandlerStateChange={[Function]}
+            onHandlerStateChange={[Function]}
+            rippleColor={0}
+            touchSoundDisabled={false}
+          >
+            <View
+              accessible={true}
+              collapsable={false}
+              style={
+                {
+                  "marginTop": 5,
+                  "opacity": 1,
+                }
+              }
+            >
+              <Text
+                accessibilityLabel="com.usereserva:id/esqueci-minha-senha"
+                style={
+                  {
+                    "fontFamily": "Nunito-Regular",
+                    "textDecorationLine": "underline",
+                  }
+                }
+                testID="com.usereserva:id/esqueci-minha-senha"
+              >
+                Esqueci minha senha
+              </Text>
+            </View>
+          </RNGestureHandlerButton>
+        </View>
+        <RNGestureHandlerButton
+          collapsable={false}
+          delayLongPress={600}
+          enabled={true}
+          exclusive={true}
+          handlerTag={3}
+          handlerType="NativeViewGestureHandler"
+          onGestureEvent={[Function]}
+          onGestureHandlerEvent={[Function]}
+          onGestureHandlerStateChange={[Function]}
+          onHandlerStateChange={[Function]}
+          rippleColor={0}
+          testID="com.usereserva:id/login_button_submit"
+          touchSoundDisabled={false}
+        >
+          <View
+            accessibilityLabel="com.usereserva:id/entrar_login_button"
+            accessible={true}
+            collapsable={false}
+            style={
+              {
+                "alignItems": "center",
+                "backgroundColor": "#ffffff",
+                "borderColor": "#000000",
+                "borderWidth": 1,
+                "justifyContent": "center",
+                "marginTop": 40,
+                "opacity": 1,
+                "padding": 15,
+              }
+            }
+          >
+            <Text
+              style={
+                {
+                  "fontFamily": "Nunito-SemiBold",
+                  "fontSize": 14,
+                  "letterSpacing": 1,
+                }
+              }
+            >
+              ENTRAR
+            </Text>
+          </View>
+        </RNGestureHandlerButton>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-around",
+              "marginBottom": 20,
+              "marginTop": 70,
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "borderColor": "#BCBCBC",
+                "borderWidth": 1,
+                "width": "20%",
+              }
+            }
+          />
+          <Text
+            style={
+              {
+                "alignContent": "center",
+                "fontFamily": "Nunito-SemiBold",
+              }
+            }
+          >
+            Ainda não possui uma conta?
+          </Text>
+          <View
+            style={
+              {
+                "borderColor": "#BCBCBC",
+                "borderWidth": 1,
+                "width": "20%",
+              }
+            }
+          />
+        </View>
+        <RNGestureHandlerButton
+          collapsable={false}
+          delayLongPress={600}
+          enabled={true}
+          exclusive={true}
+          handlerTag={4}
+          handlerType="NativeViewGestureHandler"
+          onGestureEvent={[Function]}
+          onGestureHandlerEvent={[Function]}
+          onGestureHandlerStateChange={[Function]}
+          onHandlerStateChange={[Function]}
+          rippleColor={0}
+          testID="com.usereserva:id/cadastre_se_buttton"
+          touchSoundDisabled={false}
+        >
+          <View
+            accessibilityLabel="com.usereserva:id/cadastre_se_buttton"
+            accessible={true}
+            collapsable={false}
+            style={
+              {
+                "alignItems": "center",
+                "backgroundColor": "#333333",
+                "justifyContent": "center",
+                "opacity": 1,
+                "padding": 15,
+              }
+            }
+          >
+            <Text
+              style={
+                [
+                  {
+                    "fontFamily": "Nunito-SemiBold",
+                    "fontSize": 14,
+                    "letterSpacing": 1,
+                  },
+                  {
+                    "color": "#ffffff",
+                  },
+                ]
+              }
+            >
+              CADASTRE-SE
+            </Text>
+          </View>
+        </RNGestureHandlerButton>
+      </View>
+    </View>
+  </RCTScrollView>
+</RCTSafeAreaView>
+`;

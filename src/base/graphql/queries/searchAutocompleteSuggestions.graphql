@@ -1,0 +1,3 @@
+query searchAutocompleteSuggestions($q: String!, $provider: SearchProviderInput!) {
+  searchAutocompleteSuggestions(q: $q, provider: $provider)
+}

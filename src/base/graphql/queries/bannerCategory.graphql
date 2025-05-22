@@ -1,0 +1,7 @@
+query bannerCategory($input: BannerCategoryInput!) {
+  bannerCategory(input: $input) {
+    image {
+      url
+    }
+  }
+}

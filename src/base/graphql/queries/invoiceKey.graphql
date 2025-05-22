@@ -1,0 +1,17 @@
+query InvoiceKey($invoiceKey: String!) {
+  invoiceKey(input: {
+    invoiceKey: $invoiceKey
+  }) {
+    estimatedDeliveryDate,
+    estimatedDeliveryDateFormated,
+    shippingReference,
+    shippingAdditional,
+    shippingAddress,
+    shippingQuarter,
+    shippingCity,
+    shippingState,
+    shipmentOrderVolumeState,
+    providerMessage,
+    lastStatusCreated
+  }
+}

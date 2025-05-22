@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Reserva</string>
+
+    <!-- Responsys configuration -->
+    <string name="uri_identifier">pio-ABEuuioRBioGv6Db8XJWm1R7U</string>
+    <string name="app_links_url_host">usereserva.com</string>
+    <!-- Responsys configuration -->
+
+    <string name="one_link_url_host">usereserva.onelink.me</string>
+    <string name="onesignal_notification_accent_color">FF0000</string>
+</resources>

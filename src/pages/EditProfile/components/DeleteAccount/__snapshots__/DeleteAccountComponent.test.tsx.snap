@@ -1,0 +1,591 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DeleteAccountComponent renders without error and match snapshot 1`] = `
+Array [
+  <View
+    bg="white"
+    flexDirection="row"
+    marginX={-1}
+    mb={84}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "#FFF",
+          "flexDirection": "row",
+          "marginBottom": 84,
+          "marginLeft": -1,
+          "marginRight": -1,
+        },
+      ]
+    }
+  >
+    <View
+      alignItems="center"
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+          },
+        ]
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "opacity": 1,
+          }
+        }
+        testID="com.usereserva:id/deleteaccount_button_remove"
+      >
+        <RNSVGSvgView
+          bbHeight={24}
+          bbWidth={24}
+          color="vermelhoAlerta"
+          focusable={false}
+          marginRight="quarck"
+          size={24}
+          style={
+            Array [
+              Object {
+                "backgroundColor": "transparent",
+                "borderWidth": 0,
+              },
+              Array [
+                Object {
+                  "color": "#EF1E1E",
+                  "height": 24,
+                  "marginRight": 4,
+                  "width": 24,
+                },
+              ],
+              Object {
+                "flex": 0,
+                "height": 24,
+                "width": 24,
+              },
+            ]
+          }
+        >
+          <RNSVGGroup>
+            <RNSVGSvgView
+              align="xMidYMid"
+              bbHeight="100%"
+              bbWidth="100%"
+              focusable={false}
+              height="100%"
+              meetOrSlice={0}
+              minX={0}
+              minY={0}
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  Array [
+                    Object {
+                      "height": "100%",
+                      "width": "100%",
+                    },
+                  ],
+                  Object {
+                    "flex": 0,
+                    "height": "100%",
+                    "width": "100%",
+                  },
+                ]
+              }
+              vbHeight={19.477}
+              vbWidth={16.569}
+              width="100%"
+            >
+              <RNSVGGroup>
+                <RNSVGGroup
+                  matrix={
+                    Array [
+                      1,
+                      0,
+                      0,
+                      1,
+                      -301.159,
+                      -235.5,
+                    ]
+                  }
+                  name="Group_2046"
+                >
+                  <RNSVGGroup
+                    matrix={
+                      Array [
+                        1,
+                        0,
+                        0,
+                        1,
+                        301.659,
+                        236,
+                      ]
+                    }
+                    name="Trash_-_icon"
+                  >
+                    <RNSVGPath
+                      d="M4.5,9H18.841"
+                      fill={null}
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          -4.5,
+                          -5.813,
+                        ]
+                      }
+                      name="Path_300"
+                      propList={
+                        Array [
+                          "fill",
+                          "stroke",
+                        ]
+                      }
+                      stroke={4293860894}
+                    />
+                    <RNSVGPath
+                      d="M18.654,6.187V17.341a1.593,1.593,0,0,1-1.593,1.593H9.093A1.593,1.593,0,0,1,7.5,17.341V6.187m2.39,0V4.593A1.593,1.593,0,0,1,11.484,3H14.67a1.593,1.593,0,0,1,1.593,1.593V6.187"
+                      fill={null}
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          -5.907,
+                          -3,
+                        ]
+                      }
+                      name="Path_301"
+                      propList={
+                        Array [
+                          "fill",
+                          "stroke",
+                        ]
+                      }
+                      stroke={4293860894}
+                    />
+                    <RNSVGPath
+                      d="M15,16.5v4.78"
+                      fill={null}
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          -9.423,
+                          -9.329,
+                        ]
+                      }
+                      name="Path_302"
+                      propList={
+                        Array [
+                          "fill",
+                          "stroke",
+                        ]
+                      }
+                      stroke={4293860894}
+                    />
+                    <RNSVGPath
+                      d="M21,16.5v4.78"
+                      fill={null}
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          -12.236,
+                          -9.329,
+                        ]
+                      }
+                      name="Path_303"
+                      propList={
+                        Array [
+                          "fill",
+                          "stroke",
+                        ]
+                      }
+                      stroke={4293860894}
+                    />
+                  </RNSVGGroup>
+                </RNSVGGroup>
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </RNSVGGroup>
+        </RNSVGSvgView>
+        <Text
+          color="vermelhoAlerta"
+          fontFamily="nunitoRegular"
+          fontSize={15}
+          style={
+            Array [
+              Object {
+                "color": "#EF1E1E",
+                "fontFamily": "Nunito-Regular",
+                "fontSize": 15,
+              },
+            ]
+          }
+        >
+          Deletar minha conta
+        </Text>
+      </View>
+    </View>
+  </View>,
+  <Modal
+    animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
+    hardwareAccelerated={false}
+    hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
+    onModalHide={[Function]}
+    onModalWillHide={[Function]}
+    onModalWillShow={[Function]}
+    onRequestClose={[Function]}
+    panResponderThreshold={4}
+    scrollHorizontal={false}
+    scrollOffset={0}
+    scrollOffsetMax={0}
+    scrollTo={null}
+    supportedOrientations={
+      Array [
+        "portrait",
+        "landscape",
+      ]
+    }
+    swipeThreshold={100}
+    testID="com.usereserva:id/modaldeleteaccount_container"
+    transparent={true}
+    visible={false}
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      forwardedRef={[Function]}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "black",
+          "bottom": 0,
+          "height": 1334,
+          "left": 0,
+          "opacity": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+          "width": 750,
+        }
+      }
+    />
+    <View
+      onLayout={[Function]}
+      pointerEvents="box-none"
+      style={
+        Array [
+          Array [
+            Object {
+              "margin": 37.5,
+              "transform": Array [
+                Object {
+                  "translateY": 0,
+                },
+              ],
+            },
+            Object {
+              "flex": 1,
+              "justifyContent": "center",
+            },
+            undefined,
+            Object {
+              "margin": 0,
+            },
+          ],
+          Object {
+            "paddingBottom": 0,
+          },
+        ]
+      }
+    >
+      <View
+        deviceHeight={null}
+        deviceWidth={null}
+        forwardedRef={[Function]}
+        hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
+        onModalHide={[Function]}
+        onModalWillHide={[Function]}
+        onModalWillShow={[Function]}
+        panResponderThreshold={4}
+        pointerEvents="box-none"
+        scrollHorizontal={false}
+        scrollOffset={0}
+        scrollOffsetMax={0}
+        scrollTo={null}
+        style={
+          Object {
+            "flex": 1,
+            "justifyContent": "center",
+            "margin": 37.5,
+            "transform": Array [
+              Object {
+                "translateY": 0,
+              },
+            ],
+          }
+        }
+        supportedOrientations={
+          Array [
+            "portrait",
+            "landscape",
+          ]
+        }
+        swipeThreshold={100}
+      >
+        <View
+          bg="white"
+          borderRadius={8}
+          minHeight={184}
+          mx="3%"
+          px={24}
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFF",
+                "borderRadius": 8,
+                "marginLeft": "3%",
+                "marginRight": "3%",
+                "minHeight": 184,
+                "paddingLeft": 24,
+                "paddingRight": 24,
+              },
+            ]
+          }
+        >
+          <View
+            mb="quarck"
+            mt="xxxs"
+            style={
+              Array [
+                Object {
+                  "marginBottom": 4,
+                  "marginTop": 16,
+                },
+              ]
+            }
+          >
+            <Text
+              color="preto"
+              fontFamily="reservaSerifRegular"
+              fontSize={22}
+              style={
+                Array [
+                  Object {
+                    "color": "#333333",
+                    "fontFamily": "ReservaSerif-Regular",
+                    "fontSize": 22,
+                  },
+                ]
+              }
+            >
+              Tem certeza?
+            </Text>
+          </View>
+          <View
+            style={
+              Array [
+                Object {},
+              ]
+            }
+          >
+            <Text
+              color="preto"
+              fontFamily="nunitoRegular"
+              fontSize={15}
+              style={
+                Array [
+                  Object {
+                    "color": "#333333",
+                    "fontFamily": "Nunito-Regular",
+                    "fontSize": 15,
+                  },
+                ]
+              }
+            >
+              Essa ação não pode ser desfeita. Confirme o código recebido para deletar sua conta permanentemente.
+            </Text>
+          </View>
+          <View
+            mt="xxxs"
+            style={
+              Array [
+                Object {
+                  "marginTop": 16,
+                  "width": "100%",
+                },
+              ]
+            }
+            width="100%"
+          >
+            <View
+              alignItems="center"
+              height={50}
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "height": 50,
+                  },
+                ]
+              }
+            >
+              <View
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#D71921",
+                    "height": 50,
+                    "justifyContent": "center",
+                    "opacity": 1,
+                    "width": "100%",
+                  }
+                }
+              >
+                <Text
+                  color="white"
+                  fontFamily="nunitoRegular"
+                  fontSize={13}
+                  letterSpacing={2}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#FFF",
+                        "fontFamily": "Nunito-Regular",
+                        "fontSize": 13,
+                        "letterSpacing": 2,
+                      },
+                    ]
+                  }
+                >
+                  DELETAR PERMANENTEMENTE
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View
+            mb="xxs"
+            mt="xxxs"
+            style={
+              Array [
+                Object {
+                  "marginBottom": 24,
+                  "marginTop": 16,
+                  "width": "100%",
+                },
+              ]
+            }
+            width="100%"
+          >
+            <View
+              alignItems="center"
+              height={50}
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "height": 50,
+                  },
+                ]
+              }
+            >
+              <View
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "borderColor": "#333333",
+                    "borderWidth": 1,
+                    "color": "#333333",
+                    "fontFamily": "Nunito-Bold",
+                    "fontSize": 13,
+                    "height": 50,
+                    "justifyContent": "center",
+                    "minWidth": 130,
+                    "opacity": 1,
+                    "paddingBottom": 16,
+                    "paddingLeft": 8,
+                    "paddingRight": 8,
+                    "paddingTop": 16,
+                    "width": "100%",
+                  }
+                }
+              >
+                <Text
+                  color="preto"
+                  fontFamily="nunitoRegular"
+                  fontSize={13}
+                  letterSpacing={2}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#333333",
+                        "fontFamily": "Nunito-Regular",
+                        "fontSize": 13,
+                        "letterSpacing": 2,
+                      },
+                    ]
+                  }
+                >
+                  VOLTAR
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </Modal>,
+]
+`;

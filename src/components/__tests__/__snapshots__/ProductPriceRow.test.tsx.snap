@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductPriceRow should match with the snapshot 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "flexDirection": "row",
+    }
+  }
+>
+  <Text
+    style={
+      {
+        "color": "#8A8C8E",
+        "fontFamily": "ReservaSans-Medium",
+        "fontSize": 12,
+        "letterSpacing": 0.05,
+      }
+    }
+  >
+    undefined 
+  </Text>
+  <Text
+    style={
+      {
+        "color": "#8A8C8E",
+        "fontFamily": "ReservaSans-Medium",
+        "fontSize": 12,
+        "letterSpacing": 0.05,
+      }
+    }
+  >
+    150,
+  </Text>
+  <Text
+    style={
+      {
+        "color": "#8A8C8E",
+        "fontFamily": "ReservaSans-Medium",
+        "fontSize": 12,
+        "letterSpacing": 0.05,
+      }
+    }
+  >
+    00
+  </Text>
+</View>
+`;

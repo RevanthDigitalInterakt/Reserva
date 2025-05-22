@@ -1,0 +1,5 @@
+mutation orderFormRemoveDiscountCoupon($orderFormId: String!) {
+    orderFormRemoveDiscountCoupon(input: { orderFormId:$orderFormId }) {
+        ...orderFormFragment
+    }
+}

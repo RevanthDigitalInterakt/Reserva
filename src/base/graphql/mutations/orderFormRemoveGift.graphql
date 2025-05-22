@@ -1,0 +1,5 @@
+mutation orderFormRemoveGift ($orderFormId: String!, $index: Int!, $id: String!){
+    orderFormRemoveGift(input: { orderFormId: $orderFormId, index: $index, id: $id}) {
+        ...orderFormFragment
+    }
+}

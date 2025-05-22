@@ -1,0 +1,3031 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PrimeLP should match to snapshot 1`] = `
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
+  style={
+    {
+      "backgroundColor": "#fff",
+    }
+  }
+>
+  <View
+    bg="white"
+    style={
+      {
+        "backgroundColor": "#FFF",
+      }
+    }
+  >
+    <RCTSafeAreaView>
+      <View
+        bg="white"
+        boxShadow="topBarShadow"
+        height={50}
+        justifyContent="flex-end"
+        paddingX="quarck"
+        style={
+          [
+            {
+              "backgroundColor": "#FFF",
+              "height": 50,
+              "justifyContent": "flex-end",
+              "paddingLeft": 4,
+              "paddingRight": 4,
+              "shadowColor": "rgba(0,0,0,0.1)",
+              "shadowOffset": {
+                "height": 3,
+                "width": 0,
+              },
+              "shadowOpacity": 1,
+              "shadowRadius": 2,
+            },
+            {
+              "elevation": 10,
+            },
+          ]
+        }
+      >
+        <View
+          flex={1}
+          flexDirection="row"
+          justifyContent="flex-end"
+          paddingX="micro"
+          style={
+            {
+              "flexBasis": 0,
+              "flexDirection": "row",
+              "flexGrow": 1,
+              "flexShrink": 1,
+              "justifyContent": "flex-end",
+              "paddingLeft": 12,
+              "paddingRight": 12,
+            }
+          }
+        >
+          <View
+            alignItems="flex-start"
+            alignSelf="center"
+            flexDirection="row"
+            style={
+              {
+                "alignItems": "flex-start",
+                "alignSelf": "center",
+                "flexDirection": "row",
+                "width": "25%",
+              }
+            }
+            width="25%"
+          >
+            <View
+              alignItems="center"
+              style={
+                {
+                  "alignItems": "center",
+                }
+              }
+            >
+              <View
+                accessibilityLabel="com.usereserva:id/top_bar_default_button_home"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                hitSlop={
+                  {
+                    "bottom": 20,
+                    "left": 20,
+                    "right": 20,
+                    "top": 20,
+                  }
+                }
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                    "opacity": 1,
+                  }
+                }
+                testID="com.usereserva:id/top_bar_default_button_home"
+              >
+                <View
+                  alignItems="center"
+                  flexDirection="row"
+                  justifyContent="center"
+                  style={
+                    {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                    }
+                  }
+                >
+                  <RNSVGSvgView
+                    bbHeight="24"
+                    bbWidth="24"
+                    color="preto"
+                    focusable={false}
+                    onPress={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    responsible={true}
+                    size={24}
+                    style={
+                      [
+                        {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        {
+                          "color": "#333333",
+                          "height": 24,
+                          "width": 24,
+                        },
+                        {
+                          "flex": 0,
+                          "height": 24,
+                          "width": 24,
+                        },
+                      ]
+                    }
+                    testID="com.usereserva:id/top_bar_default_button_home"
+                    tintColor="preto"
+                  >
+                    <RNSVGGroup
+                      fill={
+                        {
+                          "payload": 4278190080,
+                          "type": 0,
+                        }
+                      }
+                    >
+                      <RNSVGSvgView
+                        align="xMidYMid"
+                        bbHeight="100%"
+                        bbWidth="100%"
+                        focusable={false}
+                        height="100%"
+                        meetOrSlice={0}
+                        minX={0}
+                        minY={0}
+                        style={
+                          [
+                            {
+                              "backgroundColor": "transparent",
+                              "borderWidth": 0,
+                            },
+                            {
+                              "height": "100%",
+                              "width": "100%",
+                            },
+                            {
+                              "flex": 0,
+                              "height": "100%",
+                              "width": "100%",
+                            },
+                          ]
+                        }
+                        vbHeight={19.054}
+                        vbWidth={18.225}
+                        width="100%"
+                      >
+                        <RNSVGGroup
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
+                        >
+                          <RNSVGGroup
+                            fill={
+                              {
+                                "payload": 4278190080,
+                                "type": 0,
+                              }
+                            }
+                            matrix={
+                              [
+                                -1,
+                                1.2246467991473532e-16,
+                                -1.2246467991473532e-16,
+                                -1,
+                                17.225,
+                                17.639,
+                              ]
+                            }
+                            name="Seta_-_icon"
+                          >
+                            <RNSVGPath
+                              d="M7.5,18H23.725"
+                              fill={null}
+                              matrix={
+                                [
+                                  1,
+                                  0,
+                                  0,
+                                  1,
+                                  -7.5,
+                                  -9.887,
+                                ]
+                              }
+                              name="Caminho_68"
+                              propList={
+                                [
+                                  "fill",
+                                  "stroke",
+                                  "strokeWidth",
+                                  "strokeLinecap",
+                                  "strokeLinejoin",
+                                ]
+                              }
+                              stroke={
+                                {
+                                  "payload": 4281545523,
+                                  "type": 0,
+                                }
+                              }
+                              strokeLinecap={1}
+                              strokeLinejoin={1}
+                              strokeWidth="2"
+                            />
+                            <RNSVGPath
+                              d="M18,7.5l8.113,8.113L18,23.725"
+                              fill={null}
+                              matrix={
+                                [
+                                  1,
+                                  0,
+                                  0,
+                                  1,
+                                  -9.887,
+                                  -7.5,
+                                ]
+                              }
+                              name="Caminho_69"
+                              propList={
+                                [
+                                  "fill",
+                                  "stroke",
+                                  "strokeWidth",
+                                  "strokeLinecap",
+                                  "strokeLinejoin",
+                                ]
+                              }
+                              stroke={
+                                {
+                                  "payload": 4281545523,
+                                  "type": 0,
+                                }
+                              }
+                              strokeLinecap={1}
+                              strokeLinejoin={1}
+                              strokeWidth="2"
+                            />
+                          </RNSVGGroup>
+                        </RNSVGGroup>
+                      </RNSVGSvgView>
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                  <View
+                    justifyContent="center"
+                    style={
+                      {
+                        "justifyContent": "center",
+                      }
+                    }
+                  >
+                    <Text
+                      letterSpacing={1.6}
+                      style={
+                        {
+                          "letterSpacing": 1.6,
+                        }
+                      }
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            alignItems="center"
+            alignSelf="center"
+            justifyContent="flex-start"
+            style={
+              {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "justifyContent": "flex-start",
+                "width": "50%",
+              }
+            }
+            width="50%"
+          >
+            <RNSVGSvgView
+              bbHeight="24"
+              bbWidth="24"
+              color="vermelhoAlerta"
+              focusable={false}
+              size={24}
+              style={
+                [
+                  {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  {
+                    "color": "#EF1E1E",
+                    "height": 24,
+                    "width": 24,
+                  },
+                  {
+                    "flex": 0,
+                    "height": 24,
+                    "width": 24,
+                  },
+                ]
+              }
+              tintColor="vermelhoAlerta"
+            >
+              <RNSVGGroup
+                fill={
+                  {
+                    "payload": 4278190080,
+                    "type": 0,
+                  }
+                }
+              >
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight="100%"
+                  bbWidth="100%"
+                  focusable={false}
+                  id="Logo"
+                  meetOrSlice={0}
+                  minX={0}
+                  minY={0}
+                  style={
+                    [
+                      {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      {},
+                      {
+                        "flex": 0,
+                        "height": "100%",
+                        "width": "100%",
+                      },
+                    ]
+                  }
+                  vbHeight={124.992}
+                  vbWidth={102.034}
+                >
+                  <RNSVGGroup
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                  >
+                    <RNSVGPath
+                      d="M100.065,114.205a115.2,115.2,0,0,1-14.714-10.974,1.1,1.1,0,0,1,0-.964,1.914,1.914,0,0,0-.414-1.849c-2.806-2.99-5.736-5.649-8.644-8.278-2.338-3.043-4.2-6.308-6.4-9.411-1.977-3.352-5.162-8.109-6.39-9.852-1.2-1.736-6.055-7.791-7.8-10.176-2.243-2.862-5.394-6.677-7.815-8.066-2.327-1.344-9.272-5.645-11.783-9.411-1.144-1.842-2.867-8.38-2.623-11.29a12.6,12.6,0,0,1,.9-4.429,46.088,46.088,0,0,1,3.136-5.81c.92-1.39,2.672-2.588,2.471-4.463-.178-1.126.7-2.617-.517-3.378-.368-.094-.691.55-.768.55-.091-.031-.091-.094-.091-.094a16.07,16.07,0,0,1,1.053-5.676c.323-1.307-.285-2.387-.261-3.657.319-.776,2.075-1.917.938-2.331-1.205-.422.053-1.921-1.137-2.052C37.994,2.507,38.251.387,37.092.877c-2.25,1.548-5.629,6.052-6.024,5.9-.384-.17.255-4.225.6-6.263C31.508-.37,30.228.142,29.4.2a7.665,7.665,0,0,1-2.2.063A49.761,49.761,0,0,0,23.788,4.3a41.5,41.5,0,0,0-1.212,4.463c-.138.561-.5,1.691-.544.561-.072-1.081,1.25-4.9,1.525-7.543-.195-.339-.669-.222-.875-.154a10.451,10.451,0,0,0-2.053,1.4,17.051,17.051,0,0,0-1.258,2.358c-.08.38-.08,2.052-.619,1.725-.609-.689,0-1.988,0-2.312.053-.068-.125-.508-.9-.494s-.81-.388-1.164-.18a14.339,14.339,0,0,1-1.486,3.216c-.718,1.4-1.827,3.077-1.881,4.323-.1.441-.46.139-.582.03,0,0-1.562-.663-1.669.411a3.442,3.442,0,0,0,.578,1.751c.38.591,1.817,1.639,1.555,3.005a5.742,5.742,0,0,0-.783.572c-.673,1.134,2.413,6.7,3.287,8.334.035.162-.512.275-.512.275C13.62,26.022,7.254,28.907,5.98,29.8A64.114,64.114,0,0,0,.306,34.97c-.476.4-.365,1.352.118.995a33.091,33.091,0,0,1,11.228-5.717C16.942,28.873,19,32.353,19,32.353s2.531,3.529-.083,11.234c-1.718,5.664-3.949,10.1-3.508,17.3.555,8.5,4.873,13.723,8.362,17.316s13.5,14.386,15.011,15.84c1.5,1.438,2.581,4.323,3.474,5.321a24.772,24.772,0,0,0,3.159,3.333,6.8,6.8,0,0,1,.144,2.154c0,.852-1.4,8.873-1.52,8.982-.3.569-1.44.569-1.44.569a51.155,51.155,0,0,0-6.481-1.939c-.8.113-1.38,1.45-2.117,2.214-.932.889.567,1.8-.609,2.674-.3.234-.209.817-.083,1.009,0,0,.2-.023.6-.456a1.084,1.084,0,0,1,1.035-.309c4.549,1.431,9.989.478,10.456.43.467-.087,2.637,1.242,2.637,1.242,2.049,1.1,4.144,2.052,6.162,3.227.627.241,1.117,1.236,1.832.6.388-.8-.467-1.446-.467-1.446-.153-.328-3.41-2.4-5.139-3.622a14.5,14.5,0,0,0-3.171-3.325c-.193-.768,1.087-4.109,1.407-5.461s.308-4.033,1.03-5.849a11.992,11.992,0,0,1,3.372-2.285,76.542,76.542,0,0,0,7.272,2.636c.863.264,1.619.485,2.383.693-.038.467-.092.952-.092,1.363,0,0-.452,3.13-.582,3.529a2.568,2.568,0,0,1-.491.772c-.311.607-1.455.584-1.455.584a58.567,58.567,0,0,0-6.489-2.06c-.832.43-1.428,1.476-2.132,2.21-.923.885.532,1.823-.639,2.712-.285.181-.228.787-.061.968,0,0,.159,0,.6-.459a1.062,1.062,0,0,1,1.049-.283c4.543,1.465,8.382.283,10.393.52l2.642,1.311c2.06,1.088,4.143,2.1,6.146,3.287.6.23,1.361,1.277,1.836.6.467-.7-.077-1.054-.452-1.416-.407-.41-3.4-2.474-5.105-3.683a17.288,17.288,0,0,0-3.273-3.536c-.087-.411.145-.708.243-1.077.084-.32,1.141-4.244,1.141-4.244s0-.034.038-.064c3.018.986,5.036,1.77,6.005,2.538,2.638,1.928,5.348,3.334,7.435,5.95,3.713,3.393,6.959,6.67,11.441,9.137C94.8,125.8,98.229,125,99.3,124.4c1.061-.561,2.121-1.013,2.03-2.271,2.037-2.734-.969-7.845-1.266-7.924"
+                      fill={
+                        {
+                          "payload": 4293729316,
+                          "type": 0,
+                        }
+                      }
+                      matrix={
+                        [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0,
+                        ]
+                      }
+                      name="#EF1E1E"
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    />
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </View>
+          <View
+            alignItems="flex-end"
+            alignSelf="center"
+            flexDirection="row"
+            justifyContent="flex-end"
+            style={
+              {
+                "alignItems": "flex-end",
+                "alignSelf": "center",
+                "flexDirection": "row",
+                "justifyContent": "flex-end",
+                "width": "25%",
+              }
+            }
+            width="25%"
+          >
+            <View
+              alignItems="center"
+              style={
+                {
+                  "alignItems": "center",
+                }
+              }
+            >
+              <View
+                accessibilityLabel="com.usereserva:id/top_bar_button_searchmenu"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                hitSlop={
+                  {
+                    "bottom": 20,
+                    "left": 20,
+                    "right": 20,
+                    "top": 20,
+                  }
+                }
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                    "marginRight": 20,
+                    "opacity": 1,
+                  }
+                }
+                testID="com.usereserva:id/top_bar_button_searchmenu"
+              >
+                <View
+                  alignItems="center"
+                  flexDirection="row"
+                  justifyContent="center"
+                  style={
+                    {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                    }
+                  }
+                >
+                  <RNSVGSvgView
+                    bbHeight="24"
+                    bbWidth="24"
+                    color="preto"
+                    focusable={false}
+                    onPress={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    responsible={true}
+                    size={24}
+                    style={
+                      [
+                        {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        {
+                          "color": "#333333",
+                          "height": 24,
+                          "width": 24,
+                        },
+                        {
+                          "flex": 0,
+                          "height": 24,
+                          "width": 24,
+                        },
+                      ]
+                    }
+                    testID="com.usereserva:id/top_bar_button_searchmenu"
+                    tintColor="preto"
+                  >
+                    <RNSVGGroup
+                      fill={
+                        {
+                          "payload": 4278190080,
+                          "type": 0,
+                        }
+                      }
+                    >
+                      <RNSVGSvgView
+                        align="xMidYMid"
+                        bbHeight="100%"
+                        bbWidth="100%"
+                        focusable={false}
+                        height="100%"
+                        meetOrSlice={0}
+                        minX={0}
+                        minY={0}
+                        style={
+                          [
+                            {
+                              "backgroundColor": "transparent",
+                              "borderWidth": 0,
+                            },
+                            {
+                              "height": "100%",
+                              "width": "100%",
+                            },
+                            {
+                              "flex": 0,
+                              "height": "100%",
+                              "width": "100%",
+                            },
+                          ]
+                        }
+                        vbHeight={17.112}
+                        vbWidth={17.493}
+                        width="100%"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <RNSVGGroup
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
+                        >
+                          <RNSVGGroup
+                            fill={null}
+                            matrix={
+                              [
+                                1,
+                                0,
+                                0,
+                                1,
+                                -283.354,
+                                -17.548,
+                              ]
+                            }
+                            propList={
+                              [
+                                "fill",
+                                "stroke",
+                                "strokeWidth",
+                                "strokeLinecap",
+                                "strokeLinejoin",
+                              ]
+                            }
+                            stroke={
+                              {
+                                "payload": 4281545523,
+                                "type": 0,
+                              }
+                            }
+                            strokeLinecap={1}
+                            strokeLinejoin={1}
+                            strokeWidth="1"
+                          >
+                            <RNSVGEllipse
+                              cx="7.227"
+                              cy="7.227"
+                              fill={
+                                {
+                                  "payload": 4278190080,
+                                  "type": 0,
+                                }
+                              }
+                              matrix={
+                                [
+                                  1,
+                                  0,
+                                  0,
+                                  1,
+                                  283.854,
+                                  18.048,
+                                ]
+                              }
+                              rx="7.227"
+                              ry="7.227"
+                            />
+                            <RNSVGPath
+                              d="M0 0L3.762 3.762"
+                              fill={
+                                {
+                                  "payload": 4278190080,
+                                  "type": 0,
+                                }
+                              }
+                              matrix={
+                                [
+                                  1,
+                                  0,
+                                  0,
+                                  1,
+                                  296.377,
+                                  30.19,
+                                ]
+                              }
+                            />
+                          </RNSVGGroup>
+                        </RNSVGGroup>
+                      </RNSVGSvgView>
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                  <View
+                    justifyContent="center"
+                    style={
+                      {
+                        "justifyContent": "center",
+                      }
+                    }
+                  >
+                    <Text
+                      letterSpacing={1.6}
+                      style={
+                        {
+                          "letterSpacing": 1.6,
+                        }
+                      }
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View
+              alignItems="center"
+              style={
+                {
+                  "alignItems": "center",
+                }
+              }
+            >
+              <View
+                accessibilityLabel="com.usereserva:id/top_bar_button_handbag"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                hitSlop={
+                  {
+                    "bottom": 25,
+                    "left": 25,
+                    "right": 25,
+                    "top": 25,
+                  }
+                }
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                    "opacity": 1,
+                  }
+                }
+                testID="com.usereserva:id/top_bar_button_handbag"
+              >
+                <View
+                  flexGrow={0}
+                  justifyContent="flex-end"
+                  style={
+                    {
+                      "flexGrow": 0,
+                      "justifyContent": "flex-end",
+                    }
+                  }
+                >
+                  <View
+                    flexGrow={0}
+                    justifyContent="center"
+                    position="absolute"
+                    right={-5}
+                    style={
+                      {
+                        "flexGrow": 0,
+                        "justifyContent": "center",
+                        "position": "absolute",
+                        "right": -5,
+                        "top": -5,
+                        "zIndex": 1,
+                      }
+                    }
+                    top={-5}
+                    zIndex={1}
+                  />
+                  <RNSVGSvgView
+                    badgeCount={0}
+                    bbHeight="24"
+                    bbWidth="24"
+                    color="preto"
+                    focusable={false}
+                    onPress={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    responsible={true}
+                    size={24}
+                    style={
+                      [
+                        {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        {
+                          "color": "#333333",
+                          "height": 24,
+                          "width": 24,
+                        },
+                        {
+                          "flex": 0,
+                          "height": 24,
+                          "width": 24,
+                        },
+                      ]
+                    }
+                    testID="com.usereserva:id/top_bar_button_handbag"
+                    tintColor="preto"
+                  >
+                    <RNSVGGroup
+                      fill={
+                        {
+                          "payload": 4278190080,
+                          "type": 0,
+                        }
+                      }
+                    >
+                      <RNSVGSvgView
+                        align="xMidYMid"
+                        bbHeight="100%"
+                        bbWidth="100%"
+                        focusable={false}
+                        id="Logo"
+                        meetOrSlice={0}
+                        minX={0}
+                        minY={0}
+                        style={
+                          [
+                            {
+                              "backgroundColor": "transparent",
+                              "borderWidth": 0,
+                            },
+                            {},
+                            {
+                              "flex": 0,
+                              "height": "100%",
+                              "width": "100%",
+                            },
+                          ]
+                        }
+                        vbHeight={19.477}
+                        vbWidth={16.569}
+                      >
+                        <RNSVGGroup
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
+                        >
+                          <RNSVGGroup
+                            fill={
+                              {
+                                "payload": 4278190080,
+                                "type": 0,
+                              }
+                            }
+                            matrix={
+                              [
+                                1,
+                                0,
+                                0,
+                                1,
+                                0.5,
+                                0.5,
+                              ]
+                            }
+                            name="Sacola"
+                          >
+                            <RNSVGPath
+                              d="M5.388,7.8,4.5,19.909a1.73,1.73,0,0,0,1.73,1.73H18.339a1.73,1.73,0,0,0,1.73-1.73L18.913,7.8Z"
+                              fill={null}
+                              matrix={
+                                [
+                                  1,
+                                  0,
+                                  0,
+                                  1,
+                                  -4.5,
+                                  -3.162,
+                                ]
+                              }
+                              name="Caminho_65"
+                              propList={
+                                [
+                                  "fill",
+                                  "stroke",
+                                  "strokeLinecap",
+                                  "strokeLinejoin",
+                                ]
+                              }
+                              stroke={
+                                {
+                                  "payload": 4281545523,
+                                  "type": 0,
+                                }
+                              }
+                              strokeLinecap={1}
+                              strokeLinejoin={1}
+                            />
+                            <RNSVGPath
+                              d="M4.5,9H17.9"
+                              fill={null}
+                              matrix={
+                                [
+                                  1,
+                                  0,
+                                  0,
+                                  1,
+                                  -3.489,
+                                  -4.362,
+                                ]
+                              }
+                              name="Caminho_66"
+                              propList={
+                                [
+                                  "fill",
+                                  "stroke",
+                                  "strokeLinecap",
+                                  "strokeLinejoin",
+                                ]
+                              }
+                              stroke={
+                                {
+                                  "payload": 4281545523,
+                                  "type": 0,
+                                }
+                              }
+                              strokeLinecap={1}
+                              strokeLinejoin={1}
+                            />
+                            <RNSVGPath
+                              d="M18.362,18.181a3.181,3.181,0,0,0-6.362,0"
+                              fill={null}
+                              matrix={
+                                [
+                                  1,
+                                  0,
+                                  0,
+                                  1,
+                                  -7.612,
+                                  -15,
+                                ]
+                              }
+                              name="Caminho_67"
+                              propList={
+                                [
+                                  "fill",
+                                  "stroke",
+                                  "strokeLinecap",
+                                  "strokeLinejoin",
+                                ]
+                              }
+                              stroke={
+                                {
+                                  "payload": 4281545523,
+                                  "type": 0,
+                                }
+                              }
+                              strokeLinecap={1}
+                              strokeLinejoin={1}
+                            />
+                          </RNSVGGroup>
+                        </RNSVGGroup>
+                      </RNSVGSvgView>
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </RCTSafeAreaView>
+    <View
+      style={{}}
+    >
+      <Modal
+        animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
+        hardwareAccelerated={false}
+        hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
+        onModalHide={[Function]}
+        onModalWillHide={[Function]}
+        onModalWillShow={[Function]}
+        onRequestClose={[Function]}
+        panResponderThreshold={4}
+        scrollHorizontal={false}
+        scrollOffset={0}
+        scrollOffsetMax={0}
+        scrollTo={null}
+        statusBarTranslucent={false}
+        supportedOrientations={
+          [
+            "portrait",
+            "landscape",
+          ]
+        }
+        swipeThreshold={100}
+        testID="com.usereserva:id/modal_bag"
+        transparent={true}
+        useNativeDriverForBackdrop={true}
+        visible={false}
+      />
+    </View>
+    <Modal
+      accessibilityLabel="com.usereserva:id/modal_welcome_prime"
+      animationType="none"
+      deviceHeight={null}
+      deviceWidth={null}
+      hardwareAccelerated={false}
+      hideModalContentWhileAnimating={false}
+      onBackdropPress={[Function]}
+      onModalHide={[Function]}
+      onModalWillHide={[Function]}
+      onModalWillShow={[Function]}
+      onRequestClose={[Function]}
+      panResponderThreshold={4}
+      scrollHorizontal={false}
+      scrollOffset={0}
+      scrollOffsetMax={0}
+      scrollTo={null}
+      statusBarTranslucent={false}
+      supportedOrientations={
+        [
+          "portrait",
+          "landscape",
+        ]
+      }
+      swipeThreshold={100}
+      testID="com.usereserva:id/modal_welcome_prime"
+      transparent={true}
+      visible={false}
+    />
+    <RCTScrollView
+      accessibilityLabel="com.usereserva:id/PrimeLP_page"
+      contentContainerStyle={
+        {
+          "paddingBottom": 100,
+        }
+      }
+      testID="com.usereserva:id/PrimeLP_page"
+    >
+      <View>
+        <View
+          accessibilityIgnoresInvertColors={true}
+          style={
+            {
+              "width": 750,
+            }
+          }
+        >
+          <Image
+            resizeMode="cover"
+            source={
+              {
+                "commons": {
+                  "GuideBermuda": [Circular],
+                  "GuideCalca": [Circular],
+                  "GuideCamiseta": [Circular],
+                  "GuideHoodie": [Circular],
+                  "GuideJaqueta": [Circular],
+                  "GuideMangaCurta": [Circular],
+                  "GuideMangaLonga": [Circular],
+                  "GuidePolo": [Circular],
+                  "GuideShort": [Circular],
+                  "GuideSueter": [Circular],
+                  "GuideSungaCueca": [Circular],
+                  "QrcodeBackground": [Circular],
+                  "abandonedCartBag": [Circular],
+                  "addition": [Circular],
+                  "americanExpress": [Circular],
+                  "arrowInstruction": [Circular],
+                  "arrowRight": [Circular],
+                  "bagEmpty": [Circular],
+                  "bannerCatalog": [Circular],
+                  "bannerLogin": [Circular],
+                  "bannerOffer": [Circular],
+                  "black1p5p": [Circular],
+                  "cardFront": [Circular],
+                  "cardImage": [Circular],
+                  "cardVerso": [Circular],
+                  "chat": [Circular],
+                  "checkedBox": [Circular],
+                  "chevronLeftFill": [Circular],
+                  "chevronRightFill": [Circular],
+                  "close": [Circular],
+                  "clothingCare1": [Circular],
+                  "clothingCareBleach": [Circular],
+                  "clothingCareDrying": [Circular],
+                  "clothingCarePass": [Circular],
+                  "clothingCareProfessionalWashing": [Circular],
+                  "clothingCareWash": [Circular],
+                  "config": [Circular],
+                  "copy": [Circular],
+                  "cupomModalBackground": [Circular],
+                  "cutlery": [Circular],
+                  "discountFlag": [Circular],
+                  "dividerReserva": [Circular],
+                  "document": [Circular],
+                  "elo": [Circular],
+                  "emptyProductCatalog": [Circular],
+                  "expand": [Circular],
+                  "facebook": [Circular],
+                  "faq": [Circular],
+                  "filledHeart": [Circular],
+                  "foraDoAr": [Circular],
+                  "green1p5p": [Circular],
+                  "greenCheck": [Circular],
+                  "headerLogin": [Circular],
+                  "heart": [Circular],
+                  "help": [Circular],
+                  "homeMock1": [Circular],
+                  "homeMock2": [Circular],
+                  "homeMock3": [Circular],
+                  "homeMock4": [Circular],
+                  "imageCashback": [Circular],
+                  "imageNotFound": [Circular],
+                  "instagram": [Circular],
+                  "ios14": [Circular],
+                  "localReserva": [Circular],
+                  "logo": [Circular],
+                  "logoQRCode": [Circular],
+                  "mastercard": [Circular],
+                  "newsletter": [Circular],
+                  "noStoresFound": [Circular],
+                  "noWishList": [Circular],
+                  "pinPlace": [Circular],
+                  "pinYou": [Circular],
+                  "profile": [Circular],
+                  "purchaseConfirmation": [Circular],
+                  "raceImageBackground": [Circular],
+                  "reservaIcon": [Circular],
+                  "roulet": [Circular],
+                  "saleOff": [Circular],
+                  "search": [Circular],
+                  "searchNotFound": [Circular],
+                  "selectRectangle": [Circular],
+                  "share": [Circular],
+                  "shipping1": [Circular],
+                  "shipping2": [Circular],
+                  "shirt1": [Circular],
+                  "shirt2": [Circular],
+                  "shirt3": [Circular],
+                  "shirt4": [Circular],
+                  "signup1": [Circular],
+                  "signup2": [Circular],
+                  "signup3": [Circular],
+                  "signup4": [Circular],
+                  "signup5": [Circular],
+                  "subtraction": [Circular],
+                  "topBannerMock1": [Circular],
+                  "twitter": [Circular],
+                  "umPCincoPLogo": [Circular],
+                  "uncheckedBox": [Circular],
+                  "unfilledHeart": [Circular],
+                  "update": [Circular],
+                  "visa": [Circular],
+                  "whatsapp": [Circular],
+                  "withoutInternet": [Circular],
+                  "zoomHand": [Circular],
+                },
+                "default": {
+                  "GuideBermuda": [Circular],
+                  "GuideCalca": [Circular],
+                  "GuideCamiseta": [Circular],
+                  "GuideHoodie": [Circular],
+                  "GuideJaqueta": [Circular],
+                  "GuideMangaCurta": [Circular],
+                  "GuideMangaLonga": [Circular],
+                  "GuidePolo": [Circular],
+                  "GuideShort": [Circular],
+                  "GuideSueter": [Circular],
+                  "GuideSungaCueca": [Circular],
+                  "QrcodeBackground": [Circular],
+                  "abandonedCartBag": [Circular],
+                  "addition": [Circular],
+                  "americanExpress": [Circular],
+                  "arrowInstruction": [Circular],
+                  "arrowRight": [Circular],
+                  "bagEmpty": [Circular],
+                  "bannerCatalog": [Circular],
+                  "bannerLogin": [Circular],
+                  "bannerOffer": [Circular],
+                  "black1p5p": [Circular],
+                  "cardFront": [Circular],
+                  "cardImage": [Circular],
+                  "cardVerso": [Circular],
+                  "chat": [Circular],
+                  "checkedBox": [Circular],
+                  "checkedRounded": [Function],
+                  "chevronLeftFill": [Circular],
+                  "chevronRight": [Function],
+                  "chevronRightFill": [Circular],
+                  "close": [Circular],
+                  "closeIcon": [Function],
+                  "clothingCare1": [Circular],
+                  "clothingCareBleach": [Circular],
+                  "clothingCareDrying": [Circular],
+                  "clothingCarePass": [Circular],
+                  "clothingCareProfessionalWashing": [Circular],
+                  "clothingCareWash": [Circular],
+                  "config": [Circular],
+                  "copy": [Circular],
+                  "cupomModalBackground": [Circular],
+                  "cutlery": [Circular],
+                  "discountFlag": [Circular],
+                  "dividerReserva": [Circular],
+                  "document": [Circular],
+                  "elo": [Circular],
+                  "emptyProductCatalog": [Circular],
+                  "expand": [Circular],
+                  "facebook": [Circular],
+                  "faq": [Circular],
+                  "filledHeart": [Circular],
+                  "foraDoAr": [Circular],
+                  "green1p5p": [Circular],
+                  "greenCheck": [Circular],
+                  "hanger": [Function],
+                  "headerLogin": [Circular],
+                  "heart": [Circular],
+                  "help": [Circular],
+                  "homeMock1": [Circular],
+                  "homeMock2": [Circular],
+                  "homeMock3": [Circular],
+                  "homeMock4": [Circular],
+                  "imageCashback": [Circular],
+                  "imageNotFound": [Circular],
+                  "info": [Function],
+                  "infoSuccess": [Function],
+                  "instagram": [Circular],
+                  "ios14": [Circular],
+                  "localReserva": [Circular],
+                  "logo": [Circular],
+                  "logoPrime": [Function],
+                  "logoQRCode": [Circular],
+                  "mastercard": [Circular],
+                  "newsletter": [Circular],
+                  "noStoresFound": [Circular],
+                  "noWishList": [Circular],
+                  "personalize": [Function],
+                  "pinPlace": [Circular],
+                  "pinYou": [Circular],
+                  "profile": [Circular],
+                  "purchaseConfirmation": [Circular],
+                  "raceImageBackground": [Circular],
+                  "reservaIcon": [Circular],
+                  "roulet": [Circular],
+                  "saleOff": [Circular],
+                  "search": [Circular],
+                  "searchNotFound": [Circular],
+                  "selectRectangle": [Circular],
+                  "share": [Circular],
+                  "shipping1": [Circular],
+                  "shipping2": [Circular],
+                  "shirt1": [Circular],
+                  "shirt2": [Circular],
+                  "shirt3": [Circular],
+                  "shirt4": [Circular],
+                  "signup1": [Circular],
+                  "signup2": [Circular],
+                  "signup3": [Circular],
+                  "signup4": [Circular],
+                  "signup5": [Circular],
+                  "sizeGuideIcon": [Function],
+                  "subtraction": [Circular],
+                  "topBannerMock1": [Circular],
+                  "trash": [Function],
+                  "twitter": [Circular],
+                  "umPCincoPLogo": [Circular],
+                  "uncheckedBox": [Circular],
+                  "unfilledHeart": [Circular],
+                  "update": [Circular],
+                  "visa": [Circular],
+                  "whatsapp": [Circular],
+                  "withoutInternet": [Circular],
+                  "zoomHand": [Circular],
+                },
+                "svgs": {
+                  "checkedRounded": [Function],
+                  "chevronRight": [Function],
+                  "closeIcon": [Function],
+                  "hanger": [Function],
+                  "info": [Function],
+                  "infoSuccess": [Function],
+                  "logoPrime": [Function],
+                  "personalize": [Function],
+                  "sizeGuideIcon": [Function],
+                  "trash": [Function],
+                },
+              }
+            }
+            style={
+              [
+                {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                },
+                {
+                  "height": undefined,
+                  "width": 750,
+                },
+                undefined,
+              ]
+            }
+            testID="com.usereserva:id/PrimeHero_component"
+          />
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "paddingBottom": 110,
+                "paddingHorizontal": 20,
+                "paddingTop": 175,
+              }
+            }
+          >
+            <RNSVGSvgView
+              bbHeight="61"
+              bbWidth="280"
+              fill="none"
+              focusable={false}
+              height={61}
+              style={
+                [
+                  {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  {
+                    "marginBottom": 10,
+                  },
+                  {
+                    "flex": 0,
+                    "height": 61,
+                    "width": 280,
+                  },
+                ]
+              }
+              width={280}
+            >
+              <RNSVGGroup
+                fill={null}
+                propList={
+                  [
+                    "fill",
+                  ]
+                }
+              >
+                <RNSVGGroup
+                  clipPath="iconprimelogo"
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
+                  }
+                >
+                  <RNSVGPath
+                    d="M24.153 44.047v9.082l7.473 6.509H0l7.095-6.509V16.196L0 9.233h24.078c16.378 0 26.795 6.434 26.795 17.483 0 11.201-9.209 17.558-23.323 17.558-1.133 0-2.265-.075-3.397-.227Zm0-30.878v27.245c5.51-.605 9.058-4.313 9.058-12.866 0-9.46-2.491-13.32-9.058-14.379ZM89.428 26.338c0 5.373-2.717 7.795-5.887 7.795-3.397 0-4.605-2.725-7.473-2.725-1.962 0-3.095 1.438-3.095 4.465V53.28l6.87 6.358H51.16l6.19-6.358V32.317l-5.661-4.693 19.85-9.309c.453 4.768.755 9.158.83 13.85 1.208-11.504 5.737-13.85 9.813-13.85 4.453 0 7.246 2.8 7.246 8.023ZM96.183 53.13V31.332l-5.963-4.768 21.663-8.931V53.28l7.17 6.358H89.088l7.095-6.509Zm-.68-45.335c0-4.313 3.17-7.795 8.605-7.795 5.435 0 8.605 3.482 8.605 7.795 0 4.314-3.17 7.796-8.605 7.796-5.434 0-8.604-3.482-8.604-7.796ZM177.685 53.962v-18.24c0-4.238-1.66-5.903-5.888-5.903-1.735 0-3.245.227-4.452.606.074.605.074 1.21.074 1.892v20.812l5.134 6.509h-25.437l4.303-5.676v-18.24c0-4.238-1.586-5.903-5.888-5.903-1.736 0-3.171.227-4.378.53v23.613l4.454 5.676h-26.419l6.265-6.509V32.392l-5.208-4.768 20.908-9.309v9.99c3.698-6.887 8.001-9.914 13.737-9.914 6.793 0 11.247 3.406 12.303 10.369 3.774-7.19 8.152-10.37 14.266-10.37 7.472 0 12.227 4.542 12.227 13.927v20.812l5.058 6.509h-25.437l4.378-5.676ZM237.321 45.107C235.887 55.778 227.358 61 218.979 61c-10.038 0-21.285-7.568-21.285-21.115 0-12.412 9.36-21.04 19.625-21.04 10.718 0 17.662 6.736 18.115 15.288l-22.266 7.72c3.169 3.935 7.925 6.886 13.662 6.886 4.226 0 8-1.437 10.491-3.632Zm-28.154-13.774c0 2.421.68 4.92 1.887 7.34l10.341-5.146c-1.887-5.297-5.359-7.946-8.076-7.946-2.341 0-4.152 1.892-4.152 5.752Z"
+                    fill={
+                      {
+                        "payload": 4294967295,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                  <RNSVGPath
+                    d="M278.815 57.66c-.752-.593-4.174-2.858-5.839-4.346-.649-.58-.191-1.248-.907-1.944-.913-.89-1.926-1.853-2.925-2.881-1.05-1.08-2.034-2.274-2.988-3.511-.868-1.213-3.577-4.96-5.781-7.442-2.364-2.663-6.831-5.921-8.057-8.914a8.742 8.742 0 0 1-.201-.609c-.273-.958-.407-2.035-.368-3.279.039-1.208.396-2.431 1.731-4.468 1.456-2.221 1.195-3.199.689-3.277-.495-.077-1.035-.054-.494-2.374.467-2.005.141-2.844-.161-3.346-.285-.472-.636-.72-.91-.662-.63.133-1.105 1.61-1.72 2-.158.1-.963.553-.804-1.323.038-.443-.265-.596-.688-.333-.631.393-1.527 1.413-2.013 3.33-.031.119-.147.155-.201-.002-.08-.233-.111-.678.07-1.43.167-.7.454-1.261.135-1.338-.404-.098-.978.749-1.42 1.711a5.463 5.463 0 0 0-.134.308c-.048.12-.184.19-.194-.055-.007-.17.032-.441.124-.766.04-.142-.036-.2-.092-.215-.132-.034-.296.037-.498.188-.455.337-.896.956-1.213 1.776l-.003-.003c-.033.09-.063.182-.092.272l-.021.06-.027.087c-.015.047-.027.096-.041.144-.017.063-.037.126-.052.188a.933.933 0 0 0-.017.072l-.001.002a7.818 7.818 0 0 0-.154.848 7.346 7.346 0 0 0-.054 1.117v.003c.002.061.002.123.006.183.011.198-.468.252-.364.7.263 1.132.677 2.283.902 2.875a.4.4 0 0 1-.26.527c-1.054.31-3.862 1.197-5.837 2.395-.115.07-.204.262-.101.415.096.143.328.125.436.089 2.261-.752 5.484-1.81 7.041-.681 1.142.827 1.258 2.801.542 4.934-.237.791-.507 1.497-.754 2.22l-.01.004c-3.312 8.774 2.792 12.817 8.408 18.03.413.383 1.267 1.347 2.029 2.47.55.81 1.109 1.712 1.052 2.596-.047.744-.165 1.639-.423 2.796-.315 1.416-.656.718-2.884.153-.698-.177-.73-.113-1.173.836-.46.984-.498 1.096-.375 1.16.099.052 4.274.024 4.74.112a.86.86 0 0 1 .21.068c.507.24 2.804 1.342 3.504 1.812.15.1.38.064.468-.063.104-.152.026-.346-.108-.429-1.033-.64-3.122-2.222-3.175-2.707-.021-.186.147-.898.23-1.44.376-2.435.435-3.35 1.429-3.814.921-.432 3.075.672 4.768 1.086a.143.143 0 0 1 .107.17c-.054.241-.192.813-.478 1.785-.039.132-.142.444-.421.529-.359.108-1.778-.42-2.729-.648-.4-.096-.517-.356-1.422 1.553-.064.135-.04.186.003.22.055.043 4.03.24 4.594.35.102.02.201.052.295.098a80.67 80.67 0 0 1 3.497 1.83c.433.237.574.344.732.186.204-.206-.018-.372-.17-.52-.084-.087-.99-.715-1.853-1.334-.827-.594-1.623-.965-1.6-1.273.014-.17.114-.647.154-.797.027-.107.324-1.22.432-1.625a.143.143 0 0 1 .183-.098c4.258 1.445 5.568 4.202 8.811 5.912 3.897 2.055 8.205.36 4.885-2.254Z"
+                    fill={
+                      {
+                        "payload": 4291078504,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                </RNSVGGroup>
+                <RNSVGDefs>
+                  <RNSVGClipPath
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    name="iconprimelogo"
+                  >
+                    <RNSVGPath
+                      d="M0 0h280v61H0z"
+                      fill={
+                        {
+                          "payload": 4294967295,
+                          "type": 0,
+                        }
+                      }
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    />
+                  </RNSVGClipPath>
+                </RNSVGDefs>
+              </RNSVGGroup>
+            </RNSVGSvgView>
+            <Text
+              style={
+                [
+                  {
+                    "fontFamily": "ReservaSerif-Regular",
+                    "fontSize": 20,
+                  },
+                  {
+                    "color": "#ffffff",
+                    "fontSize": 18,
+                    "lineHeight": 23,
+                    "marginBottom": 24,
+                    "textAlign": "center",
+                  },
+                ]
+              }
+              variant="subtituloSessoes"
+            >
+              Um paraíso de benefícios só
+              
+
+              seus por 12x
+              <Text
+                style={
+                  [
+                    {
+                      "fontFamily": "ReservaSerif-Bold",
+                      "fontSize": 15,
+                    },
+                    {
+                      "fontSize": 18,
+                      "fontWeight": "900",
+                      "lineHeight": 23,
+                    },
+                  ]
+                }
+                variant="descontoTag2"
+              >
+                 25/Mês*.
+              </Text>
+            </Text>
+            <View
+              style={
+                {
+                  "paddingHorizontal": 20,
+                  "width": 576.9230769230769,
+                }
+              }
+            >
+              <View
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  {
+                    "alignItems": "center",
+                    "backgroundColor": "#ffffff",
+                    "height": 95.28571428571429,
+                    "justifyContent": "center",
+                    "opacity": 1,
+                  }
+                }
+                testID="com.usereserva:id/PrimeHero_call_to_action"
+              >
+                <Text
+                  style={
+                    [
+                      {
+                        "fontFamily": "Nunito-Regular",
+                        "fontSize": 15,
+                      },
+                      {
+                        "fontSize": 12,
+                        "fontWeight": "700",
+                        "letterSpacing": 0.5,
+                        "lineHeight": 14,
+                      },
+                    ]
+                  }
+                  variant="tituloSessao"
+                >
+                  ASSINE AGORA
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          accessibilityLabel="com.usereserva:id/PrimeIntro_wrapper"
+          style={
+            {
+              "alignItems": "center",
+              "backgroundColor": "#F7F7F7",
+              "justifyContent": "center",
+              "paddingHorizontal": 32,
+            }
+          }
+          testID="com.usereserva:id/PrimeIntro_wrapper"
+        >
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "backgroundColor": "#ffffff",
+                "elevation": 4,
+                "justifyContent": "center",
+                "marginBottom": 32,
+                "marginTop": -60,
+                "paddingBottom": 8,
+                "paddingHorizontal": 16,
+                "paddingTop": 32,
+                "shadowColor": "#000",
+                "shadowOffset": {
+                  "height": 2,
+                  "width": 0,
+                },
+                "shadowOpacity": 0.23,
+                "shadowRadius": 2.62,
+                "width": "100%",
+              }
+            }
+          >
+            <Text
+              style={
+                [
+                  {
+                    "fontFamily": "ReservaSerif-Regular",
+                    "fontSize": 28,
+                  },
+                  {
+                    "color": "#000000",
+                    "fontSize": 20,
+                    "lineHeight": 26,
+                    "marginBottom": 24,
+                  },
+                ]
+              }
+              variant="tituloSessoes"
+            >
+              A experiência
+              <Text
+                style={
+                  [
+                    {
+                      "fontFamily": "ReservaSerif-Bold",
+                      "fontSize": 27,
+                    },
+                    {
+                      "color": "#000000",
+                      "fontSize": 20,
+                      "lineHeight": 26,
+                    },
+                  ]
+                }
+                variant="descontoTag1"
+              >
+                 Reserva
+              </Text>
+              
+
+              em seu modo
+              <Text
+                style={
+                  [
+                    {
+                      "fontFamily": "ReservaSerif-Bold",
+                      "fontSize": 27,
+                    },
+                    {
+                      "color": "#000000",
+                      "fontSize": 20,
+                      "lineHeight": 26,
+                    },
+                  ]
+                }
+                variant="descontoTag1"
+              >
+                 Premium
+              </Text>
+            </Text>
+            <Text
+              style={
+                [
+                  {
+                    "fontFamily": "Nunito-Regular",
+                    "fontSize": 15,
+                  },
+                  {
+                    "color": "#848484",
+                    "fontSize": 16,
+                    "lineHeight": 20,
+                    "marginBottom": 24,
+                    "textAlign": "center",
+                  },
+                ]
+              }
+              variant="tituloSessao"
+            >
+              Faça parte do Prime, o clube de vantagens da Reserva, e tenha acesso a benefícios em todos os produtos da marca, além de experiências exclusivas em parceiros que já completam seu estilo de vida.
+            </Text>
+            <Text
+              style={
+                [
+                  {
+                    "fontFamily": "Nunito-Regular",
+                    "fontSize": 15,
+                  },
+                  {
+                    "color": "#848484",
+                    "fontSize": 16,
+                    "lineHeight": 20,
+                    "marginBottom": 24,
+                    "textAlign": "center",
+                  },
+                ]
+              }
+              variant="tituloSessao"
+            >
+              Assine em até
+              <Text
+                style={
+                  [
+                    {
+                      "fontFamily": "Nunito-Bold",
+                      "fontSize": 20,
+                    },
+                    {
+                      "color": "#000000",
+                      "fontSize": 16,
+                      "lineHeight": 20,
+                    },
+                  ]
+                }
+                variant="precoTotal"
+              >
+                 12x de R$ 25 
+              </Text>
+              e comece a aproveitar agora! Depois que se tornar membro, você não vai se arrepender.
+            </Text>
+          </View>
+        </View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "backgroundColor": "#F7F7F7",
+              "justifyContent": "center",
+              "paddingBottom": 8,
+              "paddingHorizontal": 32,
+            }
+          }
+          testID="com.usereserva:id/PrimeBenefits_wrapper"
+        >
+          <Text
+            style={
+              [
+                {
+                  "fontFamily": "ReservaSerif-Regular",
+                  "fontSize": 28,
+                },
+                {
+                  "fontSize": 20,
+                  "lineHeight": 26,
+                  "marginBottom": 24,
+                },
+              ]
+            }
+            variant="tituloSessoes"
+          >
+            Vantagens em ser
+            <Text
+              style={
+                [
+                  {
+                    "fontFamily": "ReservaSerif-Bold",
+                    "fontSize": 15,
+                  },
+                  {
+                    "fontSize": 20,
+                  },
+                ]
+              }
+              variant="descontoTag2"
+            >
+               Prime
+            </Text>
+          </Text>
+          <Text
+            style={
+              [
+                {
+                  "fontFamily": "Nunito-Regular",
+                  "fontSize": 15,
+                },
+                {
+                  "color": "#848484",
+                  "fontSize": 16,
+                  "lineHeight": 20,
+                  "marginBottom": 32,
+                  "textAlign": "center",
+                },
+              ]
+            }
+            variant="tituloSessao"
+          >
+            Ganhe um infinito de comodidades pra aproveitar no site, App, lojas físicas e até fora da Reserva. Além de acesso a pré-lançamentos e produtos exclusivos, você também garante:
+          </Text>
+          <View
+            style={
+              {
+                "paddingHorizontal": 20,
+              }
+            }
+          >
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "marginBottom": 32,
+                }
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight="41"
+                bbWidth="54"
+                fill="none"
+                focusable={false}
+                height={41}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "marginBottom": 32,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 41,
+                      "width": 54,
+                    },
+                  ]
+                }
+                vbHeight={41}
+                vbWidth={54}
+                width={54}
+              >
+                <RNSVGGroup
+                  fill={null}
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M43.207 1.008s9.62-.51 9.74 6.498c.12 7.008 0 25.991 0 25.991s.175 6.498-6.494 6.498H1V27s6.494-.165 6.494-6.498S1 14.004 1 14.004V1.008h42.207Z"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "stroke",
+                        "strokeWidth",
+                      ]
+                    }
+                    stroke={
+                      {
+                        "payload": 4282006074,
+                        "type": 0,
+                      }
+                    }
+                    strokeWidth="2"
+                  />
+                  <RNSVGPath
+                    d="M17.234 7.506v7.38M17.234 16.811v7.38M17.234 26.117v7.38"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "stroke",
+                        "strokeWidth",
+                      ]
+                    }
+                    stroke={
+                      {
+                        "payload": 4290513165,
+                        "type": 0,
+                      }
+                    }
+                    strokeWidth="2"
+                  />
+                  <RNSVGPath
+                    d="m26.974 30.248 16.233-19.493M28.658 19.308a3.716 3.716 0 0 0 3.715-3.717 3.716 3.716 0 0 0-3.715-3.718 3.716 3.716 0 0 0-3.715 3.718 3.716 3.716 0 0 0 3.715 3.717ZM41.24 28.901a3.716 3.716 0 0 0 3.715-3.717 3.716 3.716 0 1 0-7.43 0 3.716 3.716 0 0 0 3.715 3.717Z"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "stroke",
+                        "strokeWidth",
+                      ]
+                    }
+                    stroke={
+                      {
+                        "payload": 4282006074,
+                        "type": 0,
+                      }
+                    }
+                    strokeWidth="2"
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+              <Text
+                style={
+                  [
+                    {
+                      "fontFamily": "ReservaSerif-Bold",
+                      "fontSize": 15,
+                    },
+                    {
+                      "fontSize": 20,
+                      "lineHeight": 20,
+                      "marginBottom": 16,
+                      "textAlign": "center",
+                    },
+                  ]
+                }
+                variant="descontoTag2"
+              >
+                Descontos Especiais
+              </Text>
+              <Text
+                style={
+                  [
+                    {
+                      "fontFamily": "Nunito-Regular",
+                      "fontSize": 15,
+                    },
+                    {
+                      "color": "#848484",
+                      "fontSize": 16,
+                      "lineHeight": 20,
+                      "textAlign": "center",
+                    },
+                  ]
+                }
+                variant="tituloSessao"
+              >
+                <Text
+                  style={
+                    [
+                      {
+                        "fontFamily": "Nunito-Bold",
+                        "fontSize": 20,
+                      },
+                      {
+                        "color": "#000000",
+                        "fontSize": 16,
+                        "lineHeight": 20,
+                      },
+                    ]
+                  }
+                  variant="precoTotal"
+                >
+                  15% OFF* 
+                </Text>
+                em todas as peças das marcas Reserva.
+              </Text>
+            </View>
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "marginBottom": 32,
+                }
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight="58"
+                bbWidth="50"
+                fill="none"
+                focusable={false}
+                height={58}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "marginBottom": 32,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 58,
+                      "width": 50,
+                    },
+                  ]
+                }
+                vbHeight={58}
+                vbWidth={50}
+                width={50}
+              >
+                <RNSVGGroup
+                  fill={null}
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M1.312 12.347v27.146l23.453 10.93L48.3 39.493V12.347L24.765 2 1.312 12.347Z"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "stroke",
+                        "strokeWidth",
+                      ]
+                    }
+                    stroke={
+                      {
+                        "payload": 4282006074,
+                        "type": 0,
+                      }
+                    }
+                    strokeWidth="2"
+                  />
+                  <RNSVGPath
+                    d="M1.949 12.681 24.764 24.92 48.693 12.68M24.764 50.423V24.92"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "stroke",
+                        "strokeWidth",
+                      ]
+                    }
+                    stroke={
+                      {
+                        "payload": 4282006074,
+                        "type": 0,
+                      }
+                    }
+                    strokeWidth="2"
+                  />
+                  <RNSVGPath
+                    d="m1 18.288 23.765 12.48L49 18.289"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "stroke",
+                        "strokeWidth",
+                      ]
+                    }
+                    stroke={
+                      {
+                        "payload": 4282006074,
+                        "type": 0,
+                      }
+                    }
+                    strokeWidth="2"
+                  />
+                  <RNSVGPath
+                    d="M12.703 9.22 33.61 19.775v12.433l4.116-4.758 3.848 2.199V15.97L20.7 5.706 12.703 9.22Z"
+                    fill={
+                      {
+                        "payload": 4290513165,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                        "stroke",
+                      ]
+                    }
+                    stroke={
+                      {
+                        "payload": 4294967295,
+                        "type": 0,
+                      }
+                    }
+                  />
+                  <RNSVGPath
+                    d="M24.843 57c3.602 0 6.522-3.093 6.522-6.907 0-3.815-2.92-6.908-6.522-6.908-3.601 0-6.521 3.093-6.521 6.907 0 3.815 2.92 6.908 6.521 6.908Z"
+                    fill={
+                      {
+                        "payload": 4290513165,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                  <RNSVGPath
+                    d="M24.843 56.232c3.178 0 5.755-2.749 5.755-6.14 0-3.39-2.577-6.14-5.755-6.14s-5.754 2.75-5.754 6.14c0 3.391 2.576 6.14 5.754 6.14Z"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "stroke",
+                        "strokeWidth",
+                      ]
+                    }
+                    stroke={
+                      {
+                        "payload": 4294967295,
+                        "type": 0,
+                      }
+                    }
+                    strokeWidth="2"
+                  />
+                  <RNSVGPath
+                    d="m22.474 49.773 1.784 1.95 2.88-3.736"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "stroke",
+                      ]
+                    }
+                    stroke={
+                      {
+                        "payload": 4294967295,
+                        "type": 0,
+                      }
+                    }
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+              <Text
+                style={
+                  [
+                    {
+                      "fontFamily": "ReservaSerif-Bold",
+                      "fontSize": 15,
+                    },
+                    {
+                      "fontSize": 20,
+                      "lineHeight": 20,
+                      "marginBottom": 16,
+                      "textAlign": "center",
+                    },
+                  ]
+                }
+                variant="descontoTag2"
+              >
+                Frete Grátis
+              </Text>
+              <Text
+                style={
+                  [
+                    {
+                      "fontFamily": "Nunito-Regular",
+                      "fontSize": 15,
+                    },
+                    {
+                      "color": "#848484",
+                      "fontSize": 16,
+                      "lineHeight": 20,
+                      "textAlign": "center",
+                    },
+                  ]
+                }
+                variant="tituloSessao"
+              >
+                Em toda compra*, sem valor mínimo e válido em todo o Brasil.
+              </Text>
+            </View>
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "marginBottom": 32,
+                }
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight="47"
+                bbWidth="54"
+                fill="none"
+                focusable={false}
+                height={47}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "marginBottom": 32,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 47,
+                      "width": 54,
+                    },
+                  ]
+                }
+                vbHeight={47}
+                vbWidth={54}
+                width={54}
+              >
+                <RNSVGGroup
+                  fill={null}
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M40 6.325H14L1 19.549l26 26.449 26-26.449L40 6.325Z"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "stroke",
+                        "strokeWidth",
+                        "strokeLinecap",
+                        "strokeLinejoin",
+                      ]
+                    }
+                    stroke={
+                      {
+                        "payload": 4282006074,
+                        "type": 0,
+                      }
+                    }
+                    strokeLinecap={1}
+                    strokeLinejoin={1}
+                    strokeWidth="2"
+                  />
+                  <RNSVGPath
+                    d="M1.392 20.08h50.689"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "stroke",
+                        "strokeWidth",
+                      ]
+                    }
+                    stroke={
+                      {
+                        "payload": 4282006074,
+                        "type": 0,
+                      }
+                    }
+                    strokeWidth="2"
+                  />
+                  <RNSVGPath
+                    d="M42.033 8.822 27 46 16.6 20.746 11.537 9.087"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "stroke",
+                        "strokeWidth",
+                        "strokeLinecap",
+                        "strokeLinejoin",
+                      ]
+                    }
+                    stroke={
+                      {
+                        "payload": 4282006074,
+                        "type": 0,
+                      }
+                    }
+                    strokeLinecap={1}
+                    strokeLinejoin={1}
+                    strokeWidth="2"
+                  />
+                  <RNSVGPath
+                    d="M16.665 20.08 27 6.748 37.335 20.08"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "stroke",
+                        "strokeWidth",
+                        "strokeLinecap",
+                        "strokeLinejoin",
+                      ]
+                    }
+                    stroke={
+                      {
+                        "payload": 4282006074,
+                        "type": 0,
+                      }
+                    }
+                    strokeLinecap={1}
+                    strokeLinejoin={1}
+                    strokeWidth="2"
+                  />
+                  <RNSVGPath
+                    d="M1 33.818s7.784 3.828 7.784 7.926c0-4.09 7.88-7.926 7.88-7.926s-7.88-3.746-7.88-8.469C8.784 30.171 1 33.82 1 33.82ZM38.306 6.939s5.458 2.684 5.458 5.556c0-2.867 5.526-5.556 5.526-5.556S43.764 4.315 43.764 1c0 3.38-5.458 5.939-5.458 5.939ZM38.306 29.947s4.226 2.078 4.226 4.303c0-2.22 4.278-4.303 4.278-4.303s-4.279-2.033-4.279-4.598c0 2.618-4.225 4.598-4.225 4.598Z"
+                    fill={
+                      {
+                        "payload": 4290513165,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                        "stroke",
+                        "strokeWidth",
+                        "strokeLinecap",
+                        "strokeLinejoin",
+                      ]
+                    }
+                    stroke={
+                      {
+                        "payload": 4294967295,
+                        "type": 0,
+                      }
+                    }
+                    strokeLinecap={1}
+                    strokeLinejoin={1}
+                    strokeWidth="2"
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+              <Text
+                style={
+                  [
+                    {
+                      "fontFamily": "ReservaSerif-Bold",
+                      "fontSize": 15,
+                    },
+                    {
+                      "fontSize": 20,
+                      "lineHeight": 20,
+                      "marginBottom": 16,
+                      "textAlign": "center",
+                    },
+                  ]
+                }
+                variant="descontoTag2"
+              >
+                R$ 25 de Cashback Mensal
+              </Text>
+              <Text
+                style={
+                  [
+                    {
+                      "fontFamily": "Nunito-Regular",
+                      "fontSize": 15,
+                    },
+                    {
+                      "color": "#848484",
+                      "fontSize": 16,
+                      "lineHeight": 20,
+                      "textAlign": "center",
+                    },
+                  ]
+                }
+                variant="tituloSessao"
+              >
+                <Text
+                  style={
+                    [
+                      {
+                        "fontFamily": "Nunito-Bold",
+                        "fontSize": 20,
+                      },
+                      {
+                        "color": "#000000",
+                        "fontSize": 16,
+                        "lineHeight": 20,
+                      },
+                    ]
+                  }
+                  variant="precoTotal"
+                >
+                  Acumule mais*
+                </Text>
+                pra comprar o que você quiser, quando preferir.
+              </Text>
+            </View>
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "marginBottom": 32,
+                }
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight="43"
+                bbWidth="68"
+                fill="none"
+                focusable={false}
+                height={43}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "marginBottom": 32,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 43,
+                      "width": 68,
+                    },
+                  ]
+                }
+                vbHeight={43}
+                vbWidth={68}
+                width={68}
+              >
+                <RNSVGGroup
+                  fill={null}
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M4 5.001v-1 1Zm60 0v-1 1Zm-6 0v1-1Zm-39.261 6-.598-.801.598.802Zm0 5-.401.916.401-.916Zm9.261-1 .517.856.01-.006.011-.007-.538-.842Zm11 3-.788.616.788-.615Zm11 12 .642-.766-.008-.006-.634.773Zm-12.5-27.5-.275.96a1 1 0 0 0 .646-1.89l-.371.93ZM30 2l-.448-.893.448.894Zm-13 7v1-1Zm13 32-.142.99.142-.99Zm10-3 .858.514-.858-.513Zm5-2 .929.37-.929-.37Zm3.739-27-.633.775.633-.774Zm6.261 1h1v-1h-1v1Zm-47-5v1-1Zm27.52-3.066-.274.961.275-.961Zm11.054 33.047.031-1-.03 1Zm.847-.048-.176-.984.176.984Zm-33.59-4.932v1-1ZM12 9.002v21h2v-21h-2Zm-2 23H5v2h5v-2Zm-8-1v-23H0v23h2Zm3 1c-1.114 0-1.915.006-2.467-.173-.24-.078-.344-.167-.399-.239-.052-.07-.134-.226-.134-.589H0c0 .676.16 1.288.534 1.788.372.498.88.78 1.381.942.93.302 2.13.27 3.085.27v-2Zm7-2c0 .91-.207 1.347-.43 1.57-.225.224-.661.43-1.57.43v2c1.16 0 2.224-.257 2.982-1.014.76-.758 1.018-1.822 1.018-2.986h-2Zm-2-24c.67 0 1.12.287 1.443.774.35.528.557 1.317.557 2.226h2c0-1.168-.259-2.38-.89-3.332-.66-.994-1.71-1.668-3.11-1.668v2Zm-6-2c-1.16 0-2.224.256-2.982 1.013C.258 5.773 0 6.837 0 8.001h2c0-.91.207-1.347.43-1.57C2.656 6.207 3.092 6 4 6v-2Zm54 2h6v-2h-6v2Zm8 2v22h2v-22h-2Zm-3 24h-5v2h5v-2Zm-7-2v-22h-2v22h2Zm2 2c-.909 0-1.345-.206-1.57-.43-.223-.223-.43-.66-.43-1.57h-2c0 1.164.259 2.228 1.018 2.986.758.757 1.822 1.014 2.982 1.014v-2Zm8-2c0 .672-.289 1.122-.776 1.444-.53.35-1.318.556-2.224.556v2c1.163 0 2.374-.257 3.328-.888C67.323 32.455 68 31.404 68 30h-2Zm-2-24c.909 0 1.345.205 1.57.429.223.223.43.66.43 1.57h2c0-1.164-.259-2.228-1.018-2.986-.758-.757-1.822-1.014-2.982-1.014v2Zm-6-2c-1.16 0-2.224.256-2.982 1.013C54.258 5.773 54 6.837 54 8.002h2c0-.912.207-1.348.43-1.571.225-.224.661-.43 1.57-.43v-2ZM32.283 1.025c-.845.188-1.896.699-2.995 1.33-1.123.647-2.388 1.476-3.684 2.373-2.59 1.794-5.367 3.908-7.463 5.472l1.196 1.603c2.12-1.582 4.854-3.663 7.406-5.43 1.275-.884 2.488-1.677 3.543-2.284 1.08-.621 1.906-.995 2.431-1.111l-.434-1.953ZM18.338 16.917c1.737.762 3.94.684 5.774.37 1.843-.317 3.56-.918 4.405-1.43l-1.034-1.711c-.555.335-2.004.876-3.71 1.17-1.713.293-3.44.292-4.633-.23l-.802 1.831Zm10.2-1.073c1.666-1.063 2.745-1.8 3.594-2.25.844-.447 1.184-.454 1.407-.387.3.088.722.397 1.516 1.346.776.927 1.72 2.223 3.157 4.064l1.576-1.23c-1.374-1.762-2.398-3.16-3.199-4.117-.782-.935-1.543-1.703-2.48-1.98-1.014-.301-1.965.034-2.914.538-.944.5-2.157 1.325-3.733 2.33l1.076 1.686Zm9.674 2.773c3.939 5.05 8.488 9.969 11.153 12.157l1.27-1.545c-2.5-2.052-6.943-6.838-10.846-11.842l-1.578 1.23ZM18.14 10.2c-1.095.817-1.672 2.17-1.708 3.422-.037 1.259.485 2.673 1.905 3.295l.802-1.831c-.438-.192-.73-.671-.708-1.406.022-.74.374-1.48.905-1.877L18.141 10.2Zm19.73-8.628c-2.498-1-5.39-1.934-8.32-.464l.897 1.787c2.066-1.036 4.18-.466 6.68.534l.743-1.857Zm-8.32-.464c-1.601.803-4.455 2.597-7.029 4.12-1.309.775-2.558 1.489-3.588 2.007-.516.259-.96.46-1.317.594a4.062 4.062 0 0 1-.437.14 1.42 1.42 0 0 1-.132.028c-.033.005-.048.005-.048.005v2c.425 0 .897-.142 1.32-.3.45-.17.965-.406 1.511-.68 1.096-.55 2.394-1.293 3.71-2.073 2.677-1.584 5.387-3.291 6.907-4.054l-.896-1.787ZM17 8.002h-4v2h4v-2Zm-4 23h.83v-2H13v2Zm4.008 1.159c2.196 1.87 4.914 4.23 7.267 6.143 1.177.956 2.28 1.815 3.195 2.453.457.319.882.593 1.256.799.345.19.748.38 1.132.436l.284-1.98c.016.002-.015-.001-.107-.039-.087-.035-.2-.09-.344-.17a12.635 12.635 0 0 1-1.077-.686c-.854-.596-1.913-1.419-3.077-2.365-2.33-1.893-5.013-4.224-7.232-6.114l-1.297 1.523Zm12.85 9.83c1.22.175 2.151.08 2.937-.192.758-.262 1.33-.678 1.761-.966l-1.112-1.663c-.506.339-.841.58-1.303.739-.433.15-1.034.241-2 .103l-.283 1.98Zm4.698-1.158c-.053.035-.056.017.074-.005.12-.02.286-.033.516-.04.414-.013 1.083-.004 1.709-.056 1.303-.108 2.982-.509 4.003-2.217l-1.716-1.027c-.523.875-1.377 1.161-2.453 1.25-.564.048-1.047.033-1.605.05-.255.009-.53.024-.787.068a2.178 2.178 0 0 0-.853.314l1.112 1.663Zm6.302-2.318c.019-.031.035-.086.285-.115.33-.04.667.003 1.274.022.521.017 1.215.009 1.875-.275.716-.306 1.281-.883 1.637-1.775l-1.858-.74c-.18.452-.39.602-.567.677-.231.1-.545.13-1.023.114-.391-.012-1.045-.072-1.573-.01-.608.073-1.316.323-1.766 1.075l1.716 1.027Zm5.07-2.143c.113-.282.22-.333.246-.346.06-.03.16-.05.37-.044l.061-2c-.31-.009-.806.001-1.309.247-.535.261-.956.728-1.225 1.402l1.858.74Zm1.67-.454c1.763-.316 3.46-.997 4.553-1.95.55-.48 1.017-1.092 1.183-1.83.174-.78-.022-1.555-.534-2.238l-1.6 1.2c.207.276.213.462.182.6-.04.18-.186.446-.546.76-.728.635-2.04 1.212-3.591 1.49l.353 1.968Zm4.568-6.404c-.142-.024-.355-.032-.454-.037a5.474 5.474 0 0 1-.447-.04c-.336-.047-.535-.128-.623-.202l-1.284 1.534c.53.442 1.19.587 1.63.648.236.033.452.047.612.056l.234.013.332-1.972ZM39.789 17.387c-1.37-1.757-2.395-3.164-3.186-4.12-.774-.935-1.528-1.71-2.461-1.993-1.013-.308-1.966.03-2.917.534-.946.503-2.169 1.333-3.763 2.35l1.076 1.686c1.684-1.075 2.773-1.817 3.625-2.27.849-.45 1.182-.452 1.398-.387.294.09.71.399 1.5 1.355.775.936 1.711 2.23 3.15 4.075l1.578-1.23Zm-12.306-3.241c-.548.33-1.999.871-3.708 1.164-1.72.295-3.448.296-4.635-.224l-.802 1.831c1.732.76 3.94.68 5.775.365 1.845-.317 3.564-.916 4.404-1.425l-1.034-1.711Zm-8.343.94c-.438-.192-.729-.671-.707-1.406.022-.742.375-1.482.904-1.877L18.141 10.2c-1.093.816-1.67 2.169-1.707 3.42-.038 1.259.483 2.675 1.904 3.297l.802-1.831Zm.189-3.277c1.837-1.342 4.558-3.416 7.191-5.25 1.313-.916 2.583-1.757 3.686-2.403 1.134-.664 1.992-1.063 2.511-1.178l-.434-1.953c-.855.19-1.95.739-3.088 1.405-1.168.685-2.487 1.56-3.818 2.487-2.655 1.85-5.44 3.971-7.228 5.277l1.18 1.615Zm30.043-3.582c-2.014-1.644-4.97-3.699-8.036-5.217-1.533-.76-3.118-1.396-4.643-1.775-1.517-.377-3.037-.515-4.41-.21l.434 1.953c.96-.214 2.143-.138 3.493.198 1.343.333 2.788.908 4.239 1.627 2.903 1.437 5.734 3.402 7.657 4.973l1.266-1.549Zm2.792 23.26 3-.499-.328-1.973-3 .498.328 1.973ZM56 30.002v-20h-2v20h2Zm-6.642.767c.529.442 1.191.586 1.63.648.236.033.452.047.612.056l.234.013.332-1.972c-.141-.024-.354-.032-.452-.037a5.425 5.425 0 0 1-.449-.04c-.337-.048-.536-.13-.623-.202l-1.284 1.534ZM50.74 9.002c-.274 0-.42-.056-.564-.142-.214-.128-.383-.29-.803-.633l-1.266 1.549c.614.501 1.29 1.226 2.633 1.226v-2Zm4.261 0h-4.261v2H55v-2Zm-51-3h4v-2H4v2Zm4 0h2v-2H8v2Zm27.246-3.106 1.98.566.549-1.923-1.98-.566-.549 1.923Zm-2.429.054a4.104 4.104 0 0 1 2.429-.054l.55-1.923a6.104 6.104 0 0 0-3.613.08l.634 1.897Zm13.726 33.032c.318.01.68.003 1.055-.064l-.353-1.968c-.184.032-.39.04-.64.033l-.062 1.999Zm-32.713-4.98c1.17 0 2.296.407 3.178 1.159l1.297-1.523a6.892 6.892 0 0 0-4.475-1.636v2Z"
+                    fill={
+                      {
+                        "payload": 4282006074,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                  <RNSVGCircle
+                    cx="7"
+                    cy="11.002"
+                    fill={
+                      {
+                        "payload": 4290513165,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                    r="2"
+                  />
+                  <RNSVGCircle
+                    cx="61"
+                    cy="27.002"
+                    fill={
+                      {
+                        "payload": 4290513165,
+                        "type": 0,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                    r="2"
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+              <Text
+                style={
+                  [
+                    {
+                      "fontFamily": "ReservaSerif-Bold",
+                      "fontSize": 15,
+                    },
+                    {
+                      "fontSize": 20,
+                      "lineHeight": 20,
+                      "marginBottom": 16,
+                      "textAlign": "center",
+                    },
+                  ]
+                }
+                variant="descontoTag2"
+              >
+                Programa de Parcerias
+              </Text>
+              <Text
+                style={
+                  [
+                    {
+                      "fontFamily": "Nunito-Regular",
+                      "fontSize": 15,
+                    },
+                    {
+                      "color": "#848484",
+                      "fontSize": 16,
+                      "lineHeight": 20,
+                      "textAlign": "center",
+                    },
+                  ]
+                }
+                variant="tituloSessao"
+              >
+                <Text
+                  style={
+                    [
+                      {
+                        "fontFamily": "Nunito-Bold",
+                        "fontSize": 20,
+                      },
+                      {
+                        "color": "#000000",
+                        "fontSize": 16,
+                        "lineHeight": 20,
+                      },
+                    ]
+                  }
+                  variant="precoTotal"
+                >
+                  Acesso exclusivo
+                </Text>
+                 
+                a benefícios com marcas parceiras de variados segmentos.
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          accessibilityLabel="com.usereserva:id/prime_subscribe_component"
+          testID="com.usereserva:id/prime_subscribe_component"
+        >
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "justifyContent": "center",
+                "paddingHorizontal": 32,
+                "paddingTop": 32,
+              }
+            }
+          >
+            <Text
+              style={
+                [
+                  {
+                    "fontFamily": "ReservaSerif-Bold",
+                    "fontSize": 15,
+                  },
+                  {
+                    "fontSize": 20,
+                    "lineHeight": 26,
+                    "marginBottom": 24,
+                  },
+                ]
+              }
+              variant="descontoTag2"
+            >
+              Assine Agora!
+            </Text>
+            <Text
+              style={
+                [
+                  {
+                    "fontFamily": "Nunito-Regular",
+                    "fontSize": 15,
+                  },
+                  {
+                    "color": "#848484",
+                    "fontSize": 16,
+                    "lineHeight": 20,
+                    "marginBottom": 20,
+                    "textAlign": "center",
+                  },
+                ]
+              }
+              variant="tituloSessao"
+            >
+              Ganhe 20% OFF* em todos os produtos da Reserva. Tudo isso por
+              <Text
+                style={
+                  [
+                    {
+                      "fontFamily": "Nunito-Bold",
+                      "fontSize": 14,
+                    },
+                    {
+                      "color": "#000000",
+                      "fontSize": 16,
+                    },
+                  ]
+                }
+                variant="precoPromocional2"
+              >
+                 12x de R$ 25/Mês.
+              </Text>
+            </Text>
+          </View>
+          <View
+            accessibilityIgnoresInvertColors={true}
+            style={
+              {
+                "alignItems": "center",
+                "justifyContent": "center",
+                "marginTop": -18,
+                "paddingHorizontal": 32,
+                "paddingTop": 400,
+                "width": 750,
+              }
+            }
+          >
+            <Image
+              resizeMode="contain"
+              source={
+                {
+                  "commons": {
+                    "GuideBermuda": [Circular],
+                    "GuideCalca": [Circular],
+                    "GuideCamiseta": [Circular],
+                    "GuideHoodie": [Circular],
+                    "GuideJaqueta": [Circular],
+                    "GuideMangaCurta": [Circular],
+                    "GuideMangaLonga": [Circular],
+                    "GuidePolo": [Circular],
+                    "GuideShort": [Circular],
+                    "GuideSueter": [Circular],
+                    "GuideSungaCueca": [Circular],
+                    "QrcodeBackground": [Circular],
+                    "abandonedCartBag": [Circular],
+                    "addition": [Circular],
+                    "americanExpress": [Circular],
+                    "arrowInstruction": [Circular],
+                    "arrowRight": [Circular],
+                    "bagEmpty": [Circular],
+                    "bannerCatalog": [Circular],
+                    "bannerLogin": [Circular],
+                    "bannerOffer": [Circular],
+                    "black1p5p": [Circular],
+                    "cardFront": [Circular],
+                    "cardImage": [Circular],
+                    "cardVerso": [Circular],
+                    "chat": [Circular],
+                    "checkedBox": [Circular],
+                    "chevronLeftFill": [Circular],
+                    "chevronRightFill": [Circular],
+                    "close": [Circular],
+                    "clothingCare1": [Circular],
+                    "clothingCareBleach": [Circular],
+                    "clothingCareDrying": [Circular],
+                    "clothingCarePass": [Circular],
+                    "clothingCareProfessionalWashing": [Circular],
+                    "clothingCareWash": [Circular],
+                    "config": [Circular],
+                    "copy": [Circular],
+                    "cupomModalBackground": [Circular],
+                    "cutlery": [Circular],
+                    "discountFlag": [Circular],
+                    "dividerReserva": [Circular],
+                    "document": [Circular],
+                    "elo": [Circular],
+                    "emptyProductCatalog": [Circular],
+                    "expand": [Circular],
+                    "facebook": [Circular],
+                    "faq": [Circular],
+                    "filledHeart": [Circular],
+                    "foraDoAr": [Circular],
+                    "green1p5p": [Circular],
+                    "greenCheck": [Circular],
+                    "headerLogin": [Circular],
+                    "heart": [Circular],
+                    "help": [Circular],
+                    "homeMock1": [Circular],
+                    "homeMock2": [Circular],
+                    "homeMock3": [Circular],
+                    "homeMock4": [Circular],
+                    "imageCashback": [Circular],
+                    "imageNotFound": [Circular],
+                    "instagram": [Circular],
+                    "ios14": [Circular],
+                    "localReserva": [Circular],
+                    "logo": [Circular],
+                    "logoQRCode": [Circular],
+                    "mastercard": [Circular],
+                    "newsletter": [Circular],
+                    "noStoresFound": [Circular],
+                    "noWishList": [Circular],
+                    "pinPlace": [Circular],
+                    "pinYou": [Circular],
+                    "profile": [Circular],
+                    "purchaseConfirmation": [Circular],
+                    "raceImageBackground": [Circular],
+                    "reservaIcon": [Circular],
+                    "roulet": [Circular],
+                    "saleOff": [Circular],
+                    "search": [Circular],
+                    "searchNotFound": [Circular],
+                    "selectRectangle": [Circular],
+                    "share": [Circular],
+                    "shipping1": [Circular],
+                    "shipping2": [Circular],
+                    "shirt1": [Circular],
+                    "shirt2": [Circular],
+                    "shirt3": [Circular],
+                    "shirt4": [Circular],
+                    "signup1": [Circular],
+                    "signup2": [Circular],
+                    "signup3": [Circular],
+                    "signup4": [Circular],
+                    "signup5": [Circular],
+                    "subtraction": [Circular],
+                    "topBannerMock1": [Circular],
+                    "twitter": [Circular],
+                    "umPCincoPLogo": [Circular],
+                    "uncheckedBox": [Circular],
+                    "unfilledHeart": [Circular],
+                    "update": [Circular],
+                    "visa": [Circular],
+                    "whatsapp": [Circular],
+                    "withoutInternet": [Circular],
+                    "zoomHand": [Circular],
+                  },
+                  "default": {
+                    "GuideBermuda": [Circular],
+                    "GuideCalca": [Circular],
+                    "GuideCamiseta": [Circular],
+                    "GuideHoodie": [Circular],
+                    "GuideJaqueta": [Circular],
+                    "GuideMangaCurta": [Circular],
+                    "GuideMangaLonga": [Circular],
+                    "GuidePolo": [Circular],
+                    "GuideShort": [Circular],
+                    "GuideSueter": [Circular],
+                    "GuideSungaCueca": [Circular],
+                    "QrcodeBackground": [Circular],
+                    "abandonedCartBag": [Circular],
+                    "addition": [Circular],
+                    "americanExpress": [Circular],
+                    "arrowInstruction": [Circular],
+                    "arrowRight": [Circular],
+                    "bagEmpty": [Circular],
+                    "bannerCatalog": [Circular],
+                    "bannerLogin": [Circular],
+                    "bannerOffer": [Circular],
+                    "black1p5p": [Circular],
+                    "cardFront": [Circular],
+                    "cardImage": [Circular],
+                    "cardVerso": [Circular],
+                    "chat": [Circular],
+                    "checkedBox": [Circular],
+                    "checkedRounded": [Function],
+                    "chevronLeftFill": [Circular],
+                    "chevronRight": [Function],
+                    "chevronRightFill": [Circular],
+                    "close": [Circular],
+                    "closeIcon": [Function],
+                    "clothingCare1": [Circular],
+                    "clothingCareBleach": [Circular],
+                    "clothingCareDrying": [Circular],
+                    "clothingCarePass": [Circular],
+                    "clothingCareProfessionalWashing": [Circular],
+                    "clothingCareWash": [Circular],
+                    "config": [Circular],
+                    "copy": [Circular],
+                    "cupomModalBackground": [Circular],
+                    "cutlery": [Circular],
+                    "discountFlag": [Circular],
+                    "dividerReserva": [Circular],
+                    "document": [Circular],
+                    "elo": [Circular],
+                    "emptyProductCatalog": [Circular],
+                    "expand": [Circular],
+                    "facebook": [Circular],
+                    "faq": [Circular],
+                    "filledHeart": [Circular],
+                    "foraDoAr": [Circular],
+                    "green1p5p": [Circular],
+                    "greenCheck": [Circular],
+                    "hanger": [Function],
+                    "headerLogin": [Circular],
+                    "heart": [Circular],
+                    "help": [Circular],
+                    "homeMock1": [Circular],
+                    "homeMock2": [Circular],
+                    "homeMock3": [Circular],
+                    "homeMock4": [Circular],
+                    "imageCashback": [Circular],
+                    "imageNotFound": [Circular],
+                    "info": [Function],
+                    "infoSuccess": [Function],
+                    "instagram": [Circular],
+                    "ios14": [Circular],
+                    "localReserva": [Circular],
+                    "logo": [Circular],
+                    "logoPrime": [Function],
+                    "logoQRCode": [Circular],
+                    "mastercard": [Circular],
+                    "newsletter": [Circular],
+                    "noStoresFound": [Circular],
+                    "noWishList": [Circular],
+                    "personalize": [Function],
+                    "pinPlace": [Circular],
+                    "pinYou": [Circular],
+                    "profile": [Circular],
+                    "purchaseConfirmation": [Circular],
+                    "raceImageBackground": [Circular],
+                    "reservaIcon": [Circular],
+                    "roulet": [Circular],
+                    "saleOff": [Circular],
+                    "search": [Circular],
+                    "searchNotFound": [Circular],
+                    "selectRectangle": [Circular],
+                    "share": [Circular],
+                    "shipping1": [Circular],
+                    "shipping2": [Circular],
+                    "shirt1": [Circular],
+                    "shirt2": [Circular],
+                    "shirt3": [Circular],
+                    "shirt4": [Circular],
+                    "signup1": [Circular],
+                    "signup2": [Circular],
+                    "signup3": [Circular],
+                    "signup4": [Circular],
+                    "signup5": [Circular],
+                    "sizeGuideIcon": [Function],
+                    "subtraction": [Circular],
+                    "topBannerMock1": [Circular],
+                    "trash": [Function],
+                    "twitter": [Circular],
+                    "umPCincoPLogo": [Circular],
+                    "uncheckedBox": [Circular],
+                    "unfilledHeart": [Circular],
+                    "update": [Circular],
+                    "visa": [Circular],
+                    "whatsapp": [Circular],
+                    "withoutInternet": [Circular],
+                    "zoomHand": [Circular],
+                  },
+                  "svgs": {
+                    "checkedRounded": [Function],
+                    "chevronRight": [Function],
+                    "closeIcon": [Function],
+                    "hanger": [Function],
+                    "info": [Function],
+                    "infoSuccess": [Function],
+                    "logoPrime": [Function],
+                    "personalize": [Function],
+                    "sizeGuideIcon": [Function],
+                    "trash": [Function],
+                  },
+                }
+              }
+              style={
+                [
+                  {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  {
+                    "height": undefined,
+                    "width": 750,
+                  },
+                  undefined,
+                ]
+              }
+            />
+            <Text
+              style={
+                [
+                  {},
+                  {
+                    "color": "#848484",
+                    "fontSize": 10,
+                    "lineHeight": 14,
+                    "marginBottom": 24,
+                    "textAlign": "center",
+                    "top": 18,
+                  },
+                ]
+              }
+            >
+              *Exceto para parcerias, assinaturas, livros, drinks e máscaras. Desconto não cumulativo com outras promoções.
+            </Text>
+          </View>
+          <View
+            accessibilityLabel="com.usereserva:id/prime_lp_bottom_button_add"
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "backgroundColor": "#000000",
+                "height": 102.61538461538461,
+                "justifyContent": "center",
+                "marginTop": 24,
+                "opacity": 1,
+                "width": 535.7142857142858,
+              }
+            }
+            testID="com.usereserva:id/prime_lp_bottom_button_add"
+          >
+            <Text
+              style={
+                [
+                  {},
+                  {
+                    "color": "#ffffff",
+                    "fontSize": 12,
+                    "fontWeight": "700",
+                    "letterSpacing": 0.5,
+                    "lineHeight": 14,
+                    "textTransform": "uppercase",
+                  },
+                ]
+              }
+            >
+              Quero ser Prime
+            </Text>
+          </View>
+        </View>
+        <View
+          style={
+            {
+              "marginVertical": 32,
+              "minHeight": "100%",
+              "overflow": "hidden",
+              "paddingHorizontal": 30,
+            }
+          }
+        >
+          <Text
+            fontFamily="reservaDisplayRegular"
+            style={
+              [
+                {
+                  "fontFamily": "ReservaDisplay-Regular",
+                  "textAlign": "center",
+                },
+                {
+                  "fontSize": 20,
+                  "marginBottom": 32,
+                },
+              ]
+            }
+            textAlign="center"
+          >
+            Perguntas Frequentes
+          </Text>
+        </View>
+      </View>
+    </RCTScrollView>
+  </View>
+</RNCSafeAreaView>
+`;

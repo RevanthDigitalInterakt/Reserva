@@ -1,0 +1,8 @@
+query configShippingBar {
+  config {
+   shippingBar {
+     freeShippingValue
+     isFreeShipping
+    }
+ }
+}

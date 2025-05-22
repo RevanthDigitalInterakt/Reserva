@@ -1,0 +1,228 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomeMainCarousel should match to snapshot 1`] = `
+<View
+  accessibilityLabel="com.usereserva:id/default_carrousel_container"
+  style={
+    {
+      "flex": 1,
+    }
+  }
+  testID="com.usereserva:id/default_carrousel_container"
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      collapsable={false}
+      handlerTag={2}
+      handlerType="PanGestureHandler"
+      onGestureHandlerEvent={[Function]}
+      onGestureHandlerStateChange={[Function]}
+      onTouchEnd={[Function]}
+      onTouchStart={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          {
+            "height": 972,
+            "width": 750,
+          },
+          {
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "position": "relative",
+          },
+          {
+            "flexDirection": "row",
+          },
+        ]
+      }
+      testID="com.usereserva:id/default_carrousel_content"
+    >
+      <View
+        style={
+          [
+            {
+              "height": 972,
+              "position": "absolute",
+              "width": 750,
+            },
+            {
+              "transform": [
+                {
+                  "translateX": undefined,
+                },
+                {
+                  "scale": undefined,
+                },
+              ],
+              "zIndex": undefined,
+            },
+          ]
+        }
+        testID="__CAROUSEL_ITEM_0_NOT_READY__"
+      />
+      <View
+        style={
+          [
+            {
+              "height": 972,
+              "position": "absolute",
+              "width": 750,
+            },
+            {
+              "transform": [
+                {
+                  "translateX": undefined,
+                },
+                {
+                  "scale": undefined,
+                },
+              ],
+              "zIndex": undefined,
+            },
+          ]
+        }
+        testID="__CAROUSEL_ITEM_1_NOT_READY__"
+      />
+      <View
+        style={
+          [
+            {
+              "height": 972,
+              "position": "absolute",
+              "width": 750,
+            },
+            {
+              "transform": [
+                {
+                  "translateX": undefined,
+                },
+                {
+                  "scale": undefined,
+                },
+              ],
+              "zIndex": undefined,
+            },
+          ]
+        }
+        testID="__CAROUSEL_ITEM_2_NOT_READY__"
+      />
+    </View>
+  </View>
+  <View
+    accessibilityLabel="com.usereserva:id/carrousel_scroll_indicator_container"
+    bottom={10}
+    flexDirection="row"
+    position="absolute"
+    style={
+      {
+        "bottom": 10,
+        "flexDirection": "row",
+        "position": "absolute",
+        "zIndex": 3,
+      }
+    }
+    testID="com.usereserva:id/carrousel_scroll_indicator_container"
+    zIndex={3}
+  >
+    <View
+      backgroundColor="neutroFrio2"
+      flex={1}
+      height={2}
+      marginLeft="quarck"
+      marginRight="quarck"
+      onLayout={[Function]}
+      style={
+        [
+          {
+            "backgroundColor": "#8A8C8E",
+            "flexBasis": 0,
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "height": 2,
+            "marginLeft": 4,
+            "marginRight": 4,
+          },
+          {
+            "overflow": "hidden",
+          },
+        ]
+      }
+    >
+      <View
+        accessibilityLabel="com.usereserva:id/carrousel_scroll_indicator_animated_view"
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#D8D9DA",
+            "height": "100%",
+            "left": 0,
+            "position": "absolute",
+            "top": 0,
+            "transform": [
+              {
+                "translateX": 5,
+              },
+            ],
+            "width": "100%",
+          }
+        }
+        testID="com.usereserva:id/carrousel_scroll_indicator_animated_view"
+      />
+    </View>
+    <View
+      backgroundColor="neutroFrio2"
+      flex={1}
+      height={2}
+      marginLeft={null}
+      marginRight="quarck"
+      onLayout={[Function]}
+      style={
+        [
+          {
+            "backgroundColor": "#8A8C8E",
+            "flexBasis": 0,
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "height": 2,
+            "marginRight": 4,
+          },
+          {
+            "overflow": "hidden",
+          },
+        ]
+      }
+    />
+    <View
+      backgroundColor="neutroFrio2"
+      flex={1}
+      height={2}
+      marginLeft={null}
+      marginRight="quarck"
+      onLayout={[Function]}
+      style={
+        [
+          {
+            "backgroundColor": "#8A8C8E",
+            "flexBasis": 0,
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "height": 2,
+            "marginRight": 4,
+          },
+          {
+            "overflow": "hidden",
+          },
+        ]
+      }
+    />
+  </View>
+</View>
+`;

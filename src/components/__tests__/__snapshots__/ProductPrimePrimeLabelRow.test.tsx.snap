@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductPrimePrimeLabelRow should match with the snapshot 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "space-between",
+    }
+  }
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "#c4a968",
+          "fontFamily": "ReservaSans-Medium",
+          "fontSize": 12,
+          "letterSpacing": 0.05,
+        }
+      }
+    >
+      R$ 
+    </Text>
+    <Text
+      style={
+        {
+          "color": "#c4a968",
+          "fontFamily": "ReservaSans-Medium",
+          "fontSize": 12,
+          "letterSpacing": 0.05,
+        }
+      }
+    >
+      150,
+    </Text>
+    <Text
+      style={
+        {
+          "color": "#c4a968",
+          "fontFamily": "ReservaSans-Medium",
+          "fontSize": 12,
+          "letterSpacing": 0.05,
+        }
+      }
+    >
+      00
+    </Text>
+    <View
+      style={
+        [
+          {
+            "backgroundColor": "#c4a968",
+            "padding": 2,
+          },
+          {
+            "marginLeft": 5,
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          {
+            "color": "#ffffff",
+            "fontFamily": "ReservaDisplay-Regular",
+            "fontSize": 8,
+          }
+        }
+      >
+        Prime
+      </Text>
+    </View>
+  </View>
+</View>
+`;
