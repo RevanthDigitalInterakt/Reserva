@@ -108,37 +108,39 @@ function WebviewCheckout() {
         || [];
       const orderGroupId = getURLParameter(navState, 'og');
       //const { data: dataOrderGroup } = await GetPurchaseData(orderGroupId) || {};
-      const { data: dataOrderGroup } = 
-      ((await GetPurchaseData(orderGroupId)) as { data: IResOrderGroup[] }) || {};
+      const { data: dataOrderGroup } =
+        ((await GetPurchaseData(orderGroupId)) as { data: IResOrderGroup[] }) || {};
       console.debug('dataOrderGroup:', JSON.stringify(dataOrderGroup, null, 2));
       const dataPurchaseCompleted = prepareEventDataPurchaseCompleted(dataOrderGroup, orderFormId);
-      console.debug('dataPurchaseCompleted:',JSON.stringify(dataPurchaseCompleted));
+      console.debug('dataPurchaseCompleted:', JSON.stringify(dataPurchaseCompleted));
       await AsyncStorage.setItem('User:LastOrderId', dataPurchaseCompleted?.resLastOrderId);
       dataPurchaseCompleted.adaptItems = handleProductNameToEvent(dataPurchaseCompleted.adaptItems);
 
-       //order placed
+      console.debug("moengage data adapt items", dataPurchaseCompleted.adaptItems);
+
+      //order placed
 
       const moeProps = new MoEProperties();
 
-      // moeProps.addAttribute("transactionDiscounts","");
-      //moeProps.addAttribute("visitorAddressCountry",'');-------------------------------------------------
-      // moeProps.addAttribute("visitorAddressPostalCode","");---------------------------------------------
-      // moeProps.addAttribute("transactionProducts","");
-      moeProps.addAttribute("visitorAddressCity",'');
-      // moeProps.addAttribute("transactionAffiliation","");
-      // moeProps.addAttribute("visitorAdressState","");---------------------------------------------------
+      moeProps.addAttribute("transactionDiscounts", dataPurchaseCompleted.discount || 0);
+      moeProps.addAttribute("visitorAddressCountry", dataPurchaseCompleted.shippingdata?.[0]?.country || '');
+      moeProps.addAttribute("visitorAddressPostalCode", dataPurchaseCompleted.shippingdata?.[0]?.postalCode || '');
+      moeProps.addAttribute("transactionProducts", JSON.stringify(dataPurchaseCompleted.adaptItems) || []);
+      moeProps.addAttribute("visitorAddressCity", dataPurchaseCompleted.shippingdata?.[0]?.city || '');
+      moeProps.addAttribute("transactionAffiliation", dataPurchaseCompleted.Sellers.name);
+      moeProps.addAttribute("visitorAdressState", dataPurchaseCompleted.shippingdata?.[0]?.state);
       moeProps.addAttribute("transactionSubtotal", dataPurchaseCompleted?.itemSubtotal);
       moeProps.addAttribute("transactionLatestShippingEstimate", dataPurchaseCompleted.itemShippingTotal);
       moeProps.addAttribute("transactionDate", dataPurchaseCompleted?.timestamp);
       moeProps.addAttribute("transactionId", dataPurchaseCompleted?.orderId);
-      // moeProps.addAttribute("transactionShipping","");
-      // moeProps.addAttribute("visitorAddressNeighborhood","");-------------------------------------------
-      // moeProps.addAttribute("visitorAddressStreet","");--------------------------------------------------
+      moeProps.addAttribute("transactionShipping", dataPurchaseCompleted.shippingValue || 0);
+      moeProps.addAttribute("visitorAddressNeighborhood", dataPurchaseCompleted.shippingdata?.[0]?.neighborhood);
+      moeProps.addAttribute("visitorAddressStreet", dataPurchaseCompleted.shippingdata?.[0].street);
       moeProps.addAttribute("transactionTotal", dataPurchaseCompleted?.orderValue);
       moeProps.addAttribute("quantity", dataPurchaseCompleted?.totalQuantity);
       moeProps.addAttribute("payment method", dataPurchaseCompleted.paymentSystemName);
-      moeProps.addAttribute("cupom",dataPurchaseCompleted.cupom);
-      moeProps.addAttribute("cupomVendedor",dataPurchaseCompleted.cupomVendedor);
+      moeProps.addAttribute("cupom", dataPurchaseCompleted.cupom);
+      moeProps.addAttribute("cupomVendedor", dataPurchaseCompleted.cupomVendedor);
 
 
 
@@ -147,41 +149,41 @@ function WebviewCheckout() {
 
 
 
-      
+
       //product purchased event
 
 
 
       dataPurchaseCompleted?.adaptItems?.forEach((item) => {
         const itemProps = new MoEProperties();
-        const discount=item.price - item.sellingPrice
+        const discount = item.price - item.sellingPrice
 
-        itemProps.addAttribute("referenceId",item.referenceId || '');
-        itemProps.addAttribute("sellingPrice",item.sellingPrice || 0);
-        itemProps.addAttribute("ean",item.ean || '' );
-        itemProps.addAttribute("productSize",item.productSize||'');
-        itemProps.addAttribute("productColor",item.productColor||'');
-        itemProps.addAttribute("brand",item.brand||'');
-        itemProps.addAttribute("skuId",item.skuId||'');
-        itemProps.addAttribute("quantity",item.quantity||'');
-        itemProps.addAttribute("productId",item.productId||'');
-        itemProps.addAttribute("productRefId",item.productRefId||'');
-        itemProps.addAttribute("name",item.name||'');
-        itemProps.addAttribute("category",item.category||'');
-        itemProps.addAttribute("discount",discount||'');
-        itemProps.addAttribute("price",item.price||0);
-        itemProps.addAttribute("transactionId",dataPurchaseCompleted?.orderId||'');
-      //  itemProps.addAttribute("transactionAffiliation",'');
-        itemProps.addAttribute("transactionDate", dataPurchaseCompleted?.timestamp||'');
-        itemProps.addAttribute("cupom",dataPurchaseCompleted.cupom||'');
-        itemProps.addAttribute("cupomVendedor",dataPurchaseCompleted.cupomVendedor||'');
+        itemProps.addAttribute("referenceId", item.referenceId || '');
+        itemProps.addAttribute("sellingPrice", item.sellingPrice || 0);
+        itemProps.addAttribute("ean", item.ean || '');
+        itemProps.addAttribute("productSize", item.productSize || '');
+        itemProps.addAttribute("productColor", item.productColor || '');
+        itemProps.addAttribute("brand", item.brand || '');
+        itemProps.addAttribute("skuId", item.skuId || '');
+        itemProps.addAttribute("quantity", item.quantity || '');
+        itemProps.addAttribute("productId", item.productId || '');
+        itemProps.addAttribute("productRefId", item.productRefId || '');
+        itemProps.addAttribute("name", item.item_name || '');
+        itemProps.addAttribute("category", item.category || '');
+        itemProps.addAttribute("discount", discount || '');
+        itemProps.addAttribute("price", item.price || 0);
+        itemProps.addAttribute("transactionId", dataPurchaseCompleted?.orderId || '');
+        itemProps.addAttribute("transactionAffiliation", dataPurchaseCompleted.Sellers.name);
+        itemProps.addAttribute("transactionDate", dataPurchaseCompleted?.timestamp || '');
+        itemProps.addAttribute("cupom", dataPurchaseCompleted.cupom || '');
+        itemProps.addAttribute("cupomVendedor", dataPurchaseCompleted.cupomVendedor || '');
 
 
-        
+
         ReactMoE.trackEvent("productPurchased", itemProps);
       });
 
-      await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '', itemsSkus); 
+      await triggerEventAfterPurchaseCompleted(dataPurchaseCompleted, profile?.email || '', itemsSkus);
 
 
 
