@@ -115,23 +115,77 @@ function WebviewCheckout() {
       console.debug('dataPurchaseCompleted:', JSON.stringify(dataPurchaseCompleted));
       await AsyncStorage.setItem('User:LastOrderId', dataPurchaseCompleted?.resLastOrderId);
       dataPurchaseCompleted.adaptItems = handleProductNameToEvent(dataPurchaseCompleted.adaptItems);
+      dataPurchaseCompleted.moeAdaptItems = handleProductNameToEvent(dataPurchaseCompleted.moeAdaptItems);
 
-      console.debug("moengage data adapt items", dataPurchaseCompleted.adaptItems);
+      console.debug("moengage data adapt items", dataPurchaseCompleted.moeAdaptItems);
+
+      const transactionProducts = (dataPurchaseCompleted?.moeAdaptItems || []).map((item: any) => {
+        const rawCategoryTree: string[] = item?.category || [];
+
+        const productCategory = rawCategoryTree.map((name, index) => ({
+          id: (index + 1).toString(),
+          name: name,
+        }));
+
+        return {
+          name: item.item_name,
+          productId: item.productId,
+          skuId: item.skuId,
+          ean: item.ean,
+          quantity: item.quantity,
+          productprice: item.price,
+          sellingprice: item.sellingPrice,
+          discount: item.price - item.sellingPrice,
+          productcategory: JSON.stringify(productCategory), 
+          productColor: toProperCase(item.productColor),
+          productSize: item.productSize?.toUpperCase(),
+          productbrand: item.brand,
+        };
+      });
+
+
+
 
       //order placed
+
+
+      const timestamp: number | undefined = dataPurchaseCompleted?.timestamp;
+
+
+      let formattedDate = '';
+
+      if (typeof timestamp === 'number') {
+        const d = new Date(0);
+        d.setUTCSeconds(timestamp);
+
+        // Extract parts
+        const day = String(d.getUTCDate()).padStart(2, '0');
+        const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+        const year = d.getUTCFullYear();
+
+        const hours = String(d.getUTCHours()).padStart(2, '0');
+        const minutes = String(d.getUTCMinutes()).padStart(2, '0');
+        const seconds = String(d.getUTCSeconds()).padStart(2, '0');
+        const milliseconds = String(d.getUTCMilliseconds()).padStart(3, '0');
+
+        formattedDate = `${day}-${month}-${year}T${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+        console.debug("converted date", formattedDate);
+      }
+
 
       const moeProps = new MoEProperties();
 
       moeProps.addAttribute("transactionDiscounts", dataPurchaseCompleted.discount || 0);
       moeProps.addAttribute("visitorAddressCountry", dataPurchaseCompleted.shippingdata?.[0]?.country || '');
       moeProps.addAttribute("visitorAddressPostalCode", dataPurchaseCompleted.shippingdata?.[0]?.postalCode || '');
-      moeProps.addAttribute("transactionProducts", JSON.stringify(dataPurchaseCompleted.adaptItems) || []);
+      moeProps.addAttribute("transactionProducts", transactionProducts || []);
       moeProps.addAttribute("visitorAddressCity", dataPurchaseCompleted.shippingdata?.[0]?.city || '');
       moeProps.addAttribute("transactionAffiliation", dataPurchaseCompleted.Sellers.name);
       moeProps.addAttribute("visitorAdressState", dataPurchaseCompleted.shippingdata?.[0]?.state);
       moeProps.addAttribute("transactionSubtotal", dataPurchaseCompleted?.itemSubtotal);
       moeProps.addAttribute("transactionLatestShippingEstimate", dataPurchaseCompleted.itemShippingTotal);
-      moeProps.addAttribute("transactionDate", dataPurchaseCompleted?.timestamp);
+      moeProps.addAttribute("transactionDate", formattedDate);
       moeProps.addAttribute("transactionId", dataPurchaseCompleted?.orderId);
       moeProps.addAttribute("transactionShipping", dataPurchaseCompleted.shippingValue || 0);
       moeProps.addAttribute("visitorAddressNeighborhood", dataPurchaseCompleted.shippingdata?.[0]?.neighborhood);
@@ -156,25 +210,35 @@ function WebviewCheckout() {
 
       dataPurchaseCompleted?.adaptItems?.forEach((item) => {
         const itemProps = new MoEProperties();
-        const discount = item.price - item.sellingPrice
+        const discount = item.price - item.sellingPrice;
+
+
+        const rawCategoryTree: string[] = item?.category || [];
+
+        const productCategory = rawCategoryTree.map((name, index) => ({
+          id: (index + 1).toString(),
+          name: name,
+        }));
+
+        console.debug("product category", productCategory);
 
         itemProps.addAttribute("referenceId", item.referenceId || '');
         itemProps.addAttribute("sellingPrice", item.sellingPrice || 0);
         itemProps.addAttribute("ean", item.ean || '');
-        itemProps.addAttribute("productSize", item.productSize || '');
-        itemProps.addAttribute("productColor", item.productColor || '');
+        itemProps.addAttribute("productSize", (item.productSize).toUpperCase() || '');
+        itemProps.addAttribute("productColor", toProperCase(item.productColor) || '');
         itemProps.addAttribute("brand", item.brand || '');
         itemProps.addAttribute("skuId", item.skuId || '');
         itemProps.addAttribute("quantity", item.quantity || '');
         itemProps.addAttribute("productId", item.productId || '');
         itemProps.addAttribute("productRefId", item.productRefId || '');
         itemProps.addAttribute("name", item.item_name || '');
-        itemProps.addAttribute("category", item.category || '');
-        itemProps.addAttribute("discount", discount || '');
+        itemProps.addAttribute("category", JSON.stringify(productCategory));
+        itemProps.addAttribute("discount", discount || 0);
         itemProps.addAttribute("price", item.price || 0);
         itemProps.addAttribute("transactionId", dataPurchaseCompleted?.orderId || '');
         itemProps.addAttribute("transactionAffiliation", dataPurchaseCompleted.Sellers.name);
-        itemProps.addAttribute("transactionDate", dataPurchaseCompleted?.timestamp || '');
+        itemProps.addAttribute("transactionDate", formattedDate);
         itemProps.addAttribute("cupom", dataPurchaseCompleted.cupom || '');
         itemProps.addAttribute("cupomVendedor", dataPurchaseCompleted.cupomVendedor || '');
 

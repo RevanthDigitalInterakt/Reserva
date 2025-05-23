@@ -31,6 +31,14 @@ export default function DeleteProductModal() {
     console.debug("print discount",discount);
     const discount_decimal = Math.round(discount * 100) / 100;
 
+    
+      const rawCategoryTree: string[] =deleteProductModal?.deleteInfo?.product.productCategories  || [];
+
+        const productCategory = rawCategoryTree.map((name, index) => ({
+          id: (index + 1).toString(),
+          name: name,
+        }));
+
     const moeProps = new MoEProperties();
     console.debug("In Delete Cart Item");
     moeProps.addAttribute('skuId', deleteProductModal.deleteInfo.product?.id);
@@ -40,8 +48,8 @@ export default function DeleteProductModal() {
     moeProps.addAttribute('price',  ((deleteProductModal?.deleteInfo?.product.price || 0) /100));
     console.debug('price',(deleteProductModal?.deleteInfo?.product.price || 0) /100);
     moeProps.addAttribute('discount',discount_decimal);
-    moeProps.addAttribute('category', productDetail?.categoryTree || []);
-    console.debug("product detail",deleteProductModal?.deleteInfo?.product.productCategories || []);
+    moeProps.addAttribute('category',JSON.stringify(productCategory));
+  //  console.debug("product category detail",);
     moeProps.addAttribute('brand', deleteProductModal?.deleteInfo?.product.productCategories[0] || '');
     moeProps.addAttribute('productSize',size.toUpperCase());
     moeProps.addAttribute('productColor',toProperCase(color));
@@ -49,9 +57,9 @@ export default function DeleteProductModal() {
     moeProps.addAttribute('name', deleteProductModal?.deleteInfo?.product.name || '');
     moeProps.addAttribute('productId', deleteProductModal?.deleteInfo?.product.productId || '');
 
-    console.debug( "prod ref id",deleteProductModal?.deleteInfo?.product.productRefId);
+   // console.debug( "prod ref id",deleteProductModal?.deleteInfo?.product.productRefId);
     
-   moeProps.addAttribute('productRefId', deleteProductModal?.deleteInfo?.product.productRefId ||'');
+  // moeProps.addAttribute('productRefId', deleteProductModal?.deleteInfo?.product.productRefId ||'');
 
     //moeProps.addAttribute('referenceId');
 

@@ -110,6 +110,31 @@ function ProductAddToCart({ isFixed = false, fvcReferenceId }: ProductAddToCartP
 
       if (productDetail && selectedColor) {
 
+
+        const timestamp: number | undefined = Math.floor(Date.now() / 1000);
+
+        let formattedDate = '';
+
+        if (typeof timestamp === 'number') {
+          const d = new Date(0);
+          d.setUTCSeconds(timestamp);
+
+          // Extract parts
+          const day = String(d.getUTCDate()).padStart(2, '0');
+          const month = String(d.getUTCMonth() + 1).padStart(2, '0'); // months 0-based
+          const year = d.getUTCFullYear();
+
+          const hours = String(d.getUTCHours()).padStart(2, '0');
+          const minutes = String(d.getUTCMinutes()).padStart(2, '0');
+          const seconds = String(d.getUTCSeconds()).padStart(2, '0');
+          const milliseconds = String(d.getUTCMilliseconds()).padStart(3, '0');
+
+          formattedDate = `${day}-${month}-${year}T${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+          console.debug("converted date", formattedDate);
+        }
+
+
         let color = selectedColor?.colorName || '';
         //  color=sentenceCase(color);
         console.debug("printing color case", color);
@@ -119,17 +144,31 @@ function ProductAddToCart({ isFixed = false, fvcReferenceId }: ProductAddToCartP
 
         const discountValue = lowPrice - currentPrice;
 
-
+        console.debug('detail tree', productDetail?.categoryTree);
 
         const rawCategoryTree: string[] = productDetail?.categoryTree || [];
 
+        const productCategory = rawCategoryTree.map((name, index) => ({
+          id: (index + 1).toString(),
+          name: name,
+        }));
 
-        const formattedCategory = {
-          category: rawCategoryTree.map((name, index) => ({
-            id: index.toString(),
-            name: name.toLowerCase()
-          }))
-        };
+        console.debug("product category",productCategory);
+
+
+        
+
+
+
+        // const rawCategoryTree: string[] = productDetail?.categoryTree || [];
+
+
+        // const formattedCategory = {
+        //   category: rawCategoryTree.map((name, index) => ({
+        //     id: index.toString(),
+        //     name: name.toLowerCase()
+        //   }))
+        // };
 
 
 
@@ -145,13 +184,13 @@ function ProductAddToCart({ isFixed = false, fvcReferenceId }: ProductAddToCartP
         moeProps.addAttribute('quantity', newQuantity);
         moeProps.addAttribute('brand', productDetail?.categoryTree[0] || '');
         moeProps.addAttribute('name', productDetail.productName);
-        moeProps.addAttribute('category', JSON.stringify(formattedCategory));
+        moeProps.addAttribute('category',JSON.stringify(productCategory));
         moeProps.addAttribute('discount', discountValue);
         moeProps.addAttribute('ean', productDetail?.initialSize?.ean || '');
         moeProps.addAttribute('productId', productDetail?.productId || '');
 
-        console.debug('printing category', formattedCategory);
-        //detail url missing
+        console.debug('printing category', productCategory);
+       //detail url missing
 
 
         const debugMoEProps = {

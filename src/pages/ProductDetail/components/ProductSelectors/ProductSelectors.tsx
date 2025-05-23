@@ -154,21 +154,19 @@ function ProductSelectors() {
     const lowPrice = productDetail?.priceRange?.sellingPrice?.lowPrice || 0;
     const currentPrice = productDetail?.initialSize?.currentPrice || 0;
 
-    const discountValue = lowPrice - currentPrice;
-
-
+   // const discountValue = lowPrice - currentPrice;
 
     const rawCategoryTree: string[] = productDetail?.categoryTree || [];
 
-    const formattedCategory = {
-      category: rawCategoryTree.map((name, index) => ({
-        id: index.toString(),
-        name: name.toLowerCase()
-      }))
-    };
+    const productCategory = rawCategoryTree.map((name, index) => ({
+      id: (index + 1).toString(),
+      name: name,
+    }));
+
+    console.debug("product category", productCategory);
 
 
-    console.debug('Print Category', JSON.stringify(formattedCategory));
+    console.debug('Print Category', JSON.stringify(productCategory));
 
 
     //  properties.addAttribute('source', '');
@@ -177,8 +175,8 @@ function ProductSelectors() {
     properties.addAttribute('name', productDetail?.productName || '');
     properties.addAttribute('sellingPrice', productDetail?.priceRange?.sellingPrice.lowPrice || 0);
     properties.addAttribute('price', productDetail?.initialSize?.currentPrice || 0);
-    properties.addAttribute('category', JSON.stringify(formattedCategory));
-    properties.addAttribute('productColor',toProperCase(selectedColor?.colorName || ''));
+    properties.addAttribute('category', JSON.stringify(productCategory));
+    properties.addAttribute('productColor', toProperCase(selectedColor?.colorName || ''));
     properties.addAttribute('productSize', selectedSize?.size || '');
     //properties.addAttribute('discount', discountValue);
     properties.addAttribute('skuId', selectedSize?.itemId);

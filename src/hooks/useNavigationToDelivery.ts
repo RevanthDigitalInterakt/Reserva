@@ -105,12 +105,19 @@ export const useNavigationToDelivery = (): IUseNavigationToDeliveryReturn => {
         quantity: JSON.stringify(getAFContent(mergedItems)),
       });
 
-      const properties = new MoEProperties();
+      const totalQuantity = newMergedItems.reduce((sum, item) => sum + (item.quantity || 0), 0);
+      console.debug('Total Quantity:', totalQuantity);
+      const totalprice= total + discount + delivery
+      const totalvalue=Math.round(totalprice * 100) / 100
 
-      properties.addAttribute('price', total + discount + delivery);
-     // properties.addAttribute('currency', 'BRL');
+      const properties = new MoEProperties();
+      properties.addAttribute('etapa', 'pgto');
+      properties.addAttribute('total_price', totalvalue);
+      properties.addAttribute('quantity', totalQuantity || 0);
 
       ReactMoE.trackEvent('CheckOut', properties);
+
+      // ReactMoE.trackEvent('CheckOut', properties);
 
     } catch (err) {
       ExceptionProvider.captureException(err, "onTrackCheckoutEvents - useNavigationToDelivery.ts");

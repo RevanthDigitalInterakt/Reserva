@@ -6,9 +6,8 @@ import { trackClickAlgoliaStore } from '../../zustand/useTrackAlgoliaStore/useTr
 import { useSearchStore } from '../../zustand/useSearchStore';
 import { TrackEventNameEnum, TrackEventSubTypeEnum, TrackEventTypeEnum } from '../../base/graphql/generated';
 import { trackOrderStore } from '../../zustand/useTrackOrderStore/useTrackOrderStore';
-import { order } from 'styled-system';
-import { neighborhoodSchema } from '../Address/utils/inputValidations';
-import { console } from 'inspector';
+
+
 
 export function getURLParameter(url: string, name: string): string {
   const match = url.match(new RegExp(`[\\?&]${name.replace(/[\[\]]/g, '\\$&')}=([^&#]*)`));
@@ -78,22 +77,34 @@ const adaptOrderFormItemsTrack = (items: any) => (items || []).map((item: any) =
   item_name: item.name,
   item_variant: item.skuName,
   item_category: 'product',
+ 
+}));
+
+
+const adaptItemsTrack = (items: any) => (items || []).map((item: any) => ({
+  price: item.price / 100,
+  item_id: item.productId,
+  item_name: item.name,
+  item_variant: item.skuName,
+  item_category: 'product',
   ///////////////////////////////////////////////////////
   referenceId: item.refId,
   sellingPrice: item.sellingPrice / 100,
   ean: item.ean,
-  productSize: item.skuName.split(' - ')[0],
-  prductColor: item.skuName.split(' - ')[1],
+  productSize: item.skuName.split(' - ')[1],
+  productColor: item.skuName.split(' - ')[0],
   brand: item?.productCategories[1] || '',
   skuId: item.id,
   quantity: item.quantity,
   productId: item.productId,
   productRefId: item.productRefId,
   name: item.name,
-  category: item.productCategories || {},
+  category: item?.productCategories || {},
   ///////////////////////////////////////////////////////
 
 }));
+
+
 
 console.debug("adatptitems");
 
@@ -133,13 +144,13 @@ export const prepareEventDataPurchaseCompleted = (
     const condensedResTotalizers = sumArrayValues(resTotalizers);
 
 
-    const discountValues=purchaseOrderForm.map((order :any)=>{
-      const discountTotal = order.totals.find((total: any) =>total.id === 'Discounts');
+    const discountValues = purchaseOrderForm.map((order: any) => {
+      const discountTotal = order.totals.find((total: any) => total.id === 'Discounts');
       return discountTotal?.value || 0;
     });
 
-    const shipping=purchaseOrderForm.map((order :any)=>{
-      const shippingTotal = order.totals.find((total: any) =>total.id === 'Shipping');
+    const shipping = purchaseOrderForm.map((order: any) => {
+      const shippingTotal = order.totals.find((total: any) => total.id === 'Shipping');
       return shippingTotal?.value || 0;
     });
 
@@ -165,9 +176,10 @@ export const prepareEventDataPurchaseCompleted = (
     const resAfContent = getAFContent(onlyItems);
 
     const resAdaptItems = adaptOrderFormItemsTrack(onlyItems);
+    const moeAdaptItems=adaptItemsTrack(onlyItems);
     console.debug("printing adaptitems");
-    console.debug(resAdaptItems);
-
+   
+console.debug(moeAdaptItems);
     const resItemSubtotal = resTotalizers.map(
       (totalizer: any) => (totalizer.find((x: any) => x.id === 'Items')?.value || 0) / 100,
     );
@@ -290,8 +302,8 @@ export const prepareEventDataPurchaseCompleted = (
       orderFormItems: onlyItems,
       Sellers: Sellers,
       shippingdata: visitorData,
-      discount:discountValues,
-      shippingValue:shipping,
+      discount: discountValues,
+      shippingValue: shipping,
 
       /////////////////////////////////////////
       cupom: condensedResCoupon,
@@ -305,6 +317,7 @@ export const prepareEventDataPurchaseCompleted = (
       productIds: resProductIds,
       ids: resIds,
       adaptItems: resAdaptItems,
+      moeAdaptItems:moeAdaptItems,
       item_brand: resWbrand,
       afContent: resAfContent,
       itemSubtotal: condensedResItemSubtotal,
