@@ -1,0 +1,5 @@
+mutation profileUpdate($input: ProfileUpdateInput!) {
+  profile(input: $input) {
+    ...ProfileFragment
+  }
+}

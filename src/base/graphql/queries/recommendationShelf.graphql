@@ -1,0 +1,33 @@
+query recommendationShelf($input: SmarthintShelfInput!) {
+  recommendationShelf(input: $input) {
+    shelfName
+    shelfTitle
+    products {
+      productName
+      productId
+      productLink
+      brand
+      image
+      categoryTree
+      flags {
+        type
+        value
+        text
+      }
+      prices {
+        listPrice
+        salePrice
+      }
+      sku {
+        colorName
+        colorHex 
+        colorRefId 
+        sizes {
+          skuId
+          value
+          disabled
+        }
+      }
+    }
+  }
+}

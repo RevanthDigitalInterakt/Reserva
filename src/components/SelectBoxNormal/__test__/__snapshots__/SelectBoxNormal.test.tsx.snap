@@ -1,0 +1,236 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectBoxNormal should match with the snapshot 1`] = `
+<View
+  accessibilityLabel="com.usereserva:id/select_box_price_normal"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "marginHorizontal": 16,
+      "marginVertical": 12,
+      "opacity": 1,
+    }
+  }
+  testID="com.usereserva:id/select_box_price_normal"
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "borderColor": "#8D8D8D",
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "paddingHorizontal": 16,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "borderColor": "#000000",
+          "borderRadius": 11,
+          "borderWidth": 1,
+          "height": 22,
+          "justifyContent": "center",
+          "marginRight": 0,
+          "padding": 3,
+          "width": 22,
+        }
+      }
+    />
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "justifyContent": "flex-end",
+          "paddingVertical": 10,
+        }
+      }
+    >
+      <Text
+        fontFamily="reservaSansRegular"
+        style={
+          [
+            {
+              "fontFamily": "ReservaSans-Regular",
+            },
+            {
+              "color": "#8D8D8D",
+              "fontSize": 18,
+              "fontWeight": "400",
+            },
+          ]
+        }
+      >
+        Preço Normal
+      </Text>
+      <View
+        style={
+          {
+            "alignItems": "baseline",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+            "marginTop": 4,
+          }
+        }
+      >
+        <Text
+          fontFamily="reservaSansRegular"
+          style={
+            [
+              {
+                "fontFamily": "ReservaSans-Regular",
+              },
+              {
+                "color": "#8D8D8D",
+                "fontSize": 18,
+                "fontWeight": "400",
+              },
+            ]
+          }
+        >
+          4
+          x
+           
+        </Text>
+        <Text
+          fontFamily="reservaSansRegular"
+          style={
+            [
+              {
+                "fontFamily": "ReservaSans-Regular",
+              },
+              {
+                "color": "#8D8D8D",
+                "fontSize": 24,
+                "fontWeight": "700",
+              },
+            ]
+          }
+        >
+          R$
+           
+          64,
+        </Text>
+        <Text
+          fontFamily="reservaSansRegular"
+          style={
+            [
+              {
+                "fontFamily": "ReservaSans-Regular",
+              },
+              {
+                "color": "#8D8D8D",
+                "fontWeight": "700",
+              },
+            ]
+          }
+        >
+          50
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        {
+          "alignSelf": "center",
+          "backgroundColor": "#8D8D8D",
+          "height": 30,
+          "marginHorizontal": 0,
+          "marginTop": 30,
+          "width": 1,
+        }
+      }
+    />
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "justifyContent": "flex-end",
+          "paddingVertical": 10,
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "alignItems": "baseline",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+            "marginRight": 50,
+            "marginTop": 24,
+          }
+        }
+      >
+        <Text
+          fontFamily="reservaSansRegular"
+          style={
+            [
+              {
+                "fontFamily": "ReservaSans-Regular",
+              },
+              {
+                "color": "#8D8D8D",
+                "fontSize": 24,
+                "fontWeight": "700",
+              },
+              {
+                "color": "#000000",
+              },
+            ]
+          }
+        >
+          R$
+           
+          149,
+        </Text>
+        <Text
+          fontFamily="reservaSansRegular"
+          fontWeight="bold"
+          style={
+            [
+              {
+                "fontFamily": "ReservaSans-Regular",
+                "fontWeight": "700",
+              },
+              {
+                "color": "#000000",
+              },
+            ]
+          }
+        >
+          90
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

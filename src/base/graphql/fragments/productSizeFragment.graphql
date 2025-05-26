@@ -1,0 +1,28 @@
+fragment productSizeFragment on ProductSizeOutput {
+    itemId
+    skuName
+    size
+    ean
+    seller
+    listPrice
+    currentPrice
+    discountPercent
+    hasDiscount
+    availableQuantity
+    installment {
+        value
+        number
+    }
+    prime {
+        price
+        installment {
+            value
+            number
+        }
+    }
+    installmentEqualPrime {
+        value
+        number
+    }
+    disabled
+}

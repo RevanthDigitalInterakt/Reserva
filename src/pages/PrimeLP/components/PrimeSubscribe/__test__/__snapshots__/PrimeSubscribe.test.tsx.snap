@@ -1,0 +1,424 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PrimeSubscribe should render properly and match with snapshot 1`] = `
+<View
+  accessibilityLabel="com.usereserva:id/prime_subscribe_component"
+  testID="com.usereserva:id/prime_subscribe_component"
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "justifyContent": "center",
+        "paddingHorizontal": 32,
+        "paddingTop": 32,
+      }
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "fontFamily": "ReservaSerif-Bold",
+            "fontSize": 15,
+          },
+          {
+            "fontSize": 20,
+            "lineHeight": 26,
+            "marginBottom": 24,
+          },
+        ]
+      }
+      variant="descontoTag2"
+    >
+      Assine Agora!
+    </Text>
+    <Text
+      style={
+        [
+          {
+            "fontFamily": "Nunito-Regular",
+            "fontSize": 15,
+          },
+          {
+            "color": "#848484",
+            "fontSize": 16,
+            "lineHeight": 20,
+            "marginBottom": 20,
+            "textAlign": "center",
+          },
+        ]
+      }
+      variant="tituloSessao"
+    >
+      Ganhe 20% OFF* em todos os produtos da Reserva. Tudo isso por
+      <Text
+        style={
+          [
+            {
+              "fontFamily": "Nunito-Bold",
+              "fontSize": 14,
+            },
+            {
+              "color": "#000000",
+              "fontSize": 16,
+            },
+          ]
+        }
+        variant="precoPromocional2"
+      >
+         12x de R$ 25/Mês.
+      </Text>
+    </Text>
+  </View>
+  <View
+    accessibilityIgnoresInvertColors={true}
+    style={
+      {
+        "alignItems": "center",
+        "justifyContent": "center",
+        "marginTop": -18,
+        "paddingHorizontal": 32,
+        "paddingTop": 400,
+        "width": 750,
+      }
+    }
+  >
+    <Image
+      resizeMode="contain"
+      source={
+        {
+          "commons": {
+            "GuideBermuda": [Circular],
+            "GuideCalca": [Circular],
+            "GuideCamiseta": [Circular],
+            "GuideHoodie": [Circular],
+            "GuideJaqueta": [Circular],
+            "GuideMangaCurta": [Circular],
+            "GuideMangaLonga": [Circular],
+            "GuidePolo": [Circular],
+            "GuideShort": [Circular],
+            "GuideSueter": [Circular],
+            "GuideSungaCueca": [Circular],
+            "QrcodeBackground": [Circular],
+            "abandonedCartBag": [Circular],
+            "addition": [Circular],
+            "americanExpress": [Circular],
+            "arrowInstruction": [Circular],
+            "arrowRight": [Circular],
+            "bagEmpty": [Circular],
+            "bannerCatalog": [Circular],
+            "bannerLogin": [Circular],
+            "bannerOffer": [Circular],
+            "black1p5p": [Circular],
+            "cardFront": [Circular],
+            "cardImage": [Circular],
+            "cardVerso": [Circular],
+            "chat": [Circular],
+            "checkedBox": [Circular],
+            "chevronLeftFill": [Circular],
+            "chevronRightFill": [Circular],
+            "close": [Circular],
+            "clothingCare1": [Circular],
+            "clothingCareBleach": [Circular],
+            "clothingCareDrying": [Circular],
+            "clothingCarePass": [Circular],
+            "clothingCareProfessionalWashing": [Circular],
+            "clothingCareWash": [Circular],
+            "config": [Circular],
+            "copy": [Circular],
+            "cupomModalBackground": [Circular],
+            "cutlery": [Circular],
+            "discountFlag": [Circular],
+            "dividerReserva": [Circular],
+            "document": [Circular],
+            "elo": [Circular],
+            "emptyProductCatalog": [Circular],
+            "expand": [Circular],
+            "facebook": [Circular],
+            "faq": [Circular],
+            "filledHeart": [Circular],
+            "foraDoAr": [Circular],
+            "green1p5p": [Circular],
+            "greenCheck": [Circular],
+            "headerLogin": [Circular],
+            "heart": [Circular],
+            "help": [Circular],
+            "homeMock1": [Circular],
+            "homeMock2": [Circular],
+            "homeMock3": [Circular],
+            "homeMock4": [Circular],
+            "imageCashback": [Circular],
+            "imageNotFound": [Circular],
+            "instagram": [Circular],
+            "ios14": [Circular],
+            "localReserva": [Circular],
+            "logo": [Circular],
+            "logoQRCode": [Circular],
+            "mastercard": [Circular],
+            "newsletter": [Circular],
+            "noStoresFound": [Circular],
+            "noWishList": [Circular],
+            "pinPlace": [Circular],
+            "pinYou": [Circular],
+            "profile": [Circular],
+            "purchaseConfirmation": [Circular],
+            "raceImageBackground": [Circular],
+            "reservaIcon": [Circular],
+            "roulet": [Circular],
+            "saleOff": [Circular],
+            "search": [Circular],
+            "searchNotFound": [Circular],
+            "selectRectangle": [Circular],
+            "share": [Circular],
+            "shipping1": [Circular],
+            "shipping2": [Circular],
+            "shirt1": [Circular],
+            "shirt2": [Circular],
+            "shirt3": [Circular],
+            "shirt4": [Circular],
+            "signup1": [Circular],
+            "signup2": [Circular],
+            "signup3": [Circular],
+            "signup4": [Circular],
+            "signup5": [Circular],
+            "subtraction": [Circular],
+            "topBannerMock1": [Circular],
+            "twitter": [Circular],
+            "umPCincoPLogo": [Circular],
+            "uncheckedBox": [Circular],
+            "unfilledHeart": [Circular],
+            "update": [Circular],
+            "visa": [Circular],
+            "whatsapp": [Circular],
+            "withoutInternet": [Circular],
+            "zoomHand": [Circular],
+          },
+          "default": {
+            "GuideBermuda": [Circular],
+            "GuideCalca": [Circular],
+            "GuideCamiseta": [Circular],
+            "GuideHoodie": [Circular],
+            "GuideJaqueta": [Circular],
+            "GuideMangaCurta": [Circular],
+            "GuideMangaLonga": [Circular],
+            "GuidePolo": [Circular],
+            "GuideShort": [Circular],
+            "GuideSueter": [Circular],
+            "GuideSungaCueca": [Circular],
+            "QrcodeBackground": [Circular],
+            "abandonedCartBag": [Circular],
+            "addition": [Circular],
+            "americanExpress": [Circular],
+            "arrowInstruction": [Circular],
+            "arrowRight": [Circular],
+            "bagEmpty": [Circular],
+            "bannerCatalog": [Circular],
+            "bannerLogin": [Circular],
+            "bannerOffer": [Circular],
+            "black1p5p": [Circular],
+            "cardFront": [Circular],
+            "cardImage": [Circular],
+            "cardVerso": [Circular],
+            "chat": [Circular],
+            "checkedBox": [Circular],
+            "checkedRounded": [Function],
+            "chevronLeftFill": [Circular],
+            "chevronRight": [Function],
+            "chevronRightFill": [Circular],
+            "close": [Circular],
+            "closeIcon": [Function],
+            "clothingCare1": [Circular],
+            "clothingCareBleach": [Circular],
+            "clothingCareDrying": [Circular],
+            "clothingCarePass": [Circular],
+            "clothingCareProfessionalWashing": [Circular],
+            "clothingCareWash": [Circular],
+            "config": [Circular],
+            "copy": [Circular],
+            "cupomModalBackground": [Circular],
+            "cutlery": [Circular],
+            "discountFlag": [Circular],
+            "dividerReserva": [Circular],
+            "document": [Circular],
+            "elo": [Circular],
+            "emptyProductCatalog": [Circular],
+            "expand": [Circular],
+            "facebook": [Circular],
+            "faq": [Circular],
+            "filledHeart": [Circular],
+            "foraDoAr": [Circular],
+            "green1p5p": [Circular],
+            "greenCheck": [Circular],
+            "hanger": [Function],
+            "headerLogin": [Circular],
+            "heart": [Circular],
+            "help": [Circular],
+            "homeMock1": [Circular],
+            "homeMock2": [Circular],
+            "homeMock3": [Circular],
+            "homeMock4": [Circular],
+            "imageCashback": [Circular],
+            "imageNotFound": [Circular],
+            "info": [Function],
+            "infoSuccess": [Function],
+            "instagram": [Circular],
+            "ios14": [Circular],
+            "localReserva": [Circular],
+            "logo": [Circular],
+            "logoPrime": [Function],
+            "logoQRCode": [Circular],
+            "mastercard": [Circular],
+            "newsletter": [Circular],
+            "noStoresFound": [Circular],
+            "noWishList": [Circular],
+            "personalize": [Function],
+            "pinPlace": [Circular],
+            "pinYou": [Circular],
+            "profile": [Circular],
+            "purchaseConfirmation": [Circular],
+            "raceImageBackground": [Circular],
+            "reservaIcon": [Circular],
+            "roulet": [Circular],
+            "saleOff": [Circular],
+            "search": [Circular],
+            "searchNotFound": [Circular],
+            "selectRectangle": [Circular],
+            "share": [Circular],
+            "shipping1": [Circular],
+            "shipping2": [Circular],
+            "shirt1": [Circular],
+            "shirt2": [Circular],
+            "shirt3": [Circular],
+            "shirt4": [Circular],
+            "signup1": [Circular],
+            "signup2": [Circular],
+            "signup3": [Circular],
+            "signup4": [Circular],
+            "signup5": [Circular],
+            "sizeGuideIcon": [Function],
+            "subtraction": [Circular],
+            "topBannerMock1": [Circular],
+            "trash": [Function],
+            "twitter": [Circular],
+            "umPCincoPLogo": [Circular],
+            "uncheckedBox": [Circular],
+            "unfilledHeart": [Circular],
+            "update": [Circular],
+            "visa": [Circular],
+            "whatsapp": [Circular],
+            "withoutInternet": [Circular],
+            "zoomHand": [Circular],
+          },
+          "svgs": {
+            "checkedRounded": [Function],
+            "chevronRight": [Function],
+            "closeIcon": [Function],
+            "hanger": [Function],
+            "info": [Function],
+            "infoSuccess": [Function],
+            "logoPrime": [Function],
+            "personalize": [Function],
+            "sizeGuideIcon": [Function],
+            "trash": [Function],
+          },
+        }
+      }
+      style={
+        [
+          {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          },
+          {
+            "height": undefined,
+            "width": 750,
+          },
+          undefined,
+        ]
+      }
+    />
+    <Text
+      style={
+        [
+          {},
+          {
+            "color": "#848484",
+            "fontSize": 10,
+            "lineHeight": 14,
+            "marginBottom": 24,
+            "textAlign": "center",
+            "top": 18,
+          },
+        ]
+      }
+    >
+      *Exceto para parcerias, assinaturas, livros, drinks e máscaras. Desconto não cumulativo com outras promoções.
+    </Text>
+  </View>
+  <View
+    accessibilityLabel="com.usereserva:id/prime_lp_bottom_button_add"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "alignSelf": "center",
+        "backgroundColor": "#000000",
+        "height": 102.61538461538461,
+        "justifyContent": "center",
+        "marginTop": 24,
+        "opacity": 1,
+        "width": 535.7142857142858,
+      }
+    }
+    testID="com.usereserva:id/prime_lp_bottom_button_add"
+  >
+    <Text
+      style={
+        [
+          {},
+          {
+            "color": "#ffffff",
+            "fontSize": 12,
+            "fontWeight": "700",
+            "letterSpacing": 0.5,
+            "lineHeight": 14,
+            "textTransform": "uppercase",
+          },
+        ]
+      }
+    >
+      Quero ser Prime
+    </Text>
+  </View>
+</View>
+`;

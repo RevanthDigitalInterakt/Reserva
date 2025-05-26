@@ -1,0 +1,472 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductVerticalListCard should match with the snapshot 1`] = `
+<View>
+  <View
+    height="100%"
+    style={
+      {
+        "height": "100%",
+      }
+    }
+  >
+    <View
+      position="absolute"
+      right={4}
+      style={
+        {
+          "position": "absolute",
+          "right": 4,
+          "top": 6,
+          "zIndex": 5,
+        }
+      }
+      top={6}
+      zIndex={5}
+    >
+      <View
+        alignItems="center"
+        height={30}
+        style={
+          {
+            "alignItems": "center",
+            "height": 30,
+          }
+        }
+      >
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          hitSlop={
+            {
+              "bottom": 20,
+              "left": 20,
+              "right": 20,
+              "top": 20,
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "alignItems": "center",
+              "height": 30,
+              "justifyContent": "center",
+              "opacity": 1,
+              "width": 30,
+            }
+          }
+          testID="undefined_favorite"
+        >
+          <View
+            flexGrow={0}
+            justifyContent="flex-end"
+            style={
+              {
+                "flexGrow": 0,
+                "justifyContent": "flex-end",
+              }
+            }
+          >
+            <View
+              flexGrow={0}
+              justifyContent="center"
+              position="absolute"
+              right={-5}
+              style={
+                {
+                  "flexGrow": 0,
+                  "justifyContent": "center",
+                  "position": "absolute",
+                  "right": -5,
+                  "top": -5,
+                  "zIndex": 1,
+                }
+              }
+              top={-5}
+              zIndex={1}
+            />
+            <RNSVGSvgView
+              bbHeight="18"
+              bbWidth="18"
+              color="preto"
+              focusable={false}
+              size={18}
+              style={
+                [
+                  {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  {
+                    "color": "#333333",
+                    "height": 18,
+                    "width": 18,
+                  },
+                  {
+                    "flex": 0,
+                    "height": 18,
+                    "width": 18,
+                  },
+                ]
+              }
+              tintColor="preto"
+            >
+              <RNSVGGroup
+                fill={
+                  {
+                    "payload": 4278190080,
+                    "type": 0,
+                  }
+                }
+              >
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight="100%"
+                  bbWidth="100%"
+                  focusable={false}
+                  height="100%"
+                  id="Logo"
+                  meetOrSlice={0}
+                  minX={-0.3}
+                  minY={0}
+                  style={
+                    [
+                      {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      {
+                        "height": "100%",
+                        "width": "100%",
+                      },
+                      {
+                        "flex": 0,
+                        "height": "100%",
+                        "width": "100%",
+                      },
+                    ]
+                  }
+                  vbHeight={18.366}
+                  vbWidth={20.846}
+                  width="100%"
+                >
+                  <RNSVGGroup
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                  >
+                    <RNSVGPath
+                      d="M17.917,3.435a5.3,5.3,0,0,0-7.232.527l-.764.787-.764-.787a5.3,5.3,0,0,0-7.232-.527,5.565,5.565,0,0,0-.384,8.058l7.5,7.744a1.215,1.215,0,0,0,1.756,0l7.5-7.744a5.562,5.562,0,0,0-.38-8.058Z"
+                      fill={null}
+                      matrix={
+                        [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0.001,
+                          -2.248,
+                        ]
+                      }
+                      name="Icon_awesome-heart"
+                      propList={
+                        [
+                          "fill",
+                          "stroke",
+                        ]
+                      }
+                      stroke={
+                        {
+                          "payload": 4281545523,
+                          "type": 0,
+                        }
+                      }
+                    />
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      left={0}
+      style={
+        {
+          "left": 0,
+          "top": 0,
+          "zIndex": 1,
+        }
+      }
+      top={0}
+      zIndex={1}
+    >
+      <View
+        style={
+          {
+            "backgroundColor": "#ffffff",
+            "flexDirection": "column",
+            "marginLeft": 14,
+            "marginTop": 4,
+            "padding": 4,
+            "position": "absolute",
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "fontFamily": "WorkSans-BoldItalic",
+              "fontSize": 30,
+            }
+          }
+        >
+          6
+          %
+        </Text>
+        <Text
+          style={
+            {
+              "fontFamily": "WorkSans-LightItalic",
+              "fontSize": 30,
+              "marginTop": -6,
+            }
+          }
+        >
+          OFF
+        </Text>
+      </View>
+    </View>
+    <View
+      alignItems="center"
+      style={
+        {
+          "alignItems": "center",
+        }
+      }
+    >
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignItems": "center",
+            "justifyContent": "center",
+            "opacity": 1,
+          }
+        }
+      >
+        <Image
+          height={248}
+          onError={[Function]}
+          resizeMode="contain"
+          source={
+            {
+              "uri": "",
+            }
+          }
+          style={
+            [
+              {
+                "height": 0,
+                "width": 337.5,
+              },
+              undefined,
+            ]
+          }
+        />
+      </View>
+    </View>
+    <View
+      marginTop="nano"
+      style={
+        {
+          "marginTop": 8,
+          "width": 337.5,
+        }
+      }
+      width={337.5}
+    >
+      <Text
+        style={
+          {
+            "fontFamily": "ReservaSans-Bold",
+            "fontSize": 12,
+            "paddingBottom": 8,
+            "paddingRight": 6,
+          }
+        }
+      >
+        title
+      </Text>
+      <View
+        style={{}}
+      />
+      <View
+        style={
+          {
+            "marginTop": 8,
+          }
+        }
+      />
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#8A8C8E",
+              "fontFamily": "ReservaSans-Medium",
+              "fontSize": 12,
+              "letterSpacing": 0.05,
+            }
+          }
+        >
+          undefined 
+        </Text>
+        <Text
+          style={
+            {
+              "color": "#8A8C8E",
+              "fontFamily": "ReservaSans-Medium",
+              "fontSize": 12,
+              "letterSpacing": 0.05,
+            }
+          }
+        >
+          1200,
+        </Text>
+        <Text
+          style={
+            {
+              "color": "#8A8C8E",
+              "fontFamily": "ReservaSans-Medium",
+              "fontSize": 12,
+              "letterSpacing": 0.05,
+            }
+          }
+        >
+          00
+        </Text>
+        <View
+          style={
+            {
+              "backgroundColor": "#8A8C8E",
+              "height": 16,
+              "marginHorizontal": 6,
+              "width": 1,
+            }
+          }
+        />
+        <Text
+          style={
+            [
+              {
+                "color": "#333333",
+                "fontFamily": "ReservaSans-Medium",
+                "fontSize": 12,
+                "letterSpacing": 0.05,
+              },
+              {
+                "fontSize": 12,
+              },
+            ]
+          }
+        >
+          6
+          x
+        </Text>
+        <Text
+          style={
+            {
+              "color": "#333333",
+              "fontFamily": "ReservaSans-Medium",
+              "fontSize": 12,
+              "letterSpacing": 0.05,
+            }
+          }
+        >
+           undefined 200,
+        </Text>
+        <Text
+          style={
+            {
+              "color": "#333333",
+              "fontFamily": "ReservaSans-Medium",
+              "fontSize": 12,
+              "letterSpacing": 0.05,
+            }
+          }
+        >
+          00
+        </Text>
+      </View>
+      <View
+        style={
+          {
+            "marginTop": 6,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

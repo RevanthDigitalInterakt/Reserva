@@ -1,0 +1,250 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Submiting Content renders without error and match snapshot 1`] = `
+<View
+  alignItems="center"
+  backgroundColor="white"
+  flex={1}
+  flexDirection="row"
+  height={85}
+  justifyContent="space-between"
+  paddingX="xxxs"
+  style={
+    [
+      {
+        "alignItems": "center",
+        "backgroundColor": "#FFF",
+        "flexBasis": 0,
+        "flexDirection": "row",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "height": 85,
+        "justifyContent": "space-between",
+        "paddingLeft": 16,
+        "paddingRight": 16,
+        "width": 750,
+      },
+      {
+        "bottom": 42.5,
+        "elevation": 10,
+        "left": 0,
+        "position": "absolute",
+        "zIndex": 999,
+      },
+    ]
+  }
+  width={750}
+>
+  <View
+    paddingRight="nano"
+    style={
+      {
+        "paddingRight": 8,
+        "width": "45.45454545454545%",
+      }
+    }
+    width={0.45454545454545453}
+  >
+    <View
+      alignItems="stretch"
+      style={
+        {
+          "alignItems": "stretch",
+        }
+      }
+    >
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignItems": "center",
+            "borderColor": "#333333",
+            "borderWidth": 1,
+            "color": "#333333",
+            "fontFamily": "Nunito-Bold",
+            "fontSize": 13,
+            "justifyContent": "center",
+            "minWidth": 130,
+            "opacity": 1,
+            "paddingBottom": 16,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "paddingTop": 16,
+          }
+        }
+        testID="com.usereserva:id/submitingcontent_button_go_back_no_register"
+      >
+        <View
+          alignItems="center"
+          flexDirection="row"
+          justifyContent="center"
+          style={
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <View
+            justifyContent="center"
+            style={
+              {
+                "justifyContent": "center",
+              }
+            }
+          >
+            <Text
+              color="preto"
+              fontFamily="nunitoBold"
+              fontSize={13}
+              letterSpacing={1.6}
+              style={
+                {
+                  "color": "#333333",
+                  "fontFamily": "Nunito-Bold",
+                  "fontSize": 13,
+                  "letterSpacing": 1.6,
+                }
+              }
+            >
+              CANCELAR
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    paddingLeft="nano"
+    style={
+      {
+        "paddingLeft": 8,
+        "width": "45.45454545454545%",
+      }
+    }
+    width={0.45454545454545453}
+  >
+    <View
+      alignItems="stretch"
+      style={
+        {
+          "alignItems": "stretch",
+        }
+      }
+    >
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "#333333",
+            "color": "#FFF",
+            "fontFamily": "Nunito-Bold",
+            "fontSize": 13,
+            "justifyContent": "center",
+            "minWidth": 130,
+            "opacity": 1,
+            "paddingBottom": 16,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "paddingTop": 16,
+          }
+        }
+        testID="com.usereserva:id/submitingcontent_button_submit_no_register"
+      >
+        <View
+          alignItems="center"
+          flexDirection="row"
+          justifyContent="center"
+          style={
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <View
+            justifyContent="center"
+            style={
+              {
+                "justifyContent": "center",
+              }
+            }
+          >
+            <Text
+              color="white"
+              fontFamily="nunitoBold"
+              fontSize={13}
+              letterSpacing={1.6}
+              style={
+                {
+                  "color": "#FFF",
+                  "fontFamily": "Nunito-Bold",
+                  "fontSize": 13,
+                  "letterSpacing": 1.6,
+                }
+              }
+            >
+              SALVAR
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

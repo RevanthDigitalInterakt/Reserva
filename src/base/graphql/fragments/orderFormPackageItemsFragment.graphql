@@ -1,0 +1,46 @@
+fragment OrderformPackageItemsFragment on OrderformPackageItemsOutput {
+      items {
+      index
+      productTitle
+      itemColor
+      itemSize
+      isGift
+      isGiftable
+      imageSource
+      key
+      isAssinaturaSimples
+      priceWithDiscount
+      discountPercent
+      discountApi
+      showFirstPurchaseDiscountMessage
+      showTotalDiscountFirstPurchaseValue
+      productCategories
+      price
+      productId
+      availability
+      id
+      ean
+      listPrice
+      giftOfferingId
+      seller
+      hasPrimeDiscount
+      skuName
+      uniqueId
+      urlFacaVc
+      isAddedAsGift
+      name
+      quantity
+      disableCounter
+      sellingPrice
+      isPrimeSubscription
+      additionalInfo {
+        brandName
+      }
+    }
+    totalShippingValue
+    metadata {
+      shippingEstimate
+      friendlyName
+      availability
+    }
+}

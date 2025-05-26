@@ -1,0 +1,30 @@
+query appMenu {
+    appMenu {
+        name
+        type
+        deeplinkUrl
+        highlight
+        referenceId
+        facets {
+            key
+            value
+        }
+        children {
+            name
+            type
+            deeplinkUrl
+            highlight
+            referenceId
+            facets {
+                key
+                value
+            }
+            filters {
+                priceFilter {
+                    from
+                    to
+                }
+            }
+        }
+    }
+}

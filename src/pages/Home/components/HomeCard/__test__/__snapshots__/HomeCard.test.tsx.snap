@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PrimeLP should match to snapshot 1`] = `
+<View
+  accessibilityLabel="com.usereserva:id/card_container_category:1689"
+  style={{}}
+  testID="com.usereserva:id/card_container_category:1689"
+>
+  <View
+    alignItems="center"
+    style={
+      {
+        "alignItems": "center",
+      }
+    }
+  >
+    <View
+      accessibilityLabel="com.usereserva:id/card_button_category:1689"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "opacity": 1,
+        }
+      }
+      testID="com.usereserva:id/card_button_category:1689"
+    >
+      <Image
+        height={280}
+        resizeMode="contain"
+        source={
+          {
+            "uri": "https://image.com",
+          }
+        }
+        style={
+          [
+            {
+              "height": 466.125,
+              "width": 621.5,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

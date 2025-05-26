@@ -1,0 +1,62 @@
+query product($input: ProductInput!) {
+  product(input: $input) {
+    action
+    productId
+    productName
+    paymentSystemGroupName
+    identifier
+    categoryTree
+    disabledColors
+    hasPrime
+    saleOff
+    videoThumbnail
+    kit {
+      ...kitFragment
+    }
+    giftCard {
+      options {
+        itemId
+        name
+        ean
+        seller
+        images
+      }
+      terms
+      howItWorks
+    }
+    priceRange {
+      sellingPrice {
+        highPrice
+        lowPrice
+      }
+      listPrice {
+        highPrice
+        lowPrice
+      }
+    }
+    share {
+      title
+      message
+      url
+    }
+    properties {
+      description
+      isAssinaturaSimples
+      composition
+    }
+    colorUrls {
+      id
+      url
+    }
+    colors {
+      ...productColorFragment
+    }
+    initialColor {
+      ...productColorFragment
+    }
+    initialSize {
+      ...productSizeFragment
+    }
+    fvcProductReference
+  }
+}

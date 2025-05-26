@@ -1,0 +1,318 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalClientIsPrime should match with snapshot 1`] = `
+<Modal
+  animationType="none"
+  deviceHeight={null}
+  deviceWidth={null}
+  hardwareAccelerated={false}
+  hideModalContentWhileAnimating={false}
+  onBackdropPress={[MockFunction]}
+  onModalHide={[Function]}
+  onModalWillHide={[Function]}
+  onModalWillShow={[Function]}
+  onRequestClose={[Function]}
+  panResponderThreshold={4}
+  scrollHorizontal={false}
+  scrollOffset={0}
+  scrollOffsetMax={0}
+  scrollTo={null}
+  statusBarTranslucent={false}
+  supportedOrientations={
+    [
+      "portrait",
+      "landscape",
+    ]
+  }
+  swipeThreshold={100}
+  testID="com.usereserva:id/Modal_Client_Is_Prime"
+  transparent={true}
+  visible={true}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "backgroundColor": "black",
+        "bottom": 0,
+        "height": 1334,
+        "left": 0,
+        "opacity": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+        "width": 750,
+      }
+    }
+  />
+  <View
+    collapsable={false}
+    deviceHeight={null}
+    deviceWidth={null}
+    hideModalContentWhileAnimating={false}
+    onBackdropPress={[MockFunction]}
+    onModalHide={[Function]}
+    onModalWillHide={[Function]}
+    onModalWillShow={[Function]}
+    panResponderThreshold={4}
+    pointerEvents="box-none"
+    scrollHorizontal={false}
+    scrollOffset={0}
+    scrollOffsetMax={0}
+    scrollTo={null}
+    statusBarTranslucent={false}
+    style={
+      {
+        "flex": 1,
+        "justifyContent": "center",
+        "margin": 37.5,
+        "opacity": 0,
+        "transform": [
+          {
+            "translateY": 0,
+          },
+        ],
+      }
+    }
+    supportedOrientations={
+      [
+        "portrait",
+        "landscape",
+      ]
+    }
+    swipeThreshold={100}
+  >
+    <View
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "justifyContent": "space-between",
+          "padding": 24,
+        }
+      }
+    >
+      <RNSVGSvgView
+        align="xMidYMid"
+        bbHeight="22"
+        bbWidth="85"
+        fill="none"
+        focusable={false}
+        height="22"
+        meetOrSlice={0}
+        minX={0}
+        minY={0}
+        style={
+          [
+            {
+              "backgroundColor": "transparent",
+              "borderWidth": 0,
+            },
+            {
+              "flex": 0,
+              "height": 22,
+              "width": 85,
+            },
+          ]
+        }
+        vbHeight={22}
+        vbWidth={85}
+        width="85"
+      >
+        <RNSVGGroup
+          fill={null}
+          propList={
+            [
+              "fill",
+            ]
+          }
+        >
+          <RNSVGPath
+            d="M10.01 15.722C9.62867 15.722 9.23867 15.696 8.84 15.644V18.764L11.414 21H0.52L2.964 18.764V6.076L0.52 3.684H8.814C10.686 3.684 12.3153 3.92667 13.702 4.412C15.0887 4.88 16.1547 5.56467 16.9 6.466C17.6627 7.36733 18.044 8.442 18.044 9.69C18.044 11.5967 17.316 13.0787 15.86 14.136C14.4213 15.1933 12.4713 15.722 10.01 15.722ZM11.96 9.976C11.96 8.34667 11.7173 7.168 11.232 6.44C10.764 5.69467 9.96667 5.22667 8.84 5.036V14.396C10.92 14.1707 11.96 12.6973 11.96 9.976ZM28.8427 6.804C29.6227 6.804 30.2294 7.04667 30.6627 7.532C31.1134 8 31.3387 8.676 31.3387 9.56C31.3387 10.444 31.1481 11.1113 30.7667 11.562C30.3854 12.0127 29.9001 12.238 29.3107 12.238C29.0507 12.238 28.8167 12.1947 28.6087 12.108C28.4181 12.0213 28.1841 11.9 27.9067 11.744C27.6814 11.588 27.4821 11.4753 27.3087 11.406C27.1354 11.3367 26.9447 11.302 26.7367 11.302C26.0261 11.302 25.6707 11.8133 25.6707 12.836V18.816L28.0367 21H18.1567L20.2887 18.816V11.614L18.3387 10.002L25.1767 6.804C25.3501 8.572 25.4454 10.158 25.4627 11.562C25.7921 8.39 26.9187 6.804 28.8427 6.804ZM42.2163 21H31.8943L34.3383 18.764V11.276L32.2843 9.638L39.7463 6.57V18.816L42.2163 21ZM37.0683 5.868C36.1669 5.868 35.4476 5.61667 34.9103 5.114C34.3729 4.594 34.1043 3.95267 34.1043 3.19C34.1043 2.42733 34.3729 1.79467 34.9103 1.292C35.4476 0.771999 36.1669 0.511999 37.0683 0.511999C37.9696 0.511999 38.6889 0.771999 39.2263 1.292C39.7636 1.79467 40.0323 2.42733 40.0323 3.19C40.0323 3.95267 39.7636 4.594 39.2263 5.114C38.6889 5.61667 37.9696 5.868 37.0683 5.868ZM61.3303 21L62.8383 19.05V12.784C62.8383 12.056 62.6823 11.536 62.3703 11.224C62.0583 10.912 61.5383 10.756 60.8103 10.756C60.2383 10.756 59.727 10.8253 59.2763 10.964C59.2937 11.1027 59.3023 11.3193 59.3023 11.614V18.764L61.0703 21H52.3083L53.7903 19.05V12.784C53.7903 12.056 53.6343 11.536 53.3223 11.224C53.0277 10.912 52.5077 10.756 51.7623 10.756C51.2423 10.756 50.7397 10.8167 50.2543 10.938V19.05L51.7883 21H42.6883L44.8463 18.764V11.64L43.0523 10.002L50.2543 6.804V10.236C50.8957 9.05733 51.5977 8.19933 52.3603 7.662C53.123 7.10733 53.9983 6.83 54.9863 6.83C56.1823 6.83 57.1443 7.13333 57.8723 7.74C58.6003 8.32933 59.051 9.21333 59.2243 10.392C59.8657 9.16133 60.5763 8.26 61.3563 7.688C62.1537 7.116 63.081 6.83 64.1383 6.83C65.4557 6.83 66.487 7.23733 67.2323 8.052C67.9777 8.84933 68.3503 10.0367 68.3503 11.614V18.764L70.0923 21H61.3303ZM80.4637 17.256C81.1744 17.256 81.8417 17.1433 82.4657 16.918C83.107 16.6927 83.6444 16.3893 84.0777 16.008C83.9217 17.1867 83.5317 18.1833 82.9077 18.998C82.2837 19.8127 81.5124 20.428 80.5937 20.844C79.6924 21.26 78.7477 21.468 77.7597 21.468C76.5637 21.468 75.4024 21.182 74.2757 20.61C73.149 20.0207 72.2217 19.18 71.4937 18.088C70.783 16.9787 70.4277 15.6873 70.4277 14.214C70.4277 12.8273 70.7397 11.588 71.3637 10.496C71.9877 9.38667 72.8197 8.52867 73.8597 7.922C74.8997 7.298 76.009 6.986 77.1877 6.986C78.3837 6.986 79.441 7.22 80.3597 7.688C81.2957 8.13867 82.0237 8.76267 82.5437 9.56C83.081 10.3573 83.3757 11.25 83.4277 12.238L75.7577 14.89C76.3297 15.6007 77.023 16.1727 77.8377 16.606C78.6524 17.0393 79.5277 17.256 80.4637 17.256ZM75.8097 9.3C75.3937 9.3 75.047 9.47333 74.7697 9.82C74.5097 10.1493 74.3797 10.6347 74.3797 11.276C74.3797 12.0907 74.5964 12.9313 75.0297 13.798L78.5917 12.03C78.2797 11.1633 77.8637 10.496 77.3437 10.028C76.8237 9.54267 76.3124 9.3 75.8097 9.3Z"
+            fill={
+              {
+                "payload": 4278190080,
+                "type": 0,
+              }
+            }
+            propList={
+              [
+                "fill",
+              ]
+            }
+          />
+        </RNSVGGroup>
+      </RNSVGSvgView>
+      <View
+        style={
+          {
+            "paddingVertical": 24,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#767676",
+              "fontFamily": "ReservaSans-Regular",
+              "fontSize": 16,
+              "lineHeight": 20,
+            }
+          }
+        >
+          Olá!
+           
+          <Text
+            style={
+              {
+                "color": "#000000",
+                "fontFamily": "ReservaSans-Bold",
+                "fontSize": 16,
+                "lineHeight": 20,
+              }
+            }
+          />
+           
+          detectamos que você já é um cliente
+           
+          <Text
+            color="fullBlack"
+            style={
+              [
+                {
+                  "color": "#000",
+                  "fontFamily": "ReservaSerif-Bold",
+                  "fontSize": 15,
+                },
+                {
+                  "fontFamily": "ReservaDisplay-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "bold",
+                  "lineHeight": 20,
+                },
+              ]
+            }
+            variant="descontoTag2"
+          >
+            Prime
+          </Text>
+          , então não se preocupe, estamos removendo este produto do carrinho e mantendo apenas os demais produtos selecionados com o desconto da sua assinatura ativa.
+        </Text>
+      </View>
+      <View
+        alignItems="center"
+        style={
+          {
+            "alignItems": "center",
+          }
+        }
+      >
+        <View
+          accessibilityLabel="com.usereserva:id/Modal_Client_Is_Prime_Modal_Button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "alignItems": "center",
+              "backgroundColor": "#333333",
+              "color": "#FFF",
+              "fontFamily": "Nunito-Bold",
+              "fontSize": 13,
+              "justifyContent": "center",
+              "minWidth": 130,
+              "opacity": 1,
+              "paddingBottom": 16,
+              "paddingLeft": 8,
+              "paddingRight": 8,
+              "paddingTop": 16,
+              "width": "100%",
+            }
+          }
+          testID="com.usereserva:id/Modal_Client_Is_Prime_Modal_Button"
+        >
+          <View
+            alignItems="center"
+            flexDirection="row"
+            justifyContent="center"
+            style={
+              {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+              }
+            }
+          >
+            <View
+              justifyContent="center"
+              style={
+                {
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Text
+                color="white"
+                fontFamily="nunitoBold"
+                fontSize={13}
+                letterSpacing={1.6}
+                style={
+                  {
+                    "color": "#FFF",
+                    "fontFamily": "Nunito-Bold",
+                    "fontSize": 13,
+                    "letterSpacing": 1.6,
+                  }
+                }
+              >
+                CONTINUAR
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</Modal>
+`;

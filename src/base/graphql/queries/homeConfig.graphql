@@ -1,0 +1,18 @@
+query homeConfig {
+  homeConfig: config {
+    id
+    offersPage
+    commercialBannerCollection {
+      name
+      startingDate
+      endingDate
+      mainText
+      hasModal
+      modalTitle
+      modalDescription
+      modalButton
+      modalButtonText
+      modalButtonLink
+      }
+  }
+}

@@ -1,0 +1,24 @@
+query homeMedias {
+  homeMedias {
+    id
+    mkt
+    linkMktIn
+    reservaMini
+    deepLinkNewsletter
+    deepLink
+    headerImage {
+      url
+    }
+    orderBy
+    reference
+    facets {
+      key
+      value
+    }
+    image {
+      url
+      title
+    }
+    bannerLocation
+  }
+}

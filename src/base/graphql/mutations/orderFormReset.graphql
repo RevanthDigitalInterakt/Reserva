@@ -1,0 +1,5 @@
+mutation orderFormReset ($orderFormId: String!) {
+    orderFormReset(input: { orderFormId: $orderFormId}) {
+        ...orderFormFragment
+    }
+}

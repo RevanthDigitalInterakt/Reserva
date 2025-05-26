@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SkeletonBagFooter should render without error and match to snapshot 1`] = `
+<View
+  px="xxs"
+  style={
+    {
+      "paddingLeft": 24,
+      "paddingRight": 24,
+    }
+  }
+  testID="com.usereserva:id/skeletonBagFooter_bag"
+>
+  <View
+    style={{}}
+  >
+    <View
+      flexDirection="row"
+      justifyContent="space-between"
+      marginTop="micro"
+      style={
+        {
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "marginTop": 12,
+        }
+      }
+    >
+      <View
+        style={{}}
+      >
+        <View
+          bg="neutroFrio1"
+          height={22}
+          style={
+            {
+              "backgroundColor": "#D8D9DA",
+              "height": 22,
+              "width": 63,
+            }
+          }
+          width={63}
+        />
+        <View
+          bg="neutroFrio1"
+          height={22}
+          marginTop="nano"
+          style={
+            {
+              "backgroundColor": "#D8D9DA",
+              "height": 22,
+              "marginTop": 8,
+              "width": 95,
+            }
+          }
+          width={95}
+        />
+      </View>
+      <View
+        alignItems="flex-end"
+        style={
+          {
+            "alignItems": "flex-end",
+          }
+        }
+      >
+        <View
+          bg="neutroFrio1"
+          height={22}
+          style={
+            {
+              "backgroundColor": "#D8D9DA",
+              "height": 22,
+              "width": 63,
+            }
+          }
+          width={63}
+        />
+        <View
+          bg="neutroFrio1"
+          height={22}
+          marginTop="nano"
+          style={
+            {
+              "backgroundColor": "#D8D9DA",
+              "height": 22,
+              "marginTop": 8,
+              "width": 95,
+            }
+          }
+          width={95}
+        />
+      </View>
+    </View>
+    <View
+      bg="neutroFrio1"
+      height={50}
+      marginTop="micro"
+      style={
+        {
+          "backgroundColor": "#D8D9DA",
+          "height": 50,
+          "marginTop": 12,
+          "width": "100%",
+        }
+      }
+      width="100%"
+    />
+  </View>
+</View>
+`;

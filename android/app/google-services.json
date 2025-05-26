@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1006567395453",
+    "project_id": "app-reserva-324612",
+    "storage_bucket": "app-reserva-324612.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1006567395453:android:e4058770626505e34d2114",
+        "android_client_info": {
+          "package_name": "com.usereserva"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1006567395453-3c87j6cg6hfeeh7mjovhcmv6urj0dllo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.usereserva",
+            "certificate_hash": "77cd2a9a89cd0d13877c76f4054b6de16a189d82"
+          }
+        },
+        {
+          "client_id": "1006567395453-23u55hsbu06t50lgdqbd2fnicotg1ltt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0ucL5Mi0vzDt_mdevpybj0wcxNaRyU5s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1006567395453-23u55hsbu06t50lgdqbd2fnicotg1ltt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

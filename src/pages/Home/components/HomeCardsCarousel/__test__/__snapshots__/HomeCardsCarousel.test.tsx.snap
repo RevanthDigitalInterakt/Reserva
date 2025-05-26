@@ -1,0 +1,471 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomeCardsCarousel should match to snapshot 1`] = `
+<View
+  accessibilityLabel="com.usereserva:id/cards_carrousel_container"
+  style={{}}
+  testID="com.usereserva:id/cards_carrousel_container"
+>
+  <RCTScrollView
+    accessibilityLabel="com.usereserva:id/cards_carrousel_animated_flat_list"
+    bounces={false}
+    collapsable={false}
+    contentContainerStyle={
+      {
+        "paddingLeft": 4,
+        "paddingRight": 4,
+      }
+    }
+    data={
+      [
+        {
+          "facets": [
+            {
+              "__typename": "ProductFacetOutput",
+              "key": "productClusterIds",
+              "value": "2894",
+            },
+          ],
+          "image": {
+            "__typename": "HomeCarouselItemImageOutput",
+            "height": 1400,
+            "title": "Liqui para Todos Agosto 2023",
+            "url": "https://images.ctfassets.net/6jsfqc13oxv4/RYtXBnHIjoNdgmEvoO9Km/d06af9b5124eca415b7dfbf56fad7163/banner-home-app-liqui_para_todos.gif",
+            "width": 1080,
+          },
+          "linkMktIn": null,
+          "mkt": false,
+          "orderBy": "RELEVANCIA",
+          "reference": "collection:2894",
+          "reservaMini": false,
+        },
+        {
+          "facets": [
+            {
+              "__typename": "ProductFacetOutput",
+              "key": "productClusterIds",
+              "value": "2648",
+            },
+          ],
+          "image": {
+            "__typename": "HomeCarouselItemImageOutput",
+            "height": 1400,
+            "title": "Camisetas até R$129",
+            "url": "https://images.ctfassets.net/6jsfqc13oxv4/4TFpt2F0YWUdrb2lZ2SYak/09ad88e0d507be9079da04be0733bd05/banner-home-app-od_ate129.jpg",
+            "width": 1080,
+          },
+          "linkMktIn": null,
+          "mkt": false,
+          "orderBy": "RELEVANCIA",
+          "reference": "collection:2648",
+          "reservaMini": false,
+        },
+        {
+          "facets": [
+            {
+              "__typename": "ProductFacetOutput",
+              "key": "productClusterIds",
+              "value": "2772",
+            },
+          ],
+          "image": {
+            "__typename": "HomeCarouselItemImageOutput",
+            "height": 1400,
+            "title": "Home 2772 Ofertas Reserva",
+            "url": "https://images.ctfassets.net/6jsfqc13oxv4/2PZVKTj8T4Vkf0rGIw3NsK/2a8f32e7fe4e14ceaec20157001d328f/banner-home-app-ofertas_ate60.gif",
+            "width": 1080,
+          },
+          "linkMktIn": null,
+          "mkt": false,
+          "orderBy": "RELEVANCIA",
+          "reference": "collection:2772",
+          "reservaMini": false,
+        },
+      ]
+    }
+    decelerationRate="fast"
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={true}
+    keyExtractor={[Function]}
+    onContentSizeChange={[Function]}
+    onLayout={[Function]}
+    onMomentumScrollBegin={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={16}
+    showsHorizontalScrollIndicator={false}
+    snapToAlignment="start"
+    snapToOffsets={
+      [
+        -48,
+        589.5,
+        1227,
+      ]
+    }
+    stickyHeaderIndices={[]}
+    style={{}}
+    testID="com.usereserva:id/cards_carrousel_animated_flat_list"
+    viewabilityConfigCallbackPairs={[]}
+  >
+    <View>
+      <View
+        onFocusCapture={[Function]}
+        onLayout={[Function]}
+        style={
+          [
+            {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="com.usereserva:id/card_container_collection:2894"
+          style={{}}
+          testID="com.usereserva:id/card_container_collection:2894"
+        >
+          <View
+            alignItems="center"
+            style={
+              {
+                "alignItems": "center",
+              }
+            }
+          >
+            <View
+              accessibilityLabel="com.usereserva:id/card_button_collection:2894"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "opacity": 1,
+                }
+              }
+              testID="com.usereserva:id/card_button_collection:2894"
+            >
+              <Image
+                height={280}
+                resizeMode="contain"
+                source={
+                  {
+                    "uri": "https://images.ctfassets.net/6jsfqc13oxv4/RYtXBnHIjoNdgmEvoO9Km/d06af9b5124eca415b7dfbf56fad7163/banner-home-app-liqui_para_todos.gif",
+                  }
+                }
+                style={
+                  [
+                    {
+                      "height": 466.125,
+                      "width": 621.5,
+                    },
+                    undefined,
+                  ]
+                }
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        onFocusCapture={[Function]}
+        onLayout={[Function]}
+        style={
+          [
+            {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="com.usereserva:id/card_container_collection:2648"
+          style={{}}
+          testID="com.usereserva:id/card_container_collection:2648"
+        >
+          <View
+            alignItems="center"
+            style={
+              {
+                "alignItems": "center",
+              }
+            }
+          >
+            <View
+              accessibilityLabel="com.usereserva:id/card_button_collection:2648"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "opacity": 1,
+                }
+              }
+              testID="com.usereserva:id/card_button_collection:2648"
+            >
+              <Image
+                height={280}
+                resizeMode="contain"
+                source={
+                  {
+                    "uri": "https://images.ctfassets.net/6jsfqc13oxv4/4TFpt2F0YWUdrb2lZ2SYak/09ad88e0d507be9079da04be0733bd05/banner-home-app-od_ate129.jpg",
+                  }
+                }
+                style={
+                  [
+                    {
+                      "height": 466.125,
+                      "width": 621.5,
+                    },
+                    undefined,
+                  ]
+                }
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        onFocusCapture={[Function]}
+        onLayout={[Function]}
+        style={
+          [
+            {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="com.usereserva:id/card_container_collection:2772"
+          style={{}}
+          testID="com.usereserva:id/card_container_collection:2772"
+        >
+          <View
+            alignItems="center"
+            style={
+              {
+                "alignItems": "center",
+              }
+            }
+          >
+            <View
+              accessibilityLabel="com.usereserva:id/card_button_collection:2772"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "opacity": 1,
+                }
+              }
+              testID="com.usereserva:id/card_button_collection:2772"
+            >
+              <Image
+                height={280}
+                resizeMode="contain"
+                source={
+                  {
+                    "uri": "https://images.ctfassets.net/6jsfqc13oxv4/2PZVKTj8T4Vkf0rGIw3NsK/2a8f32e7fe4e14ceaec20157001d328f/banner-home-app-ofertas_ate60.gif",
+                  }
+                }
+                style={
+                  [
+                    {
+                      "height": 466.125,
+                      "width": 621.5,
+                    },
+                    undefined,
+                  ]
+                }
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    alignSelf="center"
+    flexDirection="row"
+    height={24}
+    style={
+      {
+        "alignSelf": "center",
+        "flexDirection": "row",
+        "height": 24,
+      }
+    }
+  >
+    <View
+      accessibilityLabel="com.usereserva:id/cards_carrousel_animated_view"
+      collapsable={false}
+      style={
+        {
+          "alignSelf": "center",
+          "backgroundColor": "#6F6F6F",
+          "borderRadius": 7,
+          "height": 7,
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 6,
+            },
+          ],
+          "width": 7,
+          "zIndex": 2,
+        }
+      }
+      testID="com.usereserva:id/cards_carrousel_animated_view"
+    />
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "width": 19,
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "borderColor": "#6F6F6F",
+            "borderRadius": 7,
+            "borderWidth": 1,
+            "height": 7,
+            "width": 7,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "width": 19,
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "borderColor": "#6F6F6F",
+            "borderRadius": 7,
+            "borderWidth": 1,
+            "height": 7,
+            "width": 7,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "width": 19,
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "borderColor": "#6F6F6F",
+            "borderRadius": 7,
+            "borderWidth": 1,
+            "height": 7,
+            "width": 7,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

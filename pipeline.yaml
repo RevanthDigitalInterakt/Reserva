@@ -1,0 +1,81 @@
+trigger: none
+pr: none
+
+variables:
+  - group: mobile-variable-group
+
+pool: 
+  name: Reserva_MacMini-Pool
+
+stages:
+- stage: BuildAndDeploy
+  displayName: 'Build and Deploy'
+  jobs:
+  - deployment: BuildAndDeployJob 
+    displayName: 'Build and Deploy Process'
+    environment: 'Reserva-Mobile-App'  # Ambiente que requer aprovação
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+            persistCredentials: true
+            clean: true
+
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '20.9.0'
+            displayName: 'Install Node.js'
+
+          - script: |
+              cd ios
+              xcodebuild clean
+              rm -rf ~/Library/Developer/Xcode/DerivedData
+            displayName: 'Clean Xcode'
+
+          - script: |
+              brew -v
+              fastlane -v
+              ruby -v
+              export LANG=en_US.UTF-8
+              yarn
+            displayName: 'Install dependencies'
+            workingDirectory: $(Build.SourcesDirectory)
+
+          - task: DownloadSecureFile@1
+            name: apiKeyFileIOS
+            inputs:
+              secureFile: 'fastlane_6UD2X3PDZN.json'
+              
+          - task: DownloadSecureFile@1
+            name: apiKeyFileAndroid
+            inputs:
+              secureFile: 'play-store-credentials.json'
+
+          - script: |
+              export GIT_CONFIG_PARAMETERS="'url.https://$SYSTEM_ACCESSTOKEN@dev.azure.com.insteadof=https://ARECO@dev.azure.com'" 
+              git tag
+              yarn pipeline:semantic-release-pre:prod
+              bash scripts/deleteTag.sh
+            displayName: 'Increment version'
+            workingDirectory: $(Build.SourcesDirectory)
+            env: 
+              SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
+          - script: |
+              fastlane ios beta api_key_path:$(apiKeyFileIOS.secureFilePath)
+            displayName: 'Deploy to TestFlight'
+            workingDirectory: ios
+            timeoutInMinutes: 30000
+
+          - script: |
+              #export ANDROID_HOME=/Users/admin/Library/Android/sdk
+              fastlane android beta api_key_path:$(apiKeyFileAndroid.secureFilePath)
+            displayName: 'Deploy to Play Store Beta'
+            workingDirectory: android
+            timeoutInMinutes: 30000
+
+          - script: |
+              yarn pipeline:semantic-release-post:prod
+            displayName: 'Commit version'
+            workingDirectory: $(Build.SourcesDirectory)

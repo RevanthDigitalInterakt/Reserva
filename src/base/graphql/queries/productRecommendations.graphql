@@ -1,0 +1,44 @@
+query productRecommendations {
+  productRecommendations {
+    productId
+    productName
+    priceRange {
+      sellingPrice {
+        highPrice
+        lowPrice
+      }
+      listPrice{
+        highPrice
+        lowPrice
+      }
+    }
+    items {
+      images
+      itemId
+      skuName
+      variations {
+        originalName
+        name
+        values
+      }
+      sellers {
+        sellerId
+        sellerDefault
+        commertialOffer {
+          tax
+          taxPercentage
+          availableQuantity
+          price
+          listPrice
+          spotPrice
+          priceWithoutDiscount
+          installments {
+            value
+            totalValuePlusInterestRate
+            numberOfInstallments
+          }
+        }
+      }
+    }
+  }
+}

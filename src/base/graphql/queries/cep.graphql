@@ -1,0 +1,12 @@
+query Cep($input: CepInput!) {
+  cep(input: $input) {
+    postalCode
+    city
+    state
+    country
+    street
+    neighborhood
+    reference
+    geoCoordinates
+  }
+}

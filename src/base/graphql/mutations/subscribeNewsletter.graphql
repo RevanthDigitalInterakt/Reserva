@@ -1,0 +1,3 @@
+mutation subscribeNewsletter($input: SubscribeNewsletterInput!) {
+    subscribeNewsletter(input: $input)
+}

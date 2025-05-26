@@ -1,0 +1,5 @@
+mutation orderFormUpdateItem($orderFormId: String!, $seller: String!, $id: String!, $quantity: Int!, $index: Int!) {
+    orderFormUpdateItem(input: { orderFormId: $orderFormId, seller: $seller, id: $id, quantity: $quantity, index: $index}) {
+        ...orderFormFragment
+    }
+}

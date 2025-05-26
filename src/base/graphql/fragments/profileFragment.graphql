@@ -1,0 +1,34 @@
+fragment ProfileFragment on ProfileOutput {
+  id
+  authCookie
+  email
+  firstName
+  lastName
+  document
+  birthDate
+  homePhone
+  isPrime
+  gender
+  isComplete
+  isPrime
+  addresses {
+    id
+    receiverName
+    complement
+    neighborhood
+    country
+    state
+    number
+    street
+    postalCode
+    city
+    reference
+    addressName
+    addressType
+  }
+  customFields {
+    cacheId
+    key
+    value
+  }
+}

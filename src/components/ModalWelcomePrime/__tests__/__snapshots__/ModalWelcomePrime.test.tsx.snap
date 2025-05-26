@@ -1,0 +1,263 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalWelcomePrime should match to snapshot 1`] = `
+<Modal
+  accessibilityLabel="com.usereserva:id/modal_welcome_prime"
+  animationType="none"
+  deviceHeight={null}
+  deviceWidth={null}
+  hardwareAccelerated={false}
+  hideModalContentWhileAnimating={false}
+  onBackdropPress={[MockFunction]}
+  onModalHide={[Function]}
+  onModalWillHide={[Function]}
+  onModalWillShow={[Function]}
+  onRequestClose={[Function]}
+  panResponderThreshold={4}
+  scrollHorizontal={false}
+  scrollOffset={0}
+  scrollOffsetMax={0}
+  scrollTo={null}
+  statusBarTranslucent={false}
+  supportedOrientations={
+    [
+      "portrait",
+      "landscape",
+    ]
+  }
+  swipeThreshold={100}
+  testID="com.usereserva:id/modal_welcome_prime"
+  transparent={true}
+  visible={true}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "backgroundColor": "black",
+        "bottom": 0,
+        "height": 1334,
+        "left": 0,
+        "opacity": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+        "width": 750,
+      }
+    }
+  />
+  <View
+    accessibilityLabel="com.usereserva:id/modal_welcome_prime"
+    collapsable={false}
+    deviceHeight={null}
+    deviceWidth={null}
+    hideModalContentWhileAnimating={false}
+    onBackdropPress={[MockFunction]}
+    onModalHide={[Function]}
+    onModalWillHide={[Function]}
+    onModalWillShow={[Function]}
+    panResponderThreshold={4}
+    pointerEvents="box-none"
+    scrollHorizontal={false}
+    scrollOffset={0}
+    scrollOffsetMax={0}
+    scrollTo={null}
+    statusBarTranslucent={false}
+    style={
+      {
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+        "margin": 37.5,
+        "opacity": 0,
+        "transform": [
+          {
+            "translateY": 0,
+          },
+        ],
+      }
+    }
+    supportedOrientations={
+      [
+        "portrait",
+        "landscape",
+      ]
+    }
+    swipeThreshold={100}
+  >
+    <View
+      accessibilityLabel="com.usereserva:id/modal_sign_in_container"
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "padding": 32,
+          "width": 726,
+        }
+      }
+      testID="com.usereserva:id/modal_sign_in_container"
+    >
+      <Text
+        accessibilityLabel="com.usereserva:id/title"
+        style={
+          {
+            "color": "#000000",
+            "fontFamily": "ReservaDisplay-Regular",
+            "fontSize": 26,
+            "marginBottom": 24,
+          }
+        }
+        testID="com.usereserva:id/title"
+      >
+        Prime
+      </Text>
+      <View>
+        <Text
+          style={
+            {
+              "color": "#767676",
+              "fontFamily": "ReservaSans-Regular",
+              "fontSize": 16,
+              "lineHeight": 20,
+            }
+          }
+        >
+          Agora você é um cliente
+           
+          <Text
+            style={
+              {
+                "color": "#000000",
+                "fontFamily": "ReservaDisplay-Regular",
+                "fontSize": 16,
+                "lineHeight": 20,
+              }
+            }
+          >
+            Prime
+          </Text>
+          , para facilitar na sua compra já adicionamos ao seu carrinho a assinatura, ela será concluída junto ao seu pedido.
+        </Text>
+      </View>
+      <RCTScrollView
+        showsVerticalScrollIndicator={false}
+      >
+        <View>
+          <View
+            alignItems="stretch"
+            style={
+              {
+                "alignItems": "stretch",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#333333",
+                  "color": "#FFF",
+                  "fontFamily": "Nunito-Bold",
+                  "fontSize": 13,
+                  "justifyContent": "center",
+                  "marginTop": 24,
+                  "minWidth": 130,
+                  "opacity": 1,
+                  "paddingBottom": 16,
+                  "paddingLeft": 8,
+                  "paddingRight": 8,
+                  "paddingTop": 16,
+                }
+              }
+              testID="com.usereserva:id/modal_welcome_prime_continue"
+            >
+              <View
+                alignItems="center"
+                flexDirection="row"
+                justifyContent="center"
+                style={
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  }
+                }
+              >
+                <View
+                  justifyContent="center"
+                  style={
+                    {
+                      "justifyContent": "center",
+                    }
+                  }
+                >
+                  <Text
+                    color="white"
+                    fontFamily="nunitoBold"
+                    fontSize={13}
+                    letterSpacing={1.6}
+                    style={
+                      {
+                        "color": "#FFF",
+                        "fontFamily": "Nunito-Bold",
+                        "fontSize": 13,
+                        "letterSpacing": 1.6,
+                      }
+                    }
+                  >
+                    CONTINUAR COMPRANDO
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+  </View>
+</Modal>
+`;
