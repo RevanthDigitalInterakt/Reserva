@@ -1,0 +1,5 @@
+mutation orderFormAddGift ($orderFormId: String!, $index: Int!, $id: String!) {
+    orderFormAddGift(input: { orderFormId: $orderFormId, index: $index, id: $id}) {
+        ...orderFormFragment
+    }
+}

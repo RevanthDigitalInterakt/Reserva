@@ -1,0 +1,5 @@
+mutation orderFormAddDiscountCoupon($orderFormId: String!, $coupon: String!) {
+    orderFormAddDiscountCoupon(input:{ orderFormId:$orderFormId, coupon: $coupon }) {
+        ...orderFormFragment
+    }
+}

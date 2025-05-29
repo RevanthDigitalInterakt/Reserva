@@ -1,0 +1,5 @@
+mutation orderFormSetGiftSize($orderFormId: String!, $giftId: String!, $id: String!, $seller: String!){
+    orderFormSetGiftSize(input:{ orderFormId: $orderFormId, giftId: $giftId, id: $id, seller: $seller}) {
+        ...orderFormFragment
+    }
+}

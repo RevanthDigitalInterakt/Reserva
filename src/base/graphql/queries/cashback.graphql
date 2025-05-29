@@ -1,0 +1,21 @@
+query cashback {
+  cashback {
+    wallet {
+      balanceInCents
+    }
+    expiration {
+      totalExpireBalanceInCents
+      cashbackToExpire {
+        expireAt
+        expireCashbackAmount
+      }
+    }
+    operations {
+      status
+      cashbackAmountInCents
+      appliedBalanceInCents
+      settlementDate
+      createdAt
+    }
+  }
+}

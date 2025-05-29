@@ -1,0 +1,88 @@
+fragment orderFormFragment on OrderformOutput {
+    orderFormId
+    salesChannel
+    messages
+    clientProfileData {
+        email
+        firstName
+        lastName
+        document
+        documentType
+        phone
+        corporateName
+        tradeName
+        corporateDocument
+        stateInscription
+        corporatePhone
+        profileCompleteOnLoading
+    }
+    packageItems {
+        ...OrderformPackageItemsFragment
+    }
+    selectableGift {
+        ...OrderformSelectableGiftFragment
+    }
+    marketingData {
+      coupon
+      sellerCoupon
+      sellerCouponName
+      itemsWithCouponDiscount {
+        id
+        name
+        sellingPrice
+        itemColor
+        imageUrl
+        imageSource
+      }
+    }
+    shippingData {
+        address {
+            addressType
+            receiverName
+            addressId
+            isDisposable
+            postalCode
+            city
+            state
+            country
+            street
+            number
+            neighborhood
+            complement
+            reference
+        }
+        availableAddresses {
+            addressType
+            receiverName
+            addressId
+            isDisposable
+            postalCode
+            city
+            state
+            country
+            street
+            number
+            neighborhood
+            complement
+            reference
+        }
+    }
+    appTotalizers {
+        items
+        discount
+        delivery
+        total
+    }
+    installmentInfo {
+        installmentsNumber
+        installmentPrice
+        totalPrice
+    }
+    prime {
+        total
+        totalDiscount
+        renderApp
+    }
+    allItemsQuantity
+    hasPrimeSubscriptionInCart
+}

@@ -1,0 +1,6 @@
+query wishlistCheckProduct($input: WishlistCheckProductInput!) {
+    wishlistCheckProduct(input: $input) {
+        inList
+        listIds
+    }
+}

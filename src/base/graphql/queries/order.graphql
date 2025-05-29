@@ -1,0 +1,77 @@
+query order($input: OrderDetailIdInput!) {
+  order(input: $input) {
+    orderId
+    sequence
+    marketplaceOrderId
+    sellerOrderId
+    origin
+    affiliateId
+    salesChannel
+    status
+    statusDescription
+    value
+    creationDate
+    lastChange
+    orderGroup
+    totals {
+      id
+      name
+      value
+    }
+    clientProfileData {
+      id
+      email
+      firstName
+      lastName
+      documentType
+      document
+      phone
+      userProfileId
+    }
+    items {
+      uniqueId
+      id
+      productId
+      ean
+      quantity
+      seller
+      name
+      refId
+      price
+      listPrice
+      imageUrl
+      detailUrl
+      sellerSku
+      commission
+      tax
+      measurementUnit
+      unitMultiplier
+      sellingPrice
+      isGift
+      rewardValue
+      freightCommission
+      offerings {
+        id
+        type
+        name
+        price
+      }
+    }
+    shippingData {
+      address {
+        addressType
+        receiverName
+        addressId
+        postalCode
+        city
+        state
+        country
+        street
+        number
+        neighborhood
+        complement
+        geoCoordinates
+      }
+    }
+  }
+}

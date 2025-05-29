@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NotFoundProduct component should match with the snapshot 1`] = `
+<View
+  animation="slideInDown"
+  style={
+    {
+      "elevation": 10,
+      "left": 0,
+      "position": "absolute",
+      "right": 0,
+      "zIndex": 2,
+    }
+  }
+  testID="com.usereserva:id/NotFoundProduct_container"
+  useNativeDriver={true}
+>
+  <View
+    alignItems="center"
+    bg="white"
+    boxShadow="topBarShadow"
+    flexDirection="row"
+    minHeight={60}
+    paddingLeft="xxxs"
+    paddingRight="xxxs"
+    py="micro"
+    style={
+      [
+        {
+          "alignItems": "center",
+          "backgroundColor": "#FFF",
+          "flexDirection": "row",
+          "minHeight": 60,
+          "paddingBottom": 12,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 12,
+          "shadowColor": "rgba(0,0,0,0.1)",
+          "shadowOffset": {
+            "height": 3,
+            "width": 0,
+          },
+          "shadowOpacity": 1,
+          "shadowRadius": 2,
+        },
+        {
+          "elevation": 10,
+        },
+      ]
+    }
+  >
+    <View
+      flex={1}
+      style={
+        {
+          "flexBasis": 0,
+          "flexGrow": 1,
+          "flexShrink": 1,
+        }
+      }
+    >
+      <Text
+        color="preto"
+        fontFamily="nunitoRegular"
+        fontSize={13}
+        style={
+          {
+            "color": "#333333",
+            "fontFamily": "Nunito-Regular",
+            "fontSize": 13,
+          }
+        }
+      >
+        Product not found
+      </Text>
+    </View>
+    <View
+      alignItems="center"
+      style={
+        {
+          "alignItems": "center",
+        }
+      }
+    >
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignItems": "center",
+            "flexBasis": 0,
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "justifyContent": "center",
+            "opacity": 1,
+          }
+        }
+        testID="com.usereserva:id/NotFoundProduct_setProduct"
+      >
+        <RNSVGSvgView
+          bbHeight="15"
+          bbWidth="15"
+          color="preto"
+          focusable={false}
+          ml="xxxs"
+          size={15}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "borderWidth": 0,
+              },
+              {
+                "color": "#333333",
+                "height": 15,
+                "marginLeft": 16,
+                "width": 15,
+              },
+              {
+                "flex": 0,
+                "height": 15,
+                "width": 15,
+              },
+            ]
+          }
+          tintColor="preto"
+        >
+          <RNSVGGroup
+            fill={
+              {
+                "payload": 4278190080,
+                "type": 0,
+              }
+            }
+          >
+            <RNSVGSvgView
+              align="xMidYMid"
+              bbHeight="100%"
+              bbWidth="100%"
+              focusable={false}
+              height="100%"
+              meetOrSlice={0}
+              minX={0}
+              minY={0}
+              style={
+                [
+                  {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  {
+                    "height": "100%",
+                    "width": "100%",
+                  },
+                  {
+                    "flex": 0,
+                    "height": "100%",
+                    "width": "100%",
+                  },
+                ]
+              }
+              vbHeight={8.24}
+              vbWidth={8.242}
+              width="100%"
+            >
+              <RNSVGGroup
+                fill={
+                  {
+                    "payload": 4278190080,
+                    "type": 0,
+                  }
+                }
+              >
+                <RNSVGPath
+                  d="M5.098 4.12l2.944-2.944A.69.69 0 007.066.2L4.122 3.144 1.178.2a.69.69 0 10-.976.976L3.146 4.12.202 7.064a.69.69 0 00.976.976l2.944-2.944L7.066 8.04a.69.69 0 00.976-.976z"
+                  fill={
+                    {
+                      "payload": 4281545523,
+                      "type": 0,
+                    }
+                  }
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                />
+              </RNSVGGroup>
+            </RNSVGSvgView>
+          </RNSVGGroup>
+        </RNSVGSvgView>
+      </View>
+    </View>
+  </View>
+</View>
+`;

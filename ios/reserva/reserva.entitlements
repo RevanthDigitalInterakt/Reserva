@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>aps-environment</key>
+	<string>development</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:usereserva.onelink.me</string>
+		<string>applinks:usereserva.com</string>
+		<string>applinks:www.usereserva.com</string>
+		<string>applinks:usereserva.io</string>
+		<string>applinks:*.usereserva.io</string>
+		<string>applinks:now.usereserva.io</string>
+	</array>
+</dict>
+</plist>

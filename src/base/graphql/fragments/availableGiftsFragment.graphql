@@ -1,0 +1,20 @@
+fragment AvailableGiftsFragment on OrderformSelectableGiftAvailableGiftOutput {
+    isSelected
+    uniqueId
+    id
+    productId
+    productRefId
+    imageUrl
+    detailUrl
+    availability
+    measurementUnit
+    unitMultiplier
+    refId
+    ean
+    name
+    skuName
+    tax
+    rewardValue
+    isGift
+    seller
+}

@@ -1,0 +1,31 @@
+query homeCarousels {
+    homeCarousels {
+        id
+        type
+        showtime
+        items {
+            mkt
+            linkMktIn
+            reservaMini
+            reference
+            orderBy
+            facets {
+                key
+                value
+            }
+            image {
+                url
+                title
+                height
+                width
+            }
+            filters {
+                priceFilter {
+                    from
+                    to
+                }
+            }
+            bannerLocation
+        }
+    }
+}

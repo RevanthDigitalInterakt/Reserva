@@ -1,0 +1,871 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChangeFileModal renders without error and match snapshot 1`] = `
+<Modal
+  animationType="none"
+  deviceHeight={null}
+  deviceWidth={null}
+  hardwareAccelerated={false}
+  hideModalContentWhileAnimating={false}
+  onBackdropPress={[MockFunction]}
+  onModalHide={[Function]}
+  onModalWillHide={[Function]}
+  onModalWillShow={[Function]}
+  onRequestClose={[Function]}
+  panResponderThreshold={4}
+  scrollHorizontal={false}
+  scrollOffset={0}
+  scrollOffsetMax={0}
+  scrollTo={null}
+  supportedOrientations={
+    Array [
+      "portrait",
+      "landscape",
+    ]
+  }
+  swipeThreshold={100}
+  testID="com.usereserva:id/changefilemodal_container"
+  transparent={true}
+  visible={true}
+>
+  <View
+    accessible={true}
+    focusable={true}
+    forwardedRef={[Function]}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "backgroundColor": "black",
+        "bottom": 0,
+        "height": 1334,
+        "left": 0,
+        "opacity": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+        "width": 750,
+      }
+    }
+  />
+  <View
+    deviceHeight={null}
+    deviceWidth={null}
+    forwardedRef={[Function]}
+    hideModalContentWhileAnimating={false}
+    onBackdropPress={[MockFunction]}
+    onModalHide={[Function]}
+    onModalWillHide={[Function]}
+    onModalWillShow={[Function]}
+    panResponderThreshold={4}
+    pointerEvents="box-none"
+    scrollHorizontal={false}
+    scrollOffset={0}
+    scrollOffsetMax={0}
+    scrollTo={null}
+    style={
+      Object {
+        "alignSelf": "flex-end",
+        "bottom": 0,
+        "flex": 1,
+        "justifyContent": "center",
+        "margin": 37.5,
+        "position": "absolute",
+        "transform": Array [
+          Object {
+            "translateY": 1334,
+          },
+        ],
+        "width": "100%",
+      }
+    }
+    supportedOrientations={
+      Array [
+        "portrait",
+        "landscape",
+      ]
+    }
+    swipeThreshold={100}
+  >
+    <View
+      bg="white"
+      p="xxxs"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "#FFF",
+            "paddingBottom": 16,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+            "paddingTop": 16,
+          },
+        ]
+      }
+    >
+      <View
+        alignItems="center"
+        flexDirection="row"
+        justifyContent="space-between"
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {},
+            ]
+          }
+        >
+          <Text
+            fontFamily="reservaSerifRegular"
+            fontSize={20}
+            style={
+              Array [
+                Object {
+                  "fontFamily": "ReservaSerif-Regular",
+                  "fontSize": 20,
+                },
+              ]
+            }
+          />
+        </View>
+        <View
+          alignItems="center"
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+              },
+            ]
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            hitSlop={
+              Object {
+                "bottom": 30,
+                "left": 30,
+                "right": 30,
+                "top": 30,
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "justifyContent": "center",
+                "opacity": 1,
+              }
+            }
+          >
+            <View
+              flexGrow={0}
+              justifyContent="flex-end"
+              style={
+                Array [
+                  Object {
+                    "flexGrow": 0,
+                    "justifyContent": "flex-end",
+                  },
+                ]
+              }
+            >
+              <View
+                flexGrow={0}
+                justifyContent="center"
+                position="absolute"
+                right={-5}
+                style={
+                  Array [
+                    Object {
+                      "flexGrow": 0,
+                      "justifyContent": "center",
+                      "position": "absolute",
+                      "right": -5,
+                      "top": -5,
+                      "zIndex": 1,
+                    },
+                  ]
+                }
+                top={-5}
+                zIndex={1}
+              />
+              <RNSVGSvgView
+                bbHeight={12}
+                bbWidth={12}
+                color="preto"
+                focusable={false}
+                size={12}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    Array [
+                      Object {
+                        "color": "#333333",
+                        "height": 12,
+                        "width": 12,
+                      },
+                    ],
+                    Object {
+                      "flex": 0,
+                      "height": 12,
+                      "width": 12,
+                    },
+                  ]
+                }
+              >
+                <RNSVGGroup>
+                  <RNSVGSvgView
+                    align="xMidYMid"
+                    bbHeight="100%"
+                    bbWidth="100%"
+                    focusable={false}
+                    height="100%"
+                    meetOrSlice={0}
+                    minX={0}
+                    minY={0}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        Array [
+                          Object {
+                            "height": "100%",
+                            "width": "100%",
+                          },
+                        ],
+                        Object {
+                          "flex": 0,
+                          "height": "100%",
+                          "width": "100%",
+                        },
+                      ]
+                    }
+                    vbHeight={8.24}
+                    vbWidth={8.242}
+                    width="100%"
+                  >
+                    <RNSVGGroup>
+                      <RNSVGPath
+                        d="M5.098 4.12l2.944-2.944A.69.69 0 007.066.2L4.122 3.144 1.178.2a.69.69 0 10-.976.976L3.146 4.12.202 7.064a.69.69 0 00.976.976l2.944-2.944L7.066 8.04a.69.69 0 00.976-.976z"
+                        fill={4281545523}
+                        propList={
+                          Array [
+                            "fill",
+                          ]
+                        }
+                      />
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        mb="micro"
+        mt="xxs"
+        style={
+          Array [
+            Object {
+              "marginBottom": 12,
+              "marginTop": 24,
+            },
+          ]
+        }
+      >
+        <Text
+          fontFamily="reservaSansMedium"
+          fontSize={14}
+          style={
+            Array [
+              Object {
+                "fontFamily": "ReservaSans-Medium",
+                "fontSize": 14,
+              },
+            ]
+          }
+        >
+          Escolha uma das opções abaixo:
+        </Text>
+      </View>
+      <View
+        mb="micro"
+        mt="xxs"
+        style={
+          Array [
+            Object {
+              "marginBottom": 12,
+              "marginTop": 24,
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+          testID="com.usereserva:id/changefilemodal_button_camera"
+        >
+          <View
+            style={
+              Array [
+                Object {},
+                Object {
+                  "alignContent": "center",
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "textAlign": "center",
+                },
+              ]
+            }
+          >
+            <RNSVGSvgView
+              bbHeight={20}
+              bbWidth={20}
+              color="preto"
+              focusable={false}
+              mr="micro"
+              size={20}
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  Array [
+                    Object {
+                      "color": "#333333",
+                      "height": 20,
+                      "marginRight": 12,
+                      "width": 20,
+                    },
+                  ],
+                  Object {
+                    "flex": 0,
+                    "height": 20,
+                    "width": 20,
+                  },
+                ]
+              }
+            >
+              <RNSVGGroup>
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight="100%"
+                  bbWidth="100%"
+                  focusable={false}
+                  height="100%"
+                  meetOrSlice={0}
+                  minX={0}
+                  minY={0}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      Array [
+                        Object {
+                          "height": "100%",
+                          "width": "100%",
+                        },
+                      ],
+                      Object {
+                        "flex": 0,
+                        "height": "100%",
+                        "width": "100%",
+                      },
+                    ]
+                  }
+                  vbHeight={512}
+                  vbWidth={512}
+                  width="100%"
+                >
+                  <RNSVGGroup>
+                    <RNSVGPath
+                      d="M324.3 64c3.3 0 6.3 2.1 7.5 5.2l22.1 58.8H464c8.8 0 16 7.2 16 16v288c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V144c0-8.8 7.2-16 16-16h110.2l20.1-53.6c2.3-6.2 8.3-10.4 15-10.4h131m0-32h-131c-20 0-37.9 12.4-44.9 31.1L136 96H48c-26.5 0-48 21.5-48 48v288c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V144c0-26.5-21.5-48-48-48h-88l-14.3-38c-5.8-15.7-20.7-26-37.4-26zM256 408c-66.2 0-120-53.8-120-120s53.8-120 120-120 120 53.8 120 120-53.8 120-120 120zm0-208c-48.5 0-88 39.5-88 88s39.5 88 88 88 88-39.5 88-88-39.5-88-88-88z"
+                      fill={4281545523}
+                      propList={
+                        Array [
+                          "fill",
+                        ]
+                      }
+                    />
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </RNSVGGroup>
+            </RNSVGSvgView>
+            <Text
+              fontFamily="reservaSansMedium"
+              fontSize={14}
+              style={
+                Array [
+                  Object {
+                    "fontFamily": "ReservaSans-Medium",
+                    "fontSize": 14,
+                  },
+                ]
+              }
+            >
+              Tirar uma foto
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        backgroundColor="divider"
+        height={1}
+        style={
+          Array [
+            Object {
+              "backgroundColor": "#D8D9DA",
+              "height": 1,
+            },
+          ]
+        }
+        variant="fullWidth"
+      />
+      <View
+        mb="micro"
+        mt="micro"
+        style={
+          Array [
+            Object {
+              "marginBottom": 12,
+              "marginTop": 12,
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+          testID="com.usereserva:id/changefilemodal_button_gallery"
+        >
+          <View
+            style={
+              Array [
+                Object {},
+                Object {
+                  "alignContent": "center",
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "textAlign": "center",
+                },
+              ]
+            }
+          >
+            <RNSVGSvgView
+              bbHeight={20}
+              bbWidth={20}
+              color="preto"
+              focusable={false}
+              mr="micro"
+              size={20}
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  Array [
+                    Object {
+                      "color": "#333333",
+                      "height": 20,
+                      "marginRight": 12,
+                      "width": 20,
+                    },
+                  ],
+                  Object {
+                    "flex": 0,
+                    "height": 20,
+                    "width": 20,
+                  },
+                ]
+              }
+            >
+              <RNSVGGroup>
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight="100%"
+                  bbWidth="100%"
+                  focusable={false}
+                  height="100%"
+                  meetOrSlice={0}
+                  minX={0}
+                  minY={0}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      Array [
+                        Object {
+                          "height": "100%",
+                          "width": "100%",
+                        },
+                      ],
+                      Object {
+                        "flex": 0,
+                        "height": "100%",
+                        "width": "100%",
+                      },
+                    ]
+                  }
+                  vbHeight={26.992}
+                  vbWidth={30.849}
+                  width="100%"
+                >
+                  <RNSVGGroup>
+                    <RNSVGPath
+                      d="M31.488,5.784l0,0V28.917l0,0H4.5l0,0V5.788l0,0Zm0-1.928H4.5A1.934,1.934,0,0,0,2.571,5.784V28.921A1.934,1.934,0,0,0,4.5,30.849H31.491a1.934,1.934,0,0,0,1.928-1.928V5.784a1.934,1.934,0,0,0-1.928-1.928ZM27.635,10.6a2.892,2.892,0,1,1-2.892-2.892A2.892,2.892,0,0,1,27.635,10.6Zm1.928,16.388H6.427V23.136l6.748-11.568,7.712,9.64h1.928l6.748-5.784Z"
+                      fill={4281545523}
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          -2.571,
+                          -3.856,
+                        ]
+                      }
+                      propList={
+                        Array [
+                          "fill",
+                        ]
+                      }
+                    />
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </RNSVGGroup>
+            </RNSVGSvgView>
+            <Text
+              fontFamily="reservaSansMedium"
+              fontSize={14}
+              style={
+                Array [
+                  Object {
+                    "fontFamily": "ReservaSans-Medium",
+                    "fontSize": 14,
+                  },
+                ]
+              }
+            >
+              Buscar na galeria
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        backgroundColor="divider"
+        height={1}
+        style={
+          Array [
+            Object {
+              "backgroundColor": "#D8D9DA",
+              "height": 1,
+            },
+          ]
+        }
+        variant="fullWidth"
+      />
+      <View
+        mb="micro"
+        mt="micro"
+        style={
+          Array [
+            Object {
+              "marginBottom": 12,
+              "marginTop": 12,
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+          testID="com.usereserva:id/changefilemodal_button_clear"
+        >
+          <View
+            style={
+              Array [
+                Object {},
+                Object {
+                  "alignContent": "center",
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "textAlign": "center",
+                },
+              ]
+            }
+          >
+            <RNSVGSvgView
+              bbHeight={20}
+              bbWidth={20}
+              color="preto"
+              focusable={false}
+              mr="micro"
+              size={20}
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                  },
+                  Array [
+                    Object {
+                      "color": "#333333",
+                      "height": 20,
+                      "marginRight": 12,
+                      "width": 20,
+                    },
+                  ],
+                  Object {
+                    "flex": 0,
+                    "height": 20,
+                    "width": 20,
+                  },
+                ]
+              }
+            >
+              <RNSVGGroup>
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight="100%"
+                  bbWidth="100%"
+                  focusable={false}
+                  height="100%"
+                  meetOrSlice={0}
+                  minX={0}
+                  minY={0}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      Array [
+                        Object {
+                          "height": "100%",
+                          "width": "100%",
+                        },
+                      ],
+                      Object {
+                        "flex": 0,
+                        "height": "100%",
+                        "width": "100%",
+                      },
+                    ]
+                  }
+                  vbHeight={19.477}
+                  vbWidth={16.569}
+                  width="100%"
+                >
+                  <RNSVGGroup>
+                    <RNSVGGroup
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          -301.159,
+                          -235.5,
+                        ]
+                      }
+                      name="Group_2046"
+                    >
+                      <RNSVGGroup
+                        matrix={
+                          Array [
+                            1,
+                            0,
+                            0,
+                            1,
+                            301.659,
+                            236,
+                          ]
+                        }
+                        name="Trash_-_icon"
+                      >
+                        <RNSVGPath
+                          d="M4.5,9H18.841"
+                          fill={null}
+                          matrix={
+                            Array [
+                              1,
+                              0,
+                              0,
+                              1,
+                              -4.5,
+                              -5.813,
+                            ]
+                          }
+                          name="Path_300"
+                          propList={
+                            Array [
+                              "fill",
+                              "stroke",
+                            ]
+                          }
+                          stroke={4281545523}
+                        />
+                        <RNSVGPath
+                          d="M18.654,6.187V17.341a1.593,1.593,0,0,1-1.593,1.593H9.093A1.593,1.593,0,0,1,7.5,17.341V6.187m2.39,0V4.593A1.593,1.593,0,0,1,11.484,3H14.67a1.593,1.593,0,0,1,1.593,1.593V6.187"
+                          fill={null}
+                          matrix={
+                            Array [
+                              1,
+                              0,
+                              0,
+                              1,
+                              -5.907,
+                              -3,
+                            ]
+                          }
+                          name="Path_301"
+                          propList={
+                            Array [
+                              "fill",
+                              "stroke",
+                            ]
+                          }
+                          stroke={4281545523}
+                        />
+                        <RNSVGPath
+                          d="M15,16.5v4.78"
+                          fill={null}
+                          matrix={
+                            Array [
+                              1,
+                              0,
+                              0,
+                              1,
+                              -9.423,
+                              -9.329,
+                            ]
+                          }
+                          name="Path_302"
+                          propList={
+                            Array [
+                              "fill",
+                              "stroke",
+                            ]
+                          }
+                          stroke={4281545523}
+                        />
+                        <RNSVGPath
+                          d="M21,16.5v4.78"
+                          fill={null}
+                          matrix={
+                            Array [
+                              1,
+                              0,
+                              0,
+                              1,
+                              -12.236,
+                              -9.329,
+                            ]
+                          }
+                          name="Path_303"
+                          propList={
+                            Array [
+                              "fill",
+                              "stroke",
+                            ]
+                          }
+                          stroke={4281545523}
+                        />
+                      </RNSVGGroup>
+                    </RNSVGGroup>
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </RNSVGGroup>
+            </RNSVGSvgView>
+            <Text
+              fontFamily="reservaSansMedium"
+              fontSize={14}
+              style={
+                Array [
+                  Object {
+                    "fontFamily": "ReservaSans-Medium",
+                    "fontSize": 14,
+                  },
+                  Object {
+                    "color": "#EF1E1E",
+                  },
+                ]
+              }
+            >
+              Excluir foto atual
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</Modal>
+`;

@@ -1,0 +1,31 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new beta build to TestFlight"
+
+  lane :beta do |options|
+
+    gym(
+      scheme: "reserva",
+      xcargs: "-jobs 4 -allowProvisioningUpdates",
+      workspace: "reserva.xcworkspace",
+      export_method: "app-store",
+      configuration: "Release",
+      output_directory: "build",
+      include_bitcode: false,
+      include_symbols: false,
+      skip_profile_detection: false,
+      clean: true,
+      export_options: {
+        method: "app-store"
+      }
+    )
+
+    pilot(
+        api_key_path: options[:api_key_path],
+        ipa: "build/reserva.ipa",
+        skip_waiting_for_build_processing: true	 
+    )
+
+  end
+end

@@ -1,0 +1,30 @@
+query homeCountdown {
+    homeCountdown {
+        type
+        title
+        subtitle
+        watchType
+        countdown
+        countdownStart
+        titleButton
+        titleModal
+        descriptionModal
+        reference
+        formattedValue
+        facets {
+            key
+            value
+        }
+        theme {
+            colorBanner
+            colorButton
+            clockBackgroundColor
+        }
+        filters {
+            priceFilter {
+                from
+                to
+            }
+        }
+    }
+}

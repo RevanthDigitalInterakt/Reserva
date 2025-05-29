@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Brands tests Testing brands renders without error and match snapshot 1`] = `
+<RCTScrollView
+  contentContainerStyle={
+    Object {
+      "paddingHorizontal": 10,
+      "paddingVertical": 2,
+    }
+  }
+  data={Array []}
+  decelerationRate="fast"
+  disableVirtualization={false}
+  getItem={[Function]}
+  getItemCount={[Function]}
+  horizontal={true}
+  initialNumToRender={10}
+  keyExtractor={[Function]}
+  maxToRenderPerBatch={10}
+  onContentSizeChange={[Function]}
+  onEndReachedThreshold={2}
+  onLayout={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  removeClippedSubviews={false}
+  renderItem={[Function]}
+  scrollEnabled={false}
+  scrollEventThrottle={16}
+  showsHorizontalScrollIndicator={false}
+  snapToAlignment="start"
+  stickyHeaderIndices={Array []}
+  style={
+    Object {
+      "marginVertical": 13,
+    }
+  }
+  testID="com.usereserva:id/brands_flatList"
+  updateCellsBatchingPeriod={50}
+  viewabilityConfigCallbackPairs={Array []}
+  windowSize={21}
+>
+  <View />
+</RCTScrollView>
+`;

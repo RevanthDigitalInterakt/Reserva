@@ -1,0 +1,8 @@
+mutation orderFormRemoveUnavailableItems($orderFormId: String!) {
+    orderFormRemoveUnavailableItems(input:{
+        orderFormId:$orderFormId
+    }) {
+        message
+        error
+    }
+}

@@ -1,0 +1,1523 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Create Address snapshot 1`] = `
+<RCTSafeAreaView
+  style={
+    {
+      "backgroundColor": "#ffffff",
+      "flex": 1,
+    }
+  }
+>
+  <RCTSafeAreaView>
+    <View
+      bg="white"
+      boxShadow="topBarShadow"
+      height={50}
+      justifyContent="flex-end"
+      paddingX="quarck"
+      style={
+        [
+          {
+            "backgroundColor": "#FFF",
+            "height": 50,
+            "justifyContent": "flex-end",
+            "paddingLeft": 4,
+            "paddingRight": 4,
+            "shadowColor": "rgba(0,0,0,0.1)",
+            "shadowOffset": {
+              "height": 3,
+              "width": 0,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 2,
+          },
+          {
+            "elevation": 10,
+          },
+        ]
+      }
+    >
+      <View
+        flex={1}
+        flexDirection="row"
+        justifyContent="flex-end"
+        paddingX="micro"
+        style={
+          {
+            "flexBasis": 0,
+            "flexDirection": "row",
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "justifyContent": "flex-end",
+            "paddingLeft": 12,
+            "paddingRight": 12,
+          }
+        }
+      >
+        <View
+          alignItems="flex-start"
+          alignSelf="center"
+          flexDirection="row"
+          style={
+            {
+              "alignItems": "flex-start",
+              "alignSelf": "center",
+              "flexDirection": "row",
+              "width": "25%",
+            }
+          }
+          width="25%"
+        >
+          <View
+            alignItems="center"
+            style={
+              {
+                "alignItems": "center",
+              }
+            }
+          >
+            <View
+              accessibilityLabel="com.usereserva:id/top_bar_button_go_back"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              hitSlop={
+                {
+                  "bottom": 20,
+                  "left": 20,
+                  "right": 20,
+                  "top": 20,
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "opacity": 1,
+                }
+              }
+              testID="com.usereserva:id/top_bar_button_go_back"
+            >
+              <View
+                alignItems="center"
+                flexDirection="row"
+                justifyContent="center"
+                style={
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  }
+                }
+              >
+                <RNSVGSvgView
+                  bbHeight="24"
+                  bbWidth="24"
+                  color="preto"
+                  focusable={false}
+                  onPress={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  responsible={true}
+                  size={24}
+                  style={
+                    [
+                      {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      {
+                        "color": "#333333",
+                        "height": 24,
+                        "width": 24,
+                      },
+                      {
+                        "flex": 0,
+                        "height": 24,
+                        "width": 24,
+                      },
+                    ]
+                  }
+                  testID="com.usereserva:id/top_bar_button_go_back"
+                  tintColor="preto"
+                >
+                  <RNSVGGroup
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
+                    }
+                  >
+                    <RNSVGSvgView
+                      align="xMidYMid"
+                      bbHeight="100%"
+                      bbWidth="100%"
+                      focusable={false}
+                      height="100%"
+                      meetOrSlice={0}
+                      minX={0}
+                      minY={0}
+                      style={
+                        [
+                          {
+                            "backgroundColor": "transparent",
+                            "borderWidth": 0,
+                          },
+                          {
+                            "height": "100%",
+                            "width": "100%",
+                          },
+                          {
+                            "flex": 0,
+                            "height": "100%",
+                            "width": "100%",
+                          },
+                        ]
+                      }
+                      vbHeight={19.054}
+                      vbWidth={18.225}
+                      width="100%"
+                    >
+                      <RNSVGGroup
+                        fill={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
+                      >
+                        <RNSVGGroup
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
+                          matrix={
+                            [
+                              -1,
+                              1.2246467991473532e-16,
+                              -1.2246467991473532e-16,
+                              -1,
+                              17.225,
+                              17.639,
+                            ]
+                          }
+                          name="Seta_-_icon"
+                        >
+                          <RNSVGPath
+                            d="M7.5,18H23.725"
+                            fill={null}
+                            matrix={
+                              [
+                                1,
+                                0,
+                                0,
+                                1,
+                                -7.5,
+                                -9.887,
+                              ]
+                            }
+                            name="Caminho_68"
+                            propList={
+                              [
+                                "fill",
+                                "stroke",
+                                "strokeWidth",
+                                "strokeLinecap",
+                                "strokeLinejoin",
+                              ]
+                            }
+                            stroke={
+                              {
+                                "payload": 4281545523,
+                                "type": 0,
+                              }
+                            }
+                            strokeLinecap={1}
+                            strokeLinejoin={1}
+                            strokeWidth="2"
+                          />
+                          <RNSVGPath
+                            d="M18,7.5l8.113,8.113L18,23.725"
+                            fill={null}
+                            matrix={
+                              [
+                                1,
+                                0,
+                                0,
+                                1,
+                                -9.887,
+                                -7.5,
+                              ]
+                            }
+                            name="Caminho_69"
+                            propList={
+                              [
+                                "fill",
+                                "stroke",
+                                "strokeWidth",
+                                "strokeLinecap",
+                                "strokeLinejoin",
+                              ]
+                            }
+                            stroke={
+                              {
+                                "payload": 4281545523,
+                                "type": 0,
+                              }
+                            }
+                            strokeLinecap={1}
+                            strokeLinejoin={1}
+                            strokeWidth="2"
+                          />
+                        </RNSVGGroup>
+                      </RNSVGGroup>
+                    </RNSVGSvgView>
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+                <View
+                  justifyContent="center"
+                  style={
+                    {
+                      "justifyContent": "center",
+                    }
+                  }
+                >
+                  <Text
+                    letterSpacing={1.6}
+                    style={
+                      {
+                        "letterSpacing": 1.6,
+                      }
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          alignItems="center"
+          alignSelf="center"
+          justifyContent="flex-start"
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "justifyContent": "flex-start",
+              "width": "50%",
+            }
+          }
+          width="50%"
+        >
+          <RNSVGSvgView
+            bbHeight="24"
+            bbWidth="24"
+            color="vermelhoAlerta"
+            focusable={false}
+            size={24}
+            style={
+              [
+                {
+                  "backgroundColor": "transparent",
+                  "borderWidth": 0,
+                },
+                {
+                  "color": "#EF1E1E",
+                  "height": 24,
+                  "width": 24,
+                },
+                {
+                  "flex": 0,
+                  "height": 24,
+                  "width": 24,
+                },
+              ]
+            }
+            tintColor="vermelhoAlerta"
+          >
+            <RNSVGGroup
+              fill={
+                {
+                  "payload": 4278190080,
+                  "type": 0,
+                }
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight="100%"
+                bbWidth="100%"
+                focusable={false}
+                id="Logo"
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {},
+                    {
+                      "flex": 0,
+                      "height": "100%",
+                      "width": "100%",
+                    },
+                  ]
+                }
+                vbHeight={124.992}
+                vbWidth={102.034}
+              >
+                <RNSVGGroup
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
+                  }
+                >
+                  <RNSVGPath
+                    d="M100.065,114.205a115.2,115.2,0,0,1-14.714-10.974,1.1,1.1,0,0,1,0-.964,1.914,1.914,0,0,0-.414-1.849c-2.806-2.99-5.736-5.649-8.644-8.278-2.338-3.043-4.2-6.308-6.4-9.411-1.977-3.352-5.162-8.109-6.39-9.852-1.2-1.736-6.055-7.791-7.8-10.176-2.243-2.862-5.394-6.677-7.815-8.066-2.327-1.344-9.272-5.645-11.783-9.411-1.144-1.842-2.867-8.38-2.623-11.29a12.6,12.6,0,0,1,.9-4.429,46.088,46.088,0,0,1,3.136-5.81c.92-1.39,2.672-2.588,2.471-4.463-.178-1.126.7-2.617-.517-3.378-.368-.094-.691.55-.768.55-.091-.031-.091-.094-.091-.094a16.07,16.07,0,0,1,1.053-5.676c.323-1.307-.285-2.387-.261-3.657.319-.776,2.075-1.917.938-2.331-1.205-.422.053-1.921-1.137-2.052C37.994,2.507,38.251.387,37.092.877c-2.25,1.548-5.629,6.052-6.024,5.9-.384-.17.255-4.225.6-6.263C31.508-.37,30.228.142,29.4.2a7.665,7.665,0,0,1-2.2.063A49.761,49.761,0,0,0,23.788,4.3a41.5,41.5,0,0,0-1.212,4.463c-.138.561-.5,1.691-.544.561-.072-1.081,1.25-4.9,1.525-7.543-.195-.339-.669-.222-.875-.154a10.451,10.451,0,0,0-2.053,1.4,17.051,17.051,0,0,0-1.258,2.358c-.08.38-.08,2.052-.619,1.725-.609-.689,0-1.988,0-2.312.053-.068-.125-.508-.9-.494s-.81-.388-1.164-.18a14.339,14.339,0,0,1-1.486,3.216c-.718,1.4-1.827,3.077-1.881,4.323-.1.441-.46.139-.582.03,0,0-1.562-.663-1.669.411a3.442,3.442,0,0,0,.578,1.751c.38.591,1.817,1.639,1.555,3.005a5.742,5.742,0,0,0-.783.572c-.673,1.134,2.413,6.7,3.287,8.334.035.162-.512.275-.512.275C13.62,26.022,7.254,28.907,5.98,29.8A64.114,64.114,0,0,0,.306,34.97c-.476.4-.365,1.352.118.995a33.091,33.091,0,0,1,11.228-5.717C16.942,28.873,19,32.353,19,32.353s2.531,3.529-.083,11.234c-1.718,5.664-3.949,10.1-3.508,17.3.555,8.5,4.873,13.723,8.362,17.316s13.5,14.386,15.011,15.84c1.5,1.438,2.581,4.323,3.474,5.321a24.772,24.772,0,0,0,3.159,3.333,6.8,6.8,0,0,1,.144,2.154c0,.852-1.4,8.873-1.52,8.982-.3.569-1.44.569-1.44.569a51.155,51.155,0,0,0-6.481-1.939c-.8.113-1.38,1.45-2.117,2.214-.932.889.567,1.8-.609,2.674-.3.234-.209.817-.083,1.009,0,0,.2-.023.6-.456a1.084,1.084,0,0,1,1.035-.309c4.549,1.431,9.989.478,10.456.43.467-.087,2.637,1.242,2.637,1.242,2.049,1.1,4.144,2.052,6.162,3.227.627.241,1.117,1.236,1.832.6.388-.8-.467-1.446-.467-1.446-.153-.328-3.41-2.4-5.139-3.622a14.5,14.5,0,0,0-3.171-3.325c-.193-.768,1.087-4.109,1.407-5.461s.308-4.033,1.03-5.849a11.992,11.992,0,0,1,3.372-2.285,76.542,76.542,0,0,0,7.272,2.636c.863.264,1.619.485,2.383.693-.038.467-.092.952-.092,1.363,0,0-.452,3.13-.582,3.529a2.568,2.568,0,0,1-.491.772c-.311.607-1.455.584-1.455.584a58.567,58.567,0,0,0-6.489-2.06c-.832.43-1.428,1.476-2.132,2.21-.923.885.532,1.823-.639,2.712-.285.181-.228.787-.061.968,0,0,.159,0,.6-.459a1.062,1.062,0,0,1,1.049-.283c4.543,1.465,8.382.283,10.393.52l2.642,1.311c2.06,1.088,4.143,2.1,6.146,3.287.6.23,1.361,1.277,1.836.6.467-.7-.077-1.054-.452-1.416-.407-.41-3.4-2.474-5.105-3.683a17.288,17.288,0,0,0-3.273-3.536c-.087-.411.145-.708.243-1.077.084-.32,1.141-4.244,1.141-4.244s0-.034.038-.064c3.018.986,5.036,1.77,6.005,2.538,2.638,1.928,5.348,3.334,7.435,5.95,3.713,3.393,6.959,6.67,11.441,9.137C94.8,125.8,98.229,125,99.3,124.4c1.061-.561,2.121-1.013,2.03-2.271,2.037-2.734-.969-7.845-1.266-7.924"
+                    fill={
+                      {
+                        "payload": 4293729316,
+                        "type": 0,
+                      }
+                    }
+                    matrix={
+                      [
+                        1,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                      ]
+                    }
+                    name="#EF1E1E"
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </RNSVGGroup>
+          </RNSVGSvgView>
+        </View>
+        <View
+          alignItems="flex-end"
+          alignSelf="center"
+          flexDirection="row"
+          justifyContent="flex-end"
+          style={
+            {
+              "alignItems": "flex-end",
+              "alignSelf": "center",
+              "flexDirection": "row",
+              "justifyContent": "flex-end",
+              "width": "25%",
+            }
+          }
+          width="25%"
+        />
+      </View>
+    </View>
+  </RCTSafeAreaView>
+  <RCTScrollView
+    contentContainerStyle={
+      {
+        "marginBottom": 60,
+        "padding": 20,
+      }
+    }
+    keyboardShouldPersistTaps="handled"
+  >
+    <View>
+      <View
+        style={
+          {
+            "marginVertical": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#000000",
+              "fontFamily": "ReservaSerif-Regular",
+              "fontSize": 24,
+            }
+          }
+        >
+          Adicionar endereço
+        </Text>
+      </View>
+      <View
+        style={
+          {
+            "marginVertical": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#000000",
+              "fontFamily": "ReservaSans-Regular",
+              "fontSize": 14,
+            }
+          }
+        >
+          Os campos a seguir são obrigatórios então lembre-se de preencher todos eles.
+        </Text>
+      </View>
+      <View
+        style={
+          {
+            "marginVertical": 10,
+          }
+        }
+      >
+        <View>
+          <View
+            style={
+              [
+                {
+                  "borderColor": "#333333",
+                  "borderRadius": 5,
+                  "borderWidth": 1,
+                  "padding": 15,
+                },
+              ]
+            }
+          >
+            <View
+              collapsable={false}
+              style={
+                {
+                  "backgroundColor": "#ffffff",
+                  "left": 10,
+                  "paddingHorizontal": 5,
+                  "position": "absolute",
+                  "top": 10,
+                  "transform": [
+                    {
+                      "translateY": 4,
+                    },
+                  ],
+                  "zIndex": 10000,
+                }
+              }
+            >
+              <Text
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  {
+                    "color": "#a3a3a3",
+                    "fontFamily": "Nunito-Regular",
+                  }
+                }
+              >
+                *Digite um apelido para este endereço
+              </Text>
+            </View>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={true}
+              keyboardType="default"
+              onBlur={[Function]}
+              onChangeText={[Function]}
+              onFocus={[Function]}
+              onSubmitEditing={[Function]}
+              returnKeyType="next"
+              style={
+                {
+                  "color": "#656565",
+                  "fontFamily": "Nunito-Regular",
+                  "fontSize": 14,
+                  "fontWeight": "bold",
+                  "marginHorizontal": 10,
+                  "padding": 0,
+                }
+              }
+              testID="com.usereserva:id/create_address_input_surname"
+              value=""
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginVertical": 10,
+          }
+        }
+      >
+        <View>
+          <View
+            style={
+              [
+                {
+                  "borderColor": "#333333",
+                  "borderRadius": 5,
+                  "borderWidth": 1,
+                  "padding": 15,
+                },
+              ]
+            }
+          >
+            <View
+              collapsable={false}
+              style={
+                {
+                  "backgroundColor": "#ffffff",
+                  "left": 10,
+                  "paddingHorizontal": 5,
+                  "position": "absolute",
+                  "top": 10,
+                  "transform": [
+                    {
+                      "translateY": 4,
+                    },
+                  ],
+                  "zIndex": 10000,
+                }
+              }
+            >
+              <Text
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  {
+                    "color": "#a3a3a3",
+                    "fontFamily": "Nunito-Regular",
+                  }
+                }
+              >
+                *Digite seu nome completo
+              </Text>
+            </View>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={true}
+              keyboardType="default"
+              onBlur={[Function]}
+              onChangeText={[Function]}
+              onFocus={[Function]}
+              onSubmitEditing={[Function]}
+              returnKeyType="next"
+              style={
+                {
+                  "color": "#656565",
+                  "fontFamily": "Nunito-Regular",
+                  "fontSize": 14,
+                  "fontWeight": "bold",
+                  "marginHorizontal": 10,
+                  "padding": 0,
+                }
+              }
+              testID="com.usereserva:id/create_address_input_fullname"
+              value=""
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginVertical": 10,
+          }
+        }
+      >
+        <View>
+          <View
+            style={
+              [
+                {
+                  "borderColor": "#333333",
+                  "borderRadius": 5,
+                  "borderWidth": 1,
+                  "padding": 15,
+                },
+              ]
+            }
+          >
+            <View
+              collapsable={false}
+              style={
+                {
+                  "backgroundColor": "#ffffff",
+                  "left": 10,
+                  "paddingHorizontal": 5,
+                  "position": "absolute",
+                  "top": 10,
+                  "transform": [
+                    {
+                      "translateY": 4,
+                    },
+                  ],
+                  "zIndex": 10000,
+                }
+              }
+            >
+              <Text
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  {
+                    "color": "#a3a3a3",
+                    "fontFamily": "Nunito-Regular",
+                  }
+                }
+              >
+                *Digite seu CEP
+              </Text>
+            </View>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={true}
+              keyboardType="number-pad"
+              onBlur={[Function]}
+              onChangeText={[Function]}
+              onFocus={[Function]}
+              onSubmitEditing={[Function]}
+              returnKeyType="next"
+              style={
+                {
+                  "color": "#656565",
+                  "fontFamily": "Nunito-Regular",
+                  "fontSize": 14,
+                  "fontWeight": "bold",
+                  "marginHorizontal": 10,
+                  "padding": 0,
+                }
+              }
+              testID="com.usereserva:id/create_address_input_postal_code"
+              value=""
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginVertical": 10,
+          }
+        }
+      >
+        <View>
+          <View
+            style={
+              [
+                {
+                  "borderColor": "#333333",
+                  "borderRadius": 5,
+                  "borderWidth": 1,
+                  "padding": 15,
+                },
+              ]
+            }
+          >
+            <View
+              collapsable={false}
+              style={
+                {
+                  "backgroundColor": "#ffffff",
+                  "left": 10,
+                  "paddingHorizontal": 5,
+                  "position": "absolute",
+                  "top": 10,
+                  "transform": [
+                    {
+                      "translateY": 4,
+                    },
+                  ],
+                  "zIndex": 10000,
+                }
+              }
+            >
+              <Text
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  {
+                    "color": "#a3a3a3",
+                    "fontFamily": "Nunito-Regular",
+                  }
+                }
+              >
+                *Digite sua Rua
+              </Text>
+            </View>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={true}
+              keyboardType="default"
+              onBlur={[Function]}
+              onChangeText={[Function]}
+              onFocus={[Function]}
+              onSubmitEditing={[Function]}
+              returnKeyType="next"
+              style={
+                {
+                  "color": "#656565",
+                  "fontFamily": "Nunito-Regular",
+                  "fontSize": 14,
+                  "fontWeight": "bold",
+                  "marginHorizontal": 10,
+                  "padding": 0,
+                }
+              }
+              testID="com.usereserva:id/create_address_input_street"
+              value=""
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginVertical": 10,
+          }
+        }
+      >
+        <View>
+          <View
+            style={
+              [
+                {
+                  "borderColor": "#333333",
+                  "borderRadius": 5,
+                  "borderWidth": 1,
+                  "padding": 15,
+                },
+              ]
+            }
+          >
+            <View
+              collapsable={false}
+              style={
+                {
+                  "backgroundColor": "#ffffff",
+                  "left": 10,
+                  "paddingHorizontal": 5,
+                  "position": "absolute",
+                  "top": 10,
+                  "transform": [
+                    {
+                      "translateY": 4,
+                    },
+                  ],
+                  "zIndex": 10000,
+                }
+              }
+            >
+              <Text
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  {
+                    "color": "#a3a3a3",
+                    "fontFamily": "Nunito-Regular",
+                  }
+                }
+              >
+                *Digite seu bairro
+              </Text>
+            </View>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={true}
+              keyboardType="default"
+              onBlur={[Function]}
+              onChangeText={[Function]}
+              onFocus={[Function]}
+              onSubmitEditing={[Function]}
+              returnKeyType="next"
+              style={
+                {
+                  "color": "#656565",
+                  "fontFamily": "Nunito-Regular",
+                  "fontSize": 14,
+                  "fontWeight": "bold",
+                  "marginHorizontal": 10,
+                  "padding": 0,
+                }
+              }
+              testID="com.usereserva:id/create_address_input_neighborhood"
+              value=""
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginVertical": 10,
+          }
+        }
+      >
+        <View>
+          <View
+            style={
+              [
+                {
+                  "borderColor": "#333333",
+                  "borderRadius": 5,
+                  "borderWidth": 1,
+                  "padding": 15,
+                },
+              ]
+            }
+          >
+            <View
+              collapsable={false}
+              style={
+                {
+                  "backgroundColor": "#ffffff",
+                  "left": 10,
+                  "paddingHorizontal": 5,
+                  "position": "absolute",
+                  "top": 10,
+                  "transform": [
+                    {
+                      "translateY": 4,
+                    },
+                  ],
+                  "zIndex": 10000,
+                }
+              }
+            >
+              <Text
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  {
+                    "color": "#a3a3a3",
+                    "fontFamily": "Nunito-Regular",
+                  }
+                }
+              >
+                *Número
+              </Text>
+            </View>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={true}
+              keyboardType="default"
+              onBlur={[Function]}
+              onChangeText={[Function]}
+              onFocus={[Function]}
+              onSubmitEditing={[Function]}
+              returnKeyType="next"
+              style={
+                {
+                  "color": "#656565",
+                  "fontFamily": "Nunito-Regular",
+                  "fontSize": 14,
+                  "fontWeight": "bold",
+                  "marginHorizontal": 10,
+                  "padding": 0,
+                }
+              }
+              testID="com.usereserva:id/create_address_input_address_number"
+              value=""
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginVertical": 10,
+          }
+        }
+      >
+        <View>
+          <View
+            style={
+              [
+                {
+                  "borderColor": "#333333",
+                  "borderRadius": 5,
+                  "borderWidth": 1,
+                  "padding": 15,
+                },
+              ]
+            }
+          >
+            <View
+              collapsable={false}
+              style={
+                {
+                  "backgroundColor": "#ffffff",
+                  "left": 10,
+                  "paddingHorizontal": 5,
+                  "position": "absolute",
+                  "top": 10,
+                  "transform": [
+                    {
+                      "translateY": 4,
+                    },
+                  ],
+                  "zIndex": 10000,
+                }
+              }
+            >
+              <Text
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  {
+                    "color": "#a3a3a3",
+                    "fontFamily": "Nunito-Regular",
+                  }
+                }
+              >
+                Complemento
+              </Text>
+            </View>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={true}
+              keyboardType="default"
+              onBlur={[Function]}
+              onChangeText={[Function]}
+              onFocus={[Function]}
+              onSubmitEditing={[Function]}
+              returnKeyType="next"
+              style={
+                {
+                  "color": "#656565",
+                  "fontFamily": "Nunito-Regular",
+                  "fontSize": 14,
+                  "fontWeight": "bold",
+                  "marginHorizontal": 10,
+                  "padding": 0,
+                }
+              }
+              testID="com.usereserva:id/create_address_input_complement"
+              value=""
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginVertical": 10,
+          }
+        }
+      >
+        <View>
+          <View
+            style={
+              [
+                {
+                  "borderColor": "#333333",
+                  "borderRadius": 5,
+                  "borderWidth": 1,
+                  "padding": 15,
+                },
+              ]
+            }
+          >
+            <View
+              collapsable={false}
+              style={
+                {
+                  "backgroundColor": "#ffffff",
+                  "left": 10,
+                  "paddingHorizontal": 5,
+                  "position": "absolute",
+                  "top": 10,
+                  "transform": [
+                    {
+                      "translateY": 4,
+                    },
+                  ],
+                  "zIndex": 10000,
+                }
+              }
+            >
+              <Text
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  {
+                    "color": "#a3a3a3",
+                    "fontFamily": "Nunito-Regular",
+                  }
+                }
+              >
+                *Para preencher o Estado, digite o CEP acima
+              </Text>
+            </View>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={false}
+              keyboardType="default"
+              onBlur={[Function]}
+              onChangeText={[Function]}
+              onFocus={[Function]}
+              onSubmitEditing={[Function]}
+              returnKeyType="next"
+              style={
+                {
+                  "color": "#656565",
+                  "fontFamily": "Nunito-Regular",
+                  "fontSize": 14,
+                  "fontWeight": "bold",
+                  "marginHorizontal": 10,
+                  "padding": 0,
+                }
+              }
+              testID="com.usereserva:id/create_address_input_address_state"
+              value=""
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginVertical": 10,
+          }
+        }
+      >
+        <View>
+          <View
+            style={
+              [
+                {
+                  "borderColor": "#333333",
+                  "borderRadius": 5,
+                  "borderWidth": 1,
+                  "padding": 15,
+                },
+              ]
+            }
+          >
+            <View
+              collapsable={false}
+              style={
+                {
+                  "backgroundColor": "#ffffff",
+                  "left": 10,
+                  "paddingHorizontal": 5,
+                  "position": "absolute",
+                  "top": 10,
+                  "transform": [
+                    {
+                      "translateY": 4,
+                    },
+                  ],
+                  "zIndex": 10000,
+                }
+              }
+            >
+              <Text
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  {
+                    "color": "#a3a3a3",
+                    "fontFamily": "Nunito-Regular",
+                  }
+                }
+              >
+                *Para preencher a Cidade, digite o CEP acima
+              </Text>
+            </View>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={false}
+              keyboardType="default"
+              onBlur={[Function]}
+              onChangeText={[Function]}
+              onFocus={[Function]}
+              onSubmitEditing={[Function]}
+              returnKeyType="next"
+              style={
+                {
+                  "color": "#656565",
+                  "fontFamily": "Nunito-Regular",
+                  "fontSize": 14,
+                  "fontWeight": "bold",
+                  "marginHorizontal": 10,
+                  "padding": 0,
+                }
+              }
+              testID="com.usereserva:id/create_address_input_city"
+              value=""
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginVertical": 10,
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+            }
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#656565",
+                "fontWeight": "700",
+              }
+            }
+          >
+            Tornar este o meu endereço padrão
+          </Text>
+          <RCTSwitch
+            accessibilityRole="switch"
+            onChange={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            onTintColor="#31B94F"
+            style={
+              [
+                {
+                  "height": 31,
+                  "width": 51,
+                },
+                {
+                  "backgroundColor": "#3e3e3e",
+                  "borderRadius": 16,
+                },
+              ]
+            }
+            thumbTintColor="#f4f3f4"
+            tintColor="#767577"
+            value={false}
+          />
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginVertical": 10,
+          }
+        }
+      >
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "alignItems": "center",
+              "backgroundColor": "#333333",
+              "justifyContent": "center",
+              "opacity": 1,
+              "padding": 20,
+            }
+          }
+          testID="com.usereserva:id/create_address_button_submit"
+        >
+          <Text
+            style={
+              {
+                "color": "#ffffff",
+                "fontFamily": "ReservaSans-Bold",
+                "fontSize": 14,
+                "lineHeight": 18,
+                "textTransform": "uppercase",
+              }
+            }
+          >
+            salvar endereço
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginVertical": 10,
+          }
+        }
+      >
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "alignItems": "center",
+              "backgroundColor": "#ffffff",
+              "borderColor": "#333333",
+              "borderWidth": 2,
+              "justifyContent": "center",
+              "opacity": 1,
+              "padding": 20,
+            }
+          }
+          testID="com.usereserva:id/create_address_button_cancel"
+        >
+          <Text
+            style={
+              {
+                "color": "#333333",
+                "fontFamily": "ReservaSans-Bold",
+                "fontSize": 14,
+                "lineHeight": 18,
+                "textTransform": "uppercase",
+              }
+            }
+          >
+            cancelar
+          </Text>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</RCTSafeAreaView>
+`;

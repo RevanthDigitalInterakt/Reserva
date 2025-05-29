@@ -1,0 +1,529 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectBoxPrime should match with the snapshot 1`] = `
+<View
+  accessibilityLabel="com.usereserva:id/select_box_price_prime"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "marginHorizontal": 16,
+      "opacity": 1,
+    }
+  }
+  testID="com.usereserva:id/select_box_price_prime"
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#fffdeb",
+        "borderColor": "#c4a968",
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "paddingHorizontal": 16,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "borderColor": "#c4a968",
+          "borderRadius": 11,
+          "borderWidth": 1,
+          "height": 22,
+          "justifyContent": "center",
+          "marginRight": 0,
+          "padding": 3,
+          "width": 22,
+        }
+      }
+    />
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "justifyContent": "flex-end",
+          "marginLeft": 16,
+          "paddingVertical": 10,
+        }
+      }
+    >
+      <Text
+        fontFamily="reservaSansRegular"
+        style={
+          [
+            {
+              "fontFamily": "ReservaSans-Regular",
+            },
+            {
+              "color": "#9e7e2f",
+              "fontSize": 18,
+              "fontWeight": "400",
+            },
+          ]
+        }
+      >
+        Clientes
+        <Text
+          fontSize={20}
+          style={
+            {
+              "fontFamily": "ReservaSerif-Bold",
+              "fontSize": 20,
+            }
+          }
+          variant="descontoTag2"
+        >
+           
+          Prime
+        </Text>
+      </Text>
+    </View>
+    <View
+      style={
+        {
+          "alignSelf": "center",
+          "backgroundColor": "#8D8D8D",
+          "height": 30,
+          "marginHorizontal": 15,
+          "marginTop": 30,
+          "width": 1,
+        }
+      }
+    />
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "justifyContent": "flex-end",
+          "marginLeft": 6,
+          "paddingVertical": 10,
+        }
+      }
+    >
+      <View
+        accessibilityIgnoresInvertColors={true}
+        style={
+          {
+            "height": 28,
+            "justifyContent": "center",
+            "paddingLeft": 10,
+            "width": 160,
+          }
+        }
+      >
+        <Image
+          resizeMode="cover"
+          source={
+            {
+              "commons": {
+                "GuideBermuda": [Circular],
+                "GuideCalca": [Circular],
+                "GuideCamiseta": [Circular],
+                "GuideHoodie": [Circular],
+                "GuideJaqueta": [Circular],
+                "GuideMangaCurta": [Circular],
+                "GuideMangaLonga": [Circular],
+                "GuidePolo": [Circular],
+                "GuideShort": [Circular],
+                "GuideSueter": [Circular],
+                "GuideSungaCueca": [Circular],
+                "QrcodeBackground": [Circular],
+                "abandonedCartBag": [Circular],
+                "addition": [Circular],
+                "americanExpress": [Circular],
+                "arrowInstruction": [Circular],
+                "arrowRight": [Circular],
+                "bagEmpty": [Circular],
+                "bannerCatalog": [Circular],
+                "bannerLogin": [Circular],
+                "bannerOffer": [Circular],
+                "black1p5p": [Circular],
+                "cardFront": [Circular],
+                "cardImage": [Circular],
+                "cardVerso": [Circular],
+                "chat": [Circular],
+                "checkedBox": [Circular],
+                "chevronLeftFill": [Circular],
+                "chevronRightFill": [Circular],
+                "close": [Circular],
+                "clothingCare1": [Circular],
+                "clothingCareBleach": [Circular],
+                "clothingCareDrying": [Circular],
+                "clothingCarePass": [Circular],
+                "clothingCareProfessionalWashing": [Circular],
+                "clothingCareWash": [Circular],
+                "config": [Circular],
+                "copy": [Circular],
+                "cupomModalBackground": [Circular],
+                "cutlery": [Circular],
+                "discountFlag": [Circular],
+                "dividerReserva": [Circular],
+                "document": [Circular],
+                "elo": [Circular],
+                "emptyProductCatalog": [Circular],
+                "expand": [Circular],
+                "facebook": [Circular],
+                "faq": [Circular],
+                "filledHeart": [Circular],
+                "foraDoAr": [Circular],
+                "green1p5p": [Circular],
+                "greenCheck": [Circular],
+                "headerLogin": [Circular],
+                "heart": [Circular],
+                "help": [Circular],
+                "homeMock1": [Circular],
+                "homeMock2": [Circular],
+                "homeMock3": [Circular],
+                "homeMock4": [Circular],
+                "imageCashback": [Circular],
+                "imageNotFound": [Circular],
+                "instagram": [Circular],
+                "ios14": [Circular],
+                "localReserva": [Circular],
+                "logo": [Circular],
+                "logoQRCode": [Circular],
+                "mastercard": [Circular],
+                "newsletter": [Circular],
+                "noStoresFound": [Circular],
+                "noWishList": [Circular],
+                "pinPlace": [Circular],
+                "pinYou": [Circular],
+                "profile": [Circular],
+                "purchaseConfirmation": [Circular],
+                "raceImageBackground": [Circular],
+                "reservaIcon": [Circular],
+                "roulet": [Circular],
+                "saleOff": [Circular],
+                "search": [Circular],
+                "searchNotFound": [Circular],
+                "selectRectangle": [Circular],
+                "share": [Circular],
+                "shipping1": [Circular],
+                "shipping2": [Circular],
+                "shirt1": [Circular],
+                "shirt2": [Circular],
+                "shirt3": [Circular],
+                "shirt4": [Circular],
+                "signup1": [Circular],
+                "signup2": [Circular],
+                "signup3": [Circular],
+                "signup4": [Circular],
+                "signup5": [Circular],
+                "subtraction": [Circular],
+                "topBannerMock1": [Circular],
+                "twitter": [Circular],
+                "umPCincoPLogo": [Circular],
+                "uncheckedBox": [Circular],
+                "unfilledHeart": [Circular],
+                "update": [Circular],
+                "visa": [Circular],
+                "whatsapp": [Circular],
+                "withoutInternet": [Circular],
+                "zoomHand": [Circular],
+              },
+              "default": {
+                "GuideBermuda": [Circular],
+                "GuideCalca": [Circular],
+                "GuideCamiseta": [Circular],
+                "GuideHoodie": [Circular],
+                "GuideJaqueta": [Circular],
+                "GuideMangaCurta": [Circular],
+                "GuideMangaLonga": [Circular],
+                "GuidePolo": [Circular],
+                "GuideShort": [Circular],
+                "GuideSueter": [Circular],
+                "GuideSungaCueca": [Circular],
+                "QrcodeBackground": [Circular],
+                "abandonedCartBag": [Circular],
+                "addition": [Circular],
+                "americanExpress": [Circular],
+                "arrowInstruction": [Circular],
+                "arrowRight": [Circular],
+                "bagEmpty": [Circular],
+                "bannerCatalog": [Circular],
+                "bannerLogin": [Circular],
+                "bannerOffer": [Circular],
+                "black1p5p": [Circular],
+                "cardFront": [Circular],
+                "cardImage": [Circular],
+                "cardVerso": [Circular],
+                "chat": [Circular],
+                "checkedBox": [Circular],
+                "checkedRounded": [Function],
+                "chevronLeftFill": [Circular],
+                "chevronRight": [Function],
+                "chevronRightFill": [Circular],
+                "close": [Circular],
+                "closeIcon": [Function],
+                "clothingCare1": [Circular],
+                "clothingCareBleach": [Circular],
+                "clothingCareDrying": [Circular],
+                "clothingCarePass": [Circular],
+                "clothingCareProfessionalWashing": [Circular],
+                "clothingCareWash": [Circular],
+                "config": [Circular],
+                "copy": [Circular],
+                "cupomModalBackground": [Circular],
+                "cutlery": [Circular],
+                "discountFlag": [Circular],
+                "dividerReserva": [Circular],
+                "document": [Circular],
+                "elo": [Circular],
+                "emptyProductCatalog": [Circular],
+                "expand": [Circular],
+                "facebook": [Circular],
+                "faq": [Circular],
+                "filledHeart": [Circular],
+                "foraDoAr": [Circular],
+                "green1p5p": [Circular],
+                "greenCheck": [Circular],
+                "hanger": [Function],
+                "headerLogin": [Circular],
+                "heart": [Circular],
+                "help": [Circular],
+                "homeMock1": [Circular],
+                "homeMock2": [Circular],
+                "homeMock3": [Circular],
+                "homeMock4": [Circular],
+                "imageCashback": [Circular],
+                "imageNotFound": [Circular],
+                "info": [Function],
+                "infoSuccess": [Function],
+                "instagram": [Circular],
+                "ios14": [Circular],
+                "localReserva": [Circular],
+                "logo": [Circular],
+                "logoPrime": [Function],
+                "logoQRCode": [Circular],
+                "mastercard": [Circular],
+                "newsletter": [Circular],
+                "noStoresFound": [Circular],
+                "noWishList": [Circular],
+                "personalize": [Function],
+                "pinPlace": [Circular],
+                "pinYou": [Circular],
+                "profile": [Circular],
+                "purchaseConfirmation": [Circular],
+                "raceImageBackground": [Circular],
+                "reservaIcon": [Circular],
+                "roulet": [Circular],
+                "saleOff": [Circular],
+                "search": [Circular],
+                "searchNotFound": [Circular],
+                "selectRectangle": [Circular],
+                "share": [Circular],
+                "shipping1": [Circular],
+                "shipping2": [Circular],
+                "shirt1": [Circular],
+                "shirt2": [Circular],
+                "shirt3": [Circular],
+                "shirt4": [Circular],
+                "signup1": [Circular],
+                "signup2": [Circular],
+                "signup3": [Circular],
+                "signup4": [Circular],
+                "signup5": [Circular],
+                "sizeGuideIcon": [Function],
+                "subtraction": [Circular],
+                "topBannerMock1": [Circular],
+                "trash": [Function],
+                "twitter": [Circular],
+                "umPCincoPLogo": [Circular],
+                "uncheckedBox": [Circular],
+                "unfilledHeart": [Circular],
+                "update": [Circular],
+                "visa": [Circular],
+                "whatsapp": [Circular],
+                "withoutInternet": [Circular],
+                "zoomHand": [Circular],
+              },
+              "svgs": {
+                "checkedRounded": [Function],
+                "chevronRight": [Function],
+                "closeIcon": [Function],
+                "hanger": [Function],
+                "info": [Function],
+                "infoSuccess": [Function],
+                "logoPrime": [Function],
+                "personalize": [Function],
+                "sizeGuideIcon": [Function],
+                "trash": [Function],
+              },
+            }
+          }
+          style={
+            [
+              {
+                "bottom": 0,
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+              },
+              {
+                "height": 28,
+                "width": 160,
+              },
+              undefined,
+            ]
+          }
+        />
+        <Text
+          fontFamily="reservaSansItalic"
+          style={
+            [
+              {
+                "fontFamily": "ReservaSans-Italic",
+              },
+              {
+                "color": "#ffffff",
+                "fontSize": 15,
+              },
+            ]
+          }
+        >
+          Economize
+          <Text
+            fontFamily="reservaSansRegular"
+            style={
+              [
+                {
+                  "fontFamily": "ReservaSans-Regular",
+                },
+                {
+                  "fontWeight": "bold",
+                },
+              ]
+            }
+          >
+             
+            R$
+            29.00
+          </Text>
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "alignItems": "baseline",
+              "flexDirection": "row",
+              "justifyContent": "flex-start",
+              "marginTop": 4,
+            },
+            {
+              "marginLeft": -40,
+            },
+          ]
+        }
+      >
+        <Text
+          fontFamily="reservaSansRegular"
+          style={
+            [
+              {
+                "fontFamily": "ReservaSans-Regular",
+              },
+              {
+                "color": "#9e7e2f",
+                "fontSize": 24,
+                "fontWeight": "700",
+              },
+            ]
+          }
+        >
+          R$
+           
+          149,
+        </Text>
+        <Text
+          fontFamily="reservaSansRegular"
+          fontWeight="bold"
+          style={
+            [
+              {
+                "fontFamily": "ReservaSans-Regular",
+                "fontWeight": "700",
+              },
+              {
+                "color": "#9e7e2f",
+              },
+            ]
+          }
+        >
+          90
+        </Text>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#c4a968",
+        "justifyContent": "center",
+        "padding": 2,
+        "width": 150,
+      }
+    }
+  >
+    <Text
+      fontFamily="reservaSansRegular"
+      style={
+        [
+          {
+            "fontFamily": "ReservaSans-Regular",
+          },
+          {
+            "color": "#ffffff",
+          },
+        ]
+      }
+    >
+      Seja
+      <Text
+        fontSize={18}
+        style={
+          {
+            "fontFamily": "ReservaSerif-Bold",
+            "fontSize": 18,
+          }
+        }
+        variant="descontoTag2"
+      >
+         
+        Prime
+      </Text>
+    </Text>
+  </View>
+</View>
+`;

@@ -1,0 +1,12 @@
+mutation profileAddress($input: UpsertProfileAddressInput!) {
+  profileAddress(input: $input) {
+    id
+    addressName
+    receiverName
+    complement
+    neighborhood
+    country
+    state
+    number
+  }
+}

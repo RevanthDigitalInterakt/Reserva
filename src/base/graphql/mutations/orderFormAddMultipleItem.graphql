@@ -1,0 +1,5 @@
+mutation orderFormAddMultipleItem($input: OrderformAddMultipleItemInput!) {
+    orderFormAddMultipleItem(input: $input) {
+        ...orderFormFragment
+    }
+}
