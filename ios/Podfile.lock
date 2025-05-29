@@ -1988,6 +1988,7 @@ DEPENDENCIES:
   - jail-monkey (from `../node_modules/jail-monkey`)
   - libevent (~> 2.1.12)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
+  - MoEngage-iOS-SDK/RichNotification (~> 9.23.4)
   - OneSignal (< 4.0, >= 3.0)
   - Permission-AppTrackingTransparency (from `../node_modules/react-native-permissions/ios/AppTrackingTransparency`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
@@ -2442,6 +2443,6 @@ SPEC CHECKSUMS:
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 87e59f6d458e5061d2421086c5de994b3f7cd151
 
-PODFILE CHECKSUM: 238d64484a6fd75be47be6d136de8122d57a9c19
+PODFILE CHECKSUM: 0b5ae270e9e00716b8a96bac364d1d36a3144d97
 
 COCOAPODS: 1.16.2

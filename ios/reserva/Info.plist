@@ -44,6 +44,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MoEngageAppDelegateProxyEnabled</key>
+	<false/>
 	<key>NSAdvertisingAttributionReportEndpoint</key>
 	<string>https://appsflyer-skadnetwork.com/</string>
 	<key>NSAppTransportSecurity</key>
@@ -62,7 +64,7 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Precisamos da sua localização para encontrarmos a loja Reserva mais próxima de você</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Precisamos da sua localização para encontrarmos a loja Reserva mais próxima de você</string>
 	<key>NSMicrophoneUsageDescription</key>
@@ -73,8 +75,6 @@
 	<string>Precisamos de acesso a sua galeria para adicionar uma foto de perfil</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>Precisamos de acesso para oferecer conteúdo personalizável para você.</string>
-	<key>MoEngageAppDelegateProxyEnabled</key>
-	<false/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Nunito-Black.ttf</string>
@@ -133,6 +133,7 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>bluetooth-peripheral</string>
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>

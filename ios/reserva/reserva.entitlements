@@ -13,5 +13,9 @@
 		<string>applinks:*.usereserva.io</string>
 		<string>applinks:now.usereserva.io</string>
 	</array>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.reserva.moengage</string>
+	</array>
 </dict>
 </plist>

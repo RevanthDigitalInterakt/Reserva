@@ -19,7 +19,15 @@
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
 
+
+  [[MoEngageSDKMessaging sharedInstance] disableBadgeReset:true];
+  [[MoEngageSDKAnalytics sharedInstance] enableIDFVTracking]; 
+
+
+  [[MoEngageSDKAnalytics sharedInstance] enableIDFATracking]; 
+
   MoEngageSDKConfig* sdkConfig = [[MoEngageSDKConfig alloc] initWithAppId:@"DQ9WFLTADL2Y89Z9OSFUKU0L" dataCenter:MoEngageDataCenterData_center_02];
+  sdkConfig.appGroupID = @"group.com.reserva.moengage";
   sdkConfig.consoleLogConfig = [[MoEngageConsoleLogConfig alloc] initWithIsLoggingEnabled:false loglevel:MoEngageLoggerTypeVerbose];
   [[MoEngageInitializer sharedInstance] initializeDefaultSDKConfig:sdkConfig andLaunchOptions:launchOptions];
 

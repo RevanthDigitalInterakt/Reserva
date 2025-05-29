@@ -63,6 +63,8 @@ target 'reserva' do
     # Pods for testing
   end
 
+
+
   post_install do |installer|
     # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
     react_native_post_install(
@@ -95,3 +97,13 @@ end
 target 'OneSignalNotificationServiceExtension' do
   pod 'OneSignal', '>= 3.0', '< 4.0'
 end
+
+target 'NotificationService' do
+  pod 'MoEngage-iOS-SDK/RichNotification', '~>9.23.4'
+end
+
+target "NotificationContent" do
+    pod 'MoEngage-iOS-SDK/RichNotification','~>9.23.4'
+end
+
+
