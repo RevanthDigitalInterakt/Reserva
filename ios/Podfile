@@ -102,7 +102,7 @@ target 'NotificationService' do
   pod 'MoEngage-iOS-SDK/RichNotification', '~>9.23.4'
 end
 
-target "NotificationContent" do
+target "NotificationExtensionService" do
     pod 'MoEngage-iOS-SDK/RichNotification','~>9.23.4'
 end
 

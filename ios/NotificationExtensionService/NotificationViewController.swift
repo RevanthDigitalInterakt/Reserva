@@ -1,8 +1,8 @@
 //
 //  NotificationViewController.swift
-//  NotificationContent
+//  NotificationExtensionService
 //
-//  Created by Guest123 on 29/05/25.
+//  Created by Guest123 on 30/05/25.
 //
 
 import UIKit
@@ -19,7 +19,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         // Do any required interface initialization here.
       
       MoEngageSDKRichNotification.setAppGroupID("group.com.reserva.moengage")
-      
+          
       
       
     }
@@ -28,6 +28,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         self.label?.text = notification.request.content.body
       
       MoEngageSDKRichNotification.addPushTemplate(toController: self, withNotification: notification)
+
     }
 
 }
