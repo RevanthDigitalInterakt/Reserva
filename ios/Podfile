@@ -94,16 +94,15 @@ target 'reserva' do
   end
 end
 
-target 'OneSignalNotificationServiceExtension' do
-  pod 'OneSignal', '>= 3.0', '< 4.0'
-end
 
-target 'NotificationService' do
-  pod 'MoEngage-iOS-SDK/RichNotification', '~>9.23.4'
+
+target 'NotificationServiceExtension' do
+  pod 'OneSignal', '>= 3.0', '< 4.0'
+  pod 'MoEngageRichNotification'
 end
 
 target "NotificationExtensionService" do
-    pod 'MoEngage-iOS-SDK/RichNotification','~>9.23.4'
+    pod 'MoEngageRichNotification'
 end
 
 
