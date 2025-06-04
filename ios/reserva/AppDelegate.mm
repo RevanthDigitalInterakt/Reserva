@@ -28,7 +28,7 @@
 
   MoEngageSDKConfig* sdkConfig = [[MoEngageSDKConfig alloc] initWithAppId:@"DQ9WFLTADL2Y89Z9OSFUKU0L" dataCenter:MoEngageDataCenterData_center_02];
   sdkConfig.appGroupID = @"group.com.reserva.moengage";
-  sdkConfig.consoleLogConfig = [[MoEngageConsoleLogConfig alloc] initWithIsLoggingEnabled:false loglevel:MoEngageLoggerTypeVerbose];
+  sdkConfig.consoleLogConfig = [[MoEngageConsoleLogConfig alloc] initWithIsLoggingEnabled:true loglevel:MoEngageLoggerTypeVerbose];
   [[MoEngageInitializer sharedInstance] initializeDefaultSDKConfig:sdkConfig andLaunchOptions:launchOptions];
 
   NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];

@@ -246,7 +246,8 @@ function Home() {
 
       const isoString = convertDatetimeIsoString(tzDate);
 
-      ReactMoE.identifyUser(profile?.email || '');
+     // ReactMoE.identifyUser(profile?.email || '');
+      ReactMoE.setUserUniqueID(profile?.email || '');
       ReactMoE.setUserName(profile?.firstName || '');
       ReactMoE.setUserFirstName(profile?.firstName || '');
       ReactMoE.setUserLastName(profile?.lastName || '');
@@ -254,6 +255,8 @@ function Home() {
       ReactMoE.setUserContactNumber(profile?.homePhone || '');
       ReactMoE.setUserGender(profile?.gender || '');
       ReactMoE.setUserBirthday(isoString);
+      ReactMoE.setUserAttribute("CPF", profile?.document || '');
+
     }
 
     trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);

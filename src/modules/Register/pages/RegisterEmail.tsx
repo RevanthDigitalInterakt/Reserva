@@ -38,8 +38,8 @@ export const RegisterEmail: React.FC<RegisterEmailProps> = ({ navigation, route 
       return;
     }
 
-    ReactMoE.identifyUser(email);
-
+    //ReactMoE.identifyUser(email);
+    ReactMoE.setUserUniqueID(email);
     const properties = new MoEProperties();
     properties.addAttribute('source', comeFrom);
     ReactMoE.trackEvent('SignupStarted', properties);

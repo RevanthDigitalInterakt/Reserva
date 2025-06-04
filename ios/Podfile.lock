@@ -1298,55 +1298,17 @@ PODS:
   - lottie-react-native (6.7.2):
     - lottie-ios (= 4.4.1)
     - React-Core
-  - MoEngage-iOS-SDK (9.23.4):
-    - MoEngage-iOS-SDK/Core (= 9.23.4)
-  - MoEngage-iOS-SDK/Core (9.23.4):
-    - MoEngageAnalytics (= 4.22.0)
-    - MoEngageCore (= 9.23.4)
-    - MoEngageMessaging (= 4.20.4)
-    - MoEngageObjCUtils (= 3.20.0)
-    - MoEngageSDK (= 9.20.0)
-    - MoEngageSecurity (= 1.12.0)
-  - MoEngage-iOS-SDK/InApps (9.23.4):
-    - MoEngage-iOS-SDK/Core
-    - MoEngageInApps (= 6.05.0)
-    - MoEngageTriggerEvaluator (= 1.04.0)
-  - MoEngage-iOS-SDK/RichNotification (9.23.4):
-    - MoEngage-iOS-SDK/Core
-    - MoEngageRichNotification (= 7.19.0)
-  - MoEngageAnalytics (4.22.0):
-    - MoEngageCore
-    - MoEngageObjCUtils
-  - MoEngageCore (9.23.4):
-    - MoEngageSecurity
-  - MoEngageInApps (6.05.0):
-    - MoEngageAnalytics
-    - MoEngageCore
-    - MoEngageMessaging
-    - MoEngageObjCUtils
-    - MoEngageTriggerEvaluator
-  - MoEngageMessaging (4.20.4):
-    - MoEngageAnalytics
-    - MoEngageCore
-    - MoEngageObjCUtils
-  - MoEngageObjCUtils (3.20.0):
-    - MoEngageCore
-  - MoEngagePluginBase (5.3.2):
-    - MoEngage-iOS-SDK (= 9.23.4)
-    - MoEngage-iOS-SDK/InApps
-  - MoEngageRichNotification (7.19.0):
-    - MoEngageAnalytics
-    - MoEngageCore
-    - MoEngageMessaging
-    - MoEngageObjCUtils
-  - MoEngageSDK (9.20.0):
-    - MoEngageAnalytics
-    - MoEngageCore
-    - MoEngageMessaging
-    - MoEngageObjCUtils
-  - MoEngageSecurity (1.12.0)
-  - MoEngageTriggerEvaluator (1.04.0):
-    - MoEngageCore
+  - MoEngage-iOS-SDK (9.17.5)
+  - MoEngageInApp (6.00.3):
+    - MoEngage-iOS-SDK (< 9.18.0, >= 9.17.1)
+    - MoEngageTriggerEvaluator (< 1.02.0, >= 1.01.0)
+  - MoEngagePluginBase (4.9.0):
+    - MoEngage-iOS-SDK (< 9.18.0, >= 9.17.1)
+    - MoEngageInApp (< 6.01.0, >= 6.00.0)
+  - MoEngageRichNotification (7.16.1):
+    - MoEngage-iOS-SDK (< 9.18.0, >= 9.17.0)
+  - MoEngageTriggerEvaluator (1.01.1):
+    - MoEngage-iOS-SDK (< 9.18.0, >= 9.17.0)
   - nanopb (2.30909.1):
     - nanopb/decode (= 2.30909.1)
     - nanopb/encode (= 2.30909.1)
@@ -1868,9 +1830,9 @@ PODS:
     - React-jsi (= 0.72.12)
     - React-logger (= 0.72.12)
     - React-perflogger (= 0.72.12)
-  - ReactNativeMoEngage (11.2.2):
-    - MoEngage-iOS-SDK/RichNotification
-    - MoEngagePluginBase (= 5.3.2)
+  - ReactNativeMoEngage (10.2.0):
+    - MoEngagePluginBase (< 4.10.0, >= 4.9.0)
+    - MoEngageRichNotification (< 7.17.0, >= 7.16.0)
     - RCT-Folly (= 2021.07.22.00)
     - React
     - React-Core
@@ -1988,7 +1950,7 @@ DEPENDENCIES:
   - jail-monkey (from `../node_modules/jail-monkey`)
   - libevent (~> 2.1.12)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
-  - MoEngage-iOS-SDK/RichNotification (~> 9.23.4)
+  - MoEngageRichNotification
   - OneSignal (< 4.0, >= 3.0)
   - Permission-AppTrackingTransparency (from `../node_modules/react-native-permissions/ios/AppTrackingTransparency`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
@@ -2109,15 +2071,9 @@ SPEC REPOS:
     - libevent
     - lottie-ios
     - MoEngage-iOS-SDK
-    - MoEngageAnalytics
-    - MoEngageCore
-    - MoEngageInApps
-    - MoEngageMessaging
-    - MoEngageObjCUtils
+    - MoEngageInApp
     - MoEngagePluginBase
     - MoEngageRichNotification
-    - MoEngageSDK
-    - MoEngageSecurity
     - MoEngageTriggerEvaluator
     - nanopb
     - OneSignal
@@ -2349,17 +2305,11 @@ SPEC CHECKSUMS:
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   lottie-ios: e047b1d2e6239b787cc5e9755b988869cf190494
   lottie-react-native: b9b043670db02c7ae76d3c3a9cc43e44bf711537
-  MoEngage-iOS-SDK: fd3ded7dd1a8c5a50918aad0b71950d73f560515
-  MoEngageAnalytics: 5a2c109afacce81ee31281b0fcd69239c43783cc
-  MoEngageCore: 852d1cb683b834d7279d92e659e6f05ee5533b0e
-  MoEngageInApps: 81f16a96f0a6b62cb8278185d8fc7b8bff07b95a
-  MoEngageMessaging: f12e0d0e7536be3a61845c48b8e9c5c5ed3b3479
-  MoEngageObjCUtils: bfac002fa75c8a062ab4d34ca4bde2f0d98aac5c
-  MoEngagePluginBase: a27d0812fbb9c12e80f6cc31903508d6686df5b2
-  MoEngageRichNotification: f9df91f71ab51a63d48d46685a9feab18ef3a105
-  MoEngageSDK: 0ba30fa01901cb5657460638029082df5c2aeaf4
-  MoEngageSecurity: 6c2f736b8ab8e2caf91c194993c9594cb30d7d17
-  MoEngageTriggerEvaluator: 4a6e546111a71642aa53bbb19a123af667aaeb2e
+  MoEngage-iOS-SDK: aeb31076a11030d63dd67c3dbd712a6aa56507c5
+  MoEngageInApp: cfa846bdca03334148996b3ebb4065439b6da461
+  MoEngagePluginBase: 227cc56716242d051c944dde13c45a75cd70c7ed
+  MoEngageRichNotification: 9106c0372f56228ca6bbe28a14b689638843b836
+  MoEngageTriggerEvaluator: fea5448dd4545e427f4e01caa0bc5bef50896573
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   OneSignal: 9ce8e9f235a6e25e7ef399f0853623ceb50f59ad
   OneSignalXCFramework: 4215fb8deb8a669504d39c02dffaf2ec8ebe10ae
@@ -2417,7 +2367,7 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 1db9c47756ba5d860c5a7bd1f9496ae9c43cf2e6
   React-utils: a4fe696a6f48851a2f47e05e40c84a9196f4b1d0
   ReactCommon: 7e46c28bfe5a4b99a9af5640d5ec4e91a55e85a0
-  ReactNativeMoEngage: 2b2daa11ffe79b515b4cd2e188d738290dded1d5
+  ReactNativeMoEngage: d3d5eff31596e56be94ae0d2024f35756bfa33a8
   RNBootSplash: 21095c4567847829470786b03b6892c5efed5299
   RNCAsyncStorage: b6410dead2732b5c72a7fdb1ecb5651bbcf4674b
   RNCClipboard: dbcf25b8f666b4685c02eeb65be981d30198e505
@@ -2443,6 +2393,6 @@ SPEC CHECKSUMS:
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 87e59f6d458e5061d2421086c5de994b3f7cd151
 
-PODFILE CHECKSUM: 1ba43c330bd5aa1bd5711ef0a5d092db446ac311
+PODFILE CHECKSUM: d5c399aa4c3e7a305be4c058a92810d9f5248d12
 
 COCOAPODS: 1.16.2
