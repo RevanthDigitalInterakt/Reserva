@@ -246,7 +246,8 @@ function Home() {
 
       const isoString = convertDatetimeIsoString(tzDate);
 
-      ReactMoE.identifyUser(profile?.email || '');
+    //  ReactMoE.identifyUser(profile?.email || '');
+    ReactMoE.setUserUniqueID(profile?.email || '')
       ReactMoE.setUserName(profile?.firstName || '');
       ReactMoE.setUserFirstName(profile?.firstName || '');
       ReactMoE.setUserLastName(profile?.lastName || '');

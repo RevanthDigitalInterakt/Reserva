@@ -23,12 +23,12 @@ class NotificationService: UNNotificationServiceExtension {
 
         MoEngageSDKRichNotification.handle(richNotificationRequest: request, withContentHandler: contentHandler)
         
-        if let bestAttemptContent = bestAttemptContent {
-            // Modify the notification content here...
-            bestAttemptContent.title = "\(bestAttemptContent.title) [modified]"
-            
-            contentHandler(bestAttemptContent)
-        }
+//        if let bestAttemptContent = bestAttemptContent {
+//            // Modify the notification content here...
+//            bestAttemptContent.title = "\(bestAttemptContent.title) [modified]"
+//            
+//            contentHandler(bestAttemptContent)
+        //}
     }
     
     override func serviceExtensionTimeWillExpire() {

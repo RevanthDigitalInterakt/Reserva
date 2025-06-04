@@ -120,7 +120,7 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		39A33485265165DD00206E04 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
@@ -129,7 +129,7 @@
 				759E229F2DE9E8CF00D8E332 /* NotificationExtensionService.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		80AA37EC28A5460F00A1094F /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
