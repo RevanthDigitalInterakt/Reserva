@@ -255,6 +255,7 @@ function Home() {
       ReactMoE.setUserContactNumber(profile?.homePhone || '');
       ReactMoE.setUserGender(profile?.gender || '');
       ReactMoE.setUserBirthday(isoString);
+      ReactMoE.setUserAttribute("CPF", profile?.document || '');
     }
 
     trackPageViewStore.getState().onTrackPageView('home', TrackPageTypeEnum.Home);
